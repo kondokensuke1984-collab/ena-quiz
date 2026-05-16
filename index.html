@@ -854,7 +854,6 @@ body {
 <div id="month-select" style="display:none">
   <div class="fairy-title">✨ ANRINOの問題アプリ ✨</div>
   <div class="fairy-subtitle">月を選んでスタート！</div>
-  <div class="test-countdown" id="test-countdown" style="display:none"></div>
   <div class="month-grid" id="month-grid"></div>
   <button class="back-to-month" style="margin-top:24px" onclick="showSchoolSelect()">◀ 塾選択に戻る</button>
 </div>
@@ -878,6 +877,7 @@ body {
       <div class="home-month-sub" id="home-month-sub"></div>
     </div>
   </div>
+  <div class="test-countdown" id="test-countdown" style="display:none"></div>
   <div class="subject-grid" id="subject-grid"></div>
   <button class="all-card" onclick="startQuiz('all')">🌟 全問題にチャレンジ！</button>
   <button class="tendency-btn" onclick="showTendency()">📊 きみの傾向を見る</button>
@@ -1817,7 +1817,6 @@ function selectSchool(schoolId) {
   document.getElementById('school-select').style.display = 'none';
   document.getElementById('month-select').style.display = 'flex';
   initMonthSelect();
-  renderCountdown();
 }
 
 function showSchoolSelect() {
@@ -1834,7 +1833,6 @@ function showMonthSelect() {
   document.getElementById('result').style.display = 'none';
   document.getElementById('school-select').style.display = 'none';
   document.getElementById('month-select').style.display = 'flex';
-  renderCountdown();
 }
 
 // ============================================================
@@ -1848,6 +1846,7 @@ function showHome() {
   if (tend) tend.style.display = 'none';
   document.getElementById('home').style.display = 'flex';
   initHome();
+  renderCountdown();
 }
 
 function showTendency() {
