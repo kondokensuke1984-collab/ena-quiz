@@ -131,6 +131,107 @@ body {
   margin-top: 6px;
 }
 
+/* ===== テストカウントダウン ===== */
+.test-countdown {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  max-width: 380px;
+  margin-bottom: 20px;
+}
+.test-card {
+  flex: 1;
+  background: rgba(255,255,255,0.92);
+  border: 2px solid rgba(244,114,182,0.3);
+  border-radius: 20px;
+  padding: 14px 10px;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(167,139,250,0.15);
+  position: relative;
+}
+.test-card-name {
+  font-size: 11px;
+  font-weight: 700;
+  color: #7c3aed;
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+.test-card-days {
+  font-size: 32px;
+  font-weight: 900;
+  background: linear-gradient(135deg, #f472b6, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+.test-card-days-label { font-size: 12px; color: #a78bfa; font-weight: 600; margin-top: 2px; }
+.test-card-date { font-size: 11px; color: #9ca3af; margin-top: 4px; }
+.test-card-past { font-size: 13px; font-weight: 700; color: #34d399; margin-top: 4px; }
+.test-edit-btn {
+  position: absolute;
+  top: 6px; right: 8px;
+  background: none;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  opacity: 0.5;
+}
+.test-edit-btn:active { opacity: 1; }
+.test-unset { font-size: 12px; color: #d1d5db; margin: 8px 0; }
+
+/* 日付設定モーダル */
+.date-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+}
+.date-modal-overlay.open { display: flex; }
+.date-modal {
+  background: #fff;
+  border-radius: 24px;
+  padding: 28px 24px;
+  width: 300px;
+  text-align: center;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+}
+.date-modal-title { font-size: 16px; font-weight: 800; color: #7c3aed; margin-bottom: 16px; }
+.date-modal input[type=date] {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #a78bfa;
+  border-radius: 12px;
+  font-size: 16px;
+  text-align: center;
+  outline: none;
+  margin-bottom: 16px;
+  box-sizing: border-box;
+}
+.date-modal-save {
+  background: linear-gradient(135deg, #f472b6, #a78bfa);
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  padding: 12px 32px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 8px;
+}
+.date-modal-cancel {
+  background: none;
+  border: none;
+  color: #9ca3af;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px;
+}
+
 /* ===== ホーム画面 ===== */
 #home {
   display: none;
@@ -753,8 +854,19 @@ body {
 <div id="month-select" style="display:none">
   <div class="fairy-title">✨ ANRINOの問題アプリ ✨</div>
   <div class="fairy-subtitle">月を選んでスタート！</div>
+  <div class="test-countdown" id="test-countdown" style="display:none"></div>
   <div class="month-grid" id="month-grid"></div>
   <button class="back-to-month" style="margin-top:24px" onclick="showSchoolSelect()">◀ 塾選択に戻る</button>
+</div>
+
+<!-- 日付設定モーダル -->
+<div class="date-modal-overlay" id="date-modal-overlay">
+  <div class="date-modal">
+    <div class="date-modal-title" id="date-modal-title"></div>
+    <input type="date" id="date-modal-input">
+    <button class="date-modal-save" onclick="saveTestDate()">保存する ✨</button><br>
+    <button class="date-modal-cancel" onclick="closeDateModal()">キャンセル</button>
+  </div>
 </div>
 
 <!-- ホーム画面 -->
@@ -1721,6 +1833,7 @@ function showMonthSelect() {
   document.getElementById('result').style.display = 'none';
   document.getElementById('school-select').style.display = 'none';
   document.getElementById('month-select').style.display = 'flex';
+  renderCountdown();
 }
 
 // ============================================================
@@ -2236,6 +2349,69 @@ function openAiModal() {
 function closeAiModal(e) {
   if (e && e.target !== document.getElementById('ai-modal-overlay')) return;
   document.getElementById('ai-modal-overlay').classList.remove('open');
+}
+
+// ============================================================
+// テストカウントダウン
+// ============================================================
+const TEST_KEYS = [
+  { key: 'gakuryoku', name: '学力判定テスト' },
+  { key: '4ka',       name: '4科演習' },
+];
+
+function getTestDate(key) { return localStorage.getItem('ena_test_' + key) || ''; }
+function setTestDate(key, val) { localStorage.setItem('ena_test_' + key, val); }
+
+function renderCountdown() {
+  const wrap = document.getElementById('test-countdown');
+  if (state.selectedSchool !== 'ena') { wrap.style.display = 'none'; return; }
+  wrap.style.display = 'flex';
+
+  wrap.innerHTML = TEST_KEYS.map(({ key, name }) => {
+    const stored = getTestDate(key);
+    let daysHtml = '';
+    if (stored) {
+      const today = new Date(); today.setHours(0,0,0,0);
+      const target = new Date(stored); target.setHours(0,0,0,0);
+      const diff = Math.round((target - today) / 86400000);
+      if (diff > 0) {
+        daysHtml = `<div class="test-card-days">${diff}</div><div class="test-card-days-label">日後</div>`;
+      } else if (diff === 0) {
+        daysHtml = `<div class="test-card-past">🎯 今日！</div>`;
+      } else {
+        daysHtml = `<div class="test-card-past">✅ 終了</div>`;
+      }
+      const d = new Date(stored);
+      const dateStr = `${d.getMonth()+1}/${d.getDate()}`;
+      daysHtml += `<div class="test-card-date">${dateStr}</div>`;
+    } else {
+      daysHtml = `<div class="test-unset">日程未設定</div>`;
+    }
+    return `
+      <div class="test-card">
+        <button class="test-edit-btn" onclick="openDateModal('${key}','${name}')">✏️</button>
+        <div class="test-card-name">${name}</div>
+        ${daysHtml}
+      </div>`;
+  }).join('');
+}
+
+let _editingKey = '';
+function openDateModal(key, name) {
+  _editingKey = key;
+  document.getElementById('date-modal-title').textContent = name;
+  document.getElementById('date-modal-input').value = getTestDate(key);
+  document.getElementById('date-modal-overlay').classList.add('open');
+}
+function saveTestDate() {
+  const val = document.getElementById('date-modal-input').value;
+  if (!val) { alert('日付を選んでね！'); return; }
+  setTestDate(_editingKey, val);
+  closeDateModal();
+  renderCountdown();
+}
+function closeDateModal() {
+  document.getElementById('date-modal-overlay').classList.remove('open');
 }
 
 function shuffle(arr) {
