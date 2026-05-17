@@ -2534,8 +2534,10 @@ function openAiModal() {
 正解：${q.options[q.answer]}
 解説：${q.explanation || 'なし'}
 
-なぜそうなるのか、もっとくわしく教えてください。`;
-【重要】解説だけを答えてください。日付・挨拶・「以下に〜」などの前置きは不要です。#・**などのMarkdown記号も使わず、プレーンテキストで答えてください。
+なぜそうなるのか、もっとくわしく教えてください。
+
+【重要】解説だけを答えてください。日付・挨拶・「以下に〜」などの前置きは不要です。#・**などのMarkdown記号も使わず、プレーンテキストで答えてください。`;
+
   navigator.clipboard.writeText(prompt).catch(() => {});
 
   const body = document.getElementById('ai-modal-body');
