@@ -1009,11 +1009,11 @@ body {
       <div class="feedback-label" id="feedback-label"></div>
       <div class="feedback-answer" id="feedback-answer"></div>
       <div class="feedback-explanation" id="feedback-explanation" style="display:none"></div>
-    </div>
-    <div class="memo-area" id="memo-area">
-      <div class="memo-label">📝 メモ（AIで分かったことを書いてね）</div>
-      <textarea class="memo-textarea" id="memo-textarea" placeholder="ここにメモしよう！"></textarea>
-      <div class="memo-saved" id="memo-saved"></div>
+      <div class="memo-area" id="memo-area" style="display:none">
+        <div class="memo-label">📝 メモ（AIで分かったことを書いてね）</div>
+        <textarea class="memo-textarea" id="memo-textarea" placeholder="ここにメモしよう！"></textarea>
+        <div class="memo-saved" id="memo-saved"></div>
+      </div>
     </div>
     <button class="ai-btn" id="ai-btn" onclick="openAiModal()">🤖 AIにもっと詳しく聞く</button>
     <div style="display:flex;gap:8px;margin-top:4px;">
@@ -2304,6 +2304,8 @@ function renderQuestion() {
     document.getElementById('next-btn').style.display = 'none';
     document.getElementById('ai-btn').style.display = 'none';
     document.getElementById('memo-area').style.display = 'none';
+    document.getElementById('memo-textarea').value = '';
+    document.getElementById('memo-saved').textContent = '';
   }
 
   document.getElementById('prev-btn').style.display = state.current > 0 ? 'block' : 'none';
