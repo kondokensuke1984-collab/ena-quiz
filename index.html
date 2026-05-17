@@ -353,6 +353,17 @@ body {
 }
 .stats-row-name { font-weight: 700; color: #3d2b5e; }
 .stats-row-pct { color: #a78bfa; font-weight: 600; }
+.stats-row-perfect { display: flex; align-items: center; gap: 6px; }
+.ok-stamp {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  animation: okPop 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+@keyframes okPop {
+  0%   { transform: scale(0) rotate(-20deg); opacity: 0; }
+  100% { transform: scale(1) rotate(0deg);  opacity: 1; }
+}
 .progress-bg {
   height: 6px;
   background: #e9d5ff;
@@ -2025,10 +2036,13 @@ function initHome() {
     const pct = Math.round(correct / total * 100);
     const div = document.createElement('div');
     div.className = 'stats-row';
+    const pctHtml = pct === 100
+      ? `<span class="stats-row-perfect"><span class="stats-row-pct" style="color:#f472b6;font-weight:800;">100%</span><img class="ok-stamp" src="ok.png" alt="OK"></span>`
+      : `<span class="stats-row-pct">${pct}%</span>`;
     div.innerHTML = `
       <div class="stats-row-top">
         <span class="stats-row-name">${cat.icon} ${cat.label}</span>
-        <span class="stats-row-pct">${pct}%</span>
+        ${pctHtml}
       </div>
       <div class="progress-bg">
         <div class="progress-fill" style="width:${pct}%"></div>
