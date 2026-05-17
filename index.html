@@ -593,6 +593,56 @@ body {
 .ai-btn:active { opacity: 0.85; transform: scale(0.98); }
 .ai-btn:disabled { opacity: 0.6; cursor: default; }
 
+.memo-area {
+  display: none;
+  background: rgba(255,255,255,0.9);
+  border: 2px dashed #a78bfa;
+  border-radius: 14px;
+  padding: 12px;
+  margin-top: 10px;
+}
+.memo-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #7c3aed;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.memo-textarea {
+  width: 100%;
+  min-height: 72px;
+  border: 1.5px solid #e9d5ff;
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+  outline: none;
+  box-sizing: border-box;
+  color: #3d2b5e;
+  background: #faf5ff;
+}
+.memo-textarea:focus { border-color: #a78bfa; }
+.memo-saved {
+  font-size: 11px;
+  color: #a78bfa;
+  margin-top: 4px;
+  text-align: right;
+  min-height: 16px;
+}
+.memo-badge {
+  background: #f3e8ff;
+  border-left: 3px solid #a78bfa;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 12px;
+  color: #5b21b6;
+  margin-top: 8px;
+  white-space: pre-wrap;
+}
+
 /* ===== AI解説モーダル ===== */
 .ai-modal-overlay {
   display: none;
@@ -959,6 +1009,11 @@ body {
       <div class="feedback-label" id="feedback-label"></div>
       <div class="feedback-answer" id="feedback-answer"></div>
       <div class="feedback-explanation" id="feedback-explanation" style="display:none"></div>
+    </div>
+    <div class="memo-area" id="memo-area">
+      <div class="memo-label">📝 メモ（AIで分かったことを書いてね）</div>
+      <textarea class="memo-textarea" id="memo-textarea" placeholder="ここにメモしよう！"></textarea>
+      <div class="memo-saved" id="memo-saved"></div>
     </div>
     <button class="ai-btn" id="ai-btn" onclick="openAiModal()">🤖 AIにもっと詳しく聞く</button>
     <div style="display:flex;gap:8px;margin-top:4px;">
@@ -1825,6 +1880,7 @@ let state = {
 };
 
 function statsKey() { return 'ena_stats_' + state.selectedMonth; }
+function memoKey()  { return 'ena_memos_' + state.selectedMonth; }
 function wrongKey()       { return 'ena_wrong_'         + state.selectedMonth; }
 function correctCountKey(){ return 'ena_correct_count_' + state.selectedMonth; }
 function masteredKey()    { return 'ena_mastered_'      + state.selectedMonth; }
@@ -1833,6 +1889,8 @@ function superWrongKey()  { return 'ena_super_wrong_'   + state.selectedMonth; }
 
 function loadStats()   { try { return JSON.parse(localStorage.getItem(statsKey())  || '{}'); } catch(e) { return {}; } }
 function saveStats(s)  { localStorage.setItem(statsKey(),  JSON.stringify(s)); }
+function loadMemos()  { try { return JSON.parse(localStorage.getItem(memoKey()) || '{}'); } catch(e) { return {}; } }
+function saveMemo(id, text) { const m = loadMemos(); if (text.trim()) m[id] = text; else delete m[id]; localStorage.setItem(memoKey(), JSON.stringify(m)); }
 function loadWrongSet(){ try { return new Set(JSON.parse(localStorage.getItem(wrongKey()) || '[]')); } catch(e) { return new Set(); } }
 function saveWrongSet(s){ localStorage.setItem(wrongKey(), JSON.stringify([...s])); }
 function loadCorrectCounts(){ try { return JSON.parse(localStorage.getItem(correctCountKey()) || '{}'); } catch(e) { return {}; } }
@@ -2240,13 +2298,29 @@ function renderQuestion() {
     const nextBtn = document.getElementById('next-btn');
     nextBtn.style.display = 'block';
     nextBtn.textContent = state.current === state.queue.length - 1 ? '結果を見る 📊' : '次の問題へ →';
+    showMemoArea(q.id);
   } else {
     fb.className = 'feedback-card';
     document.getElementById('next-btn').style.display = 'none';
     document.getElementById('ai-btn').style.display = 'none';
+    document.getElementById('memo-area').style.display = 'none';
   }
 
   document.getElementById('prev-btn').style.display = state.current > 0 ? 'block' : 'none';
+}
+
+function showMemoArea(qid) {
+  const memos = loadMemos();
+  const area = document.getElementById('memo-area');
+  const ta = document.getElementById('memo-textarea');
+  const saved = document.getElementById('memo-saved');
+  area.style.display = 'block';
+  ta.value = memos[qid] || '';
+  saved.textContent = memos[qid] ? '✅ 保存済み' : '';
+  ta.oninput = () => {
+    saveMemo(qid, ta.value);
+    saved.textContent = ta.value.trim() ? '✅ 保存したよ！' : '';
+  };
 }
 
 function selectAnswer(chosen) {
@@ -2312,6 +2386,7 @@ function selectAnswer(chosen) {
   }
 
   document.getElementById('ai-btn').style.display = 'block';
+  showMemoArea(q.id);
 
   const nextBtn = document.getElementById('next-btn');
   nextBtn.style.display = 'block';
