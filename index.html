@@ -332,6 +332,25 @@ body {
 }
 .review-card:active { transform: scale(0.97); }
 
+.mastered-card {
+  background: linear-gradient(135deg, #fef9c3, #fde68a);
+  border: 2px solid #f59e0b;
+  color: #78350f;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 20px;
+  padding: 16px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 700;
+  transition: transform 0.15s;
+  user-select: none;
+  margin-top: 8px;
+}
+.mastered-card:active { transform: scale(0.97); }
+.mastered-card:disabled { opacity: 0.5; cursor: default; }
+
 .stats-bar {
   width: 100%;
   max-width: 400px;
@@ -893,6 +912,7 @@ body {
   <button class="all-card" onclick="startQuiz('all')">🌟 全問題にチャレンジ！</button>
   <button class="tendency-btn" onclick="showTendency()">📊 きみの傾向を見る</button>
   <button class="review-card" onclick="startReview()" id="review-btn">⚠️ 苦手問題を復習</button>
+  <button class="mastered-card" onclick="startMasteredQuiz()" id="mastered-btn">⭐ もう完璧 0問</button>
   <div class="stats-bar">
     <div class="stats-title">🏆 正答率</div>
     <div id="stats-container"></div>
@@ -1785,12 +1805,18 @@ let state = {
 };
 
 function statsKey() { return 'ena_stats_' + state.selectedMonth; }
-function wrongKey()  { return 'ena_wrong_'  + state.selectedMonth; }
+function wrongKey()       { return 'ena_wrong_'         + state.selectedMonth; }
+function correctCountKey(){ return 'ena_correct_count_' + state.selectedMonth; }
+function masteredKey()    { return 'ena_mastered_'      + state.selectedMonth; }
 
 function loadStats()   { try { return JSON.parse(localStorage.getItem(statsKey())  || '{}'); } catch(e) { return {}; } }
 function saveStats(s)  { localStorage.setItem(statsKey(),  JSON.stringify(s)); }
 function loadWrongSet(){ try { return new Set(JSON.parse(localStorage.getItem(wrongKey()) || '[]')); } catch(e) { return new Set(); } }
 function saveWrongSet(s){ localStorage.setItem(wrongKey(), JSON.stringify([...s])); }
+function loadCorrectCounts(){ try { return JSON.parse(localStorage.getItem(correctCountKey()) || '{}'); } catch(e) { return {}; } }
+function saveCorrectCounts(c){ localStorage.setItem(correctCountKey(), JSON.stringify(c)); }
+function loadMasteredSet(){ try { return new Set(JSON.parse(localStorage.getItem(masteredKey()) || '[]')); } catch(e) { return new Set(); } }
+function saveMasteredSet(s){ localStorage.setItem(masteredKey(), JSON.stringify([...s])); }
 
 function monthQuestions() {
   return QUESTIONS.filter(q => q.month === state.selectedMonth);
@@ -2022,6 +2048,11 @@ function initHome() {
   reviewBtn.textContent = `⚠️ 苦手問題を復習 (${wrongSet.size}問)`;
   reviewBtn.style.opacity = wrongSet.size > 0 ? '1' : '0.5';
 
+  const mastered = loadMasteredSet();
+  const masteredBtn = document.getElementById('mastered-btn');
+  masteredBtn.textContent = `⭐ もう完璧 ${mastered.size}問`;
+  masteredBtn.disabled = mastered.size === 0;
+
   // 正答率グラフ（カテゴリ単位で集計）
   const container = document.getElementById('stats-container');
   container.innerHTML = '';
@@ -2056,9 +2087,12 @@ function initHome() {
 // ============================================================
 function startQuiz(subject) {
   const qs = monthQuestions();
+  const mastered = loadMasteredSet();
   state.mode = subject === 'all' ? 'all' : 'subject';
   state.currentSubject = subject;
-  state.queue = shuffle(subject === 'all' ? [...qs] : qs.filter(q => q.subject === subject));
+  const base = subject === 'all' ? [...qs] : qs.filter(q => q.subject === subject);
+  state.queue = shuffle(base.filter(q => !mastered.has(q.id)));
+  if (state.queue.length === 0) { alert('この分野の問題はすべて完璧だよ！⭐'); return; }
   state.current = 0;
   state.correct = 0;
   state.sessionWrong = [];
@@ -2068,10 +2102,26 @@ function startQuiz(subject) {
 
 function startQuizCategory(catKey) {
   const qs = monthQuestions();
+  const mastered = loadMasteredSet();
   const topicKeys = Object.entries(SUBJECTS).filter(([,v]) => v.category === catKey).map(([k]) => k);
   state.mode = 'subject';
   state.currentSubject = catKey;
-  state.queue = shuffle(qs.filter(q => topicKeys.includes(q.subject)));
+  state.queue = shuffle(qs.filter(q => topicKeys.includes(q.subject) && !mastered.has(q.id)));
+  if (state.queue.length === 0) { alert('この教科の問題はすべて完璧だよ！⭐'); return; }
+  state.current = 0;
+  state.correct = 0;
+  state.sessionWrong = [];
+  state.history = [];
+  showQuiz();
+}
+
+function startMasteredQuiz() {
+  const mastered = loadMasteredSet();
+  if (mastered.size === 0) { alert('まだ完璧な問題がないよ。3回正解するともう完璧になるよ！'); return; }
+  const qs = monthQuestions();
+  state.mode = 'review';
+  state.currentSubject = 'mastered';
+  state.queue = shuffle(qs.filter(q => mastered.has(q.id)));
   state.current = 0;
   state.correct = 0;
   state.sessionWrong = [];
@@ -2189,6 +2239,16 @@ function selectAnswer(chosen) {
     const wrongSet = loadWrongSet();
     wrongSet.delete(q.id);
     saveWrongSet(wrongSet);
+
+    const counts = loadCorrectCounts();
+    counts[q.id] = (counts[q.id] || 0) + 1;
+    saveCorrectCounts(counts);
+    if (counts[q.id] >= 3) {
+      const mastered = loadMasteredSet();
+      mastered.add(q.id);
+      saveMasteredSet(mastered);
+      document.getElementById('feedback-label').textContent = '⭐ もう完璧！3回正解！';
+    }
   } else {
     state.sessionWrong.push(q.id);
     const wrongSet = loadWrongSet();
