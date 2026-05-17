@@ -351,6 +351,25 @@ body {
 .mastered-card:active { transform: scale(0.97); }
 .mastered-card:disabled { opacity: 0.5; cursor: default; }
 
+.super-wrong-card {
+  background: linear-gradient(135deg, #fee2e2, #fecaca);
+  border: 2px solid #f87171;
+  color: #7f1d1d;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 20px;
+  padding: 16px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 700;
+  transition: transform 0.15s;
+  user-select: none;
+  margin-top: 8px;
+}
+.super-wrong-card:active { transform: scale(0.97); }
+.super-wrong-card:disabled { opacity: 0.5; cursor: default; }
+
 .stats-bar {
   width: 100%;
   max-width: 400px;
@@ -913,6 +932,7 @@ body {
   <button class="tendency-btn" onclick="showTendency()">📊 きみの傾向を見る</button>
   <button class="review-card" onclick="startReview()" id="review-btn">⚠️ 苦手問題を復習</button>
   <button class="mastered-card" onclick="startMasteredQuiz()" id="mastered-btn">⭐ もう完璧 0問</button>
+  <button class="super-wrong-card" onclick="startSuperWrongQuiz()" id="super-wrong-btn">🔥 超苦手 0問</button>
   <div class="stats-bar">
     <div class="stats-title">🏆 正答率</div>
     <div id="stats-container"></div>
@@ -1808,6 +1828,8 @@ function statsKey() { return 'ena_stats_' + state.selectedMonth; }
 function wrongKey()       { return 'ena_wrong_'         + state.selectedMonth; }
 function correctCountKey(){ return 'ena_correct_count_' + state.selectedMonth; }
 function masteredKey()    { return 'ena_mastered_'      + state.selectedMonth; }
+function wrongCountKey()  { return 'ena_wrong_count_'   + state.selectedMonth; }
+function superWrongKey()  { return 'ena_super_wrong_'   + state.selectedMonth; }
 
 function loadStats()   { try { return JSON.parse(localStorage.getItem(statsKey())  || '{}'); } catch(e) { return {}; } }
 function saveStats(s)  { localStorage.setItem(statsKey(),  JSON.stringify(s)); }
@@ -1817,6 +1839,10 @@ function loadCorrectCounts(){ try { return JSON.parse(localStorage.getItem(corre
 function saveCorrectCounts(c){ localStorage.setItem(correctCountKey(), JSON.stringify(c)); }
 function loadMasteredSet(){ try { return new Set(JSON.parse(localStorage.getItem(masteredKey()) || '[]')); } catch(e) { return new Set(); } }
 function saveMasteredSet(s){ localStorage.setItem(masteredKey(), JSON.stringify([...s])); }
+function loadWrongCounts(){ try { return JSON.parse(localStorage.getItem(wrongCountKey()) || '{}'); } catch(e) { return {}; } }
+function saveWrongCounts(c){ localStorage.setItem(wrongCountKey(), JSON.stringify(c)); }
+function loadSuperWrongSet(){ try { return new Set(JSON.parse(localStorage.getItem(superWrongKey()) || '[]')); } catch(e) { return new Set(); } }
+function saveSuperWrongSet(s){ localStorage.setItem(superWrongKey(), JSON.stringify([...s])); }
 
 function monthQuestions() {
   return QUESTIONS.filter(q => q.month === state.selectedMonth);
@@ -2053,6 +2079,11 @@ function initHome() {
   masteredBtn.textContent = `⭐ もう完璧 ${mastered.size}問`;
   masteredBtn.disabled = mastered.size === 0;
 
+  const superWrong = loadSuperWrongSet();
+  const superWrongBtn = document.getElementById('super-wrong-btn');
+  superWrongBtn.textContent = `🔥 超苦手 ${superWrong.size}問`;
+  superWrongBtn.disabled = superWrong.size === 0;
+
   // 正答率グラフ（カテゴリ単位で集計）
   const container = document.getElementById('stats-container');
   container.innerHTML = '';
@@ -2108,6 +2139,20 @@ function startQuizCategory(catKey) {
   state.currentSubject = catKey;
   state.queue = shuffle(qs.filter(q => topicKeys.includes(q.subject) && !mastered.has(q.id)));
   if (state.queue.length === 0) { alert('この教科の問題はすべて完璧だよ！⭐'); return; }
+  state.current = 0;
+  state.correct = 0;
+  state.sessionWrong = [];
+  state.history = [];
+  showQuiz();
+}
+
+function startSuperWrongQuiz() {
+  const superWrong = loadSuperWrongSet();
+  if (superWrong.size === 0) { alert('超苦手な問題はまだないよ！'); return; }
+  const qs = monthQuestions();
+  state.mode = 'review';
+  state.currentSubject = 'super_wrong';
+  state.queue = shuffle(qs.filter(q => superWrong.has(q.id)));
   state.current = 0;
   state.correct = 0;
   state.sessionWrong = [];
@@ -2254,6 +2299,16 @@ function selectAnswer(chosen) {
     const wrongSet = loadWrongSet();
     wrongSet.add(q.id);
     saveWrongSet(wrongSet);
+
+    const wCounts = loadWrongCounts();
+    wCounts[q.id] = (wCounts[q.id] || 0) + 1;
+    saveWrongCounts(wCounts);
+    if (wCounts[q.id] >= 3) {
+      const superWrong = loadSuperWrongSet();
+      superWrong.add(q.id);
+      saveSuperWrongSet(superWrong);
+      document.getElementById('feedback-label').textContent = '🔥 超苦手！3回間違えちゃった…';
+    }
   }
 
   document.getElementById('ai-btn').style.display = 'block';
