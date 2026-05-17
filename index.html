@@ -948,6 +948,21 @@ body {
       <div class="school-desc">えいこう</div>
     </div>
   </div>
+  <div style="margin-top:24px;text-align:center">
+    <button onclick="showMigration()" style="background:none;border:none;color:#aaa;font-size:0.75rem;cursor:pointer;text-decoration:underline">データ引き継ぎ</button>
+  </div>
+</div>
+
+<div id="migration-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;align-items:center;justify-content:center">
+  <div style="background:#fff;border-radius:16px;padding:24px;margin:16px;max-width:400px;width:100%">
+    <div style="font-weight:bold;margin-bottom:12px">📦 データ引き継ぎ</div>
+    <div style="margin-bottom:12px">
+      <button onclick="exportData()" style="width:100%;padding:10px;background:#a78bfa;color:#fff;border:none;border-radius:8px;cursor:pointer;margin-bottom:8px">① エクスポート（コードをコピー）</button>
+      <textarea id="migration-text" placeholder="コードをここに貼り付け…" style="width:100%;height:80px;border:1px solid #ddd;border-radius:8px;padding:8px;font-size:0.8rem;resize:none"></textarea>
+      <button onclick="importData()" style="width:100%;padding:10px;background:#34d399;color:#fff;border:none;border-radius:8px;cursor:pointer;margin-top:8px">② インポート</button>
+    </div>
+    <button onclick="document.getElementById('migration-modal').style.display='none'" style="width:100%;padding:8px;background:#f3f4f6;border:none;border-radius:8px;cursor:pointer">閉じる</button>
+  </div>
 </div>
 
 <div id="month-select" style="display:none">
@@ -2534,7 +2549,7 @@ function openAiModal() {
 正解：${q.options[q.answer]}
 解説：${q.explanation || 'なし'}
 
-なぜそうなるのか、もっとくわしく教えてください。
+なぜそうなるのか、100字以内でコンパクトに教えてください。
 
 【重要】解説だけを答えてください。日付・挨拶・「以下に〜」などの前置きは不要です。#・**などのMarkdown記号も使わず、プレーンテキストで答えてください。`;
 
@@ -2634,6 +2649,35 @@ window.onload = () => {
   document.getElementById('school-select').style.display = 'flex';
   document.getElementById('month-select').style.display = 'none';
 };
+
+function showMigration() {
+  document.getElementById('migration-modal').style.display = 'flex';
+}
+
+function exportData() {
+  const data = {};
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key.startsWith('ena_')) data[key] = localStorage.getItem(key);
+  }
+  const code = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+  document.getElementById('migration-text').value = code;
+  navigator.clipboard.writeText(code).catch(() => {});
+  alert('コードをコピーしました！新しいURLで「インポート」してください。');
+}
+
+function importData() {
+  const code = document.getElementById('migration-text').value.trim();
+  if (!code) { alert('コードを貼り付けてください'); return; }
+  try {
+    const data = JSON.parse(decodeURIComponent(escape(atob(code))));
+    Object.entries(data).forEach(([k, v]) => localStorage.setItem(k, v));
+    alert('引き継ぎ完了！');
+    document.getElementById('migration-modal').style.display = 'none';
+  } catch(e) {
+    alert('コードが正しくありません');
+  }
+}
 </script>
 </body>
 </html>
