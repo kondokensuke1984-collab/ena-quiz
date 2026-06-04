@@ -1,0 +1,2639 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ANRINO 問題アプリ ✨</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+  background: linear-gradient(160deg, #fdf2f8 0%, #ede9fe 55%, #ecfdf5 100%);
+  min-height: 100vh;
+  color: #3d2b5e;
+}
+
+/* ===== 塾選択画面 ===== */
+#school-select {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 20px 40px;
+  min-height: 100vh;
+}
+.school-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  width: 100%;
+  max-width: 380px;
+}
+.school-card {
+  background: rgba(255,255,255,0.88);
+  border: 2px solid rgba(244,114,182,0.25);
+  border-radius: 24px;
+  padding: 32px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 6px 24px rgba(167,139,250,0.15);
+  user-select: none;
+}
+.school-card:active { transform: scale(0.96); }
+.school-card.coming-soon {
+  opacity: 0.55;
+  cursor: default;
+  background: rgba(255,255,255,0.5);
+}
+.school-card.coming-soon:active { transform: none; }
+.school-emoji { font-size: 44px; margin-bottom: 10px; }
+.school-label {
+  font-size: 22px;
+  font-weight: 800;
+  color: #3d2b5e;
+  margin-bottom: 4px;
+}
+.school-desc {
+  font-size: 12px;
+  color: #a78bfa;
+  margin-top: 4px;
+}
+
+/* ===== 月選択画面 ===== */
+#month-select {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 20px 40px;
+  min-height: 100vh;
+}
+.fairy-title {
+  font-size: 28px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #f472b6, #a78bfa, #60a5fa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 4px;
+  letter-spacing: -0.5px;
+  text-align: center;
+}
+.fairy-subtitle {
+  font-size: 14px;
+  color: #a78bfa;
+  margin-bottom: 36px;
+  text-align: center;
+}
+.month-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  width: 100%;
+  max-width: 380px;
+}
+.month-card {
+  background: rgba(255,255,255,0.88);
+  border: 2px solid rgba(244,114,182,0.25);
+  border-radius: 24px;
+  padding: 28px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 6px 24px rgba(167,139,250,0.15);
+  user-select: none;
+}
+.month-card:active { transform: scale(0.96); }
+.month-card.coming-soon {
+  opacity: 0.55;
+  cursor: default;
+  background: rgba(255,255,255,0.5);
+}
+.month-card.coming-soon:active { transform: none; }
+.month-emoji { font-size: 40px; margin-bottom: 8px; }
+.month-label {
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+.month-desc {
+  font-size: 12px;
+  color: #a78bfa;
+  margin-top: 4px;
+}
+.coming-badge {
+  display: inline-block;
+  background: #e9d5ff;
+  color: #7c3aed;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+  margin-top: 6px;
+}
+
+/* ===== テストカウントダウン ===== */
+.test-countdown {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  max-width: 380px;
+  margin-bottom: 20px;
+}
+.test-card {
+  flex: 1;
+  background: rgba(255,255,255,0.92);
+  border: 2px solid rgba(244,114,182,0.3);
+  border-radius: 20px;
+  padding: 14px 10px;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(167,139,250,0.15);
+  position: relative;
+}
+.test-card-name {
+  font-size: 11px;
+  font-weight: 700;
+  color: #7c3aed;
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+.test-card-days {
+  font-size: 32px;
+  font-weight: 900;
+  background: linear-gradient(135deg, #f472b6, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+.test-card-days-label { font-size: 12px; color: #a78bfa; font-weight: 600; margin-top: 2px; }
+.test-card-date { font-size: 11px; color: #9ca3af; margin-top: 4px; }
+.test-card-past { font-size: 13px; font-weight: 700; color: #34d399; margin-top: 4px; }
+.test-edit-btn {
+  position: absolute;
+  top: 6px; right: 8px;
+  background: none;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  opacity: 0.5;
+}
+.test-edit-btn:active { opacity: 1; }
+.test-unset { font-size: 12px; color: #d1d5db; margin: 8px 0; }
+
+/* 日付設定モーダル */
+.date-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+}
+.date-modal-overlay.open { display: flex; }
+.date-modal {
+  background: #fff;
+  border-radius: 24px;
+  padding: 28px 24px;
+  width: 300px;
+  text-align: center;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+}
+.date-modal-title { font-size: 16px; font-weight: 800; color: #7c3aed; margin-bottom: 16px; }
+.date-modal input[type=date] {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #a78bfa;
+  border-radius: 12px;
+  font-size: 16px;
+  text-align: center;
+  outline: none;
+  margin-bottom: 16px;
+  box-sizing: border-box;
+}
+.date-modal-save {
+  background: linear-gradient(135deg, #f472b6, #a78bfa);
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  padding: 12px 32px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 8px;
+}
+.date-modal-cancel {
+  background: none;
+  border: none;
+  color: #9ca3af;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+/* ===== ホーム画面 ===== */
+#home {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  padding: 36px 20px 40px;
+  min-height: 100vh;
+}
+.home-header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 24px;
+  gap: 12px;
+}
+.back-to-month {
+  background: rgba(255,255,255,0.8);
+  border: 1.5px solid rgba(167,139,250,0.4);
+  border-radius: 12px;
+  padding: 6px 12px;
+  font-size: 13px;
+  color: #7c3aed;
+  cursor: pointer;
+  font-weight: 600;
+  user-select: none;
+}
+.back-to-month:active { opacity: 0.7; }
+.home-title-wrap { flex: 1; }
+.home-month-title {
+  font-size: 20px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #f472b6, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.home-month-sub {
+  font-size: 12px;
+  color: #a78bfa;
+}
+
+.subject-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 14px;
+}
+.subject-card {
+  background: rgba(255,255,255,0.88);
+  border: 1.5px solid rgba(167,139,250,0.2);
+  border-radius: 20px;
+  padding: 18px 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 4px 16px rgba(167,139,250,0.12);
+  user-select: none;
+}
+.subject-card:active { transform: scale(0.96); }
+.subject-card .icon { font-size: 28px; margin-bottom: 6px; }
+.subject-card .label { font-size: 14px; font-weight: 700; color: #3d2b5e; }
+.subject-card .count { font-size: 11px; color: #a78bfa; margin-top: 3px; }
+.all-card {
+  background: linear-gradient(135deg, #f472b6, #a78bfa);
+  color: white;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 20px;
+  padding: 18px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 6px 20px rgba(244,114,182,0.35);
+  user-select: none;
+  margin-bottom: 12px;
+}
+.all-card:active { transform: scale(0.97); box-shadow: 0 2px 8px rgba(244,114,182,0.2); }
+.review-card {
+  background: rgba(255,255,255,0.88);
+  border: 2px solid #fbbf24;
+  color: #92400e;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 20px;
+  padding: 16px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 700;
+  transition: transform 0.15s;
+  user-select: none;
+}
+.review-card:active { transform: scale(0.97); }
+
+.mastered-card {
+  background: linear-gradient(135deg, #fef9c3, #fde68a);
+  border: 2px solid #f59e0b;
+  color: #78350f;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 20px;
+  padding: 16px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 700;
+  transition: transform 0.15s;
+  user-select: none;
+  margin-top: 8px;
+}
+.mastered-card:active { transform: scale(0.97); }
+.mastered-card:disabled { opacity: 0.5; cursor: default; }
+
+.super-wrong-card {
+  background: linear-gradient(135deg, #fee2e2, #fecaca);
+  border: 2px solid #f87171;
+  color: #7f1d1d;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 20px;
+  padding: 16px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 700;
+  transition: transform 0.15s;
+  user-select: none;
+  margin-top: 8px;
+}
+.super-wrong-card:active { transform: scale(0.97); }
+.super-wrong-card:disabled { opacity: 0.5; cursor: default; }
+
+.stats-bar {
+  width: 100%;
+  max-width: 400px;
+  margin-top: 24px;
+}
+.stats-title { font-size: 13px; font-weight: 700; color: #a78bfa; margin-bottom: 10px; letter-spacing: 0.5px; }
+.stats-row {
+  background: rgba(255,255,255,0.8);
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  box-shadow: 0 2px 8px rgba(167,139,250,0.08);
+}
+.stats-row-top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+.stats-row-name { font-weight: 700; color: #3d2b5e; }
+.stats-row-pct { color: #a78bfa; font-weight: 600; }
+.stats-row-perfect { display: flex; align-items: center; gap: 6px; }
+.ok-stamp {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  animation: okPop 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+@keyframes okPop {
+  0%   { transform: scale(0) rotate(-20deg); opacity: 0; }
+  100% { transform: scale(1) rotate(0deg);  opacity: 1; }
+}
+.progress-bg {
+  height: 6px;
+  background: #e9d5ff;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #f472b6, #a78bfa);
+  transition: width 0.4s ease;
+}
+
+/* ===== 問題画面 ===== */
+#quiz { display: none; min-height: 100vh; }
+.quiz-header {
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(10px);
+  padding: 14px 16px 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid rgba(167,139,250,0.2);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.back-btn {
+  background: none;
+  border: none;
+  font-size: 26px;
+  cursor: pointer;
+  padding: 0 4px;
+  color: #a78bfa;
+  line-height: 1;
+  user-select: none;
+}
+.quiz-meta { flex: 1; }
+.quiz-subject-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-bottom: 2px;
+}
+.quiz-progress-text { font-size: 12px; color: #a78bfa; }
+.quiz-progress-bar {
+  height: 4px;
+  background: #e9d5ff;
+  position: sticky;
+  top: 57px;
+  z-index: 10;
+}
+.quiz-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #f472b6, #a78bfa);
+  transition: width 0.3s ease;
+}
+.quiz-body {
+  padding: 20px 16px 40px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.question-card {
+  background: rgba(255,255,255,0.9);
+  border-radius: 20px;
+  padding: 22px 20px;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 16px rgba(167,139,250,0.12);
+  font-size: 16px;
+  line-height: 1.7;
+  font-weight: 600;
+  color: #3d2b5e;
+  border: 1.5px solid rgba(167,139,250,0.15);
+}
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.option-btn {
+  background: rgba(255,255,255,0.88);
+  border: 2px solid rgba(167,139,250,0.25);
+  border-radius: 16px;
+  padding: 15px 16px;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  line-height: 1.5;
+  width: 100%;
+  user-select: none;
+  color: #3d2b5e;
+}
+.option-btn:active:not(:disabled) { background: #f3e8ff; border-color: #a78bfa; }
+.option-btn.correct {
+  background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+  border-color: #34d399;
+  color: #065f46;
+}
+.option-btn.wrong {
+  background: linear-gradient(135deg, #fce7f3, #fbcfe8);
+  border-color: #f472b6;
+  color: #9d174d;
+}
+.option-btn.show-correct {
+  background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+  border-color: #34d399;
+  color: #065f46;
+}
+.option-btn:disabled { cursor: default; }
+
+.feedback-card {
+  border-radius: 18px;
+  padding: 16px 18px;
+  margin-bottom: 14px;
+  display: none;
+}
+.feedback-card.correct-fb {
+  background: linear-gradient(135deg, #d1fae5, #ecfdf5);
+  border: 2px solid #34d399;
+  display: block;
+}
+.feedback-card.wrong-fb {
+  background: linear-gradient(135deg, #fce7f3, #fdf2f8);
+  border: 2px solid #f472b6;
+  display: block;
+}
+.feedback-icon { font-size: 22px; margin-bottom: 4px; }
+.feedback-label { font-size: 17px; font-weight: 800; margin-bottom: 6px; }
+.feedback-answer { font-size: 14px; font-weight: 700; margin-bottom: 6px; color: #3d2b5e; }
+.feedback-explanation {
+  font-size: 13px;
+  color: #4b3a6e;
+  line-height: 1.6;
+  background: rgba(255,255,255,0.6);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-top: 8px;
+}
+.next-btn {
+  background: linear-gradient(135deg, #f472b6, #a78bfa);
+  color: white;
+  border: none;
+  border-radius: 16px;
+  padding: 17px;
+  font-size: 16px;
+  font-weight: 800;
+  width: 100%;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.1s;
+  box-shadow: 0 4px 16px rgba(167,139,250,0.35);
+  user-select: none;
+}
+.next-btn:active { opacity: 0.85; transform: scale(0.98); }
+.prev-btn {
+  background: rgba(255,255,255,0.9);
+  color: #a78bfa;
+  border: 2px solid #a78bfa;
+  border-radius: 16px;
+  padding: 17px 18px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  white-space: nowrap;
+}
+.prev-btn:active { opacity: 0.7; }
+
+/* ===== AI解説ボタン ===== */
+.ai-btn {
+  display: none;
+  width: 100%;
+  margin-top: 10px;
+  padding: 13px;
+  background: linear-gradient(135deg, #34d399, #60a5fa);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(96,165,250,0.3);
+  transition: opacity 0.15s, transform 0.1s;
+}
+.ai-btn:active { opacity: 0.85; transform: scale(0.98); }
+.ai-btn:disabled { opacity: 0.6; cursor: default; }
+
+.memo-area {
+  display: none;
+  background: rgba(255,255,255,0.9);
+  border: 2px dashed #a78bfa;
+  border-radius: 14px;
+  padding: 12px;
+  margin-top: 10px;
+}
+.memo-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #7c3aed;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.memo-textarea {
+  width: 100%;
+  min-height: 72px;
+  border: 1.5px solid #e9d5ff;
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+  outline: none;
+  box-sizing: border-box;
+  color: #3d2b5e;
+  background: #faf5ff;
+}
+.memo-textarea:focus { border-color: #a78bfa; }
+.memo-saved {
+  font-size: 11px;
+  color: #a78bfa;
+  margin-top: 4px;
+  text-align: right;
+  min-height: 16px;
+}
+.memo-badge {
+  background: #f3e8ff;
+  border-left: 3px solid #a78bfa;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 12px;
+  color: #5b21b6;
+  margin-top: 8px;
+  white-space: pre-wrap;
+}
+
+/* ===== AI解説モーダル ===== */
+.ai-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(61,43,94,0.5);
+  z-index: 100;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 16px;
+}
+.ai-modal-overlay.open { display: flex; }
+.ai-modal {
+  background: #fff;
+  border-radius: 24px 24px 20px 20px;
+  padding: 24px 20px 32px;
+  width: 100%;
+  max-width: 480px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 -4px 40px rgba(167,139,250,0.25);
+}
+.ai-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.ai-modal-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: #3d2b5e;
+}
+.ai-modal-close {
+  background: #f3e8ff;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 18px;
+  cursor: pointer;
+  color: #7c3aed;
+  font-weight: 700;
+}
+.ai-modal-body {
+  font-size: 15px;
+  line-height: 1.8;
+  color: #3d2b5e;
+  white-space: pre-wrap;
+}
+.ai-loading {
+  text-align: center;
+  font-size: 15px;
+  color: #a78bfa;
+  padding: 20px 0;
+}
+.ai-key-setup {
+  background: #f0fdf4;
+  border: 1.5px solid #86efac;
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 14px;
+}
+.ai-key-setup p { font-size: 13px; color: #166534; margin-bottom: 10px; line-height: 1.6; }
+.ai-key-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.5px solid #86efac;
+  border-radius: 10px;
+  font-size: 13px;
+  margin-bottom: 8px;
+  box-sizing: border-box;
+}
+.ai-key-save {
+  background: #22c55e;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 9px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+}
+
+/* ===== 結果画面 ===== */
+#result { display: none; padding: 30px 20px 60px; max-width: 500px; margin: 0 auto; }
+.result-title {
+  font-size: 24px;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 4px;
+  background: linear-gradient(135deg, #f472b6, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.result-subtitle { font-size: 14px; color: #a78bfa; text-align: center; margin-bottom: 24px; }
+.score-circle {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(243,232,255,0.8));
+  border: 3px solid rgba(244,114,182,0.3);
+  margin: 0 auto 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 32px rgba(167,139,250,0.2);
+}
+.score-pct { font-size: 38px; font-weight: 900; }
+.score-label { font-size: 13px; color: #a78bfa; font-weight: 600; }
+.result-chart-wrap {
+  background: rgba(255,255,255,0.85);
+  border-radius: 20px;
+  padding: 18px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 16px rgba(167,139,250,0.1);
+}
+.chart-title { font-size: 13px; font-weight: 700; color: #a78bfa; margin-bottom: 14px; }
+.chart-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.chart-bar-label { font-size: 12px; font-weight: 600; width: 90px; flex-shrink: 0; color: #3d2b5e; }
+.chart-bar-bg {
+  flex: 1;
+  height: 18px;
+  background: #e9d5ff;
+  border-radius: 9px;
+  overflow: hidden;
+}
+.chart-bar-fill {
+  height: 100%;
+  border-radius: 9px;
+  background: linear-gradient(90deg, #f472b6, #a78bfa);
+  transition: width 0.6s ease;
+}
+.chart-bar-pct { font-size: 12px; font-weight: 700; width: 36px; text-align: right; color: #7c3aed; }
+.result-btns { display: flex; flex-direction: column; gap: 10px; }
+.result-btn {
+  border-radius: 16px;
+  padding: 16px;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  user-select: none;
+  transition: opacity 0.15s, transform 0.1s;
+}
+.result-btn:active { opacity: 0.8; transform: scale(0.98); }
+.btn-primary { background: linear-gradient(135deg, #f472b6, #a78bfa); color: white; box-shadow: 0 4px 16px rgba(167,139,250,0.35); }
+.btn-secondary { background: rgba(255,255,255,0.9); color: #7c3aed; border: 2px solid rgba(167,139,250,0.4); }
+.btn-review { background: linear-gradient(135deg, #fbbf24, #f97316); color: white; box-shadow: 0 4px 16px rgba(251,191,36,0.3); }
+
+/* subject tag colors (pastel fairy) */
+.tag-jidai   { background: #dbeafe; color: #1d4ed8; }
+.tag-nihon   { background: #dbeafe; color: #1d4ed8; }
+.tag-kikoh   { background: #dbeafe; color: #1d4ed8; }
+.tag-okinawa { background: #dbeafe; color: #1d4ed8; }
+.tag-rika    { background: #d1fae5; color: #065f46; }
+.tag-taiyou  { background: #d1fae5; color: #065f46; }
+.tag-kanji   { background: #e0e7ff; color: #3730a3; }
+.tag-eigo    { background: #fef3c7; color: #92400e; }
+
+/* ===== 科目グループ ===== */
+.category-section { width: 100%; max-width: 400px; margin-bottom: 12px; }
+.category-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255,255,255,0.75);
+  border-radius: 14px 14px 0 0;
+  padding: 10px 14px;
+  font-size: 15px;
+  font-weight: 800;
+  color: #3d2b5e;
+  border-bottom: 1.5px solid rgba(167,139,250,0.2);
+}
+.category-all-btn {
+  background: linear-gradient(135deg, #f472b6, #a78bfa);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.category-topics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: rgba(167,139,250,0.15);
+  border-radius: 0 0 14px 14px;
+  overflow: hidden;
+}
+.topic-btn {
+  background: rgba(255,255,255,0.85);
+  border: none;
+  padding: 12px 10px;
+  text-align: center;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.1s;
+}
+.topic-btn:active { background: rgba(240,230,255,0.95); }
+.topic-icon { font-size: 22px; margin-bottom: 3px; }
+.topic-label { font-size: 12px; font-weight: 700; color: #3d2b5e; }
+.topic-count { font-size: 11px; color: #a78bfa; margin-top: 2px; }
+
+/* ===== きみの傾向ボタン ===== */
+.tendency-btn {
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  background: rgba(255,255,255,0.85);
+  border: 2px solid rgba(167,139,250,0.4);
+  border-radius: 16px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #7c3aed;
+  cursor: pointer;
+  margin-bottom: 12px;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+.tendency-btn:active { background: rgba(237,233,254,0.95); }
+
+/* ===== きみの傾向 画面 ===== */
+#tendency { display: none; padding: 30px 20px 60px; max-width: 500px; margin: 0 auto; }
+.tend-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+.tend-page-title {
+  font-size: 20px; font-weight: 800;
+  background: linear-gradient(135deg, #f472b6, #a78bfa);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.tend-overall {
+  background: rgba(255,255,255,0.92);
+  border-radius: 24px; padding: 24px 20px;
+  text-align: center; margin-bottom: 16px;
+  box-shadow: 0 4px 20px rgba(167,139,250,0.18);
+}
+.tend-big-pct {
+  font-size: 72px; font-weight: 900; line-height: 1;
+  background: linear-gradient(135deg, #f472b6, #a78bfa);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.tend-overall-label { font-size: 13px; color: #a78bfa; margin-top: 6px; }
+.tend-advice {
+  background: linear-gradient(135deg, #fdf2f8, #ede9fe);
+  border-radius: 18px; padding: 16px 18px; margin-bottom: 16px;
+  border: 1.5px solid rgba(244,114,182,0.25);
+  font-size: 14px; color: #3d2b5e; line-height: 1.75;
+}
+.tend-section {
+  background: rgba(255,255,255,0.88);
+  border-radius: 20px; padding: 18px; margin-bottom: 14px;
+  box-shadow: 0 4px 16px rgba(167,139,250,0.1);
+}
+.tend-section-title { font-size: 15px; font-weight: 800; color: #3d2b5e; margin-bottom: 14px; }
+.tend-bar-row { margin-bottom: 12px; }
+.tend-bar-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+.tend-bar-name { font-size: 13px; font-weight: 600; color: #3d2b5e; }
+.tend-bar-pct { font-size: 13px; font-weight: 800; }
+.tend-bar-bg { height: 12px; background: #f3e8ff; border-radius: 99px; overflow: hidden; }
+.tend-bar-fill { height: 100%; border-radius: 99px; transition: width 0.7s cubic-bezier(.4,0,.2,1); }
+.tend-topic-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 9px 0; border-bottom: 1px solid rgba(167,139,250,0.12);
+  font-size: 13px;
+}
+.tend-topic-row:last-child { border-bottom: none; }
+.tend-topic-pct { font-weight: 800; font-size: 14px; }
+.tend-no-data { text-align: center; color: #c4b5fd; font-size: 13px; padding: 12px 0; }
+.tend-wrong-badge {
+  background: #fdf2f8; border-radius: 14px; padding: 12px 16px;
+  font-size: 13px; color: #be185d; font-weight: 600; margin-bottom: 16px;
+  text-align: center;
+}
+</style>
+</head>
+<body>
+
+<!-- 月選択画面 -->
+<div id="school-select">
+  <div class="fairy-title">✨ ANRINOの問題アプリ ✨</div>
+  <div class="fairy-subtitle">塾を選んでね！</div>
+  <div class="school-grid">
+    <div class="school-card" onclick="selectSchool('ena')">
+      <div class="school-emoji">📚</div>
+      <div class="school-label">ena</div>
+      <div class="school-desc">えな</div>
+    </div>
+    <div class="school-card" onclick="selectSchool('eikoh')">
+      <div class="school-emoji">⭐</div>
+      <div class="school-label">栄光</div>
+      <div class="school-desc">えいこう</div>
+    </div>
+  </div>
+</div>
+
+<div id="month-select" style="display:none">
+  <div class="fairy-title">✨ ANRINOの問題アプリ ✨</div>
+  <div class="fairy-subtitle">月を選んでスタート！</div>
+  <div class="month-grid" id="month-grid"></div>
+  <button class="back-to-month" style="margin-top:24px" onclick="showSchoolSelect()">◀ 塾選択に戻る</button>
+</div>
+
+<!-- 日付設定モーダル -->
+<div class="date-modal-overlay" id="date-modal-overlay">
+  <div class="date-modal">
+    <div class="date-modal-title" id="date-modal-title"></div>
+    <input type="date" id="date-modal-input">
+    <button class="date-modal-save" onclick="saveTestDate()">保存する ✨</button><br>
+    <button class="date-modal-cancel" onclick="closeDateModal()">キャンセル</button>
+  </div>
+</div>
+
+<!-- ホーム画面 -->
+<div id="home">
+  <div class="home-header">
+    <button class="back-to-month" onclick="showMonthSelect()">◀ 月選択</button>
+    <div class="home-title-wrap">
+      <div class="home-month-title" id="home-month-title"></div>
+      <div class="home-month-sub" id="home-month-sub"></div>
+    </div>
+  </div>
+  <div class="test-countdown" id="test-countdown" style="display:none"></div>
+  <div class="subject-grid" id="subject-grid"></div>
+  <button class="all-card" onclick="startQuiz('all')">🌟 全問題にチャレンジ！</button>
+  <button class="tendency-btn" onclick="showTendency()">📊 きみの傾向を見る</button>
+  <button class="review-card" onclick="startReview()" id="review-btn">⚠️ 苦手問題を復習</button>
+  <button class="mastered-card" onclick="startMasteredQuiz()" id="mastered-btn">⭐ もう完璧 0問</button>
+  <button class="super-wrong-card" onclick="startSuperWrongQuiz()" id="super-wrong-btn">🔥 超苦手 0問</button>
+  <div class="stats-bar">
+    <div class="stats-title">🏆 正答率</div>
+    <div id="stats-container"></div>
+  </div>
+</div>
+
+<!-- 問題画面 -->
+<div id="quiz">
+  <div class="quiz-header">
+    <button class="back-btn" onclick="goHome()">‹ もどる</button>
+    <div class="quiz-meta">
+      <div><span class="quiz-subject-tag" id="subject-tag"></span></div>
+      <div class="quiz-progress-text" id="progress-text"></div>
+    </div>
+  </div>
+  <div class="quiz-progress-bar">
+    <div class="quiz-progress-fill" id="progress-fill"></div>
+  </div>
+  <div class="quiz-body">
+    <div class="question-card" id="question-text"></div>
+    <div class="options-list" id="options-list"></div>
+    <div class="feedback-card" id="feedback-card">
+      <div class="feedback-icon" id="feedback-icon"></div>
+      <div class="feedback-label" id="feedback-label"></div>
+      <div class="feedback-answer" id="feedback-answer"></div>
+      <div class="feedback-explanation" id="feedback-explanation" style="display:none"></div>
+      <div class="memo-area" id="memo-area" style="display:none">
+        <div class="memo-label">📝 メモ（AIで分かったことを書いてね）</div>
+        <textarea class="memo-textarea" id="memo-textarea" placeholder="ここにメモしよう！"></textarea>
+        <div class="memo-saved" id="memo-saved"></div>
+      </div>
+    </div>
+    <button class="ai-btn" id="ai-btn" onclick="openAiModal()">🤖 AIにもっと詳しく聞く</button>
+    <div style="display:flex;gap:8px;margin-top:4px;">
+      <button class="prev-btn" id="prev-btn" style="display:none" onclick="prevQuestion()">← 前の問題</button>
+      <button class="next-btn" id="next-btn" style="display:none;flex:1" onclick="nextQuestion()">次の問題へ →</button>
+    </div>
+  </div>
+</div>
+
+<!-- AI解説モーダル -->
+<div class="ai-modal-overlay" id="ai-modal-overlay" onclick="closeAiModal(event)">
+  <div class="ai-modal">
+    <div class="ai-modal-header">
+      <div class="ai-modal-title">🤖 AIの説明</div>
+      <button class="ai-modal-close" onclick="closeAiModal()">✕</button>
+    </div>
+    <div class="ai-modal-body" id="ai-modal-body"></div>
+  </div>
+</div>
+
+<!-- きみの傾向 画面 -->
+<div id="tendency">
+  <div class="tend-header">
+    <button class="back-to-month" onclick="showHome()">◀ もどる</button>
+    <div class="tend-page-title">📊 きみの傾向</div>
+  </div>
+
+  <!-- 総合スコア -->
+  <div class="tend-overall">
+    <div class="tend-big-pct" id="tend-big-pct">--%</div>
+    <div class="tend-overall-label" id="tend-overall-label">まだ問題を解いていないよ！</div>
+  </div>
+
+  <!-- アドバイス -->
+  <div class="tend-advice" id="tend-advice"></div>
+
+  <!-- 苦手問題バッジ -->
+  <div class="tend-wrong-badge" id="tend-wrong-badge"></div>
+
+  <!-- 教科別グラフ -->
+  <div class="tend-section">
+    <div class="tend-section-title">📚 教科別の正答率</div>
+    <div id="tend-cat-bars"></div>
+  </div>
+
+  <!-- 苦手なところ -->
+  <div class="tend-section">
+    <div class="tend-section-title">⚠️ 苦手なところ</div>
+    <div id="tend-weak"></div>
+  </div>
+
+  <!-- 得意なところ -->
+  <div class="tend-section">
+    <div class="tend-section-title">⭐ 得意なところ</div>
+    <div id="tend-strong"></div>
+  </div>
+</div>
+
+<!-- 結果画面 -->
+<div id="result">
+  <div class="result-title" id="result-title">結果</div>
+  <div class="result-subtitle" id="result-subtitle"></div>
+  <div class="score-circle">
+    <div class="score-pct" id="score-pct"></div>
+    <div class="score-label">正答率</div>
+  </div>
+  <div class="result-chart-wrap">
+    <div class="chart-title">✨ 分野別スコア</div>
+    <div id="result-chart"></div>
+  </div>
+  <div class="result-btns">
+    <button class="result-btn btn-primary" onclick="retryQuiz()">🔄 もう一度</button>
+    <button class="result-btn btn-review" id="retry-wrong-btn" onclick="retryWrong()" style="display:none">⚠️ 間違えた問題を復習</button>
+    <button class="result-btn btn-secondary" onclick="goHome()">🏠 ホームへ</button>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// 月定義
+// ============================================================
+const MONTHS = {
+  '202605':    { label: '5月',        fullLabel: '2026年5月',    emoji: '🌸', desc: '5/27 テスト対策', comingSoon: false, school: 'ena' },
+  '202606':    { label: '6月',        fullLabel: '2026年6月',    emoji: '☔', desc: '準備中',         comingSoon: true,  school: 'ena' },
+  'eikoh_l56': { label: 'Lesson 5-6', fullLabel: '第4回 小テスト', emoji: '📝', desc: 'Lesson 5・6',   comingSoon: false, school: 'eikoh' },
+  'eikoh_l78': { label: 'Lesson 7-8', fullLabel: '第5回 小テスト', emoji: '📖', desc: 'Lesson 7・8',   comingSoon: false, school: 'eikoh' },
+};
+
+// ============================================================
+// 科目定義
+// ============================================================
+const CATEGORIES = {
+  shakai: { label: '社会', icon: '🗾', color: '#1d4ed8' },
+  rika:   { label: '理科', icon: '🔬', color: '#065f46' },
+  kokugo: { label: '国語', icon: '✍️', color: '#3730a3' },
+  eigo:   { label: '英語', icon: '🔤', color: '#92400e' },
+};
+
+const SUBJECTS = {
+  jidai:   { label: '時差',       icon: '🌐', tag: 'tag-jidai',   category: 'shakai' },
+  nihon:   { label: '日本の姿',   icon: '🗾', tag: 'tag-nihon',   category: 'shakai' },
+  kikoh:   { label: '日本の気候', icon: '🌤', tag: 'tag-kikoh',   category: 'shakai' },
+  okinawa: { label: '沖縄',       icon: '🏝', tag: 'tag-okinawa', category: 'shakai' },
+  rika:    { label: 'エネルギー', icon: '⚡', tag: 'tag-rika',    category: 'rika'   },
+  taiyou:  { label: '太陽の動き', icon: '☀️', tag: 'tag-taiyou',  category: 'rika'   },
+  kanji:   { label: '漢字',       icon: '✍️', tag: 'tag-kanji',   category: 'kokugo' },
+  eigo:    { label: '英語',       icon: '🔤', tag: 'tag-eigo',    category: 'eigo'   },
+};
+
+// ============================================================
+// 問題データ
+// ============================================================
+const QUESTIONS = [
+  // ── 時差 ──────────────────────────────────────────────────
+  { id:'j01', subject:'jidai', month:'202605',
+    q:'太陽が南中する時刻と最も関係が深いのは、緯度と経度のどちらですか？',
+    options:['緯度','経度','高度','気圧'], answer:1,
+    explanation:'太陽が南中するタイミングは東西の位置（経度）によって決まります。同じ経度なら同じ時刻に南中します。' },
+  { id:'j02', subject:'jidai', month:'202605',
+    q:'太陽が南中する時刻が早いのは、北海道と沖縄県のどちらですか？',
+    options:['北海道','沖縄県','同じ時刻','季節による'], answer:0,
+    explanation:'東側にある場所ほど太陽が早く南中します。北海道東部（約東経145度）は沖縄（約東経128度）より東にあるため、北海道の方が先に南中します。' },
+  { id:'j03', subject:'jidai', month:'202605',
+    q:'日本の標準時子午線は東経何度ですか？',
+    options:['東経120度','東経135度','東経150度','東経90度'], answer:1,
+    explanation:'日本の標準時子午線は兵庫県明石市を通る東経135度です。' },
+  { id:'j04', subject:'jidai', month:'202605',
+    q:'日本の標準時子午線が通る市はどこですか？',
+    options:['神戸市','大阪市','明石市','姫路市'], answer:2,
+    explanation:'兵庫県明石市を通る東経135度の経線が日本の標準時子午線です。' },
+  { id:'j05', subject:'jidai', month:'202605',
+    q:'太陽が南中する時刻の基準となる経線を何といいますか？（漢字6字）',
+    options:['本初子午線','標準時子午線','日付変更線','日本基準線'], answer:1,
+    explanation:'標準時子午線（ひょうじゅんじしごせん）と呼びます。各国が自国の標準時を決める基準の経線です。' },
+  { id:'j06', subject:'jidai', month:'202605',
+    q:'世界の標準時の基準となっている都市はどこですか？',
+    options:['フランスのパリ','イギリスのロンドン','アメリカのニューヨーク','ドイツのベルリン'], answer:1,
+    explanation:'イギリスのロンドンにあるグリニッジ天文台を通る経度0度の線（本初子午線）が世界標準時の基準です。' },
+  { id:'j07', subject:'jidai', month:'202605',
+    q:'経度0度の線を何といいますか？（漢字5字）',
+    options:['標準時子午線','本初子午線','日付変更線','赤道経線'], answer:1,
+    explanation:'本初子午線（ほんしょしごせん）といいます。イギリスのロンドン（グリニッジ）を通る経度0度の線です。' },
+  { id:'j08', subject:'jidai', month:'202605',
+    q:'時差は経度何度につき1時間のずれが生じますか？',
+    options:['10度','15度','20度','30度'], answer:1,
+    explanation:'地球は24時間で360度自転するので、360÷24＝15度で1時間のずれが生じます。' },
+  { id:'j09', subject:'jidai', month:'202605',
+    q:'日本とイギリスの時差は何時間ですか？',
+    options:['6時間','8時間','9時間','12時間'], answer:2,
+    explanation:'日本は東経135度、イギリスは経度0度。差は135度。135÷15＝9時間です。' },
+  { id:'j10', subject:'jidai', month:'202605',
+    q:'日本とイギリスでは、新年を早く迎えるのはどちらですか？',
+    options:['イギリス','日本','同じ時刻','年によって異なる'], answer:1,
+    explanation:'日本はイギリスより東に位置するため、時間が9時間進んでいます。そのため日本の方が先に新年を迎えます。' },
+  { id:'j11', subject:'jidai', month:'202605',
+    q:'タイの標準時子午線は東経105度です。日本とタイの時差は何時間ですか？',
+    options:['1時間','2時間','3時間','4時間'], answer:1,
+    explanation:'日本：東経135度、タイ：東経105度。差は30度。30÷15＝2時間です。日本の方が2時間進んでいます。' },
+  { id:'j12', subject:'jidai', month:'202605',
+    q:'オーストラリアの標準時子午線は東経150度です。日本が1月1日午前0時のとき、オーストラリアは何時ですか？',
+    options:['12月31日午後11時','1月1日午前1時','1月1日午前2時','12月31日午後10時'], answer:1,
+    explanation:'東経150度（オーストラリア）は東経135度（日本）より東なので時間が進んでいます。差は15度、時差1時間。日本の0時の1時間後→午前1時。' },
+  { id:'j13', subject:'jidai', month:'202605',
+    q:'日本が1月1日午前0時のとき、西経45度のブラジルは何時ですか？',
+    options:['12月31日午後0時（正午）','12月31日午後3時','12月31日午前3時','1月2日午前9時'], answer:0,
+    explanation:'差：135+45＝180度。180÷15＝12時間。ブラジルは日本より西なので12時間遅い。0時の12時間前→12月31日午後0時（正午）。' },
+  { id:'j14', subject:'jidai', month:'202605',
+    q:'ロシア連邦は国内にいくつの標準時を持っていますか？',
+    options:['6つ','8つ','11つ','15つ'], answer:2,
+    explanation:'ロシアは世界で最も東西に広い国で、11の標準時を持っています。' },
+  { id:'j15', subject:'jidai', month:'202605',
+    q:'日付変更線は経度何度の線ですか？',
+    options:['東経90度','東経120度','東経180度（西経180度）','西経90度'], answer:2,
+    explanation:'日付変更線は経度180度の線で、太平洋上にあります。この線を西から東へ越えると日付が1日戻ります。' },
+  { id:'j16', subject:'jidai', month:'202605',
+    q:'日本（東経135度）が午前9時のとき、西経75度のニューヨークは何時ですか？',
+    options:['前日の午後7時','前日の午後8時','前日の午後11時','当日の午前1時'], answer:0,
+    explanation:'差：135＋75＝210度。210÷15＝14時間。ニューヨークは日本より西なので14時間遅い。午前9時の14時間前＝前日の午後7時。' },
+  { id:'j17', subject:'jidai', month:'202605',
+    q:'中国の標準時子午線は東経120度です。日本と中国の時差は何時間ですか？',
+    options:['0時間','1時間','2時間','3時間'], answer:1,
+    explanation:'日本（東経135度）－中国（東経120度）＝15度。15÷15＝1時間。日本の方が1時間進んでいます。' },
+  { id:'j18', subject:'jidai', month:'202605',
+    q:'サマータイム（夏時間）を採用している地域では、通常何時間時計を進めますか？',
+    options:['30分','1時間','2時間','3時間'], answer:1,
+    explanation:'サマータイムでは通常1時間時計を進めます。夏の日照時間を有効利用するためにヨーロッパやアメリカなどで採用されています。' },
+  { id:'j19', subject:'jidai', month:'202605',
+    q:'経度が同じ場所どうしでは、時差はどうなりますか？',
+    options:['緯度によって変わる','時差がない（同じ時刻）','1時間の差がある','季節によって変わる'], answer:1,
+    explanation:'経度が同じ場所は、同じ時刻に太陽が南中するため時差がありません。時差は経度の差によって決まります。' },
+  { id:'j20', subject:'jidai', month:'202605',
+    q:'インドの標準時子午線は東経82.5度です。日本とインドの時差は何時間何分ですか？',
+    options:['2時間','2時間30分','3時間','3時間30分'], answer:3,
+    explanation:'差：135－82.5＝52.5度。52.5÷15＝3.5時間＝3時間30分。インドは珍しい30分単位の時差を持っています。' },
+  { id:'j21', subject:'jidai', month:'202605',
+    q:'日付変更線を東から西へ越えると、日付はどうなりますか？',
+    options:['1日戻る','1日進む','変わらない','12時間進む'], answer:1,
+    explanation:'日付変更線を東から西へ越えると（太平洋を渡って日本に近づく方向）日付が1日進みます。逆に西から東へ越えると1日戻ります。' },
+  { id:'j22', subject:'jidai', month:'202605',
+    q:'東経60度の地点と東経150度の地点の時差は何時間ですか？',
+    options:['4時間','6時間','8時間','10時間'], answer:1,
+    explanation:'差：150－60＝90度。90÷15＝6時間。東経150度の方が6時間進んでいます。' },
+  { id:'j23', subject:'jidai', month:'202605',
+    q:'時差ぼけが起こる主な理由はどれですか？',
+    options:['飛行機の騒音で眠れないから','体内時計と移動先の現地時間がずれるから','飛行機内の気圧が低いから','食事のリズムが変わるから'], answer:1,
+    explanation:'体には約24時間周期の体内時計があります。急に時差のある地域へ移動すると、体内時計と現地時間がずれて体調不良（時差ぼけ）が起こります。' },
+
+  // ── 日本の姿 ──────────────────────────────────────────────
+  { id:'n01', subject:'nihon', month:'202605',
+    q:'日本の最南端の島はどこですか？',
+    options:['与那国島','南鳥島','沖ノ鳥島','択捉島'], answer:2,
+    explanation:'沖ノ鳥島が最南端です。波で削られないよう護岸工事が行われています。東京都に属します。' },
+  { id:'n02', subject:'nihon', month:'202605',
+    q:'日本の最西端の島はどこですか？',
+    options:['与那国島','沖ノ鳥島','南鳥島','択捉島'], answer:0,
+    explanation:'与那国島が最西端です。沖縄県に属し、天気の良い日には台湾が見えます。' },
+  { id:'n03', subject:'nihon', month:'202605',
+    q:'日本の最東端の島はどこですか？',
+    options:['与那国島','沖ノ鳥島','南鳥島','択捉島'], answer:2,
+    explanation:'南鳥島が最東端です。東京都に属します。' },
+  { id:'n04', subject:'nihon', month:'202605',
+    q:'日本の最北端の島はどこですか？',
+    options:['国後島','色丹島','択捉島','歯舞群島'], answer:2,
+    explanation:'択捉島が最北端です。北方領土の一つで北海道に属しますが、現在はロシアが占領しています。' },
+  { id:'n05', subject:'nihon', month:'202605',
+    q:'沖ノ鳥島に護岸工事が行われてきた主な理由は何ですか？',
+    options:['観光地として整備するため','島がなくなると排他的経済水域が失われるため','軍事基地を建設するため','漁業の拠点にするため'], answer:1,
+    explanation:'沖ノ鳥島が波に削られてなくなると、周囲200海里の排他的経済水域（漁業・資源の権利）が失われてしまうため。' },
+  { id:'n06', subject:'nihon', month:'202605',
+    q:'排他的経済水域は海岸線から何海里までですか？',
+    options:['12海里','50海里','100海里','200海里'], answer:3,
+    explanation:'排他的経済水域（EEZ）は海岸線から200海里（約370km）までです。水産資源や地下資源の権利を持ちます。' },
+  { id:'n07', subject:'nihon', month:'202605',
+    q:'次のうち、北方領土に含まれないものはどれですか？',
+    options:['歯舞群島','色丹島','奥尻島','国後島'], answer:2,
+    explanation:'奥尻島は北海道に属する島ですが、北方領土ではありません。北方領土は択捉島・国後島・色丹島・歯舞群島の4島です。' },
+  { id:'n08', subject:'nihon', month:'202605',
+    q:'日本の都道府県の数はいくつですか？',
+    options:['43','45','47','50'], answer:2,
+    explanation:'日本には47都道府県あります。都1・道1・府2・県43です。' },
+  { id:'n09', subject:'nihon', month:'202605',
+    q:'沖縄県の県庁所在地はどこですか？',
+    options:['石垣市','名護市','那覇市','宮古島市'], answer:2,
+    explanation:'沖縄県の県庁所在地は那覇市です。' },
+  { id:'n10', subject:'nihon', month:'202605',
+    q:'日本の領域のうち「領空」とはどれですか？',
+    options:['海岸線から12海里の海','海岸線から200海里の海','領土と領海の上空','公海の上空'], answer:2,
+    explanation:'領空は領土と領海の上空のことです。他国の航空機は許可なく飛行できません。' },
+  { id:'n11', subject:'nihon', month:'202605',
+    q:'領海は海岸線から何海里までですか？',
+    options:['12海里','50海里','100海里','200海里'], answer:0,
+    explanation:'領海は12海里（約22km）までです。排他的経済水域（200海里）とは別です。' },
+  { id:'n12', subject:'nihon', month:'202605',
+    q:'北方領土を不法に占領している国はどこですか？',
+    options:['中国','韓国','ロシア連邦','アメリカ'], answer:2,
+    explanation:'北方領土は第二次世界大戦後、ロシア連邦（旧ソ連）が不法に占領しています。' },
+  { id:'n13', subject:'nihon', month:'202605',
+    q:'竹島（島根県）を不法占拠している国はどこですか？',
+    options:['中国','大韓民国（韓国）','ロシア連邦','アメリカ'], answer:1,
+    explanation:'竹島は大韓民国（韓国）によって不法占拠されています。日本固有の領土です。' },
+  { id:'n14', subject:'nihon', month:'202605',
+    q:'日本の47都道府県のうち「府」はいくつありますか？',
+    options:['1つ','2つ','3つ','4つ'], answer:1,
+    explanation:'大阪府と京都府の2つです。都1・道1・府2・県43と覚えましょう。' },
+  { id:'n15', subject:'nihon', month:'202605',
+    q:'尖閣諸島はどの都道府県に属していますか？',
+    options:['鹿児島県','長崎県','沖縄県','東京都'], answer:2,
+    explanation:'尖閣諸島は沖縄県石垣市に属する日本固有の領土です。' },
+  { id:'n16', subject:'nihon', month:'202605',
+    q:'日本の面積は世界で約何番目ですか？',
+    options:['約30位','約62位','約100位','約150位'], answer:1,
+    explanation:'日本の面積（約37.8万km²）は世界約62位です。' },
+  { id:'n17', subject:'nihon', month:'202605',
+    q:'日本列島を取り囲む海として、正しくないものはどれですか？',
+    options:['日本海','太平洋','オホーツク海','インド洋'], answer:3,
+    explanation:'日本は日本海・太平洋・東シナ海・オホーツク海に囲まれています。インド洋は日本の周囲にはありません。' },
+  { id:'n18', subject:'nihon', month:'202605',
+    q:'面積が最も広い都道府県はどこですか？',
+    options:['岩手県','長野県','新潟県','北海道'], answer:3,
+    explanation:'北海道が最も広く、日本の国土面積の約22%を占めています。' },
+  { id:'n19', subject:'nihon', month:'202605',
+    q:'日本の47都道府県のうち「道」はいくつありますか？',
+    options:['1つ','2つ','3つ','4つ'], answer:0,
+    explanation:'「道」は北海道の1つだけです。都（東京都）・道（北海道）・府（大阪府・京都府）・県（43県）です。' },
+  { id:'n20', subject:'nihon', month:'202605',
+    q:'海に面していない「内陸県」は全部でいくつありますか？',
+    options:['6県','7県','8県','9県'], answer:2,
+    explanation:'内陸県は8県あります。栃木・群馬・埼玉・山梨・長野・岐阜・奈良・滋賀の8つです。' },
+  { id:'n21', subject:'nihon', month:'202605',
+    q:'面積が最も小さい都道府県はどこですか？',
+    options:['東京都','大阪府','神奈川県','香川県'], answer:3,
+    explanation:'香川県が最も面積の小さい都道府県です。うどんで有名な四国の県です。' },
+  { id:'n22', subject:'nihon', month:'202605',
+    q:'日本の南端・北端・東端・西端の端にある島のうち、東京都に属するものをすべて含むのはどれですか？',
+    options:['最北端と最西端','最南端と最東端','最南端・最東端・最北端','最西端だけ'], answer:1,
+    explanation:'沖ノ鳥島（最南端）と南鳥島（最東端）はともに東京都に属します。最北端の択捉島は北海道、最西端の与那国島は沖縄県です。' },
+
+  // ── 日本の気候 ─────────────────────────────────────────────
+  { id:'k01', subject:'kikoh', month:'202605',
+    q:'地球上で気温が上がるとき、その熱の源は何ですか？',
+    options:['地熱','太陽の光','火山活動','海流'], answer:1,
+    explanation:'地球は自分で気温を上げる力がなく、太陽の光によって熱が与えられます。' },
+  { id:'k02', subject:'kikoh', month:'202605',
+    q:'気候の特ちょうが共通する地域ごとに切り分けたものを何といいますか？（漢字3字）',
+    options:['気候区','気候帯','気候図','気候域'], answer:1,
+    explanation:'気候帯（きこうたい）といいます。熱帯・乾燥帯・温帯・冷帯・寒帯の5つに分けられます。' },
+  { id:'k03', subject:'kikoh', month:'202605',
+    q:'最も気温が高い気候帯はどれですか？',
+    options:['乾燥帯','温帯','熱帯','寒帯'], answer:2,
+    explanation:'熱帯が最も気温が高く、降水量も多い気候帯です。赤道付近に位置します。' },
+  { id:'k04', subject:'kikoh', month:'202605',
+    q:'北海道が属する気候帯はどれですか？',
+    options:['熱帯','温帯','冷帯（亜寒帯）','寒帯'], answer:2,
+    explanation:'北海道は冷帯（亜寒帯）に属します。日本の他の地域は温帯です。' },
+  { id:'k05', subject:'kikoh', month:'202605',
+    q:'日本の夏の季節風はどの方向から吹いてきますか？',
+    options:['北西','南東','北東','南西'], answer:1,
+    explanation:'夏は太平洋側から南東の季節風が吹きます。湿気をたっぷり含んでいます。' },
+  { id:'k06', subject:'kikoh', month:'202605',
+    q:'日本の冬の季節風はどの方向から吹いてきますか？',
+    options:['北西','南東','北東','南西'], answer:0,
+    explanation:'冬はロシアなど大陸側から北西の季節風が吹きます。対馬海流の上を通って湿気を含み、日本海側に雪をもたらします。' },
+  { id:'k07', subject:'kikoh', month:'202605',
+    q:'北海道でははっきりとした梅雨がない理由として最も正しいものはどれですか？',
+    options:['降水量が多すぎるため','梅雨前線が北海道まで北上しにくいため','冬に雪が多いため','気温が高いため'], answer:1,
+    explanation:'梅雨前線は日本列島を南から北上しますが、北海道まで届きにくいため、北海道にはっきりとした梅雨がありません。' },
+  { id:'k08', subject:'kikoh', month:'202605',
+    q:'瀬戸内の気候の特ちょうとして最も正しいものはどれですか？',
+    options:['冬に雪が多い','夏に雨が多い','1年を通して降水量が少ない','台風の影響を最も多く受ける'], answer:2,
+    explanation:'瀬戸内の気候は、夏の南東の季節風は四国山地に、冬の北西の季節風は中国山地にさえぎられるため、1年を通して降水量が少ないのが特ちょうです。' },
+  { id:'k09', subject:'kikoh', month:'202605',
+    q:'気温と降水量のグラフを一体化させたものを何といいますか？',
+    options:['気候図','雨温図','降水グラフ','気象図'], answer:1,
+    explanation:'雨温図（うおんず）といいます。棒グラフで降水量、折れ線グラフで気温を示します。' },
+  { id:'k10', subject:'kikoh', month:'202605',
+    q:'日本の暖流のうち、太平洋側を流れる海流の名前はどれですか？',
+    options:['リマン海流','親潮（千島海流）','対馬海流','黒潮（日本海流）'], answer:3,
+    explanation:'黒潮（日本海流）は太平洋側を流れる暖流です。対馬海流は日本海側の暖流です。' },
+  { id:'k11', subject:'kikoh', month:'202605',
+    q:'日本の気候を地域ごとに分けると、いくつの気候に分けられますか？',
+    options:['4つ','5つ','6つ','8つ'], answer:2,
+    explanation:'北海道・日本海側・太平洋側・内陸性（中央高地）・瀬戸内・南西諸島の6つの気候に分けられます。' },
+  { id:'k12', subject:'kikoh', month:'202605',
+    q:'梅雨の時期なのに雨がほとんど降らないことを何といいますか？',
+    options:['空梅雨（からつゆ）','早梅雨','強梅雨','深梅雨'], answer:0,
+    explanation:'空梅雨（からつゆ）といいます。水不足の原因となることがあります。' },
+  { id:'k13', subject:'kikoh', month:'202605',
+    q:'日本の太平洋側の気候の特ちょうとして正しいのはどれですか？',
+    options:['冬に雪が多く、夏は晴れが多い','夏に雨が多く、冬は晴れが多い','1年を通して降水量が少ない','1年を通して気温が高い'], answer:1,
+    explanation:'太平洋側は夏の南東の季節風の影響で夏に雨が多く、冬は乾燥して晴れの日が多くなります。' },
+  { id:'k14', subject:'kikoh', month:'202605',
+    q:'長野県などの内陸にある地域の気候の特ちょうとして正しいのはどれですか？',
+    options:['1年を通して降水量が多い','夏は蒸し暑く冬は雪が多い','夏と冬の気温差が大きく、降水量が少ない','台風の影響を最も受ける'], answer:2,
+    explanation:'内陸性（中央高地）の気候は海から遠いため、夏と冬の気温差が大きく、1年を通して降水量が少ないのが特ちょうです。' },
+  { id:'k15', subject:'kikoh', month:'202605',
+    q:'沖縄など南西諸島の気候の特ちょうとして正しいのはどれですか？',
+    options:['冬の寒さが厳しい','1年を通して温暖で降水量が多い','夏に雨が少ない','梅雨がない'], answer:1,
+    explanation:'南西諸島の気候は亜熱帯に属し、1年を通して温暖で降水量が多いのが特ちょうです。' },
+  { id:'k16', subject:'kikoh', month:'202605',
+    q:'台風はどの海域で発生することが多いですか？',
+    options:['北太平洋の北部','北太平洋の西部（熱帯・亜熱帯）','日本海','オホーツク海'], answer:1,
+    explanation:'台風は北太平洋西部の熱帯・亜熱帯（主にフィリピン東方）で発生し、日本列島に向かって北上することが多いです。' },
+  { id:'k17', subject:'kikoh', month:'202605',
+    q:'山の斜面を風が下るとき、空気が乾燥して気温が高くなる現象を何といいますか？',
+    options:['海風','フェーン現象','季節風','偏西風'], answer:1,
+    explanation:'フェーン現象といいます。湿った空気が山を越えると山の反対側で乾燥した高温の空気になります。新潟などで起こります。' },
+  { id:'k18', subject:'kikoh', month:'202605',
+    q:'東北地方の太平洋側でやませが吹くと、作物にどのような影響がありますか？',
+    options:['豊作になる','夏でも気温が上がらず冷害になる','台風の被害が増える','梅雨が早く終わる'], answer:1,
+    explanation:'やませは夏に東北地方の太平洋側に吹く冷たく湿った北東風です。太陽が照らず気温が上がらないため、稲などが育たず冷害が起こります。' },
+  { id:'k19', subject:'kikoh', month:'202605',
+    q:'梅雨が始まる時期として最も正しいのはどれですか？',
+    options:['3〜4月ごろ','5〜6月ごろ','7〜8月ごろ','9〜10月ごろ'], answer:1,
+    explanation:'梅雨は5〜6月ごろ（沖縄では5月上旬、本州は6月ごろ）から始まり、7月ごろに明けます。梅雨前線が南から北上するため、南ほど早く始まります。' },
+  { id:'k20', subject:'kikoh', month:'202605',
+    q:'日本海側では冬に雪が多い主な理由はどれですか？',
+    options:['太平洋からの季節風が運ぶ湿気が雪になるから','北西の季節風が対馬海流の上を通り湿気を含んで山にぶつかるから','北海道からの冷たい風が吹くから','梅雨前線の影響を受けるから'], answer:1,
+    explanation:'冬の北西の季節風は、暖流の対馬海流の上を通るときに湿気を大量に含み、日本列島の山脈にぶつかって雪を大量に降らせます。' },
+  { id:'k21', subject:'kikoh', month:'202605',
+    q:'日本では台風はどの方向から接近してくることが多いですか？',
+    options:['北または北東から','東または北東から','南または南西から','西または北西から'], answer:2,
+    explanation:'台風はフィリピン東方などで発生し、日本列島には主に南または南西の方向から接近してきます。' },
+
+  // ── 沖縄 ──────────────────────────────────────────────────
+  { id:'o01', subject:'okinawa', month:'202605',
+    q:'沖縄にかつて存在した王国の名前は何ですか？',
+    options:['薩摩王国','琉球王国','倭王国','南海王国'], answer:1,
+    explanation:'沖縄にはかつて琉球王国という独立した国がありました。明治時代に正式に日本の一部となりました。' },
+  { id:'o02', subject:'okinawa', month:'202605',
+    q:'太平洋戦争後、しばらく沖縄を占領していた国はどこですか？',
+    options:['ロシア','イギリス','中国','アメリカ'], answer:3,
+    explanation:'太平洋戦争後、沖縄はアメリカに占領され、1972年に日本に返還されました。' },
+  { id:'o03', subject:'okinawa', month:'202605',
+    q:'沖縄の海に広がり、多くの生き物のすみかとなっているものは何ですか？',
+    options:['干潟','砂浜','サンゴ礁','岩礁'], answer:2,
+    explanation:'サンゴ礁が広がっています。波や潮の流れから海岸を守り、多くの生き物のすみかとなっています。' },
+  { id:'o04', subject:'okinawa', month:'202605',
+    q:'沖縄で昔から栽培されている、砂糖の原料となる作物は何ですか？',
+    options:['てんさい','さとうきび','さつまいも','とうもろこし'], answer:1,
+    explanation:'さとうきびは根が深いため台風に強く、昔から沖縄で盛んに栽培されています。' },
+  { id:'o05', subject:'okinawa', month:'202605',
+    q:'沖縄の古い家で、台風の強い風から屋根を守るために使われているものは何ですか？',
+    options:['コンクリート','しっくい（石灰と砂などを混ぜたもの）','金属板','防水シート'], answer:1,
+    explanation:'しっくいで屋根のかわらを固めて、台風の強い風で飛ばされないようにしています。' },
+  { id:'o06', subject:'okinawa', month:'202605',
+    q:'沖縄の古い家では、台風への備えとして家の周囲を何で囲んでいますか？',
+    options:['コンクリート塀','防風林や石がき','金属フェンス','レンガ塀'], answer:1,
+    explanation:'沖縄の古い家は家全体が低くつくられ、周りを防風林や石がきで囲んでいます。' },
+  { id:'o07', subject:'okinawa', month:'202605',
+    q:'沖縄でパイナップルに代わって生産が増えている果物は何ですか？',
+    options:['パパイヤ','バナナ','マンゴー','グアバ'], answer:2,
+    explanation:'外国産の安いパイナップルとの競争から生産量が減り、かわりにマンゴーなどの栽培が増えました。' },
+  { id:'o08', subject:'okinawa', month:'202605',
+    q:'沖縄の「菊」は本来9月に咲きますが、主にいつ出荷されていますか？',
+    options:['3月と9月','12月と3月','6月と12月','3月と6月'], answer:1,
+    explanation:'電灯をつけることで開花時期を調整し、お葬式の多い12月と卒業式・入学式の3月に合わせて出荷しています。' },
+  { id:'o09', subject:'okinawa', month:'202605',
+    q:'沖縄県が水不足を防ぐために建設したものを答えなさい。',
+    options:['太陽光発電所','ダム','地熱発電所','ため池'], answer:1,
+    explanation:'沖縄県は10か所以上のダムと、海水から真水をつくる淡水化センターを建設しました。' },
+  { id:'o10', subject:'okinawa', month:'202605',
+    q:'沖縄の家の屋根や屋上に取り付けられているものは何ですか？（水不足対策）',
+    options:['太陽光パネル','貯水タンク','アンテナ','風力発電機'], answer:1,
+    explanation:'水不足対策として家の屋根や屋上に貯水タンクを取り付けました。現在も多くの家に残っています。' },
+  { id:'o11', subject:'okinawa', month:'202605',
+    q:'沖縄県で水不足になりやすい理由のひとつとして正しいのはどれですか？',
+    options:['降水量がとても少ないから','土地が石灰岩で水を保ちにくいから','川がまったくないから','人口が多すぎるから'], answer:1,
+    explanation:'沖縄の土地はサンゴ礁からできた石灰岩が多く水を保ちにくいこと、大きな森林が少ないこと、島が小さいため川が短いことが水不足の原因です。' },
+  { id:'o12', subject:'okinawa', month:'202605',
+    q:'沖縄県が属する地方区分はどれですか？',
+    options:['中国地方','四国地方','九州地方','中部地方'], answer:2,
+    explanation:'沖縄県は九州地方に属します。九州地方は福岡・佐賀・長崎・熊本・大分・宮崎・鹿児島・沖縄の8県です。' },
+  { id:'o13', subject:'okinawa', month:'202605',
+    q:'日本にあるアメリカ軍専用施設のうち、沖縄に集中している割合はどれくらいですか？',
+    options:['約20%','約40%','約70%','約90%'], answer:2,
+    explanation:'日本にあるアメリカ軍専用施設の約70%が、日本の国土の0.6%にすぎない沖縄に集中しています。' },
+  { id:'o14', subject:'okinawa', month:'202605',
+    q:'沖縄県の主要な産業として近年最も伸びているものはどれですか？',
+    options:['製造業','農業','観光業（リゾート・ホテル）','水産業'], answer:2,
+    explanation:'観光業が近年大きく成長しています。美しい海や独自の文化を目当てに国内外から多くの観光客が訪れます。' },
+  { id:'o15', subject:'okinawa', month:'202605',
+    q:'沖縄戦で亡くなった人々を追悼するため、糸満市に建てられた施設の名前は何ですか？',
+    options:['首里城','平和記念公園（平和の礎）','守礼門','玉陵（たまうどぅん）'], answer:1,
+    explanation:'平和記念公園（平和の礎）は糸満市にあり、沖縄戦で亡くなったすべての人々（国籍を問わず）の名前が刻まれています。' },
+  { id:'o16', subject:'okinawa', month:'202605',
+    q:'沖縄の伝統的な染め物・織物として知られているものはどれですか？',
+    options:['西陣織','琉球絣（りゅうきゅうがすり）','博多織','大島紬'], answer:1,
+    explanation:'琉球絣など沖縄の伝統的な織物は独自の模様が特ちょうで、国の重要無形文化財に指定されています。' },
+  { id:'o17', subject:'okinawa', month:'202605',
+    q:'琉球王国の王宮があった場所で、那覇市にある世界遺産の城は何ですか？',
+    options:['勝連城','中城城','首里城','今帰仁城'], answer:2,
+    explanation:'首里城（しゅりじょう）は那覇市にある琉球王国の王宮で、世界遺産に登録されています。2019年に火災で正殿が焼失しましたが、現在再建中です。' },
+  { id:'o18', subject:'okinawa', month:'202605',
+    q:'沖縄の伝統的な踊りで、旧盆（お盆）に行われる踊りを何といいますか？',
+    options:['よさこい','エイサー','阿波おどり','ねぶた'], answer:1,
+    explanation:'エイサーは沖縄の旧盆に行われる伝統的な踊りです。太鼓を持ちながら踊り、先祖の霊を送り出します。' },
+  { id:'o19', subject:'okinawa', month:'202605',
+    q:'沖縄の家の屋根や門などに置かれている、魔よけとされる獅子の置物を何といいますか？',
+    options:['カラフルちゃん','シーサー','ジンベイザメ','ハブ'], answer:1,
+    explanation:'シーサーは沖縄の守り神とされる獅子の置物です。魔よけや幸運を招くとして屋根や門の上などに置かれています。' },
+  { id:'o20', subject:'okinawa', month:'202605',
+    q:'独特の苦みがあり、沖縄料理に多く使われる緑色の野菜は何ですか？',
+    options:['ピーマン','ゴーヤー（ニガウリ）','ナーベーラー','パパイヤ'], answer:1,
+    explanation:'ゴーヤー（ニガウリ）は沖縄を代表する野菜で、独特の苦みがあります。ゴーヤーチャンプルーなどに使われます。暑い夏でもよく育ちます。' },
+
+  // ── 理科・エネルギー ───────────────────────────────────────
+  { id:'r01', subject:'rika', month:'202605',
+    q:'高いところにあるものがもつエネルギーを何といいますか？',
+    options:['運動エネルギー','位置エネルギー','弾性エネルギー','熱エネルギー'], answer:1,
+    explanation:'位置エネルギーといいます。高い場所にあるものほど大きな位置エネルギーを持ちます。' },
+  { id:'r02', subject:'rika', month:'202605',
+    q:'運動するものがもつエネルギーを何といいますか？',
+    options:['位置エネルギー','運動エネルギー','弾性エネルギー','化学エネルギー'], answer:1,
+    explanation:'運動エネルギーといいます。飛んできたボールを受け止めると手に衝撃を感じるのは、ボールが運動エネルギーを持っているためです。' },
+  { id:'r03', subject:'rika', month:'202605',
+    q:'ばねやゴムなどが変形するときにもつエネルギーを何といいますか？',
+    options:['化学エネルギー','位置エネルギー','弾性エネルギー','音エネルギー'], answer:2,
+    explanation:'弾性エネルギーといいます。ゴムをひっぱって飛ばすことができるのは、ゴムが弾性エネルギーをもっているためです。' },
+  { id:'r04', subject:'rika', month:'202605',
+    q:'燃えるなどの変化が起こったときに熱や光などを出すエネルギーを何といいますか？',
+    options:['熱エネルギー','光エネルギー','電気エネルギー','化学エネルギー'], answer:3,
+    explanation:'化学エネルギーといいます。ガス・石油・木など、物質の中に閉じ込められており、燃えることで熱や光に変わります。' },
+  { id:'r05', subject:'rika', month:'202605',
+    q:'エネルギーの種類は変わってもエネルギー全体の量は変化しないことを何の法則といいますか？',
+    options:['慣性の法則','エネルギー保存の法則','万有引力の法則','熱力学の法則'], answer:1,
+    explanation:'エネルギー保存の法則といいます。自然界の最も基本的な法則のひとつです。' },
+  { id:'r06', subject:'rika', month:'202605',
+    q:'光電池（太陽電池）は何エネルギーを何エネルギーに変えますか？',
+    options:['電気エネルギー → 光エネルギー','光エネルギー → 電気エネルギー','熱エネルギー → 電気エネルギー','化学エネルギー → 電気エネルギー'], answer:1,
+    explanation:'光電池は光エネルギーを電気エネルギーに変えます。逆に、電気エネルギーを光エネルギーに変えるのは豆電球やLEDです。' },
+  { id:'r07', subject:'rika', month:'202605',
+    q:'電気ストーブは電気エネルギーを主に何エネルギーに変えますか？',
+    options:['光エネルギー','音エネルギー','熱エネルギー','運動エネルギー'], answer:2,
+    explanation:'電気ストーブは電気エネルギーを主に熱エネルギーに変えます。' },
+  { id:'r08', subject:'rika', month:'202605',
+    q:'スピーカーは電気エネルギーを何エネルギーに変えますか？',
+    options:['光エネルギー','熱エネルギー','音エネルギー','運動エネルギー'], answer:2,
+    explanation:'スピーカーは電気エネルギーを音エネルギーに変えます。' },
+  { id:'r09', subject:'rika', month:'202605',
+    q:'電動モーター（せん風機）は電気エネルギーを主に何エネルギーに変えますか？',
+    options:['光エネルギー','熱エネルギー','音エネルギー','運動エネルギー'], answer:3,
+    explanation:'モーターは電気エネルギーを運動エネルギーに変えます。' },
+  { id:'r10', subject:'rika', month:'202605',
+    q:'かん電池は何エネルギーを電気エネルギーに変える装置ですか？',
+    options:['光エネルギー','熱エネルギー','化学エネルギー','運動エネルギー'], answer:2,
+    explanation:'かん電池は化学エネルギーを電気エネルギーに変える装置です。' },
+  { id:'r11', subject:'rika', month:'202605',
+    q:'ボールを高いところから落としたとき、地面に当たって音が出ます。最初のエネルギーはどれですか？',
+    options:['化学エネルギー','弾性エネルギー','位置エネルギー','熱エネルギー'], answer:2,
+    explanation:'高いところにあるボールは位置エネルギーを持ちます。落ちるとき運動エネルギーに変わり、地面に当たって音エネルギーや熱エネルギーに変わります。' },
+  { id:'r12', subject:'rika', month:'202605',
+    q:'振り子のおもりが最も速く動くのはどの位置ですか？',
+    options:['最も高い位置','最も低い位置（中央）','中間の位置','離した瞬間'], answer:1,
+    explanation:'最も低い位置（中央）で最も速くなります。位置エネルギーが最小になる代わりに、運動エネルギーが最大になります。' },
+  { id:'r13', subject:'rika', month:'202605',
+    q:'火力発電所では石油を燃やしてタービンを回して電気をつくります。石油のもつエネルギーの種類は？',
+    options:['熱エネルギー','運動エネルギー','化学エネルギー','電気エネルギー'], answer:2,
+    explanation:'石油は化学エネルギーを持っています。燃やすと熱エネルギー→タービンの運動エネルギー→電気エネルギーと変わります。' },
+  { id:'r14', subject:'rika', month:'202605',
+    q:'ドライヤーは電気エネルギーを主に何エネルギーに変えますか？',
+    options:['光エネルギー','音エネルギー','熱エネルギー','化学エネルギー'], answer:2,
+    explanation:'ドライヤーは電気エネルギーを熱エネルギーと運動エネルギー（風）に変えます。主なはたらきは熱です。' },
+  { id:'r15', subject:'rika', month:'202605',
+    q:'ボールを床に落としたとき、もとの高さまではね返ることはありますか？',
+    options:['必ず戻る','戻らない','戻ることもある','真空中では戻る'], answer:1,
+    explanation:'エネルギーの一部が音や熱などに変わってしまうため、もとの高さまで戻ることはありません。' },
+  { id:'r16', subject:'rika', month:'202605',
+    q:'次のうち、化学エネルギーを含まないものはどれですか？',
+    options:['灯油','米','材木','ガラス'], answer:3,
+    explanation:'ガラスは燃えないため化学エネルギーを持ちません。灯油・米・材木は燃えるので化学エネルギーを持ちます。' },
+  { id:'r17', subject:'rika', month:'202605',
+    q:'水力発電は何エネルギーを電気エネルギーに変えていますか？（最初のエネルギー）',
+    options:['熱エネルギー','化学エネルギー','位置エネルギー','弾性エネルギー'], answer:2,
+    explanation:'水力発電は、高いところにある水の位置エネルギー→運動エネルギー→電気エネルギーと変換します。' },
+  { id:'r18', subject:'rika', month:'202605',
+    q:'LED電球が白熱電球より省エネな理由はどれですか？',
+    options:['より明るい光を出すから','熱に変わるエネルギーが少なく、光エネルギーとして使う割合が高いから','電気をまったく使わないから','音エネルギーに変えているから'], answer:1,
+    explanation:'LED電球は熱に変わるエネルギーが少なく、同じ明るさの光を出すのに必要な電気エネルギーが少なくてすみます。' },
+  { id:'r19', subject:'rika', month:'202605',
+    q:'ホタルが光るとき、何エネルギーを何エネルギーに変えていますか？',
+    options:['電気エネルギー → 光エネルギー','熱エネルギー → 光エネルギー','化学エネルギー → 光エネルギー','運動エネルギー → 光エネルギー'], answer:2,
+    explanation:'ホタルは体内の化学反応（生物発光）によって化学エネルギーを光エネルギーに直接変えています。' },
+  { id:'r20', subject:'rika', month:'202605',
+    q:'風力発電は何エネルギーを電気エネルギーに変えていますか？',
+    options:['熱エネルギー','化学エネルギー','光エネルギー','運動エネルギー'], answer:3,
+    explanation:'風力発電は風（空気の運動エネルギー）でタービンを回して電気エネルギーに変えます。' },
+  { id:'r21', subject:'rika', month:'202605',
+    q:'手と手をこすり合わせると温かくなります。この変換は何エネルギーから何エネルギーですか？',
+    options:['電気エネルギー → 熱エネルギー','化学エネルギー → 熱エネルギー','運動エネルギー → 熱エネルギー','位置エネルギー → 熱エネルギー'], answer:2,
+    explanation:'手をこする（運動エネルギー）→摩擦によって熱エネルギーに変わります。' },
+  { id:'r22', subject:'rika', month:'202605',
+    q:'電気エネルギーを光エネルギーに変えるものはどれですか？',
+    options:['モーター','スピーカー','LED電球','電気ストーブ'], answer:2,
+    explanation:'LED電球は電気エネルギーを光エネルギーに変えます。モーターは運動、スピーカーは音、電気ストーブは主に熱エネルギーに変えます。' },
+  { id:'r23', subject:'rika', month:'202605',
+    q:'原子力発電は何エネルギーを使って電気をつくりますか？',
+    options:['化学エネルギー','核エネルギー（核分裂によるエネルギー）','太陽エネルギー','運動エネルギー'], answer:1,
+    explanation:'原子力発電はウランなどの核分裂によって生まれる核エネルギー（熱）を使って蒸気でタービンを回し、電気をつくります。' },
+  { id:'r24', subject:'rika', month:'202605',
+    q:'太陽光・風力・水力のように、使い続けても減らないエネルギーをまとめて何といいますか？',
+    options:['化石エネルギー','核エネルギー','再生可能エネルギー','有限エネルギー'], answer:2,
+    explanation:'再生可能エネルギーといいます。石油・石炭・天然ガスのような化石燃料は限りがありますが、再生可能エネルギーは自然の力で繰り返しつくられます。' },
+  { id:'r25', subject:'rika', month:'202605',
+    q:'次のうち、再生可能エネルギーでないものはどれですか？',
+    options:['太陽光エネルギー','風力エネルギー','石炭のエネルギー','地熱エネルギー'], answer:2,
+    explanation:'石炭は化石燃料であり、再生可能エネルギーではありません。太陽光・風力・地熱は繰り返し使える再生可能エネルギーです。' },
+  { id:'r26', subject:'rika', month:'202605',
+    q:'食べ物（ご飯・パンなど）に含まれているエネルギーの種類はどれですか？',
+    options:['運動エネルギー','位置エネルギー','化学エネルギー','電気エネルギー'], answer:2,
+    explanation:'食べ物には化学エネルギーが含まれています。体の中で消化されてエネルギーに変わり、体を動かしたり熱をつくったりするのに使われます。' },
+  { id:'r27', subject:'rika', month:'202605',
+    q:'植物が日光を使って、二酸化炭素と水から栄養分をつくる働きを何といいますか？',
+    options:['呼吸','光合成','蒸散','発酵'], answer:1,
+    explanation:'光合成（こうごうせい）といいます。光エネルギーを使って二酸化炭素と水からデンプン（栄養分）と酸素をつくります。' },
+
+  // ── 漢字 ──────────────────────────────────────────────────
+  { id:'ka01', subject:'kanji', month:'202605',
+    q:'「ねらいをさだめる」の「さだめる」を漢字で書くとどれですか？',
+    options:['定める','決める','固める','確める'], answer:0,
+    explanation:'「さだめる」は「定める」と書きます。' },
+  { id:'ka02', subject:'kanji', month:'202605',
+    q:'「くすりをのみすぎてはいけない」の「くすり」を漢字で書くとどれですか？',
+    options:['葉','薬','草','楽'], answer:1,
+    explanation:'「くすり」は「薬」と書きます。' },
+  { id:'ka03', subject:'kanji', month:'202605',
+    q:'「まちがった答えをけす」の「けす」を漢字で書くとどれですか？',
+    options:['削す','消す','抹す','除す'], answer:1,
+    explanation:'「けす」は「消す」と書きます。' },
+  { id:'ka04', subject:'kanji', month:'202605',
+    q:'「しんたいをじょうぶにする」の「しんたい」を漢字で書くとどれですか？',
+    options:['心体','身体','神体','真体'], answer:1,
+    explanation:'「しんたい」は「身体」と書きます。' },
+  { id:'ka05', subject:'kanji', month:'202605',
+    q:'「服装をきちんとととのえる」の「ととのえる」を漢字で書くとどれですか？',
+    options:['調える','整える','備える','揃える'], answer:1,
+    explanation:'「ととのえる」は「整える」と書きます。' },
+  { id:'ka06', subject:'kanji', month:'202605',
+    q:'「苦心してもけいをつくりあげる」の「もけい」を漢字で書くとどれですか？',
+    options:['模形','模型','木型','木形'], answer:1,
+    explanation:'「もけい」は「模型」と書きます。' },
+  { id:'ka07', subject:'kanji', month:'202605',
+    q:'「電車がてっきょうを通る」の「てっきょう」を漢字で書くとどれですか？',
+    options:['鉄橋','鉄峡','鉄強','鐵橋'], answer:0,
+    explanation:'「てっきょう」は「鉄橋」と書きます。' },
+  { id:'ka08', subject:'kanji', month:'202605',
+    q:'「けんきゅうじょに勤める」の「けんきゅうじょ」を漢字で書くとどれですか？',
+    options:['研究場','研究所','研究処','研究署'], answer:1,
+    explanation:'「けんきゅうじょ」は「研究所」と書きます。' },
+  { id:'ka09', subject:'kanji', month:'202605',
+    q:'「景色を見てしをつくる」の「し」を漢字で書くとどれですか？',
+    options:['歌','詞','詩','字'], answer:2,
+    explanation:'景色を見てつくるものは「詩」と書きます。' },
+  { id:'ka10', subject:'kanji', month:'202605',
+    q:'「自分で責任をおう」の「責任」の読み方はどれですか？',
+    options:['せきにん','しゃくにん','せきじん','そくにん'], answer:0,
+    explanation:'「責任」は「せきにん」と読みます。' },
+  { id:'ka11', subject:'kanji', month:'202605',
+    q:'「かがやく星を見上げる」の「かがやく」を漢字で書くとどれですか？',
+    options:['輝く','光く','照く','明く'], answer:0,
+    explanation:'「かがやく」は「輝く」と書きます。' },
+  { id:'ka12', subject:'kanji', month:'202605',
+    q:'「みんなのいけんをまとめる」の「いけん」を漢字で書くとどれですか？',
+    options:['異見','意見','意権','異権'], answer:1,
+    explanation:'「いけん」は「意見」と書きます。' },
+  { id:'ka13', subject:'kanji', month:'202605',
+    q:'「ゆうきをだしてはなす」の「ゆうき」を漢字で書くとどれですか？',
+    options:['勇気','有気','勇機','勇基'], answer:0,
+    explanation:'「ゆうき」は「勇気」と書きます。' },
+  { id:'ka14', subject:'kanji', month:'202605',
+    q:'「えいようのあるものをたべる」の「えいよう」を漢字で書くとどれですか？',
+    options:['栄養','永養','映養','栄用'], answer:0,
+    explanation:'「えいよう」は「栄養」と書きます。' },
+  { id:'ka15', subject:'kanji', month:'202605',
+    q:'「かんきょうをたいせつにする」の「かんきょう」を漢字で書くとどれですか？',
+    options:['環境','完境','環鏡','管境'], answer:0,
+    explanation:'「かんきょう」は「環境」と書きます。' },
+  { id:'ka16', subject:'kanji', month:'202605',
+    q:'「じしんがきてもあわてない」の「じしん」を漢字で書くとどれですか？',
+    options:['自信','地震','自震','地信'], answer:1,
+    explanation:'この文の「じしん」は「地震」と書きます。' },
+  { id:'ka17', subject:'kanji', month:'202605',
+    q:'「せいかくにこたえをかく」の「せいかく」を漢字で書くとどれですか？',
+    options:['制格','正確','精格','正核'], answer:1,
+    explanation:'「せいかく」は「正確」と書きます。' },
+  { id:'ka18', subject:'kanji', month:'202605',
+    q:'「てんのうへいかにあいさつをする」の「てんのう」を漢字で書くとどれですか？',
+    options:['天皇','天王','天応','天奥'], answer:0,
+    explanation:'「てんのう」は「天皇」と書きます。' },
+  { id:'ka19', subject:'kanji', month:'202605',
+    q:'「わかりやすくせつめいする」の「せつめい」を漢字で書くとどれですか？',
+    options:['説明','節明','設明','訴明'], answer:0,
+    explanation:'「せつめい」は「説明」と書きます。' },
+  { id:'ka20', subject:'kanji', month:'202605',
+    q:'「じっさいにたいけんする」の「たいけん」を漢字で書くとどれですか？',
+    options:['体見','体験','大験','対験'], answer:1,
+    explanation:'「たいけん」は「体験」と書きます。' },
+  { id:'ka21', subject:'kanji', month:'202605',
+    q:'「ひとにめいわくをかける」の「めいわく」を漢字で書くとどれですか？',
+    options:['迷惑','名惑','迷或','命惑'], answer:0,
+    explanation:'「めいわく」は「迷惑」と書きます。' },
+  { id:'ka22', subject:'kanji', month:'202605',
+    q:'「しょうらいの夢を語る」の「しょうらい」を漢字で書くとどれですか？',
+    options:['将来','正来','小来','小頼'], answer:0,
+    explanation:'「しょうらい」は「将来」と書きます。' },
+  { id:'ka23', subject:'kanji', month:'202605',
+    q:'「ひょうじゅんごで話す」の「ひょうじゅんご」を漢字で書くとどれですか？',
+    options:['評準語','標準語','表準語','標順語'], answer:1,
+    explanation:'「ひょうじゅんご」は「標準語」と書きます。' },
+  { id:'ka24', subject:'kanji', month:'202605',
+    q:'「きせつのうつりかわりを感じる」の「きせつ」を漢字で書くとどれですか？',
+    options:['気節','季節','期節','記節'], answer:1,
+    explanation:'「きせつ」は「季節」と書きます。' },
+
+  // ── 太陽の動き ────────────────────────────────────────────
+  { id:'t01', subject:'taiyou', month:'202605',
+    q:'太陽は毎日どの方位からのぼって、どの方位にしずみますか？',
+    options:['西からのぼって東にしずむ','東からのぼって西にしずむ','南からのぼって北にしずむ','北からのぼって南にしずむ'], answer:1,
+    explanation:'太陽は東からのぼって西にしずみます。これは地球が西から東に自転しているためです。' },
+  { id:'t02', subject:'taiyou', month:'202605',
+    q:'太陽が1日で1周してもとの位置にもどる動きを何といいますか？',
+    options:['年周運動','日周運動','南中運動','自転運動'], answer:1,
+    explanation:'太陽の日周運動といいます。地球の自転によって起こる、太陽の見かけ上の動きです。' },
+  { id:'t03', subject:'taiyou', month:'202605',
+    q:'太陽は1日で何度動きますか？',
+    options:['180度','270度','360度','90度'], answer:2,
+    explanation:'太陽は1日（24時間）で360度動きます。1時間では360÷24＝15度動きます。' },
+  { id:'t04', subject:'taiyou', month:'202605',
+    q:'太陽が真南の空にくることを何といいますか？',
+    options:['南下','南中','正中','頂点'], answer:1,
+    explanation:'南中（なんちゅう）といいます。そのときの太陽の高さを南中高度といいます。' },
+  { id:'t05', subject:'taiyou', month:'202605',
+    q:'太陽が南中したとき、その日の太陽の高さはどうなっていますか？',
+    options:['1日で最も低い','1日で最も高い','朝と同じ高さ','日の入りと同じ高さ'], answer:1,
+    explanation:'太陽が南中するとき（正午ごろ）、その日の太陽の高さは1日で最も高くなっています。' },
+  { id:'t06', subject:'taiyou', month:'202605',
+    q:'太陽は1時間で何度動きますか？',
+    options:['10度','12度','15度','20度'], answer:2,
+    explanation:'1日（24時間）で360度動くので、360÷24＝15度。1時間で15度動きます。' },
+  { id:'t07', subject:'taiyou', month:'202605',
+    q:'晴れた日、1日の中で気温が最も高くなるのはいつごろですか？',
+    options:['正午ごろ','午後1時ごろ','午後2時ごろ','午後3時ごろ'], answer:2,
+    explanation:'気温は太陽→地面→空気の順に温まるため、南中（正午）から遅れて午後2時ごろに最高になります。' },
+  { id:'t08', subject:'taiyou', month:'202605',
+    q:'晴れた日、1日の中で地温（地面の温度）が最も高くなるのはいつごろですか？',
+    options:['正午ごろ','午後1時ごろ','午後2時ごろ','午後3時ごろ'], answer:1,
+    explanation:'地温は太陽の光で直接温められるため、南中（正午）より少し遅れた午後1時ごろに最高になります。気温よりも早く最高になります。' },
+  { id:'t09', subject:'taiyou', month:'202605',
+    q:'太陽の南中時こくがおそいのは東京と福岡のどちらですか？',
+    options:['東京','福岡','同じ時こく','季節によって変わる'], answer:1,
+    explanation:'福岡は東京より西にあるため、太陽が南中する時こくが遅くなります。東側ほど南中が早くなります。' },
+  { id:'t10', subject:'taiyou', month:'202605',
+    q:'太陽の南中高度が高いのは東京と青森のどちらですか？',
+    options:['青森','東京','同じ高さ','季節によって変わる'], answer:1,
+    explanation:'南の地域ほど南中高度が高くなります。東京は青森より南にあるため、南中高度が高くなります。' },
+  { id:'t11', subject:'taiyou', month:'202605',
+    q:'百葉箱が白くぬられている理由は何ですか？',
+    options:['見やすくするため','日光を反射して熱の吸収を防ぐため','雨に強くするため','目立たせるため'], answer:1,
+    explanation:'白色は日光を反射するため、百葉箱自体が太陽の熱を吸収して温度が上がるのを防ぎ、正確な気温を測れます。' },
+  { id:'t12', subject:'taiyou', month:'202605',
+    q:'晴れの日とくもりの日、1日の気温の変化が大きいのはどちらですか？',
+    options:['くもりの日','晴れの日','同じ','雨の日'], answer:1,
+    explanation:'晴れの日は太陽の光が強く当たるため昼に気温が上がり、夜は冷えるので1日の変化が大きくなります。' },
+  { id:'t13', subject:'taiyou', month:'202605',
+    q:'気温を正しくはかるために、温度計を地面から何mの高さにしますか？',
+    options:['0.5〜1m','1.2〜1.5m','2〜3m','地面に直接置く'], answer:1,
+    explanation:'地面から1.2〜1.5mの高さで計測します。' },
+  { id:'t14', subject:'taiyou', month:'202605',
+    q:'夏至のころ、太陽はどの方向からのぼりますか？',
+    options:['真東','真東より少し北寄り','真東より少し南寄り','真南'], answer:1,
+    explanation:'夏至のころ、太陽は真東より少し北寄りからのぼります。冬至のころは南寄りになります。' },
+  { id:'t15', subject:'taiyou', month:'202605',
+    q:'太陽が南中しているとき、影はどの方向にできますか？',
+    options:['東','西','南','北'], answer:3,
+    explanation:'日本（北半球）では太陽は南の空に最も高く来るので、影は太陽の反対方向＝北向きにできます。' },
+  { id:'t16', subject:'taiyou', month:'202605',
+    q:'地球が自転している向きはどちらですか？',
+    options:['東から西（時計回り）','西から東（反時計回り）','北から南','南から北'], answer:1,
+    explanation:'地球は西から東（北極側から見て反時計回り）に自転しています。そのため太陽は東からのぼって西にしずむように見えます。' },
+  { id:'t17', subject:'taiyou', month:'202605',
+    q:'晴れた日の午前中、物の影はどちらの方向に向いていますか？',
+    options:['南向き','北向き','東向き','西向き'], answer:3,
+    explanation:'午前中は太陽が東〜南東の空にあるため、影はその反対方向（西〜北西方向）に伸びます。大まかに「西寄り」です。' },
+  { id:'t18', subject:'taiyou', month:'202605',
+    q:'夏至の日に昼間の時間が最も長くなる理由はどれですか？',
+    options:['地球が太陽に最も近づくから','太陽の出る位置が北寄りになり、空にいる時間が長くなるから','自転速度が速くなるから','地球の傾きがなくなるから'], answer:1,
+    explanation:'夏至は地軸の傾きにより北半球が太陽の方に傾く日で、太陽の出る位置が北寄りになり、昼間の時間が最も長くなります。' },
+  { id:'t19', subject:'taiyou', month:'202605',
+    q:'冬至の日の南中高度は夏至の日と比べてどうなっていますか？',
+    options:['夏至より高い','夏至と同じ','夏至より低い','季節に関係ない'], answer:2,
+    explanation:'冬至は地軸の傾きにより日本が太陽から遠ざかる方向に傾くため、太陽の高さ（南中高度）は1年で最も低くなります。夏至が最も高くなります。' },
+  { id:'t20', subject:'taiyou', month:'202605',
+    q:'北半球が夏至のとき、南半球はどの季節にあたりますか？',
+    options:['春','夏','秋','冬'], answer:3,
+    explanation:'地球の地軸は傾いているため、北半球が夏（夏至）のとき、南半球は冬（冬至）になります。反対に北半球の冬は南半球の夏です。' },
+  { id:'t21', subject:'taiyou', month:'202605',
+    q:'日本（北半球）では太陽はどの方位で南中（最も高くなる）しますか？',
+    options:['北','東','南','西'], answer:2,
+    explanation:'北半球では太陽は南の空で最も高くなります。これが「南中」という名前の由来です。南半球では逆に北の空で最も高くなります。' },
+  { id:'t22', subject:'taiyou', month:'202605',
+    q:'月も毎日東からのぼって西にしずみます。その理由は何ですか？',
+    options:['月が地球の周りを自転しているから','地球が西から東に自転しているから','月が東から西に公転しているから','太陽の引力で月が動くから'], answer:1,
+    explanation:'月も地球の自転によって、太陽と同じように東からのぼって西にしずむように見えます。これを月の日周運動といいます。' },
+
+  // ── 栄光 Lesson 5-6 ──────────────────────────────────────────
+  { id:'e01', subject:'eigo', month:'eikoh_l56',
+    q:'"nurse" の意味はどれですか？',
+    options:['先生','医者','看護師','選手'], answer:2 },
+  { id:'e02', subject:'eigo', month:'eikoh_l56',
+    q:'"baseball player" の意味はどれですか？',
+    options:['サッカー選手','野球選手','テニス選手','水泳選手'], answer:1 },
+  { id:'e03', subject:'eigo', month:'eikoh_l56',
+    q:'"teacher" の意味はどれですか？',
+    options:['医者','看護師','選手','先生'], answer:3 },
+  { id:'e04', subject:'eigo', month:'eikoh_l56',
+    q:'"You are not a soccer player." の意味はどれですか？',
+    options:['あなたはサッカー選手ですか','あなたはサッカー選手です','あなたはサッカー選手ではありません','わたしはサッカー選手ではありません'], answer:2 },
+  { id:'e05', subject:'eigo', month:'eikoh_l56',
+    q:'「ぼくは眠くありません。」を英語にするとどれですか？\n( . / not / I\'m / sleepy )',
+    options:["I'm not sleepy.","Not I'm sleepy.","I'm sleepy not.","sleepy I'm not."], answer:0 },
+  { id:'e06', subject:'eigo', month:'eikoh_l56',
+    q:'「あなたは歌手ですか。」を英語にするとどれですか？\n( you / ? / singer / are / a )',
+    options:["Are you a singer?","You are a singer?","Is you a singer?","Are a you singer?"], answer:0 },
+  { id:'e07', subject:'eigo', month:'eikoh_l56',
+    q:'「わたしは医者です。」を英語にするとどれですか？',
+    options:['I am a doctor.','I have a doctor.','I want a doctor.','I are a doctor.'], answer:0 },
+  { id:'e08', subject:'eigo', month:'eikoh_l56',
+    q:'"chair" の意味はどれですか？',
+    options:['机','定規','消しゴム','いす'], answer:3 },
+  { id:'e09', subject:'eigo', month:'eikoh_l56',
+    q:'"eraser" の意味はどれですか？',
+    options:['定規','えんぴつ','消しゴム','ノート'], answer:2 },
+  { id:'e10', subject:'eigo', month:'eikoh_l56',
+    q:'「えんぴつ」を英語にするとどれですか？',
+    options:['pen','eraser','book','pencil'], answer:3 },
+  { id:'e11', subject:'eigo', month:'eikoh_l56',
+    q:'「古い」を英語にするとどれですか？',
+    options:['new','big','old','small'], answer:2 },
+  { id:'e12', subject:'eigo', month:'eikoh_l56',
+    q:'「わたしは新しい机がほしいです。」を英語にするとどれですか？',
+    options:['I have a new desk.','I want a new desk.','I am a new desk.','Do I have a desk?'], answer:1 },
+  { id:'e13', subject:'eigo', month:'eikoh_l56',
+    q:'「あなたはネコがほしいですか。」を英語にするとどれですか？',
+    options:['Do you have a cat?','Are you a cat?','Do you want a cat?','You want a cat?'], answer:2 },
+  { id:'e14', subject:'eigo', month:'eikoh_l56',
+    q:'"Tom is a nurse." の意味はどれですか？',
+    options:['トムは医者です','トムは先生です','トムは看護師です','トムは選手です'], answer:2 },
+
+  // ── 栄光 Lesson 7-8 ──────────────────────────────────────────
+  { id:'e15', subject:'eigo', month:'eikoh_l78',
+    q:'"I don\'t want an apple." の意味はどれですか？',
+    options:['わたしはりんごがほしいです','わたしはりんごがほしくありません','わたしはりんごを持っています','わたしはりんごを食べます'], answer:1 },
+  { id:'e16', subject:'eigo', month:'eikoh_l78',
+    q:'"I\'m a soccer player." の意味はどれですか？',
+    options:['わたしはサッカー選手ですか','わたしはサッカーが好きです','あなたはサッカー選手です','わたしはサッカー選手です'], answer:3 },
+  { id:'e17', subject:'eigo', month:'eikoh_l78',
+    q:'「ボール」を英語にするとどれですか？',
+    options:['book','bag','bat','ball'], answer:3 },
+  { id:'e18', subject:'eigo', month:'eikoh_l78',
+    q:'「本」を英語にするとどれですか？',
+    options:['bag','ball','book','bat'], answer:2 },
+  { id:'e19', subject:'eigo', month:'eikoh_l78',
+    q:'「ぼくは消しゴムを持っています。」を英語にするとどれですか？',
+    options:['I have an eraser.','I want an eraser.','Do I have eraser?','I am an eraser.'], answer:0 },
+  { id:'e20', subject:'eigo', month:'eikoh_l78',
+    q:'「あなたは定規を持っていますか。」を英語にするとどれですか？',
+    options:['Do you want a ruler?','Are you have a ruler?','You have a ruler?','Do you have a ruler?'], answer:3 },
+  { id:'e21', subject:'eigo', month:'eikoh_l78',
+    q:'【チャレンジ】「わたしは眠くないです。」を英語にするとどれですか？',
+    options:["I'm not sleepy.","I don't sleepy.","I am sleepy not.","Not I'm sleepy."], answer:0 },
+  { id:'e22', subject:'eigo', month:'eikoh_l78',
+    q:'"You have one chair." の意味はどれですか？',
+    options:['あなたはいすが1つほしいです','あなたはいすを1つ買います','あなたはいすを1つ持っています','いすは1つあります'], answer:2 },
+  { id:'e23', subject:'eigo', month:'eikoh_l78',
+    q:'"I want two notebooks." の意味はどれですか？',
+    options:['わたしはノートを2冊持っています','わたしはノートを2冊ほしいです','わたしはノートを2冊買います','わたしはノートが2冊あります'], answer:1 },
+  { id:'e24', subject:'eigo', month:'eikoh_l78',
+    q:'「ぼくはミカンを持っています。」を英語にするとどれですか？',
+    options:['I have an orange.','I want an orange.','I have a orange.','Do I have orange?'], answer:0 },
+  { id:'e25', subject:'eigo', month:'eikoh_l78',
+    q:'「あなたはイヌがほしいですか。」を英語にするとどれですか？',
+    options:['Do you have a dog?','Are you want a dog?','You want a dog?','Do you want a dog?'], answer:3 },
+  { id:'e26', subject:'eigo', month:'eikoh_l78',
+    q:'「わたしは先生ではありません。」を英語にするとどれですか？',
+    options:["I'm not a teacher.","I'm a teacher.","I don't a teacher.","I am not teacher."], answer:0 },
+  { id:'e27', subject:'eigo', month:'eikoh_l78',
+    q:'「わたしは本を3冊持っています。」を英語にするとどれですか？\n( have / book / three / I / . / books )（1つだけ使わない語あり）',
+    options:['I have three books.','I have three book.','Three I have books.','I books have three.'], answer:0 }
+];
+
+// ============================================================
+// アプリ状態
+// ============================================================
+let state = {
+  selectedSchool: null,
+  selectedMonth: null,
+  mode: null,
+  currentSubject: null,
+  queue: [],
+  current: 0,
+  correct: 0,
+  sessionWrong: [],
+  answered: false,
+  history: [],
+};
+
+function statsKey() { return 'ena_stats_' + state.selectedMonth; }
+function memoKey()  { return 'ena_memos_' + state.selectedMonth; }
+function wrongKey()       { return 'ena_wrong_'         + state.selectedMonth; }
+function correctCountKey(){ return 'ena_correct_count_' + state.selectedMonth; }
+function masteredKey()    { return 'ena_mastered_'      + state.selectedMonth; }
+function wrongCountKey()  { return 'ena_wrong_count_'   + state.selectedMonth; }
+function superWrongKey()  { return 'ena_super_wrong_'   + state.selectedMonth; }
+
+function loadStats()   { try { return JSON.parse(localStorage.getItem(statsKey())  || '{}'); } catch(e) { return {}; } }
+function saveStats(s)  { localStorage.setItem(statsKey(),  JSON.stringify(s)); }
+function loadMemos()  { try { return JSON.parse(localStorage.getItem(memoKey()) || '{}'); } catch(e) { return {}; } }
+function saveMemo(id, text) { const m = loadMemos(); if (text.trim()) m[id] = text; else delete m[id]; localStorage.setItem(memoKey(), JSON.stringify(m)); }
+function loadWrongSet(){ try { return new Set(JSON.parse(localStorage.getItem(wrongKey()) || '[]')); } catch(e) { return new Set(); } }
+function saveWrongSet(s){ localStorage.setItem(wrongKey(), JSON.stringify([...s])); }
+function loadCorrectCounts(){ try { return JSON.parse(localStorage.getItem(correctCountKey()) || '{}'); } catch(e) { return {}; } }
+function saveCorrectCounts(c){ localStorage.setItem(correctCountKey(), JSON.stringify(c)); }
+function loadMasteredSet(){ try { return new Set(JSON.parse(localStorage.getItem(masteredKey()) || '[]')); } catch(e) { return new Set(); } }
+function saveMasteredSet(s){ localStorage.setItem(masteredKey(), JSON.stringify([...s])); }
+function loadWrongCounts(){ try { return JSON.parse(localStorage.getItem(wrongCountKey()) || '{}'); } catch(e) { return {}; } }
+function saveWrongCounts(c){ localStorage.setItem(wrongCountKey(), JSON.stringify(c)); }
+function loadSuperWrongSet(){ try { return new Set(JSON.parse(localStorage.getItem(superWrongKey()) || '[]')); } catch(e) { return new Set(); } }
+function saveSuperWrongSet(s){ localStorage.setItem(superWrongKey(), JSON.stringify([...s])); }
+
+function monthQuestions() {
+  return QUESTIONS.filter(q => q.month === state.selectedMonth);
+}
+
+// ============================================================
+// 月選択画面
+// ============================================================
+function initMonthSelect() {
+  const grid = document.getElementById('month-grid');
+  grid.innerHTML = '';
+  Object.entries(MONTHS).filter(([id, m]) => m.school === state.selectedSchool).forEach(([id, m]) => {
+    const card = document.createElement('div');
+    card.className = 'month-card' + (m.comingSoon ? ' coming-soon' : '');
+    card.innerHTML = `
+      <div class="month-emoji">${m.emoji}</div>
+      <div class="month-label" style="color:${m.comingSoon ? '#9ca3af' : '#3d2b5e'}">${m.label}</div>
+      <div class="month-desc">${m.fullLabel}</div>
+      ${m.comingSoon
+        ? '<div class="coming-badge">準備中</div>'
+        : `<div class="month-desc">${m.desc}</div>`}
+    `;
+    if (!m.comingSoon) card.onclick = () => selectMonth(id);
+    grid.appendChild(card);
+  });
+}
+
+function selectMonth(monthId) {
+  state.selectedMonth = monthId;
+  showHome();
+}
+
+function selectSchool(schoolId) {
+  state.selectedSchool = schoolId;
+  document.getElementById('school-select').style.display = 'none';
+  document.getElementById('month-select').style.display = 'flex';
+  initMonthSelect();
+}
+
+function showSchoolSelect() {
+  document.getElementById('month-select').style.display = 'none';
+  document.getElementById('home').style.display = 'none';
+  document.getElementById('quiz').style.display = 'none';
+  document.getElementById('result').style.display = 'none';
+  document.getElementById('school-select').style.display = 'flex';
+}
+
+function showMonthSelect() {
+  document.getElementById('home').style.display = 'none';
+  document.getElementById('quiz').style.display = 'none';
+  document.getElementById('result').style.display = 'none';
+  document.getElementById('school-select').style.display = 'none';
+  document.getElementById('month-select').style.display = 'flex';
+}
+
+// ============================================================
+// ホーム画面
+// ============================================================
+function showHome() {
+  document.getElementById('month-select').style.display = 'none';
+  document.getElementById('quiz').style.display = 'none';
+  document.getElementById('result').style.display = 'none';
+  const tend = document.getElementById('tendency');
+  if (tend) tend.style.display = 'none';
+  document.getElementById('home').style.display = 'flex';
+  initHome();
+  renderCountdown();
+}
+
+function showTendency() {
+  document.getElementById('home').style.display = 'none';
+  document.getElementById('tendency').style.display = 'block';
+  initTendency();
+}
+
+function initTendency() {
+  const stats = loadStats();
+  const wrongSet = loadWrongSet();
+  const qs = monthQuestions();
+
+  // 全体集計
+  let totalCorrect = 0, totalDone = 0;
+  Object.values(stats).forEach(s => { totalCorrect += s.correct; totalDone += s.total; });
+
+  // 苦手バッジ
+  document.getElementById('tend-wrong-badge').textContent = wrongSet.size > 0
+    ? `⚠️ 苦手問題が ${wrongSet.size}問 あるよ。復習してみよう！`
+    : `✅ 苦手問題はゼロ！すごいね！`;
+
+  if (totalDone === 0) {
+    document.getElementById('tend-big-pct').textContent = '--';
+    document.getElementById('tend-overall-label').textContent = 'まだ問題を解いていないよ！問題を解くと傾向が見えるよ✨';
+    document.getElementById('tend-advice').textContent = '';
+    document.getElementById('tend-cat-bars').innerHTML = '<div class="tend-no-data">データなし</div>';
+    document.getElementById('tend-weak').innerHTML = '<div class="tend-no-data">データなし</div>';
+    document.getElementById('tend-strong').innerHTML = '<div class="tend-no-data">データなし</div>';
+    return;
+  }
+
+  const overallPct = Math.round(totalCorrect / totalDone * 100);
+  document.getElementById('tend-big-pct').textContent = overallPct + '%';
+  document.getElementById('tend-overall-label').textContent = `${totalDone}問やって ${totalCorrect}問正解！`;
+
+  // 教科別グラフ
+  const catBars = document.getElementById('tend-cat-bars');
+  catBars.innerHTML = '';
+  Object.entries(CATEGORIES).forEach(([catKey, cat]) => {
+    const keys = Object.entries(SUBJECTS).filter(([,v]) => v.category === catKey).map(([k]) => k);
+    let c = 0, t = 0;
+    keys.forEach(k => { const s = stats[k] || {correct:0,total:0}; c += s.correct; t += s.total; });
+    if (t === 0) return;
+    const pct = Math.round(c / t * 100);
+    const color = pct >= 80 ? '#10b981' : pct >= 60 ? '#f59e0b' : '#ef4444';
+    const row = document.createElement('div');
+    row.className = 'tend-bar-row';
+    row.innerHTML = `
+      <div class="tend-bar-top">
+        <span class="tend-bar-name">${cat.icon} ${cat.label}</span>
+        <span class="tend-bar-pct" style="color:${color}">${pct}%</span>
+      </div>
+      <div class="tend-bar-bg">
+        <div class="tend-bar-fill" style="width:0%;background:${color}" data-pct="${pct}"></div>
+      </div>`;
+    catBars.appendChild(row);
+  });
+  // バーアニメーション
+  requestAnimationFrame(() => {
+    catBars.querySelectorAll('.tend-bar-fill').forEach(el => {
+      el.style.width = el.dataset.pct + '%';
+    });
+  });
+
+  // トピック別（データあるもの）
+  const topicStats = Object.entries(SUBJECTS).map(([k, sub]) => {
+    const s = stats[k] || {correct:0, total:0};
+    const pct = s.total > 0 ? Math.round(s.correct / s.total * 100) : null;
+    return { key:k, label:sub.label, icon:sub.icon, pct, total:s.total };
+  }).filter(t => t.total > 0).sort((a, b) => a.pct - b.pct);
+
+  const makeRow = (t, color) => {
+    const row = document.createElement('div');
+    row.className = 'tend-topic-row';
+    row.innerHTML = `<span>${t.icon} ${t.label}</span><span class="tend-topic-pct" style="color:${color}">${t.pct}%</span>`;
+    return row;
+  };
+
+  // 苦手（正答率低い順）
+  const weakEl = document.getElementById('tend-weak');
+  weakEl.innerHTML = '';
+  const weak = topicStats.slice(0, 3);
+  if (weak.length === 0) weakEl.innerHTML = '<div class="tend-no-data">データなし</div>';
+  else weak.forEach(t => weakEl.appendChild(makeRow(t, '#ef4444')));
+
+  // 得意（正答率高い順）
+  const strongEl = document.getElementById('tend-strong');
+  strongEl.innerHTML = '';
+  const strong = [...topicStats].reverse().slice(0, 3);
+  if (strong.length === 0) strongEl.innerHTML = '<div class="tend-no-data">データなし</div>';
+  else strong.forEach(t => strongEl.appendChild(makeRow(t, '#10b981')));
+
+  // アドバイス
+  const worst = topicStats[0];
+  const advice = document.getElementById('tend-advice');
+  if (worst && worst.pct < 60) {
+    advice.innerHTML = `💡 <strong>${worst.icon} ${worst.label}</strong>が少し難しそう。<br>「苦手問題を復習」でもう一度チャレンジしてみよう！`;
+  } else if (overallPct >= 85) {
+    advice.innerHTML = `🏆 <strong>すごい！</strong>全体的にバッチリできてるよ。<br>この調子でどんどん問題を解いていこう！`;
+  } else if (overallPct >= 70) {
+    advice.innerHTML = `🌟 <strong>いい感じ！</strong>もう少しで満点に近づけるよ。<br>間違えた問題をもう一度やってみよう✨`;
+  } else {
+    advice.innerHTML = `💪 <strong>毎日少しずつ</strong>やっていけば絶対できるようになるよ！<br>焦らずがんばろう✨`;
+  }
+}
+
+function initHome() {
+  const m = MONTHS[state.selectedMonth];
+  document.getElementById('home-month-title').textContent = m.emoji + ' ' + m.fullLabel;
+  document.getElementById('home-month-sub').textContent = m.desc;
+
+  const stats = loadStats();
+  const wrongSet = loadWrongSet();
+  const qs = monthQuestions();
+
+  // カテゴリ→トピック の2階層グリッド
+  const grid = document.getElementById('subject-grid');
+  grid.innerHTML = '';
+  grid.style.display = 'block';
+
+  Object.entries(CATEGORIES).forEach(([catKey, cat]) => {
+    const catTopics = Object.entries(SUBJECTS).filter(([, v]) => v.category === catKey);
+    const catTotal = qs.filter(q => catTopics.some(([k]) => k === q.subject)).length;
+    if (catTotal === 0) return;
+
+    const section = document.createElement('div');
+    section.className = 'category-section';
+
+    // ヘッダー（科目名 + 全部ボタン）
+    const header = document.createElement('div');
+    header.className = 'category-header';
+    header.style.color = cat.color;
+    header.innerHTML = `
+      <span style="color:${cat.color}">${cat.icon} ${cat.label}</span>
+      <button class="category-all-btn" onclick="startQuizCategory('${catKey}')">全部やる ▶</button>`;
+    section.appendChild(header);
+
+    // トピックボタン群
+    const topicGrid = document.createElement('div');
+    topicGrid.className = 'category-topics';
+    catTopics.forEach(([topicKey, topic]) => {
+      const total = qs.filter(q => q.subject === topicKey).length;
+      if (total === 0) return;
+      const s = stats[topicKey] || { correct:0, total:0 };
+      const pctText = s.total > 0 ? Math.round(s.correct/s.total*100) + '%' : `${total}問`;
+      const btn = document.createElement('button');
+      btn.className = 'topic-btn';
+      btn.innerHTML = `
+        <div class="topic-icon">${topic.icon}</div>
+        <div class="topic-label">${topic.label}</div>
+        <div class="topic-count">${pctText}</div>`;
+      btn.onclick = () => startQuiz(topicKey);
+      topicGrid.appendChild(btn);
+    });
+    section.appendChild(topicGrid);
+    grid.appendChild(section);
+  });
+
+  // 苦手問題ボタン
+  const reviewBtn = document.getElementById('review-btn');
+  reviewBtn.textContent = `⚠️ 苦手問題を復習 (${wrongSet.size}問)`;
+  reviewBtn.style.opacity = wrongSet.size > 0 ? '1' : '0.5';
+
+  const mastered = loadMasteredSet();
+  const masteredBtn = document.getElementById('mastered-btn');
+  masteredBtn.textContent = `⭐ もう完璧 ${mastered.size}問`;
+  masteredBtn.disabled = mastered.size === 0;
+
+  const superWrong = loadSuperWrongSet();
+  const superWrongBtn = document.getElementById('super-wrong-btn');
+  superWrongBtn.textContent = `🔥 超苦手 ${superWrong.size}問`;
+  superWrongBtn.disabled = superWrong.size === 0;
+
+  // 正答率グラフ（カテゴリ単位で集計）
+  const container = document.getElementById('stats-container');
+  container.innerHTML = '';
+  Object.entries(CATEGORIES).forEach(([catKey, cat]) => {
+    const catTopics = Object.entries(SUBJECTS).filter(([, v]) => v.category === catKey);
+    let correct = 0, total = 0;
+    catTopics.forEach(([topicKey]) => {
+      const s = stats[topicKey] || { correct:0, total:0 };
+      correct += s.correct; total += s.total;
+    });
+    if (total === 0) return;
+    const pct = Math.round(correct / total * 100);
+    const div = document.createElement('div');
+    div.className = 'stats-row';
+    const pctHtml = pct === 100
+      ? `<span class="stats-row-perfect"><span class="stats-row-pct" style="color:#f472b6;font-weight:800;">100%</span><img class="ok-stamp" src="ok.png" alt="OK"></span>`
+      : `<span class="stats-row-pct">${pct}%</span>`;
+    div.innerHTML = `
+      <div class="stats-row-top">
+        <span class="stats-row-name">${cat.icon} ${cat.label}</span>
+        ${pctHtml}
+      </div>
+      <div class="progress-bg">
+        <div class="progress-fill" style="width:${pct}%"></div>
+      </div>`;
+    container.appendChild(div);
+  });
+}
+
+// ============================================================
+// クイズ開始
+// ============================================================
+function startQuiz(subject) {
+  const qs = monthQuestions();
+  const mastered = loadMasteredSet();
+  state.mode = subject === 'all' ? 'all' : 'subject';
+  state.currentSubject = subject;
+  const base = subject === 'all' ? [...qs] : qs.filter(q => q.subject === subject);
+  state.queue = shuffle(base.filter(q => !mastered.has(q.id)));
+  if (state.queue.length === 0) { alert('この分野の問題はすべて完璧だよ！⭐'); return; }
+  state.current = 0;
+  state.correct = 0;
+  state.sessionWrong = [];
+  state.history = [];
+  showQuiz();
+}
+
+function startQuizCategory(catKey) {
+  const qs = monthQuestions();
+  const mastered = loadMasteredSet();
+  const topicKeys = Object.entries(SUBJECTS).filter(([,v]) => v.category === catKey).map(([k]) => k);
+  state.mode = 'subject';
+  state.currentSubject = catKey;
+  state.queue = shuffle(qs.filter(q => topicKeys.includes(q.subject) && !mastered.has(q.id)));
+  if (state.queue.length === 0) { alert('この教科の問題はすべて完璧だよ！⭐'); return; }
+  state.current = 0;
+  state.correct = 0;
+  state.sessionWrong = [];
+  state.history = [];
+  showQuiz();
+}
+
+function startSuperWrongQuiz() {
+  const superWrong = loadSuperWrongSet();
+  if (superWrong.size === 0) { alert('超苦手な問題はまだないよ！'); return; }
+  const qs = monthQuestions();
+  state.mode = 'review';
+  state.currentSubject = 'super_wrong';
+  state.queue = shuffle(qs.filter(q => superWrong.has(q.id)));
+  state.current = 0;
+  state.correct = 0;
+  state.sessionWrong = [];
+  state.history = [];
+  showQuiz();
+}
+
+function startMasteredQuiz() {
+  const mastered = loadMasteredSet();
+  if (mastered.size === 0) { alert('まだ完璧な問題がないよ。3回正解するともう完璧になるよ！'); return; }
+  const qs = monthQuestions();
+  state.mode = 'review';
+  state.currentSubject = 'mastered';
+  state.queue = shuffle(qs.filter(q => mastered.has(q.id)));
+  state.current = 0;
+  state.correct = 0;
+  state.sessionWrong = [];
+  state.history = [];
+  showQuiz();
+}
+
+function startReview() {
+  const wrongSet = loadWrongSet();
+  if (wrongSet.size === 0) { alert('苦手問題がまだありません。'); return; }
+  const qs = monthQuestions();
+  state.mode = 'review';
+  state.currentSubject = null;
+  state.queue = shuffle(qs.filter(q => wrongSet.has(q.id)));
+  state.current = 0;
+  state.correct = 0;
+  state.sessionWrong = [];
+  state.history = [];
+  showQuiz();
+}
+
+function showQuiz() {
+  document.getElementById('home').style.display = 'none';
+  document.getElementById('result').style.display = 'none';
+  const tend = document.getElementById('tendency');
+  if (tend) tend.style.display = 'none';
+  document.getElementById('quiz').style.display = 'block';
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = state.queue[state.current];
+  const hist = state.history[state.current];
+  state.answered = !!hist;
+
+  const sub = SUBJECTS[q.subject];
+  const tag = document.getElementById('subject-tag');
+  tag.textContent = sub.label;
+  tag.className = 'quiz-subject-tag ' + sub.tag;
+
+  document.getElementById('progress-text').textContent = `${state.current + 1} / ${state.queue.length}`;
+  document.getElementById('progress-fill').style.width = ((state.current / state.queue.length) * 100) + '%';
+  document.getElementById('question-text').textContent = q.q;
+
+  const list = document.getElementById('options-list');
+  list.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.textContent = opt;
+    if (hist) {
+      btn.disabled = true;
+      if (i === q.answer) btn.classList.add('correct');
+      else if (i === hist.chosen && !hist.isCorrect) btn.classList.add('wrong');
+    } else {
+      btn.onclick = () => selectAnswer(i);
+    }
+    list.appendChild(btn);
+  });
+
+  const fb  = document.getElementById('feedback-card');
+  const exp = document.getElementById('feedback-explanation');
+  if (hist) {
+    document.getElementById('feedback-icon').textContent = hist.isCorrect ? '✨' : '💦';
+    document.getElementById('feedback-label').textContent = hist.isCorrect ? '正解！すごい！' : 'おしい…！';
+    document.getElementById('feedback-answer').textContent = '正解：' + q.options[q.answer];
+    fb.className = 'feedback-card ' + (hist.isCorrect ? 'correct-fb' : 'wrong-fb');
+    if (q.explanation) { exp.textContent = q.explanation; exp.style.display = 'block'; }
+    else exp.style.display = 'none';
+    document.getElementById('ai-btn').style.display = 'block';
+    const nextBtn = document.getElementById('next-btn');
+    nextBtn.style.display = 'block';
+    nextBtn.textContent = state.current === state.queue.length - 1 ? '結果を見る 📊' : '次の問題へ →';
+    showMemoArea(q.id);
+  } else {
+    fb.className = 'feedback-card';
+    document.getElementById('next-btn').style.display = 'none';
+    document.getElementById('ai-btn').style.display = 'none';
+    document.getElementById('memo-area').style.display = 'none';
+    document.getElementById('memo-textarea').value = '';
+    document.getElementById('memo-saved').textContent = '';
+  }
+
+  document.getElementById('prev-btn').style.display = state.current > 0 ? 'block' : 'none';
+}
+
+function showMemoArea(qid) {
+  const memos = loadMemos();
+  const area = document.getElementById('memo-area');
+  const ta = document.getElementById('memo-textarea');
+  const saved = document.getElementById('memo-saved');
+  area.style.display = 'block';
+  ta.value = memos[qid] || '';
+  saved.textContent = memos[qid] ? '✅ 保存済み' : '';
+  ta.oninput = () => {
+    saveMemo(qid, ta.value);
+    saved.textContent = ta.value.trim() ? '✅ 保存したよ！' : '';
+  };
+}
+
+function selectAnswer(chosen) {
+  if (state.answered) return;
+  state.answered = true;
+
+  const q = state.queue[state.current];
+  const isCorrect = chosen === q.answer;
+  playSound(isCorrect);
+  const btns = document.querySelectorAll('.option-btn');
+
+  btns.forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === q.answer) btn.classList.add('correct');
+    else if (i === chosen && !isCorrect) btn.classList.add('wrong');
+  });
+
+  const fb  = document.getElementById('feedback-card');
+  const exp = document.getElementById('feedback-explanation');
+
+  document.getElementById('feedback-icon').textContent = isCorrect ? '✨' : '💦';
+  document.getElementById('feedback-label').textContent = isCorrect ? '正解！すごい！' : 'おしい…！';
+  document.getElementById('feedback-answer').textContent = '正解：' + q.options[q.answer];
+  fb.className = 'feedback-card ' + (isCorrect ? 'correct-fb' : 'wrong-fb');
+
+  if (q.explanation) {
+    exp.textContent = q.explanation;
+    exp.style.display = 'block';
+  } else {
+    exp.style.display = 'none';
+  }
+
+  if (isCorrect) {
+    state.correct++;
+    const wrongSet = loadWrongSet();
+    wrongSet.delete(q.id);
+    saveWrongSet(wrongSet);
+
+    const counts = loadCorrectCounts();
+    counts[q.id] = (counts[q.id] || 0) + 1;
+    saveCorrectCounts(counts);
+    if (counts[q.id] >= 3) {
+      const mastered = loadMasteredSet();
+      mastered.add(q.id);
+      saveMasteredSet(mastered);
+      document.getElementById('feedback-label').textContent = '⭐ もう完璧！3回正解！';
+    }
+  } else {
+    state.sessionWrong.push(q.id);
+    const wrongSet = loadWrongSet();
+    wrongSet.add(q.id);
+    saveWrongSet(wrongSet);
+
+    const wCounts = loadWrongCounts();
+    wCounts[q.id] = (wCounts[q.id] || 0) + 1;
+    saveWrongCounts(wCounts);
+    if (wCounts[q.id] >= 3) {
+      const superWrong = loadSuperWrongSet();
+      superWrong.add(q.id);
+      saveSuperWrongSet(superWrong);
+      document.getElementById('feedback-label').textContent = '🔥 超苦手！3回間違えちゃった…';
+    }
+  }
+
+  document.getElementById('ai-btn').style.display = 'block';
+  showMemoArea(q.id);
+
+  const nextBtn = document.getElementById('next-btn');
+  nextBtn.style.display = 'block';
+  nextBtn.textContent = state.current === state.queue.length - 1 ? '結果を見る 📊' : '次の問題へ →';
+
+  state.history[state.current] = { chosen, isCorrect };
+  updateStats(q.subject, isCorrect);
+}
+
+function nextQuestion() {
+  state.current++;
+  if (state.current >= state.queue.length) showResult();
+  else { renderQuestion(); window.scrollTo(0, 0); }
+}
+
+function prevQuestion() {
+  if (state.current <= 0) return;
+  state.current--;
+  renderQuestion();
+  window.scrollTo(0, 0);
+}
+
+function updateStats(subject, isCorrect) {
+  const stats = loadStats();
+  if (!stats[subject]) stats[subject] = { correct:0, total:0 };
+  stats[subject].total++;
+  if (isCorrect) stats[subject].correct++;
+  saveStats(stats);
+}
+
+// ============================================================
+// 結果画面
+// ============================================================
+function showResult() {
+  document.getElementById('quiz').style.display = 'none';
+  const tend = document.getElementById('tendency');
+  if (tend) tend.style.display = 'none';
+  document.getElementById('result').style.display = 'block';
+
+  const total = state.queue.length;
+  const pct   = Math.round(state.correct / total * 100);
+
+  let emoji = pct >= 90 ? '🏆' : pct >= 70 ? '🌟' : pct >= 50 ? '💪' : '📖';
+  document.getElementById('result-title').textContent = emoji + ' 結果発表！';
+  const mode = state.mode === 'review' ? '苦手問題復習'
+             : state.mode === 'all' ? '全問題'
+             : (CATEGORIES[state.currentSubject] || SUBJECTS[state.currentSubject])?.label || state.currentSubject;
+  document.getElementById('result-subtitle').textContent = mode + '  ' + total + '問中 ' + state.correct + '問正解';
+
+  const pctEl = document.getElementById('score-pct');
+  pctEl.textContent = pct + '%';
+  pctEl.style.color = pct >= 80 ? '#059669' : pct >= 60 ? '#d97706' : '#e11d48';
+
+  const stats = loadStats();
+  const chart = document.getElementById('result-chart');
+  chart.innerHTML = '';
+  Object.entries(SUBJECTS).forEach(([key, sub]) => {
+    const s = stats[key] || { correct:0, total:0 };
+    if (s.total === 0) return;
+    const p = Math.round(s.correct / s.total * 100);
+    const row = document.createElement('div');
+    row.className = 'chart-bar-row';
+    row.innerHTML = `
+      <div class="chart-bar-label">${sub.label}</div>
+      <div class="chart-bar-bg"><div class="chart-bar-fill" style="width:${p}%"></div></div>
+      <div class="chart-bar-pct">${p}%</div>`;
+    chart.appendChild(row);
+  });
+
+  const reviewBtn = document.getElementById('retry-wrong-btn');
+  reviewBtn.style.display = state.sessionWrong.length > 0 ? 'block' : 'none';
+  reviewBtn.textContent = `⚠️ 間違えた ${state.sessionWrong.length}問 を復習`;
+}
+
+function retryQuiz() {
+  if (state.mode === 'review') startReview();
+  else startQuiz(state.mode === 'all' ? 'all' : state.currentSubject);
+}
+
+function retryWrong() {
+  const wrongIds = new Set(state.sessionWrong);
+  state.mode = 'review';
+  state.queue = shuffle(monthQuestions().filter(q => wrongIds.has(q.id)));
+  state.current = 0;
+  state.correct = 0;
+  state.sessionWrong = [];
+  state.history = [];
+  showQuiz();
+}
+
+function goHome() {
+  document.getElementById('quiz').style.display = 'none';
+  document.getElementById('result').style.display = 'none';
+  showHome();
+}
+
+let _audioCtx = null;
+function getAudioCtx() {
+  if (!_audioCtx) _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return _audioCtx;
+}
+
+function playSound(isCorrect) {
+  try {
+    const ctx = getAudioCtx();
+    ctx.resume().then(() => {
+      if (isCorrect) {
+        [[880, 0, 0.15], [1100, 0.18, 0.15]].forEach(([freq, delay, dur]) => {
+          const o = ctx.createOscillator();
+          const g = ctx.createGain();
+          o.connect(g); g.connect(ctx.destination);
+          o.type = 'sine';
+          o.frequency.value = freq;
+          g.gain.setValueAtTime(0.4, ctx.currentTime + delay);
+          g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + delay + dur);
+          o.start(ctx.currentTime + delay);
+          o.stop(ctx.currentTime + delay + dur);
+        });
+      } else {
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.connect(g); g.connect(ctx.destination);
+        o.type = 'sawtooth';
+        o.frequency.setValueAtTime(220, ctx.currentTime);
+        o.frequency.exponentialRampToValueAtTime(110, ctx.currentTime + 0.3);
+        g.gain.setValueAtTime(0.25, ctx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+        o.start(ctx.currentTime);
+        o.stop(ctx.currentTime + 0.3);
+      }
+    });
+  } catch(e) {}
+}
+
+// ============================================================
+// AI解説（Gemini アプリを開く）
+// ============================================================
+function openAiModal() {
+  const q = state.queue[state.current];
+  const prompt = `小学生にわかるようにやさしく教えてください。絵文字も使って楽しく！
+
+問題：${q.q}
+正解：${q.options[q.answer]}
+解説：${q.explanation || 'なし'}
+
+なぜそうなるのか、もっとくわしく教えてください。
+
+【重要】解説だけを答えてください。日付・挨拶・「以下に〜」などの前置きは不要です。#・**などのMarkdown記号も使わず、プレーンテキストで答えてください。`;
+
+  navigator.clipboard.writeText(prompt).catch(() => {});
+
+  const body = document.getElementById('ai-modal-body');
+  body.innerHTML = `
+    <div style="text-align:center;padding:16px 0;">
+      <div style="font-size:2rem;margin-bottom:8px;">📋</div>
+      <p style="font-weight:bold;margin-bottom:8px;">質問文をコピーしたよ！</p>
+      <p style="font-size:0.9rem;color:#555;margin-bottom:16px;">Geminiが開いたら、貼り付けて送ってね✨<br>（画面を長押し → 貼り付け）</p>
+      <button onclick="window.open('https://accounts.google.com/AccountChooser?Email=konken5794kmray%40gmail.com&continue=https://gemini.google.com/app','_blank')" style="background:linear-gradient(135deg,#4285f4,#34a853);color:#fff;border:none;border-radius:24px;padding:12px 28px;font-size:1rem;font-weight:bold;cursor:pointer;">
+        🤖 Geminiを開く
+      </button>
+    </div>`;
+
+  document.getElementById('ai-modal-overlay').classList.add('open');
+}
+
+function closeAiModal(e) {
+  if (e && e.target !== document.getElementById('ai-modal-overlay')) return;
+  document.getElementById('ai-modal-overlay').classList.remove('open');
+}
+
+// ============================================================
+// テストカウントダウン
+// ============================================================
+const TEST_KEYS = [
+  { key: 'gakuryoku', name: '学力判定テスト' },
+  { key: '4ka',       name: '4科演習' },
+];
+
+function getTestDate(key) { return localStorage.getItem('ena_test_' + key) || ''; }
+function setTestDate(key, val) { localStorage.setItem('ena_test_' + key, val); }
+
+function renderCountdown() {
+  const wrap = document.getElementById('test-countdown');
+  if (state.selectedSchool !== 'ena') { wrap.style.display = 'none'; return; }
+  wrap.style.display = 'flex';
+
+  wrap.innerHTML = TEST_KEYS.map(({ key, name }) => {
+    const stored = getTestDate(key);
+    let daysHtml = '';
+    if (stored) {
+      const today = new Date(); today.setHours(0,0,0,0);
+      const target = new Date(stored); target.setHours(0,0,0,0);
+      const diff = Math.round((target - today) / 86400000);
+      if (diff > 0) {
+        daysHtml = `<div class="test-card-days">${diff}</div><div class="test-card-days-label">日後</div>`;
+      } else if (diff === 0) {
+        daysHtml = `<div class="test-card-past">🎯 今日！</div>`;
+      } else {
+        daysHtml = `<div class="test-card-past">✅ 終了</div>`;
+      }
+      const d = new Date(stored);
+      const dateStr = `${d.getMonth()+1}/${d.getDate()}`;
+      daysHtml += `<div class="test-card-date">${dateStr}</div>`;
+    } else {
+      daysHtml = `<div class="test-unset">日程未設定</div>`;
+    }
+    return `
+      <div class="test-card">
+        <button class="test-edit-btn" onclick="openDateModal('${key}','${name}')">✏️</button>
+        <div class="test-card-name">${name}</div>
+        ${daysHtml}
+      </div>`;
+  }).join('');
+}
+
+let _editingKey = '';
+function openDateModal(key, name) {
+  _editingKey = key;
+  document.getElementById('date-modal-title').textContent = name;
+  document.getElementById('date-modal-input').value = getTestDate(key);
+  document.getElementById('date-modal-overlay').classList.add('open');
+}
+function saveTestDate() {
+  const val = document.getElementById('date-modal-input').value;
+  if (!val) { alert('日付を選んでね！'); return; }
+  setTestDate(_editingKey, val);
+  closeDateModal();
+  renderCountdown();
+}
+function closeDateModal() {
+  document.getElementById('date-modal-overlay').classList.remove('open');
+}
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+window.onload = () => {
+  document.getElementById('school-select').style.display = 'flex';
+  document.getElementById('month-select').style.display = 'none';
+};
+</script>
+</body>
+</html>
