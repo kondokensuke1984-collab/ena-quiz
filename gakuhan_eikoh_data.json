@@ -1,3 +1,26 @@
 {
-  "_tests": []
+  "_tests": [
+    {
+      "date": "5月",
+      "label": "2026/4"
+    }
+  ],
+  "5月": {
+    "hensachi4": null,
+    "hensachi2": 45,
+    "sansu": 44,
+    "kokugo": 47,
+    "rika": null,
+    "shakai": null,
+    "tokuten4": null,
+    "juni4": null,
+    "ninzu4": null,
+    "tokuten2": 113,
+    "juni2": 208,
+    "ninzu2": 307,
+    "sansu_ten": 56,
+    "kokugo_ten": 57,
+    "rika_ten": null,
+    "shakai_ten": null
+  }
 }
