@@ -3,24 +3,42 @@
     {
       "date": "5月",
       "label": "2026/4"
+    },
+    {
+      "date": "5月タームテスト",
+      "label": "2026/5"
     }
   ],
   "5月": {
-    "hensachi4": null,
+    "hensachi3": null,
     "hensachi2": 45,
     "sansu": 44,
     "kokugo": 47,
-    "rika": null,
-    "shakai": null,
-    "tokuten4": null,
-    "juni4": null,
-    "ninzu4": null,
+    "eigo": null,
+    "tokuten3": null,
+    "juni3": null,
+    "ninzu3": null,
     "tokuten2": 113,
     "juni2": 208,
     "ninzu2": 307,
     "sansu_ten": 56,
     "kokugo_ten": 57,
-    "rika_ten": null,
-    "shakai_ten": null
+    "eigo_ten": null
+  },
+  "5月タームテスト": {
+    "hensachi3": 42.6,
+    "hensachi2": null,
+    "sansu": 40.9,
+    "kokugo": 46.8,
+    "eigo": 45.1,
+    "tokuten3": 148,
+    "juni3": null,
+    "ninzu3": null,
+    "tokuten2": 98,
+    "juni2": null,
+    "ninzu2": null,
+    "sansu_ten": 46,
+    "kokugo_ten": 52,
+    "eigo_ten": 50
   }
 }
