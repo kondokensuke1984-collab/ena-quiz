@@ -1754,6 +1754,7 @@ body {
   <div class="fairy-subtitle">月を選んでスタート！</div>
   <div class="month-grid" id="month-grid"></div>
   <button id="gakuhan-btn" class="tendency-btn" onclick="location.href='/gakuhan.html'" style="background:linear-gradient(135deg,#7c3aed,#4f46e5);margin-top:12px;color:#fff;">📈 ガクハン成績グラフ</button>
+  <button id="yonka-btn" class="tendency-btn" onclick="location.href='/yonka.html'" style="background:linear-gradient(135deg,#15803d,#16a34a);margin-top:8px;color:#fff;display:none;">📝 4科演習 成績グラフ</button>
   <button id="gakuhan-eikoh-btn" class="tendency-btn" onclick="location.href='/gakuhan_eikoh.html'" style="background:linear-gradient(135deg,#1d4ed8,#2563eb);margin-top:12px;color:#fff;display:none;">📈 成績グラフ</button>
   <button class="back-to-month" style="margin-top:12px" onclick="showSchoolSelect()">◀ 塾選択に戻る</button>
 </div>
@@ -7195,7 +7196,8 @@ function selectSchool(schoolId) {
   state.selectedSchool = schoolId;
   document.getElementById('school-select').style.display = 'none';
   document.getElementById('month-select').style.display = 'flex';
-  document.getElementById('gakuhan-btn').style.display      = schoolId === 'ena'   ? '' : 'none';
+  document.getElementById('gakuhan-btn').style.display       = schoolId === 'ena'   ? '' : 'none';
+  document.getElementById('yonka-btn').style.display         = schoolId === 'ena'   ? '' : 'none';
   document.getElementById('gakuhan-eikoh-btn').style.display = schoolId === 'eikoh' ? '' : 'none';
   initMonthSelect();
 }
@@ -7215,6 +7217,7 @@ function showMonthSelect() {
   document.getElementById('school-select').style.display = 'none';
   document.getElementById('month-select').style.display = 'flex';
   document.getElementById('gakuhan-btn').style.display       = state.selectedSchool === 'ena'   ? '' : 'none';
+  document.getElementById('yonka-btn').style.display         = state.selectedSchool === 'ena'   ? '' : 'none';
   document.getElementById('gakuhan-eikoh-btn').style.display = state.selectedSchool === 'eikoh' ? '' : 'none';
 }
 

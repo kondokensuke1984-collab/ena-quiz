@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4科演習 成績グラフ</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Hiragino Kaku Gothic ProN', sans-serif;
+    background: linear-gradient(135deg, #0c1a0f, #14532d, #0f2318);
+    min-height: 100vh; color: #f0fdf4; padding: 16px;
+  }
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+    color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 14px;
+    cursor: pointer; text-decoration: none; margin-bottom: 16px;
+  }
+  .header { text-align: center; padding: 12px 0 20px; }
+  .header h1 { font-size: 20px; font-weight: bold; }
+  .header p { font-size: 13px; color: #86efac; margin-top: 4px; }
+  .card {
+    background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 16px; padding: 16px; margin-bottom: 16px;
+  }
+  .card-title {
+    font-size: 15px; font-weight: bold; margin-bottom: 14px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .chart-wrap { position: relative; height: 220px; }
+
+  /* 成績入力ボタン */
+  .edit-btn {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    background: linear-gradient(135deg, #15803d, #16a34a);
+    border: none; border-radius: 16px; color: #fff;
+    font-size: 15px; font-weight: bold; padding: 14px;
+    cursor: pointer; width: 100%; margin-bottom: 16px;
+  }
+  .edit-btn:active { opacity: 0.85; }
+
+  /* 最新サマリー */
+  .latest-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .stat-box { background: rgba(255,255,255,0.06); border-radius: 12px; padding: 12px; text-align: center; }
+  .stat-box .lbl { font-size: 11px; color: #86efac; margin-bottom: 4px; }
+  .stat-box .val { font-size: 26px; font-weight: bold; }
+  .rank-str { font-size: 11px; color: #86efac; margin-top: 2px; }
+  .diff-up   { color: #4ade80; font-size: 11px; }
+  .diff-down { color: #f87171; font-size: 11px; }
+  .diff-same { color: #86efac; font-size: 11px; }
+
+  /* テスト行（アコーディオン） */
+  .test-list { display: flex; flex-direction: column; gap: 8px; }
+  .test-row {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px; overflow: hidden;
+  }
+  .test-row-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px; cursor: pointer; user-select: none;
+  }
+  .test-row-left { display: flex; align-items: center; gap: 10px; }
+  .test-date { font-size: 14px; font-weight: bold; }
+  .test-filled-badge {
+    font-size: 10px; color: #4ade80; background: rgba(74,222,128,0.15);
+    border-radius: 8px; padding: 2px 7px;
+  }
+  .accordion-arrow { font-size: 12px; color: #86efac; transition: transform 0.2s; }
+  .test-row.open .accordion-arrow { transform: rotate(180deg); }
+  .test-row-body { display: none; padding: 0 12px 12px; }
+  .test-row.open .test-row-body { display: block; }
+  .test-row-actions { display: flex; justify-content: flex-end; margin-bottom: 8px; }
+  .del-btn {
+    background: rgba(248,113,113,0.15); border: 1px solid rgba(248,113,113,0.3);
+    color: #f87171; border-radius: 8px; font-size: 12px; padding: 3px 10px; cursor: pointer;
+  }
+  .test-row-fields { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .field-group { display: flex; flex-direction: column; gap: 3px; }
+  .field-group label { font-size: 10px; color: #86efac; }
+  .field-group input {
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px; color: #fff; font-size: 15px; padding: 6px 8px;
+    text-align: center; width: 100%; -webkit-appearance: none;
+  }
+  .field-group input:focus { outline: none; border-color: #4ade80; background: rgba(74,222,128,0.1); }
+  .field-group input.filled { border-color: rgba(255,255,255,0.3); }
+  .field-group-label { font-size: 11px; color: #86efac; font-weight: bold; margin: 10px 0 6px; }
+
+  /* ボタン */
+  .add-test-btn {
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    background: rgba(74,222,128,0.1); border: 1px dashed rgba(74,222,128,0.4);
+    color: #86efac; border-radius: 12px; font-size: 14px; padding: 12px;
+    cursor: pointer; width: 100%; margin-top: 4px;
+  }
+  .save-btn {
+    background: linear-gradient(135deg, #15803d, #16a34a); border: none;
+    border-radius: 20px; color: #fff; font-size: 13px; font-weight: bold;
+    padding: 10px 18px; cursor: pointer; width: 100%; margin-top: 14px;
+  }
+  .save-btn:disabled { opacity: 0.5; }
+  .saved-toast { display: none; text-align: center; color: #4ade80; font-size: 13px; margin-top: 8px; }
+
+  /* モーダル */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.7); z-index: 100;
+    align-items: center; justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: #0f2318; border: 1px solid rgba(74,222,128,0.3);
+    border-radius: 20px; padding: 24px; width: 90%; max-width: 340px;
+  }
+  .modal h2 { font-size: 16px; margin-bottom: 16px; text-align: center; }
+  .modal-field { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
+  .modal-field label { font-size: 12px; color: #86efac; }
+  .modal-field input {
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 10px; color: #fff; font-size: 16px; padding: 10px 12px; width: 100%;
+  }
+  .modal-field input:focus { outline: none; border-color: #4ade80; }
+  .modal-hint { font-size: 11px; color: #4b7c5f; margin-bottom: 16px; }
+  .modal-btns { display: flex; gap: 8px; }
+  .modal-btns button { flex: 1; border: none; border-radius: 12px; font-size: 14px; font-weight: bold; padding: 10px; cursor: pointer; }
+  .modal-cancel { background: rgba(255,255,255,0.1); color: #86efac; }
+  .modal-ok { background: linear-gradient(135deg, #15803d, #16a34a); color: #fff; }
+
+  /* テーブル */
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th { background: rgba(74,222,128,0.15); padding: 6px 3px; text-align: center; color: #bbf7d0; font-weight: bold; }
+  td { padding: 7px 3px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  tr:last-child td { border-bottom: none; }
+  .no-data { color: #2d5a3d; }
+  .c-sansu  { color: #60a5fa; }
+  .c-kokugo { color: #f472b6; }
+  .c-rika   { color: #4ade80; }
+  .c-shakai { color: #fbbf24; }
+  .c-total  { color: #a78bfa; }
+</style>
+</head>
+<body>
+
+<!-- モーダル -->
+<div class="modal-overlay" id="addModal">
+  <div class="modal">
+    <h2>＋ テスト回を追加</h2>
+    <div class="modal-field">
+      <label>表示用ラベル（実施日）</label>
+      <input type="text" id="newLabel" placeholder="例：2026/06/24">
+    </div>
+    <div class="modal-field">
+      <label>グラフ用の短い表示</label>
+      <input type="text" id="newDate" placeholder="例：6/24">
+    </div>
+    <p class="modal-hint">※ グラフの横軸に表示される短い日付です</p>
+    <div class="modal-btns">
+      <button class="modal-cancel" onclick="closeModal()">キャンセル</button>
+      <button class="modal-ok" onclick="confirmAdd()">追加する</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== メイン画面 ========== -->
+<div id="view-main">
+  <a href="/" class="back-btn">← アプリに戻る</a>
+  <div class="header">
+    <h1>📝 4科演習</h1>
+    <p>ena 成績グラフ</p>
+  </div>
+
+  <button class="edit-btn" onclick="showEdit()">✏️ 成績を入力する</button>
+
+  <!-- 最新サマリー -->
+  <div class="card" id="latestCard">
+    <div class="card-title" id="latestTitle">⭐ 最新の結果</div>
+    <div class="latest-grid" id="latestGrid"></div>
+  </div>
+
+  <!-- 合計得点推移 -->
+  <div class="card">
+    <div class="card-title">📈 4科目合計 得点の推移</div>
+    <div class="chart-wrap"><canvas id="totalChart"></canvas></div>
+  </div>
+
+  <!-- 各科目得点推移 -->
+  <div class="card">
+    <div class="card-title">📚 各科目 得点の推移</div>
+    <div class="chart-wrap" style="height:260px;"><canvas id="subjectChart"></canvas></div>
+  </div>
+
+  <!-- テスト一覧 -->
+  <div class="card">
+    <div class="card-title">📋 テスト一覧</div>
+    <div style="overflow-x:auto;"><table id="resultTable"></table></div>
+  </div>
+</div>
+
+<!-- ========== 入力画面 ========== -->
+<div id="view-edit" style="display:none;">
+  <a href="#" class="back-btn" onclick="showMain();return false;">← 戻る</a>
+  <div class="header" style="padding:8px 0 16px;">
+    <h1>✏️ 成績を入力する</h1>
+  </div>
+
+  <div class="card">
+    <div class="test-list" id="inputList"></div>
+    <button class="add-test-btn" onclick="openModal()">＋ 新しいテスト回を追加</button>
+    <button class="save-btn" id="saveBtn" onclick="saveAll()">💾 保存してグラフを更新</button>
+    <div id="syncStatus" style="font-size:12px;color:#86efac;text-align:center;margin-top:8px;"></div>
+    <div class="saved-toast" id="toast">✅ 保存完了！全員に反映されました</div>
+  </div>
+</div>
+
+<script>
+const FIELD_GROUPS = [
+  {
+    label: '🏆 合計得点・順位',
+    fields: [
+      { key: 'tokuten4', label: '4科目得点',     step: '1', min: 0, max: 500 },
+      { key: 'juni4',    label: '4科目順位（位）', step: '1', min: 1, max: 9999 },
+      { key: 'ninzu4',   label: '4科目受験者数',  step: '1', min: 1, max: 9999 },
+    ]
+  },
+  {
+    label: '📝 各科目の得点',
+    fields: [
+      { key: 'sansu_ten',  label: '算数得点', step: '1', min: 0, max: 200 },
+      { key: 'kokugo_ten', label: '国語得点', step: '1', min: 0, max: 200 },
+      { key: 'rika_ten',   label: '理科得点', step: '1', min: 0, max: 200 },
+      { key: 'shakai_ten', label: '社会得点', step: '1', min: 0, max: 200 },
+    ]
+  }
+];
+const FIELDS = FIELD_GROUPS.flatMap(g => g.fields);
+const EMPTY_ROW = () => Object.fromEntries(FIELDS.map(f => [f.key, null]));
+
+let data = {}, currentSha = null, tests = [];
+let totalChart, subjectChart;
+let selectedIdx = -1;
+
+// ---- 画面切り替え ----
+function showMain() {
+  document.getElementById('view-main').style.display = '';
+  document.getElementById('view-edit').style.display = 'none';
+  window.scrollTo(0, 0);
+}
+function showEdit() {
+  document.getElementById('view-main').style.display = 'none';
+  document.getElementById('view-edit').style.display = '';
+  renderInputs();
+  window.scrollTo(0, 0);
+}
+
+// ---- モーダル ----
+function openModal() {
+  document.getElementById('newLabel').value = '';
+  document.getElementById('newDate').value = '';
+  document.getElementById('addModal').classList.add('open');
+  setTimeout(() => document.getElementById('newLabel').focus(), 100);
+}
+function closeModal() { document.getElementById('addModal').classList.remove('open'); }
+function confirmAdd() {
+  const label = document.getElementById('newLabel').value.trim();
+  const date  = document.getElementById('newDate').value.trim();
+  if (!label || !date) { alert('両方入力してください'); return; }
+  if (tests.find(t => t.date === date)) { alert('その日付はすでに存在します'); return; }
+  tests.push({ date, label });
+  data[date] = EMPTY_ROW();
+  closeModal();
+  renderInputs();
+}
+
+// ---- 削除 ----
+function deleteTest(date) {
+  if (!confirm(`「${date}」の回を削除しますか？`)) return;
+  tests = tests.filter(t => t.date !== date);
+  delete data[date];
+  renderInputs();
+  renderAll();
+}
+
+function toggleAccordion(date) {
+  document.getElementById(`row_${date}`).classList.toggle('open');
+}
+
+// ---- Cloud ----
+function setStatus(msg, isError) {
+  const el = document.getElementById('syncStatus');
+  el.textContent = msg;
+  el.style.color = isError ? '#f87171' : '#86efac';
+}
+
+async function loadFromCloud() {
+  setStatus('⏳ データを読み込み中...');
+  try {
+    const r = await fetch('/api/yonka');
+    if (!r.ok) throw new Error(r.status);
+    const { data: d, sha } = await r.json();
+    data = d; currentSha = sha;
+    tests = Array.isArray(d._tests) ? d._tests : [];
+    setStatus('✅ 読み込み完了');
+  } catch(e) {
+    setStatus('⚠️ 読み込み失敗', true);
+    tests = []; data = { _tests: [] };
+  }
+  renderAll();
+}
+
+async function saveAll() {
+  const btn = document.getElementById('saveBtn');
+  btn.disabled = true; btn.textContent = '⏳ 保存中...';
+  tests.forEach(t => {
+    const row = {};
+    FIELDS.forEach(f => {
+      const el = document.getElementById(`inp_${t.date}_${f.key}`);
+      if (!el) return;
+      const v = parseFloat(el.value);
+      row[f.key] = isNaN(v) ? null : v;
+    });
+    data[t.date] = row;
+  });
+  data._tests = tests;
+  try {
+    const r = await fetch('/api/yonka', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ data, sha: currentSha }),
+    });
+    if (!r.ok) throw new Error(await r.text());
+    const res = await r.json();
+    currentSha = res.sha;
+    setStatus('✅ 保存完了・全員に反映されました');
+    renderAll();
+    const toast = document.getElementById('toast');
+    toast.style.display = 'block';
+    setTimeout(() => { toast.style.display = 'none'; showMain(); }, 1500);
+  } catch(e) {
+    setStatus('❌ 保存失敗: ' + e.message, true);
+  }
+  btn.disabled = false; btn.textContent = '💾 保存してグラフを更新';
+}
+
+// ---- 入力フォーム ----
+function renderInputs() {
+  const list = document.getElementById('inputList');
+  list.innerHTML = '';
+  tests.forEach((t, idx) => {
+    const d = data[t.date] || {};
+    const isLatest = idx === tests.length - 1;
+    const filledCount = FIELDS.filter(f => d[f.key] != null).length;
+    const badge = filledCount > 0 ? `<span class="test-filled-badge">✓ ${filledCount}項目入力済</span>` : '';
+    const div = document.createElement('div');
+    div.className = 'test-row' + (isLatest ? ' open' : '');
+    div.id = `row_${t.date}`;
+    div.innerHTML = `
+      <div class="test-row-header" onclick="toggleAccordion('${t.date}')">
+        <div class="test-row-left">
+          <span class="test-date">📅 ${t.label}</span>${badge}
+        </div>
+        <span class="accordion-arrow">▼</span>
+      </div>
+      <div class="test-row-body">
+        <div class="test-row-actions">
+          <button class="del-btn" onclick="deleteTest('${t.date}')">削除</button>
+        </div>
+        ${FIELD_GROUPS.map(g => `
+          <div class="field-group-label">${g.label}</div>
+          <div class="test-row-fields">
+            ${g.fields.map(f => `
+              <div class="field-group">
+                <label>${f.label}</label>
+                <input type="number" step="${f.step}" min="${f.min}" max="${f.max}"
+                  id="inp_${t.date}_${f.key}"
+                  value="${d[f.key] != null ? d[f.key] : ''}"
+                  placeholder="—"
+                  class="${d[f.key] != null ? 'filled' : ''}"
+                  oninput="this.classList.toggle('filled', this.value !== '')">
+              </div>
+            `).join('')}
+          </div>
+        `).join('')}
+      </div>
+    `;
+    list.appendChild(div);
+  });
+}
+
+// ---- サマリー ----
+function getDisplayIdx() {
+  if (selectedIdx >= 0 && selectedIdx < tests.length) return selectedIdx;
+  let idx = -1;
+  tests.forEach((t, i) => { if ((data[t.date] || {}).tokuten4 != null) idx = i; });
+  return idx;
+}
+function moveSelected(dir) {
+  const next = getDisplayIdx() + dir;
+  if (next < 0 || next >= tests.length) return;
+  selectedIdx = next; renderLatest();
+}
+
+function renderLatest() {
+  const latestIdx = getDisplayIdx();
+  if (latestIdx < 0) { document.getElementById('latestCard').style.display = 'none'; return; }
+  document.getElementById('latestCard').style.display = '';
+  const t = tests[latestIdx];
+  const d = data[t.date] || {};
+  let prev = null;
+  for (let i = latestIdx - 1; i >= 0; i--) {
+    const pd = data[tests[i].date];
+    if (pd && pd.tokuten4 != null) { prev = pd; break; }
+  }
+
+  const isFirst = latestIdx === 0, isLast = latestIdx === tests.length - 1;
+  document.getElementById('latestTitle').innerHTML = `
+    <div style="display:flex;align-items:center;gap:8px;width:100%;">
+      <button onclick="moveSelected(-1)" style="
+        background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);
+        color:${isFirst ? '#2d5a3d' : '#bbf7d0'};border-radius:8px;
+        font-size:16px;padding:4px 10px;cursor:${isFirst ? 'default' : 'pointer'};"
+        ${isFirst ? 'disabled' : ''}>‹</button>
+      <span style="flex:1;text-align:center;font-size:14px;">⭐ ${t.label}</span>
+      <button onclick="moveSelected(1)" style="
+        background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);
+        color:${isLast ? '#2d5a3d' : '#bbf7d0'};border-radius:8px;
+        font-size:16px;padding:4px 10px;cursor:${isLast ? 'default' : 'pointer'};"
+        ${isLast ? 'disabled' : ''}>›</button>
+    </div>
+  `;
+
+  function diffStr(cur, pre, key) {
+    if (!pre || pre[key] == null || cur[key] == null) return '';
+    const v = +(cur[key] - pre[key]).toFixed(1);
+    if (v > 0) return `<div class="diff-up">↑${v}</div>`;
+    if (v < 0) return `<div class="diff-down">↓${Math.abs(v)}</div>`;
+    return `<div class="diff-same">→ 同じ</div>`;
+  }
+  function rankStr(j, n) {
+    if (j == null) return '';
+    return n != null ? `${j}位 / ${n}人中` : `${j}位`;
+  }
+
+  const boxes = [
+    { lbl: '4科目 合計', val: d.tokuten4, color: '#a78bfa', dk: 'tokuten4', rank: rankStr(d.juni4, d.ninzu4) },
+    { lbl: '算数', val: d.sansu_ten,  color: '#60a5fa', dk: 'sansu_ten' },
+    { lbl: '国語', val: d.kokugo_ten, color: '#f472b6', dk: 'kokugo_ten' },
+    { lbl: '理科', val: d.rika_ten,   color: '#4ade80', dk: 'rika_ten' },
+    { lbl: '社会', val: d.shakai_ten, color: '#fbbf24', dk: 'shakai_ten' },
+  ];
+
+  document.getElementById('latestGrid').innerHTML = boxes.map(b => `
+    <div class="stat-box">
+      <div class="lbl">${b.lbl}</div>
+      <div class="val" style="color:${b.color}">${b.val ?? '—'}</div>
+      ${b.rank ? `<div class="rank-str">${b.rank}</div>` : ''}
+      ${b.val != null ? diffStr(d, prev, b.dk) : ''}
+    </div>
+  `).join('');
+}
+
+// ---- テーブル ----
+function renderTable() {
+  const tbl = document.getElementById('resultTable');
+  tbl.innerHTML = `
+    <tr>
+      <th rowspan="2">実施日</th>
+      <th colspan="3">4科目合計</th>
+      <th>算数</th><th>国語</th><th>理科</th><th>社会</th>
+    </tr>
+    <tr>
+      <th>得点</th><th>順位</th><th>人数</th>
+      <th colspan="4" style="font-size:10px;color:#86efac;">各科目得点</th>
+    </tr>
+  `;
+  const nd = v => v != null ? v : '<span class="no-data">—</span>';
+  tests.forEach(t => {
+    const d = data[t.date] || {};
+    tbl.innerHTML += `<tr>
+      <td style="font-weight:bold;white-space:nowrap;">${t.date}</td>
+      <td class="c-total">${nd(d.tokuten4)}</td>
+      <td>${d.juni4 != null ? d.juni4+'位' : '<span class="no-data">—</span>'}</td>
+      <td>${d.ninzu4 != null ? d.ninzu4+'人' : '<span class="no-data">—</span>'}</td>
+      <td class="c-sansu">${nd(d.sansu_ten)}</td>
+      <td class="c-kokugo">${nd(d.kokugo_ten)}</td>
+      <td class="c-rika">${nd(d.rika_ten)}</td>
+      <td class="c-shakai">${nd(d.shakai_ten)}</td>
+    </tr>`;
+  });
+}
+
+// ---- グラフ ----
+const BASE_OPTS = {
+  responsive: true, maintainAspectRatio: false,
+  plugins: { legend: { labels: { color: '#bbf7d0', font: { size: 12 } } } },
+  scales: {
+    x: { ticks: { color: '#86efac' }, grid: { color: 'rgba(74,222,128,0.08)' } },
+    y: { ticks: { color: '#86efac' }, grid: { color: 'rgba(74,222,128,0.08)' } }
+  }
+};
+
+function renderCharts() {
+  const labels = tests.map(t => t.date);
+  const get = key => tests.map(t => (data[t.date] || {})[key] ?? null);
+
+  if (totalChart) totalChart.destroy();
+  totalChart = new Chart(document.getElementById('totalChart'), {
+    type: 'line',
+    data: { labels, datasets: [
+      { label: '4科目合計', data: get('tokuten4'), borderColor: '#a78bfa', backgroundColor: 'rgba(167,139,250,0.15)', tension: 0.3, pointRadius: 5, spanGaps: true },
+    ]},
+    options: { ...JSON.parse(JSON.stringify(BASE_OPTS)), plugins: { legend: { display: false } } }
+  });
+
+  if (subjectChart) subjectChart.destroy();
+  subjectChart = new Chart(document.getElementById('subjectChart'), {
+    type: 'line',
+    data: { labels, datasets: [
+      { label: '算数', data: get('sansu_ten'),  borderColor: '#60a5fa', backgroundColor: 'rgba(96,165,250,0.1)',  tension: 0.3, pointRadius: 5, spanGaps: true },
+      { label: '国語', data: get('kokugo_ten'), borderColor: '#f472b6', backgroundColor: 'rgba(244,114,182,0.1)', tension: 0.3, pointRadius: 5, spanGaps: true },
+      { label: '理科', data: get('rika_ten'),   borderColor: '#4ade80', backgroundColor: 'rgba(74,222,128,0.1)',  tension: 0.3, pointRadius: 5, spanGaps: true },
+      { label: '社会', data: get('shakai_ten'), borderColor: '#fbbf24', backgroundColor: 'rgba(251,191,36,0.1)',  tension: 0.3, pointRadius: 5, spanGaps: true },
+    ]},
+    options: JSON.parse(JSON.stringify(BASE_OPTS))
+  });
+}
+
+function renderAll() { renderLatest(); renderTable(); renderCharts(); }
+
+loadFromCloud();
+</script>
+</body>
+</html>
