@@ -29,7 +29,11 @@
     "ninzu4": 774,
     "tokuten2": 132,
     "juni2": 471,
-    "ninzu2": 798
+    "ninzu2": 798,
+    "sansu_ten": null,
+    "kokugo_ten": null,
+    "rika_ten": null,
+    "shakai_ten": null
   },
   "3/18": {
     "hensachi4": 60.7,
@@ -43,7 +47,11 @@
     "ninzu4": 777,
     "tokuten2": 149,
     "juni2": 72,
-    "ninzu2": 797
+    "ninzu2": 797,
+    "sansu_ten": null,
+    "kokugo_ten": null,
+    "rika_ten": null,
+    "shakai_ten": null
   },
   "4/24": {
     "hensachi4": 61.5,
@@ -57,7 +65,11 @@
     "ninzu4": 1061,
     "tokuten2": 159,
     "juni2": 132,
-    "ninzu2": 1074
+    "ninzu2": 1074,
+    "sansu_ten": null,
+    "kokugo_ten": null,
+    "rika_ten": null,
+    "shakai_ten": null
   },
   "5/27": {
     "hensachi4": 61.2,
@@ -71,6 +83,10 @@
     "ninzu4": 1072,
     "tokuten2": 172,
     "juni2": 94,
-    "ninzu2": 1088
+    "ninzu2": 1088,
+    "sansu_ten": 87,
+    "kokugo_ten": 85,
+    "rika_ten": 92,
+    "shakai_ten": 54
   }
 }
