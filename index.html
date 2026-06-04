@@ -1753,7 +1753,9 @@ body {
   <div class="fairy-title">✨ ANRINOの問題アプリ ✨</div>
   <div class="fairy-subtitle">月を選んでスタート！</div>
   <div class="month-grid" id="month-grid"></div>
-  <button class="back-to-month" style="margin-top:24px" onclick="showSchoolSelect()">◀ 塾選択に戻る</button>
+  <button id="gakuhan-btn" class="tendency-btn" onclick="location.href='/gakuhan.html'" style="background:linear-gradient(135deg,#7c3aed,#4f46e5);margin-top:12px;color:#fff;">📈 ガクハン成績グラフ</button>
+  <button id="gakuhan-eikoh-btn" class="tendency-btn" onclick="location.href='/gakuhan_eikoh.html'" style="background:linear-gradient(135deg,#1d4ed8,#2563eb);margin-top:12px;color:#fff;display:none;">📈 成績グラフ</button>
+  <button class="back-to-month" style="margin-top:12px" onclick="showSchoolSelect()">◀ 塾選択に戻る</button>
 </div>
 
 <!-- 日付設定モーダル -->
@@ -1800,7 +1802,6 @@ body {
   <div id="home-main-actions">
   <button class="all-card" onclick="startQuiz('all')">🌟 全問題にチャレンジ！</button>
   <button class="tendency-btn" onclick="showTendency()">📊 きみの傾向を見る</button>
-  <button class="tendency-btn" onclick="location.href='/gakuhan.html'" style="background:linear-gradient(135deg,#7c3aed,#4f46e5);">📈 ガクハン成績グラフ</button>
   <button class="share-btn" onclick="openMsgModal()">📤 保護者に成績を送る</button>
   <button class="review-card" onclick="startReview()" id="review-btn">⚠️ 苦手問題を復習</button>
   <button class="mastered-card" onclick="startMasteredQuiz()" id="mastered-btn">⭐ もう完璧 0問</button>
@@ -7194,6 +7195,8 @@ function selectSchool(schoolId) {
   state.selectedSchool = schoolId;
   document.getElementById('school-select').style.display = 'none';
   document.getElementById('month-select').style.display = 'flex';
+  document.getElementById('gakuhan-btn').style.display      = schoolId === 'ena'   ? '' : 'none';
+  document.getElementById('gakuhan-eikoh-btn').style.display = schoolId === 'eikoh' ? '' : 'none';
   initMonthSelect();
 }
 
@@ -7211,6 +7214,8 @@ function showMonthSelect() {
   document.getElementById('result').style.display = 'none';
   document.getElementById('school-select').style.display = 'none';
   document.getElementById('month-select').style.display = 'flex';
+  document.getElementById('gakuhan-btn').style.display       = state.selectedSchool === 'ena'   ? '' : 'none';
+  document.getElementById('gakuhan-eikoh-btn').style.display = state.selectedSchool === 'eikoh' ? '' : 'none';
 }
 
 // ============================================================
