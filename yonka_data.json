@@ -3,6 +3,10 @@
     {
       "date": "3月",
       "label": "2026/3"
+    },
+    {
+      "date": "4月",
+      "label": "2026/4"
     }
   ],
   "3月": {
@@ -12,6 +16,15 @@
     "sansu_ten": 87,
     "kokugo_ten": 84,
     "rika_ten": 72,
+    "shakai_ten": 75
+  },
+  "4月": {
+    "tokuten4": null,
+    "juni4": null,
+    "ninzu4": null,
+    "sansu_ten": 50,
+    "kokugo_ten": 94,
+    "rika_ten": 75,
     "shakai_ten": 75
   }
 }
