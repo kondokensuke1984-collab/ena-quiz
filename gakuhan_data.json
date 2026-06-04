@@ -1,6 +1,58 @@
 {
-  "2/25": { "hensachi4": 51.8, "hensachi2": 50.8, "sansu": 61.6, "kokugo": 39.3, "rika": 48.7, "shakai": 56.3, "tokuten4": 273, "tokuten2": 132, "juni4": null, "ninzu4": null, "juni2": null, "ninzu2": null },
-  "3/18": { "hensachi4": null, "hensachi2": null, "sansu": null, "kokugo": null, "rika": null, "shakai": null, "tokuten4": null, "tokuten2": null, "juni4": null, "ninzu4": null, "juni2": null, "ninzu2": null },
-  "4/24": { "hensachi4": null, "hensachi2": null, "sansu": null, "kokugo": null, "rika": null, "shakai": null, "tokuten4": null, "tokuten2": null, "juni4": null, "ninzu4": null, "juni2": null, "ninzu2": null },
-  "5/27": { "hensachi4": 66.5, "hensachi2": 53.5, "sansu": 60.3, "kokugo": 60.3, "rika": 60.3, "shakai": 60.3, "tokuten4": null, "tokuten2": null, "juni4": null, "ninzu4": null, "juni2": null, "ninzu2": null }
+  "2/25": {
+    "hensachi4": 51.8,
+    "hensachi2": 50.8,
+    "sansu": 61.6,
+    "kokugo": 39.3,
+    "rika": 48.7,
+    "shakai": 56.3,
+    "tokuten4": 273,
+    "juni4": null,
+    "ninzu4": null,
+    "tokuten2": 132,
+    "juni2": null,
+    "ninzu2": null
+  },
+  "3/18": {
+    "hensachi4": 60.7,
+    "hensachi2": 62.1,
+    "sansu": 64.9,
+    "kokugo": 58.1,
+    "rika": 62.6,
+    "shakai": 55.2,
+    "tokuten4": null,
+    "juni4": null,
+    "ninzu4": null,
+    "tokuten2": null,
+    "juni2": null,
+    "ninzu2": null
+  },
+  "4/24": {
+    "hensachi4": 61.5,
+    "hensachi2": 60.6,
+    "sansu": 66.4,
+    "kokugo": 53.4,
+    "rika": 60.4,
+    "shakai": 60.3,
+    "tokuten4": null,
+    "juni4": null,
+    "ninzu4": null,
+    "tokuten2": null,
+    "juni2": null,
+    "ninzu2": null
+  },
+  "5/27": {
+    "hensachi4": 66.5,
+    "hensachi2": 53.5,
+    "sansu": 60.3,
+    "kokugo": 60.3,
+    "rika": 60.3,
+    "shakai": 60.3,
+    "tokuten4": null,
+    "juni4": null,
+    "ninzu4": null,
+    "tokuten2": null,
+    "juni2": null,
+    "ninzu2": null
+  }
 }
