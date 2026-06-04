@@ -15,126 +15,105 @@
     padding: 16px;
   }
   .back-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.2);
-    color: #fff;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 14px;
-    cursor: pointer;
-    text-decoration: none;
-    margin-bottom: 16px;
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+    color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 14px;
+    cursor: pointer; text-decoration: none; margin-bottom: 16px;
   }
   .header { text-align: center; padding: 12px 0 20px; }
   .header h1 { font-size: 20px; font-weight: bold; }
   .header p { font-size: 13px; color: #c4b5fd; margin-top: 4px; }
   .card {
-    background: rgba(255,255,255,0.07);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 16px;
-    padding: 16px;
-    margin-bottom: 16px;
+    background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 16px; padding: 16px; margin-bottom: 16px;
   }
   .card-title {
-    font-size: 15px;
-    font-weight: bold;
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    font-size: 15px; font-weight: bold; margin-bottom: 14px;
+    display: flex; align-items: center; justify-content: space-between;
   }
   .chart-wrap { position: relative; height: 220px; }
 
-  /* 入力フォーム */
+  /* テスト行 */
   .test-list { display: flex; flex-direction: column; gap: 12px; }
   .test-row {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 12px;
-    padding: 12px;
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px; padding: 12px;
   }
   .test-row-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
+    display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;
   }
   .test-date { font-size: 14px; font-weight: bold; }
-  .test-row-fields {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 8px;
+  .del-btn {
+    background: rgba(248,113,113,0.15); border: 1px solid rgba(248,113,113,0.3);
+    color: #f87171; border-radius: 8px; font-size: 12px; padding: 3px 10px; cursor: pointer;
   }
+  .del-btn:active { opacity: 0.7; }
+  .test-row-fields { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
   .field-group { display: flex; flex-direction: column; gap: 3px; }
   .field-group label { font-size: 10px; color: #c4b5fd; }
   .field-group input {
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 8px;
-    color: #fff;
-    font-size: 15px;
-    padding: 6px 8px;
-    text-align: center;
-    width: 100%;
-    -webkit-appearance: none;
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px; color: #fff; font-size: 15px; padding: 6px 8px;
+    text-align: center; width: 100%; -webkit-appearance: none;
   }
-  .field-group input:focus {
-    outline: none;
-    border-color: #a78bfa;
-    background: rgba(167,139,250,0.15);
-  }
+  .field-group input:focus { outline: none; border-color: #a78bfa; background: rgba(167,139,250,0.15); }
   .field-group input.filled { border-color: rgba(255,255,255,0.3); }
-  .save-btn {
-    background: linear-gradient(135deg, #7c3aed, #4f46e5);
-    border: none;
-    border-radius: 20px;
-    color: #fff;
-    font-size: 13px;
-    font-weight: bold;
-    padding: 8px 18px;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 12px;
-  }
-  .save-btn:active { opacity: 0.8; }
-  .saved-toast {
-    display: none;
-    text-align: center;
-    color: #4ade80;
-    font-size: 13px;
-    margin-top: 8px;
-  }
+  .field-group-label { font-size: 11px; color: #c4b5fd; font-weight: bold; margin: 10px 0 6px; }
 
-  /* 最新サマリー */
-  .latest-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
+  /* ボタン類 */
+  .add-test-btn {
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    background: rgba(167,139,250,0.15); border: 1px dashed rgba(167,139,250,0.5);
+    color: #c4b5fd; border-radius: 12px; font-size: 14px; padding: 12px;
+    cursor: pointer; width: 100%; margin-top: 4px;
   }
-  .stat-box {
-    background: rgba(255,255,255,0.06);
-    border-radius: 12px;
-    padding: 12px;
-    text-align: center;
+  .add-test-btn:active { background: rgba(167,139,250,0.25); }
+  .save-btn {
+    background: linear-gradient(135deg, #7c3aed, #4f46e5); border: none;
+    border-radius: 20px; color: #fff; font-size: 13px; font-weight: bold;
+    padding: 10px 18px; cursor: pointer; width: 100%; margin-top: 14px;
   }
+  .save-btn:disabled { opacity: 0.5; }
+  .saved-toast { display: none; text-align: center; color: #4ade80; font-size: 13px; margin-top: 8px; }
+
+  /* 追加モーダル */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.7); z-index: 100;
+    align-items: center; justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: #1e1550; border: 1px solid rgba(167,139,250,0.4);
+    border-radius: 20px; padding: 24px; width: 90%; max-width: 340px;
+  }
+  .modal h2 { font-size: 16px; margin-bottom: 16px; text-align: center; }
+  .modal-field { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
+  .modal-field label { font-size: 12px; color: #c4b5fd; }
+  .modal-field input {
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 10px; color: #fff; font-size: 16px; padding: 10px 12px; width: 100%;
+  }
+  .modal-field input:focus { outline: none; border-color: #a78bfa; }
+  .modal-hint { font-size: 11px; color: #7c6fa0; margin-bottom: 16px; }
+  .modal-btns { display: flex; gap: 8px; }
+  .modal-btns button {
+    flex: 1; border: none; border-radius: 12px; font-size: 14px;
+    font-weight: bold; padding: 10px; cursor: pointer;
+  }
+  .modal-cancel { background: rgba(255,255,255,0.1); color: #c4b5fd; }
+  .modal-ok { background: linear-gradient(135deg, #7c3aed, #4f46e5); color: #fff; }
+
+  /* サマリー */
+  .latest-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .stat-box { background: rgba(255,255,255,0.06); border-radius: 12px; padding: 12px; text-align: center; }
   .stat-box .lbl { font-size: 11px; color: #c4b5fd; margin-bottom: 4px; }
   .stat-box .val { font-size: 26px; font-weight: bold; }
-  .stat-box .diff { font-size: 11px; color: #c4b5fd; margin-top: 2px; }
-  .diff-up   { color: #4ade80 !important; }
-  .diff-down { color: #f87171 !important; }
-
-  .field-group-label {
-    font-size: 11px;
-    color: #c4b5fd;
-    font-weight: bold;
-    margin: 10px 0 6px;
-    padding-left: 2px;
-  }
   .rank-score { font-size: 13px; color: #e9d5ff; margin-top: 2px; font-weight: bold; }
   .rank-str   { font-size: 11px; color: #c4b5fd; margin-top: 1px; }
+  .diff-up   { color: #4ade80; font-size: 11px; }
+  .diff-down { color: #f87171; font-size: 11px; }
+  .diff-same { color: #c4b5fd; font-size: 11px; }
 
   /* テーブル */
   table { width: 100%; border-collapse: collapse; font-size: 12px; }
@@ -151,6 +130,26 @@
 </head>
 <body>
 
+<!-- 追加モーダル -->
+<div class="modal-overlay" id="addModal">
+  <div class="modal">
+    <h2>＋ テスト回を追加</h2>
+    <div class="modal-field">
+      <label>表示用ラベル（実施日）</label>
+      <input type="text" id="newLabel" placeholder="例：2026/06/24">
+    </div>
+    <div class="modal-field">
+      <label>グラフ用の短い表示</label>
+      <input type="text" id="newDate" placeholder="例：6/24">
+    </div>
+    <p class="modal-hint">※ グラフの横軸に表示される短い日付です</p>
+    <div class="modal-btns">
+      <button class="modal-cancel" onclick="closeModal()">キャンセル</button>
+      <button class="modal-ok" onclick="confirmAdd()">追加する</button>
+    </div>
+  </div>
+</div>
+
 <a href="/" class="back-btn">← アプリに戻る</a>
 <div class="header">
   <h1>📊 学力判定テスト</h1>
@@ -161,7 +160,8 @@
 <div class="card">
   <div class="card-title">✏️ 成績を入力する</div>
   <div class="test-list" id="inputList"></div>
-  <button class="save-btn" onclick="saveAll()">💾 保存してグラフを更新</button>
+  <button class="add-test-btn" onclick="openModal()">＋ 新しいテスト回を追加</button>
+  <button class="save-btn" id="saveBtn" onclick="saveAll()">💾 保存してグラフを更新</button>
   <div id="syncStatus" style="font-size:12px;color:#c4b5fd;text-align:center;margin-top:8px;"></div>
   <div class="saved-toast" id="toast">✅ 保存完了！全員に反映されました</div>
 </div>
@@ -184,25 +184,19 @@
   <div class="chart-wrap"><canvas id="subjectChart"></canvas></div>
 </div>
 
+<!-- 科目別推移グラフ -->
+<div class="card">
+  <div class="card-title">📉 科目別 偏差値の推移</div>
+  <div class="chart-wrap" style="height:260px;"><canvas id="subjectTrendChart"></canvas></div>
+</div>
+
 <!-- テスト一覧 -->
 <div class="card">
   <div class="card-title">📋 テスト一覧</div>
-  <div style="overflow-x:auto;">
-    <table id="resultTable"></table>
-  </div>
+  <div style="overflow-x:auto;"><table id="resultTable"></table></div>
 </div>
 
 <script>
-const STORAGE_KEY = 'gakuhan_results';
-
-// テスト定義（日付・初期データ）
-const TESTS = [
-  { date: '2/25', label: '2026/02/25' },
-  { date: '3/18', label: '2026/03/18' },
-  { date: '4/24', label: '2026/04/24' },
-  { date: '5/27', label: '2026/05/27' },
-];
-
 const FIELD_GROUPS = [
   {
     label: '📊 偏差値',
@@ -218,27 +212,54 @@ const FIELD_GROUPS = [
   {
     label: '🏆 得点・順位',
     fields: [
-      { key: 'tokuten4', label: '4科目得点',     step: '1', min: 0, max: 500 },
-      { key: 'juni4',    label: '4科目順位（位）', step: '1', min: 1, max: 9999 },
-      { key: 'ninzu4',   label: '4科目受験者数',  step: '1', min: 1, max: 9999 },
-      { key: 'tokuten2', label: '2科目得点',     step: '1', min: 0, max: 300 },
-      { key: 'juni2',    label: '2科目順位（位）', step: '1', min: 1, max: 9999 },
-      { key: 'ninzu2',   label: '2科目受験者数',  step: '1', min: 1, max: 9999 },
+      { key: 'tokuten4', label: '4科目得点',      step: '1', min: 0,  max: 500  },
+      { key: 'juni4',    label: '4科目順位（位）',  step: '1', min: 1,  max: 9999 },
+      { key: 'ninzu4',   label: '4科目受験者数',   step: '1', min: 1,  max: 9999 },
+      { key: 'tokuten2', label: '2科目得点',      step: '1', min: 0,  max: 300  },
+      { key: 'juni2',    label: '2科目順位（位）',  step: '1', min: 1,  max: 9999 },
+      { key: 'ninzu2',   label: '2科目受験者数',   step: '1', min: 1,  max: 9999 },
     ]
   }
 ];
 const FIELDS = FIELD_GROUPS.flatMap(g => g.fields);
+const EMPTY_ROW = () => Object.fromEntries(FIELDS.map(f => [f.key, null]));
 
-// 初期値（PDFから読み取り済み）
-const DEFAULTS = {
-  '2/25': { hensachi4: 51.8, hensachi2: 50.8, sansu: 61.6, kokugo: 39.3, rika: 48.7, shakai: 56.3, tokuten4: 273, tokuten2: 132 },
-  '5/27': { hensachi4: 66.5, hensachi2: 53.5, sansu: 60.3, kokugo: 60.3, rika: 60.3, shakai: 60.3 },
-};
-
-let data = {};
+let data = {};        // { _tests: [{date,label},...], "2/25": {...}, ... }
 let currentSha = null;
-let trendChart, subjectChart;
+let tests = [];       // [{date, label}] — 表示順
+let trendChart, subjectChart, subjectTrendChart;
 
+// ---- モーダル ----
+function openModal() {
+  document.getElementById('newLabel').value = '';
+  document.getElementById('newDate').value = '';
+  document.getElementById('addModal').classList.add('open');
+  setTimeout(() => document.getElementById('newLabel').focus(), 100);
+}
+function closeModal() {
+  document.getElementById('addModal').classList.remove('open');
+}
+function confirmAdd() {
+  const label = document.getElementById('newLabel').value.trim();
+  const date  = document.getElementById('newDate').value.trim();
+  if (!label || !date) { alert('両方入力してください'); return; }
+  if (tests.find(t => t.date === date)) { alert('その日付はすでに存在します'); return; }
+  tests.push({ date, label });
+  data[date] = EMPTY_ROW();
+  closeModal();
+  renderInputs();
+}
+
+// ---- 削除 ----
+function deleteTest(date) {
+  if (!confirm(`「${date}」の回を削除しますか？`)) return;
+  tests = tests.filter(t => t.date !== date);
+  delete data[date];
+  renderInputs();
+  renderAll();
+}
+
+// ---- Cloud ----
 function setStatus(msg, isError) {
   const el = document.getElementById('syncStatus');
   el.textContent = msg;
@@ -253,28 +274,68 @@ async function loadFromCloud() {
     const { data: d, sha } = await r.json();
     data = d;
     currentSha = sha;
+    tests = Array.isArray(d._tests) ? d._tests : [];
     setStatus('✅ 読み込み完了');
   } catch(e) {
     setStatus('⚠️ 読み込み失敗（オフライン？）', true);
-    // フォールバック: デフォルト値を使う
-    data = {};
-    TESTS.forEach(t => { data[t.date] = Object.assign({}, DEFAULTS[t.date] || {}); });
+    tests = [];
+    data = { _tests: [] };
   }
   renderInputs();
   renderAll();
 }
 
-// --- 入力フォーム描画 ---
+async function saveAll() {
+  const btn = document.getElementById('saveBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ 保存中...';
+
+  // フォームから値を読み取る
+  tests.forEach(t => {
+    const row = {};
+    FIELDS.forEach(f => {
+      const el = document.getElementById(`inp_${t.date}_${f.key}`);
+      if (!el) return;
+      const v = parseFloat(el.value);
+      row[f.key] = isNaN(v) ? null : v;
+    });
+    data[t.date] = row;
+  });
+  data._tests = tests;
+
+  try {
+    const r = await fetch('/api/gakuhan', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ data, sha: currentSha }),
+    });
+    if (!r.ok) throw new Error(await r.text());
+    const res = await r.json();
+    currentSha = res.sha;
+    setStatus('✅ 保存完了・全員に反映されました');
+    renderAll();
+    const toast = document.getElementById('toast');
+    toast.style.display = 'block';
+    setTimeout(() => toast.style.display = 'none', 3000);
+  } catch(e) {
+    setStatus('❌ 保存失敗: ' + e.message, true);
+  }
+  btn.disabled = false;
+  btn.textContent = '💾 保存してグラフを更新';
+}
+
+// ---- 入力フォーム ----
 function renderInputs() {
   const list = document.getElementById('inputList');
   list.innerHTML = '';
-  TESTS.forEach(t => {
+  tests.forEach(t => {
     const d = data[t.date] || {};
     const div = document.createElement('div');
     div.className = 'test-row';
     div.innerHTML = `
       <div class="test-row-header">
         <span class="test-date">📅 ${t.label}</span>
+        <button class="del-btn" onclick="deleteTest('${t.date}')">削除</button>
       </div>
       ${FIELD_GROUPS.map(g => `
         <div class="field-group-label">${g.label}</div>
@@ -297,99 +358,56 @@ function renderInputs() {
   });
 }
 
-async function saveAll() {
-  const btn = document.querySelector('.save-btn');
-  btn.disabled = true;
-  btn.textContent = '⏳ 保存中...';
-
-  TESTS.forEach(t => {
-    const row = {};
-    FIELDS.forEach(f => {
-      const el = document.getElementById(`inp_${t.date}_${f.key}`);
-      const v = parseFloat(el.value);
-      row[f.key] = isNaN(v) ? null : v;
-    });
-    data[t.date] = row;
-  });
-
-  try {
-    const r = await fetch('/api/gakuhan', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ data, sha: currentSha }),
-    });
-    if (!r.ok) throw new Error(await r.text());
-    const { sha } = await r.json();
-    currentSha = sha;
-    setStatus('✅ 保存完了・全員に反映されました');
-    renderAll();
-    const toast = document.getElementById('toast');
-    toast.style.display = 'block';
-    setTimeout(() => toast.style.display = 'none', 3000);
-  } catch(e) {
-    setStatus('❌ 保存失敗: ' + e.message, true);
-  }
-
-  btn.disabled = false;
-  btn.textContent = '💾 保存してグラフを更新';
-}
-
-// --- サマリー描画 ---
+// ---- サマリー ----
 function renderLatest() {
-  // データのある最新回を探す
   let latest = null, latestIdx = -1;
-  TESTS.forEach((t, i) => {
+  tests.forEach((t, i) => {
     const d = data[t.date];
     if (d && d.hensachi4 != null) { latest = d; latestIdx = i; }
   });
   if (!latest) { document.getElementById('latestCard').style.display = 'none'; return; }
   document.getElementById('latestCard').style.display = '';
-  const t = TESTS[latestIdx];
-  document.getElementById('latestTitle').textContent = `⭐ 最新の結果（${t.label}）`;
+  document.getElementById('latestTitle').textContent = `⭐ 最新の結果（${tests[latestIdx].label}）`;
 
-  // 前回データ
   let prev = null;
   for (let i = latestIdx - 1; i >= 0; i--) {
-    const d = data[TESTS[i].date];
+    const d = data[tests[i].date];
     if (d && d.hensachi4 != null) { prev = d; break; }
   }
 
   function diffStr(cur, pre, key) {
-    if (pre == null || pre[key] == null || cur[key] == null) return '';
-    const d = (cur[key] - pre[key]).toFixed(1);
-    if (d > 0) return `<span class="diff diff-up">↑${d}</span>`;
-    if (d < 0) return `<span class="diff diff-down">↓${Math.abs(d)}</span>`;
-    return `<span class="diff">→ 同じ</span>`;
+    if (!pre || pre[key] == null || cur[key] == null) return '';
+    const d = +(cur[key] - pre[key]).toFixed(1);
+    if (d > 0) return `<div class="diff-up">↑${d}</div>`;
+    if (d < 0) return `<div class="diff-down">↓${Math.abs(d)}</div>`;
+    return `<div class="diff-same">→ 同じ</div>`;
   }
-
-  function rankStr(juni, ninzu) {
-    if (juni == null) return '';
-    return ninzu != null ? `${juni}位 / ${ninzu}人中` : `${juni}位`;
+  function rankStr(j, n) {
+    if (j == null) return '';
+    return n != null ? `${j}位 / ${n}人中` : `${j}位`;
   }
 
   const boxes = [
-    { lbl: '4科目 偏差値', val: latest.hensachi4, color: '#a78bfa', diffKey: 'hensachi4',
-      sub: rankStr(latest.juni4, latest.ninzu4), sub2: latest.tokuten4 != null ? `${latest.tokuten4}点` : null },
-    { lbl: '2科目 偏差値', val: latest.hensachi2, color: '#38bdf8', diffKey: 'hensachi2',
-      sub: rankStr(latest.juni2, latest.ninzu2), sub2: latest.tokuten2 != null ? `${latest.tokuten2}点` : null },
-    { lbl: '算数',  val: latest.sansu,   color: '#60a5fa', diffKey: 'sansu' },
-    { lbl: '国語',  val: latest.kokugo,  color: '#f472b6', diffKey: 'kokugo' },
-    { lbl: '理科',  val: latest.rika,    color: '#4ade80', diffKey: 'rika' },
-    { lbl: '社会',  val: latest.shakai,  color: '#fbbf24', diffKey: 'shakai' },
+    { lbl: '4科目 偏差値', val: latest.hensachi4, color: '#a78bfa', dk: 'hensachi4', score: latest.tokuten4, rank: rankStr(latest.juni4, latest.ninzu4) },
+    { lbl: '2科目 偏差値', val: latest.hensachi2, color: '#38bdf8', dk: 'hensachi2', score: latest.tokuten2, rank: rankStr(latest.juni2, latest.ninzu2) },
+    { lbl: '算数', val: latest.sansu,   color: '#60a5fa', dk: 'sansu' },
+    { lbl: '国語', val: latest.kokugo,  color: '#f472b6', dk: 'kokugo' },
+    { lbl: '理科', val: latest.rika,    color: '#4ade80', dk: 'rika' },
+    { lbl: '社会', val: latest.shakai,  color: '#fbbf24', dk: 'shakai' },
   ];
 
   document.getElementById('latestGrid').innerHTML = boxes.map(b => `
     <div class="stat-box">
       <div class="lbl">${b.lbl}</div>
-      <div class="val" style="color:${b.color}">${b.val != null ? b.val : '—'}</div>
-      ${b.sub2 ? `<div class="rank-score">${b.sub2}</div>` : ''}
-      ${b.sub ? `<div class="rank-str">${b.sub}</div>` : ''}
-      ${b.val != null ? diffStr(latest, prev, b.diffKey) : ''}
+      <div class="val" style="color:${b.color}">${b.val ?? '—'}</div>
+      ${b.score != null ? `<div class="rank-score">${b.score}点</div>` : ''}
+      ${b.rank   ? `<div class="rank-str">${b.rank}</div>` : ''}
+      ${b.val != null ? diffStr(latest, prev, b.dk) : ''}
     </div>
   `).join('');
 }
 
-// --- テーブル描画 ---
+// ---- テーブル ----
 function renderTable() {
   const tbl = document.getElementById('resultTable');
   tbl.innerHTML = `
@@ -405,12 +423,14 @@ function renderTable() {
       <th colspan="4" style="font-size:10px;color:#c4b5fd;">偏差値</th>
     </tr>
   `;
-  TESTS.forEach(t => {
+  const nd = v => v != null ? v : '<span class="no-data">—</span>';
+  const rank = (j, n) => j != null
+    ? (n != null ? `${j}<br><span style="font-size:10px;color:#c4b5fd;">/${n}人</span>` : `${j}位`)
+    : '<span class="no-data">—</span>';
+  tests.forEach(t => {
     const d = data[t.date] || {};
-    const nd = v => v != null ? v : '<span class="no-data">—</span>';
-    const rank = (j, n) => j != null ? (n != null ? `${j}<br><span style="font-size:10px;color:#c4b5fd;">/${n}人</span>` : `${j}位`) : '<span class="no-data">—</span>';
     tbl.innerHTML += `<tr>
-      <td style="font-weight:bold;">${t.date}</td>
+      <td style="font-weight:bold;white-space:nowrap;">${t.date}</td>
       <td class="c-4k">${nd(d.hensachi4)}</td>
       <td>${nd(d.tokuten4)}</td>
       <td>${rank(d.juni4, d.ninzu4)}</td>
@@ -425,38 +445,35 @@ function renderTable() {
   });
 }
 
-// --- グラフ描画 ---
+// ---- グラフ ----
+const CHART_OPTS = {
+  responsive: true, maintainAspectRatio: false,
+  plugins: { legend: { labels: { color: '#e9d5ff', font: { size: 12 } } } },
+  scales: {
+    x: { ticks: { color: '#c4b5fd' }, grid: { color: 'rgba(167,139,250,0.1)' } },
+    y: { min: 30, max: 80, ticks: { color: '#c4b5fd', stepSize: 10 }, grid: { color: 'rgba(167,139,250,0.1)' } }
+  }
+};
+
 function renderCharts() {
-  const labels = TESTS.map(t => t.date);
-  const get = key => TESTS.map(t => (data[t.date] || {})[key] ?? null);
+  const labels = tests.map(t => t.date);
+  const get = key => tests.map(t => (data[t.date] || {})[key] ?? null);
 
   if (trendChart) trendChart.destroy();
   trendChart = new Chart(document.getElementById('trendChart'), {
     type: 'line',
-    data: {
-      labels,
-      datasets: [
-        { label: '4科目', data: get('hensachi4'), borderColor: '#a78bfa', backgroundColor: 'rgba(167,139,250,0.15)', tension: 0.3, pointRadius: 5, spanGaps: true },
-        { label: '2科目', data: get('hensachi2'), borderColor: '#38bdf8', backgroundColor: 'rgba(56,189,248,0.1)',   tension: 0.3, pointRadius: 5, spanGaps: true, borderDash: [5,3] },
-      ]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { labels: { color: '#e9d5ff', font: { size: 12 } } } },
-      scales: {
-        x: { ticks: { color: '#c4b5fd' }, grid: { color: 'rgba(167,139,250,0.1)' } },
-        y: { min: 30, max: 80, ticks: { color: '#aaa', stepSize: 10 }, grid: { color: 'rgba(255,255,255,0.05)' } }
-      }
-    }
+    data: { labels, datasets: [
+      { label: '4科目', data: get('hensachi4'), borderColor: '#a78bfa', backgroundColor: 'rgba(167,139,250,0.15)', tension: 0.3, pointRadius: 5, spanGaps: true },
+      { label: '2科目', data: get('hensachi2'), borderColor: '#38bdf8', backgroundColor: 'rgba(56,189,248,0.1)',   tension: 0.3, pointRadius: 5, spanGaps: true, borderDash: [5,3] },
+    ]},
+    options: JSON.parse(JSON.stringify(CHART_OPTS))
   });
 
-  // 最新のデータがある回を使う
   let latestD = null;
-  for (let i = TESTS.length - 1; i >= 0; i--) {
-    const d = data[TESTS[i].date];
-    if (d && (d.sansu != null || d.kokugo != null)) { latestD = d; break; }
+  for (let i = tests.length - 1; i >= 0; i--) {
+    const d = data[tests[i].date];
+    if (d && d.sansu != null) { latestD = d; break; }
   }
-
   if (subjectChart) subjectChart.destroy();
   subjectChart = new Chart(document.getElementById('subjectChart'), {
     type: 'bar',
@@ -466,26 +483,27 @@ function renderCharts() {
         label: '偏差値',
         data: latestD ? [latestD.sansu, latestD.kokugo, latestD.rika, latestD.shakai] : [null,null,null,null],
         backgroundColor: ['rgba(96,165,250,0.6)','rgba(244,114,182,0.6)','rgba(74,222,128,0.6)','rgba(251,191,36,0.6)'],
-        borderColor:      ['#60a5fa','#f472b6','#4ade80','#fbbf24'],
+        borderColor: ['#60a5fa','#f472b6','#4ade80','#fbbf24'],
         borderWidth: 2, borderRadius: 6,
       }]
     },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { ticks: { color: '#e9d5ff' }, grid: { color: 'rgba(167,139,250,0.1)' } },
-        y: { min: 30, max: 80, ticks: { color: '#aaa', stepSize: 10 }, grid: { color: 'rgba(255,255,255,0.05)' } }
-      }
-    }
+    options: { ...JSON.parse(JSON.stringify(CHART_OPTS)), plugins: { legend: { display: false } } }
+  });
+
+  if (subjectTrendChart) subjectTrendChart.destroy();
+  subjectTrendChart = new Chart(document.getElementById('subjectTrendChart'), {
+    type: 'line',
+    data: { labels, datasets: [
+      { label: '算数', data: get('sansu'),  borderColor: '#60a5fa', backgroundColor: 'rgba(96,165,250,0.1)',  tension: 0.3, pointRadius: 5, spanGaps: true },
+      { label: '国語', data: get('kokugo'), borderColor: '#f472b6', backgroundColor: 'rgba(244,114,182,0.1)', tension: 0.3, pointRadius: 5, spanGaps: true },
+      { label: '理科', data: get('rika'),   borderColor: '#4ade80', backgroundColor: 'rgba(74,222,128,0.1)',  tension: 0.3, pointRadius: 5, spanGaps: true },
+      { label: '社会', data: get('shakai'), borderColor: '#fbbf24', backgroundColor: 'rgba(251,191,36,0.1)',  tension: 0.3, pointRadius: 5, spanGaps: true },
+    ]},
+    options: { ...JSON.parse(JSON.stringify(CHART_OPTS)), plugins: { legend: { labels: { color: '#e9d5ff', font: { size: 12 } } } } }
   });
 }
 
-function renderAll() {
-  renderLatest();
-  renderTable();
-  renderCharts();
-}
+function renderAll() { renderLatest(); renderTable(); renderCharts(); }
 
 loadFromCloud();
 </script>

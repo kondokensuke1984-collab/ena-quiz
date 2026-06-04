@@ -1,4 +1,10 @@
 {
+  "_tests": [
+    { "date": "2/25", "label": "2026/02/25" },
+    { "date": "3/18", "label": "2026/03/18" },
+    { "date": "4/24", "label": "2026/04/24" },
+    { "date": "5/27", "label": "2026/05/27" }
+  ],
   "2/25": { "hensachi4": 51.8, "hensachi2": 50.8, "sansu": 61.6, "kokugo": 39.3, "rika": 48.7, "shakai": 56.3, "tokuten4": 273, "tokuten2": 132, "juni4": null, "ninzu4": null, "juni2": null, "ninzu2": null },
   "3/18": { "hensachi4": null, "hensachi2": null, "sansu": null, "kokugo": null, "rika": null, "shakai": null, "tokuten4": null, "tokuten2": null, "juni4": null, "ninzu4": null, "juni2": null, "ninzu2": null },
   "4/24": { "hensachi4": null, "hensachi2": null, "sansu": null, "kokugo": null, "rika": null, "shakai": null, "tokuten4": null, "tokuten2": null, "juni4": null, "ninzu4": null, "juni2": null, "ninzu2": null },
