@@ -22,8 +22,11 @@
     "juni2": 208,
     "ninzu2": 307,
     "sansu_ten": 56,
+    "sansu_juni": null,
     "kokugo_ten": 57,
-    "eigo_ten": null
+    "kokugo_juni": null,
+    "eigo_ten": null,
+    "eigo_juni": null
   },
   "5月タームテスト": {
     "hensachi3": 42.6,
@@ -32,13 +35,16 @@
     "kokugo": 46.8,
     "eigo": 45.1,
     "tokuten3": 148,
-    "juni3": null,
+    "juni3": 242,
     "ninzu3": null,
     "tokuten2": 98,
     "juni2": null,
     "ninzu2": null,
     "sansu_ten": 46,
+    "sansu_juni": 276,
     "kokugo_ten": 52,
-    "eigo_ten": 50
+    "kokugo_juni": 211,
+    "eigo_ten": 50,
+    "eigo_juni": 220
   }
 }
