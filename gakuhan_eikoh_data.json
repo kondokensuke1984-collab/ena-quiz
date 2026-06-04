@@ -1,7 +1,7 @@
 {
   "_tests": [
     {
-      "date": "5月",
+      "date": "4月統一模試",
       "label": "2026/4"
     },
     {
@@ -9,25 +9,6 @@
       "label": "2026/5"
     }
   ],
-  "5月": {
-    "hensachi3": null,
-    "hensachi2": 45,
-    "sansu": 44,
-    "kokugo": 47,
-    "eigo": null,
-    "tokuten3": null,
-    "juni3": null,
-    "ninzu3": null,
-    "tokuten2": 113,
-    "juni2": 208,
-    "ninzu2": 307,
-    "sansu_ten": 56,
-    "sansu_juni": null,
-    "kokugo_ten": 57,
-    "kokugo_juni": null,
-    "eigo_ten": null,
-    "eigo_juni": null
-  },
   "5月タームテスト": {
     "hensachi3": 42.6,
     "hensachi2": null,
@@ -46,5 +27,24 @@
     "kokugo_juni": 211,
     "eigo_ten": 50,
     "eigo_juni": 220
+  },
+  "4月統一模試": {
+    "hensachi3": null,
+    "hensachi2": 45,
+    "sansu": 44,
+    "kokugo": 47,
+    "eigo": null,
+    "tokuten3": null,
+    "juni3": null,
+    "ninzu3": null,
+    "tokuten2": 113,
+    "juni2": 208,
+    "ninzu2": 307,
+    "sansu_ten": 56,
+    "sansu_juni": null,
+    "kokugo_ten": 57,
+    "kokugo_juni": null,
+    "eigo_ten": null,
+    "eigo_juni": null
   }
 }
