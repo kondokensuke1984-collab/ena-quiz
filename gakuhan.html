@@ -33,16 +33,30 @@
   }
   .chart-wrap { position: relative; height: 220px; }
 
-  /* テスト行 */
-  .test-list { display: flex; flex-direction: column; gap: 12px; }
+  /* テスト行（アコーディオン） */
+  .test-list { display: flex; flex-direction: column; gap: 8px; }
   .test-row {
     background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 12px; padding: 12px;
+    border-radius: 12px; overflow: hidden;
   }
   .test-row-header {
-    display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px; cursor: pointer; user-select: none;
   }
+  .test-row-header:active { background: rgba(255,255,255,0.05); }
+  .test-row-left { display: flex; align-items: center; gap: 10px; }
   .test-date { font-size: 14px; font-weight: bold; }
+  .test-filled-badge {
+    font-size: 10px; color: #4ade80; background: rgba(74,222,128,0.15);
+    border-radius: 8px; padding: 2px 7px;
+  }
+  .accordion-arrow {
+    font-size: 12px; color: #c4b5fd; transition: transform 0.2s;
+  }
+  .test-row.open .accordion-arrow { transform: rotate(180deg); }
+  .test-row-body { display: none; padding: 0 12px 12px; }
+  .test-row.open .test-row-body { display: block; }
+  .test-row-actions { display: flex; justify-content: flex-end; margin-bottom: 8px; }
   .del-btn {
     background: rgba(248,113,113,0.15); border: 1px solid rgba(248,113,113,0.3);
     color: #f87171; border-radius: 8px; font-size: 12px; padding: 3px 10px; cursor: pointer;
@@ -59,6 +73,17 @@
   .field-group input:focus { outline: none; border-color: #a78bfa; background: rgba(167,139,250,0.15); }
   .field-group input.filled { border-color: rgba(255,255,255,0.3); }
   .field-group-label { font-size: 11px; color: #c4b5fd; font-weight: bold; margin: 10px 0 6px; }
+
+  /* 成績入力ボタン（メイン画面） */
+  .edit-btn {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    background: linear-gradient(135deg, #7c3aed, #4f46e5);
+    border: none; border-radius: 16px; color: #fff;
+    font-size: 15px; font-weight: bold; padding: 14px;
+    cursor: pointer; width: 100%; margin-bottom: 16px;
+  }
+  .edit-btn:active { opacity: 0.85; }
+  .edit-header { margin-bottom: 4px; }
 
   /* ボタン類 */
   .add-test-btn {
@@ -150,50 +175,70 @@
   </div>
 </div>
 
-<a href="/" class="back-btn">← アプリに戻る</a>
-<div class="header">
-  <h1>📊 学力判定テスト</h1>
-  <p>enaガクハン 成績グラフ</p>
-</div>
+<!-- ========== メイン画面 ========== -->
+<div id="view-main">
+  <a href="/" class="back-btn">← アプリに戻る</a>
+  <div class="header">
+    <h1>📊 学力判定テスト</h1>
+    <p>enaガクハン 成績グラフ</p>
+  </div>
 
-<!-- データ入力 -->
-<div class="card">
-  <div class="card-title">✏️ 成績を入力する</div>
-  <div class="test-list" id="inputList"></div>
-  <button class="add-test-btn" onclick="openModal()">＋ 新しいテスト回を追加</button>
-  <button class="save-btn" id="saveBtn" onclick="saveAll()">💾 保存してグラフを更新</button>
-  <div id="syncStatus" style="font-size:12px;color:#c4b5fd;text-align:center;margin-top:8px;"></div>
-  <div class="saved-toast" id="toast">✅ 保存完了！全員に反映されました</div>
-</div>
+  <button class="edit-btn" onclick="showEdit()">✏️ 成績を入力する</button>
 
-<!-- 最新サマリー -->
-<div class="card" id="latestCard">
-  <div class="card-title" id="latestTitle">⭐ 最新の結果</div>
-  <div class="latest-grid" id="latestGrid"></div>
-</div>
+  <!-- 最新サマリー -->
+  <div class="card" id="latestCard">
+    <div class="card-title" id="latestTitle">⭐ 最新の結果</div>
+    <div class="latest-grid" id="latestGrid"></div>
+  </div>
 
-<!-- 偏差値推移グラフ -->
-<div class="card">
-  <div class="card-title">📈 4科目 偏差値の推移</div>
-  <div class="chart-wrap"><canvas id="trendChart"></canvas></div>
-</div>
+  <!-- 偏差値推移グラフ -->
+  <div class="card">
+    <div class="card-title">📈 4科目 偏差値の推移</div>
+    <div class="chart-wrap"><canvas id="trendChart"></canvas></div>
+  </div>
 
-<!-- 科目別偏差値グラフ -->
-<div class="card">
-  <div class="card-title">📚 科目別 偏差値（最新回）</div>
-  <div class="chart-wrap"><canvas id="subjectChart"></canvas></div>
-</div>
+  <!-- 科目別偏差値グラフ -->
+  <div class="card">
+    <div class="card-title">📚 科目別 偏差値（最新回）</div>
+    <div class="chart-wrap"><canvas id="subjectChart"></canvas></div>
+  </div>
 
-<!-- 科目別推移グラフ -->
-<div class="card">
-  <div class="card-title">📉 科目別 偏差値の推移</div>
-  <div class="chart-wrap" style="height:260px;"><canvas id="subjectTrendChart"></canvas></div>
-</div>
+  <!-- 科目別推移グラフ -->
+  <div class="card">
+    <div class="card-title">📉 科目別 偏差値の推移</div>
+    <div class="chart-wrap" style="height:260px;"><canvas id="subjectTrendChart"></canvas></div>
+  </div>
 
-<!-- テスト一覧 -->
-<div class="card">
-  <div class="card-title">📋 テスト一覧</div>
-  <div style="overflow-x:auto;"><table id="resultTable"></table></div>
+  <!-- 各科目 得点推移グラフ -->
+  <div class="card">
+    <div class="card-title">📝 各科目 得点の推移</div>
+    <div class="chart-wrap" style="height:260px;"><canvas id="scoreTrendChart"></canvas></div>
+  </div>
+
+  <!-- テスト一覧 -->
+  <div class="card">
+    <div class="card-title">📋 テスト一覧</div>
+    <div style="overflow-x:auto;"><table id="resultTable"></table></div>
+  </div>
+
+</div><!-- /view-main -->
+
+<!-- ========== 入力画面 ========== -->
+<div id="view-edit" style="display:none;">
+  <div class="edit-header">
+    <button class="back-btn" onclick="showMain()">← 戻る</button>
+    <div class="header" style="padding:8px 0 16px;">
+      <h1>✏️ 成績を入力する</h1>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="test-list" id="inputList"></div>
+    <button class="add-test-btn" onclick="openModal()">＋ 新しいテスト回を追加</button>
+    <button class="save-btn" id="saveBtn" onclick="saveAll()">💾 保存してグラフを更新</button>
+    <div id="syncStatus" style="font-size:12px;color:#c4b5fd;text-align:center;margin-top:8px;"></div>
+    <div class="saved-toast" id="toast">✅ 保存完了！全員に反映されました</div>
+  </div>
 </div>
 
 <script>
@@ -210,7 +255,7 @@ const FIELD_GROUPS = [
     ]
   },
   {
-    label: '🏆 得点・順位',
+    label: '🏆 合計得点・順位',
     fields: [
       { key: 'tokuten4', label: '4科目得点',      step: '1', min: 0,  max: 500  },
       { key: 'juni4',    label: '4科目順位（位）',  step: '1', min: 1,  max: 9999 },
@@ -218,6 +263,15 @@ const FIELD_GROUPS = [
       { key: 'tokuten2', label: '2科目得点',      step: '1', min: 0,  max: 300  },
       { key: 'juni2',    label: '2科目順位（位）',  step: '1', min: 1,  max: 9999 },
       { key: 'ninzu2',   label: '2科目受験者数',   step: '1', min: 1,  max: 9999 },
+    ]
+  },
+  {
+    label: '📝 各科目の得点',
+    fields: [
+      { key: 'sansu_ten',  label: '算数得点', step: '1', min: 0, max: 200 },
+      { key: 'kokugo_ten', label: '国語得点', step: '1', min: 0, max: 200 },
+      { key: 'rika_ten',   label: '理科得点', step: '1', min: 0, max: 200 },
+      { key: 'shakai_ten', label: '社会得点', step: '1', min: 0, max: 200 },
     ]
   }
 ];
@@ -227,7 +281,20 @@ const EMPTY_ROW = () => Object.fromEntries(FIELDS.map(f => [f.key, null]));
 let data = {};        // { _tests: [{date,label},...], "2/25": {...}, ... }
 let currentSha = null;
 let tests = [];       // [{date, label}] — 表示順
-let trendChart, subjectChart, subjectTrendChart;
+let trendChart, subjectChart, subjectTrendChart, scoreTrendChart;
+
+// ---- 画面切り替え ----
+function showMain() {
+  document.getElementById('view-main').style.display = '';
+  document.getElementById('view-edit').style.display = 'none';
+  window.scrollTo(0, 0);
+}
+function showEdit() {
+  document.getElementById('view-main').style.display = 'none';
+  document.getElementById('view-edit').style.display = '';
+  renderInputs();
+  window.scrollTo(0, 0);
+}
 
 // ---- モーダル ----
 function openModal() {
@@ -281,7 +348,6 @@ async function loadFromCloud() {
     tests = [];
     data = { _tests: [] };
   }
-  renderInputs();
   renderAll();
 }
 
@@ -316,7 +382,10 @@ async function saveAll() {
     renderAll();
     const toast = document.getElementById('toast');
     toast.style.display = 'block';
-    setTimeout(() => toast.style.display = 'none', 3000);
+    setTimeout(() => {
+      toast.style.display = 'none';
+      showMain();
+    }, 1500);
   } catch(e) {
     setStatus('❌ 保存失敗: ' + e.message, true);
   }
@@ -325,55 +394,108 @@ async function saveAll() {
 }
 
 // ---- 入力フォーム ----
+function toggleAccordion(date) {
+  const row = document.getElementById(`row_${date}`);
+  row.classList.toggle('open');
+}
+
 function renderInputs() {
   const list = document.getElementById('inputList');
   list.innerHTML = '';
-  tests.forEach(t => {
+  tests.forEach((t, idx) => {
     const d = data[t.date] || {};
+    const isLatest = idx === tests.length - 1;
+    const filledCount = FIELDS.filter(f => d[f.key] != null).length;
+    const badge = filledCount > 0 ? `<span class="test-filled-badge">✓ ${filledCount}項目入力済</span>` : '';
     const div = document.createElement('div');
-    div.className = 'test-row';
+    div.className = 'test-row' + (isLatest ? ' open' : '');
+    div.id = `row_${t.date}`;
     div.innerHTML = `
-      <div class="test-row-header">
-        <span class="test-date">📅 ${t.label}</span>
-        <button class="del-btn" onclick="deleteTest('${t.date}')">削除</button>
-      </div>
-      ${FIELD_GROUPS.map(g => `
-        <div class="field-group-label">${g.label}</div>
-        <div class="test-row-fields">
-          ${g.fields.map(f => `
-            <div class="field-group">
-              <label>${f.label}</label>
-              <input type="number" step="${f.step}" min="${f.min}" max="${f.max}"
-                id="inp_${t.date}_${f.key}"
-                value="${d[f.key] != null ? d[f.key] : ''}"
-                placeholder="—"
-                class="${d[f.key] != null ? 'filled' : ''}"
-                oninput="this.classList.toggle('filled', this.value !== '')">
-            </div>
-          `).join('')}
+      <div class="test-row-header" onclick="toggleAccordion('${t.date}')">
+        <div class="test-row-left">
+          <span class="test-date">📅 ${t.label}</span>
+          ${badge}
         </div>
-      `).join('')}
+        <span class="accordion-arrow">▼</span>
+      </div>
+      <div class="test-row-body">
+        <div class="test-row-actions">
+          <button class="del-btn" onclick="deleteTest('${t.date}')">削除</button>
+        </div>
+        ${FIELD_GROUPS.map(g => `
+          <div class="field-group-label">${g.label}</div>
+          <div class="test-row-fields">
+            ${g.fields.map(f => `
+              <div class="field-group">
+                <label>${f.label}</label>
+                <input type="number" step="${f.step}" min="${f.min}" max="${f.max}"
+                  id="inp_${t.date}_${f.key}"
+                  value="${d[f.key] != null ? d[f.key] : ''}"
+                  placeholder="—"
+                  class="${d[f.key] != null ? 'filled' : ''}"
+                  oninput="this.classList.toggle('filled', this.value !== '')">
+              </div>
+            `).join('')}
+          </div>
+        `).join('')}
+      </div>
     `;
     list.appendChild(div);
   });
 }
 
 // ---- サマリー ----
-function renderLatest() {
-  let latest = null, latestIdx = -1;
-  tests.forEach((t, i) => {
-    const d = data[t.date];
-    if (d && d.hensachi4 != null) { latest = d; latestIdx = i; }
-  });
-  if (!latest) { document.getElementById('latestCard').style.display = 'none'; return; }
-  document.getElementById('latestCard').style.display = '';
-  document.getElementById('latestTitle').textContent = `⭐ 最新の結果（${tests[latestIdx].label}）`;
+let selectedIdx = -1; // 表示中の回インデックス（-1=最新）
 
+function getDisplayIdx() {
+  if (selectedIdx >= 0 && selectedIdx < tests.length) return selectedIdx;
+  // デフォルト：データのある最新回
+  let idx = -1;
+  tests.forEach((t, i) => { if ((data[t.date] || {}).hensachi4 != null) idx = i; });
+  return idx;
+}
+
+function moveSelected(dir) {
+  const cur = getDisplayIdx();
+  const next = cur + dir;
+  if (next < 0 || next >= tests.length) return;
+  selectedIdx = next;
+  renderLatest();
+}
+
+function renderLatest() {
+  const latestIdx = getDisplayIdx();
+  if (latestIdx < 0) { document.getElementById('latestCard').style.display = 'none'; return; }
+  document.getElementById('latestCard').style.display = '';
+
+  const t = tests[latestIdx];
+  const latest = data[t.date] || {};
+
+  // 前回データ（1つ前でデータがある回）
   let prev = null;
   for (let i = latestIdx - 1; i >= 0; i--) {
     const d = data[tests[i].date];
     if (d && d.hensachi4 != null) { prev = d; break; }
   }
+
+  // タイトル部分（ナビボタン付き）
+  const isFirst = latestIdx === 0;
+  const isLast  = latestIdx === tests.length - 1;
+  document.getElementById('latestTitle').innerHTML = `
+    <div style="display:flex;align-items:center;gap:8px;width:100%;">
+      <button onclick="moveSelected(-1)" style="
+        background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);
+        color:${isFirst ? '#444' : '#e9d5ff'};border-radius:8px;
+        font-size:16px;padding:4px 10px;cursor:${isFirst ? 'default' : 'pointer'};"
+        ${isFirst ? 'disabled' : ''}>‹</button>
+      <span style="flex:1;text-align:center;font-size:14px;">⭐ ${t.label}</span>
+      <button onclick="moveSelected(1)" style="
+        background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);
+        color:${isLast ? '#444' : '#e9d5ff'};border-radius:8px;
+        font-size:16px;padding:4px 10px;cursor:${isLast ? 'default' : 'pointer'};"
+        ${isLast ? 'disabled' : ''}>›</button>
+    </div>
+  `;
 
   function diffStr(cur, pre, key) {
     if (!pre || pre[key] == null || cur[key] == null) return '';
@@ -415,12 +537,18 @@ function renderTable() {
       <th rowspan="2">実施日</th>
       <th colspan="3">4科目</th>
       <th colspan="3">2科目</th>
-      <th>算数</th><th>国語</th><th>理科</th><th>社会</th>
+      <th colspan="2">算数</th>
+      <th colspan="2">国語</th>
+      <th colspan="2">理科</th>
+      <th colspan="2">社会</th>
     </tr>
     <tr>
       <th>偏差値</th><th>得点</th><th>順位</th>
       <th>偏差値</th><th>得点</th><th>順位</th>
-      <th colspan="4" style="font-size:10px;color:#c4b5fd;">偏差値</th>
+      <th style="font-size:10px;">偏差値</th><th style="font-size:10px;">得点</th>
+      <th style="font-size:10px;">偏差値</th><th style="font-size:10px;">得点</th>
+      <th style="font-size:10px;">偏差値</th><th style="font-size:10px;">得点</th>
+      <th style="font-size:10px;">偏差値</th><th style="font-size:10px;">得点</th>
     </tr>
   `;
   const nd = v => v != null ? v : '<span class="no-data">—</span>';
@@ -437,10 +565,10 @@ function renderTable() {
       <td class="c-4k">${nd(d.hensachi2)}</td>
       <td>${nd(d.tokuten2)}</td>
       <td>${rank(d.juni2, d.ninzu2)}</td>
-      <td class="c-sansu">${nd(d.sansu)}</td>
-      <td class="c-kokugo">${nd(d.kokugo)}</td>
-      <td class="c-rika">${nd(d.rika)}</td>
-      <td class="c-shakai">${nd(d.shakai)}</td>
+      <td class="c-sansu">${nd(d.sansu)}</td><td class="c-sansu">${nd(d.sansu_ten)}</td>
+      <td class="c-kokugo">${nd(d.kokugo)}</td><td class="c-kokugo">${nd(d.kokugo_ten)}</td>
+      <td class="c-rika">${nd(d.rika)}</td><td class="c-rika">${nd(d.rika_ten)}</td>
+      <td class="c-shakai">${nd(d.shakai)}</td><td class="c-shakai">${nd(d.shakai_ten)}</td>
     </tr>`;
   });
 }
@@ -500,6 +628,21 @@ function renderCharts() {
       { label: '社会', data: get('shakai'), borderColor: '#fbbf24', backgroundColor: 'rgba(251,191,36,0.1)',  tension: 0.3, pointRadius: 5, spanGaps: true },
     ]},
     options: { ...JSON.parse(JSON.stringify(CHART_OPTS)), plugins: { legend: { labels: { color: '#e9d5ff', font: { size: 12 } } } } }
+  });
+
+  // 各科目 得点推移
+  const scoreOpts = JSON.parse(JSON.stringify(CHART_OPTS));
+  scoreOpts.scales.y = { ticks: { color: '#c4b5fd' }, grid: { color: 'rgba(167,139,250,0.1)' } };
+  if (scoreTrendChart) scoreTrendChart.destroy();
+  scoreTrendChart = new Chart(document.getElementById('scoreTrendChart'), {
+    type: 'line',
+    data: { labels, datasets: [
+      { label: '算数', data: get('sansu_ten'),  borderColor: '#60a5fa', backgroundColor: 'rgba(96,165,250,0.1)',  tension: 0.3, pointRadius: 5, spanGaps: true },
+      { label: '国語', data: get('kokugo_ten'), borderColor: '#f472b6', backgroundColor: 'rgba(244,114,182,0.1)', tension: 0.3, pointRadius: 5, spanGaps: true },
+      { label: '理科', data: get('rika_ten'),   borderColor: '#4ade80', backgroundColor: 'rgba(74,222,128,0.1)',  tension: 0.3, pointRadius: 5, spanGaps: true },
+      { label: '社会', data: get('shakai_ten'), borderColor: '#fbbf24', backgroundColor: 'rgba(251,191,36,0.1)',  tension: 0.3, pointRadius: 5, spanGaps: true },
+    ]},
+    options: { ...scoreOpts, plugins: { legend: { labels: { color: '#e9d5ff', font: { size: 12 } } } } }
   });
 }
 
