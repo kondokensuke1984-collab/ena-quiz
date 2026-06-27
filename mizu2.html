@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>水と物質の状態変化 インタラクティブ学習ボード</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts (Noto Sans JP) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+    }
+    /* アニメーション用のカスタムスタイル */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-5px) rotate(1deg); }
+    }
+    .floating-ice {
+      animation: float 4s ease-in-out infinite;
+    }
+    @keyframes sink {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(2px); }
+    }
+    .sinking-wax {
+      animation: sink 3s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+
+  <!-- ヘッダー -->
+  <header class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 py-6 flex flex-col md:flex-row justify-between items-center gap-4">
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="bg-white text-blue-600 text-xs font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">理科 小学/中学</span>
+          <span class="text-blue-200 text-sm font-semibold">単元 15</span>
+        </div>
+        <h1 class="text-2xl md:text-3xl font-black mt-1">水と物質の状態変化 デジタル図鑑</h1>
+      </div>
+      <p class="text-blue-100 text-sm md:text-base max-w-md text-right md:text-right text-left">
+        温度スライダーを動かして、物質のすがた（固体・液体・気体）や体積の変化を視覚的に体験しましょう。
+      </p>
+    </div>
+  </header>
+
+  <!-- メインコンテンツ -->
+  <main class="max-w-7xl mx-auto px-4 py-8 space-y-12">
+
+    <!-- セクション1：温度による変化シミュレーター -->
+    <section class="bg-white rounded-3xl shadow-xl border border-slate-100 p-6 md:p-8">
+      <div class="border-b border-slate-100 pb-4 mb-6">
+        <h2 class="text-xl md:text-2xl font-bold text-slate-900 flex items-center gap-2">
+          <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-100 text-blue-600">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.244 6.059a4.8 4.8 0 1 1-6.488 6.488 9 9 0 1 1 11.23 11.23 4.8 4.8 0 0 1-4.742-4.743v-2.03a4.8 4.8 0 0 1-4.743-4.743v-2.03a4.8 4.8 0 0 1-4.743-4.743V4.07a4.8 4.8 0 0 1 4.743-4.743h2.03a4.8 4.8 0 0 1 4.743 4.743v2.03z" /></svg>
+          </span>
+          1. 水の温度と状態変化シミュレーター
+        </h2>
+        <p class="text-sm text-slate-500 mt-1">スライダーを左右にドラッグして、温度に応じた状態変化（マクロ・ミクロ・体積）を観察できます。</p>
+      </div>
+
+      <!-- シミュレーター操作パネル -->
+      <div class="bg-slate-50 rounded-2xl p-4 md:p-6 mb-8 border border-slate-200/60">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-4">
+          <div class="flex items-center gap-3">
+            <span class="text-sm font-semibold text-slate-500">現在の温度:</span>
+            <span id="temp-display" class="text-4xl font-black text-blue-600 tracking-tight">-10℃</span>
+            <span id="state-tag" class="text-xs font-bold px-3 py-1 rounded-full bg-blue-100 text-blue-700">固体（氷）</span>
+          </div>
+          <div class="flex flex-wrap gap-2 justify-center">
+            <button onclick="setTemperature(-15)" class="px-3 py-1.5 text-xs font-medium rounded-lg bg-white border border-slate-200 hover:bg-slate-100 transition shadow-sm">-15℃ (氷)</button>
+            <button onclick="setTemperature(0)" class="px-3 py-1.5 text-xs font-medium rounded-lg bg-white border border-slate-200 hover:bg-slate-100 transition shadow-sm">0℃ (とけ始め)</button>
+            <button onclick="setTemperature(4)" class="px-3 py-1.5 text-xs font-medium rounded-lg bg-white border border-slate-200 hover:bg-slate-100 transition shadow-sm">4℃ (体積最小)</button>
+            <button onclick="setTemperature(50)" class="px-3 py-1.5 text-xs font-medium rounded-lg bg-white border border-slate-200 hover:bg-slate-100 transition shadow-sm">50℃ (水)</button>
+            <button onclick="setTemperature(100)" class="px-3 py-1.5 text-xs font-medium rounded-lg bg-white border border-slate-200 hover:bg-slate-100 transition shadow-sm">100℃ (沸騰)</button>
+            <button onclick="setTemperature(115)" class="px-3 py-1.5 text-xs font-medium rounded-lg bg-white border border-slate-200 hover:bg-slate-100 transition shadow-sm">115℃ (水蒸気)</button>
+          </div>
+        </div>
+
+        <!-- スライダー -->
+        <div class="relative py-4">
+          <input type="range" id="temp-slider" min="-20" max="120" value="-10"
+                 class="w-full h-3 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
+          <div class="flex justify-between text-xs text-slate-400 px-1 mt-2">
+            <span>-20℃</span>
+            <span class="text-blue-500 font-bold">0℃ (融点)</span>
+            <span>40℃</span>
+            <span>80℃</span>
+            <span class="text-red-500 font-bold">100℃ (沸点)</span>
+            <span>120℃</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- インタラクティブ表示グリッド -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- 左側：マクロ（ビーカーの様子）＆ ミクロ（粒子モデル）-->
+        <div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          <!-- ① ビーカーの様子（視覚的イラスト） -->
+          <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100 flex flex-col justify-between h-[360px]">
+            <h3 class="text-sm font-bold text-slate-700 flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 inline-block"></span>
+              マクロ：水の状態（ビーカーの中）
+            </h3>
+
+            <div class="flex-1 flex items-center justify-center relative">
+              <!-- ビーカー外枠 -->
+              <div class="w-36 h-48 border-4 border-slate-300 border-t-0 rounded-b-2xl relative flex items-end justify-center overflow-hidden bg-slate-100/30">
+
+                <!-- 氷の描画 -->
+                <div id="beaker-ice" class="absolute inset-x-2 bottom-2 bg-sky-200/80 border border-sky-300 rounded-lg flex items-center justify-center transition-all duration-300" style="height: 70%;">
+                  <span class="text-sky-700 font-extrabold text-lg select-none">こおり (氷)</span>
+                </div>
+
+                <!-- 水の描画 -->
+                <div id="beaker-water" class="absolute inset-x-0 bottom-0 bg-blue-400/60 border-t-2 border-blue-500 transition-all duration-300" style="height: 0%;">
+                  <span id="beaker-water-text" class="absolute inset-0 flex items-center justify-center text-blue-900 font-extrabold text-lg select-none">みず (水)</span>
+                </div>
+
+                <!-- 泡（沸騰アニメーション用） -->
+                <div id="bubbles-container" class="absolute inset-x-0 bottom-0 h-full pointer-events-none hidden">
+                  <!-- JSで気泡を動的に配置 -->
+                </div>
+              </div>
+
+              <!-- 水蒸気（ビーカーの外） -->
+              <div id="steam-container" class="absolute top-2 inset-x-0 flex flex-col items-center gap-1 transition-all duration-300 opacity-0">
+                <div class="w-12 h-4 bg-slate-300/30 blur-sm rounded-full animate-pulse"></div>
+                <div class="w-20 h-6 bg-slate-300/20 blur-md rounded-full animate-bounce"></div>
+                <span class="text-xs font-bold text-slate-500">水蒸気（目に見えない）</span>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-3 border border-slate-200/80 text-xs text-slate-600">
+              <span class="font-bold text-slate-800">説明:</span>
+              <span id="macro-desc">氷の状態です。形が一定で、とても硬いです。</span>
+            </div>
+          </div>
+
+          <!-- ② 粒子モデル（ミクロ） -->
+          <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100 flex flex-col justify-between h-[360px]">
+            <h3 class="text-sm font-bold text-slate-700 flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-full bg-indigo-500 inline-block"></span>
+              ミクロ：つぶ（分子）の動き
+            </h3>
+
+            <!-- 粒子アニメーション Canvas -->
+            <div class="flex-1 flex items-center justify-center py-2">
+              <div class="relative w-full h-full bg-slate-900 rounded-xl overflow-hidden shadow-inner">
+                <canvas id="particle-canvas" class="w-full h-full"></canvas>
+                <!-- 動きの強さメーター -->
+                <div class="absolute top-2 right-2 bg-black/60 backdrop-blur-sm text-[10px] text-slate-300 px-2 py-1 rounded">
+                  つぶの動く勢い: <span id="energy-indicator" class="font-bold text-yellow-400">極小</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-3 border border-slate-200/80 text-xs text-slate-600">
+              <span class="font-bold text-slate-800">状態:</span>
+              <span id="micro-desc">つぶが規則正しく並び、その場で小さく振動しています。</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 右側：グラフと情報（温度変化グラフ＆体積メーター） -->
+        <div class="lg:col-span-4 flex flex-col gap-6">
+
+          <!-- ③ 温度変化グラフ -->
+          <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100 flex flex-col justify-between h-[210px] relative overflow-hidden">
+            <h3 class="text-sm font-bold text-slate-700 mb-2">温度変化グラフ（加熱したとき）</h3>
+
+            <div class="relative flex-1 bg-white border border-slate-200 rounded-xl p-2 flex items-end">
+              <!-- グラフ線を描画するSVG -->
+              <svg class="w-full h-full text-slate-300" viewBox="0 0 300 120" preserveAspectRatio="none">
+                <!-- 背景グリッド -->
+                <line x1="0" y1="90" x2="300" y2="90" stroke="#f1f5f9" stroke-width="1" />
+                <line x1="0" y1="30" x2="300" y2="30" stroke="#f1f5f9" stroke-width="1" />
+
+                <!-- グラフの折れ線（氷加熱 -> 融解中 -> 水加熱 -> 沸騰中 -> 水蒸気） -->
+                <polyline fill="none" stroke="#cbd5e1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+                          points="10,110 50,90 110,90 190,30 250,30 290,10" />
+
+                <!-- 状態マーカー（JSで動的配置するためのグループ） -->
+                <circle id="graph-pointer" cx="50" cy="90" r="6" fill="#ef4444" stroke="#ffffff" stroke-width="2" class="transition-all duration-300" />
+              </svg>
+
+              <!-- 軸ラベル -->
+              <div class="absolute left-3 top-2 text-[9px] text-slate-400">温度(℃)</div>
+              <div class="absolute left-3 bottom-9 text-[9px] font-bold text-blue-500">0℃</div>
+              <div class="absolute left-3 top-8 text-[9px] font-bold text-red-500">100℃</div>
+              <div class="absolute right-3 bottom-2 text-[9px] text-slate-400">時間(分) →</div>
+            </div>
+
+            <div class="text-[11px] text-slate-500 flex justify-between mt-2 px-1">
+              <span id="graph-stage-text" class="font-bold text-slate-700">とけている途中 (氷と水)</span>
+            </div>
+          </div>
+
+          <!-- ④ 10gあたりの体積と重さの変化 -->
+          <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100 flex flex-col justify-between h-[210px]">
+            <h3 class="text-sm font-bold text-slate-700">10gの水の状態変化と体積</h3>
+
+            <div class="flex-1 flex items-center justify-around py-3">
+              <!-- 体積イメージ図 -->
+              <div class="flex flex-col items-center">
+                <div class="text-[10px] text-slate-500 mb-1">氷 (固体)</div>
+                <div id="vol-ice-box" class="w-12 h-12 bg-sky-100 border-2 border-sky-400 rounded-lg flex items-center justify-center transition-all duration-300">
+                  <span class="text-xs font-bold text-sky-700">11cm³</span>
+                </div>
+                <span class="text-[9px] text-slate-400 mt-1">約1.1倍に増える</span>
+              </div>
+
+              <div class="text-slate-300">➔</div>
+
+              <div class="flex flex-col items-center">
+                <div class="text-[10px] text-slate-500 mb-1">水 (液体)</div>
+                <div id="vol-water-box" class="w-10 h-10 bg-blue-100 border-2 border-blue-400 rounded-lg flex items-center justify-center transition-all duration-300">
+                  <span class="text-xs font-bold text-blue-700">10cm³</span>
+                </div>
+                <span class="text-[9px] text-slate-400 mt-1">基準</span>
+              </div>
+
+              <div class="text-slate-300">➔</div>
+
+              <div class="flex flex-col items-center">
+                <div class="text-[10px] text-slate-500 mb-1">水蒸気 (気体)</div>
+                <div id="vol-gas-box" class="w-16 h-16 bg-amber-100 border-2 border-amber-400 rounded-full flex items-center justify-center border-dashed transition-all duration-300">
+                  <span class="text-[10px] font-bold text-amber-700 text-center leading-none">17000cm³<br><span class="text-[8px] font-normal">(17L)</span></span>
+                </div>
+                <span class="text-[9px] text-amber-600 font-bold mt-1">約1700倍！</span>
+              </div>
+            </div>
+
+            <div class="bg-amber-50 border border-amber-200/60 rounded-xl p-2.5 text-[11px] text-amber-800">
+              💡 <span class="font-bold">重さはすべて「10g」で変化しません！</span> 体積だけが変わります。
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- セクション2：水 vs ろう 体積とうきしずみ実験 -->
+    <section class="bg-white rounded-3xl shadow-xl border border-slate-100 p-6 md:p-8">
+      <div class="border-b border-slate-100 pb-4 mb-6">
+        <h2 class="text-xl md:text-2xl font-bold text-slate-900 flex items-center gap-2">
+          <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v11.896m0 0a1.5 1.5 0 1 0 3 0m-3 0a1.5 1.5 0 1 1 3 0m0 0V3.104m-9 3.5h18" /></svg>
+          </span>
+          2. 水と「ろう」の状態変化と浮き沈みの違い
+        </h2>
+        <p class="text-sm text-slate-500 mt-1">一般の物質（ろう）と、例外的な物質（水）の性質を比べてみましょう。同じ体積あたりの重さ（密度）が変わります。</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+        <!-- 左：水の場合（氷が水に浮く） -->
+        <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-2 mb-3">
+              <span class="px-2.5 py-1 text-xs font-bold rounded-md bg-blue-100 text-blue-700">例外</span>
+              <h3 class="text-lg font-bold text-slate-800">水（みず）の場合</h3>
+            </div>
+            <p class="text-sm text-slate-600 leading-relaxed mb-6">
+              水は例外的な物質です。<strong class="text-blue-600">液体から固体（氷）になると体積が大きくなります。</strong>
+              そのため、同じ体積で比べると<strong class="text-blue-600">氷の方が水より軽くなり、氷は水に浮きます。</strong>
+            </p>
+          </div>
+
+          <!-- ビーカーのビジュアル -->
+          <div class="h-56 bg-white rounded-xl border border-slate-200 flex items-center justify-center relative overflow-hidden mb-4">
+            <div class="w-32 h-40 border-4 border-slate-300 border-t-0 rounded-b-xl relative flex items-end justify-center bg-sky-50/20">
+              <!-- 水面 -->
+              <div class="absolute inset-x-0 bottom-0 h-24 bg-blue-400/50 border-t-2 border-blue-500"></div>
+              <!-- 浮かぶ氷 -->
+              <div class="absolute bottom-20 w-16 h-10 bg-sky-200/90 border border-sky-400 rounded-md flex items-center justify-center floating-ice shadow-sm" style="left: calc(50% - 32px);">
+                <span class="text-[11px] font-bold text-sky-800">氷 (固体)</span>
+              </div>
+              <div class="absolute bottom-16 left-4 text-[10px] font-bold text-blue-700 bg-white/80 px-1.5 py-0.5 rounded">水 (液体)</div>
+            </div>
+            <div class="absolute top-4 right-4 bg-emerald-100 text-emerald-800 text-xs font-bold px-2 py-1 rounded">結果: うく (浮く)</div>
+          </div>
+
+          <!-- データの比較 -->
+          <div class="grid grid-cols-2 gap-3 text-center">
+            <div class="bg-sky-50 p-2.5 rounded-xl border border-sky-100">
+              <div class="text-[10px] text-slate-500">同じ重さ(50g)の体積</div>
+              <div class="text-sm font-bold text-sky-700 mt-1">固体（氷）：55 cm³</div>
+            </div>
+            <div class="bg-blue-50 p-2.5 rounded-xl border border-blue-100">
+              <div class="text-[10px] text-slate-500">同じ重さ(50g)の体積</div>
+              <div class="text-sm font-bold text-blue-700 mt-1">液体（水）：50 cm³</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右：ろうの場合（固体のろうが沈む） -->
+        <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-2 mb-3">
+              <span class="px-2.5 py-1 text-xs font-bold rounded-md bg-slate-200 text-slate-700">一般的</span>
+              <h3 class="text-lg font-bold text-slate-800">ろう の場合</h3>
+            </div>
+            <p class="text-sm text-slate-600 leading-relaxed mb-6">
+              ろうは一般的な物質の代表です。<strong class="text-slate-700">液体から固体になると体積が小さくなります。</strong>
+              そのため、同じ体積で比べると<strong class="text-red-600">固体の方が液体より重くなり、固体のろうは液体のろうに沈みます。</strong>
+            </p>
+          </div>
+
+          <!-- ビーカーのビジュアル -->
+          <div class="h-56 bg-white rounded-xl border border-slate-200 flex items-center justify-center relative overflow-hidden mb-4">
+            <div class="w-32 h-40 border-4 border-slate-300 border-t-0 rounded-b-xl relative flex items-end justify-center bg-amber-50/10">
+              <!-- 液体のろう -->
+              <div class="absolute inset-x-0 bottom-0 h-24 bg-amber-500/30 border-t-2 border-amber-600"></div>
+              <!-- 沈む固体のろう -->
+              <div class="absolute bottom-2 w-16 h-8 bg-amber-200/90 border border-amber-400 rounded-md flex items-center justify-center sinking-wax shadow-sm" style="left: calc(50% - 32px);">
+                <span class="text-[11px] font-bold text-amber-900">固体のろう</span>
+              </div>
+              <div class="absolute bottom-16 left-4 text-[10px] font-bold text-amber-700 bg-white/80 px-1.5 py-0.5 rounded">液体のろう</div>
+            </div>
+            <div class="absolute top-4 right-4 bg-red-100 text-red-800 text-xs font-bold px-2 py-1 rounded">結果: しずむ (沈む)</div>
+          </div>
+
+          <!-- データの比較 -->
+          <div class="grid grid-cols-2 gap-3 text-center">
+            <div class="bg-amber-50/60 p-2.5 rounded-xl border border-amber-100">
+              <div class="text-[10px] text-slate-500">同じ重さ(50g)の体積</div>
+              <div class="text-sm font-bold text-amber-800 mt-1">固体（ろう）：55 cm³</div>
+            </div>
+            <div class="bg-amber-100/40 p-2.5 rounded-xl border border-amber-200/50">
+              <div class="text-[10px] text-slate-500">同じ重さ(50g)の体積</div>
+              <div class="text-sm font-bold text-amber-950 mt-1">液体（ろう）：62 cm³</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- セクション3：いろいろな状態変化（三態の特徴 ＆ ドライアイス） -->
+    <section class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+      <!-- 左：固体・液体・気体の特徴まとめ -->
+      <div class="lg:col-span-7 bg-white rounded-3xl shadow-xl border border-slate-100 p-6 md:p-8">
+        <h3 class="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
+          <span class="w-1.5 h-6 bg-blue-600 rounded-full"></span>
+          3つの姿（固体・液体・気体）の特徴一覧
+        </h3>
+
+        <div class="space-y-4">
+          <!-- 固体 -->
+          <div class="bg-sky-50/50 rounded-2xl p-4 border border-sky-100/60 flex flex-col sm:flex-row gap-4">
+            <div class="sm:w-24 shrink-0 flex items-center sm:justify-center">
+              <span class="bg-sky-500 text-white font-extrabold text-sm px-3 py-1.5 rounded-xl">固体</span>
+            </div>
+            <div class="space-y-1">
+              <div class="text-sm font-bold text-sky-950">形や体積が決まっている</div>
+              <p class="text-xs text-slate-600 leading-relaxed">たたいたり押し曲げたりしないと、形や体積を変えることができません。</p>
+              <div class="text-xs text-sky-700 font-semibold mt-1">例：氷、鉄、食塩、ドライアイス など</div>
+            </div>
+          </div>
+
+          <!-- 液体 -->
+          <div class="bg-blue-50/50 rounded-2xl p-4 border border-blue-100/60 flex flex-col sm:flex-row gap-4">
+            <div class="sm:w-24 shrink-0 flex items-center sm:justify-center">
+              <span class="bg-blue-500 text-white font-extrabold text-sm px-3 py-1.5 rounded-xl">液体</span>
+            </div>
+            <div class="space-y-1">
+              <div class="text-sm font-bold text-blue-950">形は変わるが、体積は決まっている</div>
+              <p class="text-xs text-slate-600 leading-relaxed">入れる容器によって形は変わります。しかし、力を加えても体積を縮めることはできません。</p>
+              <div class="text-xs text-blue-700 font-semibold mt-1">例：水、アルコール、サラダ油 など</div>
+            </div>
+          </div>
+
+          <!-- 気体 -->
+          <div class="bg-amber-50/50 rounded-2xl p-4 border border-amber-100/60 flex flex-col sm:flex-row gap-4">
+            <div class="sm:w-24 shrink-0 flex items-center sm:justify-center">
+              <span class="bg-amber-500 text-white font-extrabold text-sm px-3 py-1.5 rounded-xl">気体</span>
+            </div>
+            <div class="space-y-1">
+              <div class="text-sm font-bold text-amber-950">形も体積も自由に変わる</div>
+              <p class="text-xs text-slate-600 leading-relaxed">決まった形や体積がなく、容器いっぱいに広がります。力を加えると、簡単に体積を小さくできます。</p>
+              <div class="text-xs text-amber-700 font-semibold mt-1">例：水蒸気、空気、酸素、二酸化炭素 など</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右：特別な変化（昇華とドライアイス、水の4℃の不思議） -->
+      <div class="lg:col-span-5 flex flex-col gap-6">
+
+        <!-- 特別な状態変化：昇華 -->
+        <div class="bg-white rounded-3xl shadow-xl border border-slate-100 p-6 flex-1 flex flex-col justify-between">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
+              <span class="w-1.5 h-6 bg-purple-600 rounded-full"></span>
+              特殊な状態変化「昇華（しょうか）」
+            </h3>
+            <p class="text-xs text-slate-600 leading-relaxed mb-4">
+              通常は「固体 ⇄ 液体 ⇄ 気体」の順で変化しますが、液体にならずに直接気体になる物質があります。これを<strong class="text-purple-600">「昇華」</strong>といいます。
+            </p>
+          </div>
+
+          <div class="bg-purple-50 rounded-2xl p-4 border border-purple-100 flex items-center gap-4">
+            <!-- ドライアイスのビジュアル -->
+            <div class="w-16 h-16 bg-white rounded-xl border border-purple-200 flex flex-col items-center justify-center relative overflow-hidden shrink-0">
+              <div class="w-10 h-6 bg-slate-200 border border-slate-300 rounded shadow-sm"></div>
+              <!-- もやもや（気体） -->
+              <span class="absolute top-2 text-[8px] text-purple-600/70 font-bold animate-pulse">CO₂気体</span>
+              <span class="text-[9px] font-bold text-slate-700 mt-1">ドライアイス</span>
+            </div>
+            <div class="text-xs text-slate-600">
+              <span class="font-bold text-purple-950 block mb-0.5">ドライアイス（二酸化炭素の固体）</span>
+              室温に置いておくと、液体にならずにすぐ二酸化炭素（気体）に変化します。
+              <span class="text-[10px] text-purple-600 block mt-1">※その他：タンスの防虫剤（ナフタレン）も昇華する性質があります。</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 水の4℃の不思議 -->
+        <div class="bg-white rounded-3xl shadow-xl border border-slate-100 p-6 flex-1 flex flex-col justify-between">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
+              <span class="w-1.5 h-6 bg-cyan-600 rounded-full"></span>
+              冬の池の底はなぜ4℃？水の不思議
+            </h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              通常、液体は温度が上がるほど体積が大きくなりますが、水は例外的に<strong class="text-cyan-600">0℃から4℃までは温度が上がると体積が小さく（重く）なります。</strong>
+              つまり、<strong class="text-cyan-700">4℃の水が一番重い（密度が最大）</strong>のです。
+            </p>
+          </div>
+
+          <div class="bg-gradient-to-b from-sky-100 to-blue-200 rounded-2xl p-4 border border-sky-200 relative overflow-hidden mt-4 h-32 flex flex-col justify-between">
+            <div class="absolute top-1 inset-x-0 text-center">
+              <span class="bg-sky-200/90 text-sky-950 text-[10px] font-bold px-2 py-0.5 rounded-full">氷（水面にうく）: 0℃以下</span>
+            </div>
+
+            <div class="flex-1 flex items-center justify-between px-2 pt-4">
+              <!-- 魚の泳ぐ様子 -->
+              <div class="text-blue-900 font-bold text-xs flex items-center gap-1">
+                🐟 <span class="bg-white/60 px-1.5 py-0.5 rounded">魚は底の4℃の水の中で生き延びられる！</span>
+              </div>
+            </div>
+
+            <div class="flex justify-between items-center text-[10px] bg-blue-900/10 p-1.5 rounded-lg">
+              <span class="text-blue-900 font-extrabold">池の底：4℃（一番重い水がたまる）</span>
+              <span class="bg-red-500 text-white font-bold px-1 rounded text-[9px]">重さ 最大</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- フッター -->
+  <footer class="bg-slate-900 text-slate-400 text-center py-8 border-t border-slate-800 mt-12">
+    <div class="max-w-7xl mx-auto px-4 text-xs space-y-2">
+      <p class="font-semibold text-slate-300">理科「水の状態変化2」ビジュアル図鑑</p>
+      <p>© 2026 理科デジタル学習ラボ. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- JavaScript制御処理 -->
+  <script>
+    // --- 粒子シミュレータ (Canvas) ---
+    const canvas = document.getElementById('particle-canvas');
+    const ctx = canvas.getContext('2d');
+
+    let particles = [];
+    let currentTemp = -10;
+    let animationId;
+
+    // キャンバスのリサイズ対応
+    function resizeCanvas() {
+      const container = canvas.parentElement;
+      canvas.width = container.clientWidth * window.devicePixelRatio;
+      canvas.height = container.clientHeight * window.devicePixelRatio;
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    }
+
+    window.addEventListener('resize', () => {
+      resizeCanvas();
+      initParticles();
+    });
+
+    // 粒子の設計
+    class Particle {
+      constructor(x, y, isStatic = false) {
+        this.baseX = x;
+        this.baseY = y;
+        this.x = x;
+        this.y = y;
+        this.vx = (Math.random() - 0.5) * 2;
+        this.vy = (Math.random() - 0.5) * 2;
+        this.radius = 6;
+        this.isStatic = isStatic;
+      }
+
+      // 状態に応じた粒子のアップデート
+      update(temp) {
+        if (temp < 0) {
+          // 固体（氷）: 規則正しく整列し、その場でブルブル震える
+          const vibrationRange = Math.max(0.2, (temp + 20) / 20 * 1.5); // 温度が高いほど少し揺れが大きい
+          this.x = this.baseX + (Math.random() - 0.5) * vibrationRange;
+          this.y = this.baseY + (Math.random() - 0.5) * vibrationRange;
+        } else if (temp >= 0 && temp < 100) {
+          // 液体（水）: 容器の底に溜まり、互いに引き合いながら不規則に動く
+          const speedFactor = 0.5 + (temp / 100) * 2; // 温度で速度変化
+          this.x += this.vx * speedFactor;
+          this.y += this.vy * speedFactor;
+
+          // 壁との衝突判定（下半分に溜まるようにする）
+          const containerWidth = canvas.width / window.devicePixelRatio;
+          const containerHeight = canvas.height / window.devicePixelRatio;
+          const bottomBoundary = containerHeight - this.radius - 5;
+          const topBoundary = containerHeight * 0.4; // 容器の下部に溜まる
+
+          if (this.x < this.radius + 5 || this.x > containerWidth - this.radius - 5) {
+            this.vx *= -1;
+            this.x = Math.max(this.radius + 5, Math.min(containerWidth - this.radius - 5, this.x));
+          }
+          if (this.y < topBoundary || this.y > bottomBoundary) {
+            this.vy *= -1;
+            this.y = Math.max(topBoundary, Math.min(bottomBoundary, this.y));
+          }
+        } else {
+          // 気体（水蒸気）: 全体を激しく飛び回る
+          const speedFactor = 3 + ((temp - 100) / 20) * 3;
+          this.x += this.vx * speedFactor;
+          this.y += this.vy * speedFactor;
+
+          const containerWidth = canvas.width / window.devicePixelRatio;
+          const containerHeight = canvas.height / window.devicePixelRatio;
+
+          if (this.x < this.radius || this.x > containerWidth - this.radius) this.vx *= -1;
+          if (this.y < this.radius || this.y > containerHeight - this.radius) this.vy *= -1;
+        }
+      }
+
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+
+        // 温度（状態）に応じて粒子の色を変える
+        if (currentTemp < 0) {
+          ctx.fillStyle = '#bae6fd'; // 水色（氷）
+          ctx.strokeStyle = '#38bdf8';
+        } else if (currentTemp >= 0 && currentTemp < 100) {
+          ctx.fillStyle = '#60a5fa'; // 青（水）
+          ctx.strokeStyle = '#2563eb';
+        } else {
+          ctx.fillStyle = '#fcd34d'; // 黄・オレンジ（水蒸気）
+          ctx.strokeStyle = '#d97706';
+        }
+
+        ctx.fill();
+        ctx.stroke();
+        ctx.closePath();
+      }
+    }
+
+    // 粒子の初期化
+    function initParticles() {
+      particles = [];
+      const w = canvas.width / window.devicePixelRatio;
+      const h = canvas.height / window.devicePixelRatio;
+
+      // 固体用のグリッド配置
+      const cols = 8;
+      const rows = 5;
+      const spacingX = w / (cols + 1);
+      const spacingY = h / 2 / (rows + 1);
+
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const x = spacingX * (c + 1);
+          const y = h * 0.45 + spacingY * (r + 1);
+          particles.push(new Particle(x, y));
+        }
+      }
+    }
+
+    // メインループ
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      particles.forEach(p => {
+        p.update(currentTemp);
+        p.draw();
+      });
+
+      // 粒子のつながり線を描画（固体の時だけ引力を視覚化）
+      if (currentTemp < 0) {
+        ctx.beginPath();
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.15)';
+        ctx.lineWidth = 1.5;
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dist = Math.hypot(particles[i].x - particles[j].x, particles[i].y - particles[j].y);
+            if (dist < 35) {
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+            }
+          }
+        }
+        ctx.stroke();
+      }
+
+      animationId = requestAnimationFrame(animate);
+    }
+
+    // --- インタラクティブUIの制御 ---
+    const tempSlider = document.getElementById('temp-slider');
+    const tempDisplay = document.getElementById('temp-display');
+    const stateTag = document.getElementById('state-tag');
+
+    const beakerIce = document.getElementById('beaker-ice');
+    const beakerWater = document.getElementById('beaker-water');
+    const beakerWaterText = document.getElementById('beaker-water-text');
+    const bubblesContainer = document.getElementById('bubbles-container');
+    const steamContainer = document.getElementById('steam-container');
+
+    const macroDesc = document.getElementById('macro-desc');
+    const microDesc = document.getElementById('micro-desc');
+    const energyIndicator = document.getElementById('energy-indicator');
+
+    const graphPointer = document.getElementById('graph-pointer');
+    const graphStageText = document.getElementById('graph-stage-text');
+
+    const volIceBox = document.getElementById('vol-ice-box');
+    const volWaterBox = document.getElementById('vol-water-box');
+    const volGasBox = document.getElementById('vol-gas-box');
+
+    // 気泡（沸騰）用のエレメントを事前生成
+    function createBubbles() {
+      bubblesContainer.innerHTML = '';
+      for (let i = 0; i < 15; i++) {
+        const bubble = document.createElement('div');
+        bubble.className = 'absolute bg-white/40 border border-white/60 rounded-full animate-bounce';
+        const size = Math.random() * 8 + 4;
+        bubble.style.width = `${size}px`;
+        bubble.style.height = `${size}px`;
+        bubble.style.left = `${Math.random() * 80 + 10}%`;
+        bubble.style.bottom = `${Math.random() * 10}%`;
+        bubble.style.animationDuration = `${Math.random() * 1 + 0.5}s`;
+        bubble.style.animationDelay = `${Math.random() * 1}s`;
+        bubblesContainer.appendChild(bubble);
+      }
+    }
+
+    // 状態の更新処理
+    function updateUI(temp) {
+      currentTemp = temp;
+      tempDisplay.innerText = `${temp}℃`;
+
+      // 1. スライダー位置の反映
+      tempSlider.value = temp;
+
+      // 2. 状態・説明文・タグの設定
+      if (temp < 0) {
+        // 固体（氷）
+        stateTag.innerText = "固体（氷）";
+        stateTag.className = "text-xs font-bold px-3 py-1 rounded-full bg-sky-100 text-sky-700";
+
+        beakerIce.style.height = "70%";
+        beakerIce.style.opacity = "1";
+        beakerWater.style.height = "0%";
+        bubblesContainer.classList.add('hidden');
+        steamContainer.style.opacity = "0";
+
+        macroDesc.innerText = "完全に凍った状態（氷）です。温度が上がっても0℃になるまでは溶けません。形はカチコチで変わりません。";
+        microDesc.innerText = "つぶ（水分子）同士が強い力で結びつき、規則正しくきれいに並んで、その場で小さくふるえています。";
+        energyIndicator.innerText = "極小";
+        energyIndicator.className = "font-bold text-sky-300";
+
+        // グラフ用座標計算 (0,110 から 50,90)
+        const progress = (temp + 20) / 20; // 0 to 1
+        const cx = 10 + progress * 40;
+        const cy = 110 - progress * 20;
+        graphPointer.setAttribute('cx', cx);
+        graphPointer.setAttribute('cy', cy);
+        graphStageText.innerText = "氷を温めている（固体）";
+
+        // 体積メーターの強調
+        volIceBox.classList.add('scale-110', 'ring-4', 'ring-sky-400');
+        volWaterBox.className = volWaterBox.className.replace(/scale-110|ring-4|ring-blue-400/g, '');
+        volGasBox.className = volGasBox.className.replace(/scale-110|ring-4|ring-amber-400/g, '');
+
+      } else if (temp === 0) {
+        // 融点（とけ始め〜とけ終わり）
+        stateTag.innerText = "状態変化中（融解）";
+        stateTag.className = "text-xs font-bold px-3 py-1 rounded-full bg-purple-100 text-purple-700";
+
+        beakerIce.style.height = "35%";
+        beakerIce.style.opacity = "1";
+        beakerWater.style.height = "40%";
+        beakerWaterText.innerText = "水と氷";
+        bubblesContainer.classList.add('hidden');
+        steamContainer.style.opacity = "0";
+
+        macroDesc.innerText = "氷が溶けて水に変わっている最中です。すべて溶けきるまで、加熱していても温度は0℃のまま上がりません。";
+        microDesc.innerText = "つぶの結びつきが一部くずれ、少しずつ自由に動き始めるつぶ（液体）と、規則正しいつぶ（固体）が混ざっています。";
+        energyIndicator.innerText = "小";
+        energyIndicator.className = "font-bold text-teal-400";
+
+        // グラフ用座標 (50,90 から 110,90 の中央)
+        graphPointer.setAttribute('cx', 80);
+        graphPointer.setAttribute('cy', 90);
+        graphStageText.innerText = "とけている途中（固体 ⇄ 液体）※温度一定";
+
+        // 体積
+        volIceBox.className = volIceBox.className.replace(/scale-110|ring-4|ring-sky-400/g, '');
+        volWaterBox.classList.add('scale-110', 'ring-4', 'ring-blue-400');
+        volGasBox.className = volGasBox.className.replace(/scale-110|ring-4|ring-amber-400/g, '');
+
+      } else if (temp > 0 && temp < 100) {
+        // 液体（水）
+        stateTag.innerText = "液体（水）";
+        stateTag.className = "text-xs font-bold px-3 py-1 rounded-full bg-blue-100 text-blue-700";
+
+        beakerIce.style.height = "0%";
+        beakerIce.style.opacity = "0";
+        beakerWater.style.height = `${40 + (temp / 100) * 15}%`; // わずかに熱膨張
+        beakerWaterText.innerText = "水 (液体)";
+        bubblesContainer.classList.add('hidden');
+
+        // 100℃に近づくにつれて、わずかに目に見えない湯気が発生する様子
+        if (temp > 80) {
+          steamContainer.style.opacity = "0.5";
+        } else {
+          steamContainer.style.opacity = "0";
+        }
+
+        macroDesc.innerText = "温度が上がるにつれて体積がわずかに大きくなります。形は容器に合わせて自由に変えられますが、体積は変わりません。";
+        microDesc.innerText = "つぶ同士はまだ近い距離にありますが、結びつきがゆるいため、お互いの位置を自由に入れ替えながら活発に動いています。";
+        energyIndicator.innerText = "中";
+        energyIndicator.className = "font-bold text-blue-400";
+
+        // グラフ用座標 (110,90 から 190,30)
+        const progress = temp / 100; // 0 to 1
+        const cx = 110 + progress * 80;
+        const cy = 90 - progress * 60;
+        graphPointer.setAttribute('cx', cx);
+        graphPointer.setAttribute('cy', cy);
+        graphStageText.innerText = "水を温めている（液体）";
+
+        // 体積
+        volIceBox.className = volIceBox.className.replace(/scale-110|ring-4|ring-sky-400/g, '');
+        volWaterBox.classList.add('scale-110', 'ring-4', 'ring-blue-400');
+        volGasBox.className = volGasBox.className.replace(/scale-110|ring-4|ring-amber-400/g, '');
+
+      } else if (temp === 100) {
+        // 沸点（沸騰中）
+        stateTag.innerText = "状態変化中（沸騰）";
+        stateTag.className = "text-xs font-bold px-3 py-1 rounded-full bg-red-100 text-red-700";
+
+        beakerIce.style.height = "0%";
+        beakerWater.style.height = "55%";
+        beakerWaterText.innerText = "はげしく沸騰";
+        bubblesContainer.classList.remove('hidden');
+        steamContainer.style.opacity = "0.8";
+
+        macroDesc.innerText = "水が激しく沸騰し、水の中からも水蒸気（気体）が発生して大きな泡がボコボコと出ています。水がすべて気体になるまで、温度は100℃のまま上がりません。";
+        microDesc.innerText = "沸騰により、つぶが完全に引き合う力をふり切って、次々と空気中に激しく飛び出していきます。飛び出したものが水蒸気です。";
+        energyIndicator.innerText = "大";
+        energyIndicator.className = "font-bold text-amber-500";
+
+        // グラフ用座標 (190,30 から 250,30 の中央)
+        graphPointer.setAttribute('cx', 220);
+        graphPointer.setAttribute('cy', 30);
+        graphStageText.innerText = "沸騰している（液体 ⇄ 気体）※温度一定";
+
+        // 体積
+        volIceBox.className = volIceBox.className.replace(/scale-110|ring-4|ring-sky-400/g, '');
+        volWaterBox.className = volWaterBox.className.replace(/scale-110|ring-4|ring-blue-400/g, '');
+        volGasBox.classList.add('scale-110', 'ring-4', 'ring-amber-400');
+
+      } else {
+        // 気体（水蒸気）
+        stateTag.innerText = "気体（水蒸気）";
+        stateTag.className = "text-xs font-bold px-3 py-1 rounded-full bg-amber-100 text-amber-700";
+
+        beakerIce.style.height = "0%";
+        beakerWater.style.height = "0%";
+        bubblesContainer.classList.add('hidden');
+        steamContainer.style.opacity = "1";
+
+        macroDesc.innerText = "完全に気体（水蒸気）になった状態です。水蒸気は目に見えません（湯気は細かな水の粒です）。体積が約1700倍に膨張します。";
+        microDesc.innerText = "つぶ同士の結びつきは完全になくなり、広い空間をものすごいスピードで自由に、バラバラに飛び回っています。";
+        energyIndicator.innerText = "極大";
+        energyIndicator.className = "font-bold text-red-500";
+
+        // グラフ用座標 (250,30 から 290,10)
+        const progress = Math.min(1, (temp - 100) / 20); // 0 to 1
+        const cx = 250 + progress * 40;
+        const cy = 30 - progress * 20;
+        graphPointer.setAttribute('cx', cx);
+        graphPointer.setAttribute('cy', cy);
+        graphStageText.innerText = "水蒸気を温めている（気体）";
+
+        // 体積
+        volIceBox.className = volIceBox.className.replace(/scale-110|ring-4|ring-sky-400/g, '');
+        volWaterBox.className = volWaterBox.className.replace(/scale-110|ring-4|ring-blue-400/g, '');
+        volGasBox.classList.add('scale-110', 'ring-4', 'ring-amber-400');
+      }
+    }
+
+    // 外部ボタンから温度を設定する
+    window.setTemperature = function(temp) {
+      updateUI(temp);
+    };
+
+    // スライダー入力イベント
+    tempSlider.addEventListener('input', (e) => {
+      const val = parseInt(e.target.value);
+      updateUI(val);
+    });
+
+    // 初期化処理
+    window.onload = function() {
+      resizeCanvas();
+      initParticles();
+      createBubbles();
+      updateUI(-10); // 初期表示は-10℃
+      animate();     // 粒子シミュレーション開始
+    };
+  </script>
+</body>
+</html>
