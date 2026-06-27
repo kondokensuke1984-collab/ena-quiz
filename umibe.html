@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>14 海辺のくらし - インタラクティブデジタル学習ノート</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: 読みやすく温かみのある日本語フォント -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kosugi+Maru&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans JP', 'Kosugi Maru', sans-serif;
+            background-color: #f0f7fc;
+        }
+        /* ふりがな（ルビ）用のスタイル調整 */
+        ruby {
+            ruby-position: over;
+        }
+        rt {
+            font-size: 0.55em;
+            color: #4b5563;
+            letter-spacing: 0.05em;
+            padding-bottom: 0.1em;
+        }
+        /* アニメーション用のクラス */
+        .wave-bg {
+            background-image: linear-gradient(180deg, #e0f2fe 0%, #f0f7fc 100%);
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col text-slate-800">
+
+    <!-- ヘッダー部分 -->
+    <header class="bg-gradient-to-r from-blue-600 via-sky-500 to-emerald-500 text-white shadow-md sticky top-0 z-30">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-2">
+            <div class="flex items-center gap-3">
+                <span class="bg-white text-blue-600 font-black text-xl px-3 py-1 rounded-full shadow-inner">14</span>
+                <h1 class="text-xl sm:text-2xl font-bold tracking-wider">
+                    <ruby>海辺<rt>うみべ</rt></ruby>のくらし <span class="text-xs sm:text-sm font-normal bg-blue-700 bg-opacity-40 px-2 py-0.5 rounded ml-2">デジタル教科書</span>
+                </h1>
+            </div>
+            <!-- タブ・ナビゲーション -->
+            <nav class="flex flex-wrap justify-center gap-1 sm:gap-2 text-xs sm:text-sm">
+                <button onclick="switchTab('all')" id="btn-all" class="tab-btn px-3 py-1.5 rounded-full font-bold bg-white text-blue-600 shadow-sm transition">
+                    すべて
+                </button>
+                <button onclick="switchTab('sea')" id="btn-sea" class="tab-btn px-3 py-1.5 rounded-full font-bold hover:bg-white/20 transition">
+                    日本と海
+                </button>
+                <button onclick="switchTab('coast')" id="btn-coast" class="tab-btn px-3 py-1.5 rounded-full font-bold hover:bg-white/20 transition">
+                    海岸の種類
+                </button>
+                <button onclick="switchTab('rias')" id="btn-rias" class="tab-btn px-3 py-1.5 rounded-full font-bold hover:bg-white/20 transition">
+                    リアスと砂浜
+                </button>
+                <button onclick="switchTab('current')" id="btn-current" class="tab-btn px-3 py-1.5 rounded-full font-bold hover:bg-white/20 transition">
+                    潮目の仕組み
+                </button>
+                <button onclick="switchTab('quiz')" id="btn-quiz" class="tab-btn px-3 py-1.5 rounded-full font-bold bg-amber-400 text-slate-900 hover:bg-amber-300 transition shadow-sm">
+                    たしかめクイズ
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-6">
+
+        <!-- 要点のまとめ：日本と海 -->
+        <section id="sec-sea" class="content-section bg-white rounded-2xl shadow-sm border border-blue-100 p-5 sm:p-8 mb-6 transition-all duration-300">
+            <div class="border-l-4 border-blue-500 pl-3 mb-6">
+                <span class="text-xs font-bold text-blue-500 tracking-wider">SECTION 01</span>
+                <h2 class="text-xl sm:text-2xl font-black text-slate-800"><ruby>日本<rt>にほん</rt></ruby>と<ruby>海<rt>うみ</rt></ruby></h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- 左側：解説テキスト -->
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="bg-blue-50/50 rounded-xl p-4 border border-blue-100">
+                        <h3 class="text-lg font-bold text-blue-800 mb-2 flex items-center gap-2">
+                            <span class="text-xl">🗾</span> <ruby>島国<rt>しまぐに</rt></ruby>、日本
+                        </h3>
+                        <p class="leading-relaxed text-sm sm:text-base text-slate-700">
+                            日本は、となりに接している国がなく、海に囲まれた国である。こういった国を<strong class="text-blue-600 font-bold bg-blue-100/50 px-1 rounded"><ruby>島国<rt>しまぐに</rt></ruby></strong>という。日本の四方を囲んでいる海はそれぞれに名前と特ちょうがある。
+                        </p>
+                    </div>
+
+                    <div class="bg-emerald-50/50 rounded-xl p-4 border border-emerald-100">
+                        <h3 class="text-lg font-bold text-emerald-800 mb-2 flex items-center gap-2">
+                            <span class="text-xl">🐟</span> <ruby>大陸<rt>たいりく</rt></ruby>だな
+                        </h3>
+                        <p class="leading-relaxed text-sm sm:text-base text-slate-700 mb-3">
+                            大陸の周りに、深さ200mくらいの浅い海底が、たなのように続くものを<strong class="text-emerald-600 font-bold bg-emerald-100/50 px-1 rounded"><ruby>大陸<rt>たいりく</rt></ruby>だな</strong>という。深い海と異なり、海底まで日光が届くため、海藻類がよく育ち、プランクトンもたくさんいる環境となる。これをえさとする魚が集まるため、大陸だなは良い漁場となる。
+                        </p>
+                        <!-- 大陸だなのインタラクティブ図解 -->
+                        <div class="bg-white rounded-lg p-3 border border-emerald-200 mt-2">
+                            <p class="text-xs text-slate-500 mb-2 font-bold">【図解】大陸だなの断面イメージ（各部分をクリックしてみてね）</p>
+                            <div class="relative bg-sky-200 rounded h-40 overflow-hidden cursor-pointer" onclick="toggleShelfInfo()">
+                                <!-- 海面 -->
+                                <div class="absolute top-4 left-0 right-0 h-1 bg-sky-400 opacity-60"></div>
+                                <div class="absolute top-6 left-4 text-xs font-bold text-sky-800 bg-sky-100/80 px-1.5 py-0.5 rounded">海面</div>
+                                <!-- 陸地・海底のSVG -->
+                                <svg class="absolute inset-0 w-full h-full" viewBox="0 0 400 150" preserveAspectRatio="none">
+                                    <path d="M 0,80 L 80,80 Q 220,95 280,110 L 400,150 L 400,150 L 0,150 Z" fill="#92400e" opacity="0.8"></path>
+                                    <path d="M 0,80 L 80,80 Q 220,95 280,110 L 400,150 L 400,150 L 0,150 Z" fill="#b45309" opacity="0.3"></path>
+                                    <!-- 太陽の光線 -->
+                                    <g stroke="#fef08a" stroke-width="1.5" opacity="0.6">
+                                        <line x1="120" y1="0" x2="130" y2="90" />
+                                        <line x1="180" y1="0" x2="190" y2="95" />
+                                        <line x1="240" y1="0" x2="250" y2="105" />
+                                    </g>
+                                </svg>
+                                <!-- タグ・解説表示 -->
+                                <div class="absolute top-20 left-1 bg-amber-800 text-white text-[10px] px-1 rounded">陸地</div>
+                                <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 bg-emerald-600 text-white text-[11px] font-bold px-2 py-0.5 rounded shadow">
+                                    大陸だな（深さ約200mまで）
+                                </div>
+                                <div class="absolute bottom-2 right-4 text-white text-[10px] font-bold">深い海へ...</div>
+                                <div class="absolute top-2 right-2 bg-yellow-100 text-yellow-800 text-[10px] px-2 py-1 rounded-full font-bold shadow animate-bounce">
+                                    ☀️ 日光が届く！
+                                </div>
+                            </div>
+                            <!-- インタラクティブ詳細 -->
+                            <div id="shelf-info" class="mt-2 text-xs bg-emerald-50 p-2.5 rounded border border-emerald-100 hidden">
+                                <p class="font-bold text-emerald-800">💡 大陸だなはなぜ豊かなの？</p>
+                                <p class="text-slate-600">日光が海底まで届くことで、植物プランクトンや海藻が光合成をして大増殖します。それを食べる小魚、さらにそれを食べる大きな魚が集まるため、世界中の漁業の多くがこの大陸だなで行われています。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右側：日本を囲む4つの海（SVGマップ付き） -->
+                <div class="lg:col-span-5 bg-slate-50 rounded-xl p-4 border border-slate-200">
+                    <h3 class="text-lg font-bold text-slate-800 mb-3 flex items-center gap-2">
+                        <span class="text-xl">🌊</span> 日本の周りの海
+                    </h3>
+                    <p class="text-xs text-slate-500 mb-4">ボタンを押すと、地図上の海が光り、特徴が表示されます！</p>
+
+                    <!-- 簡易日本周辺地図（SVG） -->
+                    <div class="bg-sky-100 rounded-lg p-2 relative h-48 border border-sky-200 flex items-center justify-center overflow-hidden">
+                        <!-- 日本列島のSVGシルエット（概略） -->
+                        <svg class="w-full h-full max-h-[180px]" viewBox="0 0 300 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- 北海道 -->
+                            <path id="map-hokkaido" d="M 210,35 L 240,30 L 250,50 L 220,65 L 205,50 Z" class="fill-emerald-600 stroke-emerald-700 transition-all duration-300" stroke-width="1.5"></path>
+                            <!-- 本州・四国・九州 -->
+                            <path id="map-main" d="M 205,65 Q 180,95 150,110 Q 130,120 110,135 L 105,145 L 85,150 L 80,140 Q 100,120 125,105 Q 160,85 195,65 Z" class="fill-emerald-600 stroke-emerald-700 transition-all duration-300" stroke-width="1.5"></path>
+                            <!-- 四国 -->
+                            <path id="map-shikoku" d="M 115,130 Q 105,135 100,125 L 115,120 Z" class="fill-emerald-600 stroke-emerald-700 transition-all duration-300" stroke-width="1.5"></path>
+
+                            <!-- 各海域の位置インジケーター（発光円） -->
+                            <!-- 北：オホーツク海 -->
+                            <circle id="dot-north" cx="240" cy="20" r="10" class="fill-blue-500/30 stroke-blue-600 transition-all duration-300" stroke-width="1.5"></circle>
+                            <text x="220" y="22" class="text-[9px] font-bold fill-blue-800">オホーツク海</text>
+                            <!-- 東：太平洋 -->
+                            <circle id="dot-east" cx="250" cy="110" r="10" class="fill-blue-500/30 stroke-blue-600 transition-all duration-300" stroke-width="1.5"></circle>
+                            <text x="240" y="125" class="text-[9px] font-bold fill-blue-800">太平洋</text>
+                            <!-- 西：日本海 -->
+                            <circle id="dot-west" cx="130" cy="70" r="10" class="fill-blue-500/30 stroke-blue-600 transition-all duration-300" stroke-width="1.5"></circle>
+                            <text x="115" y="65" class="text-[9px] font-bold fill-blue-800">日本海</text>
+                            <!-- 南：東シナ海 -->
+                            <circle id="dot-south" cx="60" cy="155" r="10" class="fill-blue-500/30 stroke-blue-600 transition-all duration-300" stroke-width="1.5"></circle>
+                            <text x="45" y="170" class="text-[9px] font-bold fill-blue-800">東シナ海</text>
+                        </svg>
+                    </div>
+
+                    <!-- 海の選択ボタンと詳細カード -->
+                    <div class="grid grid-cols-4 gap-1 mt-3">
+                        <button onclick="showSeaDetail('east')" id="sea-btn-east" class="sea-btn py-1 px-1 text-[11px] font-bold rounded bg-blue-600 text-white text-center">東：太平洋</button>
+                        <button onclick="showSeaDetail('west')" id="sea-btn-west" class="sea-btn py-1 px-1 text-[11px] font-bold rounded bg-white text-slate-700 border border-slate-300 text-center">西：日本海</button>
+                        <button onclick="showSeaDetail('south')" id="sea-btn-south" class="sea-btn py-1 px-1 text-[11px] font-bold rounded bg-white text-slate-700 border border-slate-300 text-center">南:東シナ</button>
+                        <button onclick="showSeaDetail('north')" id="sea-btn-north" class="sea-btn py-1 px-1 text-[11px] font-bold rounded bg-white text-slate-700 border border-slate-300 text-center">北:オホーツク</button>
+                    </div>
+
+                    <div id="sea-detail-box" class="mt-3 p-3 bg-white rounded-lg border border-slate-200 text-xs sm:text-sm min-h-[110px]">
+                        <!-- 東：太平洋（初期値） -->
+                        <h4 class="font-bold text-blue-600 mb-1 flex items-center justify-between">
+                            <span>東：太平洋（たいへいよう）</span>
+                            <span class="text-[10px] bg-blue-100 text-blue-700 px-1.5 py-0.2 rounded font-normal">世界最大</span>
+                        </h4>
+                        <p class="text-slate-600 leading-relaxed">
+                            世界最大の海で、三大洋の一つ。日本を囲む海の中で、最も深く、豊かな流れ（黒潮）が注ぎ込んでいます。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 海辺のつなぎ目・海岸の種類 -->
+        <section id="sec-coast" class="content-section bg-white rounded-2xl shadow-sm border border-blue-100 p-5 sm:p-8 mb-6 transition-all duration-300">
+            <div class="border-l-4 border-cyan-500 pl-3 mb-6">
+                <span class="text-xs font-bold text-cyan-500 tracking-wider">SECTION 02</span>
+                <h2 class="text-xl sm:text-2xl font-black text-slate-800"><ruby>海岸<rt>かいがん</rt></ruby>のつなぎ目と種類</h2>
+            </div>
+
+            <!-- 日本の海岸線について -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 mb-8">
+                <div class="md:col-span-7 space-y-4">
+                    <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <span class="text-xl">📏</span> 日本の海岸線はどのくらい長いの？
+                    </h3>
+                    <p class="text-sm sm:text-base text-slate-600 leading-relaxed">
+                        日本の海岸線は、他国の調査では約30,000km、日本の調査では<strong class="text-rose-600 font-bold bg-rose-50 px-1 rounded">約35,000km</strong>あり、世界の中でも<strong class="text-rose-600 font-bold bg-rose-50 px-1 rounded">6番目の長さ</strong>です。<br>
+                        地球一周が約40,000kmなので、とても長いことがわかります。半島や入り江が入り組んで複雑な線を描いており、14,000あまりの島々からできているためです。
+                    </p>
+                    <div class="bg-cyan-50 rounded-xl p-3 border border-cyan-100 text-xs text-slate-500">
+                        ※海岸線に関する数値はいずれも環境省「環境統計集 令和5年度版」より
+                    </div>
+                </div>
+                <!-- 都道府県別ランキング -->
+                <div class="md:col-span-5 bg-gradient-to-br from-cyan-50 to-blue-50 rounded-xl p-4 border border-cyan-100">
+                    <h4 class="font-bold text-slate-800 mb-3 text-center flex items-center justify-center gap-2">
+                        🏆 都道府県別 海岸線の長さベスト4
+                    </h4>
+                    <div class="space-y-2 text-xs sm:text-sm">
+                        <div class="flex justify-between items-center bg-white/80 p-2 rounded border border-cyan-200">
+                            <span class="font-bold text-yellow-600">1位 北海道</span>
+                            <span class="font-bold text-slate-700">4,000 km 以上</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-white/80 p-2 rounded border border-cyan-200">
+                            <span class="font-bold text-slate-500">2位 長崎県</span>
+                            <span class="font-bold text-slate-700">4,000 km 以上</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-white/80 p-2 rounded border border-cyan-200">
+                            <span class="font-bold text-amber-700">3位 鹿児島県</span>
+                            <span class="font-bold text-slate-600">2,665 km</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-white/80 p-2 rounded border border-cyan-200">
+                            <span class="font-bold text-slate-600">4位 沖縄県</span>
+                            <span class="font-bold text-slate-600">2,037 km</span>
+                        </div>
+                    </div>
+                    <div class="mt-3 bg-white/90 p-2 rounded text-[11px] text-cyan-800 font-medium">
+                        ❓ <strong>北海道と長崎県は、なぜこんなに海岸線が長いのかな？</strong><br>
+                        👉 北海道は土地自体が巨大で、長崎県は小さな島が多く入り江が非常に複雑だからだよ！
+                    </div>
+                </div>
+            </div>
+
+            <!-- 自然海岸 vs 人工海岸 -->
+            <div class="border-t border-slate-100 pt-6">
+                <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <span class="text-xl">🏖️</span> 海岸の種類（自然海岸と人工海岸）
+                </h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- 砂浜海岸 -->
+                    <div class="bg-amber-50/60 rounded-xl p-4 border border-amber-200 hover:shadow-md transition">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-amber-800 font-bold bg-amber-100 px-2.5 py-0.5 rounded text-xs">自然海岸</span>
+                            <span class="text-2xl">🏖️</span>
+                        </div>
+                        <h4 class="font-bold text-amber-900 text-base mb-1">砂浜海岸（すなはまかいがん）</h4>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            おもに砂でできた海岸。<strong class="text-amber-700 font-semibold">遠浅（とおあさ：海底の浅い海が続く）</strong>のため、そのままでは漁港にならず、漁業にはあまり向いていない。
+                        </p>
+                        <div class="mt-2 text-[11px] bg-white p-2 rounded text-slate-500">
+                            🌊 海水浴場や、砂地に潜る生き物のすみかになる。風や砂を防ぐために、松などを植えた「防砂林・防風林」があるよ。
+                        </div>
+                    </div>
+
+                    <!-- 岩石海岸 -->
+                    <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 hover:shadow-md transition">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-slate-700 font-bold bg-slate-200 px-2.5 py-0.5 rounded text-xs">自然海岸</span>
+                            <span class="text-2xl">🪨</span>
+                        </div>
+                        <h4 class="font-bold text-slate-900 text-base mb-1">岩石海岸（がんせきかいがん）</h4>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            <strong class="text-slate-800 font-semibold">磯（いそ）</strong>とも呼ばれる、岩や石が多い海岸。かにやヤドカリなどの岩場にかくれる生き物のすみかとなり、海藻も多く育ちます。
+                        </p>
+                        <div class="mt-2 text-[11px] bg-emerald-50 text-emerald-800 p-2 rounded font-medium">
+                            ★リアス海岸：岩石海岸の中でも、海岸線がギザギザと激しく入り組んだものをリアス海岸と呼びます。
+                        </div>
+                    </div>
+
+                    <!-- 人工海岸 -->
+                    <div class="bg-blue-50/40 rounded-xl p-4 border border-blue-200 hover:shadow-md transition">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-blue-700 font-bold bg-blue-100 px-2.5 py-0.5 rounded text-xs">人工海岸</span>
+                            <span class="text-2xl">🏗️</span>
+                        </div>
+                        <h4 class="font-bold text-blue-900 text-base mb-1">人工海岸（じんこうかいがん）</h4>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            コンクリートで固めるなどしてつくられた海岸。港や、埋め立て地の海岸など。
+                        </p>
+                        <div class="mt-2 text-[11px] bg-white p-2 rounded text-rose-700 font-medium">
+                            ⚠️ 現在は、自然海岸が減少し、人工海岸が増加。生き物を守るため、自然の姿を残そうとする動きも広がっています。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- リアス海岸と砂浜海岸（九十九里・三陸） -->
+        <section id="sec-rias" class="content-section bg-white rounded-2xl shadow-sm border border-blue-100 p-5 sm:p-8 mb-6 transition-all duration-300">
+            <div class="border-l-4 border-amber-500 pl-3 mb-6">
+                <span class="text-xs font-bold text-amber-500 tracking-wider">SECTION 03</span>
+                <h2 class="text-xl sm:text-2xl font-black text-slate-800"><ruby>九十九里浜<rt>くじゅうくりはま</rt></ruby>（砂浜）と <ruby>三陸海岸<rt>さんりくかいがん</rt></ruby>（リアス）</h2>
+            </div>
+
+            <!-- 日本地図の切り出しSVG（九十九里と三陸の位置関係） -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                <!-- 左側：リアス海岸のでき方（アニメーションステップ） -->
+                <div class="md:col-span-7 bg-amber-50/30 rounded-xl p-4 border border-amber-100">
+                    <h3 class="font-bold text-slate-800 text-base mb-3 flex items-center gap-2">
+                        <span class="text-amber-600">⛰️</span> リアス海岸のでき方（ステップ）
+                    </h3>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                        <div class="bg-white p-3 rounded-lg border border-amber-200">
+                            <span class="text-xs bg-amber-600 text-white font-bold px-2 py-0.5 rounded-full">1</span>
+                            <p class="text-xs font-bold text-slate-700 mt-1 mb-2">川の流れが山を削る</p>
+                            <svg class="w-full h-24 bg-amber-50 rounded" viewBox="0 0 120 80">
+                                <path d="M 0,30 L 30,50 L 60,30 L 90,50 L 120,30 L 120,80 L 0,80 Z" fill="#b45309" opacity="0.8"></path>
+                                <path d="M 30,50 L 33,80 M 90,50 L 93,80" stroke="#0284c7" stroke-width="2" stroke-dasharray="2,2"></path>
+                                <text x="10" y="20" class="text-[9px] fill-amber-900 font-bold">川が谷を削る</text>
+                            </svg>
+                        </div>
+
+                        <div class="bg-white p-3 rounded-lg border border-sky-200">
+                            <span class="text-xs bg-sky-600 text-white font-bold px-2 py-0.5 rounded-full">2</span>
+                            <p class="text-xs font-bold text-slate-700 mt-1 mb-2">海面が上がり、水が入る</p>
+                            <svg class="w-full h-24 bg-sky-50 rounded" viewBox="0 0 120 80">
+                                <path d="M 0,35 L 30,55 L 60,35 L 90,55 L 120,35 L 120,80 L 0,80 Z" fill="#b45309" opacity="0.8"></path>
+                                <path d="M 0,48 Q 40,40 120,48 L 120,80 L 0,80 Z" fill="#0284c7" opacity="0.6"></path>
+                                <text x="10" y="20" class="text-[9px] fill-sky-900 font-bold">深い入り江ができる</text>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed bg-white p-3 rounded-lg border border-slate-100">
+                        流れる水の力でできた山と谷に、海面が上がって海水が入り込むことで、ギザギザしたリアス海岸がつくられます。入り江が深く、波が届かないため<strong class="text-sky-600">「天然の良港（りょうこう：良いみなと）」</strong>になります。
+                    </p>
+                </div>
+
+                <!-- 右側：二大海岸の徹底比較 -->
+                <div class="md:col-span-5 flex flex-col gap-3 justify-between">
+                    <!-- 九十九里浜カード -->
+                    <div class="bg-yellow-50/50 rounded-xl p-4 border border-yellow-200 flex flex-col justify-between h-full">
+                        <div>
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="bg-yellow-400 text-yellow-950 font-bold text-[10px] px-2 py-0.5 rounded">砂浜</span>
+                                <h4 class="font-bold text-slate-800 text-base">九十九里浜（千葉県）</h4>
+                            </div>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                約66km続く日本最長の砂浜海岸。昔はいわし漁がさかんだった。平野部ではきゅうりやトマトを生産。観光や民宿などの産業も盛んです。
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- 三陸海岸カード -->
+                    <div class="bg-blue-50/50 rounded-xl p-4 border border-blue-200 flex flex-col justify-between h-full">
+                        <div>
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="bg-blue-500 text-white font-bold text-[10px] px-2 py-0.5 rounded">リアス</span>
+                                <h4 class="font-bold text-slate-800 text-base">三陸海岸（東北地方）</h4>
+                            </div>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                青森・岩手・宮城にまたがる。急な山が海に迫るため、海沿い近くに森林（魚を育てる<strong>おつき林</strong>）があり、深い入り江が港に適しています。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- リアス海岸のプラスマイナス -->
+            <div class="mt-6 bg-slate-50 rounded-xl p-5 border border-slate-200">
+                <h3 class="font-bold text-slate-800 text-base mb-3 text-center">💡 リアス海岸のメリット・デメリット</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-emerald-50 rounded-lg p-4 border border-emerald-100">
+                        <span class="text-xs bg-emerald-600 text-white font-bold px-2 py-1 rounded">メリット（プラス）</span>
+                        <h4 class="font-bold text-emerald-900 mt-2 text-sm">穏やかで深い入り江＝養殖（ようしょく）の天国</h4>
+                        <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                            外海から入る波が入り江で遮られ、ふだんは非常に穏やかな海になります。そのため、<strong class="text-emerald-700">ワカメ、コンブ、カキ、ホタテ</strong>などの海産物の養殖が非常にさかんです。
+                        </p>
+                    </div>
+                    <div class="bg-rose-50 rounded-lg p-4 border border-rose-100">
+                        <span class="text-xs bg-rose-600 text-white font-bold px-2 py-1 rounded">デメリット（マイナス）</span>
+                        <h4 class="font-bold text-rose-900 mt-2 text-sm">V字の谷＝津波（つなみ）の力が集中しやすい</h4>
+                        <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                            入り江がV字の形をしているため、大きな津波が押し寄せると、海水が真ん中（奥部）に集められてより高くなってしまいます。東日本大震災でも甚大な被害が出たため、高いところへの家事移転や、強固な防潮堤・防潮林の整備が進められています。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 潮目の仕組み（アニメーション対応） -->
+        <section id="sec-current" class="content-section bg-white rounded-2xl shadow-sm border border-blue-100 p-5 sm:p-8 mb-6 transition-all duration-300">
+            <div class="border-l-4 border-blue-600 pl-3 mb-6">
+                <span class="text-xs font-bold text-blue-600 tracking-wider">SECTION 04</span>
+                <h2 class="text-xl sm:text-2xl font-black text-slate-800"><ruby>潮目<rt>しおめ</rt></ruby>の仕組みと良い漁場</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- 左側：解説 -->
+                <div class="lg:col-span-5 space-y-4">
+                    <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <span class="text-xl">🐟</span> 三陸海岸の沖合にできる「潮目」
+                    </h3>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                        三陸海岸の沖（海から離れた深い海）は、世界有数の良い漁場です。ここでは、南からのあたたかい海流である<strong class="text-rose-600">黒潮（日本海流）</strong>と、北からの冷たい海流である<strong class="text-blue-600">親潮（千島海流）</strong>がぶつかります。このぶつかる場所を<strong class="text-purple-600 font-bold bg-purple-50 px-1 rounded">潮目（しおめ）</strong>と呼びます。
+                    </p>
+
+                    <div class="bg-sky-50 rounded-lg p-3 border border-sky-100 space-y-1">
+                        <p class="text-xs font-bold text-sky-800">☝️ なぜプランクトンが増えて魚が集まるの？</p>
+                        <ol class="list-decimal list-inside text-xs text-slate-600 space-y-1">
+                            <li>冷たい水と暖かい水がぶつかり合って、海流が上下に入り混じる。</li>
+                            <li>海底にたまっていた多くの栄養（ちっ素、リン）が、太陽光の届く海面近くまで押し上げられる。</li>
+                            <li>それを栄養にしてプランクトンが爆発的に発生する。</li>
+                            <li>それを食べる魚たちが集まり、最高の漁場になる。</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- 右側：アニメーション図解 -->
+                <div class="lg:col-span-7 bg-slate-900 text-white rounded-xl p-4 flex flex-col justify-between overflow-hidden relative">
+                    <div class="flex items-center justify-between mb-3 border-b border-slate-700 pb-2">
+                        <span class="text-xs font-bold text-sky-400">🌊 インタラクティブアニメーション</span>
+                        <button onclick="animateCurrents()" class="bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs px-2.5 py-1 rounded shadow transition">
+                            動きを再生する
+                        </button>
+                    </div>
+
+                    <!-- アニメーションフィールド -->
+                    <div class="relative h-60 bg-gradient-to-b from-sky-950 to-indigo-950 rounded-lg overflow-hidden border border-slate-700">
+                        <!-- 海面 -->
+                        <div class="absolute top-0 left-0 right-0 h-6 bg-cyan-900/40 border-b border-cyan-800 flex items-center justify-center">
+                            <span class="text-[10px] text-cyan-400 font-bold">海面（太陽光が差し込み、光合成が行われる場所）</span>
+                        </div>
+
+                        <!-- 暖流（黒潮）の流れ -->
+                        <div id="warm-current" class="absolute left-4 bottom-4 w-1/3 h-16 bg-gradient-to-r from-red-600 to-amber-500 opacity-80 rounded-full flex items-center justify-center flex-col transition-all duration-1000">
+                            <span class="text-[10px] font-bold">暖流：黒潮 🔴</span>
+                            <span class="text-[8px]">（あたたかい海水）</span>
+                        </div>
+
+                        <!-- 寒流（親潮）の流れ -->
+                        <div id="cold-current" class="absolute right-4 top-10 w-1/3 h-16 bg-gradient-to-l from-blue-600 to-teal-400 opacity-80 rounded-full flex items-center justify-center flex-col transition-all duration-1000">
+                            <span class="text-[10px] font-bold">寒流：親潮 🔵</span>
+                            <span class="text-[8px]">（冷たく、栄養が豊富）</span>
+                        </div>
+
+                        <!-- 潮目衝突地点 -->
+                        <div id="current-clash" class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full border-4 border-dashed border-yellow-400 opacity-0 flex items-center justify-center transition-all duration-500 z-10">
+                            <span class="text-[11px] font-black text-yellow-300 tracking-wider">潮目！</span>
+                        </div>
+
+                        <!-- 湧き上がる栄養分とプランクトン -->
+                        <div id="plankton-rising" class="absolute bottom-2 left-1/2 transform -translate-x-1/2 text-center opacity-0 transition-all duration-1000 space-y-1">
+                            <div class="text-[10px] text-emerald-400 font-bold animate-pulse">🦠 プランクトンが大量発生！！</div>
+                            <div class="flex justify-center gap-1">
+                                <span class="text-emerald-300 text-xs">🐟</span>
+                                <span class="text-yellow-300 text-xs">🐟</span>
+                                <span class="text-orange-300 text-xs">🐟</span>
+                            </div>
+                        </div>
+
+                        <!-- 海底 -->
+                        <div class="absolute bottom-0 left-0 right-0 h-8 bg-amber-950/90 border-t border-amber-900 p-1 text-center">
+                            <span class="text-[9px] text-amber-200">海底（魚の栄養分がたまっている場所）</span>
+                        </div>
+                    </div>
+
+                    <p class="text-[11px] text-slate-400 mt-2 text-center">
+                        ※「動きを再生する」ボタンを押すと、黒潮と親潮が交わって栄養が湧き上がる様子が見られます。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 確認テスト：たしかめクイズ -->
+        <section id="sec-quiz" class="content-section bg-white rounded-2xl shadow-sm border border-amber-200 p-5 sm:p-8 mb-6 transition-all duration-300">
+            <div class="border-l-4 border-amber-500 pl-3 mb-6">
+                <span class="text-xs font-bold text-amber-500 tracking-wider">CHECK TEST</span>
+                <h2 class="text-xl sm:text-2xl font-black text-slate-800">「海辺のくらし」たしかめクイズ</h2>
+            </div>
+
+            <!-- クイズエリア -->
+            <div class="bg-amber-50/40 rounded-xl p-4 sm:p-6 border border-amber-100">
+                <div id="quiz-intro">
+                    <p class="text-sm sm:text-base text-slate-700 mb-4 leading-relaxed">
+                        学習した内容からクイズを出題するよ！全問正解を目指してチャレンジしてみよう！
+                    </p>
+                    <button onclick="startQuiz()" class="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-6 rounded-lg transition shadow-md">
+                        クイズをはじめる！
+                    </button>
+                </div>
+
+                <div id="quiz-question-box" class="hidden">
+                    <div class="flex justify-between items-center mb-4 text-xs font-bold text-slate-500">
+                        <span id="quiz-progress">第 1 問 / 3 問</span>
+                        <span id="quiz-score">現在のスコア: 0点</span>
+                    </div>
+                    <h3 id="quiz-title" class="text-base sm:text-lg font-bold text-slate-800 mb-4 leading-relaxed">
+                        【問題文がここに入ります】
+                    </h3>
+                    <div id="quiz-options" class="space-y-3">
+                        <!-- 選択肢がJSで動的に追加されます -->
+                    </div>
+                </div>
+
+                <div id="quiz-feedback-box" class="hidden mt-4 p-4 rounded-lg text-center">
+                    <p id="quiz-result-text" class="font-bold text-lg mb-2">判定結果</p>
+                    <p id="quiz-explanation" class="text-xs sm:text-sm text-slate-600 mb-4">解説文</p>
+                    <button onclick="nextQuestion()" id="next-quiz-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-2 rounded-lg text-sm transition">
+                        次の問題へ
+                    </button>
+                </div>
+
+                <div id="quiz-result-screen" class="hidden text-center py-6">
+                    <h3 class="text-2xl font-black text-amber-600 mb-2">🎉 クイズおつかれさまでした！</h3>
+                    <p id="final-score-text" class="text-lg font-bold text-slate-700 mb-6">あなたの点数は 3問中 3問正解 でした！</p>
+                    <button onclick="resetQuiz()" class="bg-slate-700 hover:bg-slate-800 text-white font-bold px-6 py-2.5 rounded-lg text-sm transition">
+                        もう一度挑戦する！
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- フッター -->
+    <footer class="bg-slate-800 text-slate-400 py-6 text-center text-xs mt-12 border-t border-slate-700">
+        <div class="max-w-6xl mx-auto px-4">
+            <p class="mb-2">14 海辺のくらし - デジタル学習ノート</p>
+            <p>教科書や副読本に沿った、インタラクティブに学べる教材アプリケーションです。</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript 制御 -->
+    <script>
+        // タブ切り替えロジック
+        function switchTab(tabId) {
+            // 全てのセクションを非表示にする
+            const sections = document.querySelectorAll('.content-section');
+            const buttons = document.querySelectorAll('.tab-btn');
+
+            if (tabId === 'all') {
+                sections.forEach(sec => sec.classList.remove('hidden'));
+            } else {
+                sections.forEach(sec => {
+                    if (sec.id === `sec-${tabId}`) {
+                        sec.classList.remove('hidden');
+                    } else {
+                        sec.classList.add('hidden');
+                    }
+                });
+            }
+
+            // アクティブボタンのスタイルを調整
+            buttons.forEach(btn => {
+                if (btn.id === `btn-${tabId}`) {
+                    btn.classList.add('bg-white', 'text-blue-600', 'shadow-sm');
+                    btn.classList.remove('hover:bg-white/20');
+                } else {
+                    btn.classList.remove('bg-white', 'text-blue-600', 'shadow-sm');
+                    btn.classList.add('hover:bg-white/20');
+                }
+            });
+        }
+
+        // 大陸だな図解のトグル表示
+        function toggleShelfInfo() {
+            const info = document.getElementById('shelf-info');
+            info.classList.toggle('hidden');
+        }
+
+        // 周辺の海情報データ
+        const seaDetails = {
+            east: {
+                title: "東：太平洋（たいへいよう）",
+                tag: "世界最大",
+                text: "世界最大の海で、三大洋の一つ。日本を囲む海の中で、最も深く、日本の太平洋側には「黒潮」と呼ばれる強力な暖流が流れています。"
+            },
+            west: {
+                title: "西：日本海（にほんかい）",
+                tag: "豊かな大陸棚",
+                text: "ユーラシア大陸と日本列島に挟まれた海。大陸棚が広がっており、好漁場となる一方で、外国との領海をめぐる課題が生じることもあります。"
+            },
+            south: {
+                title: "南：東シナ海（ひがししなかい）",
+                tag: "好漁場",
+                text: "かつての中国やその影響下にあった地域の名に由来する、比較的浅い海。魚が集まりやすく、古くから重要な漁場として活躍しています。"
+            },
+            north: {
+                title: "北：オホーツク海（おほーつくかい）",
+                tag: "流氷が訪れる海",
+                text: "北海道の北に位置する。語源はアイヌ語ではなく、ロシア語やツングース語に由来。冬には、シベリア方面から真っ白な「流氷」が押し寄せることで有名です。"
+            }
+        };
+
+        // 周辺の海詳細切り替え
+        function showSeaDetail(direction) {
+            const data = seaDetails[direction];
+            const detailBox = document.getElementById('sea-detail-box');
+
+            // ボタンの色の切り替え
+            document.querySelectorAll('.sea-btn').forEach(btn => {
+                btn.className = "sea-btn py-1 px-1 text-[11px] font-bold rounded bg-white text-slate-700 border border-slate-300 text-center";
+            });
+            document.getElementById(`sea-btn-${direction}`).className = "sea-btn py-1 px-1 text-[11px] font-bold rounded bg-blue-600 text-white text-center";
+
+            // 詳細テキストのアップデート
+            detailBox.innerHTML = `
+                <h4 class="font-bold text-blue-600 mb-1 flex items-center justify-between">
+                    <span>${data.title}</span>
+                    <span class="text-[10px] bg-blue-100 text-blue-700 px-1.5 py-0.2 rounded font-normal">${data.tag}</span>
+                </h4>
+                <p class="text-slate-600 leading-relaxed">${data.text}</p>
+            `;
+
+            // 地図上の丸を強調
+            document.querySelectorAll('circle').forEach(circle => {
+                circle.setAttribute('class', 'fill-blue-500/30 stroke-blue-600 transition-all duration-300');
+            });
+            document.getElementById(`dot-${direction}`).setAttribute('class', 'fill-amber-500 stroke-amber-600 transition-all duration-300 scale-125');
+        }
+
+        // 潮目のアニメーションコントロール
+        function animateCurrents() {
+            const warm = document.getElementById('warm-current');
+            const cold = document.getElementById('cold-current');
+            const clash = document.getElementById('current-clash');
+            const plankton = document.getElementById('plankton-rising');
+
+            // リセット
+            warm.style.transform = "translateX(0px)";
+            cold.style.transform = "translateX(0px)";
+            clash.style.opacity = "0";
+            plankton.style.opacity = "0";
+
+            // アニメーションステップ
+            setTimeout(() => {
+                warm.style.transform = "translateX(50px) translateY(-20px)";
+                cold.style.transform = "translateX(-50px) translateY(20px)";
+            }, 100);
+
+            setTimeout(() => {
+                clash.style.opacity = "1";
+                clash.style.transform = "translate(-50%, -50%) scale(1.2)";
+            }, 1000);
+
+            setTimeout(() => {
+                plankton.style.opacity = "1";
+                plankton.style.transform = "translate(-50%, -10px)";
+            }, 1800);
+        }
+
+        // クイズ用のデータ
+        const quizQuestions = [
+            {
+                q: "大陸の周りにある、深さ200メートルほどの浅い海底を何と呼びますか？",
+                options: ["リアス海岸", "大陸だな", "潮目", "遠浅"],
+                answer: 1,
+                explanation: "大陸のまわりにある、深さ200mくらいの浅い海底を「大陸だな」と言います。日光が海底まで届くため、魚の良い漁場になります。"
+            },
+            {
+                q: "三陸海岸のように、海岸線がギザギザと激しく入り組んだ海岸の種類を何と言いますか？",
+                options: ["人工海岸", "砂浜海岸", "リアス海岸", "干潟海岸"],
+                answer: 2,
+                explanation: "山と谷が沈むか、海面が上がって海水が入り込むことで出来たギザギザの海岸を「リアス海岸」と言います。"
+            },
+            {
+                q: "暖流の黒潮と、寒流の親潮がぶつかり合う、好漁場となる場所を何と呼びますか？",
+                options: ["おつき林", "潮目", "大陸だな", "干潟"],
+                answer: 1,
+                explanation: "あたたかい黒潮と冷たい親潮がぶつかり合う場所を「潮目（しおめ）」と言い、プランクトンが大量に発生して魚の良い住処になります。"
+            }
+        ];
+
+        let currentQuizIndex = 0;
+        let score = 0;
+
+        function startQuiz() {
+            document.getElementById('quiz-intro').classList.add('hidden');
+            document.getElementById('quiz-question-box').classList.remove('hidden');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const question = quizQuestions[currentQuizIndex];
+            document.getElementById('quiz-progress').innerText = `第 ${currentQuizIndex + 1} 問 / ${quizQuestions.length} 問`;
+            document.getElementById('quiz-score').innerText = `現在のスコア: ${score}点`;
+            document.getElementById('quiz-title').innerText = question.q;
+
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+
+            question.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left bg-white hover:bg-slate-50 border border-slate-300 p-3 rounded-lg text-sm transition-all focus:outline-none";
+                btn.innerText = `${idx + 1}. ${opt}`;
+                btn.onclick = () => checkAnswer(idx);
+                optionsContainer.appendChild(btn);
+            });
+
+            document.getElementById('quiz-feedback-box').classList.add('hidden');
+        }
+
+        function checkAnswer(selectedIdx) {
+            const question = quizQuestions[currentQuizIndex];
+            const feedbackBox = document.getElementById('quiz-feedback-box');
+            const resultText = document.getElementById('quiz-result-text');
+            const explanation = document.getElementById('quiz-explanation');
+
+            // 全てのボタンを無効化
+            const buttons = document.querySelectorAll('#quiz-options button');
+            buttons.forEach((btn, idx) => {
+                btn.disabled = true;
+                if (idx === question.answer) {
+                    btn.className = "w-full text-left bg-emerald-50 border-2 border-emerald-500 p-3 rounded-lg text-sm font-bold text-emerald-800";
+                } else if (idx === selectedIdx) {
+                    btn.className = "w-full text-left bg-rose-50 border-2 border-rose-500 p-3 rounded-lg text-sm font-bold text-rose-800";
+                }
+            });
+
+            if (selectedIdx === question.answer) {
+                score += 100;
+                resultText.innerText = "⭕️ 正解です！";
+                resultText.className = "font-bold text-lg text-emerald-600 mb-2";
+            } else {
+                resultText.innerText = "❌ ざんねん！ちがいます";
+                resultText.className = "font-bold text-lg text-rose-600 mb-2";
+            }
+
+            explanation.innerText = question.explanation;
+            feedbackBox.classList.remove('hidden');
+
+            if (currentQuizIndex === quizQuestions.length - 1) {
+                document.getElementById('next-quiz-btn').innerText = "結果発表を見る";
+            } else {
+                document.getElementById('next-quiz-btn').innerText = "次の問題へ";
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuizIndex < quizQuestions.length - 1) {
+                currentQuizIndex++;
+                showQuestion();
+            } else {
+                // クイズ終了画面を表示
+                document.getElementById('quiz-question-box').classList.add('hidden');
+                document.getElementById('quiz-feedback-box').classList.add('hidden');
+                document.getElementById('quiz-result-screen').classList.remove('hidden');
+                document.getElementById('final-score-text').innerText = `あなたの結果： ${quizQuestions.length}問中 ${score / 100}問正解！ （スコア：${score}点）`;
+            }
+        }
+
+        function resetQuiz() {
+            currentQuizIndex = 0;
+            score = 0;
+            document.getElementById('quiz-result-screen').classList.add('hidden');
+            document.getElementById('quiz-intro').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
