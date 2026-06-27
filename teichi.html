@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>小学校社会科デジタル副読本「低地のくらし」</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Google Fonts (Noto Sans JP) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 3px;
+    }
+    /* アニメーション用 */
+    @keyframes flow {
+      0% { stroke-dashoffset: 24; }
+      100% { stroke-dashoffset: 0; }
+    }
+    .water-flow {
+      stroke-dasharray: 8, 4;
+      animation: flow 1s linear infinite;
+    }
+  </style>
+</head>
+<body class="bg-amber-50/40 text-slate-800 min-h-screen flex flex-col">
+
+  <!-- ヘッダー -->
+  <header class="bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-md py-4 px-6 sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+      <div class="flex items-center gap-3">
+        <span class="bg-white text-orange-600 font-black px-3 py-1 rounded-full text-sm shadow-inner">単元 13</span>
+        <h1 class="text-xl sm:text-2xl font-bold tracking-wider">低地のくらし 〜濃尾平野と各地の低地〜</h1>
+      </div>
+      <p class="text-xs sm:text-sm text-amber-100 font-medium">教科書要点まとめ & インタラクティブワーク</p>
+    </div>
+  </header>
+
+  <!-- メインコンテンツ -->
+  <main class="flex-grow max-w-6xl w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+    <!-- 左側サイドナビ（タブ選択） -->
+    <nav class="lg:col-span-3 flex flex-row lg:flex-col gap-2 overflow-x-auto lg:overflow-x-visible pb-2 lg:pb-0 scrollbar-none sticky top-20 bg-white p-3 rounded-2xl shadow-sm border border-orange-100 self-start">
+      <button onclick="switchTab('intro')" id="btn-intro" class="tab-btn w-full flex items-center justify-center lg:justify-start gap-3 px-4 py-3 rounded-xl font-bold transition text-sm whitespace-nowrap bg-orange-500 text-white">
+        <i data-lucide="book-open" class="w-5 h-5"></i>
+        <span>1. 輪中と三角州の基本</span>
+      </button>
+      <button onclick="switchTab('past')" id="btn-past" class="tab-btn w-full flex items-center justify-center lg:justify-start gap-3 px-4 py-3 rounded-xl font-bold transition text-sm whitespace-nowrap text-slate-600 hover:bg-orange-50">
+        <i data-lucide="home" class="w-5 h-5"></i>
+        <span>2. かつての工夫と断面図</span>
+      </button>
+      <button onclick="switchTab('modern')" id="btn-modern" class="tab-btn w-full flex items-center justify-center lg:justify-start gap-3 px-4 py-3 rounded-xl font-bold transition text-sm whitespace-nowrap text-slate-600 hover:bg-orange-50">
+        <i data-lucide="droplet" class="w-5 h-5"></i>
+        <span>3. 現代の輪中の変化</span>
+      </button>
+      <button onclick="switchTab('regions')" id="btn-regions" class="tab-btn w-full flex items-center justify-center lg:justify-start gap-3 px-4 py-3 rounded-xl font-bold transition text-sm whitespace-nowrap text-slate-600 hover:bg-orange-50">
+        <i data-lucide="map" class="w-5 h-5"></i>
+        <span>4. 各地の低地と水郷</span>
+      </button>
+      <button onclick="switchTab('quiz')" id="btn-quiz" class="tab-btn w-full flex items-center justify-center lg:justify-start gap-3 px-4 py-3 rounded-xl font-bold transition text-sm whitespace-nowrap text-slate-600 hover:bg-orange-50">
+        <i data-lucide="help-circle" class="w-5 h-5"></i>
+        <span>5. 理解度チェッククイズ</span>
+      </button>
+    </nav>
+
+    <!-- 右側メイン表示エリア -->
+    <section class="lg:col-span-9 bg-white rounded-3xl shadow-md border border-orange-100/50 p-4 sm:p-6 md:p-8 min-h-[600px] flex flex-col justify-between">
+
+      <!-- ================= 1. 輪中と三角州の基本 ================= -->
+      <div id="tab-intro" class="tab-content block space-y-6">
+        <div>
+          <span class="text-xs font-bold text-orange-500 uppercase tracking-wider">濃尾平野の輪中と低い土地</span>
+          <h2 class="text-2xl font-bold text-slate-800 mt-1">なぜ、この地域は堤防で囲まれたのか？</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+          <div class="space-y-4">
+            <div class="bg-gradient-to-br from-amber-50 to-orange-50 p-4 rounded-xl border-l-4 border-orange-400">
+              <p class="leading-relaxed text-sm text-slate-700">
+                水は、高いところから低いところへ流れます。そのため、低地（低い土地）は水はけが悪く、水害を受けやすくなります。
+              </p>
+              <p class="leading-relaxed text-sm text-slate-700 mt-2">
+                濃尾平野の西側にある岐阜県海津市周辺は、<strong class="text-orange-600 font-bold">木曽川（きそがわ）、長良川（ながらがわ）、揖斐川（いびがわ）の「木曽三川」</strong>が合流する場所にあり、これらの川が作った三角州の上に位置しています。
+              </p>
+            </div>
+
+            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+              <h3 class="font-bold text-slate-800 text-sm mb-2 flex items-center gap-2">
+                <i data-lucide="shield" class="w-4 h-4 text-orange-500"></i> 輪中（わじゅう）とは？
+              </h3>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                洪水から家や田畑を守るため、人々がくらす地域全体を大きな堤防でぐるりと囲みました。このように、堤防で囲まれた内側の土地やその集落のことを<strong class="text-orange-600">「輪中（わじゅう）」</strong>と呼びます。
+              </p>
+            </div>
+          </div>
+
+          <!-- 木曽三川の簡易地図 (SVG) -->
+          <div class="bg-sky-50/50 p-4 rounded-2xl border border-sky-100 flex flex-col items-center">
+            <h4 class="text-xs font-bold text-sky-800 mb-2">【模式図】木曽三川と輪中（濃尾平野）</h4>
+            <svg viewBox="0 0 200 180" class="w-full max-w-[260px] h-auto bg-sky-100 rounded-lg shadow-inner">
+              <!-- 海（伊勢湾） -->
+              <path d="M0,150 Q100,140 200,150 L200,180 L0,180 Z" fill="#0284c7" opacity="0.8" />
+              <text x="100" y="170" fill="#ffffff" font-size="10" font-weight="bold" text-anchor="middle">伊勢湾</text>
+
+              <!-- 川のライン（揖斐川、長良川、木曽川） -->
+              <!-- 揖斐川 -->
+              <path d="M 40,0 Q 45,50 60,100 T 70,150" fill="none" stroke="#0ea5e9" stroke-width="4" />
+              <!-- 長良川 -->
+              <path d="M 90,0 Q 85,50 80,100 T 85,150" fill="none" stroke="#0ea5e9" stroke-width="4" />
+              <!-- 木曽川 -->
+              <path d="M 150,0 Q 140,50 110,100 T 100,150" fill="none" stroke="#0ea5e9" stroke-width="5" />
+
+              <!-- 流水アニメーション -->
+              <path d="M 40,0 Q 45,50 60,100 T 70,150" fill="none" stroke="#ffffff" stroke-width="2" class="water-flow" opacity="0.6"/>
+              <path d="M 90,0 Q 85,50 80,100 T 85,150" fill="none" stroke="#ffffff" stroke-width="2" class="water-flow" opacity="0.6"/>
+              <path d="M 150,0 Q 140,50 110,100 T 100,150" fill="none" stroke="#ffffff" stroke-width="2.5" class="water-flow" opacity="0.6"/>
+
+              <!-- 輪中（堤防に囲まれた地域） -->
+              <ellipse cx="78" cy="115" rx="18" ry="25" fill="#fef08a" stroke="#ea580c" stroke-width="2" stroke-dasharray="3,2" opacity="0.9" />
+              <text x="78" y="118" fill="#ea580c" font-size="8" font-weight="black" text-anchor="middle">海津周辺</text>
+              <text x="78" y="128" fill="#ea580c" font-size="7" font-weight="bold" text-anchor="middle">(輪中)</text>
+
+              <!-- 川のラベル -->
+              <text x="30" y="30" fill="#0369a1" font-size="8" font-weight="bold">揖斐川</text>
+              <text x="88" y="25" fill="#0369a1" font-size="8" font-weight="bold">長良川</text>
+              <text x="145" y="40" fill="#0369a1" font-size="8" font-weight="bold">木曽川</text>
+              <text x="135" y="115" fill="#1e293b" font-size="9" font-weight="bold">濃尾平野</text>
+            </svg>
+            <span class="text-[10px] text-slate-500 mt-2">※3本の大きな川が非常に近くを並んで流れているため、昔から洪水が起きやすかったのです。</span>
+          </div>
+        </div>
+
+        <!-- インタラクティブ：三角州のつくられ方 -->
+        <div class="border-t border-slate-100 pt-6">
+          <div class="flex items-center gap-2 mb-4">
+            <i data-lucide="layers" class="w-5 h-5 text-orange-500"></i>
+            <h3 class="font-bold text-slate-800 text-base">三角州（さんかくす）はどうやってできる？</h3>
+          </div>
+
+          <!-- 三角州スライドコントローラー -->
+          <div class="grid grid-cols-4 gap-2 mb-4">
+            <button onclick="showDeltaStep(1)" id="delta-btn-1" class="delta-step-btn py-2 text-xs sm:text-sm font-bold rounded-lg border transition-all bg-orange-500 text-white border-orange-500">① 土砂がたまる</button>
+            <button onclick="showDeltaStep(2)" id="delta-btn-2" class="delta-step-btn py-2 text-xs sm:text-sm font-bold rounded-lg border transition-all bg-white text-slate-600 border-slate-200 hover:bg-slate-50">② 川が分かれる</button>
+            <button onclick="showDeltaStep(3)" id="delta-btn-3" class="delta-step-btn py-2 text-xs sm:text-sm font-bold rounded-lg border transition-all bg-white text-slate-600 border-slate-200 hover:bg-slate-50">③ 土砂が広がる</button>
+            <button onclick="showDeltaStep(4)" id="delta-btn-4" class="delta-step-btn py-2 text-xs sm:text-sm font-bold rounded-lg border transition-all bg-white text-slate-600 border-slate-200 hover:bg-slate-50">④ 陸地になる</button>
+          </div>
+
+          <!-- 三角州の解説と画像イメージ(SVGでシミュレーション) -->
+          <div class="bg-slate-50 p-4 rounded-xl flex flex-col md:flex-row gap-6 items-center">
+            <!-- ビジュアル -->
+            <div class="w-full md:w-1/2 flex justify-center bg-white p-3 rounded-lg border border-slate-200 shadow-inner">
+              <svg id="delta-svg" viewBox="0 0 200 120" class="w-full max-w-[240px] h-auto">
+                <!-- 背景（海） -->
+                <rect width="200" height="120" fill="#bae6fd" />
+
+                <!-- 陸地（上流側） -->
+                <path id="delta-land" d="M 0,0 L 200,0 L 200,30 Q 140,30 110,30 L 90,30 Q 60,30 0,30 Z" fill="#bbf7d0" />
+
+                <!-- 川 -->
+                <path id="delta-river" d="M 90,0 L 110,0 L 110,30 Q 100,50 100,120 L 90,120 Z" fill="#38bdf8" />
+
+                <!-- 土砂・三角州の堆積物（動的変更） -->
+                <path id="delta-sediment" d="M 90,30 Q 100,50 110,30 Q 105,45 95,45 Z" fill="#fed7aa" opacity="0.9" />
+              </svg>
+            </div>
+
+            <!-- 説明文 -->
+            <div class="w-full md:w-1/2 space-y-2">
+              <div class="flex items-center gap-2">
+                <span id="delta-badge" class="bg-orange-100 text-orange-700 text-xs font-bold px-2 py-0.5 rounded-full">ステップ 1</span>
+                <h4 id="delta-title" class="font-bold text-slate-800 text-sm sm:text-base">川の下流で流れがゆるやかになる</h4>
+              </div>
+              <p id="delta-desc" class="text-xs sm:text-sm text-slate-600 leading-relaxed min-h-[60px]">
+                川が海や大きな湖に近づくと、流れがゆるやかになります。すると、川の上流から運ばれてきた細かい土砂や砂が河口付近にたまりはじめます。
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ================= 2. かつての工夫と断面図 ================= -->
+      <div id="tab-past" class="tab-content hidden space-y-6">
+        <div>
+          <span class="text-xs font-bold text-orange-500 tracking-wider">かつての輪中のくらし</span>
+          <h2 class="text-2xl font-bold text-slate-800 mt-1">水害に立ち向かう、知恵と住まいの工夫</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+
+          <!-- インタラクティブ断面図シミュレータ (左側 7カラム) -->
+          <div class="md:col-span-7 space-y-4">
+            <div class="bg-gradient-to-br from-slate-900 to-slate-800 text-white p-4 rounded-2xl shadow-inner relative overflow-hidden">
+              <h3 class="text-sm font-bold text-amber-300 mb-3 flex items-center gap-2">
+                <i data-lucide="waves" class="w-4 h-4"></i> かつての輪中の断面図シミュレータ
+              </h3>
+
+              <!-- 断面図SVG -->
+              <svg id="cross-section-svg" viewBox="0 0 400 220" class="w-full h-auto bg-slate-950 rounded-lg">
+                <!-- 空 -->
+                <rect x="0" y="0" width="400" height="150" fill="#0f172a" />
+                <path d="M 20,40 Q 40,30 60,40 T 100,40" fill="none" stroke="#1e293b" stroke-width="1" />
+
+                <!-- 洪水時の水（初期非表示/半透明） -->
+                <rect id="flood-water" x="0" y="140" width="400" height="40" fill="#0284c7" opacity="0.0" class="transition-all duration-1000" />
+
+                <!-- 地面（堤防、石垣、水田などの高低差） -->
+                <!-- 堤防(左) -> 水田 -> 石垣/盛り土 -> 道路 -> 水田 -->
+                <path d="M 0,180 L 30,180 L 60,110 L 80,110 L 110,180 L 180,180 L 200,165 L 210,150 L 270,150 L 280,165 L 300,180 L 400,180 L 400,220 L 0,220 Z" fill="#78350f" />
+                <!-- 表土（緑） -->
+                <path d="M 0,180 L 30,180 L 60,110 L 80,110 L 110,180 L 180,180 L 200,165 L 210,150 L 270,150 L 280,165 L 300,180 L 400,180" fill="none" stroke="#22c55e" stroke-width="3" />
+
+                <!-- 川 (左端) -->
+                <rect x="0" y="150" width="40" height="30" fill="#0284c7" />
+
+                <!-- 堤防の文字 -->
+                <text x="70" y="100" fill="#f8fafc" font-size="8" text-anchor="middle" font-weight="bold">堤防</text>
+
+                <!-- 石垣 (グレー) -->
+                <polygon points="195,180 210,150 215,150 200,180" fill="#64748b" />
+                <text x="195" y="195" fill="#94a3b8" font-size="8" text-anchor="middle">石垣</text>
+
+                <!-- 盛り土 -->
+                <text x="240" y="162" fill="#f8fafc" font-size="8" text-anchor="middle">盛り土</text>
+
+                <!-- 水田（左・右） -->
+                <text x="145" y="195" fill="#4ade80" font-size="8" text-anchor="middle">堀田 (水田)</text>
+                <text x="350" y="195" fill="#4ade80" font-size="8" text-anchor="middle">ふつうの水田</text>
+
+                <!-- 家屋（母屋） -->
+                <g transform="translate(215, 120)">
+                  <rect x="0" y="10" width="20" height="20" fill="#fca5a5" stroke="#b91c1c" stroke-width="1" />
+                  <polygon points="10,0 -3,11 23,11" fill="#b91c1c" />
+                  <text x="10" y="22" fill="#000000" font-size="7" font-weight="bold" text-anchor="middle">母屋</text>
+                </g>
+
+                <!-- 水屋（さらに高い位置） -->
+                <g transform="translate(245, 110)">
+                  <!-- 基礎（高床・石垣） -->
+                  <rect x="2" y="20" width="16" height="20" fill="#475569" />
+                  <rect x="0" y="10" width="20" height="15" fill="#fef08a" stroke="#ca8a04" stroke-width="1" />
+                  <polygon points="10,0 -3,11 23,11" fill="#a16207" />
+                  <text x="10" y="20" fill="#000000" font-size="7" font-weight="bold" text-anchor="middle">水屋</text>
+                </g>
+
+                <!-- 避難マーク（命塚/神社） -->
+                <g transform="translate(370, 150)">
+                  <path d="M 0,30 L 10,0 L 20,30 Z" fill="#854d0e" />
+                  <rect x="7" y="10" width="6" height="10" fill="#ef4444" />
+                  <text x="10" y="-3" fill="#f8fafc" font-size="7" text-anchor="middle">神社/命塚</text>
+                </g>
+              </svg>
+
+              <!-- 洪水インタラクティブボタン -->
+              <div class="flex justify-between items-center bg-slate-800 p-3 rounded-xl border border-slate-700">
+                <span class="text-xs text-slate-300">水位を操作してみよう：</span>
+                <div class="flex gap-2">
+                  <button onclick="setFloodLevel('normal')" id="btn-flood-normal" class="px-3 py-1 bg-green-600 text-white text-xs font-bold rounded hover:bg-green-700 transition">平常時</button>
+                  <button onclick="setFloodLevel('high')" id="btn-flood-high" class="px-3 py-1 bg-amber-600 text-white text-xs font-bold rounded hover:bg-amber-700 transition">大雨（増水）</button>
+                  <button onclick="setFloodLevel('disaster')" id="btn-flood-disaster" class="px-3 py-1 bg-red-600 text-white text-xs font-bold rounded hover:bg-red-700 transition">堤防決壊（大洪水）</button>
+                </div>
+              </div>
+            </div>
+
+            <p class="text-xs text-slate-500 leading-relaxed">
+              💡 <strong>解説</strong>: 洪水になると、水は堤防を越えたり、くずれたりして輪中の内側に入り込みます。そのため、人々は家を建てる場所を「盛り土」や「石垣」で高くし、さらに母屋より高い場所に避難用の「水屋」を建てて命と財産を守りました。
+            </p>
+          </div>
+
+          <!-- 各種キーワードカード (右側 5カラム) -->
+          <div class="md:col-span-5 space-y-3">
+            <h3 class="font-bold text-slate-700 text-sm border-b border-orange-100 pb-2">💡 命を守る・くらしを営む工夫</h3>
+
+            <!-- カード1: 水屋 -->
+            <div class="bg-amber-50/60 p-3 rounded-xl border border-amber-100 hover:shadow-sm transition cursor-pointer" onclick="showPastDetail('mizuya')">
+              <div class="flex justify-between items-center">
+                <h4 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                  水屋（みずや）
+                </h4>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
+              </div>
+              <p class="text-xs text-slate-600 mt-1 line-clamp-2">母屋よりもさらに高い石垣の上に建てられた避難用の建物。中には食料やボート（田舟）が準備されていました。</p>
+            </div>
+
+            <!-- カード2: 堀田 -->
+            <div class="bg-emerald-50/60 p-3 rounded-xl border border-emerald-100 hover:shadow-sm transition cursor-pointer" onclick="showPastDetail('horita')">
+              <div class="flex justify-between items-center">
+                <h4 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                  堀田（ほりた）と田舟
+                </h4>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
+              </div>
+              <p class="text-xs text-slate-600 mt-1 line-clamp-2">水はけが悪く畑ができないため、地面を掘り下げ、その泥を隣に積み上げて高くした場所に稲を植えた特殊な田んぼ。</p>
+            </div>
+
+            <!-- カード3: 助命壇・命塚 -->
+            <div class="bg-rose-50/60 p-3 rounded-xl border border-rose-100 hover:shadow-sm transition cursor-pointer" onclick="showPastDetail('inochizuka')">
+              <div class="flex justify-between items-center">
+                <h4 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-rose-500"></span>
+                  助命壇（じょめいだん）・命塚
+                </h4>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
+              </div>
+              <p class="text-xs text-slate-600 mt-1 line-clamp-2">水屋を建てる余裕がない一般の農民たちが、洪水時に逃げ込めるように作られた集落共有の高い土盛りや神社の境内。</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 詳細ポップアップ表示エリア（簡易的なインライン表示） -->
+        <div id="past-detail-box" class="bg-orange-50/50 p-4 rounded-xl border border-orange-200 hidden">
+          <div class="flex justify-between items-start">
+            <h4 id="past-detail-title" class="font-bold text-slate-800 text-base">タイトル</h4>
+            <button onclick="closePastDetail()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-4 h-4"></i></button>
+          </div>
+          <p id="past-detail-desc" class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">ここに詳細な解説が表示されます。</p>
+        </div>
+      </div>
+
+
+      <!-- ================= 3. 現代の輪中の変化 ================= -->
+      <div id="tab-modern" class="tab-content hidden space-y-6">
+        <div>
+          <span class="text-xs font-bold text-blue-500 tracking-wider">今の輪中：1960年代以降の土地改良</span>
+          <h2 class="text-2xl font-bold text-slate-800 mt-1">近代技術による克服と、新しいくらし</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+          <div class="space-y-4">
+            <div class="bg-blue-50 p-4 rounded-xl border-l-4 border-blue-500">
+              <h3 class="font-bold text-slate-800 text-sm sm:text-base mb-1">1960年代、輪中のくらしが劇的に変わる！</h3>
+              <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                大規模な機械を使った工事が行われ、川の水を強制的に外へ汲み出す<strong>「排水機（はいすいき）」</strong>や、地下の水を抜く<strong>「暗きょ排水（あんきょはいすい）」</strong>が整備されました。
+              </p>
+            </div>
+
+            <div class="space-y-2">
+              <h4 class="font-bold text-slate-800 text-sm">🌾 改良によって実現したこと</h4>
+              <ul class="space-y-1.5 text-xs sm:text-sm text-slate-600">
+                <li class="flex items-start gap-2">
+                  <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500 shrink-0 mt-0.5"></i>
+                  <span><strong>乾いた畑や水田ができるように</strong>なり、機械を用いた大規模な稲作が可能になりました。</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500 shrink-0 mt-0.5"></i>
+                  <span>大きな橋がかかり、道路が整備されたことで、名古屋などの大都市へ自動車で通勤・出荷ができるようになりました。</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500 shrink-0 mt-0.5"></i>
+                  <span>温室（ビニールハウス）を利用した<strong>夏野菜の栽培</strong>（トマトやきゅうりなど）が盛んになりました。</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 現代の取り組みとハザードマップ（インタラクティブカード） -->
+          <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-4">
+            <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+              <i data-lucide="shield-alert" class="w-5 h-5 text-red-500"></i>
+              水害への危険性は完全には消えていない
+            </h3>
+
+            <p class="text-xs text-slate-600 leading-relaxed">
+              1961年以降、この地域では大きな洪水は起きていませんが、地球温暖化による豪雨災害など、危険性は常にあるため、以下のような備えが行われています。
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="bg-white p-3 rounded-lg border border-slate-150 text-center">
+                <span class="text-xs font-bold text-blue-600 block mb-1">水防団（すいぼうだん）</span>
+                <p class="text-[11px] text-slate-500">住民が団員となり、毎年「水防演習」を行って堤防の守り方を訓練しています。</p>
+              </div>
+              <div class="bg-white p-3 rounded-lg border border-slate-150 text-center">
+                <span class="text-xs font-bold text-blue-600 block mb-1">ハザードマップ</span>
+                <p class="text-[11px] text-slate-500">避難場所や避難経路、浸水の深さ予測を地図にまとめ、緊急時に備えています。</p>
+              </div>
+            </div>
+
+            <div class="bg-amber-50 p-3 rounded-lg border border-amber-200 text-center">
+              <span class="text-xs font-bold text-amber-700 block">自然災害伝承碑（しぜんさいがいでんしょうひ）</span>
+              <p class="text-[11px] text-slate-600 mt-1">かつて堤防がくずれて大洪水が起きたことを、後世に伝えるための石碑が地域に残されています。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ================= 4. 各地の低地と水郷 ================= -->
+      <div id="tab-regions" class="tab-content hidden space-y-6">
+        <div>
+          <span class="text-xs font-bold text-emerald-600 tracking-wider">各地の低地の特色</span>
+          <h2 class="text-2xl font-bold text-slate-800 mt-1">利根川周辺と筑後川下流域のくらし</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          <!-- 利根川周辺（関東地方） -->
+          <div class="bg-gradient-to-b from-sky-50 to-white p-5 rounded-2xl border border-sky-100 space-y-4">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="bg-sky-500 text-white text-xs font-bold px-2 py-1 rounded">関東地方</span>
+                <h3 class="font-bold text-slate-800 text-base">流域面積日本一の「利根川」</h3>
+              </div>
+              <i data-lucide="compass" class="w-5 h-5 text-sky-400"></i>
+            </div>
+
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              利根川の下流域は低地にあり、日本で2番目に大きい湖である「霞ヶ浦（かすみがうら）」もあり、水はけが悪い土地です。このように、大きな川や湖に沿った湿地を<strong class="text-sky-700">「水郷（すいごう）」</strong>と呼びます。
+            </p>
+
+            <div class="bg-white p-3 rounded-xl border border-sky-100 space-y-2">
+              <h4 class="text-xs font-bold text-sky-800 flex items-center gap-1">
+                <i data-lucide="check" class="w-4 h-4"></i>台風被害を防ぐ「早場米（はやばまい）」
+              </h4>
+              <p class="text-xs text-slate-500 leading-relaxed">
+                この地域では、秋の台風シーズンが来て大雨で水害になる前に、稲刈りを全て終えてしまう<strong>「早場米（はやばまい）」</strong>の栽培が盛んです。これにより、水害を賢く避けて米づくりを行っています。
+              </p>
+            </div>
+          </div>
+
+          <!-- 筑後川下流域（九州地方） -->
+          <div class="bg-gradient-to-b from-emerald-50 to-white p-5 rounded-2xl border border-emerald-100 space-y-4">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded">九州地方</span>
+                <h3 class="font-bold text-slate-800 text-base">筑後川と「クリーク」のくらし</h3>
+              </div>
+              <i data-lucide="navigation" class="w-5 h-5 text-emerald-400"></i>
+            </div>
+
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              佐賀県と福岡県にまたがる筑後平野を流れる「筑後川（ちくごがわ）」の下流域も、やはり水はけの悪い低地です。ここにはかつて、網の目のようにめぐらされた水路がありました。
+            </p>
+
+            <div class="bg-white p-3 rounded-xl border border-emerald-100 space-y-2">
+              <h4 class="text-xs font-bold text-emerald-800 flex items-center gap-1">
+                <i data-lucide="check" class="w-4 h-4"></i>クリークの役割
+              </h4>
+              <p class="text-xs text-slate-500 leading-relaxed">
+                この水路を<strong>「クリーク」</strong>と呼び、農業用の水をためておく場所として活用してきました。しかし、クリークが多すぎると田んぼが細かく複雑な形になり、大きな農業用機械が使えないため、現在は土地が整理され、クリークの数は少なくなっています。
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <!-- ================= 5. 理解度チェッククイズ ================= -->
+      <div id="tab-quiz" class="tab-content hidden space-y-6">
+        <div class="flex justify-between items-center">
+          <div>
+            <span class="text-xs font-bold text-orange-500 tracking-wider">楽しく復習しよう！</span>
+            <h2 class="text-2xl font-bold text-slate-800 mt-1">「低地のくらし」確認クイズ</h2>
+          </div>
+          <div class="bg-amber-100 text-amber-800 px-3 py-1.5 rounded-full font-bold text-sm flex items-center gap-1">
+            <i data-lucide="award" class="w-4 h-4"></i>
+            <span>スコア: <span id="quiz-score">0</span> / 4</span>
+          </div>
+        </div>
+
+        <!-- クイズコンテナ -->
+        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+          <!-- 問題1 -->
+          <div class="quiz-card block" id="q-1">
+            <span class="text-xs font-bold text-orange-600">第 1 問</span>
+            <p class="font-bold text-slate-800 text-base mt-1 mb-4">Q. 洪水から集落や田畑を守るため、人々がくらす地域全体を大きな堤防で囲んだ土地を何と呼びますか？</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <button onclick="checkAnswer(1, 'A', 'correct')" class="quiz-opt-btn p-3 bg-white hover:bg-orange-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 transition text-left">A) 輪中（わじゅう）</button>
+              <button onclick="checkAnswer(1, 'B', 'wrong')" class="quiz-opt-btn p-3 bg-white hover:bg-orange-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 transition text-left">B) 水郷（すいごう）</button>
+              <button onclick="checkAnswer(1, 'C', 'wrong')" class="quiz-opt-btn p-3 bg-white hover:bg-orange-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 transition text-left">C) クリーク</button>
+              <button onclick="checkAnswer(1, 'D', 'wrong')" class="quiz-opt-btn p-3 bg-white hover:bg-orange-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 transition text-left">D) 堀田（ほりた）</button>
+            </div>
+            <div class="quiz-feedback mt-4 p-3 rounded-lg hidden"></div>
+          </div>
+
+          <!-- 問題2 -->
+          <div class="quiz-card hidden" id="q-2">
+            <span class="text-xs font-bold text-orange-600">第 2 問</span>
+            <p class="font-bold text-slate-800 text-base mt-1 mb-4">Q. かつての輪中で、母屋よりさらに高い石垣の上に建てられた避難用の建物を何と呼びますか？</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <button onclick="checkAnswer(2, 'A', 'wrong')" class="quiz-opt-btn p-3 bg-white hover:bg-orange-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 transition text-left">A) 命塚（いのちづか）</button>
+              <button onclick="checkAnswer(2, 'B', 'correct')" class="quiz-opt-btn p-3 bg-white hover:bg-orange-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 transition text-left">B) 水屋（みずや）</button>
+              <button onclick="checkAnswer(2, 'C', 'wrong')" class="quiz-opt-btn p-3 bg-white hover:bg-orange-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 transition text-left">C) 暗きょ排水</button>
+              <button onclick="checkAnswer(2, 'D', 'wrong')" class="quiz-opt-btn p-3 bg-white hover:bg-orange-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 transition text-left">D) 排水機場</button>
+            </div>
+            <div class="quiz-feedback mt-4 p-3 rounded-lg hidden"></div>
+          </div>
+
+          <!-- 問題3 -->
+          <div class="quiz-card hidden" id="q-3">
+            <span class="text-xs font-bold text-orange-600">第 3 問</span>
+            <p class="font-bold text-slate-800 text-base mt-1 mb-4">Q. 関東地方の利根川下流で、台風などの水害を避けるために通常より早く収穫されるお米を何と呼びますか？</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <button onclick="checkAnswer(3, 'A', 'wrong')" class="quiz-opt-btn p-3 bg-white hover:bg-orange-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 transition text-left">A) コシヒカリ</button>
+              <button onclick="checkAnswer(3, 'B', 'wrong')" class="quiz-opt-btn p-3 bg-white hover:bg-orange-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 transition text-left">B) 堀田米（ほりたまい）</button>
+              <button onclick="checkAnswer(3, 'C', 'correct')" class="quiz-opt-btn p-3 bg-white hover:bg-orange-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 transition text-left">C) 早場米（はやばまい）</button>
+              <button onclick="checkAnswer(3, 'D', 'wrong')" class="quiz-opt-btn p-3 bg-white hover:bg-orange-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 transition text-left">D) 深田米（ふかだまい）</button>
+            </div>
+            <div class="quiz-feedback mt-4 p-3 rounded-lg hidden"></div>
+          </div>
+
+          <!-- 問題4 -->
+          <div class="quiz-card hidden" id="q-4">
+            <span class="text-xs font-bold text-orange-600">第 4 問</span>
+            <p class="font-bold text-slate-800 text-base mt-1 mb-4">Q. 九州の筑後川下流域に見られる、農業用の水をためるために網の目のように掘られた水路を何と呼びますか？</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <button onclick="checkAnswer(4, 'A', 'wrong')" class="quiz-opt-btn p-3 bg-white hover:bg-orange-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 transition text-left">A) 運河（うんが）</button>
+              <button onclick="checkAnswer(4, 'B', 'wrong')" class="quiz-opt-btn p-3 bg-white hover:bg-orange-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 transition text-left">B) 暗きょ（あんきょ）</button>
+              <button onclick="checkAnswer(4, 'C', 'wrong')" class="quiz-opt-btn p-3 bg-white hover:bg-orange-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 transition text-left">C) 排水路（はいすいろ）</button>
+              <button onclick="checkAnswer(4, 'D', 'correct')" class="quiz-opt-btn p-3 bg-white hover:bg-orange-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 transition text-left">D) クリーク</button>
+            </div>
+            <div class="quiz-feedback mt-4 p-3 rounded-lg hidden"></div>
+          </div>
+
+          <!-- 全問終了画面 -->
+          <div class="quiz-card hidden text-center space-y-4 py-6" id="q-result">
+            <div class="w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center mx-auto text-amber-500 shadow-inner">
+              <i data-lucide="party-popper" class="w-10 h-10"></i>
+            </div>
+            <h3 class="text-xl font-bold text-slate-800">クイズお疲れ様でした！</h3>
+            <p class="text-slate-600">あなたの最終スコアは <strong class="text-2xl text-orange-500" id="final-score">0</strong> / 4点 です！</p>
+            <button onclick="resetQuiz()" class="px-6 py-2.5 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl shadow transition text-sm">もう一度挑戦する</button>
+          </div>
+
+          <!-- 次へボタン -->
+          <div class="mt-6 flex justify-end">
+            <button id="next-quiz-btn" onclick="nextQuestion()" class="hidden px-5 py-2 bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm rounded-xl transition items-center gap-1">
+              <span>次の問題へ</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- フッター -->
+  <footer class="bg-slate-800 text-slate-400 py-6 px-4 mt-8 text-center text-xs sm:text-sm border-t border-slate-700">
+    <div class="max-w-6xl mx-auto space-y-2">
+      <p>小学校5年生 社会科「13 低地のくらし（濃尾平野の輪中）」学習サポートツール</p>
+      <p class="text-slate-500">© 2026 デジタル学習サポート</p>
+    </div>
+  </footer>
+
+  <!-- JavaScript制御ロジック -->
+  <script>
+    // Lucideアイコンの初期化
+    lucide.createIcons();
+
+    // 1. タブ切り替え制御
+    function switchTab(tabId) {
+      // コンテンツの表示・非表示
+      const contents = document.querySelectorAll('.tab-content');
+      contents.forEach(content => {
+        content.classList.add('hidden');
+      });
+      document.getElementById('tab-' + tabId).classList.remove('hidden');
+
+      // ナビゲーションボタンのアクティブスタイル変更
+      const buttons = document.querySelectorAll('.tab-btn');
+      buttons.forEach(btn => {
+        btn.classList.remove('bg-orange-500', 'text-white');
+        btn.classList.add('text-slate-600', 'hover:bg-orange-50');
+      });
+
+      const activeBtn = document.getElementById('btn-' + tabId);
+      activeBtn.classList.remove('text-slate-600', 'hover:bg-orange-50');
+      activeBtn.classList.add('bg-orange-500', 'text-white');
+    }
+
+    // 2. 三角州ステップ制御
+    const deltaSteps = {
+      1: {
+        title: "川の下流で流れがゆるやかになる",
+        desc: "川が海や大きな湖に近づくと、流れがゆるやかになります。すると、川の上流から運ばれてきた細かい土砂や砂が河口付近にたまりはじめます。",
+        badge: "ステップ 1",
+        sedimentD: "M 90,30 Q 100,50 110,30 Q 105,45 95,45 Z",
+        landD: "M 0,0 L 200,0 L 200,30 Q 140,30 110,30 L 90,30 Q 60,30 0,30 Z",
+        riverD: "M 90,0 L 110,0 L 110,30 Q 100,50 100,120 L 90,120 Z"
+      },
+      2: {
+        title: "河口付近が高くなり、川が分かれる",
+        desc: "たまった土砂で河口付近が浅くなり、川の水はそこを避けて左右に広がりながら分かれて流れるようになります。",
+        badge: "ステップ 2",
+        sedimentD: "M 85,30 Q 100,65 115,30 Q 108,55 92,55 Z",
+        landD: "M 0,0 L 200,0 L 200,30 Q 140,30 110,30 L 90,30 Q 60,30 0,30 Z",
+        riverD: "M 90,0 L 110,0 L 110,30 Q 100,50 130,120 L 120,120 Q 100,55 90,120 L 80,120 Z"
+      },
+      3: {
+        title: "さらに土砂が広がるように積もる",
+        desc: "分かれて流れた川が、それぞれの先でさらに土砂を積もらせていくため、土砂の積もり方も扇状にどんどん広がっていきます。",
+        badge: "ステップ 3",
+        sedimentD: "M 80,30 Q 100,85 120,30 Q 110,75 90,75 Z",
+        landD: "M 0,0 L 200,0 L 200,30 Q 140,30 110,30 L 90,30 Q 60,30 0,30 Z",
+        riverD: "M 90,0 L 110,0 L 110,30 Q 100,50 150,120 L 140,120 Q 100,55 70,120 L 60,120 Z"
+      },
+      4: {
+        title: "やがて、新たな「三角州（陸地）」ができる",
+        desc: "上流からの土砂が水面より上までしっかりと積み重なると、ギリシャ文字の「Δ（デルタ）」に似た形の平らな新しい陸地（三角州）ができあがります。",
+        badge: "ステップ 4 (完成)",
+        sedimentD: "M 70,30 Q 100,105 130,30 Q 115,95 85,95 Z",
+        landD: "M 0,0 L 200,0 L 200,30 Q 140,30 110,30 L 90,30 Q 60,30 0,30 Z",
+        riverD: "M 90,0 L 110,0 L 110,30 Q 100,50 170,120 L 160,120 Q 100,55 50,120 L 40,120 Z"
+      }
+    };
+
+    function showDeltaStep(stepNum) {
+      // ボタンのアクティブ状態の更新
+      const buttons = document.querySelectorAll('.delta-step-btn');
+      buttons.forEach(btn => {
+        btn.classList.remove('bg-orange-500', 'text-white', 'border-orange-500');
+        btn.classList.add('bg-white', 'text-slate-600', 'border-slate-200');
+      });
+      const activeBtn = document.getElementById('delta-btn-' + stepNum);
+      activeBtn.classList.remove('bg-white', 'text-slate-600', 'border-slate-200');
+      activeBtn.classList.add('bg-orange-500', 'text-white', 'border-orange-500');
+
+      // 内容の変更
+      const data = deltaSteps[stepNum];
+      document.getElementById('delta-title').innerText = data.title;
+      document.getElementById('delta-desc').innerText = data.desc;
+      document.getElementById('delta-badge').innerText = data.badge;
+
+      // SVG変更
+      document.getElementById('delta-sediment').setAttribute('d', data.sedimentD);
+      document.getElementById('delta-river').setAttribute('d', data.riverD);
+    }
+
+    // 3. 断面図洪水シミュレータ制御
+    function setFloodLevel(level) {
+      const water = document.getElementById('flood-water');
+      const buttons = {
+        normal: document.getElementById('btn-flood-normal'),
+        high: document.getElementById('btn-flood-high'),
+        disaster: document.getElementById('btn-flood-disaster')
+      };
+
+      // ボタンのハイライトリセット
+      Object.values(buttons).forEach(btn => {
+        btn.classList.remove('ring-4', 'ring-white/50');
+      });
+
+      if (level === 'normal') {
+        water.setAttribute('y', '180');
+        water.setAttribute('height', '0');
+        water.setAttribute('opacity', '0.0');
+        buttons.normal.classList.add('ring-4', 'ring-white/50');
+      } else if (level === 'high') {
+        water.setAttribute('y', '165');
+        water.setAttribute('height', '20');
+        water.setAttribute('opacity', '0.4');
+        buttons.high.classList.add('ring-4', 'ring-white/50');
+      } else if (level === 'disaster') {
+        water.setAttribute('y', '125');
+        water.setAttribute('height', '60');
+        water.setAttribute('opacity', '0.7');
+        buttons.disaster.classList.add('ring-4', 'ring-white/50');
+      }
+    }
+
+    // 4. かつての工夫キーワード詳細ポップアップ
+    const pastDetails = {
+      mizuya: {
+        title: "避難用：水屋（みずや）のくらし",
+        desc: "水屋は、ふだん生活する「母屋（おもや）」よりも一段高い石垣の上に建てられていました。洪水で母屋の1階が水に浸かっても、水屋に避難すれば、水が引くまで耐えることができました。中にはお米やみそなどの食料を保管する場所があり、天井裏には「田舟（たぶね）」というボートを吊り下げておき、いざという時はそのボートに乗って移動したり、避難したりしました。"
+      },
+      horita: {
+        title: "水はけの悪い低地での工夫：堀田（ほりた）",
+        desc: "低地はつねにジメジメしており、ふつうの畑を作ることはもちろん、泥が深すぎて水田を作ることも困難でした。そこで人々は、田んぼにする土地の一部を掘って溝（水路）にし、掘った土を別の田に積み上げることで、高くなった位置に稲を植える「堀田」を発明しました。土を掘ってできた溝は水路として利用され、肥料を運んだり、お米を運んだりするのに「田舟」という小さな舟が使われました。"
+      },
+      inochizuka: {
+        title: "みんなで逃げる：助命壇（じょめいだん）と命塚",
+        desc: "水屋を建てるには多くのお金や広い土地が必要だったため、貧しい一般の農民は自分の家に水屋を持つことができませんでした。そのため、洪水が発生した時には、地域の中で少し高い位置にある「神社」や「お寺」、または集落の人々が共同で盛り土をした「助命壇（じょめいだん）」や「命塚」と呼ばれる場所に集まり、水が引くのを待ちました。コミュニティ全体で助け合う仕組みだったのです。"
+      }
+    };
+
+    function showPastDetail(id) {
+      const detail = pastDetails[id];
+      document.getElementById('past-detail-title').innerText = detail.title;
+      document.getElementById('past-detail-desc').innerText = detail.desc;
+      document.getElementById('past-detail-box').classList.remove('hidden');
+    }
+
+    function closePastDetail() {
+      document.getElementById('past-detail-box').classList.add('hidden');
+    }
+
+    // 5. 理解度確認クイズ制御
+    let currentQ = 1;
+    let score = 0;
+    const totalQ = 4;
+
+    function checkAnswer(questionNum, option, result) {
+      const card = document.getElementById('q-' + questionNum);
+      const feedback = card.querySelector('.quiz-feedback');
+      const buttons = card.querySelectorAll('.quiz-opt-btn');
+
+      // すでに解答済みなら何もしない
+      if (!feedback.classList.contains('hidden')) return;
+
+      // すべてのボタンを選択不可にする
+      buttons.forEach(btn => {
+        btn.disabled = true;
+        btn.classList.add('opacity-50');
+      });
+
+      if (result === 'correct') {
+        score++;
+        document.getElementById('quiz-score').innerText = score;
+        feedback.innerText = "⭕️ 正解です！素晴らしい！";
+        feedback.classList.add('bg-green-100', 'text-green-800');
+        feedback.classList.remove('hidden');
+      } else {
+        let correctText = "";
+        if (questionNum === 1) correctText = "A) 輪中（わじゅう）";
+        if (questionNum === 2) correctText = "B) 水屋（みずや）";
+        if (questionNum === 3) correctText = "C) 早場米（はやばまい）";
+        if (questionNum === 4) correctText = "D) クリーク";
+
+        feedback.innerText = "❌ おしい！ 正解は " + correctText + " です。教科書を見直してみよう！";
+        feedback.classList.add('bg-rose-100', 'text-rose-800');
+        feedback.classList.remove('hidden');
+      }
+
+      // 「次へ」ボタンを表示
+      document.getElementById('next-quiz-btn').classList.remove('hidden');
+      document.getElementById('next-quiz-btn').classList.add('flex');
+    }
+
+    function nextQuestion() {
+      // 現在の問題を隠す
+      document.getElementById('q-' + currentQ).classList.add('hidden');
+      document.getElementById('next-quiz-btn').classList.add('hidden');
+      document.getElementById('next-quiz-btn').classList.remove('flex');
+
+      currentQ++;
+
+      if (currentQ <= totalQ) {
+        // 次の問題を表示
+        document.getElementById('q-' + currentQ).classList.remove('hidden');
+      } else {
+        // 結果画面を表示
+        document.getElementById('q-result').classList.remove('hidden');
+        document.getElementById('final-score').innerText = score;
+      }
+    }
+
+    function resetQuiz() {
+      // スコアと質問位置のリセット
+      score = 0;
+      currentQ = 1;
+      document.getElementById('quiz-score').innerText = score;
+
+      // 全ての問題カードを初期状態に戻す
+      for (let i = 1; i <= totalQ; i++) {
+        const card = document.getElementById('q-' + i);
+        card.classList.add('hidden');
+
+        const feedback = card.querySelector('.quiz-feedback');
+        feedback.classList.add('hidden');
+        feedback.className = "quiz-feedback mt-4 p-3 rounded-lg hidden";
+
+        const buttons = card.querySelectorAll('.quiz-opt-btn');
+        buttons.forEach(btn => {
+          btn.disabled = false;
+          btn.classList.remove('opacity-50');
+        });
+      }
+
+      // 結果画面を隠し、第1問を表示
+      document.getElementById('q-result').classList.add('hidden');
+      document.getElementById('q-1').classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>
