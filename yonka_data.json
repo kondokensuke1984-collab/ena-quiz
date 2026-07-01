@@ -97,16 +97,16 @@
   },
   "6/22": {
     "tokuten4": 341,
-    "juni4": null,
+    "juni4": 16,
     "ninzu4": null,
     "sansu_ten": 94,
     "kokugo_ten": 72,
     "rika_ten": 80,
     "shakai_ten": 95,
-    "hensa4": null,
-    "sansu_hensa": null,
-    "kokugo_hensa": null,
-    "rika_hensa": null,
-    "shakai_hensa": null
+    "hensa4": 69.6,
+    "sansu_hensa": 72.6,
+    "kokugo_hensa": 61,
+    "rika_hensa": 60.4,
+    "shakai_hensa": 68.4
   }
 }
