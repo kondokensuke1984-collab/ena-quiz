@@ -7,6 +7,10 @@
     {
       "date": "5月タームテスト",
       "label": "2026/5"
+    },
+    {
+      "date": "6/20",
+      "label": "2026/06/20"
     }
   ],
   "5月タームテスト": {
@@ -46,5 +50,24 @@
     "kokugo_juni": null,
     "eigo_ten": null,
     "eigo_juni": null
+  },
+  "6/20": {
+    "hensachi3": 56,
+    "hensachi2": null,
+    "sansu": 53,
+    "kokugo": 55,
+    "eigo": 55,
+    "tokuten3": 264,
+    "juni3": 66,
+    "ninzu3": 202,
+    "tokuten2": null,
+    "juni2": null,
+    "ninzu2": null,
+    "sansu_ten": 85,
+    "sansu_juni": 75,
+    "kokugo_ten": 92,
+    "kokugo_juni": 74,
+    "eigo_ten": 87,
+    "eigo_juni": 85
   }
 }
