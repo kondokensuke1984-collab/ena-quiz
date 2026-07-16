@@ -18,13 +18,13 @@
     "tokuten2": null,
     "juni2": null,
     "ninzu2": null,
-    "sansu_ten": null,
+    "sansu_ten": 120,
     "sansu_juni": null,
-    "kokugo_ten": null,
+    "kokugo_ten": 82,
     "kokugo_juni": null,
-    "rika_ten": null,
+    "rika_ten": 84,
     "rika_juni": null,
-    "shakai_ten": null,
+    "shakai_ten": 78,
     "shakai_juni": null
   }
 }
