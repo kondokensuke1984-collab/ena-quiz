@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 340" style="background:#f8fafc;font-family:sans-serif">
+
+  <!-- ===== helper macros: draw syringe at (sx,sy) ===== -->
+  <!-- ===== ア : ゴムせん密閉 / 空気管=上(空気室) / 水管=水中 ===== -->
+  <text x="12" y="16" font-size="13" font-weight="bold" fill="#1e293b">ア</text>
+  <!-- 注射器 -->
+  <rect x="10" y="22" width="16" height="60" fill="none" stroke="#374151" stroke-width="1.5"/>
+  <rect x="8" y="25" width="4" height="8" fill="#374151"/>
+  <rect x="24" y="25" width="4" height="8" fill="#374151"/>
+  <rect x="13" y="70" width="10" height="6" fill="#374151"/><!-- ピストン -->
+  <!-- チューブ -->
+  <path d="M18,22 Q18,10 45,10 Q65,10 70,22" fill="none" stroke="#374151" stroke-width="1.5"/>
+  <!-- フラスコ -->
+  <path d="M55,22 L55,58 Q55,100 35,130 L35,155 L105,155 L105,130 Q85,100 85,58 L85,22 Z" fill="none" stroke="#374151" stroke-width="2"/>
+  <!-- ゴムせん（黒） -->
+  <rect x="55" y="18" width="30" height="8" fill="#1f2937" rx="1"/>
+  <!-- 水 -->
+  <path d="M38,130 Q38,150 35,155 L105,155 L102,130 Z" fill="#bfdbfe" opacity="0.7"/>
+  <line x1="38" y1="130" x2="102" y2="130" stroke="#3b82f6" stroke-width="1"/>
+  <!-- 空気管（上まで：空気室止まり） -->
+  <line x1="68" y1="18" x2="68" y2="120" stroke="#374151" stroke-width="1.5"/>
+  <!-- 水管（水中まで） -->
+  <line x1="76" y1="18" x2="76" y2="148" stroke="#374151" stroke-width="1.5"/>
+  <text x="10" y="170" font-size="9" fill="#6b7280">ゴムせん</text>
+  <text x="55" y="182" font-size="10" font-weight="bold" text-anchor="middle" fill="#059669">ア</text>
+
+  <!-- ===== イ : だっし綿（ゆるい） / 空気管=上 / 水管=水中 ===== -->
+  <text x="205" y="16" font-size="13" font-weight="bold" fill="#1e293b">イ</text>
+  <rect x="200" y="22" width="16" height="60" fill="none" stroke="#374151" stroke-width="1.5"/>
+  <rect x="198" y="25" width="4" height="8" fill="#374151"/>
+  <rect x="214" y="25" width="4" height="8" fill="#374151"/>
+  <rect x="203" y="70" width="10" height="6" fill="#374151"/>
+  <path d="M208,22 Q208,10 235,10 Q255,10 260,22" fill="none" stroke="#374151" stroke-width="1.5"/>
+  <path d="M245,22 L245,58 Q245,100 225,130 L225,155 L295,155 L295,130 Q275,100 275,58 L275,22 Z" fill="none" stroke="#374151" stroke-width="2"/>
+  <!-- だっし綿（波線） -->
+  <path d="M245,18 Q250,14 255,18 Q260,22 265,18 Q270,14 275,18" fill="none" stroke="#374151" stroke-width="2"/>
+  <rect x="245" y="18" width="30" height="4" fill="white" opacity="0.6"/>
+  <path d="M228,130 Q228,150 225,155 L295,155 L292,130 Z" fill="#bfdbfe" opacity="0.7"/>
+  <line x1="228" y1="130" x2="292" y2="130" stroke="#3b82f6" stroke-width="1"/>
+  <line x1="258" y1="18" x2="258" y2="120" stroke="#374151" stroke-width="1.5"/>
+  <line x1="266" y1="18" x2="266" y2="148" stroke="#374151" stroke-width="1.5"/>
+  <text x="200" y="170" font-size="9" fill="#6b7280">だっし綿</text>
+  <text x="245" y="182" font-size="10" font-weight="bold" text-anchor="middle" fill="#374151">イ</text>
+
+  <!-- ===== ウ : ゴムせん密閉 / 空気管=水中 / 水管=上 ===== -->
+  <text x="395" y="16" font-size="13" font-weight="bold" fill="#1e293b">ウ</text>
+  <rect x="390" y="22" width="16" height="60" fill="none" stroke="#374151" stroke-width="1.5"/>
+  <rect x="388" y="25" width="4" height="8" fill="#374151"/>
+  <rect x="404" y="25" width="4" height="8" fill="#374151"/>
+  <rect x="393" y="70" width="10" height="6" fill="#374151"/>
+  <path d="M398,22 Q398,10 425,10 Q445,10 450,22" fill="none" stroke="#374151" stroke-width="1.5"/>
+  <path d="M435,22 L435,58 Q435,100 415,130 L415,155 L485,155 L485,130 Q465,100 465,58 L465,22 Z" fill="none" stroke="#374151" stroke-width="2"/>
+  <rect x="435" y="18" width="30" height="8" fill="#1f2937" rx="1"/>
+  <path d="M418,130 Q418,150 415,155 L485,155 L482,130 Z" fill="#bfdbfe" opacity="0.7"/>
+  <line x1="418" y1="130" x2="482" y2="130" stroke="#3b82f6" stroke-width="1"/>
+  <!-- 空気管（水中まで） -->
+  <line x1="448" y1="18" x2="448" y2="148" stroke="#374151" stroke-width="1.5"/>
+  <!-- 水管（上まで） -->
+  <line x1="456" y1="18" x2="456" y2="120" stroke="#374151" stroke-width="1.5"/>
+  <text x="390" y="170" font-size="9" fill="#6b7280">ゴムせん</text>
+  <text x="435" y="182" font-size="10" font-weight="bold" text-anchor="middle" fill="#374151">ウ</text>
+
+  <!-- ===== エ : ゴムせん密閉 / 空気管=水中 / 水管=水中 ===== -->
+  <text x="100" y="210" font-size="13" font-weight="bold" fill="#1e293b">エ</text>
+  <rect x="100" y="216" width="16" height="60" fill="none" stroke="#374151" stroke-width="1.5"/>
+  <rect x="98" y="219" width="4" height="8" fill="#374151"/>
+  <rect x="114" y="219" width="4" height="8" fill="#374151"/>
+  <rect x="103" y="264" width="10" height="6" fill="#374151"/>
+  <path d="M108,216 Q108,204 135,204 Q155,204 160,216" fill="none" stroke="#374151" stroke-width="1.5"/>
+  <path d="M145,216 L145,252 Q145,294 125,324 L125,349 L195,349 L195,324 Q175,294 175,252 L175,216 Z" fill="none" stroke="#374151" stroke-width="2"/>
+  <rect x="145" y="212" width="30" height="8" fill="#1f2937" rx="1"/>
+  <path d="M128,324 Q128,344 125,349 L195,349 L192,324 Z" fill="#bfdbfe" opacity="0.7"/>
+  <line x1="128" y1="324" x2="192" y2="324" stroke="#3b82f6" stroke-width="1"/>
+  <!-- 空気管（水中まで） -->
+  <line x1="158" y1="212" x2="158" y2="340" stroke="#374151" stroke-width="1.5"/>
+  <!-- 水管（水中まで） -->
+  <line x1="166" y1="212" x2="166" y2="340" stroke="#374151" stroke-width="1.5"/>
+  <text x="100" y="364" font-size="9" fill="#6b7280">ゴムせん</text>
+  <text x="145" y="376" font-size="10" font-weight="bold" text-anchor="middle" fill="#059669">エ</text>
+
+  <!-- ===== オ : ゴムせん密閉 / 空気管=上 / 水管=上 ===== -->
+  <text x="300" y="210" font-size="13" font-weight="bold" fill="#1e293b">オ</text>
+  <rect x="300" y="216" width="16" height="60" fill="none" stroke="#374151" stroke-width="1.5"/>
+  <rect x="298" y="219" width="4" height="8" fill="#374151"/>
+  <rect x="314" y="219" width="4" height="8" fill="#374151"/>
+  <rect x="303" y="264" width="10" height="6" fill="#374151"/>
+  <path d="M308,216 Q308,204 335,204 Q355,204 360,216" fill="none" stroke="#374151" stroke-width="1.5"/>
+  <path d="M345,216 L345,252 Q345,294 325,324 L325,349 L395,349 L395,324 Q375,294 375,252 L375,216 Z" fill="none" stroke="#374151" stroke-width="2"/>
+  <rect x="345" y="212" width="30" height="8" fill="#1f2937" rx="1"/>
+  <path d="M328,324 Q328,344 325,349 L395,349 L392,324 Z" fill="#bfdbfe" opacity="0.7"/>
+  <line x1="328" y1="324" x2="392" y2="324" stroke="#3b82f6" stroke-width="1"/>
+  <!-- 空気管（上：空気室止まり） -->
+  <line x1="358" y1="212" x2="358" y2="314" stroke="#374151" stroke-width="1.5"/>
+  <!-- 水管（上：空気室止まり） -->
+  <line x1="366" y1="212" x2="366" y2="314" stroke="#374151" stroke-width="1.5"/>
+  <text x="300" y="364" font-size="9" fill="#6b7280">ゴムせん</text>
+  <text x="345" y="376" font-size="10" font-weight="bold" text-anchor="middle" fill="#374151">オ</text>
+
+</svg>

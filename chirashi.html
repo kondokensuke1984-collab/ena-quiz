@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>チラシ集｜ANRINOの問題アプリ</title>
+<style>
+  *{ box-sizing:border-box; }
+  body{
+    margin:0; padding:32px 16px 48px;
+    font-family:-apple-system, 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+    background:linear-gradient(160deg, #fdf2f8 0%, #ede9fe 55%, #ecfdf5 100%);
+    min-height:100vh; color:#3d2b5e;
+  }
+  .wrap{ max-width:960px; margin:0 auto; }
+  .title{
+    font-size:28px; font-weight:800; text-align:center; margin:0 0 4px;
+    background:linear-gradient(135deg,#f472b6,#a78bfa,#60a5fa);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+    letter-spacing:-0.5px;
+  }
+  .sub{ font-size:14px; color:#a78bfa; text-align:center; margin:0 0 6px; }
+  .note{
+    font-size:12.5px; color:#7c6ba0; text-align:center; margin:0 auto 20px;
+    max-width:560px; line-height:1.7;
+  }
+
+  .group{ margin:26px 0 10px; display:flex; align-items:center; gap:10px; }
+  .group h2{ margin:0; font-size:15px; font-weight:800; color:#6d28d9; white-space:nowrap; }
+  .group .ln{ flex:1; height:2px; background:linear-gradient(90deg,#ddd6fe,transparent); border-radius:2px; }
+
+  .grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:14px; }
+
+  .card{
+    background:#fff; border-radius:16px; overflow:hidden;
+    box-shadow:0 3px 12px rgba(109,40,217,.10);
+    display:flex; flex-direction:column;
+    border:2px solid transparent; transition:transform .12s, box-shadow .12s;
+  }
+  .card:active{ transform:scale(.985); }
+  .card .bar{ height:6px; }
+  .card .thumb{
+    display:block; width:100%; aspect-ratio:210/297; object-fit:cover; object-position:top center;
+    background:#f6f5fa; border-bottom:1px solid #f0edf7;
+  }
+  .card .body{ padding:10px 12px 12px; display:flex; flex-direction:column; gap:4px; flex:1; }
+  .card .name{ font-size:15px; font-weight:800; line-height:1.3; }
+  .card .kanji{ font-size:11.5px; font-weight:700; color:#8b7aa8; }
+  .card .desc{ font-size:11.5px; line-height:1.5; color:#6b6280; flex:1; margin-top:2px; }
+  .card .btns{ display:flex; gap:6px; margin-top:8px; }
+  .card .btns a{
+    flex:1; text-align:center; text-decoration:none; font-size:12px; font-weight:800;
+    padding:8px 4px; border-radius:9px;
+  }
+  .card .btns .open{ color:#fff; }
+  .card .btns .pdf{ background:#f3f0fa; color:#6d28d9; }
+
+  .back{
+    display:block; width:100%; max-width:320px; margin:32px auto 0;
+    padding:13px; border:none; border-radius:12px; cursor:pointer;
+    background:#ede9fe; color:#6d28d9; font-size:15px; font-weight:800;
+    font-family:inherit; text-align:center; text-decoration:none;
+  }
+  .back:active{ opacity:.7; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1 class="title">📄 チラシ集</h1>
+  <p class="sub">おぼえたいことを 1枚にまとめたポスター</p>
+  <p class="note">「ひらく」で画面に大きく出ます。「PDF」は印刷用（A4たて・倍率100%）。トイレやかべに貼ると 毎日 目に入ります。</p>
+
+  <div class="group"><h2>🔢 算数の きほん</h2><div class="ln"></div></div>
+  <div class="grid" id="g1"></div>
+
+  <div class="group"><h2>🧩 とくしゅ算</h2><div class="ln"></div></div>
+  <div class="grid" id="g2"></div>
+
+  <a class="back" href="/">◀ アプリに もどる</a>
+</div>
+
+<script>
+const SHEETS = {
+  g1: [
+    { k:'yakusu',     n:'やくすう',           kj:'約数と公約数',   c:'#12657F',
+      d:'わり切れる数の見つけ方／公約数／最大公約数。組にしてかける参考図つき。' },
+    { k:'baisu',      n:'ばいすう',           kj:'倍数と公倍数',   c:'#C0500F',
+      d:'数直線で見る倍数／公倍数／最小公倍数。3つの数のときも。' },
+    { k:'yakubai',    n:'やくすうと ばいすう', kj:'約数・倍数 1枚版', c:'#12657F',
+      d:'約数と倍数を左右に並べて対比。すだれ算と倍数の見分け方つき。' },
+    { k:'tsuubun',    n:'つうぶん',           kj:'通分',           c:'#6B4E9B',
+      d:'帯グラフで見る通分／約分とのつながり／まちがえやすい所。' },
+    { k:'ookinakazu', n:'おおきなかず',       kj:'大きな数',       c:'#17624A',
+      d:'億・兆の位取り表／10倍と1/10のずれ／がい数／大きな数の計算。' },
+    { k:'menseki',    n:'めんせき',           kj:'いろいろな図形の面積', c:'#26406E',
+      d:'平行四辺形・三角形・台形。公式が どこから来るかの図つき。' }
+  ],
+  g2: [
+    { k:'tokushu1',   n:'せんぶんず',   kj:'和差算・分配算・消去算', c:'#A32E43',
+      d:'線分図でそろえて ÷ する型。加減法と代入法まで。' },
+    { k:'tokushu2',   n:'かぞえかた',   kj:'植木算・方陣算',        c:'#33383F',
+      d:'はしと四すみの数えかた。追い回しの分け方つき。' },
+    { k:'saatsume',   n:'さあつめざん', kj:'差集め算',              c:'#66761F',
+      d:'□の式をつくって ルール①〜④ で変形。4つの型を そのまま。' },
+    { k:'baainokazu', n:'ばあいのかず', kj:'場合の数',              c:'#AE3572',
+      d:'樹形図のかき方／ならべ方と組み合わせ／選ばない方に着目。' }
+  ]
+};
+
+for (const [gid, list] of Object.entries(SHEETS)) {
+  document.getElementById(gid).innerHTML = list.map(s => `
+    <div class="card" style="border-color:${s.c}22">
+      <div class="bar" style="background:${s.c}"></div>
+      <a href="/chirashi/${s.k}.html"><img class="thumb" src="/chirashi/thumb/${s.k}.png" alt="${s.n}" loading="lazy"></a>
+      <div class="body">
+        <div class="name" style="color:${s.c}">${s.n}</div>
+        <div class="kanji">${s.kj}</div>
+        <div class="desc">${s.d}</div>
+        <div class="btns">
+          <a class="open" style="background:${s.c}" href="/chirashi/${s.k}.html">ひらく</a>
+          <a class="pdf" href="/chirashi/${s.k}.pdf" target="_blank" rel="noopener">PDF</a>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+</script>
+</body>
+</html>

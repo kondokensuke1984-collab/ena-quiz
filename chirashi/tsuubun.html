@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>つうぶんの しかた</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Yusei+Magic&family=Zen+Maru+Gothic:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap">
+<style>
+  :root{
+    --paper:#FFFFFF;
+    --ink:#17232E;
+    --ink-soft:#4E606E;
+    --rule:#D5CFE0;
+
+    --pp:#6B4E9B;
+    --pp-deep:#4C3573;
+    --pp-soft:#EFEAF7;
+    --pp-line:#C4B4E0;
+    --fill:#9B87C4;
+
+    --or:#C0500F;
+    --or-soft:#FCEADD;
+    --or-line:#EFC3A2;
+
+    --bl:#12657F;
+    --bl-soft:#E3F1F6;
+    --bl-line:#A9CFDC;
+
+    --yellow:#FFD24A;
+    --yellow-soft:#FFF6DC;
+
+    --backdrop:#DDE3E8;
+    --backdrop-ink:#4E606E;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){ --backdrop:#161C22; --backdrop-ink:#8FA3B2; }
+  }
+  :root[data-theme="dark"]{ --backdrop:#161C22; --backdrop-ink:#8FA3B2; }
+
+  body{
+    background:var(--backdrop); color:var(--ink);
+    font-family:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;
+    display:flex; flex-direction:column; align-items:center;
+    padding:16px 12px 40px;
+  }
+  p{ margin:0; }
+  .hint{
+    color:var(--backdrop-ink); font-size:12px; letter-spacing:.06em;
+    margin:0 0 12px; text-align:center; line-height:1.7;
+  }
+
+  /* ───────── A4 sheet ───────── */
+  .sheet{
+    width:210mm; height:297mm; background:var(--paper);
+    padding:8.5mm 10mm; box-sizing:border-box;
+    display:flex; flex-direction:column; gap:3mm;
+    box-shadow:0 6px 28px rgba(0,0,0,.22);
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+
+  /* ───────── header ───────── */
+  .head{
+    display:flex; align-items:flex-end; justify-content:space-between;
+    gap:6mm; border-bottom:1.2mm solid var(--pp); padding-bottom:1.8mm;
+  }
+  .head h1{
+    margin:0; font-family:"Yusei Magic","Zen Maru Gothic",sans-serif;
+    font-size:13mm; line-height:1; color:var(--pp);
+  }
+  .head h1 .kanji{
+    font-family:"Zen Maru Gothic",sans-serif; font-size:6.4mm;
+    color:var(--ink-soft); padding-left:2.5mm; letter-spacing:.04em;
+  }
+  .head .lede{
+    text-align:right; flex:0 0 auto;
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:700;
+    font-size:3.2mm; line-height:1.5; color:var(--ink-soft);
+  }
+  .head .lede .nums{
+    display:block; font-size:6mm; color:var(--ink);
+    font-variant-numeric:tabular-nums;
+  }
+
+  /* ───────── 分数 ───────── */
+  .f{
+    display:inline-flex; flex-direction:column; align-items:center;
+    vertical-align:middle; font-family:"Zen Maru Gothic",sans-serif;
+    font-weight:900; font-variant-numeric:tabular-nums; line-height:1.05;
+    color:var(--ink);
+  }
+  .f > span{ padding:0 1.4mm; }
+  .f .dn{ border-top:.5mm solid currentColor; padding-top:.7mm; margin-top:.7mm; }
+  .f.lg{ font-size:6.6mm; }
+  .f.md{ font-size:5mm; }
+  .f.sm{ font-size:3.6mm; }
+  .f.pp{ color:var(--pp-deep); }
+  .f.or{ color:var(--or); }
+  .f.bl{ color:var(--bl); }
+  .op{
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    color:var(--ink-soft); padding:0 1mm;
+  }
+
+  /* ───────── steps ───────── */
+  .steps{ display:flex; flex-direction:column; gap:2.6mm; flex:1; min-height:0; justify-content:space-between; }
+  .step{ display:flex; flex-direction:column; gap:1.9mm; }
+  .step > header{ display:flex; align-items:center; gap:2.8mm; }
+  .step .no{
+    flex:0 0 auto; width:9mm; height:9mm; border-radius:50%;
+    background:var(--pp); color:#fff;
+    font-family:"Yusei Magic",sans-serif; font-size:5.6mm;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .step h2{
+    margin:0; font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:6.2mm; line-height:1.15; color:var(--pp-deep);
+  }
+  .step h2 rt{ font-size:.3em; font-weight:700; letter-spacing:.04em; }
+  .step h2 small{
+    font-family:"Zen Kaku Gothic New",sans-serif; font-weight:700;
+    font-size:3.5mm; color:var(--ink); padding-left:2mm;
+  }
+  .body{ padding-left:11.8mm; display:flex; flex-direction:column; gap:2mm; }
+
+  .def{
+    border-left:1.4mm solid var(--pp); background:var(--pp-soft);
+    border-radius:0 1.4mm 1.4mm 0; padding:1.8mm 3mm;
+    font-size:3.6mm; line-height:1.55; text-wrap:pretty;
+  }
+  .def b{ font-weight:900; color:var(--pp-deep); }
+
+  /* ───────── 帯グラフ ───────── */
+  .bars{ display:grid; grid-template-columns:1fr 9mm 1fr; gap:0 2.4mm; align-items:center; }
+  .bargroup{ display:flex; flex-direction:column; gap:3mm; }
+  .bargroup .cap{
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:3.5mm; color:var(--ink-soft); text-align:center;
+  }
+  .bargroup .cap.ok{ color:var(--pp-deep); }
+  .barrow{ display:flex; align-items:center; gap:2.6mm; }
+  .barrow .fr{ width:13mm; display:flex; justify-content:center; flex:0 0 auto; }
+  .bar{
+    flex:1; display:grid; height:10mm;
+    border:.4mm solid var(--ink); border-radius:.8mm; overflow:hidden;
+  }
+  .bar i{ display:block; border-right:.25mm solid var(--pp-line); }
+  .bar i.maj{ border-right:.7mm solid var(--pp-deep); }
+  .bar i:last-child{ border-right:none; }
+  .bar i.on{ background:var(--fill); }
+  .arrow{
+    text-align:center; font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:6mm; color:var(--pp);
+  }
+  .barnote{ font-size:3.2mm; line-height:1.5; color:var(--ink-soft); text-wrap:pretty; }
+  .barnote b{ color:var(--pp-deep); font-weight:900; }
+
+  /* ───────── 最小公倍数さがし ───────── */
+  .lcm{
+    background:var(--or-soft); border:.4mm solid var(--or-line);
+    border-radius:1.6mm; padding:2.2mm 2.8mm;
+    display:flex; flex-direction:column; gap:1.6mm;
+  }
+  .lcm .t{
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:3.5mm; color:var(--or);
+  }
+  .lcm .t span{ font-size:2.9mm; font-weight:700; color:var(--ink-soft); }
+  .row{ display:flex; align-items:center; gap:2.2mm; }
+  .row .who{
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:3.2mm; color:var(--ink-soft); white-space:nowrap;
+    width:16mm; flex:0 0 auto; text-align:right;
+  }
+  .chips{ display:flex; flex-wrap:wrap; gap:1.4mm; align-items:center; }
+  .chip{
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:700;
+    font-size:4mm; line-height:1; font-variant-numeric:tabular-nums;
+    min-width:8mm; padding:1.4mm 1.1mm; text-align:center;
+    border-radius:1.1mm; box-sizing:border-box;
+    background:#fff; color:var(--or); border:.35mm solid var(--or-line);
+  }
+  .chip.hit{ background:var(--or); color:#fff; border-color:transparent; box-shadow:0 0 0 .7mm var(--yellow); }
+  .more{ font-size:3.1mm; color:var(--ink-soft); font-weight:700; }
+
+  /* ───────── 変形の式 ───────── */
+  .conv{ display:flex; flex-direction:column; gap:2.4mm; }
+  .cline{ display:flex; align-items:center; gap:1mm; flex-wrap:wrap; }
+  .mul{
+    display:inline-flex; flex-direction:column; align-items:center;
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900; font-size:3.4mm;
+    color:var(--pp-deep); background:var(--yellow-soft);
+    border:.3mm solid var(--yellow); border-radius:1mm;
+    padding:.8mm 1.6mm; line-height:1.3; margin:0 1.4mm;
+  }
+  .cline .res{ margin-left:1.6mm; }
+  .verdict{
+    display:flex; align-items:center; gap:2.4mm; flex-wrap:wrap;
+    background:var(--pp-soft); border-radius:1.4mm; padding:2mm 3mm;
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:4mm; color:var(--pp-deep);
+  }
+  .verdict .lb{ font-size:3.2mm; color:var(--ink-soft); }
+
+  /* ───────── bottom ───────── */
+  .bottom{ display:grid; grid-template-columns:1fr 1.06fr; gap:3.4mm; }
+  .box{
+    border:.5mm solid var(--rule); border-radius:1.8mm; padding:2.4mm 3mm;
+    display:flex; flex-direction:column; gap:1.8mm;
+  }
+  .box.bl{ border-color:var(--bl-line); background:var(--bl-soft); }
+  .box h3{
+    margin:0; display:flex; align-items:center; gap:2.4mm;
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900; font-size:4.2mm;
+    color:var(--pp-deep);
+  }
+  .box.bl h3{ color:var(--bl); }
+  .box h3 .no{
+    flex:0 0 auto; width:6.4mm; height:6.4mm; border-radius:50%;
+    background:var(--pp); color:#fff;
+    font-family:"Yusei Magic",sans-serif; font-size:4mm;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .box.bl h3 .no{ background:var(--bl); }
+  .note{ font-size:3.2mm; line-height:1.5; color:var(--ink-soft); text-wrap:pretty; }
+  .note b{ color:var(--pp-deep); font-weight:900; }
+  .box.bl .note b{ color:var(--bl); }
+
+  /* ───────── おぼえておく ───────── */
+  .memo{
+    border-top:.8mm solid var(--pp); padding-top:2.2mm;
+    display:grid; grid-template-columns:25mm 1fr 1fr; gap:1.8mm 4mm; align-items:start;
+  }
+  .memo .lbl{
+    grid-row:span 2; font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:3.7mm; color:var(--pp); line-height:1.25; white-space:nowrap;
+  }
+  .memo p{
+    font-size:3.2mm; line-height:1.45; padding-left:5.2mm;
+    position:relative; text-wrap:pretty;
+  }
+  .memo p::before{
+    content:"\2713"; position:absolute; left:0; top:-.2mm; color:var(--pp);
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900; font-size:3.8mm;
+  }
+  .memo b{ font-weight:900; color:var(--pp-deep); }
+  .memo .ng{ color:#B23A2E; font-weight:900; }
+  .memo .tagor{ color:var(--or); font-weight:900; }
+  .memo .tagbl{ color:var(--bl); font-weight:900; }
+
+  /* ───────── print ───────── */
+  @page{ size:210mm 297mm; margin:0; }
+  @media print{
+    html,body{
+      margin:0; padding:0; width:210mm; background:#fff;
+      display:block; -webkit-print-color-adjust:exact; print-color-adjust:exact;
+    }
+    .hint{ display:none; }
+    .sheet{
+      box-shadow:none; margin:0; width:210mm; height:296.8mm;
+      transform:none; overflow:hidden;
+      break-inside:avoid; break-after:avoid; page-break-after:avoid;
+    }
+  }
+  @media screen and (max-width:860px){
+    .sheet{ transform-origin:top center; transform:scale(.46); margin-bottom:-160mm; }
+  }
+</style>
+</head>
+<body>
+
+
+<p class="hint">A4たて・倍率100%（余白「なし」〜「せまい」）で印刷してください。<br>⌘P / Ctrl+P → 用紙 A4 → 背景のグラフィックを印刷 ON</p>
+
+<div class="sheet">
+
+  <header class="head">
+    <h1>つうぶん<span class="kanji">通分</span></h1>
+    <p class="lede">この1枚は ぜんぶ この2つ<span class="nums">2/3 と 3/4</span></p>
+  </header>
+
+  <div class="steps">
+
+    <!-- ══ STEP 1 ══ -->
+    <section class="step">
+      <header>
+        <span class="no">1</span>
+        <h2><ruby>通分<rt>つうぶん</rt></ruby><small>分母を そろえること</small></h2>
+      </header>
+      <div class="body">
+        <p class="def">分母のちがう分数を、<b>分母が同じ分数に そろえる</b>ことを 通分 という。分母がそろっていないと、<b>たし算・ひき算・大小くらべ</b> ができない。</p>
+
+        <div class="bars">
+          <div class="bargroup">
+            <p class="cap">分け方がちがう … くらべられない</p>
+            <div class="barrow">
+              <span class="fr"><span class="f lg pp"><span>2</span><span class="dn">3</span></span></span>
+              <span class="bar" style="grid-template-columns:repeat(3,1fr)">
+                <i class="on"></i><i class="on"></i><i></i>
+              </span>
+            </div>
+            <div class="barrow">
+              <span class="fr"><span class="f lg pp"><span>3</span><span class="dn">4</span></span></span>
+              <span class="bar" style="grid-template-columns:repeat(4,1fr)">
+                <i class="on"></i><i class="on"></i><i class="on"></i><i></i>
+              </span>
+            </div>
+          </div>
+
+          <p class="arrow">▶</p>
+
+          <div class="bargroup">
+            <p class="cap ok">12こに そろえた … くらべられる</p>
+            <div class="barrow">
+              <span class="fr"><span class="f lg pp"><span>8</span><span class="dn">12</span></span></span>
+              <span class="bar" style="grid-template-columns:repeat(12,1fr)">
+                <i class="on"></i><i class="on"></i><i class="on"></i><i class="on maj"></i>
+                <i class="on"></i><i class="on"></i><i class="on"></i><i class="on maj"></i>
+                <i></i><i></i><i></i><i></i>
+              </span>
+            </div>
+            <div class="barrow">
+              <span class="fr"><span class="f lg pp"><span>9</span><span class="dn">12</span></span></span>
+              <span class="bar" style="grid-template-columns:repeat(12,1fr)">
+                <i class="on"></i><i class="on"></i><i class="on maj"></i>
+                <i class="on"></i><i class="on"></i><i class="on maj"></i>
+                <i class="on"></i><i class="on"></i><i class="on maj"></i>
+                <i></i><i></i><i></i>
+              </span>
+            </div>
+          </div>
+        </div>
+        <p class="barnote">長さは まったく変わっていない。<b>1こ分を さらに細かく割りなおしただけ</b>。3等分の1こを4つに割ると12こ、4等分の1こを3つに割っても12こ。太い線がもとの区切り。</p>
+      </div>
+    </section>
+
+    <!-- ══ STEP 2 ══ -->
+    <section class="step">
+      <header>
+        <span class="no">2</span>
+        <h2>分母を そろえる<small>分母の 最小公倍数 を使う</small></h2>
+      </header>
+      <div class="body">
+        <div class="lcm">
+          <p class="t">分母 3 と 4 の 最小公倍数 が そろえる先 <span>← 「ばいすう」のチラシと同じ</span></p>
+          <div class="row"><span class="who">3の倍数</span><div class="chips">
+            <span class="chip">3</span><span class="chip">6</span><span class="chip">9</span><span class="chip hit">12</span><span class="chip">15</span><span class="more">…</span>
+          </div></div>
+          <div class="row"><span class="who">4の倍数</span><div class="chips">
+            <span class="chip">4</span><span class="chip">8</span><span class="chip hit">12</span><span class="chip">16</span><span class="chip">20</span><span class="more">…</span>
+          </div></div>
+        </div>
+
+        <div class="conv">
+          <p class="cline">
+            <span class="f lg pp"><span>2</span><span class="dn">3</span></span>
+            <span class="op">=</span>
+            <span class="mul">分母も分子も<span>× 4</span></span>
+            <span class="op">=</span>
+            <span class="f lg pp res"><span>8</span><span class="dn">12</span></span>
+            <span class="note" style="margin-left:3mm">3 に 4 をかけて 12。だから 2 にも 4 をかけて 8。</span>
+          </p>
+          <p class="cline">
+            <span class="f lg pp"><span>3</span><span class="dn">4</span></span>
+            <span class="op">=</span>
+            <span class="mul">分母も分子も<span>× 3</span></span>
+            <span class="op">=</span>
+            <span class="f lg pp res"><span>9</span><span class="dn">12</span></span>
+            <span class="note" style="margin-left:3mm">4 に 3 をかけて 12。だから 3 にも 3 をかけて 9。</span>
+          </p>
+        </div>
+
+        <p class="verdict">
+          <span class="lb">くらべる ▸</span>
+          <span class="f md pp"><span>8</span><span class="dn">12</span></span><span class="op">&lt;</span><span class="f md pp"><span>9</span><span class="dn">12</span></span>
+          <span class="lb">だから</span>
+          <span class="f md pp"><span>2</span><span class="dn">3</span></span><span class="op">&lt;</span><span class="f md pp"><span>3</span><span class="dn">4</span></span>
+          <span class="lb">／　たし算 ▸</span>
+          <span class="f md pp"><span>8</span><span class="dn">12</span></span><span class="op">+</span><span class="f md pp"><span>9</span><span class="dn">12</span></span><span class="op">=</span><span class="f md pp"><span>17</span><span class="dn">12</span></span>
+        </p>
+      </div>
+    </section>
+  </div>
+
+  <!-- ══ bottom ══ -->
+  <div class="bottom">
+    <section class="box bl">
+      <h3><span class="no">3</span>約分は 通分の 逆</h3>
+      <p class="note">分母と分子を <b>同じ数でわって</b> 小さくすること。<b>最大公約数</b> でわると 1回で終わる。</p>
+      <p class="cline" style="justify-content:center">
+        <span class="f lg bl"><span>12</span><span class="dn">18</span></span>
+        <span class="op">=</span>
+        <span class="mul" style="border-color:var(--bl-line);background:var(--bl-soft);color:var(--bl)">分母も分子も<span>÷ 6</span></span>
+        <span class="op">=</span>
+        <span class="f lg bl"><span>2</span><span class="dn">3</span></span>
+      </p>
+      <p class="note">12 と 18 の最大公約数が 6（<b>「やくすう」のチラシと同じ数</b>）。</p>
+    </section>
+
+    <section class="box">
+      <h3><span class="no">4</span>ここ、まちがえる！</h3>
+      <p class="note"><b>分母だけ</b> にかけるのは ダメ。分子にも <b>同じ数</b> をかける。かけ算した分数は、見た目が変わっても <b>大きさは同じ</b>。</p>
+      <p class="note">分母どうしを <b>そのままかけない</b>。4 と 6 なら 4×6＝24 ではなく、最小公倍数の <b>12</b>。3 と 4 のように公約数が 1 のときだけ 3×4＝12 でよい。</p>
+      <p class="note">答えが約分できるときは <b>約分してから</b> 終わる。</p>
+    </section>
+  </div>
+
+  <div class="memo">
+    <span class="lbl">つながり</span>
+    <p><span class="tagor">通分</span>は 分母の <b>最小公倍数</b>（倍数のなかま）。分母は <b>大きく</b> なる。</p>
+    <p><span class="tagbl">約分</span>は 分母と分子の <b>最大公約数</b>（約数のなかま）。分母は <b>小さく</b> なる。</p>
+    <p>通分は <b>かけ算</b>（×）、約分は <b>わり算</b>（÷）。ちょうど 逆の作業。</p>
+    <p>どちらも <b>分母と分子の両方</b> に 同じことをする。片方だけは <span class="ng">まちがい</span>。</p>
+  </div>
+
+</div>
+
+<style>
+@media screen and (max-width:860px){
+  body{ padding:8px 0 28px; }
+  .sheet{ transform:scale(var(--fit,.46)) !important;
+          margin-bottom:calc(-297mm * (1 - var(--fit,.46))) !important; }
+}
+</style>
+<script>
+(function(){
+  function fit(){
+    var w = Math.min(document.documentElement.clientWidth, 860);
+    document.documentElement.style.setProperty('--fit', Math.min(1,(w-10)/793.7).toFixed(4));
+  }
+  fit(); addEventListener('resize', fit); addEventListener('orientationchange', fit);
+})();
+</script>
+</body>
+</html>

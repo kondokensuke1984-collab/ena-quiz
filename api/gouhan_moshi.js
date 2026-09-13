@@ -1,0 +1,50 @@
+const REPO = 'kondokensuke1984-collab/ena-quiz';
+const FILE = 'gouhan_moshi_data.json';
+const API  = `https://api.github.com/repos/${REPO}/contents/${FILE}`;
+
+export default async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  if (req.method === 'OPTIONS') return res.status(200).end();
+
+  const token = process.env.GH_SYNC_TOKEN;
+  if (!token) return res.status(500).json({ error: 'GH_SYNC_TOKEN not set' });
+
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    Accept: 'application/vnd.github+json',
+    'Content-Type': 'application/json',
+  };
+
+  if (req.method === 'GET') {
+    const r = await fetch(API, { headers });
+    // データファイルがまだ無い場合（初回）は空データを返す
+    if (r.status === 404) return res.json({ data: { _tests: [] }, sha: null });
+    if (!r.ok) return res.status(r.status).json({ error: 'fetch failed' });
+    const meta = await r.json();
+    const data = JSON.parse(Buffer.from(meta.content, 'base64').toString('utf8'));
+    return res.json({ data, sha: meta.sha });
+  }
+
+  if (req.method === 'POST') {
+    const { data, sha } = req.body;
+    const content = Buffer.from(JSON.stringify(data, null, 2)).toString('base64');
+    // sha があれば更新、無ければ新規作成（初回のファイル作成に対応）
+    const body = { message: 'Update gouhan_moshi data', content };
+    if (sha) body.sha = sha;
+    const r = await fetch(API, {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify(body),
+    });
+    if (!r.ok) {
+      const err = await r.text();
+      return res.status(r.status).json({ error: err });
+    }
+    const result = await r.json();
+    return res.json({ ok: true, sha: result.content.sha });
+  }
+
+  res.status(405).json({ error: 'Method not allowed' });
+}

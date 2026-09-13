@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>月の動きと満ち欠け 1</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Noto Sans JP', 'Zen Maru Gothic', sans-serif;
+      background-color: #f0f4f8;
+    }
+
+    /* 教科書風ルビのスタイル */
+    ruby {
+      ruby-position: over;
+    }
+    rt {
+      font-size: 0.65em;
+      color: #64748b;
+      font-weight: normal;
+    }
+  </style>
+</head>
+<body class="text-slate-800 p-4 md:p-8">
+
+  <!-- 全体コンテナ（見開き2ページ風レイアウト） -->
+  <div class="max-w-6xl mx-auto space-y-8">
+
+    <!-- ==========================================
+         PAGE 1: 要点のまとめ（月面のようすと大きさ）
+         ========================================== -->
+    <div class="bg-white rounded-2xl shadow-lg border-2 border-emerald-500 overflow-hidden">
+
+      <!-- ページヘッダー -->
+      <div class="bg-emerald-600 text-white px-6 py-4 flex flex-wrap justify-between items-center gap-4">
+        <div class="flex items-center gap-4">
+          <!-- 単元番号バッジ -->
+          <span class="bg-white text-emerald-700 font-black text-3xl px-4 py-1 rounded-lg shadow-sm">1</span>
+          <h1 class="text-2xl md:text-3xl font-extrabold tracking-wide">月の動きと満ち欠け 1</h1>
+        </div>
+        <!-- 学習日チェックボックス -->
+        <div class="flex items-center gap-2 bg-emerald-700 px-4 py-2 rounded-lg text-sm font-medium">
+          <span>学習日</span>
+          <div class="w-7 h-7 bg-white rounded border border-emerald-800"></div>
+          <div class="w-7 h-7 bg-white rounded border border-emerald-800"></div>
+          <div class="w-7 h-7 bg-white rounded border border-emerald-800"></div>
+        </div>
+      </div>
+
+      <div class="p-6 md:p-8 space-y-8">
+        <!-- セクション見出し -->
+        <div class="flex items-center gap-3">
+          <span class="bg-emerald-500 text-white font-bold px-4 py-1.5 rounded-full text-lg shadow-sm">要点のまとめ</span>
+          <h2 class="text-xl font-bold text-emerald-900">月面のようすと大きさ</h2>
+        </div>
+
+        <!-- ❶ 月のかんきょう ＆ 公転図 -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 bg-emerald-50/40 p-5 rounded-xl border border-emerald-100">
+          <div class="md:col-span-7 space-y-3">
+            <h3 class="flex items-center gap-2 font-bold text-lg text-emerald-800">
+              <span class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-sm font-black">1</span>
+              月のかんきょう
+            </h3>
+            <ul class="list-disc list-outside ml-5 space-y-2 text-sm md:text-base leading-relaxed text-slate-700">
+              <li>月は直径<strong class="text-emerald-700 font-bold">約3500km</strong>の球で、日光を反射して光っている。</li>
+              <li>月は地球の<strong class="text-emerald-700 font-bold"><ruby>衛星<rt>えいせい</rt></ruby></strong>であり、地球のまわりを<strong class="text-emerald-700 font-bold">約27.3日</strong>で<ruby>公転<rt>こうてん</rt></ruby>し、同じ周期で<ruby>自転<rt>じてん</rt></ruby>している。このため、地球からは同じ面しか見ることができない。</li>
+              <li>地球からは、月面の日光にあたっている部分しか見えないため、太陽・月・地球の<ruby>位置関係<rt>いちかんけい</rt></ruby>によって月は周期的に満ち欠けをする。月がもとの形（たとえば<ruby>満月<rt>まんげつ</rt></ruby>から満月まで）にもどるのにかかる日数は<strong class="text-emerald-700 font-bold">約29.5日</strong>で、月が地球のまわりを1回まわるのより2日ほど長い。これは地球も太陽のまわりを公転しているからである。</li>
+              <li>月には空気がない。そのため、太陽の熱が直接地表にとどき、昼は表面温度が<strong class="text-rose-600 font-bold">110℃</strong>をこえる。また、夜は熱が月にとどまることなく出ていくため、<strong class="text-blue-600 font-bold">-170℃</strong>より低くなる。月とくらべて地球の昼と夜の気温差が小さいのは、水や空気が熱をたくわえるはたらきをしているためである。</li>
+              <li>月には空気がないので、太陽が出ていても青空が見られず、空は黒い。</li>
+            </ul>
+          </div>
+
+          <!-- 右側：月の公転SVGイラスト -->
+          <div class="md:col-span-5 bg-white p-4 rounded-xl border border-slate-200 flex flex-col items-center justify-center shadow-inner">
+            <span class="text-xs font-bold text-slate-500 self-start mb-2">▼ 月の公転</span>
+
+            <svg viewBox="0 0 320 280" class="w-full max-w-[280px]">
+              <!-- 太陽光の矢印 -->
+              <g fill="#f59e0b">
+                <text x="5" y="65" font-size="12" font-weight="bold" fill="#d97706">日光</text>
+                <path d="M 5 80 L 40 80 L 40 75 L 55 85 L 40 95 L 40 90 L 5 90 Z" />
+                <path d="M 5 120 L 40 120 L 40 115 L 55 125 L 40 135 L 40 130 L 5 130 Z" />
+                <path d="M 5 160 L 40 160 L 40 155 L 55 165 L 40 175 L 40 170 L 5 170 Z" />
+                <path d="M 5 200 L 40 200 L 40 195 L 55 205 L 40 215 L 40 210 L 5 210 Z" />
+              </g>
+
+              <!-- 公転軌道 -->
+              <ellipse cx="190" cy="140" rx="90" ry="90" fill="none" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="4,4" />
+
+              <!-- 地球 -->
+              <circle cx="190" cy="140" r="26" fill="#38bdf8" stroke="#0284c7" stroke-width="2" />
+              <circle cx="184" cy="135" r="10" fill="#22c55e" opacity="0.8" />
+              <circle cx="198" cy="148" r="7" fill="#22c55e" opacity="0.8" />
+              <text x="190" y="145" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">地球</text>
+
+              <!-- 各位置の月（左側が常に日光で明るい） -->
+              <!-- 上（上弦側） -->
+              <g transform="translate(190, 50)">
+                <circle cx="0" cy="0" r="12" fill="#1e293b" />
+                <path d="M 0 -12 A 12 12 0 0 0 0 12 Z" fill="#eab308" />
+              </g>
+              <!-- 下（下弦側） -->
+              <g transform="translate(190, 230)">
+                <circle cx="0" cy="0" r="12" fill="#1e293b" />
+                <path d="M 0 -12 A 12 12 0 0 0 0 12 Z" fill="#eab308" />
+              </g>
+              <!-- 左（新月側） -->
+              <g transform="translate(100, 140)">
+                <circle cx="0" cy="0" r="12" fill="#1e293b" />
+                <path d="M 0 -12 A 12 12 0 0 0 0 12 Z" fill="#eab308" />
+              </g>
+              <!-- 右（満月側） -->
+              <g transform="translate(280, 140)">
+                <circle cx="0" cy="0" r="12" fill="#1e293b" />
+                <path d="M 0 -12 A 12 12 0 0 0 0 12 Z" fill="#eab308" />
+              </g>
+
+              <!-- 公転の向き（反時計回り矢印） -->
+              <path d="M 190 40 A 100 100 0 0 0 90 140" fill="none" stroke="#64748b" stroke-width="1.5" />
+              <path d="M 275 100 L 285 92 L 282 105" fill="#64748b" />
+              <path d="M 105 180 L 95 188 L 98 175" fill="#64748b" />
+
+              <!-- 注記 -->
+              <text x="140" y="25" font-size="10" fill="#475569">日光があたって</text>
+              <text x="140" y="37" font-size="10" fill="#475569">いる部分</text>
+              <text x="240" y="25" font-size="10" fill="#475569">日光があたって</text>
+              <text x="240" y="37" font-size="10" fill="#475569">いない部分</text>
+              <path d="M 175 35 L 185 45" stroke="#94a3b8" stroke-width="1" />
+              <path d="M 245 35 L 198 45" stroke="#94a3b8" stroke-width="1" />
+
+              <text x="190" y="77" text-anchor="middle" font-size="11" font-weight="bold" fill="#334155">月</text>
+              <text x="190" y="270" text-anchor="middle" font-size="11" font-weight="bold" fill="#047857">1回まわるのに 27.3日かかる</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- ❷ 月のもよう -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 bg-slate-50 p-5 rounded-xl border border-slate-200">
+          <div class="md:col-span-8 space-y-3">
+            <h3 class="flex items-center gap-2 font-bold text-lg text-emerald-800">
+              <span class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-sm font-black">2</span>
+              月のもよう
+            </h3>
+            <ul class="list-disc list-outside ml-5 space-y-2 text-sm md:text-base leading-relaxed text-slate-700">
+              <li>表面の白っぽく見える部分には、<strong class="text-emerald-700 font-bold">クレーター</strong>というたくさんのくぼみがある。これは、いん石がしょうとつしてできたものと考えられている。</li>
+              <li>月の表面には、黒っぽく見える平らな部分がある。この部分を<strong class="text-emerald-700 font-bold">海</strong>といい、クレーターがほとんどない。月には水はほとんどないので、そこに水がたまっているわけではなく、大昔に内部から<ruby>溶岩<rt>ようがん</rt></ruby>がふき出してクレーターをうめ、平原になったと考えられている。</li>
+              <li>月はいつも同じ面を地球に向けており、地球上から<strong class="text-rose-600 font-bold">月のうら側を見ることはできない</strong>。</li>
+            </ul>
+          </div>
+
+          <!-- 右側：月の写真風プレースホルダー -->
+          <div class="md:col-span-4 bg-slate-900 rounded-xl p-4 flex flex-col items-center justify-center text-white relative shadow">
+            <span class="text-xs font-bold text-slate-300 self-start mb-2">▼ 月の表面</span>
+            <div class="relative w-36 h-36 rounded-full bg-gradient-to-tr from-slate-400 via-slate-200 to-slate-100 shadow-inner border-2 border-slate-400 flex items-center justify-center overflow-hidden">
+              <!-- 海（暗い部分）の模様 -->
+              <div class="absolute w-20 h-16 bg-slate-500 rounded-full opacity-60 top-4 left-4 blur-[3px]"></div>
+              <div class="absolute w-14 h-12 bg-slate-600 rounded-full opacity-50 top-12 left-12 blur-[2px]"></div>
+              <div class="absolute w-16 h-10 bg-slate-500 rounded-full opacity-60 bottom-5 right-5 blur-[3px]"></div>
+              <!-- クレーター -->
+              <div class="absolute w-4 h-4 rounded-full border border-slate-400 bg-slate-300 opacity-70 bottom-3 left-10"></div>
+              <div class="absolute w-3 h-3 rounded-full border border-slate-400 bg-slate-300 opacity-70 top-6 right-8"></div>
+
+              <!-- 指示線とラベル -->
+              <div class="absolute top-7 right-3 w-8 border-t border-white pointer-events-none"></div>
+              <span class="absolute top-4 right-1 text-xs font-bold bg-black/60 px-1 rounded">海</span>
+
+              <div class="absolute bottom-6 right-3 w-10 border-t border-white pointer-events-none"></div>
+              <span class="absolute bottom-3 right-1 text-xs font-bold bg-black/60 px-1 rounded">陸</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ❸ 太陽と月の実際の大きさと見かけの大きさ -->
+        <div class="space-y-4 bg-amber-50/50 p-5 rounded-xl border border-amber-200">
+          <h3 class="flex items-center gap-2 font-bold text-lg text-amber-900">
+            <span class="w-6 h-6 rounded-full bg-amber-600 text-white flex items-center justify-center text-sm font-black">3</span>
+            太陽と月の実際の大きさと見かけの大きさ
+          </h3>
+          <ul class="list-disc list-outside ml-5 space-y-1.5 text-sm md:text-base leading-relaxed text-slate-700">
+            <li>太陽の直径は<strong class="text-amber-800 font-bold">約140万km</strong>で、地球の直径（約13000km）の<strong class="text-amber-800 font-bold">約109倍</strong>である。</li>
+            <li>月の直径は<strong class="text-amber-800 font-bold">約3500km</strong>で、地球の直径の<strong class="text-amber-800 font-bold">約4分の1</strong>である。</li>
+            <li>地球から見える太陽と月の大きさがほぼ同じなのは、<span class="bg-amber-100 font-bold px-1 rounded">太陽の直径が月の直径の約400倍</span>であり、<span class="bg-amber-100 font-bold px-1 rounded">地球から太陽までのきょりも地球から月までのきょりの約400倍</span>になっているためである。</li>
+          </ul>
+
+          <!-- 大きさと距離の関係図 -->
+          <div class="bg-white p-4 rounded-xl border border-amber-200 mt-4">
+            <span class="text-xs font-bold text-slate-500 block mb-2">▼ 地球、月、太陽の大きさときょりの関係</span>
+            <div class="overflow-x-auto">
+              <svg viewBox="0 0 750 160" class="w-full min-w-[650px]">
+                <!-- 目盛基準線 -->
+                <line x1="50" y1="120" x2="680" y2="120" stroke="#e2e8f0" stroke-width="2" />
+
+                <!-- 地球 -->
+                <circle cx="120" cy="70" r="20" fill="#0284c7" />
+                <text x="120" y="75" text-anchor="middle" font-size="11" font-weight="bold" fill="#ffffff">地球</text>
+                <text x="70" y="75" text-anchor="end" font-size="11" fill="#475569">約13000km</text>
+
+                <!-- 月 -->
+                <circle cx="190" cy="75" r="7" fill="#eab308" />
+                <text x="190" y="60" text-anchor="middle" font-size="11" font-weight="bold" fill="#475569">月</text>
+                <text x="210" y="65" text-anchor="start" font-size="10" fill="#64748b">約3500km</text>
+
+                <!-- 地球と月の距離表示 -->
+                <line x1="120" y1="95" x2="190" y2="95" stroke="#0284c7" stroke-width="1.5" />
+                <rect x="125" y="100" width="75" height="20" fill="#e0f2fe" rx="3" />
+                <text x="162" y="114" text-anchor="middle" font-size="10" font-weight="bold" fill="#0369a1">約38万km</text>
+
+                <!-- 太陽 -->
+                <circle cx="480" cy="70" r="45" fill="url(#sun-gradient)" stroke="#ea580c" stroke-width="2" />
+                <text x="480" y="75" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">太陽</text>
+                <text x="535" y="75" text-anchor="start" font-size="11" fill="#475569">約140万km</text>
+
+                <!-- 地球と太陽の距離表示 -->
+                <path d="M 120 135 L 480 135" stroke="#ea580c" stroke-width="1.5" />
+                <text x="300" y="150" text-anchor="middle" font-size="11" font-weight="bold" fill="#c2410c">約1億5000万km</text>
+
+                <!-- 倍率タグ -->
+                <rect x="250" y="98" width="105" height="22" fill="#86efac" rx="4" />
+                <text x="302" y="113" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">きょり約400倍</text>
+
+                <rect x="560" y="105" width="90" height="22" fill="#bbf7d0" rx="4" />
+                <text x="605" y="120" text-anchor="middle" font-size="11" font-weight="bold" fill="#166534">直径約400倍</text>
+
+                <defs>
+                  <radialGradient id="sun-gradient" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#fde047" />
+                    <stop offset="70%" stop-color="#ea580c" />
+                    <stop offset="100%" stop-color="#b91c1c" />
+                  </radialGradient>
+                </defs>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ==========================================
+         PAGE 2: 地球から見た月の満ち欠け
+         ========================================== -->
+    <div class="bg-white rounded-2xl shadow-lg border-2 border-indigo-500 overflow-hidden">
+
+      <!-- ページヘッダー -->
+      <div class="bg-indigo-600 text-white px-6 py-4 flex justify-between items-center">
+        <h2 class="text-xl md:text-2xl font-black tracking-wide">地球から見た月の満ち欠け</h2>
+        <div class="bg-white text-indigo-900 font-extrabold px-3 py-1 rounded text-sm tracking-wider">
+          EXE
+        </div>
+      </div>
+
+      <div class="p-6 md:p-8 space-y-8">
+
+        <!-- ❶ 月の動き & ❷ いろいろな月の形 -->
+        <div class="space-y-4">
+          <div>
+            <h3 class="flex items-center gap-2 font-bold text-lg text-indigo-900">
+              <span class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-sm font-black">1</span>
+              月の動き
+            </h3>
+            <p class="ml-8 mt-1 text-slate-700 leading-relaxed">
+              月は太陽と同じように、<strong class="text-indigo-700">東からのぼって南の空を通り、西にしずむ</strong>。この動きは<strong class="text-indigo-700">地球の自転</strong>によるものである。
+            </p>
+          </div>
+
+          <div>
+            <h3 class="flex items-center gap-2 font-bold text-lg text-indigo-900">
+              <span class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-sm font-black">2</span>
+              いろいろな月の形
+            </h3>
+            <ul class="list-disc list-outside space-y-2 mt-1 text-sm md:text-base text-slate-700 ml-8">
+              <li>光っている部分が見えないときの月を<strong class="text-indigo-700 font-bold">新月</strong>、右半分が光って見える月を<strong class="text-indigo-700 font-bold">上弦の月</strong>、光っている部分がすべて見えている丸い月を<strong class="text-indigo-700 font-bold">満月</strong>、左半分が光って見える月を<strong class="text-indigo-700 font-bold">下弦の月</strong>という。</li>
+              <li>月は約29.5日でもとの形にもどるので、新月 → 上弦の月、上弦の月 → 満月、満月 → 下弦の月、下弦の月 → 新月、と変化するのにかかる日数は、<strong class="text-indigo-700 font-bold">それぞれ約1週間</strong>である。</li>
+              <li>月の形は、新月の日を0として数えた日数（<ruby>月齢<rt>げつれい</rt></ruby>）で表すこともある。</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ▼ 月の形の変化（満ち欠けシークエンス図） -->
+        <div class="bg-slate-900 text-white p-5 rounded-2xl shadow-inner">
+          <span class="text-xs font-bold text-slate-400 block mb-4">▼ 月の形の変化</span>
+
+          <div class="grid grid-cols-4 sm:grid-cols-8 gap-3 text-center">
+
+            <!-- 新月 -->
+            <div class="flex flex-col items-center">
+              <span class="text-xs bg-emerald-600 px-2 py-0.5 rounded font-bold mb-2">新月</span>
+              <div class="w-12 h-12 rounded-full bg-slate-800 border-2 border-slate-700"></div>
+              <span class="text-xs text-slate-400 mt-2">（0日目）</span>
+            </div>
+
+            <!-- 三日月 -->
+            <div class="flex flex-col items-center">
+              <span class="text-xs bg-amber-500 text-slate-900 px-2 py-0.5 rounded font-bold mb-2">三日月</span>
+              <!-- 右側細い三日月 -->
+              <svg viewBox="0 0 100 100" class="w-12 h-12">
+                <circle cx="50" cy="50" r="48" fill="#1e293b" />
+                <path d="M 50 2 A 48 48 0 0 1 50 98 A 32 48 0 0 0 50 2" fill="#facc15" />
+              </svg>
+              <span class="text-xs text-amber-300 mt-2 font-medium">（3日目）</span>
+            </div>
+
+            <!-- 上弦の月 -->
+            <div class="flex flex-col items-center">
+              <span class="text-xs bg-lime-500 text-slate-900 px-2 py-0.5 rounded font-bold mb-2">上弦の月</span>
+              <!-- 右半分半月 -->
+              <svg viewBox="0 0 100 100" class="w-12 h-12">
+                <circle cx="50" cy="50" r="48" fill="#1e293b" />
+                <path d="M 50 2 A 48 48 0 0 1 50 98 Z" fill="#facc15" />
+              </svg>
+              <span class="text-xs text-amber-300 mt-2 font-medium">（8日目）</span>
+            </div>
+
+            <!-- 12日目 -->
+            <div class="flex flex-col items-center">
+              <span class="text-xs opacity-0 mb-2">-</span>
+              <svg viewBox="0 0 100 100" class="w-12 h-12">
+                <circle cx="50" cy="50" r="48" fill="#1e293b" />
+                <path d="M 50 2 A 48 48 0 0 1 50 98 A 20 48 0 0 1 50 2" fill="#facc15" />
+              </svg>
+              <span class="text-xs text-amber-300 mt-2 font-medium">（12日目）</span>
+            </div>
+
+            <!-- 満月 -->
+            <div class="flex flex-col items-center">
+              <span class="text-xs bg-yellow-400 text-slate-900 px-2 py-0.5 rounded font-bold mb-2">満月</span>
+              <div class="w-12 h-12 rounded-full bg-yellow-400 shadow-md shadow-yellow-500/50"></div>
+              <span class="text-xs text-amber-300 mt-2 font-medium">（15日目）</span>
+            </div>
+
+            <!-- 18日目 -->
+            <div class="flex flex-col items-center">
+              <span class="text-xs opacity-0 mb-2">-</span>
+              <svg viewBox="0 0 100 100" class="w-12 h-12">
+                <circle cx="50" cy="50" r="48" fill="#1e293b" />
+                <path d="M 50 2 A 48 48 0 0 0 50 98 A 20 48 0 0 0 50 2" fill="#facc15" />
+              </svg>
+              <span class="text-xs text-purple-300 mt-2 font-medium">（18日目）</span>
+            </div>
+
+            <!-- 下弦の月 -->
+            <div class="flex flex-col items-center">
+              <span class="text-xs bg-sky-400 text-slate-900 px-2 py-0.5 rounded font-bold mb-2">下弦の月</span>
+              <!-- 左半分半月 -->
+              <svg viewBox="0 0 100 100" class="w-12 h-12">
+                <circle cx="50" cy="50" r="48" fill="#1e293b" />
+                <path d="M 50 2 A 48 48 0 0 0 50 98 Z" fill="#facc15" />
+              </svg>
+              <span class="text-xs text-purple-300 mt-2 font-medium">（23日目）</span>
+            </div>
+
+            <!-- 27日目 -->
+            <div class="flex flex-col items-center">
+              <span class="text-xs opacity-0 mb-2">-</span>
+              <svg viewBox="0 0 100 100" class="w-12 h-12">
+                <circle cx="50" cy="50" r="48" fill="#1e293b" />
+                <path d="M 50 2 A 48 48 0 0 0 50 98 A 32 48 0 0 1 50 2" fill="#facc15" />
+              </svg>
+              <span class="text-xs text-purple-300 mt-2 font-medium">（27日目）</span>
+            </div>
+          </div>
+
+          <!-- 光る側のまとめバー -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-6 pt-4 border-t border-slate-800">
+            <div class="bg-rose-950/70 border border-rose-500/40 rounded-lg py-1.5 text-center text-rose-300 text-sm font-bold">
+              ← 右側が光っている（新月～満月）
+            </div>
+            <div class="bg-indigo-950/70 border border-indigo-500/40 rounded-lg py-1.5 text-center text-indigo-300 text-sm font-bold">
+              左側が光っている（満月～新月） →
+            </div>
+          </div>
+        </div>
+
+        <!-- ❸ 月の形と太陽の位置 -->
+        <div class="space-y-4">
+          <div>
+            <h3 class="flex items-center gap-2 font-bold text-lg text-indigo-900">
+              <span class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-sm font-black">3</span>
+              月の形と太陽の位置
+            </h3>
+            <ul class="list-disc list-outside ml-8 space-y-1.5 text-sm md:text-base text-slate-700 mt-1">
+              <li>月は、太陽の光があたっている側が光って見える。地球から見た月と太陽の位置（角度）がはなれるほど、月の光って見える部分の割合が大きくなる。</li>
+              <li><strong class="text-indigo-800 bg-indigo-50 px-2 py-0.5 rounded">太陽 ― 地球（観測者） ― 月のつくる角の大きさによって月の形は決まる。</strong></li>
+            </ul>
+          </div>
+
+          <!-- 4つの位置関係ダイアグラム（2x2グリッド） -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+            <!-- ① 三日月 -->
+            <div class="bg-amber-50/40 border-2 border-amber-200 rounded-xl p-4 flex flex-col justify-between">
+              <div class="flex justify-between items-center mb-2">
+                <span class="bg-amber-500 text-white font-bold text-xs px-2.5 py-1 rounded">三日月</span>
+                <span class="text-xs text-slate-600 font-semibold">夕方（南を向いて観測）</span>
+              </div>
+              <svg viewBox="0 0 280 150" class="w-full h-auto">
+                <!-- 天球ドーム -->
+                <path d="M 30 130 A 110 110 0 0 1 250 130" fill="none" stroke="#94a3b8" stroke-dasharray="3,3" stroke-width="1.5" />
+                <line x1="20" y1="130" x2="260" y2="130" stroke="#64748b" stroke-width="1.5" />
+                <text x="30" y="145" text-anchor="middle" font-size="11" font-weight="bold" fill="#475569">東</text>
+                <text x="140" y="145" text-anchor="middle" font-size="11" font-weight="bold" fill="#475569">南</text>
+                <text x="250" y="145" text-anchor="middle" font-size="11" font-weight="bold" fill="#475569">西</text>
+
+                <!-- 観測者 -->
+                <circle cx="140" cy="115" r="5" fill="#334155" />
+                <line x1="140" y1="120" x2="140" y2="130" stroke="#334155" stroke-width="2" />
+                <text x="140" y="105" text-anchor="middle" font-size="10" font-weight="bold" fill="#334155">観測者</text>
+
+                <!-- 太陽（西の地平線） -->
+                <circle cx="240" cy="125" r="9" fill="#ea580c" />
+                <text x="240" y="110" text-anchor="middle" font-size="10" font-weight="bold" fill="#ea580c">太陽</text>
+
+                <!-- 月（太陽から約35度東・右側が細く光る三日月） -->
+                <g transform="translate(205, 85)">
+                  <circle cx="0" cy="0" r="9" fill="#1e293b" />
+                  <path d="M 0 -9 A 9 9 0 0 1 0 9 A 6 9 0 0 0 0 -9" fill="#facc15" />
+                </g>
+                <text x="205" y="68" text-anchor="middle" font-size="10" font-weight="bold" fill="#334155">月</text>
+                <line x1="140" y1="130" x2="205" y2="85" stroke="#94a3b8" stroke-dasharray="2,2" />
+                <line x1="140" y1="130" x2="240" y2="125" stroke="#94a3b8" stroke-dasharray="2,2" />
+
+                <!-- 角度 -->
+                <path d="M 180 115 A 40 40 0 0 0 170 128" fill="none" stroke="#e11d48" stroke-width="1.5" />
+                <text x="185" y="125" font-size="10" font-weight="bold" fill="#e11d48">35度</text>
+              </svg>
+              <div class="bg-amber-100/70 p-2 rounded text-xs text-amber-900 font-medium">
+                月は太陽から、<strong class="text-amber-800">約35度東</strong>にある。
+              </div>
+            </div>
+
+            <!-- ② 上弦の月 -->
+            <div class="bg-lime-50/40 border-2 border-lime-200 rounded-xl p-4 flex flex-col justify-between">
+              <div class="flex justify-between items-center mb-2">
+                <span class="bg-lime-600 text-white font-bold text-xs px-2.5 py-1 rounded">上弦の月</span>
+                <span class="text-xs text-slate-600 font-semibold">夕方（南を向いて観測）</span>
+              </div>
+              <svg viewBox="0 0 280 150" class="w-full h-auto">
+                <path d="M 30 130 A 110 110 0 0 1 250 130" fill="none" stroke="#94a3b8" stroke-dasharray="3,3" stroke-width="1.5" />
+                <line x1="20" y1="130" x2="260" y2="130" stroke="#64748b" stroke-width="1.5" />
+                <text x="30" y="145" text-anchor="middle" font-size="11" font-weight="bold" fill="#475569">東</text>
+                <text x="140" y="145" text-anchor="middle" font-size="11" font-weight="bold" fill="#475569">南</text>
+                <text x="250" y="145" text-anchor="middle" font-size="11" font-weight="bold" fill="#475569">西</text>
+
+                <!-- 観測者 -->
+                <circle cx="140" cy="115" r="5" fill="#334155" />
+                <line x1="140" y1="120" x2="140" y2="130" stroke="#334155" stroke-width="2" />
+
+                <!-- 太陽（西） -->
+                <circle cx="250" cy="125" r="9" fill="#ea580c" />
+                <text x="250" y="110" text-anchor="middle" font-size="10" font-weight="bold" fill="#ea580c">太陽</text>
+
+                <!-- 月（南中・天頂付近） -->
+                <g transform="translate(140, 35)">
+                  <circle cx="0" cy="0" r="9" fill="#1e293b" />
+                  <path d="M 0 -9 A 9 9 0 0 1 0 9 Z" fill="#facc15" />
+                </g>
+                <line x1="140" y1="130" x2="140" y2="44" stroke="#94a3b8" stroke-dasharray="2,2" />
+                <line x1="140" y1="130" x2="250" y2="125" stroke="#94a3b8" stroke-dasharray="2,2" />
+
+                <!-- 90度マーク -->
+                <path d="M 155 129 L 155 115 L 140 115" fill="none" stroke="#e11d48" stroke-width="1.5" />
+              </svg>
+              <div class="bg-lime-100/70 p-2 rounded text-xs text-lime-900 font-medium">
+                月は太陽から、<strong class="text-lime-800">約90度東</strong>にある。（南中する）
+              </div>
+            </div>
+
+            <!-- ③ 満月 -->
+            <div class="bg-yellow-50/40 border-2 border-yellow-200 rounded-xl p-4 flex flex-col justify-between">
+              <div class="flex justify-between items-center mb-2">
+                <span class="bg-yellow-500 text-slate-900 font-bold text-xs px-2.5 py-1 rounded">満月</span>
+                <span class="text-xs text-slate-600 font-semibold">夕方（太陽が沈むころ）</span>
+              </div>
+              <svg viewBox="0 0 280 150" class="w-full h-auto">
+                <path d="M 30 130 A 110 110 0 0 1 250 130" fill="none" stroke="#94a3b8" stroke-dasharray="3,3" stroke-width="1.5" />
+                <line x1="20" y1="130" x2="260" y2="130" stroke="#64748b" stroke-width="1.5" />
+                <text x="30" y="145" text-anchor="middle" font-size="11" font-weight="bold" fill="#475569">東</text>
+                <text x="140" y="145" text-anchor="middle" font-size="11" font-weight="bold" fill="#475569">南</text>
+                <text x="250" y="145" text-anchor="middle" font-size="11" font-weight="bold" fill="#475569">西</text>
+
+                <!-- 観測者 -->
+                <circle cx="140" cy="115" r="5" fill="#334155" />
+                <line x1="140" y1="120" x2="140" y2="130" stroke="#334155" stroke-width="2" />
+
+                <!-- 太陽（西の地平線） -->
+                <circle cx="250" cy="125" r="9" fill="#ea580c" />
+                <text x="250" y="110" text-anchor="middle" font-size="10" font-weight="bold" fill="#ea580c">太陽</text>
+
+                <!-- 満月（東の地平線） -->
+                <circle cx="35" cy="125" r="9" fill="#facc15" stroke="#ca8a04" stroke-width="1" />
+                <text x="35" y="110" text-anchor="middle" font-size="10" font-weight="bold" fill="#a16207">満月</text>
+
+                <!-- 180度アーチ -->
+                <path d="M 70 130 A 70 70 0 0 1 210 130" fill="none" stroke="#e11d48" stroke-width="1.5" />
+                <text x="140" y="75" text-anchor="middle" font-size="11" font-weight="bold" fill="#e11d48">180度</text>
+              </svg>
+              <div class="bg-yellow-100/70 p-2 rounded text-xs text-yellow-900 font-medium">
+                月は太陽から、<strong class="text-yellow-800">約180度はなれた</strong>位置にある。
+              </div>
+            </div>
+
+            <!-- ④ 下弦の月 -->
+            <div class="bg-sky-50/40 border-2 border-sky-200 rounded-xl p-4 flex flex-col justify-between">
+              <div class="flex justify-between items-center mb-2">
+                <span class="bg-sky-600 text-white font-bold text-xs px-2.5 py-1 rounded">下弦の月</span>
+                <span class="text-xs text-slate-600 font-semibold">明け方（日の出のころ）</span>
+              </div>
+              <svg viewBox="0 0 280 150" class="w-full h-auto">
+                <path d="M 30 130 A 110 110 0 0 1 250 130" fill="none" stroke="#94a3b8" stroke-dasharray="3,3" stroke-width="1.5" />
+                <line x1="20" y1="130" x2="260" y2="130" stroke="#64748b" stroke-width="1.5" />
+                <text x="30" y="145" text-anchor="middle" font-size="11" font-weight="bold" fill="#475569">東</text>
+                <text x="140" y="145" text-anchor="middle" font-size="11" font-weight="bold" fill="#475569">南</text>
+                <text x="250" y="145" text-anchor="middle" font-size="11" font-weight="bold" fill="#475569">西</text>
+
+                <!-- 観測者 -->
+                <circle cx="140" cy="115" r="5" fill="#334155" />
+                <line x1="140" y1="120" x2="140" y2="130" stroke="#334155" stroke-width="2" />
+
+                <!-- 太陽（東からのぼる） -->
+                <circle cx="35" cy="125" r="9" fill="#ea580c" />
+                <text x="35" y="110" text-anchor="middle" font-size="10" font-weight="bold" fill="#ea580c">太陽</text>
+
+                <!-- 下弦の月（南中・左側が光る） -->
+                <g transform="translate(140, 35)">
+                  <circle cx="0" cy="0" r="9" fill="#1e293b" />
+                  <path d="M 0 -9 A 9 9 0 0 0 0 9 Z" fill="#facc15" />
+                </g>
+                <line x1="140" y1="130" x2="140" y2="44" stroke="#94a3b8" stroke-dasharray="2,2" />
+                <line x1="140" y1="130" x2="35" y2="125" stroke="#94a3b8" stroke-dasharray="2,2" />
+
+                <!-- 90度マーク -->
+                <path d="M 125 129 L 125 115 L 140 115" fill="none" stroke="#e11d48" stroke-width="1.5" />
+              </svg>
+              <div class="bg-sky-100/70 p-2 rounded text-xs text-sky-900 font-medium">
+                月は太陽から、<strong class="text-sky-800">約90度西</strong>にある。（明け方に南中する）
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

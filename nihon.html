@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>日本の姿 まとめ</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+  background: linear-gradient(135deg, #f0e6ff 0%, #e6f0ff 50%, #ffe6f5 100%);
+  min-height: 100vh;
+  padding: 16px;
+  color: #3d2b5e;
+}
+
+/* ヘッダー */
+.page-header {
+  text-align: center;
+  padding: 20px 16px 16px;
+  margin-bottom: 20px;
+}
+.page-header h1 {
+  font-size: 24px;
+  font-weight: 900;
+  background: linear-gradient(135deg, #f472b6, #a78bfa, #60a5fa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 6px;
+}
+.page-header p { font-size: 13px; color: #a78bfa; }
+
+/* セクションタイトル */
+.section-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #3d2b5e;
+  margin: 24px 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-title::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(90deg, #a78bfa, transparent);
+  border-radius: 2px;
+}
+
+/* ── テーブル ── */
+.data-table {
+  width: 100%;
+  background: rgba(255,255,255,0.9);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(167,139,250,0.12);
+  margin-bottom: 10px;
+}
+.data-table thead {
+  background: linear-gradient(135deg, #a78bfa, #f472b6);
+  color: #fff;
+}
+.data-table th, .data-table td {
+  padding: 10px 12px;
+  font-size: 12px;
+  text-align: left;
+  border-bottom: 1px solid rgba(167,139,250,0.1);
+}
+.data-table th { font-weight: 700; }
+.data-table tbody tr:last-child td { border-bottom: none; }
+.data-table tbody tr:nth-child(even) td { background: rgba(167,139,250,0.05); }
+.data-table td:first-child { font-weight: 800; color: #7c3aed; font-size: 13px; }
+.data-table .place { font-size: 13px; font-weight: 700; color: #3d2b5e; }
+.data-table .pref { font-size: 11px; color: #6b5e8a; }
+
+/* ── カード ── */
+.card {
+  background: rgba(255,255,255,0.9);
+  border-radius: 16px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 16px rgba(167,139,250,0.12);
+  border-left: 4px solid var(--border, #a78bfa);
+}
+.card-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: #3d2b5e;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.card-item {
+  font-size: 12px;
+  color: #3d2b5e;
+  padding: 5px 0;
+  border-bottom: 1px dashed rgba(167,139,250,0.2);
+  line-height: 1.6;
+}
+.card-item:last-child { border-bottom: none; }
+.card-item strong { color: #7c3aed; font-weight: 800; }
+.card-item em { color: #be185d; font-style: normal; font-weight: 700; }
+
+/* ── 重要ボックス ── */
+.important-box {
+  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+  border-radius: 20px;
+  padding: 20px 16px;
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(124,58,237,0.3);
+  margin-bottom: 10px;
+}
+.important-box .box-title { font-size: 15px; font-weight: 800; margin-bottom: 10px; }
+.important-box .box-item {
+  font-size: 12.5px;
+  line-height: 1.7;
+  background: rgba(255,255,255,0.12);
+  border-radius: 10px;
+  padding: 8px 12px;
+  margin-bottom: 6px;
+}
+.important-box .box-item:last-child { margin-bottom: 0; }
+.important-box .box-item span { font-weight: 800; background: rgba(255,255,255,0.25); padding: 1px 6px; border-radius: 6px; }
+
+/* ── ポイントボックス ── */
+.point-box {
+  background: rgba(255,255,255,0.9);
+  border-radius: 16px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 16px rgba(167,139,250,0.12);
+  border-left: 4px solid #f472b6;
+}
+.point-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: #be185d;
+  margin-bottom: 8px;
+}
+.point-item {
+  font-size: 12px;
+  color: #3d2b5e;
+  padding: 5px 0;
+  border-bottom: 1px dashed rgba(167,139,250,0.2);
+  line-height: 1.6;
+}
+.point-item:last-child { border-bottom: none; }
+.point-item span { font-weight: 800; color: #7c3aed; }
+.point-item em { font-style: normal; font-weight: 800; color: #be185d; }
+
+/* ── 領土問題グリッド ── */
+.territory-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.territory-card {
+  background: rgba(255,255,255,0.9);
+  border-radius: 16px;
+  padding: 14px 14px;
+  box-shadow: 0 4px 16px rgba(167,139,250,0.15);
+  border-left: 4px solid var(--color);
+}
+.territory-card:active { transform: scale(0.98); }
+.territory-icon { font-size: 24px; margin-bottom: 4px; }
+.territory-name {
+  font-size: 14px;
+  font-weight: 800;
+  color: #3d2b5e;
+  margin-bottom: 4px;
+}
+.territory-sub {
+  font-size: 11px;
+  color: #6b5e8a;
+  margin-bottom: 6px;
+}
+.territory-tag {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--color);
+  margin-right: 4px;
+}
+
+/* ── 都道府県グリッド ── */
+.pref-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.pref-card {
+  background: rgba(255,255,255,0.9);
+  border-radius: 14px;
+  padding: 12px 12px;
+  box-shadow: 0 4px 14px rgba(167,139,250,0.13);
+  border-left: 4px solid var(--color);
+  text-align: center;
+}
+.pref-num {
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--color);
+  line-height: 1;
+  margin-bottom: 2px;
+}
+.pref-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #3d2b5e;
+  margin-bottom: 2px;
+}
+.pref-sub {
+  font-size: 9.5px;
+  color: #9ca3af;
+}
+
+/* 内陸県タグ一覧 */
+.inland-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+.inland-tag {
+  background: rgba(124,58,237,0.12);
+  border: 1.5px solid #a78bfa;
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #7c3aed;
+}
+
+/* 海里比較バー */
+.sea-bar-section {
+  background: rgba(255,255,255,0.9);
+  border-radius: 16px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 16px rgba(167,139,250,0.12);
+}
+.sea-bar-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #3d2b5e;
+  margin-bottom: 6px;
+}
+.sea-bar-track {
+  background: rgba(167,139,250,0.1);
+  border-radius: 8px;
+  height: 22px;
+  margin-bottom: 4px;
+  position: relative;
+  overflow: hidden;
+}
+.sea-bar-fill {
+  height: 100%;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  padding-left: 8px;
+  font-size: 11px;
+  font-weight: 800;
+  color: #fff;
+}
+.sea-bar-note {
+  font-size: 10px;
+  color: #9ca3af;
+  margin-bottom: 10px;
+}
+
+/* カラー定義 */
+.c-blue   { --color: #60a5fa; }
+.c-green  { --color: #34d399; }
+.c-orange { --color: #fb923c; }
+.c-red    { --color: #f87171; }
+.c-purple { --color: #a78bfa; }
+.c-pink   { --color: #f472b6; }
+.c-teal   { --color: #2dd4bf; }
+
+footer {
+  text-align: center;
+  padding: 24px 0 16px;
+  font-size: 11px;
+  color: #a78bfa;
+}
+.back-btn {
+  display: block;
+  margin: 0 auto 16px;
+  padding: 12px 28px;
+  background: linear-gradient(135deg, #a78bfa, #f472b6);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(167,139,250,0.35);
+  text-decoration: none;
+  width: fit-content;
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>🗾 日本の姿 まとめ 🗾</h1>
+  <p>社会・日本の地理と領土・都道府県</p>
+</div>
+
+<!-- ① 日本の4端 -->
+<div class="section-title">🏆 日本の4端（最も重要！）</div>
+
+<table class="data-table">
+  <thead>
+    <tr>
+      <th>方角</th>
+      <th>島の名前</th>
+      <th>都道府県</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>🧊 最北端</td>
+      <td>
+        <div class="place">択捉島</div>
+        <div class="pref">（えとろふとう）</div>
+      </td>
+      <td><div class="place">北海道</div></td>
+    </tr>
+    <tr>
+      <td>🏝 最南端</td>
+      <td>
+        <div class="place">沖ノ鳥島</div>
+        <div class="pref">（おきのとりしま）</div>
+      </td>
+      <td><div class="place">東京都</div></td>
+    </tr>
+    <tr>
+      <td>🌅 最東端</td>
+      <td>
+        <div class="place">南鳥島</div>
+        <div class="pref">（みなみとりしま）</div>
+      </td>
+      <td><div class="place">東京都</div></td>
+    </tr>
+    <tr>
+      <td>🌄 最西端</td>
+      <td>
+        <div class="place">与那国島</div>
+        <div class="pref">（よなぐにじま）</div>
+      </td>
+      <td><div class="place">沖縄県</div></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="point-box" style="border-color:#f472b6;">
+  <div class="point-title">⚡ ここが紛らわしい！</div>
+  <div class="point-item">🏝 <em>沖ノ鳥島</em>（最南端）と 🌄 <em>与那国島</em>（最西端）を混同しない！</div>
+  <div class="point-item">🧊 最北端の <em>択捉島</em> は<span>北方領土</span>の中にある島</div>
+  <div class="point-item">🌅 最東端の <em>南鳥島</em>、🏝 最南端の <em>沖ノ鳥島</em> はどちらも<span>東京都</span></div>
+</div>
+
+<!-- ② 領域の3要素 -->
+<div class="section-title">🌐 領域の3要素＋EEZ</div>
+
+<div class="sea-bar-section">
+  <div class="sea-bar-label">🏖 海岸線からの距離イメージ</div>
+  <div style="margin-bottom:4px; font-size:11px; color:#6b5e8a;">領海 ≪ EEZ</div>
+  <div class="sea-bar-label" style="font-size:11px;">領海（12海里・約22km）</div>
+  <div class="sea-bar-track">
+    <div class="sea-bar-fill" style="width:6%; background: linear-gradient(90deg,#60a5fa,#a78bfa);">12</div>
+  </div>
+  <div class="sea-bar-note">12海里 ≒ 約22km</div>
+  <div class="sea-bar-label" style="font-size:11px;">排他的経済水域（200海里・約370km）</div>
+  <div class="sea-bar-track">
+    <div class="sea-bar-fill" style="width:100%; background: linear-gradient(90deg,#f472b6,#a78bfa);">200海里</div>
+  </div>
+  <div class="sea-bar-note">200海里 ≒ 約370km</div>
+</div>
+
+<div class="card" style="--border:#60a5fa;">
+  <div class="card-title">🗺 領域の定義</div>
+  <div class="card-item"><strong>領土</strong>　国の土地そのもの。山・川・平野すべて含む。</div>
+  <div class="card-item"><strong>領海</strong>　海岸線から<em>12海里（約22km）</em>以内の海。</div>
+  <div class="card-item"><strong>領空</strong>　領土・領海の上の空。<em>宇宙は含まない</em>ことに注意！</div>
+  <div class="card-item"><strong>排他的経済水域（EEZ）</strong>　海岸線から<em>200海里</em>。漁業・鉱産資源の採掘権がある。他国の船の航行は自由。</div>
+</div>
+
+<!-- ③ 領土問題 -->
+<div class="section-title">⚠️ 領土問題</div>
+
+<div class="territory-grid">
+  <div class="territory-card c-blue">
+    <div class="territory-icon">🧊</div>
+    <div class="territory-name">北方領土</div>
+    <div class="territory-sub">北海道の東・ロシアが不法占拠</div>
+    <div style="font-size:12px; color:#3d2b5e; font-weight:700; margin-bottom:6px;">
+      4島の名前：<br>択捉島・国後島・色丹島・歯舞群島
+    </div>
+    <span class="territory-tag">ロシアが不法占拠</span>
+  </div>
+
+  <div class="territory-card c-pink">
+    <div class="territory-icon">🌊</div>
+    <div class="territory-name">竹島（たけしま）</div>
+    <div class="territory-sub">島根県に属する島</div>
+    <div style="font-size:12px; color:#3d2b5e; font-weight:700; margin-bottom:6px;">
+      日本固有の領土だが、韓国が不法占拠。
+    </div>
+    <span class="territory-tag" style="background:#f472b6;">韓国が不法占拠</span>
+  </div>
+
+  <div class="territory-card c-orange">
+    <div class="territory-icon">⛩</div>
+    <div class="territory-name">尖閣諸島（せんかくしょとう）</div>
+    <div class="territory-sub">沖縄県に属する島々</div>
+    <div style="font-size:12px; color:#3d2b5e; font-weight:700; margin-bottom:6px;">
+      日本固有の領土。中国・台湾が領有権を主張。日本は「領土問題は存在しない」立場。
+    </div>
+    <span class="territory-tag" style="background:#fb923c;">中国・台湾が主張</span>
+  </div>
+</div>
+
+<div class="point-box">
+  <div class="point-title">🎯 領土問題の覚え方</div>
+  <div class="point-item">🧊 北方領土 → <span>北海道の東</span>、<em>ロシア</em>が不法占拠</div>
+  <div class="point-item">🌊 竹島 → <span>島根県</span>に属する、<em>韓国</em>が不法占拠</div>
+  <div class="point-item">⛩ 尖閣諸島 → <span>沖縄県</span>に属する、<em>中国・台湾</em>が主張</div>
+</div>
+
+<!-- ④ 都道府県 -->
+<div class="section-title">🗾 都道府県</div>
+
+<div class="important-box">
+  <div class="box-title">🏆 47都道府県の内訳</div>
+  <div class="box-item"><span>1都</span> 東京都</div>
+  <div class="box-item"><span>1道</span> 北海道</div>
+  <div class="box-item"><span>2府</span> 大阪府・京都府</div>
+  <div class="box-item"><span>43県</span> その他の県　　合計 = 1 + 1 + 2 + 43 = <span>47</span></div>
+</div>
+
+<div class="pref-grid">
+  <div class="pref-card c-purple">
+    <div class="pref-num">47</div>
+    <div class="pref-label">都道府県の合計</div>
+    <div class="pref-sub">1都1道2府43県</div>
+  </div>
+  <div class="pref-card c-blue">
+    <div class="pref-num">8</div>
+    <div class="pref-label">内陸県（うちりくけん）</div>
+    <div class="pref-sub">海に面していない</div>
+  </div>
+  <div class="pref-card c-green">
+    <div class="pref-num" style="font-size:18px;">北海道</div>
+    <div class="pref-label">面積最大</div>
+    <div class="pref-sub">日本最大の都道府県</div>
+  </div>
+  <div class="pref-card c-pink">
+    <div class="pref-num" style="font-size:18px;">東京都</div>
+    <div class="pref-label">人口最多</div>
+    <div class="pref-sub">離島も含む</div>
+  </div>
+</div>
+
+<div class="card" style="--border:#a78bfa;">
+  <div class="card-title">🏔 内陸県8県（海に面していない）</div>
+  <div class="inland-list">
+    <span class="inland-tag">栃木県</span>
+    <span class="inland-tag">群馬県</span>
+    <span class="inland-tag">埼玉県</span>
+    <span class="inland-tag">山梨県</span>
+    <span class="inland-tag">長野県</span>
+    <span class="inland-tag">岐阜県</span>
+    <span class="inland-tag">滋賀県</span>
+    <span class="inland-tag">奈良県</span>
+  </div>
+  <div style="font-size:11px; color:#9ca3af; margin-top:8px;">
+    💡 覚え方：「とちぎ・ぐんま・さいたま・やまなし・ながの・ぎふ・しが・なら」
+  </div>
+</div>
+
+<div class="point-box">
+  <div class="point-title">📊 都道府県の記録</div>
+  <div class="point-item">面積最大: <span>北海道</span></div>
+  <div class="point-item">面積最小: <span>香川県</span></div>
+  <div class="point-item">人口最多: <span>東京都</span></div>
+</div>
+
+<!-- ⑤ 日本の基本情報 -->
+<div class="section-title">🌏 日本の基本情報</div>
+
+<div class="card" style="--border:#34d399;">
+  <div class="card-title">📐 日本の地理データ</div>
+  <div class="card-item"><strong>面積</strong>　約<em>38万km²</em>（世界約61位）</div>
+  <div class="card-item"><strong>島国</strong>　四方を海に囲まれた国</div>
+  <div class="card-item"><strong>主な島</strong>　本州・北海道・九州・四国・沖縄島</div>
+  <div class="card-item"><strong>周囲の海</strong>　日本海・オホーツク海・東シナ海・太平洋（フィリピン海）</div>
+</div>
+
+<!-- ⑥ 沖ノ鳥島のポイント -->
+<div class="section-title">🏝 沖ノ鳥島（おきのとりしま）の重要ポイント</div>
+
+<div class="important-box">
+  <div class="box-title">🏝 なぜ「島」であることが大事？</div>
+  <div class="box-item">「岩」と認定されると → <span>EEZが消える</span>！ 約40万km²が失われる</div>
+  <div class="box-item">日本は「岩ではなく<span>島</span>だ」と主張して護岸工事で守っている</div>
+  <div class="box-item">満潮時も水面の上に出ているから<span>島</span>として認められている</div>
+  <div class="box-item">最南端だが、近くに人が住んでいるわけではない<span>離島</span></div>
+</div>
+
+<!-- ⑦ 間違えやすいポイント -->
+<div class="section-title">❌ 間違えやすいポイント</div>
+
+<div class="point-box">
+  <div class="point-title">⚠️ よくある間違い</div>
+  <div class="point-item">❌ 最北端は「北海道」→ ✅ <span>択捉島</span>（北方領土の島）</div>
+  <div class="point-item">❌ 沖ノ鳥島が最西端 → ✅ 最南端。最西端は<span>与那国島（沖縄県）</span></div>
+  <div class="point-item">❌ 竹島は沖縄県 → ✅ <span>島根県</span>に属する</div>
+  <div class="point-item">❌ 尖閣諸島は島根県 → ✅ <span>沖縄県</span>に属する</div>
+  <div class="point-item">❌ EEZは12海里 → ✅ EEZは<span>200海里</span>、領海が12海里</div>
+  <div class="point-item">❌ 領空は宇宙まで → ✅ 領空の範囲に<span>宇宙は含まない</span></div>
+</div>
+
+<!-- ⑧ テストのポイント -->
+<div class="section-title">📝 テストのポイント</div>
+
+<div class="point-box">
+  <div class="point-title">🎯 絶対おさえるポイント5つ</div>
+  <div class="point-item">① 4端は全部言える！ <span>最北=択捉・最南=沖ノ鳥・最東=南鳥・最西=与那国</span></div>
+  <div class="point-item">② <span>EEZ=200海里</span>、<span>領海=12海里</span>（EEZの方がずっと広い）</div>
+  <div class="point-item">③ 北方領土の<span>4島</span>の名前：択捉・国後・色丹・歯舞</div>
+  <div class="point-item">④ 47都道府県 = <span>1都1道2府43県</span></div>
+  <div class="point-item">⑤ 内陸県は<span>8県</span>（栃木・群馬・埼玉・山梨・長野・岐阜・滋賀・奈良）</div>
+</div>
+
+<br>
+<a href="/" class="back-btn">← アプリにもどる</a>
+
+<footer>ANRINOの問題アプリ 🗾 日本の姿まとめ</footer>
+
+</body>
+</html>

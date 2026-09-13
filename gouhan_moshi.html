@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>学力判定テスト 成績グラフ</title>
+<title>合格判定模試 成績グラフ</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -30,7 +30,6 @@
   .card-title {
     font-size: 15px; font-weight: bold; margin-bottom: 14px;
     display: flex; align-items: center; justify-content: space-between;
-    flex-wrap: wrap; gap: 8px;
   }
   .chart-wrap { position: relative; height: 220px; }
 
@@ -85,34 +84,6 @@
   }
   .edit-btn:active { opacity: 0.85; }
   .edit-header { margin-bottom: 4px; }
-
-  /* ケンケンアドバイス（Geminiに聞く） */
-  .advice-btn {
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-    background: linear-gradient(135deg, #4285f4, #34a853);
-    border: none; border-radius: 16px; color: #fff;
-    font-size: 15px; font-weight: bold; padding: 14px;
-    cursor: pointer; width: 100%; margin-bottom: 16px;
-  }
-  .advice-btn:active { opacity: 0.85; }
-  .advice-modal { max-width: 420px; }
-  .advice-text {
-    width: 100%; height: 140px; font-size: 11px; line-height: 1.5;
-    background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 10px; color: #e9d5ff; padding: 8px; resize: none;
-    font-family: inherit; -webkit-user-select: text; user-select: text;
-  }
-  .advice-gemini-btn {
-    background: linear-gradient(135deg, #4285f4, #34a853); border: none;
-    border-radius: 24px; color: #fff; font-size: 15px; font-weight: bold;
-    padding: 12px 20px; cursor: pointer; width: 100%; margin-top: 10px;
-  }
-  .advice-sub-btns { display: flex; gap: 8px; margin-top: 10px; }
-  .advice-sub-btns button {
-    flex: 1; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 12px; color: #c4b5fd; font-size: 13px; padding: 9px; cursor: pointer;
-  }
-  .advice-copied { font-size: 12px; color: #4ade80; text-align: center; min-height: 16px; margin-top: 6px; }
 
   /* ボタン類 */
   .add-test-btn {
@@ -175,20 +146,6 @@
   td { padding: 7px 3px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.06); }
   tr:last-child td { border-bottom: none; }
   .no-data { color: #7c6fa0; }
-
-  /* 順位グラフの表示切替 */
-  .mode-toggle { display: flex; gap: 4px; }
-  .mode-btn {
-    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
-    color: #c4b5fd; border-radius: 10px; font-size: 11px; font-weight: bold;
-    padding: 5px 10px; cursor: pointer;
-  }
-  .mode-btn.active {
-    background: linear-gradient(135deg, #7c3aed, #4f46e5);
-    border-color: rgba(167,139,250,0.6); color: #fff;
-  }
-  .chart-note { font-size: 10px; color: #7c6fa0; margin-top: 8px; text-align: center; line-height: 1.5; }
-
   .c-sansu  { color: #60a5fa; }
   .c-kokugo { color: #f472b6; }
   .c-rika   { color: #4ade80; }
@@ -218,24 +175,15 @@
   </div>
 </div>
 
-<!-- ケンケンアドバイス モーダル -->
-<div class="modal-overlay" id="adviceModal">
-  <div class="modal advice-modal">
-    <h2>🤖 ケンケンアドバイス</h2>
-    <div id="adviceBody"></div>
-  </div>
-</div>
-
 <!-- ========== メイン画面 ========== -->
 <div id="view-main">
   <a href="/" class="back-btn">← アプリに戻る</a>
   <div class="header">
-    <h1>📊 学力判定テスト</h1>
-    <p>enaガクハン 成績グラフ</p>
+    <h1>📊 合格判定模試</h1>
+    <p>ena 合格判定模試 成績グラフ</p>
   </div>
 
   <button class="edit-btn" onclick="showEdit()">✏️ 成績を入力する</button>
-  <button class="advice-btn" onclick="openAdviceModal()">🤖 ケンケンアドバイス</button>
 
   <!-- 最新サマリー -->
   <div class="card" id="latestCard">
@@ -243,18 +191,10 @@
     <div class="latest-grid" id="latestGrid"></div>
   </div>
 
-  <!-- 偏差値推移グラフ（4科目＋科目別） -->
+  <!-- 偏差値推移グラフ -->
   <div class="card">
-    <div class="card-title">
-      <span>📈 偏差値の推移</span>
-      <div class="mode-toggle">
-        <button class="mode-btn active" id="modeBtnAll"  onclick="setTrendMode('all')">ぜんぶ</button>
-        <button class="mode-btn" id="modeBtnSougou" onclick="setTrendMode('sougou')">総合</button>
-        <button class="mode-btn" id="modeBtnKamoku" onclick="setTrendMode('kamoku')">科目別</button>
-      </div>
-    </div>
-    <div class="chart-wrap" style="height:300px;"><canvas id="trendChart"></canvas></div>
-    <div class="chart-note">※ 太い線が総合（4科目・2科目）、細い線が各科目です<br>凡例をタップすると、その線だけ消したり出したりできます</div>
+    <div class="card-title">📈 4科目 偏差値の推移</div>
+    <div class="chart-wrap"><canvas id="trendChart"></canvas></div>
   </div>
 
   <!-- 科目別偏差値グラフ -->
@@ -264,31 +204,16 @@
     <div id="subjectDiff" style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;margin-top:10px;"></div>
   </div>
 
+  <!-- 科目別推移グラフ -->
+  <div class="card">
+    <div class="card-title">📉 科目別 偏差値の推移</div>
+    <div class="chart-wrap" style="height:260px;"><canvas id="subjectTrendChart"></canvas></div>
+  </div>
+
   <!-- 各科目 得点推移グラフ -->
   <div class="card">
     <div class="card-title">📝 各科目 得点の推移</div>
     <div class="chart-wrap" style="height:260px;"><canvas id="scoreTrendChart"></canvas></div>
-  </div>
-
-  <!-- 順位の推移 -->
-  <div class="card">
-    <div class="card-title">
-      <span>🏅 順位の推移</span>
-      <div class="mode-toggle">
-        <button class="mode-btn active" id="modeBtnJuni" onclick="setRankMode('juni')">順位</button>
-        <button class="mode-btn" id="modeBtnPct" onclick="setRankMode('pct')">上位%</button>
-      </div>
-    </div>
-    <div class="chart-wrap" style="height:260px;"><canvas id="rankChart"></canvas></div>
-    <div id="rankDiff" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px;"></div>
-    <div class="chart-note" id="rankNote"></div>
-  </div>
-
-  <!-- 科目別 順位の推移 -->
-  <div class="card">
-    <div class="card-title">📚 科目別 順位の推移</div>
-    <div class="chart-wrap" style="height:260px;"><canvas id="subjectRankChart"></canvas></div>
-    <div class="chart-note">※ 上から順に成績が良い順位です（グラフの上＝上位）</div>
   </div>
 
   <!-- テスト一覧 -->
@@ -344,13 +269,13 @@ const FIELD_GROUPS = [
   {
     label: '📝 各科目の得点・順位',
     fields: [
-      { key: 'sansu_ten',   label: '算数得点',      step: '1', min: 0, max: 200  },
+      { key: 'sansu_ten',   label: '算数得点',      step: '1', min: 0, max: 150  },
       { key: 'sansu_juni',  label: '算数順位（位）', step: '1', min: 1, max: 9999 },
-      { key: 'kokugo_ten',  label: '国語得点',      step: '1', min: 0, max: 200  },
+      { key: 'kokugo_ten',  label: '国語得点',      step: '1', min: 0, max: 150  },
       { key: 'kokugo_juni', label: '国語順位（位）', step: '1', min: 1, max: 9999 },
-      { key: 'rika_ten',    label: '理科得点',      step: '1', min: 0, max: 200  },
+      { key: 'rika_ten',    label: '理科得点',      step: '1', min: 0, max: 100  },
       { key: 'rika_juni',   label: '理科順位（位）', step: '1', min: 1, max: 9999 },
-      { key: 'shakai_ten',  label: '社会得点',      step: '1', min: 0, max: 200  },
+      { key: 'shakai_ten',  label: '社会得点',      step: '1', min: 0, max: 100  },
       { key: 'shakai_juni', label: '社会順位（位）', step: '1', min: 1, max: 9999 },
     ]
   }
@@ -361,18 +286,7 @@ const EMPTY_ROW = () => Object.fromEntries(FIELDS.map(f => [f.key, null]));
 let data = {};        // { _tests: [{date,label},...], "2/25": {...}, ... }
 let currentSha = null;
 let tests = [];       // [{date, label}] — 表示順
-let trendChart, subjectChart, scoreTrendChart, rankChart, subjectRankChart;
-let rankMode  = 'juni';  // 'juni' = 順位 / 'pct' = 上位%
-let trendMode = 'all';   // 'all' = ぜんぶ / 'sougou' = 総合のみ / 'kamoku' = 科目別のみ
-
-function setTrendMode(mode) {
-  trendMode = mode;
-  ['all','sougou','kamoku'].forEach(m => {
-    const id = { all: 'modeBtnAll', sougou: 'modeBtnSougou', kamoku: 'modeBtnKamoku' }[m];
-    document.getElementById(id).classList.toggle('active', m === mode);
-  });
-  renderCharts();
-}
+let trendChart, subjectChart, subjectTrendChart, scoreTrendChart;
 
 // ---- 画面切り替え ----
 function showMain() {
@@ -459,7 +373,7 @@ function setStatus(msg, isError) {
 async function loadFromCloud() {
   setStatus('⏳ データを読み込み中...');
   try {
-    const r = await fetch('/api/gakuhan');
+    const r = await fetch('/api/gouhan_moshi');
     if (!r.ok) throw new Error(r.status);
     const { data: d, sha } = await r.json();
     data = d;
@@ -493,7 +407,7 @@ async function saveAll() {
   data._tests = tests;
 
   try {
-    const r = await fetch('/api/gakuhan', {
+    const r = await fetch('/api/gouhan_moshi', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ data, sha: currentSha }),
@@ -586,7 +500,6 @@ function moveSelected(dir) {
   selectedIdx = next;
   renderLatest();
   renderSubjectChartWithNav();
-  renderRankDiff();
 }
 
 function renderLatest() {
@@ -825,40 +738,29 @@ function renderCharts() {
   const labels = tests.map(t => t.date);
   const get = key => tests.map(t => (data[t.date] || {})[key] ?? null);
 
-  // 総合（4科・2科）と科目別を1つのグラフにまとめる
-  const TREND_SERIES = [
-    { grp: 'sougou', label: '4科目', key: 'hensachi4', color: '#a78bfa', width: 4 },
-    { grp: 'sougou', label: '2科目', key: 'hensachi2', color: '#38bdf8', width: 4, dash: [5,3] },
-    { grp: 'kamoku', label: '算数',  key: 'sansu',     color: '#60a5fa', width: 2 },
-    { grp: 'kamoku', label: '国語',  key: 'kokugo',    color: '#f472b6', width: 2 },
-    { grp: 'kamoku', label: '理科',  key: 'rika',      color: '#4ade80', width: 2 },
-    { grp: 'kamoku', label: '社会',  key: 'shakai',    color: '#fbbf24', width: 2 },
-  ];
-  const shown = TREND_SERIES.filter(s => trendMode === 'all' || trendMode === s.grp);
-
-  const trendOpts = JSON.parse(JSON.stringify(CHART_OPTS));
-  trendOpts.plugins.legend.labels.boxWidth = 24;
-  trendOpts.plugins.tooltip = { callbacks: { label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y}` } };
-
   if (trendChart) trendChart.destroy();
   trendChart = new Chart(document.getElementById('trendChart'), {
     type: 'line',
-    data: { labels, datasets: shown.map(s => ({
-      label: s.label,
-      data: get(s.key),
-      borderColor: s.color,
-      backgroundColor: s.color + '22',
-      borderWidth: s.width,
-      pointRadius: s.width >= 4 ? 5 : 3,
-      pointBackgroundColor: s.color,
-      tension: 0,
-      spanGaps: true,
-      ...(s.dash ? { borderDash: s.dash } : {})
-    }))},
-    options: trendOpts
+    data: { labels, datasets: [
+      { label: '4科目', data: get('hensachi4'), borderColor: '#a78bfa', backgroundColor: 'rgba(167,139,250,0.15)', tension: 0, pointRadius: 5, spanGaps: true },
+      { label: '2科目', data: get('hensachi2'), borderColor: '#38bdf8', backgroundColor: 'rgba(56,189,248,0.1)',   tension: 0, pointRadius: 5, spanGaps: true, borderDash: [5,3] },
+    ]},
+    options: JSON.parse(JSON.stringify(CHART_OPTS))
   });
 
   renderSubjectChartWithNav();
+
+  if (subjectTrendChart) subjectTrendChart.destroy();
+  subjectTrendChart = new Chart(document.getElementById('subjectTrendChart'), {
+    type: 'line',
+    data: { labels, datasets: [
+      { label: '算数', data: get('sansu'),  borderColor: '#60a5fa', backgroundColor: 'rgba(96,165,250,0.1)',  tension: 0, pointRadius: 5, spanGaps: true },
+      { label: '国語', data: get('kokugo'), borderColor: '#f472b6', backgroundColor: 'rgba(244,114,182,0.1)', tension: 0, pointRadius: 5, spanGaps: true },
+      { label: '理科', data: get('rika'),   borderColor: '#4ade80', backgroundColor: 'rgba(74,222,128,0.1)',  tension: 0, pointRadius: 5, spanGaps: true },
+      { label: '社会', data: get('shakai'), borderColor: '#fbbf24', backgroundColor: 'rgba(251,191,36,0.1)',  tension: 0, pointRadius: 5, spanGaps: true },
+    ]},
+    options: { ...JSON.parse(JSON.stringify(CHART_OPTS)), plugins: { legend: { labels: { color: '#e9d5ff', font: { size: 12 } } } } }
+  });
 
   // 各科目 得点推移
   const scoreOpts = JSON.parse(JSON.stringify(CHART_OPTS));
@@ -873,277 +775,6 @@ function renderCharts() {
       { label: '社会', data: get('shakai_ten'), borderColor: '#fbbf24', backgroundColor: 'rgba(251,191,36,0.1)',  tension: 0, pointRadius: 5, spanGaps: true },
     ]},
     options: { ...scoreOpts, plugins: { legend: { labels: { color: '#e9d5ff', font: { size: 12 } } } } }
-  });
-
-  renderRankCharts();
-}
-
-// ---- 順位グラフ ----
-// 科目別順位の母数：算数・国語は2科受験者数、理科・社会は4科受験者数を使う
-const RANK_SUBJECTS = [
-  { key: 'sansu_juni',  nKey: 'ninzu2', label: '算数', color: '#60a5fa' },
-  { key: 'kokugo_juni', nKey: 'ninzu2', label: '国語', color: '#f472b6' },
-  { key: 'rika_juni',   nKey: 'ninzu4', label: '理科', color: '#4ade80' },
-  { key: 'shakai_juni', nKey: 'ninzu4', label: '社会', color: '#fbbf24' },
-];
-
-function setRankMode(mode) {
-  rankMode = mode;
-  document.getElementById('modeBtnJuni').classList.toggle('active', mode === 'juni');
-  document.getElementById('modeBtnPct').classList.toggle('active', mode === 'pct');
-  renderRankCharts();
-}
-
-function toPct(j, n) {
-  if (j == null || !n) return null;
-  return +(j / n * 100).toFixed(1);
-}
-
-function rankChartOpts(isPct) {
-  return {
-    responsive: true, maintainAspectRatio: false,
-    plugins: {
-      legend: { labels: { color: '#e9d5ff', font: { size: 12 } } },
-      tooltip: {
-        callbacks: {
-          label: ctx => {
-            const raw = ctx.dataset.rawInfo ? ctx.dataset.rawInfo[ctx.dataIndex] : null;
-            if (!raw) return `${ctx.dataset.label}: —`;
-            const p = raw.pct != null ? `（上位 ${raw.pct}%）` : '';
-            const n = raw.n != null ? ` / ${raw.n}人中` : '';
-            return `${ctx.dataset.label}: ${raw.juni}位${n}${p}`;
-          }
-        }
-      }
-    },
-    scales: {
-      x: { ticks: { color: '#c4b5fd' }, grid: { color: 'rgba(167,139,250,0.1)' } },
-      y: {
-        reverse: true,                       // 上に行くほど good（1位が一番上）
-        min: isPct ? 0 : 1,
-        max: isPct ? 100 : undefined,
-        ticks: {
-          color: '#c4b5fd',
-          callback: v => isPct ? v + '%' : v + '位'
-        },
-        grid: { color: 'rgba(167,139,250,0.1)' }
-      }
-    }
-  };
-}
-
-// 1系列ぶんのデータセットを作る
-function rankDataset(label, color, jKey, nKey, isPct, dash) {
-  const rawInfo = tests.map(t => {
-    const d = data[t.date] || {};
-    if (d[jKey] == null) return null;
-    return { juni: d[jKey], n: d[nKey] ?? null, pct: toPct(d[jKey], d[nKey]) };
-  });
-  const values = rawInfo.map(r => !r ? null : (isPct ? r.pct : r.juni));
-  return {
-    label, data: values, rawInfo,
-    borderColor: color,
-    backgroundColor: color + '22',
-    tension: 0, pointRadius: 5, spanGaps: true,
-    ...(dash ? { borderDash: [5, 3] } : {})
-  };
-}
-
-function renderRankCharts() {
-  const labels = tests.map(t => t.date);
-  const isPct = rankMode === 'pct';
-
-  // ① 4科・2科の順位推移
-  if (rankChart) rankChart.destroy();
-  rankChart = new Chart(document.getElementById('rankChart'), {
-    type: 'line',
-    data: { labels, datasets: [
-      rankDataset('4科目', '#a78bfa', 'juni4', 'ninzu4', isPct, false),
-      rankDataset('2科目', '#38bdf8', 'juni2', 'ninzu2', isPct, true),
-    ]},
-    options: rankChartOpts(isPct)
-  });
-
-  // ② 科目別の順位推移
-  if (subjectRankChart) subjectRankChart.destroy();
-  subjectRankChart = new Chart(document.getElementById('subjectRankChart'), {
-    type: 'line',
-    data: { labels, datasets: RANK_SUBJECTS.map(s =>
-      rankDataset(s.label, s.color, s.key, s.nKey, isPct, false)
-    )},
-    options: rankChartOpts(isPct)
-  });
-
-  renderRankDiff();
-
-  document.getElementById('rankNote').innerHTML = isPct
-    ? '※ 上位% ＝ 順位 ÷ 受験者数。小さいほど good（グラフの上ほど上位）<br>受験者数が回によって違うので、実力の変化はこちらが分かりやすいです'
-    : '※ グラフの上に行くほど順位が良い（1位が一番上）です<br>受験者数が増えると順位も下がりやすいので「上位%」も見てみましょう';
-}
-
-// 最新回の順位を前回と比べて表示
-function renderRankDiff() {
-  const el = document.getElementById('rankDiff');
-  const idx = getDisplayIdx();
-  if (idx < 0) { el.innerHTML = ''; return; }
-
-  const cur = data[tests[idx].date] || {};
-  let prev = null;
-  for (let i = idx - 1; i >= 0; i--) {
-    const d = data[tests[i].date];
-    if (d && d.juni4 != null) { prev = d; break; }
-  }
-
-  const boxes = [
-    { lbl: '4科目 順位', j: 'juni4', n: 'ninzu4', color: '#a78bfa' },
-    { lbl: '2科目 順位', j: 'juni2', n: 'ninzu2', color: '#38bdf8' },
-  ];
-
-  el.innerHTML = boxes.map(b => {
-    const j = cur[b.j], n = cur[b.n];
-    if (j == null) {
-      return `<div style="text-align:center;background:rgba(255,255,255,0.04);border-radius:10px;padding:8px 4px;">
-        <div style="font-size:10px;color:#7c6fa0;">${b.lbl}</div>
-        <div style="font-size:14px;color:#7c6fa0;">—</div></div>`;
-    }
-    const pct = toPct(j, n);
-    let diffHtml = '';
-    if (prev && prev[b.j] != null) {
-      const d = prev[b.j] - j;   // 順位は数字が減ると good
-      if (d > 0)      diffHtml = `<div class="diff-up">↑ ${d}人ぬいた</div>`;
-      else if (d < 0) diffHtml = `<div class="diff-down">↓ ${Math.abs(d)}人ぬかれた</div>`;
-      else            diffHtml = `<div class="diff-same">→ 同じ</div>`;
-    }
-    return `<div style="text-align:center;background:rgba(255,255,255,0.04);border-radius:10px;padding:8px 4px;">
-      <div style="font-size:10px;color:${b.color};font-weight:bold;margin-bottom:2px;">${b.lbl}</div>
-      <div style="font-size:20px;font-weight:bold;color:${b.color};">${j}<span style="font-size:12px;">位</span></div>
-      ${n != null ? `<div style="font-size:10px;color:#c4b5fd;">/ ${n}人中　上位 ${pct}%</div>` : ''}
-      ${diffHtml}
-    </div>`;
-  }).join('');
-}
-
-// ============================================================
-// ケンケンアドバイス（質問文をコピーして Gemini を開く）
-// ============================================================
-const GEMINI_URL = 'https://accounts.google.com/AccountChooser?Email=konken5794kmray%40gmail.com&continue=https://gemini.google.com/app';
-
-// このページの成績データの読み方（ページごとにここだけ違う）
-const ADVICE_META = {
-  testName: 'ena 学力判定テスト（ガクハン）',
-  totals: [
-    { label: '4科', h: 'hensachi4', ten: 'tokuten4', juni: 'juni4', ninzu: 'ninzu4' },
-    { label: '2科', h: 'hensachi2', ten: 'tokuten2', juni: 'juni2', ninzu: 'ninzu2' },
-  ],
-  subjects: [
-    { label: '算数', h: 'sansu',  ten: 'sansu_ten',  juni: 'sansu_juni'  },
-    { label: '国語', h: 'kokugo', ten: 'kokugo_ten', juni: 'kokugo_juni' },
-    { label: '理科', h: 'rika',   ten: 'rika_ten',   juni: 'rika_juni'   },
-    { label: '社会', h: 'shakai', ten: 'shakai_ten', juni: 'shakai_juni' },
-  ],
-};
-
-// 「4科偏差値61.2（318点・116位/1072人・上位10.8%）」のような1かたまりを作る
-// 値が無い項目は書かない（—を並べてもAIには意味がないため）
-function advicePart(d, m) {
-  const h     = m.h     ? d[m.h]     : null;
-  const ten   = m.ten   ? d[m.ten]   : null;
-  const juni  = m.juni  ? d[m.juni]  : null;
-  const ninzu = m.ninzu ? d[m.ninzu] : null;
-  if (h == null && ten == null && juni == null) return null;
-
-  const detail = [];
-  if (ten != null) detail.push(ten + '点');
-  if (juni != null) {
-    detail.push(ninzu ? `${juni}位/${ninzu}人・上位${(juni / ninzu * 100).toFixed(1)}%` : `${juni}位`);
-  }
-  return m.label + (h != null ? `偏差値${h}` : '')
-       + (detail.length ? `（${detail.join('・')}）` : '');
-}
-
-function adviceRowText(date) {
-  const d = data[date] || {};
-  const totals = ADVICE_META.totals.map(m => advicePart(d, m)).filter(Boolean);
-  const subs   = ADVICE_META.subjects.map(m => advicePart(d, m)).filter(Boolean);
-  if (!totals.length && !subs.length) return null;
-  return [totals.join(' / '), subs.join(' ')].filter(s => s).join('  ／  ');
-}
-
-function buildAdvicePrompt() {
-  const rows = [];
-  tests.forEach(t => {
-    const line = adviceRowText(t.date);
-    if (line) rows.push(`${t.label}　${line}`);
-  });
-  if (!rows.length) return null;
-
-  const idx = getDisplayIdx();
-  const latest = (idx >= 0 && adviceRowText(tests[idx].date))
-    ? `${tests[idx].label}　${adviceRowText(tests[idx].date)}`
-    : rows[rows.length - 1];
-
-  return `あなたは中学受験の家庭教師「ケンケン先生」です。
-小学4年生が読んでわかるやさしい言葉で、絵文字も使って楽しく答えてください。
-
-これは「${ADVICE_META.testName}」の成績です。偏差値と得点は大きいほど良くて、順位は小さいほど良い数字です。
-
-【今までの成績】
-${rows.join('\n')}
-
-【いちばん新しい回】
-${latest}
-
-つぎの4つを、この順番で教えてください。
-① いまの実力はどれくらい？（ぜんたいの中でどのへんにいる？）
-② 前より良くなったところ（見つけて、いっぱいほめて！）
-③ にがてなところ（どの科目の何が足りない？）
-④ つぎのテストまでにやること（3つだけ。すぐできる具体的なことで）
-
-【ルール】
-・小学4年生でもわかる言葉で。むずかしい言葉を使うときは説明をつける
-・全体で600字くらい
-・#や**などのMarkdown記号は使わず、プレーンテキストで
-・あいさつや前置きは書かない`;
-}
-
-function escapeHtml(s) {
-  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-}
-
-function openAdviceModal() {
-  const prompt = buildAdvicePrompt();
-  if (!prompt) { alert('先に成績を入力してね'); return; }
-
-  // クリック直後に同期で書き込む（iOSは非同期を挟むと失敗する）
-  navigator.clipboard.writeText(prompt).catch(() => {});
-
-  document.getElementById('adviceBody').innerHTML = `
-    <p style="font-size:13px;color:#c4b5fd;line-height:1.6;margin-bottom:10px;">
-      質問文をコピーしたよ！📋<br>
-      Geminiが開いたら、入力らんを長押し →「ペースト」して送ってね✨
-    </p>
-    <textarea class="advice-text" id="adviceText" readonly onclick="this.select()">${escapeHtml(prompt)}</textarea>
-    <button class="advice-gemini-btn" onclick="window.open('${GEMINI_URL}','_blank')">🤖 Geminiを開く</button>
-    <div class="advice-sub-btns">
-      <button onclick="copyAdvice()">📋 もう一度コピー</button>
-      <button onclick="closeAdviceModal()">とじる</button>
-    </div>
-    <div class="advice-copied" id="adviceCopied"></div>
-  `;
-  document.getElementById('adviceModal').classList.add('open');
-}
-
-function closeAdviceModal() {
-  document.getElementById('adviceModal').classList.remove('open');
-}
-
-function copyAdvice() {
-  const el = document.getElementById('adviceText');
-  el.select();
-  el.setSelectionRange(0, 99999);
-  const done = () => { document.getElementById('adviceCopied').textContent = '✅ コピーしたよ！'; };
-  navigator.clipboard.writeText(el.value).then(done).catch(() => {
-    try { document.execCommand('copy'); done(); } catch(e) {}
   });
 }
 

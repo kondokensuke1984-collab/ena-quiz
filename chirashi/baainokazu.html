@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ばあいのかずの 数えかた</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Yusei+Magic&family=Zen+Maru+Gothic:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap">
+<style>
+  :root{
+    --paper:#FFFFFF; --ink:#17232E; --ink-soft:#4E606E; --rule:#E6CFDA;
+    --rz:#AE3572; --rz-deep:#7C2050; --rz-soft:#FBE9F2; --rz-line:#E7AECA;
+    --yellow:#FFD24A; --yellow-soft:#FFF6DC; --red:#B23A2E;
+    --backdrop:#DDE3E8; --backdrop-ink:#4E606E;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){ --backdrop:#161C22; --backdrop-ink:#8FA3B2; }
+  }
+  :root[data-theme="dark"]{ --backdrop:#161C22; --backdrop-ink:#8FA3B2; }
+
+  body{ background:var(--backdrop); color:var(--ink);
+    font-family:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;
+    display:flex; flex-direction:column; align-items:center; padding:16px 12px 40px; }
+  p{ margin:0; }
+  .hint{ color:var(--backdrop-ink); font-size:12px; letter-spacing:.06em;
+    margin:0 0 12px; text-align:center; line-height:1.7; }
+
+  .sheet{ width:210mm; height:297mm; background:var(--paper);
+    padding:8.5mm 10mm; box-sizing:border-box;
+    display:flex; flex-direction:column; gap:2.6mm;
+    box-shadow:0 6px 28px rgba(0,0,0,.22);
+    -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+
+  .head{ display:flex; align-items:flex-end; justify-content:space-between;
+    gap:6mm; border-bottom:1.2mm solid var(--rz); padding-bottom:1.6mm; }
+  .head h1{ margin:0; font-family:"Yusei Magic","Zen Maru Gothic",sans-serif;
+    font-size:12.4mm; line-height:1; color:var(--rz); }
+  .head h1 .kanji{ font-family:"Zen Maru Gothic",sans-serif; font-size:5.8mm;
+    color:var(--ink-soft); padding-left:2.5mm; letter-spacing:.04em; }
+  .head .lede{ text-align:right; flex:0 0 auto;
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:700;
+    font-size:3.1mm; line-height:1.5; color:var(--ink-soft); }
+  .head .lede b{ display:block; font-size:4.4mm; color:var(--rz-deep); }
+
+  .lead{ background:var(--rz-soft); border-radius:1.6mm; padding:2mm 3mm;
+    font-size:3.5mm; line-height:1.5; text-wrap:pretty; }
+  .lead b{ font-weight:900; color:var(--rz-deep); }
+
+  .secs{ display:flex; flex-direction:column; gap:2.6mm; flex:1; min-height:0; justify-content:space-between; }
+  .sec{ display:flex; flex-direction:column; gap:1.6mm; }
+  .sec > header{ display:flex; align-items:center; gap:2.6mm; }
+  .sec .no{ flex:0 0 auto; width:8.4mm; height:8.4mm; border-radius:50%;
+    background:var(--rz); color:#fff; font-family:"Yusei Magic",sans-serif; font-size:5mm;
+    display:flex; align-items:center; justify-content:center; }
+  .sec h2{ margin:0; font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:5.6mm; line-height:1.15; color:var(--rz-deep); }
+  .sec h2 rt{ font-size:.3em; font-weight:700; letter-spacing:.04em; }
+  .sec h2 small{ font-family:"Zen Kaku Gothic New",sans-serif; font-weight:700;
+    font-size:3.2mm; color:var(--ink-soft); padding-left:2mm; }
+  .body{ padding-left:11mm; display:grid; gap:3.2mm; align-items:start; }
+  .fig svg{ width:100%; height:auto; display:block; }
+  .fig .cap{ font-size:2.9mm; line-height:1.4; color:var(--ink-soft); margin-top:.6mm; text-wrap:pretty; }
+  .fig .cap b{ color:var(--rz); font-weight:900; }
+
+  .cards{ display:flex; flex-direction:column; gap:1.5mm; }
+  .ex{ border:.4mm solid var(--rule); border-radius:1.4mm; padding:1.5mm 2.4mm;
+    font-size:3.1mm; line-height:1.45; text-wrap:pretty; }
+  .ex b{ font-family:"Zen Maru Gothic",sans-serif; font-weight:900; color:var(--rz-deep); }
+  .card{ display:inline-block; border:.35mm solid var(--ink-soft); border-radius:.7mm;
+    padding:0 1mm; font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:3.1mm; margin:0 .3mm; line-height:1.5; }
+  .ex .ans{ font-family:"Zen Maru Gothic",sans-serif; font-weight:900; color:var(--rz);
+    font-variant-numeric:tabular-nums; }
+  .ex .ng{ color:var(--red); font-weight:900; }
+  .fx{ background:var(--rz); color:#fff; border-radius:1.4mm; padding:1.6mm 2.6mm;
+    display:flex; align-items:baseline; gap:2.4mm; flex-wrap:wrap; }
+  .fx .t{ font-family:"Zen Maru Gothic",sans-serif; font-weight:900; font-size:4mm; }
+  .fx .t em{ font-style:normal; color:var(--yellow); }
+  .fx .v{ font-size:3.1mm; color:#F0D8E4; font-weight:700; font-variant-numeric:tabular-nums; }
+  .rule{ background:var(--yellow-soft); border:.35mm dashed var(--yellow); border-radius:1.4mm;
+    padding:1.5mm 2.4mm; font-size:3.1mm; line-height:1.45; text-wrap:pretty; }
+  .rule b{ font-family:"Zen Maru Gothic",sans-serif; font-weight:900; color:var(--rz-deep); }
+
+  .swap{ display:flex; flex-direction:column; gap:1mm; }
+  .swap p{ font-family:"Zen Maru Gothic",sans-serif; font-weight:900; font-size:3.4mm;
+    color:var(--ink); font-variant-numeric:tabular-nums; }
+  .swap p em{ font-style:normal; color:var(--rz); }
+
+  .memo{ border-top:.8mm solid var(--rz); padding-top:2mm;
+    display:grid; grid-template-columns:23mm 1fr 1fr; gap:1.4mm 4mm; align-items:start; }
+  .memo .lbl{ grid-row:span 2; font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:3.6mm; color:var(--rz); line-height:1.25; white-space:nowrap; }
+  .memo p{ font-size:3.1mm; line-height:1.45; padding-left:5mm; position:relative; text-wrap:pretty; }
+  .memo p::before{ content:"\2713"; position:absolute; left:0; top:-.2mm; color:var(--rz);
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900; font-size:3.7mm; }
+  .memo b{ font-weight:900; color:var(--rz-deep); }
+
+  @page{ size:210mm 297mm; margin:0; }
+  @media print{
+    html,body{ margin:0; padding:0; width:210mm; background:#fff;
+      display:block; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    .hint{ display:none; }
+    .sheet{ box-shadow:none; margin:0; width:210mm; height:296.8mm;
+      transform:none; overflow:hidden; break-inside:avoid; break-after:avoid; page-break-after:avoid; }
+  }
+  @media screen and (max-width:860px){
+    .sheet{ transform-origin:top center; transform:scale(.46); margin-bottom:-160mm; }
+  }
+</style>
+</head>
+<body>
+
+
+<p class="hint">A4たて・倍率100%（余白「なし」〜「せまい」）で印刷してください。<br>⌘P / Ctrl+P → 用紙 A4 → 背景のグラフィックを印刷 ON</p>
+
+<div class="sheet">
+
+  <header class="head">
+    <h1>ばあいのかず<span class="kanji">場合の数</span></h1>
+    <p class="lede">とくしゅ算 ④<b>樹形図で もれなく</b></p>
+  </header>
+
+  <p class="lead"><b>樹形図</b>＝枝わかれした図。かくときは のこりに注意して <b>小さい順に</b>、<b>もれや重なりがないように</b> かく。順番がちがえば別 なら <b>ならべ方</b>、順番がちがっても同じ なら <b>組み合わせ</b>。</p>
+
+  <div class="secs">
+
+    <!-- ══ 1 ══ -->
+    <section class="sec">
+      <header>
+        <span class="no">1</span>
+        <h2>ならべ方<small>順番がちがえば 別のもの</small></h2>
+      </header>
+      <div class="body" style="grid-template-columns:66mm 1fr">
+        <div class="fig">
+          <svg viewBox="0 0 262 186" role="img" aria-label="1234の4枚で千の位が1のときの樹形図">
+            <g font-family="Zen Maru Gothic, sans-serif" font-weight="700" font-size="12" fill="var(--ink-soft)" text-anchor="middle">
+              <text x="22" y="12">千</text><text x="82" y="12">百</text><text x="142" y="12">十</text><text x="202" y="12">一</text>
+            </g>
+            <g stroke="var(--rz)" stroke-width="1.6" fill="none">
+              <path d="M32 92 L72 38 M32 92 L72 92 M32 92 L72 148"/>
+              <path d="M92 38 L132 26 M92 38 L132 50"/>
+              <path d="M92 92 L132 80 M92 92 L132 104"/>
+              <path d="M92 148 L132 136 M92 148 L132 160"/>
+              <path d="M152 26 L192 26 M152 50 L192 50 M152 80 L192 80 M152 104 L192 104 M152 136 L192 136 M152 160 L192 160"/>
+            </g>
+            <g font-family="Zen Maru Gothic, sans-serif" font-weight="900" font-size="15" fill="var(--ink)" text-anchor="middle">
+              <text x="22" y="97">1</text>
+              <text x="82" y="43">2</text><text x="82" y="97">3</text><text x="82" y="153">4</text>
+              <text x="142" y="31">3</text><text x="142" y="55">4</text>
+              <text x="142" y="85">2</text><text x="142" y="109">4</text>
+              <text x="142" y="141">2</text><text x="142" y="165">3</text>
+              <text x="202" y="31">4</text><text x="202" y="55">3</text>
+              <text x="202" y="85">4</text><text x="202" y="109">2</text>
+              <text x="202" y="141">3</text><text x="202" y="165">2</text>
+            </g>
+            <text x="236" y="97" font-family="Zen Maru Gothic, sans-serif" font-weight="900" font-size="14" fill="var(--rz)" text-anchor="middle">6通り</text>
+          </svg>
+          <p class="cap"><span class="card">1</span><span class="card">2</span><span class="card">3</span><span class="card">4</span> の4まいで4けたの整数。千の位が1のとき <b>6通り</b>。2・3・4のときも同じで <b>6×4＝24通り</b>。</p>
+        </div>
+        <div class="cards">
+          <p class="ex"><b>もれなく数えるコツ</b>　のこっているカードを たしかめながら、いつも <b>小さい順</b> にかく。順番を決めておけば もれない・重ならない。</p>
+          <p class="ex"><b>0 があるとき</b>　<span class="card">0</span><span class="card">1</span><span class="card">2</span><span class="card">3</span>で3けたの整数。<span class="ng">百の位は0にならない</span>ので、百は1・2・3の3通り。それぞれ6通りで <span class="ans">6×3＝18通り</span>。</p>
+          <p class="ex"><b>条件があるとき</b>　<span class="card">0</span><span class="card">1</span><span class="card">3</span><span class="card">5</span>で3けたの <b>5の倍数</b>。5の倍数は <b>一の位が0か5</b> なので、<b>一の位から</b>決める。一の位0で6通り、一の位5で（百が0はダメだから）4通り → <span class="ans">10通り</span>。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ 2 ══ -->
+    <section class="sec">
+      <header>
+        <span class="no">2</span>
+        <h2>組み合わせ<small>順番がちがっても 同じもの</small></h2>
+      </header>
+      <div class="body" style="grid-template-columns:92mm 1fr">
+        <div class="fig">
+          <svg viewBox="0 0 250 116" role="img" aria-label="5人から2人を選ぶ組み合わせの樹形図">
+            <g stroke="var(--rz)" stroke-width="1.6" fill="none">
+              <path d="M22 58 L44 18 M22 58 L44 44 M22 58 L44 70 M22 58 L44 96"/>
+              <path d="M84 50 L106 24 M84 50 L106 50 M84 50 L106 76"/>
+              <path d="M146 44 L168 30 M146 44 L168 58"/>
+              <path d="M206 44 L228 44"/>
+            </g>
+            <g font-family="Zen Maru Gothic, sans-serif" font-weight="900" font-size="14" fill="var(--ink)" text-anchor="middle">
+              <text x="14" y="63">A</text>
+              <text x="52" y="23">B</text><text x="52" y="49">C</text><text x="52" y="75">D</text><text x="52" y="101">E</text>
+              <text x="76" y="55">B</text>
+              <text x="114" y="29">C</text><text x="114" y="55">D</text><text x="114" y="81">E</text>
+              <text x="138" y="49">C</text>
+              <text x="176" y="35">D</text><text x="176" y="63">E</text>
+              <text x="198" y="49">D</text>
+              <text x="236" y="49">E</text>
+            </g>
+            <g font-family="Zen Maru Gothic, sans-serif" font-weight="900" font-size="12" fill="var(--rz)" text-anchor="middle">
+              <text x="36" y="114">4通り</text><text x="98" y="114">3通り</text><text x="160" y="114">2通り</text><text x="218" y="114">1通り</text>
+            </g>
+          </svg>
+          <p class="cap">A〜Eの5人から2人。<b>AB と BA は同じ</b>なので、Bのうしろに A はかかない。Cのうしろには A・B を、Dのうしろには A・B・C をかかない。合計 <b>4+3+2+1＝10通り</b>。</p>
+        </div>
+        <div class="cards">
+          <p class="rule"><b>重なりを ふせぐルール</b>　樹形図の うしろには <b>自分より前の文字を かかない</b>。これだけで 同じ組が 2回出てこない。</p>
+          <p class="fx"><span class="t">5人から2人</span><span class="v">4+3+2+1 ＝ 10通り</span></p>
+          <p class="fx"><span class="t">6人から3人</span><span class="v">20通り</span></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ 3 ══ -->
+    <section class="sec">
+      <header>
+        <span class="no">3</span>
+        <h2>同じものが あるとき／選ばない方に着目<small>数えかたを 工夫する</small></h2>
+      </header>
+      <div class="body" style="grid-template-columns:104mm 1fr">
+        <div class="fig">
+          <svg viewBox="0 0 350 176" role="img" aria-label="0011 2 の5枚から3枚をならべる樹形図">
+            <g font-family="Zen Maru Gothic, sans-serif" font-weight="700" font-size="11" fill="var(--ink-soft)" text-anchor="middle">
+              <text x="20" y="12">百</text><text x="76" y="12">十</text><text x="132" y="12">一</text>
+              <text x="188" y="12">百</text><text x="244" y="12">十</text><text x="300" y="12">一</text>
+            </g>
+            <g stroke="var(--rz)" stroke-width="1.5" fill="none">
+              <path d="M28 92 L66 40 M28 92 L66 100 M28 92 L66 148"/>
+              <path d="M86 40 L122 22 M86 40 L122 40 M86 40 L122 58"/>
+              <path d="M86 100 L122 88 M86 100 L122 112"/>
+              <path d="M86 148 L122 136 M86 148 L122 160"/>
+              <path d="M196 86 L234 54 M196 86 L234 118"/>
+              <path d="M254 54 L290 40 M254 54 L290 68"/>
+              <path d="M254 118 L290 104 M254 118 L290 132"/>
+            </g>
+            <g font-family="Zen Maru Gothic, sans-serif" font-weight="900" font-size="14" fill="var(--ink)" text-anchor="middle">
+              <text x="20" y="97">1</text>
+              <text x="76" y="45">0</text><text x="76" y="105">1</text><text x="76" y="153">2</text>
+              <text x="132" y="27">0</text><text x="132" y="45">1</text><text x="132" y="63">2</text>
+              <text x="132" y="93">0</text><text x="132" y="117">2</text>
+              <text x="132" y="141">0</text><text x="132" y="165">1</text>
+              <text x="188" y="91">2</text>
+              <text x="244" y="59">0</text><text x="244" y="123">1</text>
+              <text x="300" y="45">0</text><text x="300" y="73">1</text>
+              <text x="300" y="109">0</text><text x="300" y="137">1</text>
+            </g>
+            <g font-family="Zen Maru Gothic, sans-serif" font-weight="900" font-size="13" fill="var(--rz)" text-anchor="middle">
+              <text x="160" y="97">7通り</text><text x="322" y="91">4通り</text>
+            </g>
+          </svg>
+          <p class="cap"><span class="card">0</span><span class="card">0</span><span class="card">1</span><span class="card">1</span><span class="card">2</span> の5まいから3まいで3けたの整数。百の位は1・2の2通り。<b>0と1は2つずつ</b>あるので、同じ枝を2回かかない。合計 <b>7+4＝11通り</b>。</p>
+        </div>
+        <div class="cards">
+          <p class="rule"><b>選ばない方に着目</b>　選ぶ人数が <b>全体の半分より多い</b> ときは、<b>選ばない人</b> を決めるほうが早い。選ばない人が決まれば、選ぶ人は自動的に決まる。</p>
+          <p class="ex"><b>例</b>　6人から5人を選ぶ → 選ばない1人を決めるだけ → <span class="ans">6通り</span>。</p>
+          <div class="swap">
+            <p>(7人から<em>6人</em>) ＝ (7人から<em>1人</em>)</p>
+            <p>(7人から<em>5人</em>) ＝ (7人から<em>2人</em>)</p>
+            <p>(7人から<em>4人</em>) ＝ (7人から<em>3人</em>)</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="memo">
+    <span class="lbl">おぼえておく</span>
+    <p>樹形図は <b>小さい順</b>・<b>アルファベット順</b> にかく。順番を決めておけば もれも重なりもない。</p>
+    <p><b>0 は いちばん上の位に来られない</b>。けた数の問題では まずここを確かめる。</p>
+    <p>条件（5の倍数、偶数など）があるときは、<b>条件のある位から</b> 先に決める。</p>
+    <p>ならべ方は 順番がちがえば別。組み合わせは 順番がちがっても同じ。<b>どちらか まず見わける</b>。</p>
+  </div>
+
+</div>
+
+<style>
+@media screen and (max-width:860px){
+  body{ padding:8px 0 28px; }
+  .sheet{ transform:scale(var(--fit,.46)) !important;
+          margin-bottom:calc(-297mm * (1 - var(--fit,.46))) !important; }
+}
+</style>
+<script>
+(function(){
+  function fit(){
+    var w = Math.min(document.documentElement.clientWidth, 860);
+    document.documentElement.style.setProperty('--fit', Math.min(1,(w-10)/793.7).toFixed(4));
+  }
+  fit(); addEventListener('resize', fit); addEventListener('orientationchange', fit);
+})();
+</script>
+</body>
+</html>

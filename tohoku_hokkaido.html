@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>北海道・東北地方 要点まとめ学習</title>
+    <!-- Tailwind CSS (デザインフレームワーク) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome (アイコン) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (丸ゴシック風・読みやすいフォント) -->
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            background-color: #f3f4f6;
+        }
+        /* ルビ（ふりがな）のスタイリング */
+        rt {
+            font-size: 0.6em;
+            color: #4b5563;
+        }
+        /* 赤シート・暗記モード用スタイル */
+        .memorize-mode .key-word {
+            background-color: #ef4444 !important;
+            color: transparent !important;
+            border-radius: 4px;
+            padding: 0 4px;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s;
+        }
+        .memorize-mode .key-word:hover,
+        .memorize-mode .key-word.revealed {
+            background-color: #fef08a !important;
+            color: #991b1b !important;
+        }
+        /* プリント風グラデーションヘッダー */
+        .textbook-header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+        }
+        /* カスタムスクロールバー */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #93c5fd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="text-gray-800 pb-12">
+
+    <!-- 上部ナビゲーション＆ヘッダー -->
+    <header class="textbook-header text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <span class="bg-red-600 text-white font-black text-2xl px-3 py-1 rounded-lg border-2 border-white shadow">1</span>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-bold tracking-wide">北海道・東北地方 <span class="text-sm bg-blue-800 text-blue-200 px-2 py-0.5 rounded">1</span></h1>
+                    <p class="text-xs text-blue-100">北海道・東北地方の自然環境と交通・文化</p>
+                </div>
+            </div>
+
+            <!-- 右上：学習日＆機能コントロール -->
+            <div class="flex items-center space-x-4">
+                <!-- 学習日記入欄 -->
+                <div class="bg-white/10 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/20 text-xs flex items-center space-x-2">
+                    <i class="fa-regular fa-calendar-check"></i>
+                    <span>学習日:</span>
+                    <input type="date" class="bg-transparent border-b border-white/50 text-white text-xs focus:outline-none">
+                </div>
+
+                <!-- 赤シート（暗記モード）切り替えボタン -->
+                <button id="toggleMemorize" onclick="toggleMemorizeMode()" class="bg-amber-400 hover:bg-amber-500 text-gray-900 font-bold px-4 py-1.5 rounded-full shadow-md transition flex items-center space-x-2 text-sm">
+                    <i class="fa-solid fa-eye-slash"></i>
+                    <span id="memorizeBtnText">赤シートON (穴埋め)</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- メインコンテンツ領域 -->
+    <main class="max-w-7xl mx-auto px-4 mt-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- 左カラム：要点のまとめテキスト (7分割) -->
+        <section class="lg:col-span-7 space-y-4">
+
+            <!-- 見出しバナー -->
+            <div class="bg-gradient-to-r from-red-600 to-red-500 text-white p-3 rounded-xl shadow-md flex justify-between items-center">
+                <h2 class="text-lg font-bold flex items-center">
+                    <i class="fa-solid fa-bookmark mr-2 text-yellow-300"></i>要点のまとめ
+                </h2>
+                <span class="text-xs bg-white/20 px-2 py-1 rounded">太字・下線は重要単語</span>
+            </div>
+
+            <!-- (1) 北海道 -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 hover:shadow-md transition">
+                <div class="flex items-center space-x-2 border-b border-gray-100 pb-2 mb-3">
+                    <span class="bg-blue-100 text-blue-800 font-bold px-2.5 py-0.5 rounded-full text-sm">(1)</span>
+                    <h3 class="text-lg font-bold text-gray-900">
+                        北海道 〔<ruby>札幌市<rt>さっぽろし</rt></ruby>〕
+                    </h3>
+                    <span class="ml-auto text-xs bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full font-bold">● 道庁所在地</span>
+                </div>
+                <p class="leading-relaxed text-gray-700">
+                    冬の<ruby>寒<rt>さむ</rt></ruby>さがきびしく<span class="font-bold border-b-2 border-red-400">梅雨がない</span>。<span class="key-word font-bold text-red-600"><ruby>知床<rt>しれとこ</rt></ruby>は世界自然遺産</span>。
+                    <span class="key-word font-bold text-blue-600"><ruby>釧路湿原<rt>くしろしつげん</rt></ruby>はラムサール条約に登録</span>されている。古くから、先住民である<span class="key-word font-bold text-indigo-600"><ruby>アイヌ<rt>せんじゅうみん</rt></ruby>の人々</span>がくらし、独自の文化を築く。
+                    <span class="key-word font-bold text-red-600"><ruby>青函<rt>せいかん</rt></ruby>トンネル</span>を通る北海道新幹線で青森県と結ばれる。飛行機では<span class="key-word font-bold text-blue-600"><ruby>新千歳空港<rt>しんちとせくうこう</rt></ruby></span>が空の玄関口となっている。
+                </p>
+            </div>
+
+            <!-- (2) 青森県 -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 hover:shadow-md transition">
+                <div class="flex items-center space-x-2 border-b border-gray-100 pb-2 mb-3">
+                    <span class="bg-blue-100 text-blue-800 font-bold px-2.5 py-0.5 rounded-full text-sm">(2)</span>
+                    <h3 class="text-lg font-bold text-gray-900">
+                        青森県 〔<ruby>青森市<rt>あおもりし</rt></ruby>〕
+                    </h3>
+                    <span class="ml-auto text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-bold">● 県庁所在地</span>
+                </div>
+                <p class="leading-relaxed text-gray-700">
+                    <span class="key-word font-bold text-green-700"><ruby>白神山地<rt>しらかみさんち</rt></ruby>は世界自然遺産</span>。<span class="key-word font-bold text-amber-600">青森<ruby>ねぶた祭<rt>まつり</rt></ruby></span>は東北四大祭りの１つ。
+                </p>
+            </div>
+
+            <!-- (3) 秋田県 -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 hover:shadow-md transition">
+                <div class="flex items-center space-x-2 border-b border-gray-100 pb-2 mb-3">
+                    <span class="bg-blue-100 text-blue-800 font-bold px-2.5 py-0.5 rounded-full text-sm">(3)</span>
+                    <h3 class="text-lg font-bold text-gray-900">
+                        秋田県 〔<ruby>秋田市<rt>あきたし</rt></ruby>〕
+                    </h3>
+                </div>
+                <p class="leading-relaxed text-gray-700">
+                    <span class="key-word font-bold text-emerald-600"><ruby>八郎潟<rt>はちろうがた</rt></ruby>は<ruby>干拓<rt>かんたく</rt></ruby>によって農地</span>となった。<span class="font-bold border-b-2 border-emerald-400">秋田すぎ</span>は日本三大美林の１つ。岩手県との県境には<span class="key-word font-bold text-amber-800"><ruby>奥羽山脈<rt>おううさんみゃく</rt></ruby></span>が連なる。
+                    <span class="key-word font-bold text-blue-600"><ruby>田沢湖<rt>たざわこ</rt></ruby>は水深が日本一</span>。<span class="key-word font-bold text-amber-600">秋田<ruby>竿燈まつり<rt>かんとうまつり</rt></ruby></span>は東北四大祭りの１つ。秋田新幹線が通る。
+                </p>
+            </div>
+
+            <!-- (4) 岩手県 -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 hover:shadow-md transition">
+                <div class="flex items-center space-x-2 border-b border-gray-100 pb-2 mb-3">
+                    <span class="bg-blue-100 text-blue-800 font-bold px-2.5 py-0.5 rounded-full text-sm">(4)</span>
+                    <h3 class="text-lg font-bold text-gray-900">
+                        岩手県 〔<ruby>盛岡市<rt>もりおかし</rt></ruby>〕
+                    </h3>
+                </div>
+                <p class="leading-relaxed text-gray-700">
+                    <span class="key-word font-bold text-blue-700"><ruby>三陸海岸南部<rt>さんりくかいがんなんぶ</rt></ruby>はリアス海岸</span>。県の東部には<span class="key-word font-bold text-amber-800"><ruby>北上高地<rt>きたかみこうち</rt></ruby></span>が広がる。
+                    夏に北東から冷たくしめった風（<span class="key-word font-bold text-cyan-600">やませ</span>）がふくと、気温が上がらず<span class="key-word font-bold text-blue-800"><ruby>冷害<rt>れいがい</rt></ruby></span>がおきやすい。
+                    <span class="key-word font-bold text-yellow-600"><ruby>平泉<rt>ひらいずみ</rt></ruby>は世界文化遺産</span>に登録されている。
+                </p>
+            </div>
+
+            <!-- (5) 山形県 -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 hover:shadow-md transition">
+                <div class="flex items-center space-x-2 border-b border-gray-100 pb-2 mb-3">
+                    <span class="bg-blue-100 text-blue-800 font-bold px-2.5 py-0.5 rounded-full text-sm">(5)</span>
+                    <h3 class="text-lg font-bold text-gray-900">
+                        山形県 〔<ruby>山形市<rt>やまがたし</rt></ruby>〕
+                    </h3>
+                </div>
+                <p class="leading-relaxed text-gray-700">
+                    <span class="key-word font-bold text-blue-600"><ruby>最上川<rt>もがみがわ</rt></ruby>は日本三大急流</span>の１つで、流域に<span class="key-word font-bold text-emerald-600"><ruby>庄内平野<rt>しょうないへいや</rt></ruby></span>、<span class="key-word font-bold text-amber-700"><ruby>新庄盆地<rt>しんじょうぼんち</rt></ruby></span>、<span class="key-word font-bold text-amber-700"><ruby>米沢盆地<rt>よねざわぼんち</rt></ruby></span>が広がる。
+                    <span class="key-word font-bold text-amber-600">山形<ruby>花笠まつり<rt>はながさまつり</rt></ruby></span>は東北四大祭りの１つ。山形新幹線が東北新幹線につながる。
+                </p>
+            </div>
+
+            <!-- (6) 宮城県 -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 hover:shadow-md transition">
+                <div class="flex items-center space-x-2 border-b border-gray-100 pb-2 mb-3">
+                    <span class="bg-blue-100 text-blue-800 font-bold px-2.5 py-0.5 rounded-full text-sm">(6)</span>
+                    <h3 class="text-lg font-bold text-gray-900">
+                        宮城県 〔<ruby>仙台市<rt>せんだいし</rt></ruby>〕
+                    </h3>
+                </div>
+                <p class="leading-relaxed text-gray-700">
+                    仙台市は東北地方の中心都市で、<span class="key-word font-bold text-purple-700">政令指定都市</span>の１つ。<span class="font-bold border-b-2 border-green-400"><ruby>杜の都<rt>もりのみやこ</rt></ruby></span>によばれる。
+                    <span class="key-word font-bold text-amber-600">仙台<ruby>七夕まつり<rt>たなばたまつり</rt></ruby></span>は東北四大祭りの１つ。
+                    <span class="key-word font-bold text-blue-600"><ruby>松島<rt>まつしま</rt></ruby>は日本三景</span>の１つ。
+                </p>
+            </div>
+
+            <!-- (7) 福島県 -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 hover:shadow-md transition">
+                <div class="flex items-center space-x-2 border-b border-gray-100 pb-2 mb-3">
+                    <span class="bg-blue-100 text-blue-800 font-bold px-2.5 py-0.5 rounded-full text-sm">(7)</span>
+                    <h3 class="text-lg font-bold text-gray-900">
+                        福島県 〔<ruby>福島市<rt>ふくしまし</rt></ruby>〕
+                    </h3>
+                </div>
+                <p class="leading-relaxed text-gray-700">
+                    <span class="key-word font-bold text-blue-600"><ruby>猪苗代湖<rt>いなわしろこ</rt></ruby>は東北地方で最も広い湖</span>（日本全国では第４位の広さ）で、<span class="key-word font-bold text-indigo-700"><ruby>安積疎水<rt>あさかそすい</rt></ruby></span>の水源となっている。
+                </p>
+            </div>
+
+        </section>
+
+        <!-- 右カラム：地図・データ・インタラクティブまとめ -->
+        <section class="lg:col-span-5 space-y-6">
+
+            <!-- タブ切り替えパネル -->
+            <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-200 sticky top-20">
+                <div class="flex border-b border-gray-200 mb-4 pb-2 space-x-2">
+                    <button onclick="switchTab('mapTab')" id="tabBtnMap" class="flex-1 py-2 text-center font-bold text-sm text-blue-600 border-b-2 border-blue-600 transition">
+                        <i class="fa-solid fa-map-location-dot mr-1"></i>マップ・地形
+                    </button>
+                    <button onclick="switchTab('festivalTab')" id="tabBtnFest" class="flex-1 py-2 text-center font-bold text-sm text-gray-500 hover:text-blue-600 transition">
+                        <i class="fa-solid fa-cloud-sun-rain mr-1"></i>東北四大祭り＆気候
+                    </button>
+                </div>
+
+                <!-- タブ1: 地理イラストマップ模倣 -->
+                <div id="mapTab" class="space-y-4">
+                    <div class="bg-blue-50 border border-blue-200 rounded-xl p-3 text-xs text-blue-800 flex items-center justify-between">
+                        <span><i class="fa-solid fa-circle-info mr-1"></i>地域をタップすると解説が表示されます</span>
+                        <span class="font-bold text-purple-700">● 道庁・県庁所在地</span>
+                    </div>
+
+                    <!-- 北海道マップ風カード -->
+                    <div class="bg-amber-50/50 border border-amber-200 rounded-xl p-4 relative overflow-hidden">
+                        <h4 class="font-bold text-amber-900 text-sm border-b border-amber-200 pb-1 mb-2 flex justify-between">
+                            <span>北海道エリア</span>
+                            <span class="text-xs text-amber-700">世界遺産: 知床</span>
+                        </h4>
+                        <img src="/images/tohoku_hokkaido_map_hokkaido.jpg" alt="北海道地方の詳細地図" class="w-full rounded-lg border border-amber-200 mb-2 cursor-zoom-in" onclick="openMapModal(this.src)">
+                        <div class="grid grid-cols-2 gap-2 text-xs">
+                            <div class="bg-white p-2 rounded shadow-sm">
+                                <span class="font-bold text-blue-800">島・半島:</span><br>
+                                利尻島、礼文島、奥尻島、知床半島、渡島半島
+                            </div>
+                            <div class="bg-white p-2 rounded shadow-sm">
+                                <span class="font-bold text-emerald-800">平野・盆地:</span><br>
+                                石狩平野、十勝平野、上川盆地、根釧台地
+                            </div>
+                            <div class="bg-white p-2 rounded shadow-sm">
+                                <span class="font-bold text-cyan-800">川・湖:</span><br>
+                                石狩川、サロマ湖、釧路湿原
+                            </div>
+                            <div class="bg-white p-2 rounded shadow-sm">
+                                <span class="font-bold text-red-800">北方領土:</span><br>
+                                国後島、択捉島、色丹島、歯舞群島
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 東北マップ風カード -->
+                    <div class="bg-green-50/50 border border-green-200 rounded-xl p-4 relative">
+                        <h4 class="font-bold text-green-900 text-sm border-b border-green-200 pb-1 mb-2 flex justify-between">
+                            <span>東北6県エリア</span>
+                            <span class="text-xs text-green-700">世界遺産: 白神山地 / 平泉</span>
+                        </h4>
+                        <img src="/images/tohoku_hokkaido_map_tohoku.jpg" alt="東北地方の詳細地図" class="w-full rounded-lg border border-green-200 mb-3 cursor-zoom-in" onclick="openMapModal(this.src)">
+
+                        <!-- やませの特別解説風ボックス -->
+                        <div class="bg-cyan-100/70 border border-cyan-300 rounded-lg p-2.5 mb-3 text-xs text-cyan-900">
+                            <div class="font-bold flex items-center text-cyan-900 mb-1">
+                                <i class="fa-solid fa-wind mr-1 text-cyan-600"></i>冷たくしめった風「やませ」
+                            </div>
+                            <p>夏に太平洋側（北東）から吹き、気温が上がらず<strong class="text-red-600">冷害</strong>の原因になる。</p>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2 text-xs">
+                            <div class="bg-white p-2 rounded shadow-sm">
+                                <span class="font-bold text-amber-900">山脈・高地:</span><br>
+                                奥羽山脈、北上高地、岩手山、磐梯山
+                            </div>
+                            <div class="bg-white p-2 rounded shadow-sm">
+                                <span class="font-bold text-blue-900">海岸・海峡:</span><br>
+                                三陸海岸(リアス海岸)、津軽海峡、陸奥湾
+                            </div>
+                            <div class="bg-white p-2 rounded shadow-sm">
+                                <span class="font-bold text-emerald-900">平野・川:</span><br>
+                                庄内平野、仙台平野、最上川、北上川
+                            </div>
+                            <div class="bg-white p-2 rounded shadow-sm">
+                                <span class="font-bold text-indigo-900">湖沼:</span><br>
+                                田沢湖(日本一深い)、猪苗代湖、十和田湖
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- タブ2: 東北四大祭りまとめ -->
+                <div id="festivalTab" class="hidden space-y-3">
+                    <h4 class="font-bold text-gray-800 text-sm border-b pb-1">東北四大祭り</h4>
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <div class="bg-red-50 p-3 rounded-lg border border-red-200">
+                            <div class="font-bold text-red-800 text-sm">青森ねぶた祭</div>
+                            <div class="text-gray-600 mt-1">青森県 青森市</div>
+                        </div>
+                        <div class="bg-amber-50 p-3 rounded-lg border border-amber-200">
+                            <div class="font-bold text-amber-800 text-sm">秋田竿燈まつり</div>
+                            <div class="text-gray-600 mt-1">秋田県 秋田市</div>
+                        </div>
+                        <div class="bg-pink-50 p-3 rounded-lg border border-pink-200">
+                            <div class="font-bold text-pink-800 text-sm">山形花笠まつり</div>
+                            <div class="text-gray-600 mt-1">山形県 山形市</div>
+                        </div>
+                        <div class="bg-blue-50 p-3 rounded-lg border border-blue-200">
+                            <div class="font-bold text-blue-800 text-sm">仙台七夕まつり</div>
+                            <div class="text-gray-600 mt-1">宮城県 仙台市</div>
+                        </div>
+                    </div>
+
+                    <h4 class="font-bold text-gray-800 text-sm border-b pt-3 pb-1">交通（新幹線・空港）</h4>
+                    <ul class="text-xs space-y-2 text-gray-700">
+                        <li class="flex items-center bg-gray-50 p-2 rounded border">
+                            <i class="fa-solid fa-train text-green-600 mr-2"></i>
+                            <span><strong>北海道新幹線:</strong> 青函トンネルを通して青森と北海道を結ぶ</span>
+                        </li>
+                        <li class="flex items-center bg-gray-50 p-2 rounded border">
+                            <i class="fa-solid fa-plane text-blue-500 mr-2"></i>
+                            <span><strong>新千歳空港:</strong> 北海道の空の玄関口</span>
+                        </li>
+                        <li class="flex items-center bg-gray-50 p-2 rounded border">
+                            <i class="fa-solid fa-train-subway text-emerald-600 mr-2"></i>
+                            <span><strong>秋田・山形新幹線:</strong> 東北新幹線とつながる</span>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- 地図拡大表示モーダル -->
+    <div id="mapModal" class="hidden fixed inset-0 bg-black/80 z-[100] flex items-center justify-center p-4 cursor-zoom-out" onclick="closeMapModal()">
+        <img id="mapModalImg" src="" alt="地図拡大" class="max-w-full max-h-full rounded-lg shadow-2xl">
+    </div>
+
+    <!-- JavaScript ロジック -->
+    <script>
+        // 地図拡大モーダル
+        function openMapModal(src) {
+            document.getElementById('mapModalImg').src = src;
+            document.getElementById('mapModal').classList.remove('hidden');
+        }
+        function closeMapModal() {
+            document.getElementById('mapModal').classList.add('hidden');
+        }
+
+        // 暗記（赤シート）モードの状態
+        let isMemorizeMode = false;
+
+        // 赤シート（暗記モード）のトグル機能
+        function toggleMemorizeMode() {
+            isMemorizeMode = !isMemorizeMode;
+            const body = document.body;
+            const btnText = document.getElementById('memorizeBtnText');
+
+            if (isMemorizeMode) {
+                body.classList.add('memorize-mode');
+                btnText.textContent = '赤シートOFF (解答表示)';
+            } else {
+                body.classList.remove('memorize-mode');
+                btnText.textContent = '赤シートON (穴埋め)';
+                // Revealedクラスの解除
+                document.querySelectorAll('.key-word').forEach(el => el.classList.remove('revealed'));
+            }
+        }
+
+        // 赤シートモード時にクリックで個別に伏せ字を解除する機能
+        document.addEventListener('DOMContentLoaded', () => {
+            const keyWords = document.querySelectorAll('.key-word');
+            keyWords.forEach(kw => {
+                kw.addEventListener('click', () => {
+                    if (isMemorizeMode) {
+                        kw.classList.toggle('revealed');
+                    }
+                });
+            });
+        });
+
+        // 右側のタブ切り替え機能
+        function switchTab(tabId) {
+            const mapTab = document.getElementById('mapTab');
+            const festivalTab = document.getElementById('festivalTab');
+            const btnMap = document.getElementById('tabBtnMap');
+            const btnFest = document.getElementById('tabBtnFest');
+
+            if (tabId === 'mapTab') {
+                mapTab.classList.remove('hidden');
+                festivalTab.classList.add('hidden');
+                btnMap.className = 'flex-1 py-2 text-center font-bold text-sm text-blue-600 border-b-2 border-blue-600 transition';
+                btnFest.className = 'flex-1 py-2 text-center font-bold text-sm text-gray-500 hover:text-blue-600 transition';
+            } else {
+                mapTab.classList.add('hidden');
+                festivalTab.classList.remove('hidden');
+                btnFest.className = 'flex-1 py-2 text-center font-bold text-sm text-blue-600 border-b-2 border-blue-600 transition';
+                btnMap.className = 'flex-1 py-2 text-center font-bold text-sm text-gray-500 hover:text-blue-600 transition';
+            }
+        }
+    </script>
+</body>
+</html>

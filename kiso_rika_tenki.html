@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>たのしくまなぶ！小5理科のひみつ 🚀</title>
+    <!-- Tailwind CSS を読み込んで綺麗にスタイリング -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- アイコン用の FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts で丸みのある読みやすいフォントを設定 -->
+    <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@400;500;700&family=Yusei+Magic&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Kiwi Maru', sans-serif;
+            background-color: #f0f9ff;
+        }
+        .title-font {
+            font-family: 'Yusei Magic', sans-serif;
+        }
+        /* ふわふわアニメーション (標準) */
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(1deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+        .floating {
+            animation: float 4s ease-in-out infinite;
+        }
+        /* 小刻みなふわふわ (高積雲など用) */
+        @keyframes float-small {
+            0% { transform: translate(0, 0); }
+            50% { transform: translate(5px, -5px); }
+            100% { transform: translate(0, 0); }
+        }
+        .floating-small {
+            animation: float-small 3s ease-in-out infinite;
+        }
+        /* ぐるぐる回転（台風・衛星用） */
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(-360deg); }
+        }
+        .spinning {
+            animation: spin-slow 12s linear infinite;
+        }
+        /* 人工衛星のふわふわ起動 */
+        @keyframes orbit {
+            0% { transform: translateY(0px) translateX(0px); }
+            50% { transform: translateY(-8px) translateX(15px); }
+            100% { transform: translateY(0px) translateX(0px); }
+        }
+        .orbiting {
+            animation: orbit 6s ease-in-out infinite;
+        }
+        /* 水の流れアニメーション */
+        @keyframes water-flow {
+            0% { stroke-dashoffset: 100; }
+            100% { stroke-dashoffset: 0; }
+        }
+        .water-line-fast { stroke-dasharray: 12, 4; animation: water-flow 1s linear infinite; }
+        .water-line-medium { stroke-dasharray: 12, 6; animation: water-flow 2s linear infinite; }
+        .water-line-slow { stroke-dasharray: 12, 8; animation: water-flow 3.5s linear infinite; }
+
+        /* しん食（削る）アニメーション */
+        @keyframes erode-shake {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(-2px, 2px); }
+            75% { transform: translate(2px, -2px); }
+        }
+        .eroding {
+            animation: erode-shake 0.15s infinite;
+        }
+
+        /* 運ぱん（運ぶ）アニメーション */
+        @keyframes carry-away {
+            0% { transform: translateX(-50px); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateX(250px); opacity: 0; }
+        }
+        .carrying {
+            animation: carry-away 2.5s linear infinite;
+        }
+    </style>
+</head>
+<body class="text-slate-800 pb-12">
+
+    <!-- 戻るボタン -->
+    <div class="bg-white/80 backdrop-blur sticky top-0 z-50 border-b border-slate-200 px-4 py-2">
+        <button onclick="history.back()" class="flex items-center gap-2 text-sm font-bold text-indigo-600 hover:text-indigo-800 transition-colors">
+            ← もどる
+        </button>
+    </div>
+
+    <!-- ヘッダー -->
+    <header class="bg-gradient-to-r from-blue-400 via-sky-400 to-teal-400 text-white shadow-md">
+        <div class="max-w-5xl mx-auto px-4 py-6 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold title-font tracking-wider drop-shadow-md">
+                🎯 たのしくまなぶ！小5理科のひみつ
+            </h1>
+            <p class="text-sm md:text-base mt-2 opacity-90">雲・天気・観測・台風・川のはたらきを、動くイラストで完全マスター！</p>
+        </div>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <main class="max-w-5xl mx-auto px-4 mt-6">
+
+        <!-- タブ切り替えボタン -->
+        <div class="flex flex-wrap justify-center gap-2 mb-6">
+            <button onclick="switchTab('weather')" id="tab-weather" class="tab-btn px-4 py-3 rounded-full font-bold shadow-md transition-all duration-300 bg-blue-500 text-white scale-105">
+                ☁️ 1. 雲と天気のきまり
+            </button>
+            <button onclick="switchTab('observation')" id="tab-observation" class="tab-btn px-4 py-3 rounded-full font-bold shadow-md transition-all duration-300 bg-white text-slate-700 hover:bg-sky-100">
+                🛰️ 2. 気象観測 (衛星・アメダス)
+            </button>
+            <button onclick="switchTab('typhoon')" id="tab-typhoon" class="tab-btn px-4 py-3 rounded-full font-bold shadow-md transition-all duration-300 bg-white text-slate-700 hover:bg-sky-100">
+                🌀 3. 台風のひみつ
+            </button>
+            <button onclick="switchTab('river')" id="tab-river" class="tab-btn px-4 py-3 rounded-full font-bold shadow-md transition-all duration-300 bg-white text-slate-700 hover:bg-sky-100">
+                🌊 4. 流れる水とはたらき
+            </button>
+        </div>
+
+        <!-- ======================================================== -->
+        <!-- 1. 雲と天気のきまり タブ -->
+        <!-- ======================================================== -->
+        <section id="content-weather" class="tab-content bg-white p-6 rounded-3xl shadow-xl border-4 border-blue-100">
+            <div class="border-b-4 border-dashed border-blue-200 pb-4 mb-6">
+                <span class="bg-blue-100 text-blue-700 font-bold px-3 py-1 rounded-full text-sm">【1】雲と天気の変化</span>
+                <h2 class="text-2xl font-bold mt-2 text-blue-600">空の雲の量と「雲の種類」をマスター！</h2>
+                <p class="text-sm text-slate-600 mt-1">スライダーで量をかえたり、下の「雲ボタン」で種類のちがいを見てみよう！</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                <!-- 左側：動く空のイラスト -->
+                <div class="bg-gradient-to-b from-sky-400 to-sky-100 rounded-2xl p-6 h-80 relative overflow-hidden flex flex-col justify-between shadow-inner border border-sky-200" id="sky-canvas">
+                    <!-- 太陽 -->
+                    <div id="sky-sun" class="absolute top-4 right-6 text-6xl text-amber-400 drop-shadow-lg transition-all duration-700 animate-spin-slow">
+                        <i class="fa-solid fa-sun"></i>
+                    </div>
+
+                    <!-- 雲のコンテナ (JSで中身をかえる) -->
+                    <div id="clouds-container" class="absolute inset-0 pointer-events-none transition-all duration-500"></div>
+
+                    <!-- 雨のエフェクト -->
+                    <div id="rain-effect" class="absolute inset-0 pointer-events-none hidden bg-black/10">
+                        <div class="w-full h-full" style="background-image: repeating-linear-gradient(transparent, transparent 20px, #38bdf8 20px, #38bdf8 40px); background-size: 2px 40px; animation: water-flow 0.5s linear infinite;"></div>
+                    </div>
+
+                    <!-- 天気表示 -->
+                    <div class="z-10 bg-white/90 backdrop-blur-sm p-4 rounded-xl shadow-lg border border-white max-w-xs">
+                        <div class="text-xs text-slate-500 font-bold" id="weather-label">今の天気は...</div>
+                        <div class="text-2xl font-bold text-sky-600" id="weather-name">☀️ 快晴 (かいせい)</div>
+                        <div class="text-xs text-slate-600 mt-1 leading-relaxed" id="weather-desc">雲がほとんどない、気持ちいい青空だよ！</div>
+                    </div>
+
+                    <!-- メーター -->
+                    <div class="z-10 bg-white/90 p-2 rounded-xl self-end text-xs font-bold text-slate-700 border flex items-center gap-2">
+                        <span>雲の量:</span>
+                        <span id="cloud-amount-badge" class="bg-blue-500 text-white px-2 py-0.5 rounded-full text-sm">0</span>
+                        <span>/ 10</span>
+                    </div>
+                </div>
+
+                <!-- 右側：操作パネル -->
+                <div class="space-y-4">
+                    <!-- スライダー -->
+                    <div class="bg-sky-50 p-4 rounded-2xl border border-sky-100">
+                        <h3 class="font-bold text-sm mb-2 text-sky-700">👇 スライダーで雲の量をかえる</h3>
+                        <input type="range" id="cloud-slider" min="0" max="10" value="0" class="w-full h-2 bg-sky-200 rounded-lg appearance-none cursor-pointer accent-blue-500" oninput="updateCloudWeather(this.value)">
+                        <div class="flex justify-between mt-1 text-[10px] text-slate-500 font-bold px-1">
+                            <span>0 (快晴)</span>
+                            <span>2〜8 (晴れ)</span>
+                            <span>9〜10 (くもり)</span>
+                        </div>
+                    </div>
+
+                    <!-- 雲ボタン図鑑 -->
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                        <h4 class="font-bold text-slate-700 mb-3 text-sm">🖼️ 雲の図鑑（ボタンを押してみて！）</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            <button onclick="setCloudPreset('巻層雲')" class="cloud-btn bg-white p-2 rounded border text-left hover:border-blue-400 transition-all">
+                                <span class="font-bold text-blue-500 text-xs">☁️ 巻層雲 (かんそううん)</span>
+                                <p class="text-[10px] text-slate-500">うす雲。白い布のように広がるよ。</p>
+                            </button>
+                            <button onclick="setCloudPreset('高積雲')" class="cloud-btn bg-white p-2 rounded border text-left hover:border-blue-400 transition-all">
+                                <span class="font-bold text-indigo-500 text-xs">🐑 高積雲 (こうせきうん)</span>
+                                <p class="text-[10px] text-slate-500">ひつじ雲。ポコポコしたかたまり。</p>
+                            </button>
+                            <button onclick="setCloudPreset('積乱雲')" class="cloud-btn bg-white p-2 rounded border text-left hover:border-blue-400 transition-all">
+                                <span class="font-bold text-red-500 text-xs">⚡ 積乱雲 (せきらんうん)</span>
+                                <p class="text-[10px] text-slate-500">入道雲。夕立ちやかみなりを連れてくる。</p>
+                            </button>
+                            <button onclick="setCloudPreset('乱層雲')" class="cloud-btn bg-white p-2 rounded border text-left hover:border-blue-400 transition-all">
+                                <span class="font-bold text-slate-600 text-xs">🌧️ 乱層雲 (らんそううん)</span>
+                                <p class="text-[10px] text-slate-500">雨雲。空をおおう暗い灰色の雲。</p>
+                            </button>
+                            <button onclick="setCloudPreset('層積雲')" class="cloud-btn bg-white p-2 rounded border text-left hover:border-blue-400 transition-all col-span-1 sm:col-span-2">
+                                <span class="font-bold text-emerald-600 text-xs">🚜 層積雲 (そうせきうん)</span>
+                                <p class="text-[10px] text-slate-500">うね雲。畑のうねのように長く横たわる雲。</p>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 雨スイッチ -->
+                    <div class="bg-amber-50 p-3 rounded-xl border border-amber-200 flex items-center justify-between">
+                        <div class="text-xs">
+                            <h4 class="font-bold text-amber-800">🌧️ 雨がふったらどうなる？</h4>
+                            <p class="text-amber-700">雲の量に関係なく天気は「雨」！</p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="rain-switch" onchange="toggleRain(this.checked)" class="sr-only peer">
+                            <div class="w-10 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================================================== -->
+        <!-- 2. 気象観測 (気象衛星・アメダス) タブ -->
+        <!-- ======================================================== -->
+        <section id="content-observation" class="tab-content hidden bg-white p-6 rounded-3xl shadow-xl border-4 border-indigo-100">
+            <div class="border-b-4 border-dashed border-indigo-200 pb-4 mb-6">
+                <span class="bg-indigo-100 text-indigo-700 font-bold px-3 py-1 rounded-full text-sm">【1】気象観測 (データあつめ)</span>
+                <h2 class="text-2xl font-bold mt-2 text-indigo-600">宇宙と地上から天気をよそうするメカニズム</h2>
+                <p class="text-sm text-slate-600 mt-1">「気象衛星」と「アメダス」のボタンを押して、どうやって気象データを集めるか動かしてみよう！</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- A. 気象衛星シアター -->
+                <div class="bg-slate-900 rounded-3xl p-5 border-2 border-slate-700 shadow-lg text-white flex flex-col justify-between relative overflow-hidden h-96">
+                    <div>
+                        <span class="bg-blue-600 text-xs font-bold px-2 py-1 rounded-full"><i class="fa-solid fa-satellite"></i> 宇宙から観測</span>
+                        <h3 class="text-lg font-bold mt-2 text-blue-300">気象衛星（きしょうえいせい）</h3>
+                        <p class="text-[10px] text-slate-300 mt-1 leading-relaxed">
+                            宇宙から日本とそのまわりの<b>「雲のようすや動き」</b>をカメラでパシャリ！広い範囲のデータを地上に送ります。
+                        </p>
+                    </div>
+
+                    <!-- 衛星のアニメーションキャンバス -->
+                    <div class="relative w-full h-40 flex items-center justify-center my-2">
+                        <!-- 地球（日本付近のイメージ） -->
+                        <div class="w-24 h-24 bg-blue-500 rounded-full border-4 border-sky-300 relative overflow-hidden flex items-center justify-center shadow-[0_0_15px_rgba(56,189,248,0.5)]">
+                            <div class="absolute w-12 h-10 bg-emerald-500 rounded-full top-6 left-6 rotate-12"></div>
+                            <!-- ゆっくり回る雲 -->
+                            <div class="absolute text-white/50 text-3xl spinning"><i class="fa-solid fa-cloud"></i></div>
+                        </div>
+
+                        <!-- 人工衛星ひまわり -->
+                        <div class="absolute top-2 right-8 text-4xl text-sky-300 orbiting flex flex-col items-center">
+                            <i class="fa-solid fa-satellite-dish"></i>
+                            <span class="text-[8px] text-sky-200 mt-1 bg-black/50 px-1 rounded font-bold">ひまわり</span>
+                        </div>
+
+                        <!-- 受信ビーム -->
+                        <div id="satellite-beam" class="absolute top-10 right-16 w-32 h-1 border-t-2 border-dashed border-yellow-300 origin-top-right rotate-12 hidden"></div>
+                    </div>
+
+                    <div class="space-y-2 z-10">
+                        <button onclick="triggerSatellite()" class="w-full bg-blue-500 hover:bg-blue-600 active:scale-95 text-white font-bold py-2 rounded-xl text-xs transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-camera"></i> 宇宙から雲を撮影して地上に送る！
+                        </button>
+                        <div id="satellite-status" class="text-[10px] text-center text-slate-400">ボタンを押して観測をスタート！</div>
+                    </div>
+                </div>
+
+                <!-- B. アメダス観測所 -->
+                <div class="bg-sky-50 rounded-3xl p-5 border-2 border-sky-200 shadow-lg flex flex-col justify-between h-96">
+                    <div>
+                        <span class="bg-emerald-600 text-white text-xs font-bold px-2 py-1 rounded-full"><i class="fa-solid fa-tower-cell"></i> 地上から自動観測</span>
+                        <h3 class="text-lg font-bold mt-2 text-emerald-700">アメダス (AMeDAS)</h3>
+                        <p class="text-[10px] text-slate-600 mt-1 leading-relaxed">
+                            全国に約<b>1300か所</b>ある<b>無人(むじん)の自動気象観測所</b>。<b>「雨量」「気温」「風向・風速」</b>などを自動で測って気象庁に送るよ！
+                        </p>
+                    </div>
+
+                    <!-- アメダスのミニ日本地図・観測シミュレーション -->
+                    <div class="bg-white rounded-2xl p-3 border border-sky-100 flex gap-4 items-center h-44 relative">
+                        <!-- 観測塔のイラスト風SVG -->
+                        <svg viewBox="0 0 100 150" class="w-20 h-auto">
+                            <!-- タワー -->
+                            <line x1="50" y1="140" x2="50" y2="30" stroke="#475569" stroke-width="4" />
+                            <line x1="30" y1="140" x2="50" y2="100" stroke="#475569" stroke-width="2" />
+                            <line x1="70" y1="140" x2="50" y2="100" stroke="#475569" stroke-width="2" />
+                            <!-- 風速計（くるくる） -->
+                            <circle cx="50" cy="30" r="10" fill="none" stroke="#dc2626" stroke-width="2" />
+                            <circle cx="50" cy="20" r="3" fill="#dc2626" />
+                            <circle cx="40" cy="30" r="3" fill="#dc2626" />
+                            <circle cx="60" cy="30" r="3" fill="#dc2626" />
+                            <!-- 雨量計 -->
+                            <rect x="75" y="115" width="15" height="25" rx="2" fill="#2563eb" />
+                            <!-- 地面 -->
+                            <rect x="10" y="140" width="80" height="5" rx="2" fill="#15803d" />
+                        </svg>
+
+                        <!-- 観測結果モニター -->
+                        <div class="flex-1 bg-slate-900 text-emerald-400 p-3 rounded-xl font-mono text-[10px] space-y-1">
+                            <div class="text-white border-b border-slate-700 pb-1 font-bold">📡 アメダス無人観測データ</div>
+                            <div>🗺️ 地点: <span id="amedas-place">-----</span></div>
+                            <div>🌡️ 気温: <span id="amedas-temp">--.-</span> ℃</div>
+                            <div>🌧️ 雨量: <span id="amedas-rain">--</span> mm</div>
+                            <div>💨 風向: <span id="amedas-wind-dir">--</span></div>
+                            <div>🌀 風速: 秒速 <span id="amedas-wind-speed">--.-</span> m</div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <button onclick="triggerAmedas()" class="w-full bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold py-2 rounded-xl text-xs transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-tower-cell"></i> 全国の無人アメダスからデータを集める！
+                        </button>
+                        <div class="bg-amber-50 border border-amber-200 p-2 rounded-xl text-[9px] text-amber-800 font-bold leading-relaxed">
+                            ⚠️ 超テストに出る：アメダスでは「雲の量」や「雲の種類」は観測できません！(雲は気象衛星の仕事だよ！)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================================================== -->
+        <!-- 3. 台風のひみつ タブ -->
+        <!-- ======================================================== -->
+        <section id="content-typhoon" class="tab-content hidden bg-white p-6 rounded-3xl shadow-xl border-4 border-sky-100">
+            <div class="border-b-4 border-dashed border-sky-200 pb-4 mb-6">
+                <span class="bg-sky-100 text-sky-700 font-bold px-3 py-1 rounded-full text-sm">【1】台風と天気</span>
+                <h2 class="text-2xl font-bold mt-2 text-sky-600">台風の目と予報円のひみつ</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                    <div class="bg-slate-900 rounded-2xl p-4 h-64 relative overflow-hidden flex items-center justify-center border-4 border-slate-700 shadow-2xl">
+                        <!-- 台風ぐるぐる -->
+                        <div class="spinning text-sky-200/40 text-[180px]">
+                            <i class="fa-solid fa-hurricane"></i>
+                        </div>
+                        <div class="absolute bg-white/10 w-8 h-8 rounded-full border-2 border-white flex items-center justify-center">
+                            <span class="text-[8px] text-white font-bold">目</span>
+                        </div>
+                        <div class="absolute bottom-4 left-4 bg-black/60 text-white text-[10px] p-2 rounded">
+                            台風の目は「風が弱く、雨もふらない」よ！
+                        </div>
+                    </div>
+                    <div class="space-y-2 text-sm">
+                        <p class="font-bold text-slate-700">🌪️ 台風のキーワード：</p>
+                        <ul class="list-disc list-inside text-slate-600 space-y-1 text-xs">
+                            <li><strong>台風：</strong>中心付近の最大風速が秒速17.2m以上。</li>
+                            <li><strong>暴風域：</strong>風速25m以上（赤い円）。</li>
+                            <li><strong>強風域：</strong>風速15m以上（黄色の円）。</li>
+                            <li><strong>予報円：</strong>中心がすすむ予想のはんい。</li>
+                        </ul>
+                        <div class="mt-4 p-3 bg-sky-50 border border-sky-200 rounded-xl">
+                            <p class="text-[10px] text-sky-800 font-bold italic">※テストの注意点：予報円は「台風の大きさ」が大きくなるわけじゃないよ！</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================================================== -->
+        <!-- 4. 流れる水とはたらき タブ -->
+        <!-- ======================================================== -->
+        <section id="content-river" class="tab-content hidden bg-white p-6 rounded-3xl shadow-xl border-4 border-emerald-100">
+            <div class="border-b-4 border-dashed border-emerald-200 pb-4 mb-6">
+                <span class="bg-emerald-100 text-emerald-700 font-bold px-3 py-1 rounded-full text-sm">【2】流れる水のはたらきと大地の変化</span>
+                <h2 class="text-2xl font-bold mt-2 text-emerald-600">3つのアクション ＆ 川のカーブ大実験！</h2>
+                <p class="text-sm text-slate-600 mt-1">「まっすぐな川」と「曲がった川」を切り替えて、川底のちがいや流れの速さ、つぶの大きさを目で見て確かめよう！</p>
+            </div>
+
+            <!-- 1. 切り替えボタン -->
+            <div class="flex justify-center gap-4 mb-6">
+                <button onclick="switchRiverMode('straight')" id="btn-river-straight" class="px-5 py-2 rounded-full font-bold border-2 border-blue-500 bg-blue-500 text-white shadow-md transition-all">
+                    📏 まっすぐな川
+                </button>
+                <button onclick="switchRiverMode('curved')" id="btn-river-curved" class="px-5 py-2 rounded-full font-bold border-2 border-blue-500 bg-white text-blue-500 hover:bg-blue-50 shadow-md transition-all">
+                    ↪️ 曲がった川
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+                <!-- 左側：川のビジュアル表示 (SVGとアニメーション) -->
+                <div class="lg:col-span-7 bg-amber-50 p-4 rounded-3xl border-2 border-amber-200 shadow-inner">
+                    <h3 class="font-bold text-center text-amber-800 text-sm mb-2" id="river-visual-title">📏 まっすぐな川の上空から見たようす</h3>
+
+                    <div class="relative w-full h-64 bg-[#eab308] rounded-2xl overflow-hidden flex items-center justify-center border border-amber-300" id="river-canvas-container">
+                        <!-- まっすぐな川のSVG -->
+                        <svg viewBox="0 0 500 250" class="w-full h-full absolute inset-0" id="svg-river-straight">
+                            <!-- 川幅 -->
+                            <rect x="0" y="50" width="500" height="150" fill="#38bdf8" />
+                            <!-- 流れのアニメーションライン -->
+                            <path d="M 0,125 L 500,125" stroke="white" stroke-width="8" stroke-dasharray="15,10" class="water-line-fast" />
+                            <path d="M 0,80 L 500,80" stroke="white" stroke-width="4" stroke-dasharray="15,15" class="water-line-medium" opacity="0.6" />
+                            <path d="M 0,170 L 500,170" stroke="white" stroke-width="4" stroke-dasharray="15,15" class="water-line-medium" opacity="0.6" />
+                            <!-- 石と砂の配置 -->
+                            <circle cx="100" cy="125" r="8" fill="#64748b" />
+                            <circle cx="250" cy="130" r="10" fill="#475569" />
+                            <circle cx="380" cy="120" r="9" fill="#94a3b8" />
+                            <circle cx="430" cy="135" r="7" fill="#64748b" />
+                            <g fill="#d97706" opacity="0.8">
+                                <circle cx="50" cy="65" r="2" /><circle cx="120" cy="70" r="2" /><circle cx="200" cy="60" r="2" /><circle cx="320" cy="72" r="2" /><circle cx="450" cy="62" r="2" />
+                                <circle cx="80" cy="185" r="2" /><circle cx="160" cy="180" r="2" /><circle cx="280" cy="190" r="2" /><circle cx="350" cy="182" r="2" /><circle cx="420" cy="188" r="2" />
+                            </g>
+                            <!-- 速さラベル -->
+                            <rect x="210" y="105" width="80" height="20" rx="5" fill="rgba(0,0,0,0.6)" />
+                            <text x="250" y="119" fill="#22c55e" font-size="11" font-weight="bold" text-anchor="middle">流れが速い</text>
+                            <rect x="200" y="55" width="100" height="18" rx="5" fill="rgba(0,0,0,0.4)" />
+                            <text x="250" y="68" fill="#f43f5e" font-size="9" font-weight="bold" text-anchor="middle">川岸はおそい</text>
+                            <rect x="200" y="177" width="100" height="18" rx="5" fill="rgba(0,0,0,0.4)" />
+                            <text x="250" y="190" fill="#f43f5e" font-size="9" font-weight="bold" text-anchor="middle">川岸はおそい</text>
+                        </svg>
+
+                        <!-- 曲がった川のSVG -->
+                        <svg viewBox="0 0 500 250" class="w-full h-full absolute inset-0 hidden" id="svg-river-curved">
+                            <path d="M 0,210 C 150,210 150,40 300,40 C 420,40 450,150 500,160 L 500,220 L 0,220 Z" fill="#eab308" />
+                            <path d="M 0,180 Q 150,180 200,120 T 400,60 T 500,140" fill="none" stroke="#38bdf8" stroke-width="120" id="river-path" stroke-linecap="round" />
+                            <path d="M 0,230 Q 140,230 150,160 T 350,120 T 500,220" fill="#fef08a" opacity="0.9" />
+                            <text x="80" y="190" fill="#854d0e" font-weight="bold" font-size="12">内側：おそい (つもって川原に)</text>
+                            <path d="M 180,50 Q 300,30 420,50" fill="none" stroke="#b45309" stroke-width="8" stroke-dasharray="5,5" />
+                            <text x="280" y="25" fill="#991b1b" font-weight="bold" font-size="12">外側：速い (けずれてがけに)</text>
+                            <path d="M 0,140 Q 160,130 220,80 T 430,45 T 500,105" fill="none" stroke="white" stroke-width="5" class="water-line-fast" />
+                            <path d="M 0,210 Q 130,210 170,155 T 350,100 T 500,170" fill="none" stroke="white" stroke-width="3" class="water-line-slow" />
+                            <circle cx="220" cy="70" r="8" fill="#475569" />
+                            <circle cx="380" cy="40" r="10" fill="#64748b" />
+                            <circle cx="430" cy="65" r="7" fill="#475569" />
+                            <g fill="#d97706" opacity="0.8">
+                                <circle cx="90" cy="205" r="2" /><circle cx="120" cy="210" r="2" /><circle cx="150" cy="180" r="2" />
+                                <circle cx="300" cy="140" r="2" /><circle cx="340" cy="130" r="2" /><circle cx="380" cy="150" r="2" />
+                            </g>
+                        </svg>
+
+                        <!-- しん食・運ぱん・たい積アニメーション用オーバーレイ -->
+                        <div id="river-action-overlay" class="absolute inset-0 pointer-events-none flex items-center justify-center">
+                            <div id="erode-effect" class="hidden text-red-600 text-5xl font-bold eroding">
+                                <i class="fa-solid fa-burst"></i> <span class="bg-red-600 text-white text-xs px-2 py-1 rounded">しん食（けずり中！）</span>
+                            </div>
+                            <div id="carry-effect" class="hidden absolute left-0 w-full flex justify-around">
+                                <div class="carrying bg-amber-600 border border-amber-800 text-white text-xs px-2 py-1 rounded-full flex items-center gap-1 shadow">
+                                    <i class="fa-solid fa-circle"></i> 土やすな
+                                </div>
+                                <div class="carrying bg-slate-500 border border-slate-700 text-white text-xs px-2 py-1 rounded-full flex items-center gap-1 shadow" style="animation-delay: 0.8s;">
+                                    <i class="fa-solid fa-stone"></i> 小石
+                                </div>
+                            </div>
+                            <div id="deposit-effect" class="hidden text-emerald-600 text-center">
+                                <div class="bg-emerald-500 text-white px-3 py-1 rounded-xl text-xs font-bold shadow-lg animate-bounce">
+                                    ✨ ここに土砂がつもるよ！（たい積）
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 川底の断面図 -->
+                    <div class="mt-4 bg-white p-4 rounded-2xl border border-amber-200">
+                        <h4 class="font-bold text-xs text-amber-700 mb-2">📐 川を切ったときの形（川底の断面図）</h4>
+                        <div id="cross-section-straight" class="flex flex-col items-center">
+                            <svg viewBox="0 0 300 100" class="w-full h-24 bg-sky-200 rounded-lg">
+                                <line x1="10" y1="30" x2="290" y2="30" stroke="#38bdf8" stroke-width="4" />
+                                <path d="M 10,30 L 30,35 Q 150,95 270,35 L 290,30 L 290,100 L 10,100 Z" fill="#b45309" />
+                                <path d="M 10,30 L 30,35 Q 150,95 270,35 L 290,30 Z" fill="#38bdf8" opacity="0.6" />
+                                <circle cx="150" cy="80" r="8" fill="#475569" />
+                                <circle cx="130" cy="78" r="6" fill="#64748b" />
+                                <circle cx="170" cy="79" r="7" fill="#94a3b8" />
+                                <g fill="#fef08a">
+                                    <circle cx="50" cy="40" r="2" /><circle cx="70" cy="48" r="2" />
+                                    <circle cx="230" cy="48" r="2" /><circle cx="250" cy="40" r="2" />
+                                </g>
+                                <text x="150" y="25" fill="#1e3a8a" font-size="8" font-weight="bold" text-anchor="middle">真ん中が最も深く、流れが速い！</text>
+                                <text x="150" y="95" fill="white" font-size="8" text-anchor="middle">真ん中：大きい石が多い</text>
+                            </svg>
+                        </div>
+                        <div id="cross-section-curved" class="flex flex-col items-center hidden">
+                            <svg viewBox="0 0 300 100" class="w-full h-24 bg-sky-200 rounded-lg">
+                                <line x1="10" y1="30" x2="290" y2="30" stroke="#38bdf8" stroke-width="4" />
+                                <path d="M 10,30 L 50,32 Q 180,35 250,85 L 260,30 L 290,30 L 290,100 L 10,100 Z" fill="#b45309" />
+                                <path d="M 10,30 L 50,32 Q 180,35 250,85 L 260,30 Z" fill="#38bdf8" opacity="0.6" />
+                                <circle cx="240" cy="75" r="9" fill="#475569" />
+                                <circle cx="225" cy="65" r="6" fill="#64748b" />
+                                <g fill="#fef08a">
+                                    <circle cx="40" cy="35" r="2" /><circle cx="80" cy="36" r="2" /><circle cx="120" cy="38" r="2" /><circle cx="150" cy="40" r="2" />
+                                </g>
+                                <text x="50" y="25" fill="#166534" font-size="8" font-weight="bold">ア 内側（おそい）</text>
+                                <text x="210" y="25" fill="#991b1b" font-size="8" font-weight="bold">イ 外側（速い）</text>
+                                <text x="50" y="55" fill="white" font-size="8">川原（すな）</text>
+                                <text x="210" y="92" fill="white" font-size="8">崖（大きい石）</text>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右側：作用ボタン ＆ テキスト説明 -->
+                <div class="lg:col-span-5 space-y-4">
+                    <div class="bg-emerald-50 p-4 rounded-2xl border border-emerald-200">
+                        <h4 class="font-bold text-emerald-800 text-sm mb-2">🔥 3大作用をおこしてみよう！</h4>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button onclick="playRiverAction('erode')" class="px-2 py-3 rounded-lg bg-white border border-red-200 hover:border-red-400 font-bold text-xs text-red-600 text-center transition-all flex flex-col items-center gap-1 shadow-sm">
+                                <span class="text-lg">💥</span>
+                                <span>しん食</span>
+                            </button>
+                            <button onclick="playRiverAction('carry')" class="px-2 py-3 rounded-lg bg-white border border-blue-200 hover:border-blue-400 font-bold text-xs text-blue-600 text-center transition-all flex flex-col items-center gap-1 shadow-sm">
+                                <span class="text-lg">🚚</span>
+                                <span>運ぱん</span>
+                            </button>
+                            <button onclick="playRiverAction('deposit')" class="px-2 py-3 rounded-lg bg-white border border-emerald-200 hover:border-emerald-400 font-bold text-xs text-emerald-600 text-center transition-all flex flex-col items-center gap-1 shadow-sm">
+                                <span class="text-lg">⛰️</span>
+                                <span>たい積</span>
+                            </button>
+                        </div>
+                        <p class="text-[10px] text-slate-500 mt-2 text-center">※ボタンを押すと、川の上にアニメーションが出現するよ！</p>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-2xl border border-slate-200 space-y-3">
+                        <div class="border-l-4 border-red-500 pl-3">
+                            <h4 class="font-bold text-xs text-red-700">1. しん食（侵食）＝ けずる</h4>
+                            <p class="text-[10px] text-slate-600 leading-relaxed">流れる水が地面を<b>けずる</b>はたらき。水がはやく流れる場所（カーブの外側など）で強くなるよ！</p>
+                        </div>
+                        <div class="border-l-4 border-blue-500 pl-3">
+                            <h4 class="font-bold text-xs text-blue-700">2. 運ぱん（運搬）＝ はこぶ</h4>
+                            <p class="text-[10px] text-slate-600 leading-relaxed">けずられた土やすな、石を<b>下流へはこぶ</b>はたらき。大雨で川が増水すると一気にたくさんの土砂をはこぶよ！</p>
+                        </div>
+                        <div class="border-l-4 border-emerald-500 pl-3">
+                            <h4 class="font-bold text-xs text-emerald-700">3. たい積（堆積）＝ つもる</h4>
+                            <p class="text-[10px] text-slate-600 leading-relaxed">運ばれてきた土や砂が、流れの遅い場所（カーブの内側や、海の近く）に<b>つもる</b>はたらき。</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-amber-50 p-4 rounded-2xl border border-amber-200">
+                        <h4 class="font-bold text-amber-800 text-xs flex items-center gap-1">
+                            <i class="fa-solid fa-lightbulb"></i> テストに必ず出る！ひっかけ注意
+                        </h4>
+                        <ul class="list-disc list-inside text-[10px] text-amber-900 space-y-1 mt-1 leading-relaxed">
+                            <li><b>まっすぐな川</b>：流れが一番はやいのは「真ん中」！川底も「真ん中」が一番深く、大きな石が多い。</li>
+                            <li><b>曲がった川</b>：外側は「がけ」になり「大きい石」がある。内側は流れがおそく「川原（すな）」になる！</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- クイズコーナー -->
+        <section class="mt-8 bg-gradient-to-r from-purple-500 to-indigo-500 text-white p-6 rounded-3xl shadow-xl">
+            <h3 class="text-xl font-bold title-font mb-4">
+                🎯 天気・観測・台風・川マスタークイズ！ (<span id="quiz-progress">1/15</span>)
+            </h3>
+            <div class="bg-white text-slate-800 p-6 rounded-2xl">
+                <div id="quiz-area">
+                    <p id="quiz-question" class="font-bold text-lg">読み込み中...</p>
+                    <div id="quiz-options" class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4"></div>
+                    <div id="quiz-feedback" class="hidden mt-4 p-3 rounded-xl font-bold text-center"></div>
+                    <button id="next-quiz" onclick="loadNextQuiz()" class="hidden mt-4 w-full bg-indigo-600 text-white font-bold py-3 rounded-xl shadow-lg">次の問題へ ➡️</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center text-slate-400 text-[10px] mt-12 pb-6">
+        <p>© 2026 基礎学力コンテスト対策 🚀</p>
+    </footer>
+
+    <script>
+        // タブ切り替え
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+            document.getElementById(`content-${tabId}`).classList.remove('hidden');
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('bg-blue-500', 'bg-indigo-500', 'bg-sky-500', 'bg-emerald-500', 'text-white', 'scale-105'));
+            const btn = document.getElementById(`tab-${tabId}`);
+            btn.classList.add('text-white', 'scale-105');
+            if(tabId==='weather') btn.classList.add('bg-blue-500');
+            if(tabId==='observation') btn.classList.add('bg-indigo-500');
+            if(tabId==='typhoon') btn.classList.add('bg-sky-500');
+            if(tabId==='river') btn.classList.add('bg-emerald-500');
+        }
+
+        // --- 雲シミュレーターのロジック ---
+        let rainActive = false;
+
+        function updateCloudWeather(val) {
+            const container = document.getElementById('clouds-container');
+            const nameDisp = document.getElementById('weather-name');
+            const descDisp = document.getElementById('weather-desc');
+            const bg = document.getElementById('sky-canvas');
+            const sun = document.getElementById('sky-sun');
+            const badge = document.getElementById('cloud-amount-badge');
+
+            badge.textContent = val;
+            container.innerHTML = '';
+            const amount = parseInt(val);
+
+            if (amount > 0) {
+                const count = Math.max(amount * 2, 5);
+                for (let i = 0; i < count; i++) {
+                    const c = document.createElement('div');
+                    c.className = 'absolute text-white opacity-80 floating';
+                    c.innerHTML = `<i class="fa-solid fa-cloud"></i>`;
+                    c.style.fontSize = `${30 + Math.random() * 50}px`;
+                    c.style.top = `${Math.random() * 60}%`;
+                    c.style.left = `${Math.random() * 90}%`;
+                    c.style.animationDelay = `${Math.random() * -5}s`;
+                    container.appendChild(c);
+                }
+            }
+
+            if (rainActive) {
+                nameDisp.innerHTML = `🌧️ 雨 (あめ)`;
+                descDisp.textContent = `雨がふると、雲の量に関係なく天気は「雨」になるよ！`;
+                bg.style.background = 'linear-gradient(to bottom, #64748b, #94a3b8)';
+                sun.style.opacity = '0';
+                return;
+            }
+
+            if (amount <= 1) {
+                nameDisp.innerHTML = `☀️ 快晴 (かいせい)`;
+                descDisp.textContent = `雲の量が「0〜1」の、とっても気持ちいい青空だよ！`;
+                bg.style.background = 'linear-gradient(to bottom, #38bdf8, #bae6fd)';
+                sun.style.opacity = '1';
+            } else if (amount <= 8) {
+                nameDisp.innerHTML = `⛅ 晴れ (はれ)`;
+                descDisp.textContent = `雲の量が「2〜8」のときだよ。お日様も雲も見えるね。`;
+                bg.style.background = 'linear-gradient(to bottom, #7dd3fc, #e0f2fe)';
+                sun.style.opacity = '0.7';
+            } else {
+                nameDisp.innerHTML = `☁️ くもり`;
+                descDisp.textContent = `雲の量が「9〜10」で、空のほとんどが雲でおおわれているよ。`;
+                bg.style.background = 'linear-gradient(to bottom, #cbd5e1, #f1f5f9)';
+                sun.style.opacity = '0';
+            }
+        }
+
+        function setCloudPreset(type) {
+            const container = document.getElementById('clouds-container');
+            const nameDisp = document.getElementById('weather-name');
+            const descDisp = document.getElementById('weather-desc');
+            const bg = document.getElementById('sky-canvas');
+            const sun = document.getElementById('sky-sun');
+            const slider = document.getElementById('cloud-slider');
+
+            container.innerHTML = '';
+            sun.style.opacity = '0';
+            rainActive = false;
+            document.getElementById('rain-switch').checked = false;
+            document.getElementById('rain-effect').classList.add('hidden');
+
+            if (type === '巻層雲') {
+                slider.value = 10;
+                nameDisp.innerHTML = `☁️ 巻層雲 (かんそううん)`;
+                descDisp.textContent = `別名：うす雲。白い布のようにうすく広がって、お日様に「かさ」ができることもあるよ。`;
+                bg.style.background = 'linear-gradient(to bottom, #e2e8f0, #f8fafc)';
+                container.innerHTML = `<div class="absolute inset-0 bg-white/40 backdrop-blur-[1px]"></div>`;
+            } else if (type === '高積雲') {
+                slider.value = 6;
+                nameDisp.innerHTML = `🐑 高積雲 (こうせきうん)`;
+                descDisp.textContent = `別名：ひつじ雲。ポコポコとかたまった雲。秋の空によくあらわれるよ。`;
+                bg.style.background = 'linear-gradient(to bottom, #7dd3fc, #e0f2fe)';
+                for (let i = 0; i < 20; i++) {
+                    const c = document.createElement('div');
+                    c.className = 'absolute text-white/90 text-2xl floating-small';
+                    c.innerHTML = `<i class="fa-solid fa-cloud"></i>`;
+                    c.style.top = `${20 + (Math.floor(i/5)*15)}%`;
+                    c.style.left = `${(i%5)*20 + Math.random()*5}%`;
+                    container.appendChild(c);
+                }
+            } else if (type === '積乱雲') {
+                slider.value = 10;
+                nameDisp.innerHTML = `⚡ 積乱雲 (せきらんうん)`;
+                descDisp.textContent = `別名：入道雲。夕立ちやかみなりを連れてくる、巨大な雲のかたまりだよ！`;
+                bg.style.background = 'linear-gradient(to bottom, #475569, #94a3b8)';
+                container.innerHTML = `<div class="absolute bottom-0 left-1/2 -translate-x-1/2 text-[200px] text-white floating" style="filter: drop-shadow(0 0 20px white);"><i class="fa-solid fa-cloud"></i></div>`;
+            } else if (type === '乱層雲') {
+                slider.value = 10;
+                nameDisp.innerHTML = `🌧️ 乱層雲 (らんそううん)`;
+                descDisp.textContent = `別名：雨雲。空全体を暗い灰色でおおって、長い時間雨や雪をふらせるよ。`;
+                bg.style.background = 'linear-gradient(to bottom, #334155, #475569)';
+                container.innerHTML = `<div class="absolute inset-0 bg-black/30"></div>`;
+                toggleRain(true);
+                document.getElementById('rain-switch').checked = true;
+            } else if (type === '層積雲') {
+                slider.value = 9;
+                nameDisp.innerHTML = `🚜 層積雲 (そうせきうん)`;
+                descDisp.textContent = `別名：うね雲。畑のうね（地面のデコボコ）のように、いくつも長く横たわっている雲だよ。`;
+                bg.style.background = 'linear-gradient(to bottom, #94a3b8, #cbd5e1)';
+                for (let i = 0; i < 4; i++) {
+                    const c = document.createElement('div');
+                    c.className = 'absolute text-white/70 text-8xl w-[120%] -left-[10%]';
+                    c.innerHTML = `<i class="fa-solid fa-cloud"></i> <i class="fa-solid fa-cloud"></i> <i class="fa-solid fa-cloud"></i>`;
+                    c.style.top = `${15 + (i*20)}%`;
+                    container.appendChild(c);
+                }
+            }
+            document.getElementById('cloud-amount-badge').textContent = slider.value;
+        }
+
+        function toggleRain(checked) {
+            rainActive = checked;
+            document.getElementById('rain-effect').classList.toggle('hidden', !checked);
+            updateCloudWeather(document.getElementById('cloud-slider').value);
+        }
+
+        // --- 気象観測ロジック ---
+        function triggerSatellite() {
+            const beam = document.getElementById('satellite-beam');
+            const status = document.getElementById('satellite-status');
+            beam.classList.remove('hidden');
+            status.innerHTML = `<span class="text-yellow-400 font-bold">⚡ 電波そうしん中！カメラでカシャ！</span>`;
+            setTimeout(() => {
+                beam.classList.add('hidden');
+                status.innerHTML = `<span class="text-emerald-400 font-bold">📸 地上へデータを送信完了！『雲の画像』を受信しました。</span>`;
+            }, 1500);
+        }
+
+        const amedasStations = [
+            { place: "東京 (とうきょう)", temp: 24.5, rain: 2, windDir: "南南東", windSpeed: 3.2 },
+            { place: "札幌 (さっぽろ)", temp: 16.2, rain: 0, windDir: "北西", windSpeed: 1.5 },
+            { place: "大阪 (おおさか)", temp: 26.1, rain: 15, windDir: "南西", windSpeed: 5.8 },
+            { place: "福岡 (ふくおか)", temp: 28.0, rain: 45, windDir: "南", windSpeed: 8.4 },
+            { place: "那覇 (なは)", temp: 31.2, rain: 0, windDir: "南東", windSpeed: 4.1 }
+        ];
+        let amedasIndex = 0;
+
+        function triggerAmedas() {
+            const station = amedasStations[amedasIndex];
+            document.getElementById('amedas-place').textContent = station.place;
+            document.getElementById('amedas-temp').textContent = station.temp.toFixed(1);
+            document.getElementById('amedas-rain').textContent = station.rain;
+            document.getElementById('amedas-wind-dir').textContent = station.windDir;
+            document.getElementById('amedas-wind-speed').textContent = station.windSpeed.toFixed(1);
+            amedasIndex = (amedasIndex + 1) % amedasStations.length;
+        }
+
+        // --- 川のシミュレーションロジック ---
+        function switchRiverMode(mode) {
+            const btnStraight = document.getElementById('btn-river-straight');
+            const btnCurved = document.getElementById('btn-river-curved');
+            const svgStraight = document.getElementById('svg-river-straight');
+            const svgCurved = document.getElementById('svg-river-curved');
+            const title = document.getElementById('river-visual-title');
+            const crossStraight = document.getElementById('cross-section-straight');
+            const crossCurved = document.getElementById('cross-section-curved');
+
+            if (mode === 'straight') {
+                btnStraight.className = "px-5 py-2 rounded-full font-bold border-2 border-blue-500 bg-blue-500 text-white shadow-md transition-all";
+                btnCurved.className = "px-5 py-2 rounded-full font-bold border-2 border-blue-500 bg-white text-blue-500 hover:bg-blue-50 shadow-md transition-all";
+                svgStraight.classList.remove('hidden');
+                svgCurved.classList.add('hidden');
+                title.textContent = "📏 まっすぐな川の上空から見たようす";
+                crossStraight.classList.remove('hidden');
+                crossCurved.classList.add('hidden');
+            } else {
+                btnCurved.className = "px-5 py-2 rounded-full font-bold border-2 border-blue-500 bg-blue-500 text-white shadow-md transition-all";
+                btnStraight.className = "px-5 py-2 rounded-full font-bold border-2 border-blue-500 bg-white text-blue-500 hover:bg-blue-50 shadow-md transition-all";
+                svgStraight.classList.add('hidden');
+                svgCurved.classList.remove('hidden');
+                title.textContent = "↪️ 曲がった川の上空から見たようす";
+                crossStraight.classList.add('hidden');
+                crossCurved.classList.remove('hidden');
+            }
+        }
+
+        function playRiverAction(action) {
+            const erode = document.getElementById('erode-effect');
+            const carry = document.getElementById('carry-effect');
+            const deposit = document.getElementById('deposit-effect');
+            erode.classList.add('hidden');
+            carry.classList.add('hidden');
+            deposit.classList.add('hidden');
+            if (action === 'erode') {
+                erode.classList.remove('hidden');
+                setTimeout(() => erode.classList.add('hidden'), 3000);
+            } else if (action === 'carry') {
+                carry.classList.remove('hidden');
+                setTimeout(() => carry.classList.add('hidden'), 5000);
+            } else if (action === 'deposit') {
+                deposit.classList.remove('hidden');
+                setTimeout(() => deposit.classList.add('hidden'), 3000);
+            }
+        }
+
+        // --- クイズロジック ---
+        const quizzes = [
+            { q: "空全体の広さを10としたとき、雲の量が『9〜10』のときの天気はなに？", a: ["快晴", "晴れ", "くもり", "雨"], c: 2 },
+            { q: "『ひつじ雲』とも呼ばれる、白や灰色のポコポコしたかたまりの雲はなに？", a: ["高積雲 (こうせきうん)", "巻層雲 (かんそううん)", "層積雲 (そうせきうん)", "乱層雲 (らんそううん)"], c: 0 },
+            { q: "別名『うす雲』と呼ばれ、白い布のようにかげがなく広がる雲はなに？", a: ["積乱雲 (せきらんうん)", "高積雲 (こうせきうん)", "巻層雲 (かんそううん)", "層積雲 (そうせきうん)"], c: 2 },
+            { q: "別名『入道雲』と呼ばれ、夕立ちやかみなりを発生させる背の高い雲はなに？", a: ["巻層雲 (かんそううん)", "積乱雲 (せきらんうん)", "乱層雲 (らんそううん)", "層積雲 (そうせきうん)"], c: 1 },
+            { q: "別名『雨雲』と呼ばれ、空一面をおおう暗い灰色の雲はなに？", a: ["乱層雲 (らんそううん)", "層積雲 (そうせきうん)", "高積雲 (こうせきうん)", "積乱雲 (せきらんうん)"], c: 0 },
+            { q: "畑のうね（凸凹）のようにいくつも長く横たわる、雨をふらせない雲はなに？", a: ["巻層雲 (かんそううん)", "高積雲 (こうせきうん)", "乱層雲 (らんそううん)", "層積雲 (そうせきうん)"], c: 3 },
+            { q: "宇宙から地球全体の雲のようすや動きを撮影して地上に送る人工衛星はなに？", a: ["きしょうレーダー", "ひまわり (気象衛星)", "アメダス観測船", "スペースシャトル"], c: 1 },
+            { q: "全国約1300か所にある、無人で雨や風、気温などを自動で測定しているシステムの名前は？", a: ["アメダス", "ひまわり", "気象台", "ハザードマップ"], c: 0 },
+            { q: "アメダスで観測できない「ひっかけ項目」はどれ？（※テストに超出ます！）", a: ["気温", "風向・風速", "雲の量・雲の動き", "雨の量"], c: 2 },
+            { q: "台風の中心にある、風が弱くて雨もあまりふらない部分を何という？", a: ["台風の目", "台風の耳", "台風の口", "台風の鼻"], c: 0 },
+            { q: "日本付近で、天気が『西から東』へと移り変わる原因となる強い西風の名前は？", a: ["偏西風 (へんせいふう)", "季節風 (きせつふう)", "貿易風 (ぼうえきふう)", "台風 (たいふう)"], c: 0 },
+            { q: "流れる水のはたらきで、地面をけずるはたらきを何という？", a: ["運ぱん", "しん食", "たい積", "増水"], c: 1 },
+            { q: "まっすぐな川で、流れがもっとも速く、川底が一番深くなっているのはどこ？", a: ["川岸の近く", "川の真ん中", "川底の両はじ", "上流の滝"], c: 1 },
+            { q: "曲がった川で、流れが速く、けずられて「がけ」や「大きな石」ができやすいのはどっち？", a: ["川の内側", "川の外側", "内側と外側の両方", "真ん中"], c: 1 },
+            { q: "曲がった川の『内側（川原）』の様子について、正しい説明はどれ？", a: ["流れが速く、深くて、大きな石が転がっている", "流れがおそく、浅くて、土やすなが積もっている", "流れが速く、がけになっていて、すなが積もっている", "流れがおそく、崖になっていて、大きな石が転がっている"], c: 1 }
+        ];
+        let qIdx = 0;
+
+        function loadQuiz() {
+            const data = quizzes[qIdx];
+            document.getElementById('quiz-progress').textContent = `${qIdx+1}/${quizzes.length}`;
+            document.getElementById('quiz-question').textContent = `第${qIdx+1}問：${data.q}`;
+            const optArea = document.getElementById('quiz-options');
+            optArea.innerHTML = '';
+            data.a.forEach((txt, i) => {
+                const b = document.createElement('button');
+                b.className = "p-3 rounded-xl border-2 border-slate-200 text-left hover:border-indigo-500 font-bold text-sm transition-all bg-slate-50 hover:bg-white w-full shadow-sm";
+                b.textContent = txt;
+                b.onclick = () => checkQuiz(i);
+                optArea.appendChild(b);
+            });
+            document.getElementById('quiz-feedback').classList.add('hidden');
+            document.getElementById('next-quiz').classList.add('hidden');
+        }
+
+        function checkQuiz(idx) {
+            const f = document.getElementById('quiz-feedback');
+            f.classList.remove('hidden');
+            if(idx === quizzes[qIdx].c) {
+                f.className = "mt-4 p-3 rounded-xl font-bold text-center bg-emerald-100 text-emerald-700 shadow-sm";
+                f.textContent = "⭕ 正解！すごいね！大正解だよ！ 🎉";
+            } else {
+                f.className = "mt-4 p-3 rounded-xl font-bold text-center bg-rose-100 text-rose-700 shadow-sm";
+                f.textContent = `❌ 残念！正解は「${quizzes[qIdx].a[quizzes[qIdx].c]}」だよ。`;
+            }
+            document.getElementById('next-quiz').classList.remove('hidden');
+            if(qIdx === quizzes.length - 1) document.getElementById('next-quiz').textContent = "最初からもう一度チャレンジする 🔄";
+        }
+
+        function loadNextQuiz() {
+            qIdx = (qIdx + 1) % quizzes.length;
+            loadQuiz();
+        }
+
+        window.onload = () => {
+            updateCloudWeather(0);
+            loadQuiz();
+        };
+    </script>
+</body>
+</html>

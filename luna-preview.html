@@ -1,0 +1,335 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ANRINO 育成キャラ図鑑</title>
+<style>
+body{margin:0;background:linear-gradient(160deg,#faf5ff,#eef2ff);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans",sans-serif;color:#3d2b5e;padding:24px 16px 40px;}
+h1{font-size:20px;text-align:center;margin:0 0 20px;background:linear-gradient(135deg,#f472b6,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+h2{font-size:16px;max-width:1120px;margin:26px auto 4px;}
+.meta{max-width:1120px;margin:0 auto 12px;font-size:12px;color:#a78bfa;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;max-width:1120px;margin:0 auto;}
+.cell{background:linear-gradient(160deg,#2e1065,#4c1d95 60%,#6d28d9);border-radius:22px;padding:12px 8px 14px;text-align:center;box-shadow:0 6px 22px rgba(76,29,149,.28);}
+.lv{display:inline-block;background:rgba(255,255,255,.18);color:#fde68a;font-size:11px;font-weight:800;border-radius:99px;padding:2px 10px;margin-bottom:4px;}
+.nm{font-size:14px;font-weight:900;color:#fff;line-height:1.35;}
+.ht{font-size:11px;color:#ddd6fe;margin-top:5px;line-height:1.5;}
+.rq{font-size:11px;font-weight:800;color:#fbbf24;margin-top:7px;}
+.note{max-width:1120px;margin:24px auto 0;background:rgba(255,255,255,.8);border-radius:18px;padding:16px 18px;font-size:13px;line-height:1.9;}
+.note b{color:#7c3aed;}
+</style></head><body>
+<h1>🎒 ANRINO 育成キャラ図鑑</h1>
+<div id="wrap"></div>
+<div class="note">
+  <b>アプリでの見かた</b><br>
+  ① ena →🍉8月 または 🌰9月 のホーム画面いちばん上の <b>むらさきの育成カード</b><br>
+  ② そのカードをタップ →<b>育成画面</b>（大きいキャラ・せいちょう図鑑・単元べつの完璧数）<br>
+  ③ 問題を3回正解して⭐がついた瞬間 →<b>「ひまわりのタネ +1」「月のかけら +1」</b><br>
+  ④ レベルが上がった回の結果画面 →<b>レベルアップ演出</b><br><br>
+  <b>しくみ</b>：レベルはその月の問題を「何％完璧にしたか」で決まります。ぜんぶ完璧にすると最終形態＋コンプリート。
+  問題を追加しても<b>キャラは絶対に退化しません</b>（背景の月／ひまわりだけが少し欠けて「新しい問題が来たよ」の合図になります）。
+  もう一度ぜんぶ完璧にすると★が1つ増えます。
+</div>
+<script>
+const PETS = {
+  '202609': {
+    title:    '🌙 月うさぎルナ',
+    render:   (lv, fill, size, o) => renderLunaSVG(lv, fill, size, o),
+    phases:   ['🌑','🌒','🌓','🌔','🌕'],       // 進捗0%→100%のアイコン
+    shard:    '🌙 月のかけら',
+    complete: 'ぜんぶ完璧！月がまんまるになったよ🌕',
+    grew:     d => `🌙 新しい問題が${d}問！もういちど満月にしよう`,
+    grewNew:  d => `🆕 新しい問題が${d}問ふえたよ！`,
+    starKick: '🌝 ぜんぶ完璧！',
+    starSub:  '月がまんまるになったよ！',
+    dexNote:  'をぜんぶ完璧にするたびに、ルナに★が1つ増えるよ！',
+    levels: [
+      { ratio:0,    name:'しんげつルナ',       hint:'たまごの中でねむっているよ' },
+      { ratio:0.12, name:'みかづきルナ',       hint:'ちいさなうさぎになった！' },
+      { ratio:0.30, name:'じょうげんルナ',     hint:'きねを持ってもちつきの練習だ' },
+      { ratio:0.53, name:'じゅうさんやルナ',   hint:'マントをはおって夜空へ！' },
+      { ratio:0.76, name:'まんげつルナ',       hint:'星のかんむりをかぶった！' },
+      { ratio:1.00, name:'スーパームーンルナ', hint:'まばゆく光りかがやいている！' },
+    ],
+  },
+  '202608': {
+    title:    '🪲 カブたろう',
+    render:   (lv, fill, size, o) => renderKabuSVG(lv, fill, size, o),
+    phases:   ['🌱','🌿','🌼','🌻','🌻'],
+    shard:    '🌻 ひまわりのタネ',
+    complete: 'ぜんぶ完璧！ひまわりが満開になったよ🌻',
+    grew:     d => `🌻 新しい問題が${d}問！もういちど満開にしよう`,
+    grewNew:  d => `🆕 新しい問題が${d}問ふえたよ！`,
+    starKick: '🌻 ぜんぶ完璧！',
+    starSub:  'ひまわりが満開になったよ！',
+    dexNote:  'をぜんぶ完璧にするたびに、カブたろうに★が1つ増えるよ！',
+    levels: [
+      { ratio:0,    name:'たまごのカブたろう',   hint:'土の中のたまご。ねむって春を待つよ' },
+      { ratio:0.12, name:'よう虫のカブたろう',   hint:'ふ葉土をもりもり食べて大きくなる！' },
+      { ratio:0.30, name:'さなぎのカブたろう',   hint:'さなぎになった。中で体をつくりかえ中…' },
+      { ratio:0.53, name:'うかしたてカブたろう', hint:'羽化したて！まだ体の色がうすいよ' },
+      { ratio:0.76, name:'せいちゅうカブたろう', hint:'りっぱな角の成虫になった！' },
+      { ratio:1.00, name:'カブトキング',         hint:'森いちばんの王者だ！' },
+    ],
+  },
+};
+
+function petStar(x, y, r, fill, anim) {
+  const d = `M${x} ${y-r} L${x+r*0.28} ${y-r*0.3} L${x+r} ${y-r*0.3} L${x+r*0.4} ${y+r*0.18} `
+          + `L${x+r*0.6} ${y+r} L${x} ${y+r*0.42} L${x-r*0.6} ${y+r} L${x-r*0.4} ${y+r*0.18} `
+          + `L${x-r} ${y-r*0.3} L${x-r*0.28} ${y-r*0.3} Z`;
+  return anim
+    ? `<path d="${d}" fill="${fill}"><animate attributeName="opacity" values="0.25;1;0.25" dur="2.2s" begin="${(x%7)/5}s" repeatCount="indefinite"/></path>`
+    : `<path d="${d}" fill="${fill}"/>`;
+}
+function renderLunaSVG(level, fillPct, size, opts) {
+  opts = opts || {};
+  const sil = !!opts.silhouette;
+  const L   = Math.max(1, level | 0);
+  const nStars = Math.max(0, opts.stars || 0);
+  const c = sil
+    ? { lit:'#d8d3ea', dark:'rgba(0,0,0,0.03)', fur:'#d5d0e8', ear:'#c3bcdd', line:'#c3bcdd',
+        eye:'#bdb6da', blush:'#c3bcdd', cape:'#c3bcdd', kine:'#c3bcdd', star:'#d5d0e8', crown:'#c3bcdd' }
+    : { lit:'#fde68a', dark:'rgba(255,255,255,0.10)', fur:'#fffaf3', ear:'#fbcfe8', line:'#c4b5fd',
+        eye:'#3d2b5e', blush:'#fda4af', cape:'#a78bfa', kine:'#deb887', star:'#fde68a', crown:'#fbbf24' };
+
+  const R = 60, mcx = 100, mcy = 92;
+  const p  = Math.max(0, Math.min(1, fillPct || 0));
+  const rx = R * Math.abs(1 - 2 * p);
+  const uid = 'lm' + Math.random().toString(36).slice(2, 8);
+
+  // ── 背景の月（満ち欠け） ──
+  let moon = '';
+  if (!sil) {
+    moon = `
+      <circle cx="${mcx}" cy="${mcy}" r="${R}" fill="${c.dark}"/>
+      <mask id="${uid}">
+        <rect x="0" y="0" width="200" height="200" fill="black"/>
+        <rect x="${mcx}" y="${mcy - R}" width="${R}" height="${2 * R}" fill="white"/>
+        <ellipse cx="${mcx}" cy="${mcy}" rx="${rx.toFixed(1)}" ry="${R}" fill="${p < 0.5 ? 'black' : 'white'}"/>
+      </mask>
+      <g mask="url(#${uid})">
+        <circle cx="${mcx}" cy="${mcy}" r="${R}" fill="${c.lit}" opacity="0.95"/>
+        <circle cx="${mcx - 26}" cy="${mcy - 22}" r="9"   fill="#f6d268" opacity="0.55"/>
+        <circle cx="${mcx + 20}" cy="${mcy + 6}"  r="12"  fill="#f6d268" opacity="0.45"/>
+        <circle cx="${mcx + 2}"  cy="${mcy + 36}" r="7"   fill="#f6d268" opacity="0.5"/>
+      </g>`;
+  }
+
+  // ── オーラ・星（レベル6以上） ──
+  let deco = '';
+  if (L >= 6 && !sil) {
+    deco += `<circle cx="100" cy="112" r="84" fill="none" stroke="#fef3c7" stroke-width="3" opacity="0.35">
+               <animate attributeName="r" values="78;88;78" dur="3s" repeatCount="indefinite"/>
+               <animate attributeName="opacity" values="0.45;0.1;0.45" dur="3s" repeatCount="indefinite"/>
+             </circle>`;
+  }
+  if (L >= 4) {
+    deco += petStar(30, 44, 9, c.star, !sil) + petStar(172, 62, 8, c.star, !sil);
+  }
+  if (L >= 6) deco += petStar(24, 132, 8, c.star, !sil) + petStar(178, 140, 7, c.star, !sil);
+  for (let i = 0; i < Math.min(nStars, 6); i++) {
+    const a = -Math.PI / 2 + (i + 1) * (Math.PI * 2 / 7);
+    deco += petStar(100 + Math.cos(a) * 88, 108 + Math.sin(a) * 88, 7, c.star, !sil);
+  }
+
+  // ── うさぎ本体 ──
+  let body = '';
+  if (L === 1) {
+    // たまご
+    body = `
+      <ellipse cx="86" cy="76" rx="7"  ry="11" fill="${c.fur}" stroke="${c.line}" stroke-width="2.5"/>
+      <ellipse cx="114" cy="76" rx="7" ry="11" fill="${c.fur}" stroke="${c.line}" stroke-width="2.5"/>
+      <ellipse cx="100" cy="120" rx="40" ry="46" fill="${c.fur}" stroke="${c.line}" stroke-width="3"/>
+      <path d="M78 116 q7 -8 14 0" stroke="${c.eye}" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+      <path d="M108 116 q7 -8 14 0" stroke="${c.eye}" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+      <ellipse cx="72" cy="130" rx="7" ry="4.5" fill="${c.blush}" opacity="0.75"/>
+      <ellipse cx="128" cy="130" rx="7" ry="4.5" fill="${c.blush}" opacity="0.75"/>
+      <path d="M96 130 q4 4 8 0" stroke="${c.eye}" stroke-width="2.5" fill="none" stroke-linecap="round"/>`;
+  } else {
+    const earLen = L >= 4 ? 26 : 20;
+    const ear = (cx, rot) => `
+      <g transform="rotate(${rot} ${cx} 82)">
+        <ellipse cx="${cx}" cy="${82 - earLen}" rx="9" ry="${earLen}" fill="${c.fur}" stroke="${c.line}" stroke-width="2.5"/>
+        <ellipse cx="${cx}" cy="${84 - earLen}" rx="4" ry="${earLen - 8}" fill="${c.ear}"/>
+      </g>`;
+    let extra = '';
+    if (L >= 3) {  // きね（もちつき）
+      extra += `<g transform="rotate(-22 142 140)">
+                  <rect x="138" y="104" width="8"  height="56" rx="4" fill="${c.kine}" stroke="${c.line}" stroke-width="1.5"/>
+                  <rect x="124" y="92"  width="36" height="17" rx="7" fill="${c.kine}" stroke="${c.line}" stroke-width="1.5"/>
+                </g>`;
+    }
+    let cape = '';
+    if (L >= 4) {  // マント
+      cape = `<path d="M70 124 Q100 112 130 124 L142 174 Q100 160 58 174 Z" fill="${c.cape}" opacity="${sil ? 1 : 0.85}"/>`;
+    }
+    let crown = '';
+    if (L >= 5) {  // 星のかんむり
+      crown = `<path d="M82 94 L88 78 L100 88 L112 78 L118 94 Z" fill="${c.crown}" stroke="${c.line}" stroke-width="1.5" stroke-linejoin="round"/>`;
+    }
+    body = `
+      ${extra}
+      ${ear(86, -11)}
+      ${ear(114, 11)}
+      ${cape}
+      <ellipse cx="100" cy="148" rx="30" ry="24" fill="${c.fur}" stroke="${c.line}" stroke-width="2.5"/>
+      <ellipse cx="82"  cy="166" rx="13" ry="8" fill="${c.fur}" stroke="${c.line}" stroke-width="2.5"/>
+      <ellipse cx="118" cy="166" rx="13" ry="8" fill="${c.fur}" stroke="${c.line}" stroke-width="2.5"/>
+      <circle cx="100" cy="112" r="31" fill="${c.fur}" stroke="${c.line}" stroke-width="3"/>
+      ${crown}
+      <ellipse cx="89"  cy="110" rx="4.5" ry="5.5" fill="${c.eye}"/>
+      <ellipse cx="111" cy="110" rx="4.5" ry="5.5" fill="${c.eye}"/>
+      ${sil ? '' : '<circle cx="90.5" cy="108" r="1.6" fill="#fff"/><circle cx="112.5" cy="108" r="1.6" fill="#fff"/>'}
+      <ellipse cx="76"  cy="121" rx="7" ry="4.5" fill="${c.blush}" opacity="0.75"/>
+      <ellipse cx="124" cy="121" rx="7" ry="4.5" fill="${c.blush}" opacity="0.75"/>
+      <path d="M96 121 l4 4 l4 -4 z" fill="${c.blush}"/>
+      <path d="M100 125 q-5 6 -9 2 M100 125 q5 6 9 2" stroke="${c.eye}" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      ${L >= 3 ? petStar(126, 100, 5, c.crown, false) : ''}`;
+  }
+
+  const scale = L === 1 ? 0.88 : Math.min(1.08, 0.92 + (L - 2) * 0.035);
+  return `<svg viewBox="0 0 200 200" width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg" style="overflow:visible;display:block;">
+    ${moon}${deco}
+    <g transform="translate(100,106) scale(${scale.toFixed(3)}) translate(-100,-106)">${body}</g>
+  </svg>`;
+}
+function renderKabuSVG(level, fillPct, size, opts) {
+  opts = opts || {};
+  const sil = !!opts.silhouette;
+  const L   = Math.max(1, level | 0);
+  const nStars = Math.max(0, opts.stars || 0);
+  const c = sil
+    ? { petal:'#d5d0e8', petalOff:'rgba(0,0,0,0.03)', core:'#c3bcdd', seed:'#bdb6da', soil:'#c3bcdd',
+        egg:'#d5d0e8', larva:'#d5d0e8', larvaHead:'#c3bcdd', pupa:'#c3bcdd',
+        body:'#c3bcdd', body2:'#bdb6da', horn:'#c3bcdd', tip:null, eye:'#bdb6da',
+        shine:'#d5d0e8', outline:'#bdb6da', star:'#d5d0e8' }
+    : { petal:'#fbbf24', petalOff:'rgba(255,255,255,0.10)', core:'#c9873f', seed:'#7c4a21', soil:'#6b4423',
+        egg:'#fffaf0', larva:'#fdf3e0', larvaHead:'#c98a4b', pupa:'#b5713a',
+        body:(L>=5?'#5b3717':'#c2894e'), body2:(L>=5?'#432708':'#a86f38'),
+        horn:(L>=5?'#2f1b06':'#8f5a24'), tip:(L>=6?'#f0b429':null), eye:'#1f1206',
+        shine:'rgba(255,255,255,0.32)', outline:(L>=5?'#2a1705':'#7d4d1e'), star:'#fde68a' };
+
+  // ── 背景のひまわり（花びらが達成率ぶんだけ黄色くなる）──
+  const cx = 100, cy = 96, P = 18;
+  const p  = Math.max(0, Math.min(1, fillPct || 0));
+  const lit = Math.round(P * p);
+  let flower = '';
+  if (!sil) {
+    for (let i = 0; i < P; i++) {
+      const a = (i / P) * Math.PI * 2 - Math.PI / 2;
+      const px = cx + Math.cos(a) * 56, py = cy + Math.sin(a) * 56;
+      const deg = a * 180 / Math.PI + 90;
+      flower += `<ellipse cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" rx="9" ry="25"
+        transform="rotate(${deg.toFixed(1)} ${px.toFixed(1)} ${py.toFixed(1)})"
+        fill="${i < lit ? c.petal : c.petalOff}"/>`;
+    }
+    flower += `<circle cx="${cx}" cy="${cy}" r="34" fill="${p > 0 ? c.core : 'rgba(255,255,255,0.12)'}"/>`;
+    if (p > 0) {
+      for (let i = 0; i < 11; i++) {
+        const a = i * 1.4, r = 5 + i * 2.7;
+        flower += `<circle cx="${(cx + Math.cos(a) * r).toFixed(1)}" cy="${(cy + Math.sin(a) * r).toFixed(1)}" r="2.6" fill="${c.seed}" opacity="0.5"/>`;
+      }
+    }
+  }
+
+  // ── オーラ・星 ──
+  let deco = '';
+  if (L >= 6 && !sil) {
+    deco += `<circle cx="100" cy="108" r="88" fill="none" stroke="#fef3c7" stroke-width="3" opacity="0.35">
+               <animate attributeName="r" values="82;92;82" dur="3s" repeatCount="indefinite"/>
+               <animate attributeName="opacity" values="0.45;0.1;0.45" dur="3s" repeatCount="indefinite"/>
+             </circle>`;
+  }
+  if (L >= 4) deco += petStar(24, 40, 9, c.star, !sil) + petStar(178, 56, 8, c.star, !sil);
+  if (L >= 6) deco += petStar(18, 140, 8, c.star, !sil) + petStar(184, 146, 7, c.star, !sil);
+  for (let i = 0; i < Math.min(nStars, 6); i++) {
+    const a = -Math.PI / 2 + (i + 1) * (Math.PI * 2 / 7);
+    deco += petStar(100 + Math.cos(a) * 92, 108 + Math.sin(a) * 92, 7, c.star, !sil);
+  }
+
+  // ── 土（たまご・よう虫・さなぎは土の中）──
+  const soil = L <= 3
+    ? `<path d="M10 146 Q100 120 190 146 L190 200 L10 200 Z" fill="${c.soil}" opacity="${sil ? 1 : 0.92}"/>
+       <path d="M10 146 Q100 120 190 146" fill="none" stroke="${sil ? c.soil : '#8a5a2b'}" stroke-width="3.5"/>`
+    : '';
+
+  let body = '';
+  if (L === 1) {              // たまご
+    body = `${soil}
+      <ellipse cx="100" cy="166" rx="24" ry="29" fill="${c.egg}" stroke="${sil ? c.soil : '#e0c9a6'}" stroke-width="2.5"/>
+      <ellipse cx="91" cy="156" rx="7" ry="9" fill="#fff" opacity="${sil ? 0 : 0.8}"/>
+      <path d="M89 168 q5 5 10 0 M105 168 q5 5 10 0" stroke="${c.eye}" stroke-width="2.2" fill="none" opacity="0.4" stroke-linecap="round"/>`;
+  } else if (L === 2) {       // よう虫（C字にまるまる）
+    const lx = 100, ly = 158, lr = 31;
+    let segs = '';
+    for (let i = 1; i <= 6; i++) {
+      const a = Math.PI * (0.62 + i * 0.19);
+      segs += `<line x1="${(lx + Math.cos(a) * (lr - 15)).toFixed(1)}" y1="${(ly + Math.sin(a) * (lr - 15)).toFixed(1)}"
+                     x2="${(lx + Math.cos(a) * (lr + 15)).toFixed(1)}" y2="${(ly + Math.sin(a) * (lr + 15)).toFixed(1)}"
+                     stroke="${sil ? c.soil : '#e6cfa8'}" stroke-width="2.5" stroke-linecap="round"/>`;
+    }
+    body = `${soil}
+      <path d="M118 134 A31 31 0 1 0 116 187" stroke="${sil ? c.soil : '#e6cfa8'}" stroke-width="34" fill="none" stroke-linecap="round"/>
+      <path d="M118 134 A31 31 0 1 0 116 187" stroke="${c.larva}" stroke-width="29" fill="none" stroke-linecap="round"/>
+      ${segs}
+      <circle cx="116" cy="187" r="14" fill="${c.larvaHead}"/>
+      <circle cx="111" cy="184" r="2.8" fill="${c.eye}"/>
+      <circle cx="121" cy="184" r="2.8" fill="${c.eye}"/>
+      <path d="M112 192 q4 3 9 0" stroke="${c.eye}" stroke-width="2.2" fill="none" stroke-linecap="round"/>`;
+  } else if (L === 3) {       // さなぎ
+    body = `${soil}
+      <ellipse cx="100" cy="156" rx="29" ry="42" fill="${c.pupa}" stroke="${sil ? c.soil : '#8a5324'}" stroke-width="2.5"/>
+      <path d="M100 122 q-2 -14 0 -22" stroke="${c.pupa}" stroke-width="11" fill="none" stroke-linecap="round"/>
+      <path d="M100 116 q-2 -12 0 -18" stroke="${sil ? c.soil : '#8a5324'}" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.6"/>
+      <path d="M74 154 q26 7 52 0 M74 168 q26 7 52 0 M74 182 q26 6 52 0" stroke="${sil ? c.soil : '#8a5324'}" stroke-width="2.5" fill="none" opacity="0.75"/>
+      <circle cx="92" cy="138" r="2.8" fill="${c.eye}" opacity="0.7"/>
+      <circle cx="108" cy="138" r="2.8" fill="${c.eye}" opacity="0.7"/>`;
+  } else {                    // 成虫（L4 羽化したて / L5 成虫 / L6 キング）
+    const hw  = L >= 6 ? 13 : L >= 5 ? 11 : 8;   // 角の太さ
+    const top = L >= 6 ? 14 : L >= 5 ? 20 : 34;  // 角の先端の高さ
+    const mid = top + 26;                        // 角が分かれる位置
+    body = `
+      <path d="M72 118 Q54 114 42 98 M70 138 Q50 138 38 132 M74 158 Q56 164 46 178"
+            stroke="${c.body2}" stroke-width="6.5" stroke-linecap="round" fill="none"/>
+      <path d="M128 118 Q146 114 158 98 M130 138 Q150 138 162 132 M126 158 Q144 164 154 178"
+            stroke="${c.body2}" stroke-width="6.5" stroke-linecap="round" fill="none"/>
+      <ellipse cx="100" cy="152" rx="37" ry="42" fill="${c.body}" stroke="${c.outline}" stroke-width="2.5"/>
+      <path d="M100 112 L100 193" stroke="${c.outline}" stroke-width="3"/>
+      <ellipse cx="83" cy="136" rx="9" ry="16" fill="${c.shine}"/>
+      <ellipse cx="100" cy="110" rx="28" ry="19" fill="${c.body2}" stroke="${c.outline}" stroke-width="2.5"/>
+      <path d="M100 100 Q100 92 100 88" stroke="${c.horn}" stroke-width="8" fill="none" stroke-linecap="round"/>
+      <ellipse cx="100" cy="88" rx="16" ry="11" fill="${c.body2}" stroke="${c.outline}" stroke-width="2"/>
+      <path d="M100 86 Q100 66 100 ${mid}" stroke="${c.horn}" stroke-width="${hw}" fill="none" stroke-linecap="round"/>
+      <path d="M100 ${mid + 4} Q92 ${top + 12} 76 ${top}" stroke="${c.horn}" stroke-width="${hw - 3}" fill="none" stroke-linecap="round"/>
+      <path d="M100 ${mid + 4} Q108 ${top + 12} 124 ${top}" stroke="${c.horn}" stroke-width="${hw - 3}" fill="none" stroke-linecap="round"/>
+      <circle cx="91" cy="88" r="3.4" fill="${sil ? c.eye : '#fff'}"/>
+      <circle cx="109" cy="88" r="3.4" fill="${sil ? c.eye : '#fff'}"/>
+      <circle cx="91" cy="88" r="1.8" fill="${c.eye}"/>
+      <circle cx="109" cy="88" r="1.8" fill="${c.eye}"/>
+      ${c.tip && !sil ? `${petStar(76, top - 4, 7, c.tip, true)}${petStar(124, top - 4, 7, c.tip, true)}` : ''}`;
+  }
+
+  const scale = L <= 3 ? 0.95 : Math.min(1.02, 0.94 + (L - 4) * 0.04);
+  return `<svg viewBox="0 0 200 200" width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg" style="overflow:visible;display:block;">
+    ${flower}${deco}
+    <g transform="translate(100,108) scale(${scale.toFixed(3)}) translate(-100,-108)">${body}</g>
+  </svg>`;
+}
+const MONTH_META = {
+  '202608': { label:'🍉 8月（東北・北海道地方ほか）', total:381, char:'カブトムシのカブたろう', meter:'背景のひまわりが咲いていく' },
+  '202609': { label:'🌰 9月（月の動きと満ち欠け）', total:66,  char:'月うさぎルナ', meter:'背景の月が満ちていく' },
+};
+document.getElementById('wrap').innerHTML = Object.entries(MONTH_META).map(([m, meta]) => {
+  const cfg = PETS[m];
+  const th = cfg.levels.map((d,i)=> i===0?0:Math.ceil(d.ratio*meta.total));
+  return `<h2>${meta.label}</h2><div class="meta">キャラ：${meta.char}　／　${meta.meter}　／　全${meta.total}問</div><div class="grid">` +
+    cfg.levels.map((d,i)=>{
+      const lv=i+1;
+      return `<div class="cell">
+        ${cfg.render(lv,(lv-1)/(cfg.levels.length-1),122,{stars:0})}
+        <div class="lv">Lv.${lv}</div>
+        <div class="nm">${d.name}</div>
+        <div class="ht">${d.hint}</div>
+        <div class="rq">⭐ ${th[i]}問${lv===cfg.levels.length?'（ぜんぶ完璧）':''}</div>
+      </div>`;
+    }).join('') + '</div>';
+}).join('');
+</script></body></html>

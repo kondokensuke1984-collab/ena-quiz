@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 200" style="background:#f8fafc;font-family:sans-serif">
+  <!-- ===== ア（液体：ゆっくり自由に動く） ===== -->
+  <rect x="10" y="10" width="155" height="155" fill="white" stroke="#374151" stroke-width="2"/>
+  <!-- つぶ（なみなみの軌跡付き） -->
+  <path d="M35,50 Q40,44 45,50" fill="none" stroke="#374151" stroke-width="1.5"/>
+  <circle cx="50" cy="52" r="14" fill="none" stroke="#374151" stroke-width="2"/>
+  <path d="M120,35 Q125,30 130,36" fill="none" stroke="#374151" stroke-width="1.5"/>
+  <circle cx="133" cy="40" r="14" fill="none" stroke="#374151" stroke-width="2"/>
+  <path d="M28,105 Q33,98 38,105" fill="none" stroke="#374151" stroke-width="1.5"/>
+  <circle cx="38" cy="115" r="14" fill="none" stroke="#374151" stroke-width="2"/>
+  <path d="M110,120 Q116,113 122,120" fill="none" stroke="#374151" stroke-width="1.5"/>
+  <circle cx="126" cy="128" r="14" fill="none" stroke="#374151" stroke-width="2"/>
+  <text x="87" y="185" font-size="15" font-weight="bold" text-anchor="middle" fill="#1e293b">ア</text>
+
+  <!-- ===== イ（気体：高速で飛び回る） ===== -->
+  <rect x="193" y="10" width="155" height="155" fill="white" stroke="#374151" stroke-width="2"/>
+  <!-- 速い粒（斜め線＋丸） -->
+  <line x1="265" y1="52" x2="280" y2="58" stroke="#374151" stroke-width="2"/>
+  <line x1="265" y1="57" x2="280" y2="63" stroke="#374151" stroke-width="2"/>
+  <line x1="265" y1="62" x2="280" y2="68" stroke="#374151" stroke-width="2"/>
+  <circle cx="292" cy="62" r="14" fill="none" stroke="#374151" stroke-width="2"/>
+  <line x1="218" y1="108" x2="234" y2="100" stroke="#374151" stroke-width="2"/>
+  <line x1="221" y1="113" x2="237" y2="105" stroke="#374151" stroke-width="2"/>
+  <line x1="224" y1="118" x2="240" y2="110" stroke="#374151" stroke-width="2"/>
+  <circle cx="246" cy="96" r="14" fill="none" stroke="#374151" stroke-width="2"/>
+  <text x="270" y="185" font-size="15" font-weight="bold" text-anchor="middle" fill="#1e293b">イ</text>
+
+  <!-- ===== ウ（固体：規則正しく並んでわずかに振動） ===== -->
+  <rect x="376" y="10" width="155" height="155" fill="white" stroke="#374151" stroke-width="2"/>
+  <!-- 3×2の格子配置 -->
+  <!-- row1 -->
+  <circle cx="420" cy="55" r="14" fill="none" stroke="#374151" stroke-width="2"/>
+  <path d="M406,55 Q407,52 408,55 Q409,58 410,55" fill="none" stroke="#374151" stroke-width="1.2"/>
+  <circle cx="453" cy="55" r="14" fill="none" stroke="#374151" stroke-width="2"/>
+  <path d="M439,55 Q440,52 441,55 Q442,58 443,55" fill="none" stroke="#374151" stroke-width="1.2"/>
+  <circle cx="500" cy="55" r="14" fill="none" stroke="#374151" stroke-width="2"/>
+  <path d="M486,55 Q487,52 488,55 Q489,58 490,55" fill="none" stroke="#374151" stroke-width="1.2"/>
+  <!-- row2 -->
+  <circle cx="420" cy="110" r="14" fill="none" stroke="#374151" stroke-width="2"/>
+  <path d="M406,110 Q407,107 408,110 Q409,113 410,110" fill="none" stroke="#374151" stroke-width="1.2"/>
+  <circle cx="453" cy="110" r="14" fill="none" stroke="#374151" stroke-width="2"/>
+  <path d="M439,110 Q440,107 441,110 Q442,113 443,110" fill="none" stroke="#374151" stroke-width="1.2"/>
+  <circle cx="500" cy="110" r="14" fill="none" stroke="#374151" stroke-width="2"/>
+  <path d="M486,110 Q487,107 488,110 Q489,113 490,110" fill="none" stroke="#374151" stroke-width="1.2"/>
+  <text x="453" y="185" font-size="15" font-weight="bold" text-anchor="middle" fill="#1e293b">ウ</text>
+</svg>

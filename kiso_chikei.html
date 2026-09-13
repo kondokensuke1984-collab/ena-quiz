@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小5社会【日本の地形】完全マスターアプリ</title>
+
+    <!-- Tailwind CSS & FontAwesome Icons -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-green: #008753;
+            --secondary-orange: #f39c12;
+            --bg-light: #f7fafc;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            background-color: var(--bg-light);
+            user-select: none;
+        }
+
+        .map-viewport {
+            overflow: hidden;
+            position: relative;
+            background-color: #eef7f4;
+            border: 2px solid #cbd5e0;
+            border-radius: 1rem;
+            width: 100%;
+            height: 550px;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .map-svg-container {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform-origin: center center;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .zoom-all { transform: scale(1) translate(0, 0); }
+        .zoom-hokkaido { transform: scale(2.0) translate(-30%, 25%); }
+        .zoom-tohoku { transform: scale(2.0) translate(-25%, 5%); }
+        .zoom-kanto-chubu { transform: scale(2.2) translate(-14%, -10%); }
+        .zoom-west { transform: scale(2.0) translate(15%, -22%); }
+        .zoom-kyushu { transform: scale(2.2) translate(30%, -32%); }
+
+        .map-pin-group {
+            transition: all 0.3s ease;
+        }
+
+        .map-pin-group:hover .pin-circle-el {
+            r: 15;
+            stroke-width: 3;
+            stroke: #f39c12;
+        }
+
+        .map-pin-group.active .pin-circle-el {
+            r: 16;
+            stroke-width: 3.5;
+            stroke: #f39c12 !important;
+        }
+
+        .map-pin-group.memorized .pin-circle-el {
+            fill: #94a3b8 !important;
+            stroke: #cbd5e0 !important;
+        }
+
+        .red-sheet-active .hide-target {
+            color: transparent !important;
+            background-color: #fca5a5 !important;
+            border-bottom: 2px solid #ef4444;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .red-sheet-active .hide-target:hover {
+            background-color: #fecaca !important;
+        }
+        .red-sheet-active .hide-target.revealed {
+            color: #dc2626 !important;
+            background-color: transparent !important;
+            border-bottom: 2px dashed #fca5a5;
+        }
+
+        @keyframes pin-pulse {
+            0% { r: 12; opacity: 0.6; }
+            100% { r: 20; opacity: 0; }
+        }
+        .map-pin-group.active .pin-pulse {
+            animation: pin-pulse 1.8s infinite ease-out;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col pb-12">
+
+    <!-- 戻るボタン -->
+    <div class="max-w-6xl mx-auto w-full px-4 pt-3 pb-1">
+        <button onclick="history.back()" class="flex items-center gap-1 text-xs text-slate-500 hover:text-emerald-700 font-bold transition">
+            ← アプリに戻る
+        </button>
+    </div>
+
+    <!-- ヘッダー -->
+    <header class="bg-[#008753] text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <span class="bg-white text-[#008753] font-bold px-2.5 py-1 rounded-lg text-xs md:text-sm shadow">小5社会</span>
+                <h1 class="text-sm md:text-xl font-bold tracking-wider">基礎学力コンテスト 2026夏</h1>
+            </div>
+            <div class="text-[10px] md:text-xs bg-[#f39c12] px-3 py-1.5 rounded-full font-bold shadow-inner">
+                出題範囲：日本の地形 (全30箇所)
+            </div>
+        </div>
+    </header>
+
+    <!-- メイン -->
+    <main class="flex-grow max-w-6xl w-full mx-auto px-2 md:px-4 py-4">
+
+        <!-- 進捗ステータス -->
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 mb-4 flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="bg-green-50 text-emerald-700 p-2.5 rounded-xl">
+                    <i class="fa-solid fa-graduation-cap text-xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-xs text-gray-400 font-bold">現在の暗記達成度</h2>
+                    <p class="text-lg md:text-xl font-black text-gray-800" id="global-progress-text">0 / 30 地形 (0%)</p>
+                </div>
+            </div>
+
+            <div class="flex-grow max-w-xs bg-gray-100 rounded-full h-3 overflow-hidden">
+                <div id="global-progress-bar" class="bg-[#008753] h-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+
+            <button onclick="resetProgress()" class="text-xs text-red-500 hover:text-red-700 border border-red-100 px-3 py-1.5 rounded-lg hover:bg-red-50 transition font-bold">
+                <i class="fa-solid fa-rotate-left mr-1"></i>進捗クリア
+            </button>
+        </div>
+
+        <!-- タブナビゲーション -->
+        <div class="grid grid-cols-4 bg-gray-200 p-1 rounded-xl mb-4 shadow-inner text-xs md:text-sm font-bold">
+            <button id="tab-map" onclick="switchTab('map')" class="py-2.5 text-center rounded-lg transition-all duration-200 bg-white text-[#008753] shadow">
+                <i class="fa-solid fa-map-location-dot mr-1"></i>地図
+            </button>
+            <button id="tab-flashcard" onclick="switchTab('flashcard')" class="py-2.5 text-center rounded-lg text-gray-600 transition-all duration-200">
+                <i class="fa-solid fa-clone mr-1"></i>一問一答
+            </button>
+            <button id="tab-quiz" onclick="switchTab('quiz')" class="py-2.5 text-center rounded-lg text-gray-600 transition-all duration-200">
+                <i class="fa-solid fa-circle-question mr-1"></i>テスト
+            </button>
+            <button id="tab-table" onclick="switchTab('table')" class="py-2.5 text-center rounded-lg text-gray-600 transition-all duration-200">
+                <i class="fa-solid fa-table-list mr-1"></i>一覧表
+            </button>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- 1. 地図学習セクション -->
+        <!-- ============================================== -->
+        <section id="section-map" class="tab-content block">
+
+            <!-- エリア切り替えバー -->
+            <div class="bg-white rounded-xl p-2 shadow-sm border border-gray-100 mb-3 flex flex-wrap gap-1.5 items-center justify-between">
+                <span class="text-xs font-bold text-gray-500 ml-2"><i class="fa-solid fa-magnifying-glass-plus mr-1"></i>地方拡大：</span>
+                <div class="flex flex-wrap gap-1">
+                    <button onclick="setMapZoom('all')" class="zoom-btn px-3 py-1.5 bg-[#008753] text-white text-xs font-bold rounded-lg transition shadow-sm">日本全体</button>
+                    <button onclick="setMapZoom('hokkaido')" class="zoom-btn px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-bold rounded-lg hover:bg-gray-200 transition">北海道</button>
+                    <button onclick="setMapZoom('tohoku')" class="zoom-btn px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-bold rounded-lg hover:bg-gray-200 transition">東北</button>
+                    <button onclick="setMapZoom('kanto-chubu')" class="zoom-btn px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-bold rounded-lg hover:bg-gray-200 transition">中部・関東</button>
+                    <button onclick="setMapZoom('west')" class="zoom-btn px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-bold rounded-lg hover:bg-gray-200 transition">近畿・中国・四国</button>
+                    <button onclick="setMapZoom('kyushu')" class="zoom-btn px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-bold rounded-lg hover:bg-gray-200 transition">九州</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+
+                <!-- 地図コンテナ -->
+                <div class="lg:col-span-7 bg-white rounded-2xl p-2 shadow-sm border border-gray-100 flex flex-col items-center justify-center relative overflow-hidden">
+                    <div class="map-viewport">
+                        <div id="map-svg-wrapper" class="map-svg-container zoom-all">
+
+                            <svg id="japan-map-svg" viewBox="0 0 600 750" class="w-full h-full select-none" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="600" height="750" fill="#eef7f4" />
+
+                                <!-- 北海道 -->
+                                <path d="M 390 40 L 410 45 L 430 35 L 450 45 L 460 30 L 485 55 L 530 55 L 540 65 L 515 80 L 535 90 L 500 110 L 460 115 L 440 155 L 420 160 L 415 140 L 400 145 L 405 175 L 385 180 L 375 160 L 380 135 L 360 115 L 380 90 L 380 60 Z" fill="#ffffff" stroke="#cbd5e0" stroke-width="2" stroke-linejoin="round" />
+                                <!-- 本州 -->
+                                <path d="M 370 170 L 385 185 L 400 180 L 405 195 L 405 235 L 420 265 L 415 285 L 400 295 L 405 325 L 390 355 L 370 375 L 340 375 L 320 380 L 315 410 L 325 435 L 345 440 L 350 460 L 340 480 L 310 490 L 290 515 L 295 535 L 285 550 L 270 545 L 260 520 L 265 490 L 255 480 L 245 495 L 235 490 L 240 465 L 210 460 L 195 470 L 185 455 L 140 455 L 115 430 L 100 425 L 90 435 L 75 425 L 95 400 L 125 405 L 155 415 L 195 400 L 225 390 L 240 350 L 260 345 L 265 315 L 295 285 L 310 270 L 320 235 L 340 210 L 355 190 Z" fill="#ffffff" stroke="#cbd5e0" stroke-width="2" stroke-linejoin="round" />
+                                <!-- 四国 -->
+                                <path d="M 140 470 L 190 470 L 195 495 L 175 515 L 145 510 L 125 490 Z" fill="#ffffff" stroke="#cbd5e0" stroke-width="2" stroke-linejoin="round" />
+                                <!-- 九州 -->
+                                <path d="M 75 440 L 105 445 L 105 465 L 85 510 L 100 545 L 90 560 L 70 550 L 65 520 L 55 525 L 50 505 L 60 485 L 50 475 L 60 455 Z" fill="#ffffff" stroke="#cbd5e0" stroke-width="2" stroke-linejoin="round" />
+
+                                <!-- 川（青） -->
+                                <path id="svg-geom-10" class="geom-el" d="M 430 110 Q 405 120 392 128" stroke="#3b82f6" stroke-width="4.5" stroke-linecap="round" fill="none" opacity="0.8" data-orig-color="#3b82f6" data-orig-stroke="4.5" />
+                                <path id="svg-geom-11" class="geom-el" d="M 395 275 Q 380 270 372 252" stroke="#3b82f6" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.8" data-orig-color="#3b82f6" data-orig-stroke="4" />
+                                <path id="svg-geom-12" class="geom-el" d="M 345 320 Q 365 345 402 342" stroke="#3b82f6" stroke-width="5.5" stroke-linecap="round" fill="none" opacity="0.8" data-orig-color="#3b82f6" data-orig-stroke="5.5" />
+                                <path id="svg-geom-13" class="geom-el" d="M 315 355 Q 330 330 348 290" stroke="#3b82f6" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.8" data-orig-color="#3b82f6" data-orig-stroke="5" />
+                                <path id="svg-geom-14" class="geom-el" d="M 336 360 L 334 395" stroke="#3b82f6" stroke-width="4.5" stroke-linecap="round" fill="none" opacity="0.8" data-orig-color="#3b82f6" data-orig-stroke="4.5" />
+                                <path id="svg-geom-15" class="geom-el" d="M 322 355 L 316 410" stroke="#3b82f6" stroke-width="4.5" stroke-linecap="round" fill="none" opacity="0.8" data-orig-color="#3b82f6" data-orig-stroke="4.5" />
+                                <path id="svg-geom-16" class="geom-el" d="M 272 450 Q 260 465 248 474" stroke="#3b82f6" stroke-width="4.5" stroke-linecap="round" fill="none" opacity="0.8" data-orig-color="#3b82f6" data-orig-stroke="4.5" />
+
+                                <!-- 山脈・山地（緑） -->
+                                <path id="svg-geom-1" class="geom-el" d="M 390 200 L 392 230 L 388 260 L 391 290" stroke="#10b981" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" opacity="0.8" data-orig-color="#10b981" data-orig-stroke="9" />
+                                <path id="svg-geom-2" class="geom-el" d="M 360 295 L 368 315 L 358 335" stroke="#10b981" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="0.8" data-orig-color="#10b981" data-orig-stroke="8" />
+                                <path id="svg-geom-3" class="geom-el" d="M 322 320 L 318 345" stroke="#10b981" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.8" data-orig-color="#10b981" data-orig-stroke="7.5" />
+                                <path id="svg-geom-4" class="geom-el" d="M 312 350 L 308 375" stroke="#10b981" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.8" data-orig-color="#10b981" data-orig-stroke="6.5" />
+                                <path id="svg-geom-5" class="geom-el" d="M 324 355 L 321 385" stroke="#10b981" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.8" data-orig-color="#10b981" data-orig-stroke="7.5" />
+                                <path id="svg-geom-6" class="geom-el" d="M 270 500 Q 285 520 268 535" stroke="#10b981" stroke-width="8" stroke-linecap="round" fill="none" opacity="0.8" data-orig-color="#10b981" data-orig-stroke="8" />
+                                <path id="svg-geom-7" class="geom-el" d="M 125 412 L 205 412" stroke="#10b981" stroke-width="7.5" stroke-linecap="round" opacity="0.8" data-orig-color="#10b981" data-orig-stroke="7.5" />
+                                <path id="svg-geom-8" class="geom-el" d="M 140 488 L 180 488" stroke="#10b981" stroke-width="7.5" stroke-linecap="round" opacity="0.8" data-orig-color="#10b981" data-orig-stroke="7.5" />
+                                <path id="svg-geom-9" class="geom-el" d="M 82 485 L 75 525" stroke="#10b981" stroke-width="7.5" stroke-linecap="round" opacity="0.8" data-orig-color="#10b981" data-orig-stroke="7.5" />
+
+                                <!-- 湖 -->
+                                <ellipse id="svg-geom-17" class="geom-el" cx="274" cy="446" rx="11" ry="8" fill="#3b82f6" fill-opacity="0.6" stroke="#1d4ed8" stroke-width="1.5" data-orig-color="#1d4ed8" data-orig-stroke="1.5" />
+                                <ellipse id="svg-geom-18" class="geom-el" cx="310" cy="410" rx="7" ry="5" fill="#3b82f6" fill-opacity="0.6" stroke="#1d4ed8" stroke-width="1.5" data-orig-color="#1d4ed8" data-orig-stroke="1.5" />
+
+                                <!-- 平野 -->
+                                <polygon id="svg-geom-19" class="geom-el" points="388,125 405,120 408,135 392,140" fill="#34d399" fill-opacity="0.5" stroke="#059669" stroke-width="1" data-orig-color="#059669" data-orig-stroke="1" />
+                                <polygon id="svg-geom-20" class="geom-el" points="445,115 470,110 465,135 440,130" fill="#34d399" fill-opacity="0.5" stroke="#059669" stroke-width="1" data-orig-color="#059669" data-orig-stroke="1" />
+                                <polygon id="svg-geom-21" class="geom-el" points="350,335 385,325 395,355 360,365" fill="#34d399" fill-opacity="0.5" stroke="#059669" stroke-width="1" data-orig-color="#059669" data-orig-stroke="1" />
+                                <polygon id="svg-geom-22" class="geom-el" points="342,282 358,276 352,294 338,290" fill="#34d399" fill-opacity="0.5" stroke="#059669" stroke-width="1" data-orig-color="#059669" data-orig-stroke="1" />
+                                <polygon id="svg-geom-23" class="geom-el" points="288,400 302,396 298,414 284,410" fill="#34d399" fill-opacity="0.5" stroke="#059669" stroke-width="1" data-orig-color="#059669" data-orig-stroke="1" />
+                                <polygon id="svg-geom-24" class="geom-el" points="155,502 175,504 170,512 150,510" fill="#34d399" fill-opacity="0.5" stroke="#059669" stroke-width="1" data-orig-color="#059669" data-orig-stroke="1" />
+                                <polygon id="svg-geom-25" class="geom-el" points="62,458 78,454 75,468 58,465" fill="#34d399" fill-opacity="0.5" stroke="#059669" stroke-width="1" data-orig-color="#059669" data-orig-stroke="1" />
+                                <polygon id="svg-geom-26" class="geom-el" points="85,520 95,516 90,536 80,532" fill="#34d399" fill-opacity="0.5" stroke="#059669" stroke-width="1" data-orig-color="#059669" data-orig-stroke="1" />
+
+                                <!-- 盆地 -->
+                                <ellipse id="svg-geom-27" class="geom-el" cx="336" cy="360" rx="10" ry="7" fill="#fb923c" fill-opacity="0.5" stroke="#ea580c" stroke-width="1" data-orig-color="#ea580c" data-orig-stroke="1" />
+                                <ellipse id="svg-geom-28" class="geom-el" cx="328" cy="328" rx="9" ry="6" fill="#fb923c" fill-opacity="0.5" stroke="#ea580c" stroke-width="1" data-orig-color="#ea580c" data-orig-stroke="1" />
+
+                                <!-- 台地 -->
+                                <polygon id="svg-geom-29" class="geom-el" points="495,78 515,72 520,88 500,94" fill="#c084fc" fill-opacity="0.5" stroke="#8b5cf6" stroke-width="1" data-orig-color="#8b5cf6" data-orig-stroke="1" />
+                                <polygon id="svg-geom-30" class="geom-el" points="58,540 73,535 68,555 53,550" fill="#c084fc" fill-opacity="0.5" stroke="#8b5cf6" stroke-width="1" data-orig-color="#8b5cf6" data-orig-stroke="1" />
+
+                                <g id="svg-pins-container"></g>
+                            </svg>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 地図詳細表示・操作 -->
+                <div class="lg:col-span-5 flex flex-col justify-between">
+                    <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 flex-grow mb-4 flex flex-col justify-between min-h-[280px]">
+
+                        <div id="map-detail-empty" class="text-center py-12 text-gray-400">
+                            <i class="fa-solid fa-map-location text-4xl mb-3 text-emerald-200"></i>
+                            <p class="font-bold text-sm">地図の番号ピンをタップするか、<br>下のクイック選択から地形を選ぼう！</p>
+                        </div>
+
+                        <div id="map-detail-content" class="hidden h-full flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center justify-between mb-3">
+                                    <span id="detail-category" class="px-2.5 py-0.5 rounded text-[11px] font-black text-white bg-emerald-600">種類</span>
+                                    <span id="detail-star" class="hidden text-[10px] font-black text-amber-600 bg-amber-50 border border-amber-300 px-2.5 py-0.5 rounded">
+                                        <i class="fa-solid fa-star mr-0.5"></i>必ず出題されます！
+                                    </span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <span class="text-[10px] text-gray-400 block font-bold" id="detail-id">番号</span>
+                                    <h3 class="text-2xl font-black text-gray-800 tracking-tight" id="detail-name">名前</h3>
+                                    <p class="text-xs text-gray-500 font-bold" id="detail-reading">よみ</p>
+                                </div>
+
+                                <div class="bg-emerald-50 rounded-lg p-3 border border-emerald-100 mb-4">
+                                    <h4 class="text-[10px] font-black text-[#008753] mb-1">説明</h4>
+                                    <p class="text-gray-700 text-xs md:text-sm leading-relaxed font-semibold" id="detail-desc">説明文</p>
+                                </div>
+                            </div>
+
+                            <button id="btn-toggle-memorize" onclick="toggleMemorizedCurrent()" class="w-full bg-gray-100 hover:bg-emerald-50 hover:text-[#008753] text-gray-700 font-bold py-3 px-4 rounded-xl transition flex items-center justify-center space-x-1.5 border border-gray-200 text-xs md:text-sm">
+                                <i id="memorize-icon" class="fa-regular fa-circle-check text-base"></i>
+                                <span id="memorize-btn-text">暗記済みにする</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- クイックリスト -->
+                    <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+                        <h4 class="text-xs font-black text-gray-400 mb-2 uppercase flex justify-between">
+                            <span>地形クイック選択</span>
+                            <span class="text-[10px] text-emerald-600">★ = 必ず出題</span>
+                        </h4>
+                        <div class="grid grid-cols-3 gap-1 max-h-[160px] overflow-y-auto" id="quick-select-list"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- 2. 一問一答カードセクション -->
+        <!-- ============================================== -->
+        <section id="section-flashcard" class="tab-content hidden">
+            <div class="max-w-md mx-auto">
+
+                <div class="bg-white rounded-xl p-3 shadow-sm border border-gray-100 mb-4 flex gap-3 items-center justify-between text-xs font-bold">
+                    <div class="flex items-center space-x-1">
+                        <span>並び順:</span>
+                        <select id="flashcard-order" onchange="initFlashcard()" class="bg-gray-50 border border-gray-200 rounded px-2 py-1">
+                            <option value="num">地図番号順</option>
+                            <option value="random">ランダム</option>
+                        </select>
+                    </div>
+                    <label class="flex items-center space-x-1 cursor-pointer">
+                        <input type="checkbox" id="flashcard-filter-star" onchange="initFlashcard()" class="rounded text-[#008753]">
+                        <span>★のみ出題</span>
+                    </label>
+                </div>
+
+                <div onclick="flipCard()" class="cursor-pointer h-64 md:h-72 w-full mb-4" style="perspective: 1000px;">
+                    <div id="flashcard-inner" class="relative w-full h-full text-center transition-transform duration-500 rounded-2xl border border-gray-200" style="transform-style: preserve-3d;">
+
+                        <!-- 表面 -->
+                        <div class="absolute w-full h-full bg-white rounded-2xl p-5 flex flex-col justify-between shadow-sm" style="backface-visibility: hidden;">
+                            <div class="flex justify-between items-center text-[10px] text-gray-400 font-bold border-b pb-1.5">
+                                <span id="fc-front-category" class="bg-emerald-600 text-white px-2 py-0.5 rounded">山脈山地</span>
+                                <span id="fc-front-star" class="text-amber-500"><i class="fa-solid fa-star"></i> 必ず出題</span>
+                                <span id="fc-front-id">①</span>
+                            </div>
+                            <div class="my-auto px-2">
+                                <p class="text-[10px] text-gray-400 mb-1.5 font-bold tracking-wider">【この地形の説明】</p>
+                                <p id="fc-front-text" class="text-sm md:text-base font-bold text-gray-800 leading-relaxed">説明</p>
+                            </div>
+                            <div class="text-[10px] text-gray-400 font-bold"><i class="fa-solid fa-rotate mr-1"></i>カードをタップして正解を見る</div>
+                        </div>
+
+                        <!-- 裏面 -->
+                        <div class="absolute w-full h-full bg-[#ecf7f2] text-[#008753] rounded-2xl p-5 flex flex-col justify-between shadow-sm" style="backface-visibility: hidden; transform: rotateY(180deg);">
+                            <div class="flex justify-between items-center text-[10px] font-bold border-b border-emerald-100 pb-1.5">
+                                <span id="fc-back-category" class="bg-emerald-600 text-white px-2 py-0.5 rounded">山脈山地</span>
+                                <span id="fc-back-id">①</span>
+                            </div>
+                            <div class="my-auto">
+                                <p class="text-[10px] text-emerald-600 mb-1 font-bold">【正解】</p>
+                                <h3 id="fc-back-name" class="text-3xl font-black mb-1">地形名</h3>
+                                <p id="fc-back-reading" class="text-xs text-emerald-800 font-bold">よみ</p>
+                            </div>
+                            <div class="text-[10px] text-emerald-600 font-bold"><i class="fa-solid fa-rotate mr-1"></i>カードをタップして問題へ</div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="flex space-x-2">
+                    <button onclick="prevFlashcard()" class="flex-1 bg-white text-gray-700 font-bold py-3 rounded-xl border border-gray-200 text-xs">前へ</button>
+                    <button id="btn-fc-memorize" onclick="toggleMemorizeFlashcard()" class="flex-1 bg-emerald-50 text-emerald-700 font-bold py-3 rounded-xl border border-emerald-100 text-xs">覚えた！</button>
+                    <button onclick="nextFlashcard()" class="flex-1 bg-[#008753] text-white font-bold py-3 rounded-xl text-xs">次へ</button>
+                </div>
+                <div class="text-center mt-3 text-xs font-bold text-gray-400" id="fc-index-indicator">0 / 0問</div>
+
+            </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- 3. テストセクション (3択実力確認) -->
+        <!-- ============================================== -->
+        <section id="section-quiz" class="tab-content hidden">
+            <div class="max-w-md mx-auto">
+
+                <div id="quiz-start-screen" class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 text-center">
+                    <div class="w-12 h-12 bg-amber-50 text-amber-500 rounded-full flex items-center justify-center mx-auto mb-3 border border-amber-200">
+                        <i class="fa-solid fa-trophy text-lg"></i>
+                    </div>
+                    <h3 class="text-base font-black text-gray-800 mb-1">3択 地形実力テスト</h3>
+                    <p class="text-gray-400 text-xs mb-4">テスト範囲：全10問 (ランダム出題)</p>
+                    <label class="flex items-center justify-center space-x-1.5 cursor-pointer font-bold text-xs text-gray-600 bg-gray-50 p-2.5 rounded-lg border mb-5">
+                        <input type="checkbox" id="quiz-filter-star" class="rounded text-[#008753]">
+                        <span>★（必ず出題される問題）のみから選ぶ</span>
+                    </label>
+                    <button onclick="startQuiz()" class="w-full bg-[#008753] text-white font-bold py-3 rounded-xl text-xs shadow">テストスタート</button>
+                </div>
+
+                <div id="quiz-play-screen" class="hidden">
+                    <div class="flex justify-between items-center mb-3 text-xs font-bold text-gray-500">
+                        <span id="quiz-current-index-txt">問題 1 / 10</span>
+                        <span id="quiz-score-txt" class="text-amber-500">正解: 0</span>
+                    </div>
+
+                    <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 mb-4">
+                        <div class="flex justify-between items-center mb-3 border-b pb-1.5">
+                            <span id="quiz-question-category" class="bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 rounded">カテゴリ</span>
+                            <span id="quiz-question-id" class="text-xs font-bold text-gray-400">①</span>
+                        </div>
+                        <h4 id="quiz-question-text" class="text-sm md:text-base font-bold text-gray-800 leading-relaxed">問題文</h4>
+                    </div>
+
+                    <div class="space-y-2 mb-4" id="quiz-options-container"></div>
+
+                    <div id="quiz-explanation" class="hidden bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                        <div class="flex items-center space-x-1.5 mb-1.5">
+                            <span id="quiz-result-badge" class="font-bold text-xs px-2 py-0.5 rounded">正解</span>
+                        </div>
+                        <h5 class="text-base font-black text-[#008753]" id="quiz-correct-answer-title">答え</h5>
+                        <p class="text-xs text-gray-600 mt-1 font-semibold" id="quiz-correct-desc-text">解説</p>
+                        <button onclick="nextQuizQuestion()" class="w-full bg-[#008753] text-white font-bold py-2.5 rounded-xl text-xs mt-3">次の問題へ</button>
+                    </div>
+                </div>
+
+                <div id="quiz-result-screen" class="hidden bg-white rounded-2xl p-6 shadow-sm border border-gray-100 text-center">
+                    <h3 class="text-lg font-black text-gray-800 mb-2">テスト結果</h3>
+                    <p class="text-sm font-bold text-[#f39c12] mb-4" id="quiz-result-summary-txt">10問中 10問正解！</p>
+                    <div class="bg-gray-50 rounded-lg p-3 text-left text-xs mb-4 max-h-40 overflow-y-auto" id="quiz-wrong-review-list"></div>
+                    <button onclick="backToQuizStart()" class="w-full bg-[#008753] text-white font-bold py-3 rounded-xl text-xs">もう一度受ける</button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- 4. 暗記一覧表 (赤シート機能付き) -->
+        <!-- ============================================== -->
+        <section id="section-table" class="tab-content hidden">
+            <div class="bg-white rounded-xl p-3 shadow-sm border border-gray-100 mb-4 flex flex-wrap gap-3 items-center justify-between">
+
+                <button onclick="toggleRedSheet()" id="btn-red-sheet" class="bg-red-50 text-red-600 border border-red-200 font-bold py-2 px-4 rounded-xl text-xs transition flex items-center space-x-1.5 shadow-sm">
+                    <i class="fa-solid fa-eye-slash"></i>
+                    <span id="red-sheet-btn-txt">暗記赤シート：OFF</span>
+                </button>
+
+                <div class="flex flex-wrap gap-1 text-[10px] font-bold">
+                    <button onclick="filterTable('all')" class="table-cat-btn px-2.5 py-1.5 bg-gray-100 text-gray-700 rounded border">すべて</button>
+                    <button onclick="filterTable('山脈山地')" class="table-cat-btn px-2.5 py-1.5 bg-white text-gray-600 rounded border">山脈山地</button>
+                    <button onclick="filterTable('川')" class="table-cat-btn px-2.5 py-1.5 bg-white text-gray-600 rounded border">川</button>
+                    <button onclick="filterTable('湖')" class="table-cat-btn px-2.5 py-1.5 bg-white text-gray-600 rounded border">湖</button>
+                    <button onclick="filterTable('平野')" class="table-cat-btn px-2.5 py-1.5 bg-white text-gray-600 rounded border">平野</button>
+                    <button onclick="filterTable('盆地')" class="table-cat-btn px-2.5 py-1.5 bg-white text-gray-600 rounded border">盆地</button>
+                    <button onclick="filterTable('台地')" class="table-cat-btn px-2.5 py-1.5 bg-white text-gray-600 rounded border">台地</button>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs border-collapse" id="table-container">
+                        <thead>
+                            <tr class="bg-gray-50 border-b text-gray-400 font-bold text-[10px]">
+                                <th class="py-3 px-3 text-center w-10">番号</th>
+                                <th class="py-3 px-3 w-20">種類</th>
+                                <th class="py-3 px-3 w-40">地形名 (タップで開閉)</th>
+                                <th class="py-3 px-3">特徴とポイント (タップで開閉)</th>
+                                <th class="py-3 px-3 text-center w-14">覚えた!</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-rows"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        const geoData = [
+            { id: 1, category: "山脈山地", name: "奥羽山脈", reading: "おううさんみゃく", star: true, desc: "「東北地方の背骨」と呼ばれる、東北地方の中央部を南北にのびる日本最長の山脈。", pin: { x: 391, y: 245 } },
+            { id: 2, category: "山脈山地", name: "越後山脈", reading: "えちごさんみゃく", star: false, desc: "多雪地帯で、ここから得られる雪解け水はコシヒカリの生産にも利用されている。", pin: { x: 362, y: 315 } },
+            { id: 3, category: "山脈山地", name: "飛騨山脈", reading: "ひださんみゃく", star: false, desc: "富山県、長野県、岐阜県、新潟県にまたがる山脈。北アルプスとも呼ばれる。", pin: { x: 320, y: 332 } },
+            { id: 4, category: "山脈山地", name: "木曽山脈", reading: "きそさんみゃく", star: false, desc: "長野県南部に位置する山脈。中央アルプスとも呼ばれる。木曽ひのきの産地で、日本でも有数の林業が盛んな地域。", pin: { x: 310, y: 362 } },
+            { id: 5, category: "山脈山地", name: "赤石山脈", reading: "あかいしさんみゃく", star: true, desc: "長野県、山梨県、静岡県にまたがる山脈。南アルプスとも呼ばれる。日本で2番目に高い北岳があることでも有名。", pin: { x: 322, y: 370 } },
+            { id: 6, category: "山脈山地", name: "紀伊山地", reading: "きいさんち", star: false, desc: "近畿地方の南部にある山地で日本有数の多雨地帯。「紀伊山地の霊場と参詣道」は世界文化遺産に登録されている。", pin: { x: 272, y: 518 } },
+            { id: 7, category: "山脈山地", name: "中国山地", reading: "ちゅうごくさんち", star: false, desc: "北の山陰地方と南の山陽地方を分ける、なだらかな山地。", pin: { x: 165, y: 412 } },
+            { id: 8, category: "山脈山地", name: "四国山地", reading: "しこくさんち", star: false, desc: "四国の中央部を東西にはしる、険しい山地。西日本最高峰の石鎚山がある。", pin: { x: 160, y: 488 } },
+            { id: 9, category: "山脈山地", name: "九州山地", reading: "きゅうしゅうさんち", star: false, desc: "九州の中央部を北東から南西にのびる山地。林業が盛ん。", pin: { x: 78, y: 505 } },
+            { id: 10, category: "川", name: "石狩川", reading: "いしかりがわ", star: false, desc: "長さが3位で流域面積は2位の川。流域では稲作がさかんに行われている。", pin: { x: 410, y: 118 } },
+            { id: 11, category: "川", name: "最上川", reading: "もがみがわ", star: false, desc: "日本三大急流の1つ。松尾芭蕉が「五月雨を あつめて早し 最上川」と詠んだことでも有名。", pin: { x: 384, y: 263 } },
+            { id: 12, category: "川", name: "利根川", reading: "とねがわ", star: true, desc: "長さが2位で流域面積が1位の川。徳川家康が江戸に来たのをきっかけに、工事が行われ、現在の利根川のもとが形成された。", pin: { x: 374, y: 343 } },
+            { id: 13, category: "川", name: "信濃川", reading: "しなのがわ", star: false, desc: "長さが1位で流域面積は3位の川。長野県内では千曲川と呼ばれる。", pin: { x: 332, y: 322 } },
+            { id: 14, category: "川", name: "富士川", reading: "ふじかわ", star: false, desc: "日本三大急流の1つ。山梨県の甲府盆地を南下して駿河湾に注ぐ。", pin: { x: 335, y: 378 } },
+            { id: 15, category: "川", name: "天竜川", reading: "てんりゅうがわ", star: false, desc: "長野県に水源がある。太平洋側に注ぎ、静岡県浜松市の流域では天竜すぎという高品質なブランド材が有名。", pin: { x: 319, y: 388 } },
+            { id: 16, category: "川", name: "淀川", reading: "よどがわ", star: false, desc: "水源は琵琶湖。滋賀県、京都府、大阪府を流れ、大阪湾に注ぐ。", pin: { x: 260, y: 462 } },
+            { id: 17, category: "湖", name: "琵琶湖", reading: "びわこ", star: false, desc: "日本最大の湖で、「京阪神の水がめ」として人々の生活を支えている。", pin: { x: 274, y: 446 } },
+            { id: 18, category: "湖", name: "浜名湖", reading: "はまなこ", star: false, desc: "海水と淡水が入り混じった湖。うなぎの養殖の発祥地と言われている。", pin: { x: 310, y: 410 } },
+            { id: 19, category: "平野", name: "石狩平野", reading: "いしかりへいや", star: false, desc: "北海道最大の平野。土地の改良が行われたことで、稲作が盛んに行われるようになった。", pin: { x: 398, y: 130 } },
+            { id: 20, category: "平野", name: "十勝平野", reading: "とかちへいや", star: true, desc: "大規模な農業が行われていて、生乳や乳製品を生産する酪農や、小麦やじゃがいも、てんさいなどの栽培が盛んに行われている。", pin: { x: 452, y: 122 } },
+            { id: 21, category: "平野", name: "関東平野", reading: "かんとうへいや", star: false, desc: "日本最大の平野。関東ロームという赤土が広がっている。", pin: { x: 372, y: 345 } },
+            { id: 22, category: "平野", name: "越後平野", reading: "えちごへいや", star: false, desc: "日本一の米どころであり、日本一長い信濃川が流れる。最高級の「魚沼産コシヒカリ」で有名。", pin: { x: 348, y: 285 } },
+            { id: 23, category: "平野", name: "濃尾平野", reading: "のうびへいや", star: false, desc: "岐阜県南西部(美濃)と愛知県北西部(尾張)、三重県北部にまたがる。洪水が多かったことから堤防で囲まれた輪中という集落があった。", pin: { x: 293, y: 405 } },
+            { id: 24, category: "平野", name: "高知平野", reading: "こうちへいや", star: false, desc: "暖かい気候を活かして、ビニールハウスでピーマンやなすなどの野菜を栽培し、冬や春先に早期出荷している。", pin: { x: 162, y: 506 } },
+            { id: 25, category: "平野", name: "筑紫平野", reading: "つくしへいや", star: false, desc: "九州最大の平野。米と麦を生産する二毛作地帯。", pin: { x: 68, y: 461 } },
+            { id: 26, category: "平野", name: "宮崎平野", reading: "みやざきへいや", star: false, desc: "高知平野と同じく、夏野菜を冬や春先に早期出荷している。肉用牛や豚、ブロイラー(肉用若鶏)の全国トップクラスの産地。", pin: { x: 87, y: 526 } },
+            { id: 27, category: "盆地", name: "甲府盆地", reading: "こうふぼんち", star: true, desc: "寒暖差を利用して、ぶどうや桃の栽培が盛んに行われている。盆地には三大急流の1つである富士川が流れている。", pin: { x: 336, y: 360 } },
+            { id: 28, category: "盆地", name: "長野盆地", reading: "ながのぼんち", star: false, desc: "寒暖差を利用して、りんごやぶどうなどの栽培が盛んに行われている。観光地でもある善光寺があることでも有名。", pin: { x: 328, y: 328 } },
+            { id: 29, category: "台地", name: "根釧台地", reading: "こんせんだいち", star: false, desc: "根室と釧路に広がる火山灰地。格子状に防風林が広がっていて、日本有数の酪農地帯となっている。", pin: { x: 508, y: 86 } },
+            { id: 30, category: "台地", name: "シラス台地", reading: "しらすだいち", star: true, desc: "さつまいもや茶などの栽培が盛んに行われている。宮崎と同じく、肉用牛や豚、ブロイラー(肉用若鶏)の全国トップクラスの産地。", pin: { x: 63, y: 546 } }
+        ];
+
+        const catColors = {
+            "山脈山地": "#10b981",
+            "川": "#3b82f6",
+            "湖": "#0284c7",
+            "平野": "#059669",
+            "盆地": "#ea580c",
+            "台地": "#8b5cf6"
+        };
+
+        let memorizedIds = JSON.parse(localStorage.getItem('memorized_geography_v3')) || [];
+        let currentMapSelectedId = null;
+        let isRedSheetActive = false;
+        let currentTableFilter = 'all';
+        let flashcardList = [];
+        let currentFlashcardIndex = 0;
+        let isFlashcardFlipped = false;
+        let quizList = [];
+        let currentQuizIndex = 0;
+        let quizScore = 0;
+        let wrongQuizList = [];
+
+        window.onload = function() {
+            renderMapPins();
+            renderQuickSelect();
+            updateProgress();
+            initFlashcard();
+            renderTable();
+        };
+
+        function renderMapPins() {
+            const container = document.getElementById('svg-pins-container');
+            container.innerHTML = '';
+
+            geoData.forEach(item => {
+                const isMemorized = memorizedIds.includes(item.id);
+                const isActive = (currentMapSelectedId === item.id);
+
+                const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                g.setAttribute('class', `map-pin-group cursor-pointer ${isMemorized ? 'memorized' : ''} ${isActive ? 'active' : ''}`);
+                g.setAttribute('id', `svg-pin-group-${item.id}`);
+
+                const pulse = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                pulse.setAttribute('cx', item.pin.x);
+                pulse.setAttribute('cy', item.pin.y);
+                pulse.setAttribute('r', '13');
+                pulse.setAttribute('fill', '#f39c12');
+                pulse.setAttribute('opacity', isActive ? '0.5' : '0');
+                pulse.setAttribute('class', 'pin-pulse');
+
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', item.pin.x);
+                circle.setAttribute('cy', item.pin.y);
+                circle.setAttribute('r', isActive ? '13' : '10.5');
+                circle.setAttribute('fill', isMemorized ? '#94a3b8' : (catColors[item.category] || '#6b7280'));
+                circle.setAttribute('stroke', '#ffffff');
+                circle.setAttribute('stroke-width', isActive ? '3' : '1.5');
+                circle.setAttribute('class', 'pin-circle-el transition-all duration-200');
+
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', item.pin.x);
+                text.setAttribute('y', item.pin.y + 0.5);
+                text.setAttribute('text-anchor', 'middle');
+                text.setAttribute('dominant-baseline', 'central');
+                text.setAttribute('fill', '#ffffff');
+                text.setAttribute('font-size', isActive ? '12' : '9.5');
+                text.setAttribute('font-weight', '900');
+                text.setAttribute('font-family', 'sans-serif');
+                text.textContent = item.id;
+
+                g.appendChild(pulse);
+                g.appendChild(circle);
+                g.appendChild(text);
+
+                g.onclick = (e) => { e.stopPropagation(); selectMapPin(item.id); };
+                container.appendChild(g);
+            });
+        }
+
+        function renderQuickSelect() {
+            const container = document.getElementById('quick-select-list');
+            container.innerHTML = '';
+            geoData.forEach(item => {
+                const btn = document.createElement('button');
+                const starMark = item.star ? '<span class="text-amber-500 mr-0.5">★</span>' : '';
+                btn.className = `text-[10px] md:text-xs font-bold p-1 border rounded transition text-left truncate flex items-center bg-gray-50 hover:bg-emerald-50 hover:border-emerald-300`;
+                btn.innerHTML = `${starMark}${item.id}.${item.name}`;
+                btn.onclick = () => selectMapPin(item.id);
+                container.appendChild(btn);
+            });
+        }
+
+        function setMapZoom(region) {
+            const wrapper = document.getElementById('map-svg-wrapper');
+            wrapper.className = "map-svg-container";
+            wrapper.classList.add(`zoom-${region}`);
+            const buttons = document.querySelectorAll('.zoom-btn');
+            buttons.forEach(btn => {
+                if (btn.innerText.includes(getRegionLabel(region))) {
+                    btn.className = "zoom-btn px-3 py-1.5 bg-[#008753] text-white text-xs font-bold rounded-lg transition shadow-sm";
+                } else {
+                    btn.className = "zoom-btn px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-bold rounded-lg hover:bg-gray-200 transition";
+                }
+            });
+        }
+
+        function getRegionLabel(region) {
+            const labels = { 'all': '日本全体', 'hokkaido': '北海道', 'tohoku': '東北', 'kanto-chubu': '中部・関東', 'west': '近畿・中国・四国', 'kyushu': '九州' };
+            return labels[region] || '';
+        }
+
+        function selectMapPin(id) {
+            currentMapSelectedId = id;
+
+            document.querySelectorAll('.geom-el').forEach(el => {
+                el.setAttribute('stroke', el.getAttribute('data-orig-color') || '#94a3b8');
+                el.setAttribute('stroke-width', el.getAttribute('data-orig-stroke') || '1');
+                el.setAttribute('fill-opacity', '0.5');
+            });
+
+            renderMapPins();
+
+            const geomEl = document.getElementById(`svg-geom-${id}`);
+            if (geomEl) {
+                geomEl.setAttribute('stroke', '#ef4444');
+                geomEl.setAttribute('stroke-width', '4');
+                geomEl.setAttribute('fill-opacity', '0.75');
+            }
+
+            if (id === 10 || id === 19 || id === 20 || id === 29) { setMapZoom('hokkaido'); }
+            else if (id === 1 || id === 11) { setMapZoom('tohoku'); }
+            else if ([2,3,4,5,12,13,14,15,18,21,22,23,27,28].includes(id)) { setMapZoom('kanto-chubu'); }
+            else if ([6,7,8,16,17,24].includes(id)) { setMapZoom('west'); }
+            else if ([9,25,26,30].includes(id)) { setMapZoom('kyushu'); }
+
+            const item = geoData.find(d => d.id === id);
+            document.getElementById('map-detail-empty').classList.add('hidden');
+            document.getElementById('map-detail-content').classList.remove('hidden');
+
+            const colors = { "山脈山地": "bg-emerald-600", "川": "bg-blue-600", "湖": "bg-sky-600", "平野": "bg-teal-600", "盆地": "bg-orange-600", "台地": "bg-purple-600" };
+            document.getElementById('detail-category').innerText = item.category;
+            document.getElementById('detail-category').className = `px-2.5 py-0.5 rounded text-[11px] font-black text-white ${colors[item.category]}`;
+            document.getElementById('detail-star').style.display = item.star ? 'inline-block' : 'none';
+            document.getElementById('detail-id').innerText = `地図番号： ${item.id}`;
+            document.getElementById('detail-name').innerText = item.name;
+            document.getElementById('detail-reading').innerText = `よみ： ${item.reading}`;
+            document.getElementById('detail-desc').innerText = item.desc;
+            updateMapMemorizeBtn();
+        }
+
+        function updateMapMemorizeBtn() {
+            const btn = document.getElementById('btn-toggle-memorize');
+            const icon = document.getElementById('memorize-icon');
+            const text = document.getElementById('memorize-btn-text');
+            if (memorizedIds.includes(currentMapSelectedId)) {
+                btn.className = "w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-xl transition flex items-center justify-center space-x-1.5 text-xs md:text-sm";
+                icon.className = "fa-solid fa-circle-check text-base";
+                text.innerText = "覚えた！(クリックで解除)";
+            } else {
+                btn.className = "w-full bg-gray-100 hover:bg-emerald-50 hover:text-[#008753] text-gray-700 font-bold py-3 px-4 rounded-xl transition flex items-center justify-center space-x-1.5 border border-gray-200 text-xs md:text-sm";
+                icon.className = "fa-regular fa-circle-check text-base";
+                text.innerText = "暗記済みにする";
+            }
+        }
+
+        function toggleMemorizedCurrent() {
+            if (!currentMapSelectedId) return;
+            if (memorizedIds.includes(currentMapSelectedId)) { memorizedIds = memorizedIds.filter(id => id !== currentMapSelectedId); }
+            else { memorizedIds.push(currentMapSelectedId); }
+            localStorage.setItem('memorized_geography_v3', JSON.stringify(memorizedIds));
+            updateProgress(); updateMapMemorizeBtn(); renderTable();
+        }
+
+        function updateProgress() {
+            const total = geoData.length;
+            const count = memorizedIds.length;
+            const percent = Math.round((count / total) * 100);
+            document.getElementById('global-progress-text').innerText = `${count} / ${total} 地形 (${percent}%)`;
+            document.getElementById('global-progress-bar').style.width = `${percent}%`;
+            renderMapPins();
+        }
+
+        function resetProgress() {
+            if (confirm('覚えた記録をすべてリセットしますか？')) {
+                memorizedIds = [];
+                localStorage.removeItem('memorized_geography_v3');
+                updateProgress(); renderTable();
+                if (currentMapSelectedId) selectMapPin(currentMapSelectedId);
+            }
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`section-${tabId}`).classList.remove('hidden');
+            const tabIds = ['map', 'flashcard', 'quiz', 'table'];
+            tabIds.forEach(id => {
+                const btn = document.getElementById(`tab-${id}`);
+                if (id === tabId) { btn.className = "py-2.5 text-center rounded-lg transition-all duration-200 bg-white text-[#008753] shadow"; }
+                else { btn.className = "py-2.5 text-center rounded-lg text-gray-500 hover:text-gray-700 transition-all duration-200"; }
+            });
+            if (tabId === 'flashcard') initFlashcard();
+            if (tabId === 'quiz') backToQuizStart();
+            if (tabId === 'table') renderTable();
+        }
+
+        function initFlashcard() {
+            const order = document.getElementById('flashcard-order').value;
+            const isStar = document.getElementById('flashcard-filter-star').checked;
+            flashcardList = geoData.filter(d => !isStar || d.star);
+            if (order === 'random') { flashcardList.sort(() => Math.random() - 0.5); }
+            else { flashcardList.sort((a,b) => a.id - b.id); }
+            currentFlashcardIndex = 0;
+            isFlashcardFlipped = false;
+            document.getElementById('flashcard-inner').style.transform = 'rotateY(0deg)';
+            showFlashcard();
+        }
+
+        function showFlashcard() {
+            if (flashcardList.length === 0) { document.getElementById('fc-front-text').innerText = "条件に合う地形がありません。"; return; }
+            const item = flashcardList[currentFlashcardIndex];
+            document.getElementById('fc-front-category').innerText = item.category;
+            document.getElementById('fc-front-star').style.display = item.star ? 'inline' : 'none';
+            document.getElementById('fc-front-id').innerText = `地図番号: ${item.id}`;
+            document.getElementById('fc-front-text').innerText = item.desc;
+            document.getElementById('fc-back-category').innerText = item.category;
+            document.getElementById('fc-back-id').innerText = `地図番号: ${item.id}`;
+            document.getElementById('fc-back-name').innerText = item.name;
+            document.getElementById('fc-back-reading').innerText = `よみ： ${item.reading}`;
+            document.getElementById('fc-index-indicator').innerText = `${currentFlashcardIndex + 1} / ${flashcardList.length}問`;
+            updateFlashcardBtn();
+        }
+
+        function flipCard() {
+            isFlashcardFlipped = !isFlashcardFlipped;
+            document.getElementById('flashcard-inner').style.transform = isFlashcardFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)';
+        }
+
+        function updateFlashcardBtn() {
+            if (flashcardList.length === 0) return;
+            const item = flashcardList[currentFlashcardIndex];
+            const btn = document.getElementById('btn-fc-memorize');
+            if (memorizedIds.includes(item.id)) {
+                btn.className = "flex-1 bg-emerald-600 text-white font-bold py-3 rounded-xl border border-emerald-600 text-xs";
+                btn.innerText = "暗記済み！";
+            } else {
+                btn.className = "flex-1 bg-emerald-50 text-emerald-700 font-bold py-3 rounded-xl border border-emerald-100 text-xs";
+                btn.innerText = "覚えた！";
+            }
+        }
+
+        function toggleMemorizeFlashcard() {
+            if (flashcardList.length === 0) return;
+            const item = flashcardList[currentFlashcardIndex];
+            if (memorizedIds.includes(item.id)) { memorizedIds = memorizedIds.filter(id => id !== item.id); }
+            else { memorizedIds.push(item.id); }
+            localStorage.setItem('memorized_geography_v3', JSON.stringify(memorizedIds));
+            updateProgress(); updateFlashcardBtn();
+        }
+
+        function nextFlashcard() {
+            if (flashcardList.length === 0) return;
+            isFlashcardFlipped = false;
+            document.getElementById('flashcard-inner').style.transform = 'rotateY(0deg)';
+            currentFlashcardIndex = (currentFlashcardIndex + 1) % flashcardList.length;
+            setTimeout(showFlashcard, 150);
+        }
+
+        function prevFlashcard() {
+            if (flashcardList.length === 0) return;
+            isFlashcardFlipped = false;
+            document.getElementById('flashcard-inner').style.transform = 'rotateY(0deg)';
+            currentFlashcardIndex = (currentFlashcardIndex - 1 + flashcardList.length) % flashcardList.length;
+            setTimeout(showFlashcard, 150);
+        }
+
+        function startQuiz() {
+            const isStar = document.getElementById('quiz-filter-star').checked;
+            let pool = geoData.filter(d => !isStar || d.star);
+            if (pool.length < 3) { alert('テストを開始するには地形が3つ以上必要です。★指定を解除するか、設定を見直してください。'); return; }
+            pool.sort(() => Math.random() - 0.5);
+            quizList = pool.slice(0, Math.min(10, pool.length));
+            currentQuizIndex = 0; quizScore = 0; wrongQuizList = [];
+            document.getElementById('quiz-start-screen').classList.add('hidden');
+            document.getElementById('quiz-result-screen').classList.add('hidden');
+            document.getElementById('quiz-play-screen').classList.remove('hidden');
+            showQuizQuestion();
+        }
+
+        function showQuizQuestion() {
+            document.getElementById('quiz-explanation').classList.add('hidden');
+            const currentItem = quizList[currentQuizIndex];
+            document.getElementById('quiz-current-index-txt').innerText = `問題 ${currentQuizIndex + 1} / ${quizList.length}`;
+            document.getElementById('quiz-score-txt').innerText = `正解数: ${quizScore}`;
+            document.getElementById('quiz-question-category').innerText = currentItem.category;
+            document.getElementById('quiz-question-id').innerText = `地図番号: ${currentItem.id}`;
+            document.getElementById('quiz-question-text').innerText = currentItem.desc;
+            let wrongPool = geoData.filter(d => d.id !== currentItem.id);
+            wrongPool.sort(() => Math.random() - 0.5);
+            let choices = [currentItem, wrongPool[0], wrongPool[1]];
+            choices.sort(() => Math.random() - 0.5);
+            const container = document.getElementById('quiz-options-container');
+            container.innerHTML = '';
+            choices.forEach((choice, index) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left bg-white hover:bg-emerald-50 text-gray-800 font-bold py-3 px-4 rounded-xl border border-gray-200 transition text-xs flex justify-between items-center group shadow-sm";
+                btn.innerHTML = `<span>${index + 1}. <span class="text-[#008753] font-black">${choice.name}</span> <span class="text-gray-400 font-medium">(${choice.reading})</span></span><i class="fa-solid fa-chevron-right text-gray-300 group-hover:text-[#008753] transition"></i>`;
+                btn.onclick = () => selectQuizAnswer(choice.id, btn);
+                container.appendChild(btn);
+            });
+        }
+
+        function selectQuizAnswer(selectedId, buttonEl) {
+            const currentItem = quizList[currentQuizIndex];
+            const isCorrect = selectedId === currentItem.id;
+            document.querySelectorAll('#quiz-options-container button').forEach(btn => btn.disabled = true);
+            const resultBadge = document.getElementById('quiz-result-badge');
+            if (isCorrect) {
+                quizScore++;
+                buttonEl.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-800');
+                resultBadge.className = "font-bold text-xs px-2.5 py-1 rounded bg-emerald-100 text-emerald-800";
+                resultBadge.innerHTML = '<i class="fa-solid fa-circle-check mr-1"></i> 正解！';
+            } else {
+                buttonEl.classList.add('bg-red-100', 'border-red-500', 'text-red-800');
+                resultBadge.className = "font-bold text-xs px-2.5 py-1 rounded bg-red-100 text-red-800";
+                resultBadge.innerHTML = '<i class="fa-solid fa-circle-xmark mr-1"></i> 不正解';
+                wrongQuizList.push(currentItem);
+            }
+            document.getElementById('quiz-correct-answer-title').innerText = `${currentItem.name} (${currentItem.reading})`;
+            document.getElementById('quiz-correct-desc-text').innerText = currentItem.desc;
+            document.getElementById('quiz-explanation').classList.remove('hidden');
+        }
+
+        function nextQuizQuestion() {
+            currentQuizIndex++;
+            if (currentQuizIndex < quizList.length) { showQuizQuestion(); }
+            else { showQuizResult(); }
+        }
+
+        function showQuizResult() {
+            document.getElementById('quiz-play-screen').classList.add('hidden');
+            document.getElementById('quiz-result-screen').classList.remove('hidden');
+            document.getElementById('quiz-result-summary-txt').innerText = `${quizList.length}問中 ${quizScore}問 正解！`;
+            const review = document.getElementById('quiz-wrong-review-list');
+            if (wrongQuizList.length > 0) {
+                review.innerHTML = '<p class="text-red-500 font-bold mb-2">▼ まちがえた問題を復習しよう</p>';
+                wrongQuizList.forEach(item => {
+                    review.innerHTML += `<div class="border-b py-2 text-left"><span class="bg-red-100 text-red-700 px-1.5 py-0.5 rounded text-[9px] font-bold mr-1">${item.id}</span><strong>${item.name}</strong> (${item.reading})<p class="text-gray-500 text-[10px] mt-1">${item.desc}</p></div>`;
+                });
+            } else {
+                review.innerHTML = '<p class="text-emerald-600 font-bold py-4 text-center">満点おめでとう！コンテストはバッチリです！ 🎉</p>';
+            }
+        }
+
+        function backToQuizStart() {
+            document.getElementById('quiz-result-screen').classList.add('hidden');
+            document.getElementById('quiz-play-screen').classList.add('hidden');
+            document.getElementById('quiz-start-screen').classList.remove('hidden');
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('table-rows');
+            tbody.innerHTML = '';
+            const list = geoData.filter(d => currentTableFilter === 'all' || d.category === currentTableFilter);
+            const catBadgeStyles = {
+                "山脈山地": "bg-emerald-50 text-emerald-800 border-emerald-200",
+                "川": "bg-blue-50 text-blue-800 border-blue-200",
+                "湖": "bg-sky-50 text-sky-800 border-sky-200",
+                "平野": "bg-teal-50 text-teal-800 border-teal-200",
+                "盆地": "bg-orange-50 text-orange-800 border-orange-200",
+                "台地": "bg-purple-50 text-purple-800 border-purple-200"
+            };
+            list.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.className = `border-b hover:bg-gray-50 transition ${memorizedIds.includes(item.id) ? 'bg-gray-50/50' : ''}`;
+                const star = item.star ? '<span class="text-amber-500" title="必ず出題される地形">★</span>' : '';
+                tr.innerHTML = `
+                    <td class="py-3 px-3 text-center font-bold text-gray-400">${item.id}</td>
+                    <td class="py-3 px-3"><span class="px-1.5 py-0.5 rounded text-[9px] font-bold border ${catBadgeStyles[item.category]}">${item.category}</span></td>
+                    <td class="py-3 px-3 font-bold text-gray-800">
+                        <div class="flex items-center space-x-0.5 text-xs md:text-sm">${star}<span class="hide-target" onclick="revealTarget(this)">${item.name}</span></div>
+                        <div class="text-[10px] text-gray-400 font-bold">${item.reading}</div>
+                    </td>
+                    <td class="py-3 px-3 text-gray-600 font-semibold leading-relaxed"><span class="hide-target" onclick="revealTarget(this)">${item.desc}</span></td>
+                    <td class="py-3 px-3 text-center">
+                        <button onclick="toggleTableMemorize(${item.id})" class="text-lg transition transform hover:scale-110">
+                            ${memorizedIds.includes(item.id) ? '<i class="fa-solid fa-circle-check text-emerald-600"></i>' : '<i class="fa-regular fa-circle text-gray-300"></i>'}
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function filterTable(category) {
+            currentTableFilter = category;
+            document.querySelectorAll('.table-cat-btn').forEach(btn => {
+                btn.className = "table-cat-btn px-2.5 py-1.5 bg-white text-gray-600 rounded border hover:bg-gray-50 text-[10px] font-bold";
+            });
+            event.target.className = "table-cat-btn px-2.5 py-1.5 bg-[#008753] text-white rounded border font-bold text-[10px]";
+            renderTable();
+        }
+
+        function toggleRedSheet() {
+            isRedSheetActive = !isRedSheetActive;
+            const container = document.getElementById('table-container');
+            const btn = document.getElementById('btn-red-sheet');
+            const txt = document.getElementById('red-sheet-btn-txt');
+            if (isRedSheetActive) {
+                container.classList.add('red-sheet-active');
+                btn.className = "bg-red-600 text-white font-bold py-2 px-4 rounded-xl text-xs transition flex items-center space-x-1.5 shadow-md";
+                txt.innerText = "暗記赤シート：ON";
+                btn.querySelector('i').className = "fa-solid fa-eye";
+            } else {
+                container.classList.remove('red-sheet-active');
+                btn.className = "bg-red-50 text-red-600 border border-red-200 font-bold py-2 px-4 rounded-xl text-xs transition flex items-center space-x-1.5 shadow-sm";
+                txt.innerText = "暗記赤シート：OFF";
+                btn.querySelector('i').className = "fa-solid fa-eye-slash";
+                document.querySelectorAll('.hide-target').forEach(el => el.classList.remove('revealed'));
+            }
+        }
+
+        function revealTarget(el) {
+            if (isRedSheetActive) { el.classList.toggle('revealed'); }
+        }
+
+        function toggleTableMemorize(id) {
+            if (memorizedIds.includes(id)) { memorizedIds = memorizedIds.filter(mid => mid !== id); }
+            else { memorizedIds.push(id); }
+            localStorage.setItem('memorized_geography_v3', JSON.stringify(memorizedIds));
+            updateProgress(); renderTable();
+            if (currentMapSelectedId === id) updateMapMemorizeBtn();
+        }
+    </script>
+</body>
+</html>

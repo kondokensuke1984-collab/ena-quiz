@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>国語デジタルドリル - 説明的文章（スズメバチの生態）</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&family=Yuji+Syuku&display=swap" rel="stylesheet">
+
+  <style>
+    /* 国語の教科書のような美しいフォント指定 */
+    .font-textbook {
+      font-family: 'Noto Sans JP', sans-serif;
+    }
+    .font-title {
+      font-family: 'Kiwi Maru', serif;
+    }
+    .font-vertical {
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+    }
+    /* スムーズスクロール */
+    html {
+      scroll-behavior: smooth;
+    }
+    /* ルビの調整 */
+    ruby {
+      ruby-position: over;
+    }
+    rt {
+      font-size: 0.55em;
+      color: #4b5563;
+      letter-spacing: 0.1em;
+      padding-bottom: 0.1em;
+    }
+  </style>
+</head>
+<body class="bg-amber-50/40 text-slate-800 font-textbook min-h-screen flex flex-col">
+
+  <!-- ヘッダー -->
+  <header class="bg-gradient-to-r from-red-600 via-orange-500 to-amber-500 text-white shadow-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="bg-white text-red-600 font-black rounded-full w-10 h-10 flex items-center justify-center shadow-inner text-lg font-title">
+          10
+        </div>
+        <div>
+          <h1 class="text-lg md:text-xl font-bold tracking-wider font-title">説明的文章(3)「スズメバチの生態」</h1>
+          <p class="text-xs text-orange-100 hidden sm:block">中村雅雄「世の中の蜂 おどろきのスズメバチ」より</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-2 mt-2 sm:mt-0">
+        <span class="text-xs bg-white/20 px-3 py-1 rounded-full text-white font-bold">国語・基本問題</span>
+        <button id="reset-btn" class="text-xs bg-red-700 hover:bg-red-800 transition px-3 py-1.5 rounded-lg flex items-center gap-1 font-bold">
+          <i class="fa-solid fa-rotate"></i> 最初から解く
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- メインコンテンツ -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-6 flex flex-col md:flex-row gap-6">
+
+    <!-- 左側：本文エリア -->
+    <section class="w-full md:w-1/2 flex flex-col bg-white rounded-2xl shadow-sm border border-orange-100 overflow-hidden">
+      <!-- 本文ヘッダー（タブ・操作） -->
+      <div class="bg-gradient-to-r from-orange-50 to-amber-50 border-b border-orange-100 p-4 flex items-center justify-between">
+        <h2 class="text-orange-800 font-bold flex items-center gap-2">
+          <i class="fa-solid fa-book-open text-orange-600"></i>
+          <span>本文を読もう</span>
+        </h2>
+        <div class="flex gap-2">
+          <button id="tab-text" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-white text-orange-700 border border-orange-200 shadow-sm">
+            本文
+          </button>
+          <button id="tab-illus" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all text-slate-600 hover:bg-orange-100/50">
+            図（スズメバチの巣）
+          </button>
+        </div>
+      </div>
+
+      <!-- 本文表示エリア -->
+      <div id="content-body" class="p-6 md:p-8 overflow-y-auto max-h-[calc(100vh-220px)] leading-relaxed tracking-wide text-base md:text-lg text-slate-800 space-y-6">
+
+        <!-- 本文テキスト -->
+        <div id="text-view" class="space-y-6">
+          <p>
+            <span class="border-b-4 border-red-500 font-bold pb-1 text-red-600">◆ 次の文章を読んで、あとの問いに答えなさい。</span>
+          </p>
+
+          <p class="indent-4">
+            <span class="bg-orange-100/60 px-1 py-0.5 rounded text-sm text-orange-800 font-bold">傍線①</span>
+            <span class="border-b-2 border-dashed border-orange-400">ハチというと、ほとんどの人が、花のあまい<ruby>蜜<rt>みつ</rt></ruby>を吸って栄養にしていると思っているのではないでしょうか。</span>
+            ミツバチは、花などの蜜を水分をとばしてつくるハチミツを、エサとしてあたえられます。
+            <span class="inline-block bg-amber-100 text-amber-950 font-bold px-2 py-0.5 rounded-md border border-amber-300 shadow-sm mx-1 text-sm">[ 1 ]</span>
+            多くのハチの幼虫が食べているのは、<ruby>稀<rt>まれ</rt></ruby>ではなくたんぱく質です。
+            <span class="inline-block bg-amber-100 text-amber-950 font-bold px-2 py-0.5 rounded-md border border-amber-300 shadow-sm mx-1 text-sm">[ 2 ]</span>
+            ほかの昆虫の肉をエサにしているのです。
+          </p>
+
+          <p class="indent-4">
+            スズメバチは、幼虫のために青虫やクモをつかまえては、エサとしてあたえます。とらえた昆虫の肉は太あごでしゃぶり、丸めて肉だんごにします。幼虫の口元に置いてあげると、幼虫は大きな口で一気に飲みこみます。
+          </p>
+
+          <p class="indent-4">
+            幼虫がまだ小さいころは、狩りの回数は少なくてすみます。
+            <span class="inline-block bg-amber-100 text-amber-950 font-bold px-2 py-0.5 rounded-md border border-amber-300 shadow-sm mx-1 text-sm">[ 3 ]</span>
+            幼虫が五ミリをこえる大きさになってくると、食欲がさかんになってきます。いくら食べてもすぐにエサをさいそくするので、女王バチは休む間もなく狩りに出かけなければなりません。
+          </p>
+
+          <p class="indent-4">
+            それでは、女王バチの食事はどうしているのでしょうか。よくよく観察してみると、女王バチは狩りに出かけるとき、大きな幼虫ののど元をあごで刺激して、透明な液のようなものをもらっています。じつは、これが女王バチの栄養ドリンクになっているのです。
+          </p>
+
+          <p class="indent-4">
+            この透明な液は、幼虫だけが出すことができるものです。女王バチや働きバチの栄養になる飲み物で、彼女たちが活動するためのエネルギーになる成分が含まれています。
+            <span class="bg-orange-100/60 px-1 py-0.5 rounded text-sm text-orange-800 font-bold">傍線②</span>
+            <span class="border-b-2 border-dashed border-orange-400">一説には</span>、一日に数百キロメートルも飛べるエネルギーの源になるといわれています。そのため、この液をヒントにした、人間向けのスポーツドリンクが
+            <span class="inline-block bg-blue-100 text-blue-950 font-bold px-2 py-0.5 rounded-md border border-blue-300 shadow-sm mx-1 text-sm">A</span>
+            されているほどです。
+          </p>
+
+          <p class="indent-4">
+            女王バチは、この飲み物のおかげで、長い距離を飛ぶことができ、さらにおなかにある卵を育て、たくさんの卵を産むための力をもらっているのです。
+          </p>
+
+          <p class="indent-4">
+            スズメバチの世界では、成虫は幼虫から栄養をもらって狩りに出かけ、とってきたエサを幼虫にあたえるというように、
+            <span class="bg-orange-100/60 px-1 py-0.5 rounded text-sm text-orange-800 font-bold">傍線③</span>
+            <span class="border-b-2 border-dashed border-orange-400">親子同士で助けあっている</span>のです。
+          </p>
+
+          <p class="text-slate-400 text-sm italic text-right">（中略）</p>
+
+          <p class="indent-4">
+            最初に羽化した働きバチは、とても小柄です。体長はせいぜい十五〜二十ミリくらいしかありません。彼女たちがおチビちゃんなのは、女王バチがたった一匹で、三十匹ほどの幼虫を育てていたため、栄養が十分にゆきわたらなかったせいです。その証拠に、その二か月ほどあとに羽化した働きバチは、育児や狩りなどに加わった何十匹ものお姉さんバチから、たくさんエサをもらえるため、大きさも二十五ミリくらいに成長しています。
+          </p>
+
+          <p class="indent-4">
+            ちなみに働きバチの寿命は、およそ三十日しかありません。でも、最初に羽化した働きバチがその寿命をむかえるときには、新しく「妹たち」が生まれています。これらがお互いに助け合いながら、一匹の女王バチは一生のうちに、なんと一万〜三万匹もの働きバチを生むのです。
+          </p>
+        </div>
+
+        <!-- イラスト表示エリア (初期は非表示) -->
+        <div id="illus-view" class="hidden flex flex-col items-center justify-center py-6 space-y-6">
+          <div class="relative bg-amber-50 p-6 rounded-2xl border-2 border-amber-200 shadow-inner w-full max-w-sm">
+            <h3 class="text-center font-bold text-amber-800 mb-4 text-sm">【スズメバチの巣と成虫のイメージ】</h3>
+            <!-- SVGによるハチの巣とハチのアニメーション -->
+            <svg viewBox="0 0 400 300" class="w-full h-auto drop-shadow-md">
+              <!-- 背景の葉 -->
+              <path d="M 30 50 Q 80 20 150 40 T 250 30" fill="none" stroke="#a3e635" stroke-width="4"/>
+
+              <!-- 巣のイラスト -->
+              <g transform="translate(100, 50)">
+                <!-- 巣の殻 -->
+                <path d="M 50 0 A 70 70 0 1 0 190 0 Z" fill="#d97706" opacity="0.1"/>
+                <circle cx="120" cy="80" r="70" fill="#eab308" stroke="#ca8a04" stroke-width="6" stroke-dasharray="15 5"/>
+                <!-- 巣の模様（縞模様） -->
+                <ellipse cx="120" cy="80" rx="60" ry="50" fill="none" stroke="#854d0e" stroke-width="3" opacity="0.7"/>
+                <ellipse cx="120" cy="80" rx="45" ry="35" fill="none" stroke="#854d0e" stroke-width="3" opacity="0.7"/>
+                <ellipse cx="120" cy="80" rx="30" ry="20" fill="none" stroke="#854d0e" stroke-width="3" opacity="0.7"/>
+                <!-- 巣の穴（出入り口） -->
+                <circle cx="120" cy="120" r="15" fill="#1e293b" />
+                <circle cx="120" cy="120" r="10" fill="#0f172a" />
+              </g>
+
+              <!-- スズメバチ1 -->
+              <g transform="translate(80, 200) scale(0.8)">
+                <ellipse cx="40" cy="30" rx="25" ry="15" fill="#eab308" stroke="#1e293b" stroke-width="2"/>
+                <!-- 縞模様 -->
+                <path d="M 30 16 L 30 44 M 40 15 L 40 45 M 50 16 L 50 44" stroke="#1e293b" stroke-width="4"/>
+                <!-- 羽 -->
+                <ellipse cx="30" cy="10" rx="10" ry="22" fill="#93c5fd" opacity="0.6" transform="rotate(-30 30 10)"/>
+                <ellipse cx="42" cy="8" rx="8" ry="18" fill="#93c5fd" opacity="0.6" transform="rotate(-15 42 8)"/>
+                <!-- 頭部・触角 -->
+                <circle cx="70" cy="30" r="10" fill="#ca8a04" stroke="#1e293b" stroke-width="2"/>
+                <path d="M 75 22 Q 80 15 85 18" fill="none" stroke="#1e293b" stroke-width="2"/>
+                <path d="M 72 20 Q 75 10 78 12" fill="none" stroke="#1e293b" stroke-width="2"/>
+                <!-- 針 -->
+                <path d="M 12 30 L 2 30" stroke="#1e293b" stroke-width="3"/>
+              </g>
+
+              <!-- スズメバチ2 (右側) -->
+              <g transform="translate(240, 150) scale(1)">
+                <ellipse cx="40" cy="30" rx="25" ry="15" fill="#eab308" stroke="#1e293b" stroke-width="2"/>
+                <path d="M 30 16 L 30 44 M 40 15 L 40 45 M 50 16 L 50 44" stroke="#1e293b" stroke-width="4"/>
+                <ellipse cx="30" cy="10" rx="10" ry="22" fill="#93c5fd" opacity="0.6" transform="rotate(-30 30 10)"/>
+                <ellipse cx="42" cy="8" rx="8" ry="18" fill="#93c5fd" opacity="0.6" transform="rotate(-15 42 8)"/>
+                <circle cx="70" cy="30" r="10" fill="#ca8a04" stroke="#1e293b" stroke-width="2"/>
+                <path d="M 75 22 Q 80 15 85 18" fill="none" stroke="#1e293b" stroke-width="2"/>
+                <path d="M 72 20 Q 75 10 78 12" fill="none" stroke="#1e293b" stroke-width="2"/>
+                <path d="M 12 30 L 2 30" stroke="#1e293b" stroke-width="3"/>
+              </g>
+            </svg>
+            <p class="text-xs text-slate-500 mt-4 text-center leading-relaxed">
+              スズメバチの巣は幾重ものお椀を重ねたような構造で、成虫と幼虫が強固な絆で支え合って暮らしています。
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 右側：設問＆デジタル回答エリア -->
+    <section class="w-full md:w-1/2 flex flex-col bg-white rounded-2xl shadow-sm border border-orange-100 overflow-hidden">
+      <!-- 問題ヘッダー -->
+      <div class="bg-gradient-to-r from-red-50 to-orange-50 border-b border-orange-100 p-4 flex items-center justify-between">
+        <h2 class="text-red-800 font-bold flex items-center gap-2">
+          <i class="fa-solid fa-file-signature text-red-600"></i>
+          <span>問題にチャレンジ</span>
+        </h2>
+        <div id="progress-badge" class="bg-red-100 text-red-800 text-xs px-2.5 py-1 rounded-full font-bold">
+          未回答
+        </div>
+      </div>
+
+      <!-- 設問フォーム -->
+      <form id="quiz-form" class="p-6 overflow-y-auto max-h-[calc(100vh-220px)] space-y-8">
+
+        <!-- 問1 -->
+        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/60 space-y-4">
+          <div class="flex items-start gap-2">
+            <span class="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded mt-0.5 shrink-0">問 1</span>
+            <p class="font-bold text-slate-800 text-sm md:text-base">
+              本文の <span class="bg-amber-200 px-1 py-0.5 rounded text-amber-950 font-bold">[ 1 ]</span> 〜 <span class="bg-amber-200 px-1 py-0.5 rounded text-amber-950 font-bold">[ 3 ]</span> にあてはまる最もふさわしい言葉をそれぞれ選びなさい。
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
+            <!-- [1] -->
+            <div class="bg-white p-3 rounded-lg border border-slate-200">
+              <label class="block text-xs font-bold text-slate-500 mb-1.5">[ 1 ] の言葉</label>
+              <select name="q1_1" class="w-full text-sm bg-slate-50 border border-slate-300 rounded px-2 py-1.5 focus:ring-2 focus:ring-red-500 focus:outline-none">
+                <option value="">-- 選択 --</option>
+                <option value="ア">ア：それでは</option>
+                <option value="イ">イ：しかし</option>
+                <option value="ウ">ウ：つまり</option>
+                <option value="エ">エ：たしかに</option>
+                <option value="オ">オ：そして</option>
+              </select>
+            </div>
+            <!-- [2] -->
+            <div class="bg-white p-3 rounded-lg border border-slate-200">
+              <label class="block text-xs font-bold text-slate-500 mb-1.5">[ 2 ] の言葉</label>
+              <select name="q1_2" class="w-full text-sm bg-slate-50 border border-slate-300 rounded px-2 py-1.5 focus:ring-2 focus:ring-red-500 focus:outline-none">
+                <option value="">-- 選択 --</option>
+                <option value="ア">ア：それでは</option>
+                <option value="イ">イ：しかし</option>
+                <option value="ウ">ウ：つまり</option>
+                <option value="エ">エ：たしかに</option>
+                <option value="オ">オ：そして</option>
+              </select>
+            </div>
+            <!-- [3] -->
+            <div class="bg-white p-3 rounded-lg border border-slate-200">
+              <label class="block text-xs font-bold text-slate-500 mb-1.5">[ 3 ] の言葉</label>
+              <select name="q1_3" class="w-full text-sm bg-slate-50 border border-slate-300 rounded px-2 py-1.5 focus:ring-2 focus:ring-red-500 focus:outline-none">
+                <option value="">-- 選択 --</option>
+                <option value="ア">ア：それでは</option>
+                <option value="イ">イ：しかし</option>
+                <option value="ウ">ウ：つまり</option>
+                <option value="エ">エ：たしかに</option>
+                <option value="オ">オ：そして</option>
+              </select>
+            </div>
+          </div>
+          <div id="feedback-q1" class="hidden text-sm p-3 rounded-lg"></div>
+        </div>
+
+        <!-- 問2 -->
+        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/60 space-y-4">
+          <div class="flex items-start gap-2">
+            <span class="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded mt-0.5 shrink-0">問 2</span>
+            <p class="font-bold text-slate-800 text-sm md:text-base">
+              傍線①「ハチというと、ほとんどの人が、花のあまい蜜を吸って栄養にしていると思っているのではないでしょうか」とありますが、次のハチはそれぞれ何をエサとしますか。最もふさわしいものをそれぞれ選びなさい。
+            </p>
+          </div>
+
+          <div class="space-y-4 pt-2">
+            <!-- スズメバチの幼虫 -->
+            <div class="bg-white p-4 rounded-lg border border-slate-200 space-y-2">
+              <span class="inline-block bg-orange-100 text-orange-800 text-xs font-bold px-2 py-0.5 rounded">A : スズメバチの幼虫</span>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+                <label class="flex items-center gap-2 p-2 rounded hover:bg-slate-50 border border-slate-100 cursor-pointer text-sm">
+                  <input type="radio" name="q2_larva" value="ア" class="text-red-600 focus:ring-red-500">
+                  <span>ア：花の蜜</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 rounded hover:bg-slate-50 border border-slate-100 cursor-pointer text-sm">
+                  <input type="radio" name="q2_larva" value="イ" class="text-red-600 focus:ring-red-500">
+                  <span>イ：ほかの昆虫の肉</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 rounded hover:bg-slate-50 border border-slate-100 cursor-pointer text-sm">
+                  <input type="radio" name="q2_larva" value="ウ" class="text-red-600 focus:ring-red-500">
+                  <span>ウ：ハチの幼虫</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 rounded hover:bg-slate-50 border border-slate-100 cursor-pointer text-sm">
+                  <input type="radio" name="q2_larva" value="エ" class="text-red-600 focus:ring-red-500">
+                  <span>エ：幼虫ののど元を刺激すると出てくる液</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- スズメバチの女王バチ -->
+            <div class="bg-white p-4 rounded-lg border border-slate-200 space-y-2">
+              <span class="inline-block bg-orange-100 text-orange-800 text-xs font-bold px-2 py-0.5 rounded">B : スズメバチの女王バチ</span>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+                <label class="flex items-center gap-2 p-2 rounded hover:bg-slate-50 border border-slate-100 cursor-pointer text-sm">
+                  <input type="radio" name="q2_queen" value="ア" class="text-red-600 focus:ring-red-500">
+                  <span>ア：花の蜜</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 rounded hover:bg-slate-50 border border-slate-100 cursor-pointer text-sm">
+                  <input type="radio" name="q2_queen" value="イ" class="text-red-600 focus:ring-red-500">
+                  <span>イ：ほかの昆虫の肉</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 rounded hover:bg-slate-50 border border-slate-100 cursor-pointer text-sm">
+                  <input type="radio" name="q2_queen" value="ウ" class="text-red-600 focus:ring-red-500">
+                  <span>ウ：ハチの幼虫</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 rounded hover:bg-slate-50 border border-slate-100 cursor-pointer text-sm">
+                  <input type="radio" name="q2_queen" value="エ" class="text-red-600 focus:ring-red-500">
+                  <span>エ：幼虫ののど元を刺激すると出てくる液</span>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div id="feedback-q2" class="hidden text-sm p-3 rounded-lg"></div>
+        </div>
+
+        <!-- 問3 -->
+        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/60 space-y-4">
+          <div class="flex items-start gap-2">
+            <span class="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded mt-0.5 shrink-0">問 3</span>
+            <p class="font-bold text-slate-800 text-sm md:text-base">
+              本文の空欄 <span class="bg-blue-100 text-blue-950 font-bold px-2 py-0.5 rounded-md border border-blue-300">A</span> にあてはまる言葉として最もふさわしいものを次の中から選びなさい。
+            </p>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2">
+            <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 cursor-pointer text-sm hover:bg-slate-50">
+              <input type="radio" name="q3" value="ア" class="text-red-600 focus:ring-red-500">
+              <span>ア：一体化</span>
+            </label>
+            <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 cursor-pointer text-sm hover:bg-slate-50">
+              <input type="radio" name="q3" value="イ" class="text-red-600 focus:ring-red-500">
+              <span>イ：高速化</span>
+            </label>
+            <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 cursor-pointer text-sm hover:bg-slate-50">
+              <input type="radio" name="q3" value="ウ" class="text-red-600 focus:ring-red-500">
+              <span>ウ：単純化</span>
+            </label>
+            <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 cursor-pointer text-sm hover:bg-slate-50">
+              <input type="radio" name="q3" value="エ" class="text-red-600 focus:ring-red-500">
+              <span>エ：商品化</span>
+            </label>
+          </div>
+          <div id="feedback-q3" class="hidden text-sm p-3 rounded-lg"></div>
+        </div>
+
+        <!-- 問4 -->
+        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/60 space-y-4">
+          <div class="flex items-start gap-2">
+            <span class="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded mt-0.5 shrink-0">問 4</span>
+            <p class="font-bold text-slate-800 text-sm md:text-base">
+              傍線②「一説には」とは、どのような意味ですか。最もふさわしいものを次の中から選びなさい。
+            </p>
+          </div>
+
+          <div class="space-y-2 pt-2">
+            <label class="flex items-start gap-3 p-3 bg-white rounded-lg border border-slate-200 cursor-pointer text-sm hover:bg-slate-50">
+              <input type="radio" name="q4" value="ア" class="text-red-600 focus:ring-red-500 mt-1">
+              <span><strong>ア：</strong>多くの人が知っていることによると</span>
+            </label>
+            <label class="flex items-start gap-3 p-3 bg-white rounded-lg border border-slate-200 cursor-pointer text-sm hover:bg-slate-50">
+              <input type="radio" name="q4" value="イ" class="text-red-600 focus:ring-red-500 mt-1">
+              <span><strong>イ：</strong>自分で考えたことによると</span>
+            </label>
+            <label class="flex items-start gap-3 p-3 bg-white rounded-lg border border-slate-200 cursor-pointer text-sm hover:bg-slate-50">
+              <input type="radio" name="q4" value="ウ" class="text-red-600 focus:ring-red-500 mt-1">
+              <span><strong>ウ：</strong>いくつかある考えのうちの一つによると</span>
+            </label>
+            <label class="flex items-start gap-3 p-3 bg-white rounded-lg border border-slate-200 cursor-pointer text-sm hover:bg-slate-50">
+              <input type="radio" name="q4" value="エ" class="text-red-600 focus:ring-red-500 mt-1">
+              <span><strong>エ：</strong>知らないふりをしてみたところによると</span>
+            </label>
+          </div>
+          <div id="feedback-q4" class="hidden text-sm p-3 rounded-lg"></div>
+        </div>
+
+        <!-- 問5 -->
+        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/60 space-y-4">
+          <div class="flex items-start gap-2">
+            <span class="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded mt-0.5 shrink-0">問 5</span>
+            <p class="font-bold text-slate-800 text-sm md:text-base">
+              傍線③「親子同士で助けあっている」とありますが、文章では、親子だけでなく「上のきょうだいが下のきょうだいをたすける様子」も書かれています。その様子が書かれている一文を文章中から探し、はじめと終わりの三文字をそれぞれ答えなさい。なお、句読点（。、）も文字数に数えます。
+            </p>
+          </div>
+
+          <div class="bg-white p-4 rounded-lg border border-slate-200 space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold text-slate-500 mb-1">書き出し（はじめ）の三文字</label>
+                <input type="text" name="q5_start" placeholder="例：スズメ" class="w-full text-sm bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 focus:outline-none">
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-500 mb-1">むすび（終わり）の三文字（句読点含む）</label>
+                <input type="text" name="q5_end" placeholder="例：ます。" class="w-full text-sm bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 focus:outline-none">
+              </div>
+            </div>
+            <p class="text-xs text-slate-400">※ヒント：後半部分の「働きバチの成長や役割分担」についての記述を探してみましょう。</p>
+          </div>
+          <div id="feedback-q5" class="hidden text-sm p-3 rounded-lg"></div>
+        </div>
+
+        <!-- 問6 -->
+        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/60 space-y-4">
+          <div class="flex items-start gap-2">
+            <span class="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded mt-0.5 shrink-0">問 6</span>
+            <p class="font-bold text-slate-800 text-sm md:text-base">
+              本文の内容として最もふさわしいものを、次のうちから一つ選びなさい。
+            </p>
+          </div>
+
+          <div class="space-y-2 pt-2">
+            <label class="flex items-start gap-3 p-3 bg-white rounded-lg border border-slate-200 cursor-pointer text-sm hover:bg-slate-50">
+              <input type="radio" name="q6" value="ア" class="text-red-600 focus:ring-red-500 mt-1">
+              <span><strong>ア：</strong>多くのハチの幼虫が食べているのは、たんぱく質ではなく糖分である。</span>
+            </label>
+            <label class="flex items-start gap-3 p-3 bg-white rounded-lg border border-slate-200 cursor-pointer text-sm hover:bg-slate-50">
+              <input type="radio" name="q6" value="イ" class="text-red-600 focus:ring-red-500 mt-1">
+              <span><strong>イ：</strong>幼虫が大きくなってくると、女王バチは狩りを休む時間が増える。</span>
+            </label>
+            <label class="flex items-start gap-3 p-3 bg-white rounded-lg border border-slate-200 cursor-pointer text-sm hover:bg-slate-50">
+              <input type="radio" name="q6" value="ウ" class="text-red-600 focus:ring-red-500 mt-1">
+              <span><strong>ウ：</strong>透明な液（幼虫が出すもの）を出すことができるのは、女王バチだけである。</span>
+            </label>
+            <label class="flex items-start gap-3 p-3 bg-white rounded-lg border border-slate-200 cursor-pointer text-sm hover:bg-slate-50">
+              <input type="radio" name="q6" value="エ" class="text-red-600 focus:ring-red-500 mt-1">
+              <span><strong>エ：</strong>最初に羽化した働きバチは、女王バチが一匹で育てて十分な栄養がゆきわたらなかったため、小柄である。</span>
+            </label>
+          </div>
+          <div id="feedback-q6" class="hidden text-sm p-3 rounded-lg"></div>
+        </div>
+
+        <!-- 採点するボタン -->
+        <div class="pt-4">
+          <button type="submit" id="submit-btn" class="w-full bg-gradient-to-r from-red-600 to-orange-500 hover:from-red-700 hover:to-orange-600 text-white font-bold py-4 px-6 rounded-xl shadow-md transition-all transform active:scale-[0.98] flex items-center justify-center gap-2 text-base md:text-lg">
+            <i class="fa-solid fa-graduation-cap"></i> 採点して解説を読む
+          </button>
+        </div>
+
+      </form>
+
+      <!-- 結果発表エリア (初期は非表示) -->
+      <div id="result-panel" class="hidden p-6 bg-gradient-to-br from-red-50 via-orange-50 to-amber-50 border-t-2 border-red-500 space-y-6">
+        <div class="text-center">
+          <h3 class="text-lg font-bold text-slate-700 font-title">採点結果</h3>
+          <div class="inline-flex items-center justify-center relative my-4">
+            <!-- スコアラジアルゲージ -->
+            <svg class="w-32 h-32 transform -rotate-90">
+              <circle cx="64" cy="64" r="50" stroke="#e2e8f0" stroke-width="12" fill="transparent" />
+              <circle id="score-circle" cx="64" cy="64" r="50" stroke="#ef4444" stroke-width="12" fill="transparent" stroke-dasharray="314.16" stroke-dashoffset="314.16" stroke-linecap="round" class="transition-all duration-1000" />
+            </svg>
+            <div class="absolute inset-0 flex flex-col items-center justify-center">
+              <span id="score-text" class="text-3xl font-black text-red-600">0%</span>
+              <span id="score-fraction" class="text-xs text-slate-500 font-bold">0 / 8 問中</span>
+            </div>
+          </div>
+          <p id="evaluation-message" class="font-bold text-slate-800 text-base font-title"></p>
+        </div>
+
+        <!-- 各問の解説ナビゲートリンク -->
+        <div class="bg-white p-4 rounded-xl border border-orange-100 space-y-3">
+          <h4 class="font-bold text-slate-700 text-sm flex items-center gap-1">
+            <i class="fa-solid fa-lightbulb text-amber-500"></i> 各設問の答えと解説
+          </h4>
+          <p class="text-xs text-slate-500 leading-relaxed">
+            問題用紙の各問の下に、詳しい正誤と丁寧な解説（教科書の解説より抜粋）が表示されています。上へスクロールして確認してみましょう！
+          </p>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- フッター -->
+  <footer class="bg-slate-800 text-slate-400 py-4 text-center text-xs mt-auto">
+    <p>© 2026 国語デジタルインタラクティブ学習帳 / EXE説明的読解シリーズ</p>
+  </footer>
+
+  <script>
+    // ----------------------------------------------------
+    // タブ切り替え制御（本文 ⇔ 巣の図）
+    // ----------------------------------------------------
+    const tabText = document.getElementById('tab-text');
+    const tabIllus = document.getElementById('tab-illus');
+    const textView = document.getElementById('text-view');
+    const illusView = document.getElementById('illus-view');
+
+    tabText.addEventListener('click', () => {
+      tabText.classList.add('bg-white', 'text-orange-700', 'border', 'border-orange-200', 'shadow-sm');
+      tabText.classList.remove('text-slate-600', 'hover:bg-orange-100/50');
+      tabIllus.classList.remove('bg-white', 'text-orange-700', 'border', 'border-orange-200', 'shadow-sm');
+      tabIllus.classList.add('text-slate-600', 'hover:bg-orange-100/50');
+
+      textView.classList.remove('hidden');
+      illusView.classList.add('hidden');
+    });
+
+    tabIllus.addEventListener('click', () => {
+      tabIllus.classList.add('bg-white', 'text-orange-700', 'border', 'border-orange-200', 'shadow-sm');
+      tabIllus.classList.remove('text-slate-600', 'hover:bg-orange-100/50');
+      tabText.classList.remove('bg-white', 'text-orange-700', 'border', 'border-orange-200', 'shadow-sm');
+      tabText.classList.add('text-slate-600', 'hover:bg-orange-100/50');
+
+      illusView.classList.remove('hidden');
+      textView.classList.add('hidden');
+    });
+
+    // ----------------------------------------------------
+    // クイズデータの定義
+    // ----------------------------------------------------
+    const answers = {
+      q1_1: 'エ',
+      q1_2: 'イ',
+      q1_3: 'オ',
+      q2_larva: 'イ',
+      q2_queen: 'エ',
+      q3: 'エ',
+      q4: 'ウ',
+      q5_start: 'その後',
+      q5_end: 'います。',
+      q6: 'エ'
+    };
+
+    const explanations = {
+      q1: `<strong>【解説】</strong><br>
+           ・<strong>[ 1 ]（エ：たしかに）</strong>: 前に「花のあまい蜜を吸って栄養にしていると思っているのではないでしょうか」と問いかけたのに対し、後ろで「ミツバチは（その通り）蜜をエサとする」と続くため、「たしかに」が入ります。<br>
+           ・<strong>[ 2 ]（イ：しかし）</strong>: 蜜を吸うハチはまれであり、ハチの多くはたんぱく質（肉）を食べるという対比になるため、逆接の「しかし」が入ります。<br>
+           ・<strong>[ 3 ]（オ：そして）</strong>: 前の「まだ小さいころは狩りは少なくすむ」に対して、時間が経って「大きくなってくると食欲がさかんになる」という対比した内容へつなぐため、「そして」が入ります。`,
+      q2: `<strong>【解説】</strong><br>
+           ・<strong>スズメバチの幼虫（イ：ほかの昆虫の肉）</strong>: 本文第2段落に「スズメバチは、幼虫のために青虫やクモをつかまえては、エサとしてあたえます」とあります。<br>
+           ・<strong>スズメバチの女王バチ（エ：幼虫ののど元を刺激すると出てくる液）</strong>: 本文第4段落に「女王バチは狩りに出かけるとき、大きな幼虫ののど元をあごで刺激して、透明な液のようなものをもらっています」とあります。`,
+      q3: `<strong>【解説】</strong><br>
+           ・<strong>A（エ：商品化）</strong>: 幼虫が出す透明なエネルギー液の成分をヒントに、人間向けのスポーツドリンクが「商品化」され、販売されています。`,
+      q4: `<strong>【解説】</strong><br>
+           ・<strong>一説には（ウ：いくつかある考えのうちの一つによると）</strong>: 「〜説」の「説」は考えや意見のことであり、「一」は数ある中のひとつを指します。`,
+      q5: `<strong>【解説】</strong><br>
+           ・<strong>「その後、〜います。」</strong><br>
+           ・本文最後から2番目の段落に「その二か月ほどあとに羽化した働きバチは、育児や狩りなどに加わった何十匹ものお姉さんバチから、たくさんエサをもらえるため、大きさも二十五ミリくらいに成長しています。」とあります。<br>
+           お姉さんバチ（上のきょうだい）が、あとに生まれた働きバチ（下のきょうだい）にエサをあげて育てる様子が表されています。<br>
+           ※書き出しは「その後」、結びは「います。」となります。`,
+      q6: `<strong>【解説】</strong><br>
+           ・<strong>（エ）が正解</strong>です。本文最後の段落に「彼女たちがおチビちゃんなのは、女王バチがたった一匹で、三十匹ほどの幼虫を育てていたため、栄養が十分にゆきわたらなかったせいです」と理由が明確に書かれています。<br>
+           ・（ア）ハチの幼虫が食べているのは「糖分ではなくたんぱく質」が正しいため誤りです。<br>
+           ・（イ）大きくなると女王バチは「休む間もなく狩りに」行くため誤りです。<br>
+           ・（ウ）透明な液を出せるのは「幼虫だけ」であるため誤りです。`
+    };
+
+    // ----------------------------------------------------
+    // 採点＆インタラクションロジック
+    // ----------------------------------------------------
+    const form = document.getElementById('quiz-form');
+    const progressBadge = document.getElementById('progress-badge');
+    const resultPanel = document.getElementById('result-panel');
+    const scoreCircle = document.getElementById('score-circle');
+    const scoreText = document.getElementById('score-text');
+    const scoreFraction = document.getElementById('score-fraction');
+    const evaluationMessage = document.getElementById('evaluation-message');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const fd = new FormData(form);
+      const userAnswers = {
+        q1_1: fd.get('q1_1'),
+        q1_2: fd.get('q1_2'),
+        q1_3: fd.get('q1_3'),
+        q2_larva: fd.get('q2_larva'),
+        q2_queen: fd.get('q2_queen'),
+        q3: fd.get('q3'),
+        q4: fd.get('q4'),
+        q5_start: (fd.get('q5_start') || '').trim(),
+        q5_end: (fd.get('q5_end') || '').trim(),
+        q6: fd.get('q6')
+      };
+
+      let correctCount = 0;
+      const totalCount = 8;
+
+      const q1_1_correct = userAnswers.q1_1 === answers.q1_1;
+      const q1_2_correct = userAnswers.q1_2 === answers.q1_2;
+      const q1_3_correct = userAnswers.q1_3 === answers.q1_3;
+      if (q1_1_correct) correctCount++;
+      if (q1_2_correct) correctCount++;
+      if (q1_3_correct) correctCount++;
+
+      const q2_l_correct = userAnswers.q2_larva === answers.q2_larva;
+      const q2_q_correct = userAnswers.q2_queen === answers.q2_queen;
+      if (q2_l_correct) correctCount++;
+      if (q2_q_correct) correctCount++;
+
+      const q3_correct = userAnswers.q3 === answers.q3;
+      if (q3_correct) correctCount++;
+
+      const q4_correct = userAnswers.q4 === answers.q4;
+      if (q4_correct) correctCount++;
+
+      const cleanText = (str) => str.replace(/[、。,\.\s]/g, '');
+      const q5_s_correct = cleanText(userAnswers.q5_start) === cleanText(answers.q5_start);
+      const q5_e_correct = cleanText(userAnswers.q5_end) === cleanText(answers.q5_end);
+      const q5_correct = q5_s_correct && q5_e_correct;
+      if (q5_correct) correctCount++;
+
+      const q6_correct = userAnswers.q6 === answers.q6;
+      if (q6_correct) correctCount++;
+
+      // 各問フィードバック表示
+      const f1 = document.getElementById('feedback-q1');
+      f1.classList.remove('hidden');
+      if (q1_1_correct && q1_2_correct && q1_3_correct) {
+        f1.className = "text-sm p-3 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200 mt-2";
+        f1.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-500 mr-1"></i> <strong>正解！</strong> 全て合っています！<br>${explanations.q1}`;
+      } else {
+        f1.className = "text-sm p-3 rounded-lg bg-rose-50 text-rose-800 border border-rose-200 mt-2";
+        f1.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-500 mr-1"></i> <strong>部分正解・または不正解があります。</strong><br>あなたの解答： [1] ${userAnswers.q1_1 || '未回答'} , [2] ${userAnswers.q1_2 || '未回答'} , [3] ${userAnswers.q1_3 || '未回答'}<br>正しい組み合わせは <strong>[1]エ、[2]イ、[3]オ</strong> です。<br>${explanations.q1}`;
+      }
+
+      const f2 = document.getElementById('feedback-q2');
+      f2.classList.remove('hidden');
+      if (q2_l_correct && q2_q_correct) {
+        f2.className = "text-sm p-3 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200 mt-2";
+        f2.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-500 mr-1"></i> <strong>正解！</strong> 幼虫と女王バチの食性の違いを正確に読み取れています！<br>${explanations.q2}`;
+      } else {
+        f2.className = "text-sm p-3 rounded-lg bg-rose-50 text-rose-800 border border-rose-200 mt-2";
+        f2.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-500 mr-1"></i> <strong>一部に間違いがあります。</strong><br>正しい答えは、<strong>幼虫：イ（昆虫の肉）、女王バチ：エ（透明な液）</strong> です。<br>${explanations.q2}`;
+      }
+
+      const f3 = document.getElementById('feedback-q3');
+      f3.classList.remove('hidden');
+      if (q3_correct) {
+        f3.className = "text-sm p-3 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200 mt-2";
+        f3.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-500 mr-1"></i> <strong>正解！</strong><br>${explanations.q3}`;
+      } else {
+        f3.className = "text-sm p-3 rounded-lg bg-rose-50 text-rose-800 border border-rose-200 mt-2";
+        f3.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-500 mr-1"></i> <strong>不正解。</strong> 正しい答えは <strong>エ：商品化</strong> です。<br>${explanations.q3}`;
+      }
+
+      const f4 = document.getElementById('feedback-q4');
+      f4.classList.remove('hidden');
+      if (q4_correct) {
+        f4.className = "text-sm p-3 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200 mt-2";
+        f4.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-500 mr-1"></i> <strong>正解！</strong> 語句の意味を正しく理解できています。<br>${explanations.q4}`;
+      } else {
+        f4.className = "text-sm p-3 rounded-lg bg-rose-50 text-rose-800 border border-rose-200 mt-2";
+        f4.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-500 mr-1"></i> <strong>不正解。</strong> 正しい答えは <strong>ウ</strong> です。<br>${explanations.q4}`;
+      }
+
+      const f5 = document.getElementById('feedback-q5');
+      f5.classList.remove('hidden');
+      if (q5_correct) {
+        f5.className = "text-sm p-3 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200 mt-2";
+        f5.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-500 mr-1"></i> <strong>正解！</strong> お姉さんバチが妹たちにエサをあげる場面を見事に抜き出せました！<br>${explanations.q5}`;
+      } else {
+        f5.className = "text-sm p-3 rounded-lg bg-rose-50 text-rose-800 border border-rose-200 mt-2";
+        f5.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-500 mr-1"></i> <strong>不正解、または入力形式に誤りがあります。</strong><br>抜き出す一文：「その後、〜います。」<br>正しい解答は、はじめの三文字：<strong>その（または その後）</strong>、おわりの三文字：<strong>ます。（または います。）</strong> です。<br>${explanations.q5}`;
+      }
+
+      const f6 = document.getElementById('feedback-q6');
+      f6.classList.remove('hidden');
+      if (q6_correct) {
+        f6.className = "text-sm p-3 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200 mt-2";
+        f6.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-500 mr-1"></i> <strong>正解！</strong> 本文の趣旨や詳細な記述を正しく把握できています！<br>${explanations.q6}`;
+      } else {
+        f6.className = "text-sm p-3 rounded-lg bg-rose-50 text-rose-800 border border-rose-200 mt-2";
+        f6.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-500 mr-1"></i> <strong>不正解。</strong> 正しい答えは <strong>エ</strong> です。<br>${explanations.q6}`;
+      }
+
+      // メインアプリのlocalStorageに結果を反映
+      try {
+        const statsKey = 'ena_stats_202606';
+        const stored = JSON.parse(localStorage.getItem(statsKey) || '{}');
+        const prev = stored['suzumebachi'] || { correct: 0, total: 0 };
+        stored['suzumebachi'] = { correct: prev.correct + correctCount, total: prev.total + totalCount };
+        localStorage.setItem(statsKey, JSON.stringify(stored));
+      } catch(e) {}
+
+      resultPanel.classList.remove('hidden');
+      progressBadge.innerText = '採点完了';
+      progressBadge.className = 'bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-full font-bold';
+
+      const scorePercent = Math.round((correctCount / totalCount) * 100);
+      scoreText.innerText = `${scorePercent}%`;
+      scoreFraction.innerText = `${correctCount} / ${totalCount} 点`;
+
+      const offset = 314.16 - (314.16 * scorePercent) / 100;
+      scoreCircle.style.strokeDashoffset = offset;
+
+      let msg = '';
+      if (scorePercent === 100) {
+        msg = '🎉 素晴らしい！満点です！完璧に読解できていますね！';
+        scoreCircle.setAttribute('stroke', '#10b981');
+      } else if (scorePercent >= 75) {
+        msg = '✨ 実に素晴らしい！あと一歩で満点です。間違えた部分の解説を確認しましょう！';
+        scoreCircle.setAttribute('stroke', '#3b82f6');
+      } else if (scorePercent >= 50) {
+        msg = '👍 よく頑張りました！本文と解説を照らし合わせ、復習してみましょう。';
+        scoreCircle.setAttribute('stroke', '#f59e0b');
+      } else {
+        msg = '💪 再挑戦してみましょう！解説を読むことで、記述を素早く見つけるコツが分かります。';
+        scoreCircle.setAttribute('stroke', '#ef4444');
+      }
+      evaluationMessage.innerText = msg;
+
+      resultPanel.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // リセットボタン
+    document.getElementById('reset-btn').addEventListener('click', () => {
+      form.reset();
+
+      document.querySelectorAll('[id^="feedback-"]').forEach(el => {
+        el.classList.add('hidden');
+        el.innerHTML = '';
+      });
+
+      resultPanel.classList.add('hidden');
+      progressBadge.innerText = '未回答';
+      progressBadge.className = 'bg-red-100 text-red-800 text-xs px-2.5 py-1 rounded-full font-bold';
+      scoreCircle.style.strokeDashoffset = 314.16;
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+  </script>
+</body>
+</html>

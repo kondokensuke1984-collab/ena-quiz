@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>13 とじこめた空気と水2 - デジタル教科書</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Serif+JP:wght@600;900&display=swap" rel="stylesheet">
+
+  <style>
+    body { font-family: 'Noto Sans JP', sans-serif; background-color: #e2e8f0; }
+    .textbook-font  { font-family: 'Noto Sans JP', sans-serif; }
+    .textbook-serif { font-family: 'Noto Serif JP', serif; }
+    .page-sheet {
+      background-color: #fcfdfa;
+      box-shadow: 0 10px 25px -5px rgba(0,0,0,.1), 0 8px 10px -6px rgba(0,0,0,.1);
+      border-radius: 4px;
+      position: relative;
+    }
+    .border-textbook-green { border-color: #7cb342; }
+    .bg-textbook-green     { background-color: #7cb342; }
+    .text-textbook-green   { color: #558b2f; }
+    ruby { ruby-position: over; }
+  </style>
+</head>
+<body class="p-0 md:p-4 min-h-screen flex flex-col justify-between">
+
+  <!-- 戻るボタン -->
+  <div class="max-w-7xl mx-auto w-full px-4 pt-3 pb-1">
+    <button onclick="history.back()" class="flex items-center gap-1 text-xs text-slate-500 hover:text-lime-700 font-bold transition">
+      ← アプリに戻る
+    </button>
+  </div>
+
+  <!-- スマホ用ページ切り替え -->
+  <div class="max-w-7xl mx-auto w-full mb-2 flex justify-between items-center px-4 py-2 bg-white/80 backdrop-blur rounded-xl shadow-sm md:hidden">
+    <span class="text-xs font-bold text-slate-500">ページ選択 (スマホ用)</span>
+    <div class="flex gap-1">
+      <button onclick="showPage(1)" id="btn-page1" class="px-4 py-1.5 rounded-lg text-xs font-bold bg-lime-600 text-white shadow">左ページ (p.97)</button>
+      <button onclick="showPage(2)" id="btn-page2" class="px-4 py-1.5 rounded-lg text-xs font-bold bg-slate-200 text-slate-700">右ページ (p.98)</button>
+    </div>
+  </div>
+
+  <main class="max-w-7xl w-full mx-auto flex-grow grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6 items-stretch">
+
+    <!-- 左ページ (p.97) -->
+    <article id="page-left" class="page-sheet p-6 sm:p-8 flex flex-col justify-between border-t-[16px] border-lime-600">
+      <div>
+        <div class="flex justify-between items-start border-b-2 border-lime-600 pb-2 mb-6">
+          <div class="flex items-center gap-4">
+            <span class="textbook-serif text-4xl sm:text-5xl font-black text-lime-700 tracking-tighter">13</span>
+            <div>
+              <h1 class="textbook-serif text-xl sm:text-2xl font-black text-slate-800 tracking-wide">とじこめた空気と水 2</h1>
+            </div>
+          </div>
+          <div class="border border-slate-300 rounded p-1 text-[10px] text-slate-400 flex items-center gap-1 bg-white">
+            <span>学習日</span>
+            <span class="border-l border-slate-200 pl-1 font-mono">　 / 　 / 　</span>
+          </div>
+        </div>
+
+        <div class="mb-6">
+          <div class="inline-flex items-center gap-2 bg-lime-600 text-white font-bold text-xs px-3 py-1 rounded-r-full mb-4">
+            <span>◆ 要点のまとめ</span>
+          </div>
+
+          <div class="space-y-4">
+            <div class="flex items-center gap-2 border-b border-lime-200 pb-1">
+              <span class="w-2.5 h-2.5 rounded-full bg-lime-600"></span>
+              <h2 class="text-base sm:text-lg font-black text-slate-800">水でっぽう</h2>
+            </div>
+
+            <p class="text-sm text-slate-700 leading-relaxed text-justify">
+              つつの一方のはしに小さなあなをあけたビニルテープをはり、つつの中に水を入れ、つつのもう一方のはしから<ruby>布<rt>ぬの</rt></ruby>をまいたおし棒をさしこんでおすと、水が飛び出す。
+            </p>
+
+            <!-- 水でっぽうミニシミュレーター -->
+            <div class="bg-amber-50/60 rounded-xl p-4 border border-amber-100 relative">
+              <div class="absolute top-2 right-2 bg-amber-500/10 text-amber-800 text-[10px] px-2 py-0.5 rounded-full font-bold">動かせる図</div>
+              <h3 class="text-xs font-bold text-amber-900 mb-2">▼ 水でっぽう（タップでおし棒をおす）</h3>
+              <div class="flex flex-col items-center gap-4 py-2">
+                <canvas id="canvas-gun-simple" class="bg-white rounded border border-slate-200 w-full h-24 max-w-[360px]"></canvas>
+                <div class="flex gap-2 w-full max-w-[360px]">
+                  <button onclick="shootSimpleGun()" class="flex-1 py-1.5 bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold rounded shadow active:scale-95 transition">おし棒をおす！</button>
+                  <button onclick="resetSimpleGun()" class="px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold rounded transition">水を入れる</button>
+                </div>
+              </div>
+              <div class="mt-3 bg-white p-3 rounded-lg border border-amber-200/60 text-xs space-y-1.5 text-slate-700">
+                <p class="font-bold text-lime-800">① 水をいきおいよく飛ばす方法</p>
+                <ul class="list-disc pl-4 space-y-1">
+                  <li>おし棒をいきおいよくおす。</li>
+                  <li>あなを小さくする。</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- 空気室つき水でっぽう -->
+            <div class="bg-blue-50/50 rounded-xl p-4 border border-blue-100 relative space-y-3">
+              <div class="absolute top-2 right-2 bg-blue-500/10 text-blue-800 text-[10px] px-2 py-0.5 rounded-full font-bold">動かせる図</div>
+              <p class="text-xs font-bold text-blue-950">② 空気室つき水でっぽうのしくみ</p>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                ポンプなどでおしちぢめられた空気が水をおす力を利用して、水中に入れた管を通して、容器の外へ水をおし出す。おしちぢめられた空気がもとに戻るまでの間、つづけて水が出る。
+              </p>
+              <div class="grid grid-cols-2 gap-2 py-1">
+                <div class="bg-white p-2 rounded border border-blue-100 flex flex-col items-center">
+                  <span class="text-[10px] font-bold text-slate-500">▼ 空気室つき水でっぽう</span>
+                  <canvas id="canvas-gun-chamber" class="w-full h-24 bg-slate-50 rounded mt-1"></canvas>
+                  <button onclick="pumpChamberGun()" class="mt-2 w-full py-1 bg-amber-500 hover:bg-amber-600 text-white text-[10px] font-bold rounded">空気をためる</button>
+                </div>
+                <div class="bg-white p-2 rounded border border-blue-100 flex flex-col items-center">
+                  <span class="text-[10px] font-bold text-slate-500">▼ エアーポットのしくみ</span>
+                  <canvas id="canvas-airpot" class="w-full h-24 bg-slate-50 rounded mt-1"></canvas>
+                  <button onclick="pushAirpot()" class="mt-2 w-full py-1 bg-teal-600 hover:bg-teal-700 text-white text-[10px] font-bold rounded">ボタンをおす</button>
+                </div>
+              </div>
+              <p class="text-[11px] text-slate-500 bg-white p-2 rounded border border-blue-100/60 leading-relaxed">
+                ・エアーポットの内部は、空気室つき水でっぽうと同じようなつくりになっている。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- もののじょうたい -->
+        <div class="mt-6 pt-4 border-t border-slate-200">
+          <div class="flex items-center gap-2 border-b border-lime-200 pb-1 mb-3">
+            <span class="w-2.5 h-2.5 rounded-full bg-lime-600"></span>
+            <h2 class="text-base sm:text-lg font-black text-slate-800">もののじょうたい</h2>
+          </div>
+          <div class="space-y-3">
+            <p class="text-xs font-bold text-slate-700">① 固体・液体・気体</p>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed text-justify">
+              身のまわりのものには、手に持って運べる鉄や氷などの<strong class="text-rose-600 font-bold">固体</strong>、よう器に入れないと運べない水などの<strong class="text-sky-600 font-bold">液体</strong>、風船などにとじこめないとそこにあることがわからない空気などの<strong class="text-amber-600 font-bold">気体</strong>という３つのすがた（じょうたい）がある。
+            </p>
+            <div class="grid grid-cols-3 gap-2 py-3 bg-slate-50 rounded-xl p-3 border border-slate-200">
+              <div class="flex flex-col justify-between items-center bg-white p-2 rounded border-t-4 border-rose-500 shadow-sm h-full">
+                <span class="text-[10px] font-bold text-rose-700 bg-rose-50 px-1.5 py-0.5 rounded">固体</span>
+                <div class="my-2 h-16 flex items-center justify-center">
+                  <div class="relative w-10 h-10 bg-rose-100 border-2 border-rose-300 rounded flex items-center justify-center text-rose-800 font-black text-xs shadow-sm">氷</div>
+                </div>
+                <div class="text-[10px] text-slate-600 text-center leading-snug space-y-1">
+                  <p class="font-bold text-rose-800">形は変わらない。</p>
+                  <p>形と体積が決まっている。</p>
+                </div>
+              </div>
+              <div class="flex flex-col justify-between items-center bg-white p-2 rounded border-t-4 border-sky-500 shadow-sm h-full">
+                <span class="text-[10px] font-bold text-sky-700 bg-sky-50 px-1.5 py-0.5 rounded">液体</span>
+                <div class="my-2 h-16 flex items-center justify-center w-full relative">
+                  <div class="w-12 h-12 border-2 border-slate-400 border-t-0 rounded-b relative overflow-hidden flex items-end">
+                    <div class="w-full h-6 bg-sky-300/80 border-t border-sky-400"></div>
+                  </div>
+                </div>
+                <div class="text-[10px] text-slate-600 text-center leading-snug space-y-1">
+                  <p class="font-bold text-sky-800">よう器の形になる。</p>
+                  <p>形は変わるが、体積は決まっている。</p>
+                </div>
+              </div>
+              <div class="flex flex-col justify-between items-center bg-white p-2 rounded border-t-4 border-amber-500 shadow-sm h-full">
+                <span class="text-[10px] font-bold text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded">気体</span>
+                <div class="my-2 h-16 flex items-center justify-center w-full">
+                  <div class="w-10 h-14 border-2 border-slate-400 rounded-lg relative flex items-center justify-center">
+                    <div class="absolute top-0 w-4 h-2 border-b-2 border-slate-400 -mt-2"></div>
+                    <span class="text-[9px] text-amber-600 font-bold animate-pulse">空気</span>
+                  </div>
+                </div>
+                <div class="text-[10px] text-slate-600 text-center leading-snug space-y-1">
+                  <p class="font-bold text-amber-800">全体に広がる。</p>
+                  <p>形はなく、力を加えると体積が変わる。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-right text-xs text-slate-400 border-t border-slate-100 pt-4 mt-6">97 ページ</div>
+    </article>
+
+    <!-- 右ページ (p.98) -->
+    <article id="page-right" class="page-sheet p-6 sm:p-8 flex flex-col justify-between border-t-[16px] border-lime-600 hidden md:flex">
+      <div>
+        <div class="flex justify-between items-center border-b border-slate-200 pb-2 mb-6">
+          <span class="text-xs text-slate-400">とじこめた空気と水 2</span>
+          <span class="text-xs font-black tracking-widest text-lime-700">📗 デジタル理科</span>
+        </div>
+
+        <!-- ② つぶのつながり方 -->
+        <div class="mb-6">
+          <div class="flex items-start gap-2 mb-3">
+            <span class="bg-lime-600 text-white font-bold text-xs px-2 py-0.5 rounded">②</span>
+            <h2 class="text-sm sm:text-base font-black text-slate-800">ものをつくっているつぶのつながり方とじょうたい</h2>
+          </div>
+          <div class="space-y-2 text-xs text-slate-700 leading-relaxed bg-lime-50/40 p-3 rounded-lg border border-lime-100 mb-4">
+            <p><strong>・固体</strong> … ものをつくっているつぶが、たがいの位置が変わらないように強く引き合い、結びついている。</p>
+            <p><strong>・液体</strong> … １つ１つのつぶは動くが、引き合うのでばらばらにならず、つぶの間のきょりは固体より大きく、気体より小さい。</p>
+            <p><strong>・気体</strong> … つぶがばらばらにいろいろな向きに飛び回っていて、つぶどうしは引き合わない。自由に動き回るため、よう器の中に均一に広がる。</p>
+          </div>
+
+          <!-- つぶのつながりモデル -->
+          <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+            <div class="bg-slate-100 px-4 py-2 flex justify-between items-center border-b border-slate-200">
+              <span class="text-xs font-bold text-slate-600">▼ つぶのつながり方モデル（観察）</span>
+              <div class="flex gap-1">
+                <button onclick="setAtomsState('solid')"  id="btn-m-solid"  class="px-2.5 py-1 text-[10px] font-bold rounded bg-rose-500 text-white">固体</button>
+                <button onclick="setAtomsState('liquid')" id="btn-m-liquid" class="px-2.5 py-1 text-[10px] font-bold rounded bg-slate-200 text-slate-700">液体</button>
+                <button onclick="setAtomsState('gas')"    id="btn-m-gas"    class="px-2.5 py-1 text-[10px] font-bold rounded bg-slate-200 text-slate-700">気体</button>
+              </div>
+            </div>
+            <div class="p-4 bg-slate-900 relative">
+              <canvas id="canvas-atom-model" class="w-full h-40 bg-slate-950 rounded border border-slate-800"></canvas>
+              <div id="atom-model-text" class="absolute bottom-6 left-6 right-6 bg-black/80 text-white p-2 rounded text-[10px] leading-relaxed border border-white/10">
+                つぶ同士がガッチリ結びついて揺れています。
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ③ 水と空気の体積と力 -->
+        <div class="mb-6 pt-4 border-t border-slate-200">
+          <div class="flex items-start gap-2 mb-3">
+            <span class="bg-lime-600 text-white font-bold text-xs px-2 py-0.5 rounded">③</span>
+            <h2 class="text-sm sm:text-base font-black text-slate-800">水と空気の体積と力</h2>
+          </div>
+          <p class="text-xs text-slate-700 leading-relaxed text-justify mb-3">
+            とじこめた水に力を加えても体積が変化しないのは、<strong>つぶの間にほとんどすき間がないため</strong>である。
+            とじこめた空気に力を加えると体積が変化するのは、<strong>空気のつぶの間が広く、すき間が多いため</strong>である。空気をおしちぢめると、空気のつぶの間がせまくなっていく。
+          </p>
+          <div class="bg-amber-50 rounded-xl p-3.5 border border-amber-200 text-xs text-amber-950 leading-relaxed space-y-1.5">
+            <p class="font-bold text-amber-800">💡 教科書のコラム：ガスライターの中身は？</p>
+            <p>ガスライターには液体が入っているが、これは大きな力を加えて、気体を液体にしたものである。気体をおしちぢめて液体にすると、体積が非常に小さくなるため、小さな入れ物から、大量の気体を取り出すことができる。</p>
+            <p class="text-[10px] text-amber-700 bg-white/70 p-2 rounded border border-amber-100">
+              たとえば<strong>1gの水</strong>の体積は<strong>1mL</strong>だが、これを気体（水蒸気）にすると<strong>1700mL</strong>になる。このとき、つぶの数は変わらないので、重さは1gのまま変わらない。
+            </p>
+          </div>
+        </div>
+
+        <!-- ④ 歴史 -->
+        <div class="pt-4 border-t border-slate-200">
+          <div class="flex items-start gap-2 mb-3">
+            <span class="bg-lime-600 text-white font-bold text-xs px-2 py-0.5 rounded">④</span>
+            <h2 class="text-sm sm:text-base font-black text-slate-800">物質が小さなつぶからできているという考え方の歴史</h2>
+          </div>
+          <p class="text-[11px] text-slate-600 leading-relaxed text-justify">
+            物質が小さなつぶからできているという考え方は、古代ギリシャの哲学者<strong class="text-slate-800">レウキッポス</strong>と<strong class="text-slate-800">デモクリトス</strong>によって始められた。
+            しかし、より具体的には、<strong class="text-emerald-800">ロバート・ボイル</strong>が1661年に出版した有名な著書<strong>『懐疑的化学者』</strong>の中で、「物質は微粒子の集団から構成されており、化学変化はその集団の再構成によって生じる」とした彼の仮説から始まっている。そして、19世紀には、原子という小さなつぶが結合して、分子という安定したかたまりになることが実験的に証明され、分子の近代的な概念が発展し始めた。
+          </p>
+        </div>
+      </div>
+      <div class="text-left text-xs text-slate-400 border-t border-slate-100 pt-4 mt-6">98 ページ</div>
+    </article>
+
+  </main>
+
+  <!-- ミニ確認クイズ -->
+  <section class="max-w-7xl w-full mx-auto mt-4 mb-2 bg-white rounded-xl p-4 shadow-sm border border-slate-200">
+    <div class="flex flex-col sm:flex-row justify-between items-center gap-3">
+      <div class="flex items-center gap-2">
+        <span class="bg-red-500 text-white font-black text-xs px-2.5 py-1 rounded">確認</span>
+        <p class="text-xs sm:text-sm font-bold text-slate-700">教科書ミニチェック：水をおしたときに体積が変わらない理由は？</p>
+      </div>
+      <div class="flex gap-2 w-full sm:w-auto">
+        <button onclick="checkMiniAnswer(true)"  class="flex-1 sm:flex-none px-4 py-1.5 bg-slate-100 hover:bg-lime-100 text-slate-700 hover:text-lime-800 text-xs font-bold rounded-lg transition border border-slate-200 hover:border-lime-300">つぶの間にすき間がないから</button>
+        <button onclick="checkMiniAnswer(false)" class="flex-1 sm:flex-none px-4 py-1.5 bg-slate-100 hover:bg-rose-100 text-slate-700 hover:text-rose-800 text-xs font-bold rounded-lg transition border border-slate-200 hover:border-rose-300">つぶ自体が頑丈だから</button>
+      </div>
+    </div>
+    <div id="mini-check-feedback" class="mt-3 p-3 rounded-lg text-xs leading-relaxed hidden"></div>
+  </section>
+
+  <script>
+    // ----------------------------------------
+    // スマホ ページ切り替え
+    // ----------------------------------------
+    function showPage(pageNum) {
+      const pLeft  = document.getElementById('page-left');
+      const pRight = document.getElementById('page-right');
+      const btn1   = document.getElementById('btn-page1');
+      const btn2   = document.getElementById('btn-page2');
+      if (pageNum === 1) {
+        pLeft.classList.remove('hidden');
+        pRight.classList.add('hidden', 'md:flex');
+        btn1.className = "px-4 py-1.5 rounded-lg text-xs font-bold bg-lime-600 text-white shadow";
+        btn2.className = "px-4 py-1.5 rounded-lg text-xs font-bold bg-slate-200 text-slate-700";
+      } else {
+        pLeft.classList.add('hidden');
+        pRight.classList.remove('hidden', 'md:flex');
+        btn1.className = "px-4 py-1.5 rounded-lg text-xs font-bold bg-slate-200 text-slate-700";
+        btn2.className = "px-4 py-1.5 rounded-lg text-xs font-bold bg-lime-600 text-white shadow";
+        setTimeout(() => initAtomModelCanvas(), 50);
+      }
+    }
+
+    // ----------------------------------------
+    // 水でっぽう（シンプルピストン）
+    // ----------------------------------------
+    let simpleGunCanvas, simpleGunCtx;
+    let simplePistonX = 40, simpleWaterLevel = 160;
+    let simpleParticles = [];
+
+    function initSimpleGun() {
+      simpleGunCanvas = document.getElementById('canvas-gun-simple');
+      simpleGunCtx = simpleGunCanvas.getContext('2d');
+      resetSimpleGun();
+    }
+
+    function resetSimpleGun() {
+      simplePistonX = 40; simpleWaterLevel = 160; simpleParticles = [];
+      drawSimpleGun();
+    }
+
+    function shootSimpleGun() {
+      if (simpleWaterLevel <= 0) return;
+      const push = 30;
+      simplePistonX += push; simpleWaterLevel -= push;
+      if (simpleWaterLevel < 0) { simplePistonX += simpleWaterLevel; simpleWaterLevel = 0; }
+      for (let i = 0; i < 20; i++) {
+        simpleParticles.push({ x:20, y:simpleGunCanvas.height/2, vx:-5-Math.random()*5, vy:(Math.random()-.5)*4, life:1.0, size:2+Math.random()*3 });
+      }
+    }
+
+    function drawSimpleGun() {
+      const w = simpleGunCanvas.width, h = simpleGunCanvas.height;
+      const ctx = simpleGunCtx, midY = h / 2;
+      ctx.clearRect(0, 0, w, h);
+      simpleParticles.forEach((p, idx) => {
+        p.x += p.vx; p.y += p.vy; p.vy += 0.15; p.life -= 0.02;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+        ctx.fillStyle = `rgba(14,165,233,${p.life})`; ctx.fill();
+        if (p.life <= 0 || p.x < 0 || p.y > h) simpleParticles.splice(idx, 1);
+      });
+      ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 3;
+      ctx.fillStyle = 'rgba(241,245,249,.4)';
+      ctx.beginPath(); ctx.rect(20, midY-15, 200, 30); ctx.fill(); ctx.stroke();
+      if (simpleWaterLevel > 0) {
+        ctx.fillStyle = 'rgba(56,189,248,.6)';
+        ctx.beginPath(); ctx.rect(20, midY-13, simpleWaterLevel, 26); ctx.fill();
+      }
+      const px = 20 + simpleWaterLevel;
+      ctx.fillStyle = '#475569'; ctx.beginPath(); ctx.rect(px, midY-13, 8, 26); ctx.fill();
+      ctx.strokeStyle = '#64748b'; ctx.lineWidth = 5;
+      ctx.beginPath(); ctx.moveTo(px+8, midY); ctx.lineTo(px+120, midY); ctx.stroke();
+      ctx.fillStyle = '#1e293b'; ctx.beginPath(); ctx.rect(10, midY-3, 10, 6); ctx.fill();
+    }
+
+    // ----------------------------------------
+    // 空気室つき水でっぽう
+    // ----------------------------------------
+    let chamberCanvas, chamberCtx;
+    let chamberPressure = 0, chamberWater = 120;
+    let chamberParticles = [], isChamberShooting = false;
+
+    function initChamberGun() {
+      chamberCanvas = document.getElementById('canvas-gun-chamber');
+      chamberCtx = chamberCanvas.getContext('2d');
+    }
+
+    function pumpChamberGun() {
+      if (chamberPressure < 100) chamberPressure += 25;
+      if (chamberPressure >= 100) isChamberShooting = true;
+    }
+
+    function drawChamberGun() {
+      const w = chamberCanvas.width, h = chamberCanvas.height;
+      const ctx = chamberCtx, midY = h / 2;
+      ctx.clearRect(0, 0, w, h);
+      if (isChamberShooting && chamberPressure > 0 && chamberWater > 0) {
+        chamberPressure -= 0.5; chamberWater -= 0.8;
+        for (let i = 0; i < 2; i++) {
+          chamberParticles.push({ x:40, y:midY, vx:-4-Math.random()*4, vy:(Math.random()-.5)*2, life:1.0, size:1.5+Math.random()*2 });
+        }
+      } else if (chamberWater <= 0) { isChamberShooting = false; chamberPressure = 0; }
+      chamberParticles.forEach((p, idx) => {
+        p.x += p.vx; p.y += p.vy; p.life -= 0.03;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+        ctx.fillStyle = `rgba(14,165,233,${p.life})`; ctx.fill();
+        if (p.life <= 0) chamberParticles.splice(idx, 1);
+      });
+      ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 2;
+      ctx.fillStyle = 'rgba(241,245,249,.4)';
+      ctx.beginPath(); ctx.roundRect(60, midY-25, 60, 50, 8); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#64748b'; ctx.fillRect(50, midY-6, 10, 12);
+      ctx.strokeStyle = '#475569'; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(55, midY); ctx.lineTo(90, midY); ctx.lineTo(90, midY+20); ctx.stroke();
+      if (chamberWater > 0) {
+        ctx.fillStyle = 'rgba(56,189,248,.5)';
+        ctx.beginPath(); ctx.roundRect(61, midY+25-(chamberWater/120)*48, 58, (chamberWater/120)*48, [0,0,7,7]); ctx.fill();
+      }
+      if (chamberPressure > 0) {
+        ctx.fillStyle = `rgba(245,158,11,${chamberPressure/300})`;
+        ctx.beginPath(); ctx.roundRect(61, midY-24, 58, 25, [7,7,0,0]); ctx.fill();
+      }
+    }
+
+    // ----------------------------------------
+    // エアーポット
+    // ----------------------------------------
+    let airpotCanvas, airpotCtx;
+    let airpotPress = 0, airpotWater = 100, airpotParticles = [];
+
+    function initAirpot() {
+      airpotCanvas = document.getElementById('canvas-airpot');
+      airpotCtx = airpotCanvas.getContext('2d');
+    }
+
+    function pushAirpot() {
+      if (airpotWater <= 0) return;
+      airpotPress = 30;
+      for (let i = 0; i < 15; i++) {
+        airpotParticles.push({ x:40, y:airpotCanvas.height/2+10, vx:-3-Math.random()*3, vy:1+Math.random()*2, life:1.0, size:1.5+Math.random()*2 });
+      }
+      airpotWater = Math.max(0, airpotWater - 10);
+    }
+
+    function drawAirpot() {
+      const w = airpotCanvas.width, h = airpotCanvas.height;
+      const ctx = airpotCtx;
+      ctx.clearRect(0, 0, w, h);
+      airpotParticles.forEach((p, idx) => {
+        p.x += p.vx; p.y += p.vy; p.life -= 0.04;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+        ctx.fillStyle = `rgba(6,182,212,${p.life})`; ctx.fill();
+        if (p.life <= 0) airpotParticles.splice(idx, 1);
+      });
+      ctx.strokeStyle = '#64748b'; ctx.lineWidth = 3;
+      ctx.fillStyle = '#e2e8f0';
+      ctx.beginPath(); ctx.roundRect(70, 20, 50, 70, 5); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#475569'; ctx.fillRect(45, 35, 25, 10);
+      ctx.fillStyle = '#ef4444';
+      if (airpotPress > 0) { ctx.fillRect(80, 15, 30, 5); airpotPress--; }
+      else { ctx.fillRect(80, 11, 30, 9); }
+      if (airpotWater > 0) {
+        ctx.fillStyle = 'rgba(6,182,212,.35)';
+        ctx.fillRect(72, 90-(airpotWater/100)*55, 46, (airpotWater/100)*55);
+      }
+    }
+
+    // ----------------------------------------
+    // つぶのつながりモデル（右ページ）
+    // ----------------------------------------
+    let modelCanvas, modelCtx, modelState = 'solid', modelAtoms = [], modelAnimationId;
+
+    function initAtomModelCanvas() {
+      modelCanvas = document.getElementById('canvas-atom-model');
+      if (!modelCanvas) return;
+      modelCtx = modelCanvas.getContext('2d');
+      const rect = modelCanvas.getBoundingClientRect();
+      modelCanvas.width = rect.width; modelCanvas.height = 160;
+      generateModelAtoms();
+      if (modelAnimationId) cancelAnimationFrame(modelAnimationId);
+      animateModelAtoms();
+    }
+
+    function setAtomsState(state) {
+      modelState = state;
+      ['solid','liquid','gas'].forEach(s => {
+        document.getElementById('btn-m-'+s).className = "px-2.5 py-1 text-[10px] font-bold rounded bg-slate-200 text-slate-700";
+      });
+      const textPanel = document.getElementById('atom-model-text');
+      if (state === 'solid') {
+        document.getElementById('btn-m-solid').className = "px-2.5 py-1 text-[10px] font-bold rounded bg-rose-500 text-white";
+        textPanel.innerHTML = `<strong>🧱 固体のつながり：</strong>つぶが規則正しく並び、強い力で互いにガッチリ結びついています。その場で小さくブルブル揺れるだけで、位置は変わりません。`;
+      } else if (state === 'liquid') {
+        document.getElementById('btn-m-liquid').className = "px-2.5 py-1 text-[10px] font-bold rounded bg-sky-500 text-white";
+        textPanel.innerHTML = `<strong>💧 液体のつながり：</strong>つぶはお互い引き合っていますが、結びつきがゆるいため、位置を変えてサラサラと自由に動くことができます。`;
+      } else {
+        document.getElementById('btn-m-gas').className = "px-2.5 py-1 text-[10px] font-bold rounded bg-amber-500 text-white";
+        textPanel.innerHTML = `<strong>🎈 気体のつながり：</strong>つぶ同士の引き合う力はなく、それぞれのつぶがバラバラに、ものすごいスピードでいろいろな方向に飛び回っています。`;
+      }
+      generateModelAtoms();
+    }
+
+    function generateModelAtoms() {
+      modelAtoms = [];
+      const w = modelCanvas.width, h = modelCanvas.height;
+      if (modelState === 'solid') {
+        const cols = 12, rows = 4;
+        const startX = (w - cols*20)/2, startY = (h - rows*20)/2;
+        for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+          modelAtoms.push({ x:startX+c*20, y:startY+r*20, baseX:startX+c*20, baseY:startY+r*20 });
+        }
+      } else if (modelState === 'liquid') {
+        for (let i = 0; i < 60; i++) {
+          modelAtoms.push({ x:Math.random()*(w-40)+20, y:Math.random()*50+(h-70), vx:(Math.random()-.5)*1.5, vy:(Math.random()-.5)*1.5 });
+        }
+      } else {
+        for (let i = 0; i < 20; i++) {
+          modelAtoms.push({ x:Math.random()*(w-40)+20, y:Math.random()*(h-40)+20, vx:(Math.random()-.5)*4, vy:(Math.random()-.5)*4 });
+        }
+      }
+    }
+
+    function animateModelAtoms() {
+      const w = modelCanvas.width, h = modelCanvas.height;
+      const ctx = modelCtx;
+      ctx.clearRect(0, 0, w, h);
+
+      if (modelState === 'solid') {
+        ctx.strokeStyle = 'rgba(244,63,94,.25)'; ctx.lineWidth = 1.5;
+        modelAtoms.forEach(a1 => modelAtoms.forEach(a2 => {
+          const dx = Math.abs(a1.baseX-a2.baseX), dy = Math.abs(a1.baseY-a2.baseY);
+          if ((dx===20&&dy===0)||(dx===0&&dy===20)) {
+            ctx.beginPath(); ctx.moveTo(a1.x,a1.y); ctx.lineTo(a2.x,a2.y); ctx.stroke();
+          }
+        }));
+        modelAtoms.forEach(a => {
+          a.x = a.baseX+(Math.random()-.5)*1.5; a.y = a.baseY+(Math.random()-.5)*1.5;
+          ctx.beginPath(); ctx.arc(a.x,a.y,5,0,Math.PI*2);
+          ctx.fillStyle='rgba(244,63,94,.9)'; ctx.fill();
+          ctx.strokeStyle='#ffe4e6'; ctx.stroke();
+        });
+      } else if (modelState === 'liquid') {
+        modelAtoms.forEach(a => {
+          a.vy += 0.05; a.x += a.vx; a.y += a.vy;
+          if (a.x<10){a.x=10;a.vx*=-1;} if (a.x>w-10){a.x=w-10;a.vx*=-1;}
+          if (a.y>h-10){a.y=h-10;a.vy*=-.4;a.vx*=.8;} if (a.y<10){a.y=10;a.vy*=-1;}
+          modelAtoms.forEach(o => {
+            if (a===o) return;
+            const dx=o.x-a.x, dy=o.y-a.y, dist=Math.sqrt(dx*dx+dy*dy);
+            if (dist<10) { const ang=Math.atan2(dy,dx); a.vx-=Math.cos(ang)*.05; a.vy-=Math.sin(ang)*.05; }
+          });
+          ctx.beginPath(); ctx.arc(a.x,a.y,4.5,0,Math.PI*2);
+          ctx.fillStyle='rgba(14,165,233,.85)'; ctx.fill();
+          ctx.strokeStyle='#e0f2fe'; ctx.stroke();
+        });
+      } else {
+        modelAtoms.forEach(a => {
+          a.x+=a.vx; a.y+=a.vy;
+          if (a.x<10){a.x=10;a.vx*=-1;} if (a.x>w-10){a.x=w-10;a.vx*=-1;}
+          if (a.y<10){a.y=10;a.vy*=-1;} if (a.y>h-10){a.y=h-10;a.vy*=-1;}
+          ctx.strokeStyle='rgba(245,158,11,.4)'; ctx.lineWidth=1.5;
+          ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(a.x-a.vx*3,a.y-a.vy*3); ctx.stroke();
+          ctx.beginPath(); ctx.arc(a.x,a.y,4.5,0,Math.PI*2);
+          ctx.fillStyle='rgba(245,158,11,.9)'; ctx.fill();
+          ctx.strokeStyle='#fef3c7'; ctx.stroke();
+        });
+      }
+      modelAnimationId = requestAnimationFrame(animateModelAtoms);
+    }
+
+    // ----------------------------------------
+    // ミニ確認クイズ
+    // ----------------------------------------
+    function checkMiniAnswer(isCorrect) {
+      const fb = document.getElementById('mini-check-feedback');
+      fb.classList.remove('hidden');
+      if (isCorrect) {
+        fb.className = "mt-3 p-3 rounded-lg text-xs leading-relaxed bg-lime-50 border border-lime-200 text-lime-900";
+        fb.innerHTML = `<strong>⭕ 正解です！</strong><br>水（液体）のつぶはすでにギッシリと詰まっていて、<strong>「つぶとつぶの間にほとんどすき間がないため」</strong>、力を加えても体積は変化しません。`;
+      } else {
+        fb.className = "mt-3 p-3 rounded-lg text-xs leading-relaxed bg-rose-50 border border-rose-200 text-rose-900";
+        fb.innerHTML = `<strong>❌ おしい！</strong><br>体積が変わるかどうかは、<strong>「つぶとつぶの間にすき間があるかどうか」</strong>で決まります。もう一度右ページの③を読んでみましょう！`;
+      }
+    }
+
+    // ----------------------------------------
+    // メインループ（全Canvasを統合）
+    // ----------------------------------------
+    function startMainDrawLoop() {
+      function loop() {
+        drawSimpleGun();
+        drawChamberGun();
+        drawAirpot();
+        requestAnimationFrame(loop);
+      }
+      loop();
+    }
+
+    window.onload = function() {
+      initSimpleGun();
+      initChamberGun();
+      initAirpot();
+      initAtomModelCanvas();
+      startMainDrawLoop();
+      window.addEventListener('resize', () => initAtomModelCanvas());
+    };
+  </script>
+</body>
+</html>

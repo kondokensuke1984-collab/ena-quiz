@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>ena 8月 社会 一問一答 厳選50</title>
+<style>
+  /* ── 調整用つまみ ───────────────────────────── */
+  :root{
+    --q-size: 9.8pt;   /* 問題の文字サイズ */
+    --a-size: 8.2pt;      /* 答えの文字サイズ */
+    --a-color: #b3b3b3; /* 答えのうすさ（濃くしたい→ #9a9a9a / 薄く→ #c8c8c8） */
+    --row-gap: 0.45mm;   /* 問題どうしの間隔 */
+  }
+  @page { size: A4 portrait; margin: 0; }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html,body{ width:210mm; height:297mm; }
+  body{
+    padding: 8mm 10mm 7mm;
+    font-family: 'Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif;
+    color:#111; -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+
+  /* ── ヘッダー ───────────────────────────── */
+  header{
+    display:flex; align-items:baseline; gap:4mm;
+    border-bottom:1.2mm solid #111; padding-bottom:1.4mm; margin-bottom:2.5mm;
+  }
+  h1{ font-size:16pt; letter-spacing:.02em; }
+  h1 .mon{ background:#111; color:#fff; padding:0 2mm; margin-right:1.5mm; border-radius:1mm; }
+  header .note{ font-size:8.5pt; color:#666; margin-left:auto; }
+
+  /* ── 2段組 ───────────────────────────── */
+  .sheet{ column-count:2; column-gap:8mm; }
+
+  .region{ break-inside:auto; }
+  .region h2{
+    font-size:9pt; font-weight:800; color:#fff;
+    padding:.5mm 2mm; margin:1.4mm 0 0.9mm; border-radius:.8mm;
+    break-after:avoid;
+  }
+  .region:first-child h2{ margin-top:0; }
+
+  .item{
+    break-inside:avoid;
+    padding-bottom:var(--row-gap); margin-bottom:var(--row-gap);
+    border-bottom:.2mm dotted #d8d8d8;
+  }
+  .q{ font-size:var(--q-size); line-height:1.2; display:flex; gap:1.4mm; }
+  .n{
+    flex:0 0 auto; font-size:7.5pt; font-weight:800; color:#fff;
+    min-width:4.4mm; height:4.4mm; line-height:4.4mm; text-align:center;
+    border-radius:50%; margin-top:.5mm;
+  }
+  .a{
+    font-size:var(--a-size); color:var(--a-color); text-align:right;
+    line-height:1.1; margin-top:.2mm; letter-spacing:.02em;
+  }
+  .a::before{ content:"→ "; }
+
+  /* ── フッター ───────────────────────────── */
+  footer{
+    position:absolute; left:10mm; right:10mm; bottom:4mm;
+    border-top:.3mm solid #ccc; padding-top:1.2mm;
+    font-size:8pt; color:#777; display:flex; justify-content:space-between;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1><span class="mon">ena 8月</span>社会 一問一答 <span style="font-size:11pt;">厳選50</span></h1>
+  <div class="note">うすい字を手でかくして、声に出して言ってみよう</div>
+</header>
+
+<div class="sheet" id="sheet"></div>
+
+<footer>
+  <span>全140問はアプリで練習 → ena-quiz.vercel.app</span>
+  <span>7地方（東北・北海道／中部／関東／近畿／中国／四国／九州）</span>
+</footer>
+
+<script>
+const DATA = [
+ { name:'東北・北海道地方', color:'#1d4ed8', items:[
+   ['津波の被害を受けやすい、入り組んだ海岸','リアス（式）海岸'],
+   ['秋田県の、干拓で農地になった大きな湖','八郎潟'],
+   ['秋田県と青森県の県境にある世界自然遺産','白神山地'],
+   ['北海道の東部にある世界自然遺産','知床'],
+   ['北海道で稲作がさかんな平野','石狩平野'],
+   ['北海道の東部で酪農がさかんな台地','根釧台地'],
+   ['青森県の津軽平野でさかんな果物','りんご'],
+   ['山形県で稲作がさかんな平野','庄内平野'],
+ ]},
+ { name:'中部地方', color:'#15803d', items:[
+   ['新潟県を流れる、日本でいちばん長い川','信濃川'],
+   ['扇状地が広がる山梨県の盆地','甲府盆地'],
+   ['飛騨・木曽・赤石の3つの山脈の総称','日本アルプス'],
+   ['岐阜県南部から愛知県北西部に広がる平野','濃尾平野'],
+   ['濃尾平野の、堤防で囲まれた地域','輪中'],
+   ['長野県の八ヶ岳でつくるレタスなどの総称','高原野菜'],
+   ['メロン・電照菊で有名な愛知県の半島','渥美半島'],
+   ['日本一の工業生産額をほこる工業地帯','中京工業地帯'],
+ ]},
+ { name:'関東地方', color:'#7c3aed', items:[
+   ['日本最大の流域面積をほこる川','利根川'],
+   ['日本で二番目に大きい湖','霞ヶ浦'],
+   ['群馬県にある、生糸の世界文化遺産','富岡製糸場'],
+   ['日本一貿易額が高い「空の玄関」','成田国際空港'],
+   ['京浜工業地帯のうち東京でさかんな工業','印刷・出版業'],
+   ['都市部へ新鮮な野菜を出荷する農業','近郊農業'],
+   ['高冷地農業で有名な群馬県の村','嬬恋村'],
+   ['Y字掘り込み港で有名な茨城県の工業地域','鹿島臨海工業地域'],
+ ]},
+ { name:'近畿地方', color:'#ea580c', items:[
+   ['滋賀県にある、日本でいちばん大きい湖','琵琶湖'],
+   ['1995年に兵庫県で発生した自然災害','阪神・淡路大震災'],
+   ['三重・奈良・和歌山に広がる山地','紀伊山地'],
+   ['大阪府と兵庫県に広がる工業地帯','阪神工業地帯'],
+   ['江戸時代、大阪市が呼ばれていた名前','天下の台所'],
+   ['和歌山県が日本一…みかん・うめとあと1つ','かき'],
+   ['三重県の志摩半島でさかんな養殖','真珠'],
+ ]},
+ { name:'中国地方', color:'#a16207', items:[
+   ['日本でいちばん人口が少ない都道府県','鳥取県'],
+   ['人口が減り、バスや公共施設が減る問題','過疎'],
+   ['島根県にある、世界文化遺産の銀山','石見銀山'],
+   ['岡山県児島と香川県坂出を結ぶ橋','瀬戸大橋'],
+   ['カルスト地形で有名な山口県の観光地','秋吉台'],
+   ['倉敷市水島の石油化学コンビナートの工業地域','瀬戸内工業地域'],
+   ['広島湾で養殖がさかんなもの','かき'],
+ ]},
+ { name:'四国地方', color:'#0d9488', items:[
+   ['雨が少ない讃岐平野で水をためるもの','ため池'],
+   ['「日本最後の清流」とよばれる高知県の川','四万十川'],
+   ['日本でいちばん面積が小さい都道府県','香川県'],
+   ['愛媛県の生産で全国的に有名な果物','みかん'],
+   ['愛媛県の今治市でさかんにつくられるもの','タオル'],
+   ['高知平野の、旬より早く出荷する栽培方法','促成栽培'],
+ ]},
+ { name:'九州地方', color:'#dc2626', items:[
+   ['筑後川が流れる、佐賀県南部の平野','筑紫平野'],
+   ['世界最大級のカルデラをもつ熊本県の火山','阿蘇山'],
+   ['1950年代、熊本県で工場排水が原因の病気','水俣病'],
+   ['鹿児島県の、火山灰が積もってできた台地','シラス台地'],
+   ['有明海でさかんに養殖されているもの','のり'],
+   ['九州の空港や高速道路の近くに多い工場','IC（集積回路）工場'],
+ ]},
+];
+
+const sheet = document.getElementById('sheet');
+let n = 0;
+for (const r of DATA) {
+  const sec = document.createElement('section');
+  sec.className = 'region';
+  const h = document.createElement('h2');
+  h.textContent = r.name;
+  h.style.background = r.color;
+  sec.appendChild(h);
+  for (const [q, a] of r.items) {
+    n++;
+    const d = document.createElement('div');
+    d.className = 'item';
+    d.innerHTML =
+      '<div class="q"><span class="n"></span><span></span></div><div class="a"></div>';
+    const badge = d.querySelector('.n');
+    badge.textContent = n;
+    badge.style.background = r.color;
+    d.querySelector('.q span:last-child').textContent = q;
+    d.querySelector('.a').textContent = a;
+    sec.appendChild(d);
+  }
+  sheet.appendChild(sec);
+}
+document.title = 'ena 8月 社会 一問一答 厳選' + n;
+</script>
+</body>
+</html>

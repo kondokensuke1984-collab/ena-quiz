@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第10章 あたたかい地域のくらし（沖縄） まとめ</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+  background: linear-gradient(135deg, #e0f7fa 0%, #e8f5e9 50%, #fff9e6 100%);
+  min-height: 100vh;
+  padding: 16px;
+  color: #1a3a3a;
+}
+
+/* ヘッダー */
+.page-header {
+  text-align: center;
+  padding: 20px 16px 16px;
+  margin-bottom: 20px;
+}
+.page-header h1 {
+  font-size: 22px;
+  font-weight: 900;
+  background: linear-gradient(135deg, #00b4d8, #06d6a0, #ffd166);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+.page-header p { font-size: 13px; color: #00897b; }
+
+/* セクションタイトル */
+.section-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #1a3a3a;
+  margin: 24px 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-title::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(90deg, #00b4d8, transparent);
+  border-radius: 2px;
+}
+
+/* ── 基本情報カード ── */
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.info-card {
+  background: rgba(255,255,255,0.92);
+  border-radius: 16px;
+  padding: 14px 12px;
+  box-shadow: 0 4px 16px rgba(0,180,216,0.15);
+  border-left: 4px solid var(--color, #00b4d8);
+  transition: transform 0.15s;
+}
+.info-card:active { transform: scale(0.97); }
+.info-icon { font-size: 26px; margin-bottom: 6px; }
+.info-label {
+  font-size: 10px;
+  color: #888;
+  font-weight: 700;
+  margin-bottom: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.info-value {
+  font-size: 13px;
+  font-weight: 800;
+  color: #1a3a3a;
+  line-height: 1.4;
+}
+.info-sub {
+  font-size: 10.5px;
+  color: #5e8a8a;
+  margin-top: 3px;
+  line-height: 1.4;
+}
+
+/* ── 歴史タイムライン ── */
+.timeline { margin-bottom: 8px; }
+.timeline-item {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 10px;
+  position: relative;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: 23px;
+  top: 32px;
+  bottom: -10px;
+  width: 2px;
+  background: linear-gradient(180deg, #00b4d8, transparent);
+}
+.timeline-item:last-child::before { display: none; }
+.timeline-dot {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00b4d8, #06d6a0);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  text-align: center;
+  line-height: 1.2;
+}
+.timeline-content {
+  background: rgba(255,255,255,0.9);
+  border-radius: 14px;
+  padding: 10px 14px;
+  flex: 1;
+  box-shadow: 0 2px 8px rgba(0,180,216,0.1);
+}
+.timeline-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: #1a3a3a;
+  margin-bottom: 3px;
+}
+.timeline-desc {
+  font-size: 11px;
+  color: #5e8a8a;
+  line-height: 1.5;
+}
+
+/* ── 台風対策カード ── */
+.taifu-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.taifu-card {
+  background: rgba(255,255,255,0.92);
+  border-radius: 16px;
+  padding: 14px 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  text-align: center;
+}
+.taifu-icon { font-size: 30px; margin-bottom: 6px; }
+.taifu-part {
+  font-size: 11px;
+  font-weight: 800;
+  color: #0077b6;
+  margin-bottom: 4px;
+}
+.taifu-desc {
+  font-size: 10.5px;
+  color: #555;
+  line-height: 1.5;
+}
+
+/* ── 農業カード ── */
+.nougyo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.nougyo-card {
+  background: rgba(255,255,255,0.92);
+  border-radius: 16px;
+  padding: 14px 12px;
+  box-shadow: 0 4px 16px rgba(6,214,160,0.13);
+  border-top: 4px solid var(--color, #06d6a0);
+}
+.nougyo-icon { font-size: 26px; margin-bottom: 6px; }
+.nougyo-name {
+  font-size: 13px;
+  font-weight: 800;
+  color: #1a3a3a;
+  margin-bottom: 3px;
+}
+.nougyo-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 9.5px;
+  font-weight: 700;
+  margin-bottom: 5px;
+  color: #fff;
+}
+.tag-blue { background: #0077b6; }
+.tag-green { background: #06d6a0; color: #1a3a3a !important; }
+.tag-orange { background: #ffd166; color: #1a3a3a !important; }
+.tag-purple { background: #9b5de5; }
+.tag-red { background: #ef476f; }
+.nougyo-desc {
+  font-size: 10.5px;
+  color: #5e8a8a;
+  line-height: 1.5;
+}
+
+/* ── 気候グラフ解説 ── */
+.climate-box {
+  background: rgba(255,255,255,0.92);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 4px 16px rgba(0,180,216,0.13);
+  margin-bottom: 10px;
+}
+.climate-compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+.climate-col {
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+}
+.climate-col.tokyo {
+  background: linear-gradient(135deg, #caf0f8, #e0f7fa);
+  border: 2px solid #90e0ef;
+}
+.climate-col.okinawa {
+  background: linear-gradient(135deg, #ffd166, #ffecb3);
+  border: 2px solid #ffc300;
+}
+.climate-col-title {
+  font-size: 12px;
+  font-weight: 900;
+  margin-bottom: 8px;
+  color: #1a3a3a;
+}
+.climate-stat {
+  font-size: 10.5px;
+  color: #3a3a3a;
+  margin-bottom: 4px;
+  text-align: left;
+  line-height: 1.5;
+}
+.climate-stat strong { color: #0077b6; }
+.climate-col.okinawa .climate-stat strong { color: #d4870a; }
+.climate-point {
+  font-size: 10px;
+  color: #666;
+  margin-top: 6px;
+  background: rgba(255,255,255,0.6);
+  border-radius: 8px;
+  padding: 6px;
+  line-height: 1.5;
+  text-align: left;
+}
+
+/* ── 自然・観光 ── */
+.shizen-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.shizen-card {
+  background: rgba(255,255,255,0.92);
+  border-radius: 16px;
+  padding: 14px 12px;
+  box-shadow: 0 4px 16px rgba(6,214,160,0.12);
+  border-left: 4px solid var(--color, #06d6a0);
+}
+.shizen-icon { font-size: 26px; margin-bottom: 6px; }
+.shizen-name {
+  font-size: 13px;
+  font-weight: 800;
+  color: #1a3a3a;
+  margin-bottom: 4px;
+}
+.shizen-desc {
+  font-size: 10.5px;
+  color: #5e8a8a;
+  line-height: 1.5;
+}
+
+/* ── テストポイント ── */
+.testpoint-box {
+  background: linear-gradient(135deg, #0077b6, #00b4d8);
+  border-radius: 20px;
+  padding: 20px 16px;
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(0,119,182,0.35);
+  margin-bottom: 10px;
+}
+.testpoint-title {
+  font-size: 14px;
+  font-weight: 900;
+  text-align: center;
+  margin-bottom: 14px;
+}
+.testpoint-list { list-style: none; }
+.testpoint-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.tp-num {
+  background: rgba(255,255,255,0.25);
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 900;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* まちがえやすい ── */
+.mistake-box {
+  background: rgba(255,255,255,0.9);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 4px 16px rgba(239,71,111,0.13);
+  border-left: 4px solid #ef476f;
+  margin-bottom: 10px;
+}
+.mistake-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: #ef476f;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.mistake-item {
+  margin-bottom: 8px;
+  font-size: 11px;
+  line-height: 1.6;
+}
+.mistake-wrong {
+  color: #ef476f;
+  font-weight: 700;
+  text-decoration: line-through;
+  margin-right: 6px;
+}
+.mistake-right {
+  color: #06d6a0;
+  font-weight: 700;
+}
+
+/* 戻るリンク */
+.back-link {
+  display: block;
+  text-align: center;
+  margin: 24px 0 8px;
+  padding: 14px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 14px;
+  color: #00b4d8;
+  font-size: 14px;
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0,180,216,0.15);
+}
+.back-link:active { opacity: 0.7; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>🏝️ 第10章 あたたかい地域のくらし<br>（沖縄）まとめ</h1>
+  <p>社会 ・ 中学受験 ANRINO対策</p>
+</div>
+
+<!-- ① 基本情報 -->
+<div class="section-title">📍 基本情報</div>
+<div class="info-grid">
+  <div class="info-card" style="--color:#00b4d8">
+    <div class="info-icon">🏙️</div>
+    <div class="info-label">県庁所在地</div>
+    <div class="info-value">那覇（なは）市</div>
+    <div class="info-sub">沖縄本島（沖縄島）にある</div>
+  </div>
+  <div class="info-card" style="--color:#ffd166">
+    <div class="info-icon">🌅</div>
+    <div class="info-label">日本最西端の島</div>
+    <div class="info-value">与那国（よなぐに）島</div>
+    <div class="info-sub">天気がよければ台湾が見える</div>
+  </div>
+  <div class="info-card" style="--color:#06d6a0">
+    <div class="info-icon">🗺️</div>
+    <div class="info-label">与那国島の西にある国</div>
+    <div class="info-value">台　湾</div>
+    <div class="info-sub">約110kmしか離れていない</div>
+  </div>
+  <div class="info-card" style="--color:#9b5de5">
+    <div class="info-icon">🌡️</div>
+    <div class="info-label">気候の種類</div>
+    <div class="info-value">南西諸島の気候</div>
+    <div class="info-sub">高温・多雨・台風が多い</div>
+  </div>
+  <div class="info-card" style="--color:#ef476f" style="grid-column: 1 / -1">
+    <div class="info-icon">🏯</div>
+    <div class="info-label">世界文化遺産</div>
+    <div class="info-value">首里城（しゅりじょう）</div>
+    <div class="info-sub">守礼門がシンボル。かつて琉球王国の王様がいたお城</div>
+  </div>
+</div>
+
+<!-- ② 歴史 -->
+<div class="section-title">📜 沖縄の歴史</div>
+<div class="timeline">
+  <div class="timeline-item">
+    <div class="timeline-dot">琉球<br>王国</div>
+    <div class="timeline-content">
+      <div class="timeline-title">🏰 琉球王国として独立</div>
+      <div class="timeline-desc">江戸時代より前、沖縄は「琉球（りゅうきゅう）王国」という独立した国だった。首里城を都として栄えた。</div>
+    </div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-dot">1879<br>年〜</div>
+    <div class="timeline-content">
+      <div class="timeline-title">🗾 沖縄県として日本に</div>
+      <div class="timeline-desc">明治時代に日本の「沖縄県」となる。琉球王国は廃止された。</div>
+    </div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-dot">戦後<br>〜</div>
+    <div class="timeline-content">
+      <div class="timeline-title">🇺🇸 アメリカが統治</div>
+      <div class="timeline-desc">太平洋戦争が終わったあと、アメリカが占領して統治していた。</div>
+    </div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-dot">1972<br>年</div>
+    <div class="timeline-content">
+      <div class="timeline-title">🎌 日本に返還！</div>
+      <div class="timeline-desc">1972年5月、日本に返還されて「沖縄県」に戻る。覚えておこう！</div>
+    </div>
+  </div>
+</div>
+
+<!-- ③ 台風対策 -->
+<div class="section-title">🌀 台風への3つの備え</div>
+<div class="taifu-grid">
+  <div class="taifu-card">
+    <div class="taifu-icon">🏠</div>
+    <div class="taifu-part">建物全体</div>
+    <div class="taifu-desc">建物を<strong>低く</strong>作る<br>（風をまともに受けないため）</div>
+  </div>
+  <div class="taifu-card">
+    <div class="taifu-icon">🧱</div>
+    <div class="taifu-part">家の周囲</div>
+    <div class="taifu-desc"><strong>防風林・石垣</strong>で囲む<br>（強い風が家に当たらないため）</div>
+  </div>
+  <div class="taifu-card">
+    <div class="taifu-icon">🏚️</div>
+    <div class="taifu-part">屋　根</div>
+    <div class="taifu-desc">かわらを<strong>しっくい</strong>で固める<br>（瓦が吹き飛ばないため）</div>
+  </div>
+  <div class="taifu-card">
+    <div class="taifu-icon">🛢️</div>
+    <div class="taifu-part">屋上・水対策</div>
+    <div class="taifu-desc">屋上に<strong>貯水タンク</strong><br>（川が短く水不足になるため）</div>
+  </div>
+</div>
+<div class="mistake-box" style="margin-top:0">
+  <div class="mistake-title">💧 水不足対策（これも重要！）</div>
+  <div class="mistake-item">沖縄の川は<strong>短くてすぐ海へ流れる</strong>→ 水不足になりやすい</div>
+  <div class="mistake-item">対策①：屋上に<strong>貯水タンク</strong></div>
+  <div class="mistake-item">対策②：国と協力して<strong>ダム</strong>を建設</div>
+  <div class="mistake-item">対策③：海水を飲み水に変える<strong>淡水化センター</strong></div>
+</div>
+
+<!-- ④ 農業・産業 -->
+<div class="section-title">🌿 農業・産業</div>
+<div class="nougyo-grid">
+  <div class="nougyo-card" style="--color:#ffd166">
+    <div class="nougyo-icon">🌾</div>
+    <div class="nougyo-name">さとうきび</div>
+    <div><span class="nougyo-tag tag-orange">砂糖の原料</span></div>
+    <div class="nougyo-desc">根が深く台風に強い。沖縄の農業の代表作物。</div>
+  </div>
+  <div class="nougyo-card" style="--color:#ff6b6b">
+    <div class="nougyo-icon">🍍</div>
+    <div class="nougyo-name">パイナップル</div>
+    <div><span class="nougyo-tag tag-red">栽培面積 減少中</span></div>
+    <div class="nougyo-desc">外国産の安いパイナップルに押され、農家が減っている。</div>
+  </div>
+  <div class="nougyo-card" style="--color:#ff9f43">
+    <div class="nougyo-icon">🥭</div>
+    <div class="nougyo-name">マンゴー</div>
+    <div><span class="nougyo-tag tag-purple">高級品・増加中</span></div>
+    <div class="nougyo-desc">パイナップルに代わって注目。高く売れるため生産が増えている。</div>
+  </div>
+  <div class="nougyo-card" style="--color:#06d6a0">
+    <div class="nougyo-icon">🫘</div>
+    <div class="nougyo-name">さやいんげん</div>
+    <div><span class="nougyo-tag tag-green">時期をずらして出荷</span></div>
+    <div class="nougyo-desc">冬も温暖な気候を利用して、他の地域が作れない冬に出荷。</div>
+  </div>
+  <div class="nougyo-card" style="--color:#9b5de5">
+    <div class="nougyo-icon">🌸</div>
+    <div class="nougyo-name">電照菊（でんしょうぎく）</div>
+    <div><span class="nougyo-tag tag-purple">電灯で開花調整</span></div>
+    <div class="nougyo-desc">夜中も電灯を当ててわざと開花を遅らせ、お正月やお彼岸に出荷する。</div>
+  </div>
+  <div class="nougyo-card" style="--color:#00b4d8">
+    <div class="nougyo-icon">✈️</div>
+    <div class="nougyo-name">観光業</div>
+    <div><span class="nougyo-tag tag-blue">最重要産業</span></div>
+    <div class="nougyo-desc">美しい海・首里城・豊かな自然。沖縄経済を一番支えている。</div>
+  </div>
+</div>
+
+<!-- ⑤ 気候グラフ（雨温図）の読み方 -->
+<div class="section-title">📊 気候グラフ（雨温図）の読み方</div>
+<div class="climate-box">
+  <div style="font-size:12px; color:#555; margin-bottom:8px; line-height:1.6;">
+    東京と那覇のグラフを比べるとき、<strong style="color:#0077b6">「年平均気温が高い方が沖縄」</strong>と判断しよう！
+  </div>
+  <div class="climate-compare">
+    <div class="climate-col tokyo">
+      <div class="climate-col-title">🗼 東京（太平洋側）</div>
+      <div class="climate-stat">年平均気温：<strong>約15〜16℃</strong></div>
+      <div class="climate-stat">冬（1月）：<strong>約5℃</strong>まで下がる</div>
+      <div class="climate-stat">夏に雨が多い</div>
+      <div class="climate-point">冬は10℃を下回る月がある</div>
+    </div>
+    <div class="climate-col okinawa">
+      <div class="climate-col-title">🏝️ 那覇（南西諸島）</div>
+      <div class="climate-stat">年平均気温：<strong>約23℃</strong></div>
+      <div class="climate-stat">冬（1月）：<strong>約17℃</strong>前後</div>
+      <div class="climate-stat">台風・梅雨で雨が多い</div>
+      <div class="climate-point" style="border: 1px solid #ffc300;">冬でも10℃を<strong>下回らない</strong>！</div>
+    </div>
+  </div>
+  <div style="margin-top:10px; background:#e0f7fa; border-radius:10px; padding:10px; font-size:11px; color:#005f73; line-height:1.6;">
+    🌡️ <strong>石垣島</strong>はさらに赤道に近いため、那覇よりもさらに気温が高い！<br>
+    3月中旬には海開きが行われるほど。
+  </div>
+</div>
+
+<!-- ⑥ 自然・観光 -->
+<div class="section-title">🐠 自然・世界遺産</div>
+<div class="shizen-grid">
+  <div class="shizen-card" style="--color:#00b4d8">
+    <div class="shizen-icon">🪸</div>
+    <div class="shizen-name">サンゴ礁</div>
+    <div class="shizen-desc">海岸を<strong>波から守る</strong>天然の防波堤。また、多くの生き物のすみかになっている。</div>
+  </div>
+  <div class="shizen-card" style="--color:#06d6a0">
+    <div class="shizen-icon">🌿</div>
+    <div class="shizen-name">マングローブ</div>
+    <div class="shizen-desc">海と川が混じる干潟に育つ。貴重な生き物が集まる自然の宝庫。</div>
+  </div>
+  <div class="shizen-card" style="--color:#ffd166">
+    <div class="shizen-icon">🏯</div>
+    <div class="shizen-name">首里城</div>
+    <div class="shizen-desc">琉球王国のお城。<strong>世界文化遺産</strong>に登録。守礼門がシンボル。</div>
+  </div>
+  <div class="shizen-card" style="--color:#9b5de5">
+    <div class="shizen-icon">🐠</div>
+    <div class="shizen-name">美しい海・観光</div>
+    <div class="shizen-desc">東京から<strong>飛行機で約2時間</strong>。沖縄県の最大の産業は「観光業」。</div>
+  </div>
+</div>
+
+<!-- ⑦ 間違いやすいポイント -->
+<div class="section-title">❌ 間違えやすい！引っかけ注意</div>
+<div class="mistake-box">
+  <div class="mistake-title">⚠️ 他の地域と混同しやすい</div>
+  <div class="mistake-item">
+    <span class="mistake-wrong">「冬に北西の季節風で雪が多い」</span><br>
+    → これは<span class="mistake-right">日本海側（新潟など）</span>。沖縄に雪は降らない！
+  </div>
+  <div class="mistake-item">
+    <span class="mistake-wrong">「一年中雨が少なくため池が多い」</span><br>
+    → これは<span class="mistake-right">瀬戸内（香川など）</span>。沖縄は雨が多い！
+  </div>
+  <div class="mistake-item">
+    <span class="mistake-wrong">「ビニールハウスで促成栽培」</span><br>
+    → これは<span class="mistake-right">高知・宮崎（太平洋側）</span>の話！
+  </div>
+  <div class="mistake-item">
+    <span class="mistake-wrong">「流球王国」（流=さんずい）</span><br>
+    → 正しくは<span class="mistake-right">「琉球王国」（琉=王へん）</span>！ 漢字に注意！
+  </div>
+</div>
+
+<!-- ⑧ テストのポイント5つ -->
+<div class="section-title">🎯 テストに出るポイント</div>
+<div class="testpoint-box">
+  <div class="testpoint-title">📝 これだけは絶対おさえよう！</div>
+  <ul class="testpoint-list">
+    <li>
+      <div class="tp-num">1</div>
+      <div>沖縄県庁所在地は<strong>那覇市（沖縄本島）</strong>。日本最西端は<strong>与那国島</strong>で西に<strong>台湾</strong>が見える。</div>
+    </li>
+    <li>
+      <div class="tp-num">2</div>
+      <div>かつて<strong>琉球王国</strong>として独立。<strong>首里城（世界文化遺産）</strong>が都。<strong>1972年</strong>にアメリカから返還。</div>
+    </li>
+    <li>
+      <div class="tp-num">3</div>
+      <div>気候は<strong>南西諸島の気候（高温・多雨）</strong>。冬でも気温が<strong>10℃を下回らない</strong>のが雨温図のポイント。</div>
+    </li>
+    <li>
+      <div class="tp-num">4</div>
+      <div>台風対策は<strong>①建物を低く ②防風林・石垣 ③瓦をしっくいで固める ④屋上に貯水タンク</strong>の4セット。</div>
+    </li>
+    <li>
+      <div class="tp-num">5</div>
+      <div>農業は<strong>さとうきび・マンゴー・電照菊</strong>。産業で一番大切なのは<strong>観光業</strong>。サンゴ礁が海岸を守る。</div>
+    </li>
+  </ul>
+</div>
+
+<a class="back-link" href="/">← アプリに戻る</a>
+
+</body>
+</html>

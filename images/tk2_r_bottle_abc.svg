@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 220" style="background:#f8fafc;font-family:sans-serif">
+  <!-- ===== ア ===== -->
+  <text x="90" y="18" font-size="16" font-weight="bold" text-anchor="middle" fill="#1e293b">ア</text>
+  <!-- エアポンプ（コイル） -->
+  <ellipse cx="22" cy="170" rx="16" ry="8" fill="none" stroke="#374151" stroke-width="1.5"/>
+  <ellipse cx="22" cy="162" rx="16" ry="8" fill="none" stroke="#374151" stroke-width="1.5"/>
+  <ellipse cx="22" cy="154" rx="16" ry="8" fill="none" stroke="#374151" stroke-width="1.5"/>
+  <ellipse cx="22" cy="146" rx="16" ry="8" fill="none" stroke="#374151" stroke-width="1.5"/>
+  <!-- チューブ（左=空気を入れる、右=水を出す） -->
+  <path d="M22,142 Q22,110 55,95 Q60,92 65,90" fill="none" stroke="#374151" stroke-width="2"/>
+  <path d="M130,90 Q140,92 145,100" fill="none" stroke="#374151" stroke-width="2"/>
+  <!-- ボトル -->
+  <path d="M55,90 L55,70 Q55,60 65,55 L115,55 Q125,60 125,70 L125,90 Z" fill="#e5e7eb" stroke="#374151" stroke-width="2"/>
+  <rect x="55" y="90" width="70" height="110" rx="4" fill="none" stroke="#374151" stroke-width="2"/>
+  <!-- 水 -->
+  <rect x="56" y="150" width="68" height="49" rx="2" fill="#bfdbfe" opacity="0.7"/>
+  <line x1="56" y1="150" x2="124" y2="150" stroke="#3b82f6" stroke-width="1.5"/>
+  <!-- ふた（黒い四角） -->
+  <rect x="62" y="52" width="46" height="8" fill="#1f2937" rx="1"/>
+  <!-- 空気管（ア：水中まで下りる） -->
+  <line x1="75" y1="52" x2="75" y2="185" stroke="#374151" stroke-width="2"/>
+  <!-- 水管（ア：水中まで下りる） -->
+  <line x1="95" y1="52" x2="95" y2="185" stroke="#374151" stroke-width="2"/>
+  <!-- 右チューブ -->
+  <path d="M95,52 Q95,40 120,30 Q140,22 155,20" fill="none" stroke="#374151" stroke-width="2"/>
+  <text x="57" y="148" font-size="9" fill="#1d4ed8">空気</text>
+  <text x="57" y="195" font-size="9" fill="#1d4ed8">水</text>
+  <!-- 空気のドット -->
+  <circle cx="70" cy="120" r="2.5" fill="#d1fae5"/>
+  <circle cx="100" cy="110" r="2.5" fill="#d1fae5"/>
+  <circle cx="85" cy="130" r="2.5" fill="#d1fae5"/>
+
+  <!-- ===== イ ===== -->
+  <text x="270" y="18" font-size="16" font-weight="bold" text-anchor="middle" fill="#1e293b">イ</text>
+  <!-- エアポンプ -->
+  <ellipse cx="202" cy="170" rx="16" ry="8" fill="none" stroke="#374151" stroke-width="1.5"/>
+  <ellipse cx="202" cy="162" rx="16" ry="8" fill="none" stroke="#374151" stroke-width="1.5"/>
+  <ellipse cx="202" cy="154" rx="16" ry="8" fill="none" stroke="#374151" stroke-width="1.5"/>
+  <ellipse cx="202" cy="146" rx="16" ry="8" fill="none" stroke="#374151" stroke-width="1.5"/>
+  <!-- チューブ -->
+  <path d="M202,142 Q202,110 235,95 Q240,92 245,90" fill="none" stroke="#374151" stroke-width="2"/>
+  <path d="M310,90 Q320,92 325,100" fill="none" stroke="#374151" stroke-width="2"/>
+  <!-- ボトル -->
+  <path d="M235,90 L235,70 Q235,60 245,55 L295,55 Q305,60 305,70 L305,90 Z" fill="#e5e7eb" stroke="#374151" stroke-width="2"/>
+  <rect x="235" y="90" width="70" height="110" rx="4" fill="none" stroke="#374151" stroke-width="2"/>
+  <!-- 水 -->
+  <rect x="236" y="150" width="68" height="49" rx="2" fill="#bfdbfe" opacity="0.7"/>
+  <line x1="236" y1="150" x2="304" y2="150" stroke="#3b82f6" stroke-width="1.5"/>
+  <!-- ふた -->
+  <rect x="242" y="52" width="46" height="8" fill="#1f2937" rx="1"/>
+  <!-- 空気管（イ：空気室に届く、水面より上で止まる） -->
+  <line x1="255" y1="52" x2="255" y2="135" stroke="#374151" stroke-width="2"/>
+  <!-- 水管（イ：水の中まで下りる） -->
+  <line x1="275" y1="52" x2="275" y2="185" stroke="#374151" stroke-width="2"/>
+  <!-- 右チューブ -->
+  <path d="M275,52 Q275,40 300,30 Q320,22 335,20" fill="none" stroke="#374151" stroke-width="2"/>
+  <text x="237" y="148" font-size="9" fill="#1d4ed8">空気</text>
+  <text x="237" y="195" font-size="9" fill="#1d4ed8">水</text>
+  <circle cx="250" cy="120" r="2.5" fill="#d1fae5"/>
+  <circle cx="280" cy="110" r="2.5" fill="#d1fae5"/>
+  <circle cx="265" cy="130" r="2.5" fill="#d1fae5"/>
+  <!-- 正解マーク -->
+  <text x="270" y="210" font-size="11" font-weight="bold" text-anchor="middle" fill="#059669">← 正解</text>
+
+  <!-- ===== ウ ===== -->
+  <text x="450" y="18" font-size="16" font-weight="bold" text-anchor="middle" fill="#1e293b">ウ</text>
+  <!-- エアポンプ -->
+  <ellipse cx="382" cy="170" rx="16" ry="8" fill="none" stroke="#374151" stroke-width="1.5"/>
+  <ellipse cx="382" cy="162" rx="16" ry="8" fill="none" stroke="#374151" stroke-width="1.5"/>
+  <ellipse cx="382" cy="154" rx="16" ry="8" fill="none" stroke="#374151" stroke-width="1.5"/>
+  <ellipse cx="382" cy="146" rx="16" ry="8" fill="none" stroke="#374151" stroke-width="1.5"/>
+  <!-- チューブ -->
+  <path d="M382,142 Q382,110 415,95 Q420,92 425,90" fill="none" stroke="#374151" stroke-width="2"/>
+  <path d="M490,90 Q500,92 505,100" fill="none" stroke="#374151" stroke-width="2"/>
+  <!-- ボトル -->
+  <path d="M415,90 L415,70 Q415,60 425,55 L475,55 Q485,60 485,70 L485,90 Z" fill="#e5e7eb" stroke="#374151" stroke-width="2"/>
+  <rect x="415" y="90" width="70" height="110" rx="4" fill="none" stroke="#374151" stroke-width="2"/>
+  <!-- 水 -->
+  <rect x="416" y="150" width="68" height="49" rx="2" fill="#bfdbfe" opacity="0.7"/>
+  <line x1="416" y1="150" x2="484" y2="150" stroke="#3b82f6" stroke-width="1.5"/>
+  <!-- ふた -->
+  <rect x="422" y="52" width="46" height="8" fill="#1f2937" rx="1"/>
+  <!-- 空気管（ウ：空気室に届く） -->
+  <line x1="435" y1="52" x2="435" y2="135" stroke="#374151" stroke-width="2"/>
+  <!-- 水管（ウ：空気室に届く、水の中まで入らない） -->
+  <line x1="455" y1="52" x2="455" y2="135" stroke="#374151" stroke-width="2"/>
+  <!-- 右チューブ -->
+  <path d="M455,52 Q455,40 480,30 Q500,22 515,20" fill="none" stroke="#374151" stroke-width="2"/>
+  <text x="417" y="148" font-size="9" fill="#1d4ed8">空気</text>
+  <text x="417" y="195" font-size="9" fill="#1d4ed8">水</text>
+  <circle cx="430" cy="120" r="2.5" fill="#d1fae5"/>
+  <circle cx="460" cy="110" r="2.5" fill="#d1fae5"/>
+  <circle cx="445" cy="130" r="2.5" fill="#d1fae5"/>
+</svg>

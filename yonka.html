@@ -28,8 +28,22 @@
   .card-title {
     font-size: 15px; font-weight: bold; margin-bottom: 14px;
     display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 8px;
   }
   .chart-wrap { position: relative; height: 220px; }
+
+  /* グラフの表示切替 */
+  .mode-toggle { display: flex; gap: 4px; }
+  .mode-btn {
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+    color: #86efac; border-radius: 10px; font-size: 11px; font-weight: bold;
+    padding: 5px 10px; cursor: pointer;
+  }
+  .mode-btn.active {
+    background: linear-gradient(135deg, #15803d, #16a34a);
+    border-color: rgba(74,222,128,0.5); color: #fff;
+  }
+  .chart-note { font-size: 10px; color: #4b7c5f; margin-top: 8px; text-align: center; line-height: 1.5; }
 
   /* 成績入力ボタン */
   .edit-btn {
@@ -40,6 +54,34 @@
     cursor: pointer; width: 100%; margin-bottom: 16px;
   }
   .edit-btn:active { opacity: 0.85; }
+
+  /* ケンケンアドバイス（Geminiに聞く） */
+  .advice-btn {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    background: linear-gradient(135deg, #4285f4, #34a853);
+    border: none; border-radius: 16px; color: #fff;
+    font-size: 15px; font-weight: bold; padding: 14px;
+    cursor: pointer; width: 100%; margin-bottom: 16px;
+  }
+  .advice-btn:active { opacity: 0.85; }
+  .advice-modal { max-width: 420px; }
+  .advice-text {
+    width: 100%; height: 140px; font-size: 11px; line-height: 1.5;
+    background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 10px; color: #bbf7d0; padding: 8px; resize: none;
+    font-family: inherit; -webkit-user-select: text; user-select: text;
+  }
+  .advice-gemini-btn {
+    background: linear-gradient(135deg, #4285f4, #34a853); border: none;
+    border-radius: 24px; color: #fff; font-size: 15px; font-weight: bold;
+    padding: 12px 20px; cursor: pointer; width: 100%; margin-top: 10px;
+  }
+  .advice-sub-btns { display: flex; gap: 8px; margin-top: 10px; }
+  .advice-sub-btns button {
+    flex: 1; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px; color: #86efac; font-size: 13px; padding: 9px; cursor: pointer;
+  }
+  .advice-copied { font-size: 12px; color: #4ade80; text-align: center; min-height: 16px; margin-top: 6px; }
 
   /* 最新サマリー */
   .latest-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -139,14 +181,16 @@
   .c-rika   { color: #4ade80; }
   .c-shakai { color: #fbbf24; }
   .c-total  { color: #a78bfa; }
+  .c-hensa  { color: #c084fc; }
+  .hensa-lbl { font-size: 10px; color: #d8b4fe; margin-top: 1px; }
 </style>
 </head>
 <body>
 
-<!-- モーダル -->
+<!-- 追加・編集モーダル -->
 <div class="modal-overlay" id="addModal">
   <div class="modal">
-    <h2>＋ テスト回を追加</h2>
+    <h2 id="modalTitle">＋ テスト回を追加</h2>
     <div class="modal-field">
       <label>表示用ラベル（実施日）</label>
       <input type="text" id="newLabel" placeholder="例：2026/06/24">
@@ -158,8 +202,16 @@
     <p class="modal-hint">※ グラフの横軸に表示される短い日付です</p>
     <div class="modal-btns">
       <button class="modal-cancel" onclick="closeModal()">キャンセル</button>
-      <button class="modal-ok" onclick="confirmAdd()">追加する</button>
+      <button class="modal-ok" id="modalOkBtn" onclick="confirmAdd()">追加する</button>
     </div>
+  </div>
+</div>
+
+<!-- ケンケンアドバイス モーダル -->
+<div class="modal-overlay" id="adviceModal">
+  <div class="modal advice-modal">
+    <h2>🤖 ケンケンアドバイス</h2>
+    <div id="adviceBody"></div>
   </div>
 </div>
 
@@ -172,6 +224,7 @@
   </div>
 
   <button class="edit-btn" onclick="showEdit()">✏️ 成績を入力する</button>
+  <button class="advice-btn" onclick="openAdviceModal()">🤖 ケンケンアドバイス</button>
 
   <!-- 最新サマリー -->
   <div class="card" id="latestCard">
@@ -189,6 +242,34 @@
   <div class="card">
     <div class="card-title">📚 各科目 得点の推移</div>
     <div class="chart-wrap" style="height:260px;"><canvas id="subjectChart"></canvas></div>
+  </div>
+
+  <!-- 偏差値推移 -->
+  <div class="card">
+    <div class="card-title">
+      <span>🎯 偏差値の推移</span>
+      <div class="mode-toggle">
+        <button class="mode-btn active" id="modeBtnAll"  onclick="setHensaMode('all')">ぜんぶ</button>
+        <button class="mode-btn" id="modeBtnSougou" onclick="setHensaMode('sougou')">4科目</button>
+        <button class="mode-btn" id="modeBtnKamoku" onclick="setHensaMode('kamoku')">科目別</button>
+      </div>
+    </div>
+    <div class="chart-wrap" style="height:300px;"><canvas id="hensaChart"></canvas></div>
+    <div class="chart-note">※ 太い線が4科目、細い線が各科目です<br>凡例をタップすると、その線だけ消したり出したりできます</div>
+  </div>
+
+  <!-- 順位の推移 -->
+  <div class="card">
+    <div class="card-title">
+      <span>🏅 順位の推移</span>
+      <div class="mode-toggle" id="rankToggle">
+        <button class="mode-btn active" id="modeBtnJuni" onclick="setRankMode('juni')">順位</button>
+        <button class="mode-btn" id="modeBtnPct" onclick="setRankMode('pct')">上位%</button>
+      </div>
+    </div>
+    <div class="chart-wrap" style="height:260px;"><canvas id="rankChart"></canvas></div>
+    <div id="rankDiff" style="margin-top:10px;"></div>
+    <div class="chart-note" id="rankNote"></div>
   </div>
 
   <!-- テスト一覧 -->
@@ -219,7 +300,7 @@ const FIELD_GROUPS = [
   {
     label: '🏆 合計得点・順位',
     fields: [
-      { key: 'tokuten4', label: '4科目得点',     step: '1', min: 0, max: 500 },
+      { key: 'tokuten4', label: '4科目得点（自動）', step: '1', min: 0, max: 500, calc: true },
       { key: 'juni4',    label: '4科目順位（位）', step: '1', min: 1, max: 9999 },
       { key: 'ninzu4',   label: '4科目受験者数',  step: '1', min: 1, max: 9999 },
     ]
@@ -232,14 +313,41 @@ const FIELD_GROUPS = [
       { key: 'rika_ten',   label: '理科得点', step: '1', min: 0, max: 200 },
       { key: 'shakai_ten', label: '社会得点', step: '1', min: 0, max: 200 },
     ]
+  },
+  {
+    label: '🎯 偏差値',
+    fields: [
+      { key: 'hensa4',       label: '4科目偏差値', step: '0.1', min: 20, max: 80 },
+      { key: 'sansu_hensa',  label: '算数偏差値',  step: '0.1', min: 20, max: 80 },
+      { key: 'kokugo_hensa', label: '国語偏差値',  step: '0.1', min: 20, max: 80 },
+      { key: 'rika_hensa',   label: '理科偏差値',  step: '0.1', min: 20, max: 80 },
+      { key: 'shakai_hensa', label: '社会偏差値',  step: '0.1', min: 20, max: 80 },
+    ]
   }
 ];
 const FIELDS = FIELD_GROUPS.flatMap(g => g.fields);
 const EMPTY_ROW = () => Object.fromEntries(FIELDS.map(f => [f.key, null]));
 
 let data = {}, currentSha = null, tests = [];
-let totalChart, subjectChart;
+let totalChart, subjectChart, hensaChart, rankChart;
 let selectedIdx = -1;
+let hensaMode = 'all';   // 'all' / 'sougou'(4科目のみ) / 'kamoku'(科目別のみ)
+let rankMode  = 'juni';  // 'juni' = 順位 / 'pct' = 上位%
+
+function setHensaMode(mode) {
+  hensaMode = mode;
+  ['all','sougou','kamoku'].forEach(m => {
+    const id = { all: 'modeBtnAll', sougou: 'modeBtnSougou', kamoku: 'modeBtnKamoku' }[m];
+    document.getElementById(id).classList.toggle('active', m === mode);
+  });
+  renderCharts();
+}
+function setRankMode(mode) {
+  rankMode = mode;
+  document.getElementById('modeBtnJuni').classList.toggle('active', mode === 'juni');
+  document.getElementById('modeBtnPct').classList.toggle('active', mode === 'pct');
+  renderRankChart();
+}
 
 // ---- 画面切り替え ----
 function showMain() {
@@ -255,20 +363,54 @@ function showEdit() {
 }
 
 // ---- モーダル ----
+let editingDate = null;
+
 function openModal() {
+  editingDate = null;
   document.getElementById('newLabel').value = '';
   document.getElementById('newDate').value = '';
+  document.getElementById('modalTitle').textContent = '＋ テスト回を追加';
+  document.getElementById('modalOkBtn').textContent = '追加する';
   document.getElementById('addModal').classList.add('open');
   setTimeout(() => document.getElementById('newLabel').focus(), 100);
 }
-function closeModal() { document.getElementById('addModal').classList.remove('open'); }
+function editTest(date) {
+  const t = tests.find(t => t.date === date);
+  if (!t) return;
+  editingDate = date;
+  document.getElementById('newLabel').value = t.label;
+  document.getElementById('newDate').value = t.date;
+  document.getElementById('modalTitle').textContent = '✏️ テスト回を編集';
+  document.getElementById('modalOkBtn').textContent = '保存する';
+  document.getElementById('addModal').classList.add('open');
+  setTimeout(() => document.getElementById('newLabel').focus(), 100);
+}
+function closeModal() {
+  document.getElementById('addModal').classList.remove('open');
+  editingDate = null;
+}
 function confirmAdd() {
   const label = document.getElementById('newLabel').value.trim();
   const date  = document.getElementById('newDate').value.trim();
   if (!label || !date) { alert('両方入力してください'); return; }
-  if (tests.find(t => t.date === date)) { alert('その日付はすでに存在します'); return; }
-  tests.push({ date, label });
-  data[date] = EMPTY_ROW();
+
+  if (editingDate) {
+    // 編集モード
+    if (date !== editingDate && tests.find(t => t.date === date)) {
+      alert('その日付はすでに存在します'); return;
+    }
+    const idx = tests.findIndex(t => t.date === editingDate);
+    tests[idx] = { date, label };
+    if (date !== editingDate) {
+      data[date] = data[editingDate];
+      delete data[editingDate];
+    }
+  } else {
+    // 追加モード
+    if (tests.find(t => t.date === date)) { alert('その日付はすでに存在します'); return; }
+    tests.push({ date, label });
+    data[date] = EMPTY_ROW();
+  }
   closeModal();
   renderInputs();
 }
@@ -312,15 +454,18 @@ async function loadFromCloud() {
 async function saveAll() {
   const btn = document.getElementById('saveBtn');
   btn.disabled = true; btn.textContent = '⏳ 保存中...';
-  tests.forEach(t => {
-    const row = {};
+  const inputList = document.getElementById('inputList');
+  tests.forEach((t, idx) => {
+    const rows = inputList.querySelectorAll('.test-row');
+    const row = rows[idx];
+    const rowData = {};
     FIELDS.forEach(f => {
-      const el = document.getElementById(`inp_${t.date}_${f.key}`);
+      const el = row ? row.querySelector(`input[data-key="${f.key}"]`) : null;
       if (!el) return;
       const v = parseFloat(el.value);
-      row[f.key] = isNaN(v) ? null : v;
+      rowData[f.key] = isNaN(v) ? null : v;
     });
-    data[t.date] = row;
+    data[t.date] = rowData;
   });
   data._tests = tests;
   try {
@@ -343,7 +488,26 @@ async function saveAll() {
   btn.disabled = false; btn.textContent = '💾 保存してグラフを更新';
 }
 
+// ---- 自動合計計算 ----
+function autoCalcTotal(date) {
+  const keys = ['sansu_ten', 'kokugo_ten', 'rika_ten', 'shakai_ten'];
+  const vals = keys.map(k => parseFloat(document.getElementById(`inp_${date}_${k}`)?.value));
+  const allFilled = vals.every(v => !isNaN(v));
+  const el = document.getElementById(`inp_${date}_tokuten4`);
+  if (!el) return;
+  if (allFilled) {
+    const sum = vals.reduce((a, b) => a + b, 0);
+    el.value = sum;
+    el.classList.add('filled');
+  } else {
+    el.value = '';
+    el.classList.remove('filled');
+  }
+}
+
 // ---- 入力フォーム ----
+const SUBJECT_KEYS = ['sansu_ten', 'kokugo_ten', 'rika_ten', 'shakai_ten'];
+
 function renderInputs() {
   const list = document.getElementById('inputList');
   list.innerHTML = '';
@@ -355,6 +519,26 @@ function renderInputs() {
     const div = document.createElement('div');
     div.className = 'test-row' + (isLatest ? ' open' : '');
     div.id = `row_${t.date}`;
+
+    // フィールドHTML（data-key属性でID不要に）
+    const fieldsHtml = FIELD_GROUPS.map(g => {
+      const rowsHtml = g.fields.map(f => {
+        const isCalc = !!f.calc;
+        const val = d[f.key] != null ? d[f.key] : '';
+        const filled = val !== '' ? 'filled' : '';
+        const readonly = isCalc ? 'readonly style="opacity:0.6;background:rgba(74,222,128,0.08);cursor:default;"' : '';
+        const placeholder = isCalc ? '自動計算' : '—';
+        return `<div class="field-group">
+          <label>${f.label}</label>
+          <input type="number" step="${f.step}" min="${f.min}" max="${f.max}"
+            data-key="${f.key}" value="${val}" placeholder="${placeholder}"
+            class="${filled}" ${readonly}>
+        </div>`;
+      }).join('');
+      return `<div class="field-group-label">${g.label}</div>
+              <div class="test-row-fields">${rowsHtml}</div>`;
+    }).join('');
+
     div.innerHTML = `
       <div class="test-row-header" onclick="toggleAccordion('${t.date}')">
         <div class="test-row-left">
@@ -364,27 +548,47 @@ function renderInputs() {
       </div>
       <div class="test-row-body">
         <div class="test-row-actions">
+          <button class="del-btn" style="margin-right:6px;" onclick="editTest('${t.date}')">✏️ 編集</button>
           <button class="del-btn" onclick="deleteTest('${t.date}')">削除</button>
         </div>
-        ${FIELD_GROUPS.map(g => `
-          <div class="field-group-label">${g.label}</div>
-          <div class="test-row-fields">
-            ${g.fields.map(f => `
-              <div class="field-group">
-                <label>${f.label}</label>
-                <input type="number" step="${f.step}" min="${f.min}" max="${f.max}"
-                  id="inp_${t.date}_${f.key}"
-                  value="${d[f.key] != null ? d[f.key] : ''}"
-                  placeholder="—"
-                  class="${d[f.key] != null ? 'filled' : ''}"
-                  oninput="this.classList.toggle('filled', this.value !== '')">
-              </div>
-            `).join('')}
-          </div>
-        `).join('')}
+        ${fieldsHtml}
       </div>
     `;
     list.appendChild(div);
+
+    // data-key属性でinputを取得してイベントを付ける
+    const getInp = key => div.querySelector(`input[data-key="${key}"]`);
+    const totalEl = getInp('tokuten4');
+    const subjectEls = SUBJECT_KEYS.map(k => getInp(k));
+
+    // 合計を再計算する共通関数
+    function recalcTotal() {
+      const vals = subjectEls.map(e => e ? parseFloat(e.value) : NaN);
+      if (vals.every(v => !isNaN(v))) {
+        totalEl.value = vals.reduce((a, b) => a + b, 0);
+        totalEl.classList.add('filled');
+      } else {
+        totalEl.value = '';
+        totalEl.classList.remove('filled');
+      }
+    }
+
+    subjectEls.forEach(el => {
+      if (!el) return;
+      el.addEventListener('input', () => {
+        el.classList.toggle('filled', el.value !== '');
+        recalcTotal();
+      });
+    });
+
+    // 読み込み済みデータがあれば即計算
+    recalcTotal();
+
+    // 順位・受験者数のfilledトグル
+    FIELDS.filter(f => !f.calc && !SUBJECT_KEYS.includes(f.key)).forEach(f => {
+      const el = getInp(f.key);
+      if (el) el.addEventListener('input', () => el.classList.toggle('filled', el.value !== ''));
+    });
   });
 }
 
@@ -442,19 +646,20 @@ function renderLatest() {
     return n != null ? `${j}位 / ${n}人中` : `${j}位`;
   }
 
-  const boxes = [
-    { lbl: '4科目 合計', val: d.tokuten4, color: '#a78bfa', dk: 'tokuten4', rank: rankStr(d.juni4, d.ninzu4) },
-    { lbl: '算数', val: d.sansu_ten,  color: '#60a5fa', dk: 'sansu_ten' },
-    { lbl: '国語', val: d.kokugo_ten, color: '#f472b6', dk: 'kokugo_ten' },
-    { lbl: '理科', val: d.rika_ten,   color: '#4ade80', dk: 'rika_ten' },
-    { lbl: '社会', val: d.shakai_ten, color: '#fbbf24', dk: 'shakai_ten' },
+  const scoreBoxes = [
+    { lbl: '4科目 合計', val: d.tokuten4, color: '#a78bfa', dk: 'tokuten4', rank: rankStr(d.juni4, d.ninzu4), hensa: d.hensa4 },
+    { lbl: '算数', val: d.sansu_ten,  color: '#60a5fa', dk: 'sansu_ten',  hensa: d.sansu_hensa },
+    { lbl: '国語', val: d.kokugo_ten, color: '#f472b6', dk: 'kokugo_ten', hensa: d.kokugo_hensa },
+    { lbl: '理科', val: d.rika_ten,   color: '#4ade80', dk: 'rika_ten',   hensa: d.rika_hensa },
+    { lbl: '社会', val: d.shakai_ten, color: '#fbbf24', dk: 'shakai_ten', hensa: d.shakai_hensa },
   ];
 
-  document.getElementById('latestGrid').innerHTML = boxes.map(b => `
+  document.getElementById('latestGrid').innerHTML = scoreBoxes.map(b => `
     <div class="stat-box">
       <div class="lbl">${b.lbl}</div>
       <div class="val" style="color:${b.color}">${b.val ?? '—'}</div>
       ${b.rank ? `<div class="rank-str">${b.rank}</div>` : ''}
+      ${b.hensa != null ? `<div class="hensa-lbl">偏差値 ${b.hensa}</div>` : ''}
       ${b.val != null ? diffStr(d, prev, b.dk) : ''}
     </div>
   `).join('');
@@ -467,11 +672,20 @@ function renderTable() {
     <tr>
       <th rowspan="2">実施日</th>
       <th colspan="3">4科目合計</th>
-      <th>算数</th><th>国語</th><th>理科</th><th>社会</th>
+      <th colspan="4" style="color:#d8b4fe;">偏差値</th>
+      <th colspan="4">各科目得点</th>
     </tr>
     <tr>
       <th>得点</th><th>順位</th><th>人数</th>
-      <th colspan="4" style="font-size:10px;color:#86efac;">各科目得点</th>
+      <th style="color:#d8b4fe;">4科</th>
+      <th style="color:#93c5fd;">算</th>
+      <th style="color:#f9a8d4;">国</th>
+      <th style="color:#86efac;">理</th>
+      <th style="color:#fde68a;">社</th>
+      <th class="c-sansu">算数</th>
+      <th class="c-kokugo">国語</th>
+      <th class="c-rika">理科</th>
+      <th class="c-shakai">社会</th>
     </tr>
   `;
   const nd = v => v != null ? v : '<span class="no-data">—</span>';
@@ -482,6 +696,11 @@ function renderTable() {
       <td class="c-total">${nd(d.tokuten4)}</td>
       <td>${d.juni4 != null ? d.juni4+'位' : '<span class="no-data">—</span>'}</td>
       <td>${d.ninzu4 != null ? d.ninzu4+'人' : '<span class="no-data">—</span>'}</td>
+      <td class="c-hensa">${nd(d.hensa4)}</td>
+      <td style="color:#93c5fd;">${nd(d.sansu_hensa)}</td>
+      <td style="color:#f9a8d4;">${nd(d.kokugo_hensa)}</td>
+      <td style="color:#86efac;">${nd(d.rika_hensa)}</td>
+      <td style="color:#fde68a;">${nd(d.shakai_hensa)}</td>
       <td class="c-sansu">${nd(d.sansu_ten)}</td>
       <td class="c-kokugo">${nd(d.kokugo_ten)}</td>
       <td class="c-rika">${nd(d.rika_ten)}</td>
@@ -508,7 +727,7 @@ function renderCharts() {
   totalChart = new Chart(document.getElementById('totalChart'), {
     type: 'line',
     data: { labels, datasets: [
-      { label: '4科目合計', data: get('tokuten4'), borderColor: '#a78bfa', backgroundColor: 'rgba(167,139,250,0.15)', tension: 0.3, pointRadius: 5, spanGaps: true },
+      { label: '4科目合計', data: get('tokuten4'), borderColor: '#a78bfa', backgroundColor: 'rgba(167,139,250,0.15)', tension: 0, pointRadius: 5, spanGaps: true },
     ]},
     options: { ...JSON.parse(JSON.stringify(BASE_OPTS)), plugins: { legend: { display: false } } }
   });
@@ -517,12 +736,259 @@ function renderCharts() {
   subjectChart = new Chart(document.getElementById('subjectChart'), {
     type: 'line',
     data: { labels, datasets: [
-      { label: '算数', data: get('sansu_ten'),  borderColor: '#60a5fa', backgroundColor: 'rgba(96,165,250,0.1)',  tension: 0.3, pointRadius: 5, spanGaps: true },
-      { label: '国語', data: get('kokugo_ten'), borderColor: '#f472b6', backgroundColor: 'rgba(244,114,182,0.1)', tension: 0.3, pointRadius: 5, spanGaps: true },
-      { label: '理科', data: get('rika_ten'),   borderColor: '#4ade80', backgroundColor: 'rgba(74,222,128,0.1)',  tension: 0.3, pointRadius: 5, spanGaps: true },
-      { label: '社会', data: get('shakai_ten'), borderColor: '#fbbf24', backgroundColor: 'rgba(251,191,36,0.1)',  tension: 0.3, pointRadius: 5, spanGaps: true },
+      { label: '算数', data: get('sansu_ten'),  borderColor: '#60a5fa', backgroundColor: 'rgba(96,165,250,0.1)',  tension: 0, pointRadius: 5, spanGaps: true },
+      { label: '国語', data: get('kokugo_ten'), borderColor: '#f472b6', backgroundColor: 'rgba(244,114,182,0.1)', tension: 0, pointRadius: 5, spanGaps: true },
+      { label: '理科', data: get('rika_ten'),   borderColor: '#4ade80', backgroundColor: 'rgba(74,222,128,0.1)',  tension: 0, pointRadius: 5, spanGaps: true },
+      { label: '社会', data: get('shakai_ten'), borderColor: '#fbbf24', backgroundColor: 'rgba(251,191,36,0.1)',  tension: 0, pointRadius: 5, spanGaps: true },
     ]},
     options: JSON.parse(JSON.stringify(BASE_OPTS))
+  });
+
+  // ---- 偏差値の推移（4科目＋科目別／トグルで切替） ----
+  const HENSA_SERIES = [
+    { grp: 'sougou', label: '4科目', key: 'hensa4',       color: '#c084fc', width: 4 },
+    { grp: 'kamoku', label: '算数',  key: 'sansu_hensa',  color: '#60a5fa', width: 2 },
+    { grp: 'kamoku', label: '国語',  key: 'kokugo_hensa', color: '#f472b6', width: 2 },
+    { grp: 'kamoku', label: '理科',  key: 'rika_hensa',   color: '#4ade80', width: 2 },
+    { grp: 'kamoku', label: '社会',  key: 'shakai_hensa', color: '#fbbf24', width: 2 },
+  ];
+  const shownHensa = HENSA_SERIES.filter(s => hensaMode === 'all' || hensaMode === s.grp);
+
+  // y軸は下限55を基本に、それより低い値があれば自動で広げる
+  const allHensa = HENSA_SERIES.flatMap(s => get(s.key)).filter(v => v != null);
+  const hensaMin = allHensa.length ? Math.min(55, Math.floor((Math.min(...allHensa) - 3) / 5) * 5) : 55;
+
+  const hensaOpts = JSON.parse(JSON.stringify(BASE_OPTS));
+  hensaOpts.scales.y.min = hensaMin;
+  hensaOpts.scales.y.max = 80;
+  hensaOpts.scales.y.ticks.stepSize = 5;
+  hensaOpts.plugins.legend.labels.boxWidth = 24;
+
+  if (hensaChart) hensaChart.destroy();
+  hensaChart = new Chart(document.getElementById('hensaChart'), {
+    type: 'line',
+    data: { labels, datasets: shownHensa.map(s => ({
+      label: s.label,
+      data: get(s.key),
+      borderColor: s.color,
+      backgroundColor: s.color + '22',
+      borderWidth: s.width,
+      pointRadius: s.width >= 4 ? 5 : 3,
+      pointBackgroundColor: s.color,
+      tension: 0, spanGaps: true,
+    }))},
+    options: hensaOpts
+  });
+
+  renderRankChart();
+}
+
+// ---- 順位の推移 ----
+function renderRankChart() {
+  const labels = tests.map(t => t.date);
+  const hasNinzu = tests.some(t => (data[t.date] || {}).ninzu4 != null);
+
+  // 受験者数が未入力なら「上位%」は出せないのでトグルごと隠す
+  document.getElementById('rankToggle').style.display = hasNinzu ? '' : 'none';
+  if (!hasNinzu && rankMode === 'pct') rankMode = 'juni';
+  const isPct = rankMode === 'pct';
+
+  const rawInfo = tests.map(t => {
+    const d = data[t.date] || {};
+    if (d.juni4 == null) return null;
+    const pct = d.ninzu4 ? +(d.juni4 / d.ninzu4 * 100).toFixed(1) : null;
+    return { juni: d.juni4, n: d.ninzu4 ?? null, pct };
+  });
+
+  const opts = JSON.parse(JSON.stringify(BASE_OPTS));
+  opts.plugins.legend = { display: false };
+  opts.plugins.tooltip = {
+    callbacks: {
+      label: ctx => {
+        const r = rawInfo[ctx.dataIndex];
+        if (!r) return '—';
+        return `${r.juni}位${r.n != null ? ' / ' + r.n + '人中' : ''}${r.pct != null ? '（上位 ' + r.pct + '%）' : ''}`;
+      }
+    }
+  };
+  opts.scales.y.reverse = true;          // 上に行くほど順位が良い
+  opts.scales.y.min = isPct ? 0 : 1;
+  if (isPct) opts.scales.y.max = 100;
+  opts.scales.y.ticks.callback = v => isPct ? v + '%' : v + '位';
+
+  if (rankChart) rankChart.destroy();
+  rankChart = new Chart(document.getElementById('rankChart'), {
+    type: 'line',
+    data: { labels, datasets: [{
+      label: '4科目 順位',
+      data: rawInfo.map(r => !r ? null : (isPct ? r.pct : r.juni)),
+      borderColor: '#a78bfa',
+      backgroundColor: 'rgba(167,139,250,0.15)',
+      borderWidth: 4, pointRadius: 5, pointBackgroundColor: '#a78bfa',
+      tension: 0, spanGaps: true,
+    }]},
+    options: opts
+  });
+
+  renderRankDiff();
+  document.getElementById('rankNote').innerHTML = isPct
+    ? '※ 上位% ＝ 順位 ÷ 受験者数。小さいほど good（グラフの上ほど上位）'
+    : '※ グラフの上に行くほど順位が良い（1位が一番上）です'
+      + (hasNinzu ? '' : '<br>受験者数を入力すると「上位%」でも見られます');
+}
+
+// 最新回の順位を前回と比べて表示
+function renderRankDiff() {
+  const el = document.getElementById('rankDiff');
+  let curIdx = -1;
+  tests.forEach((t, i) => { if ((data[t.date] || {}).juni4 != null) curIdx = i; });
+  if (curIdx < 0) { el.innerHTML = ''; return; }
+
+  const cur = data[tests[curIdx].date];
+  let prev = null;
+  for (let i = curIdx - 1; i >= 0; i--) {
+    const d = data[tests[i].date];
+    if (d && d.juni4 != null) { prev = d; break; }
+  }
+
+  let diffHtml = '';
+  if (prev) {
+    const v = prev.juni4 - cur.juni4;   // 順位は数字が減ると good
+    if (v > 0)      diffHtml = `<div class="diff-up">↑ ${v}人ぬいた</div>`;
+    else if (v < 0) diffHtml = `<div class="diff-down">↓ ${Math.abs(v)}人ぬかれた</div>`;
+    else            diffHtml = `<div class="diff-same">→ 前回と同じ</div>`;
+  }
+  const pct = cur.ninzu4 ? +(cur.juni4 / cur.ninzu4 * 100).toFixed(1) : null;
+
+  el.innerHTML = `
+    <div class="stat-box">
+      <div class="lbl">${tests[curIdx].label} の4科目順位</div>
+      <div class="val" style="color:#a78bfa;">${cur.juni4}<span style="font-size:13px;">位</span></div>
+      ${cur.ninzu4 != null ? `<div class="rank-str">/ ${cur.ninzu4}人中　上位 ${pct}%</div>` : ''}
+      ${diffHtml}
+    </div>`;
+}
+
+// ============================================================
+// ケンケンアドバイス（質問文をコピーして Gemini を開く）
+// ============================================================
+const GEMINI_URL = 'https://accounts.google.com/AccountChooser?Email=konken5794kmray%40gmail.com&continue=https://gemini.google.com/app';
+
+// このページの成績データの読み方（ページごとにここだけ違う）
+const ADVICE_META = {
+  testName: 'ena 4科演習',
+  totals: [
+    { label: '4科', h: 'hensa4', ten: 'tokuten4', juni: 'juni4', ninzu: 'ninzu4' },
+  ],
+  subjects: [
+    { label: '算数', h: 'sansu_hensa',  ten: 'sansu_ten'  },
+    { label: '国語', h: 'kokugo_hensa', ten: 'kokugo_ten' },
+    { label: '理科', h: 'rika_hensa',   ten: 'rika_ten'   },
+    { label: '社会', h: 'shakai_hensa', ten: 'shakai_ten' },
+  ],
+};
+
+// 「4科偏差値71.5（349点・7位）」のような1かたまりを作る
+// 値が無い項目は書かない（—を並べてもAIには意味がないため）
+function advicePart(d, m) {
+  const h     = m.h     ? d[m.h]     : null;
+  const ten   = m.ten   ? d[m.ten]   : null;
+  const juni  = m.juni  ? d[m.juni]  : null;
+  const ninzu = m.ninzu ? d[m.ninzu] : null;
+  if (h == null && ten == null && juni == null) return null;
+
+  const detail = [];
+  if (ten != null) detail.push(ten + '点');
+  if (juni != null) {
+    detail.push(ninzu ? `${juni}位/${ninzu}人・上位${(juni / ninzu * 100).toFixed(1)}%` : `${juni}位`);
+  }
+  return m.label + (h != null ? `偏差値${h}` : '')
+       + (detail.length ? `（${detail.join('・')}）` : '');
+}
+
+function adviceRowText(date) {
+  const d = data[date] || {};
+  const totals = ADVICE_META.totals.map(m => advicePart(d, m)).filter(Boolean);
+  const subs   = ADVICE_META.subjects.map(m => advicePart(d, m)).filter(Boolean);
+  if (!totals.length && !subs.length) return null;
+  return [totals.join(' / '), subs.join(' ')].filter(s => s).join('  ／  ');
+}
+
+function buildAdvicePrompt() {
+  const rows = [];
+  tests.forEach(t => {
+    const line = adviceRowText(t.date);
+    if (line) rows.push(`${t.label}　${line}`);
+  });
+  if (!rows.length) return null;
+
+  const idx = getDisplayIdx();
+  const latest = (idx >= 0 && adviceRowText(tests[idx].date))
+    ? `${tests[idx].label}　${adviceRowText(tests[idx].date)}`
+    : rows[rows.length - 1];
+
+  return `あなたは中学受験の家庭教師「ケンケン先生」です。
+小学4年生が読んでわかるやさしい言葉で、絵文字も使って楽しく答えてください。
+
+これは「${ADVICE_META.testName}」の成績です。偏差値と得点は大きいほど良くて、順位は小さいほど良い数字です。
+
+【今までの成績】
+${rows.join('\n')}
+
+【いちばん新しい回】
+${latest}
+
+つぎの4つを、この順番で教えてください。
+① いまの実力はどれくらい？（ぜんたいの中でどのへんにいる？）
+② 前より良くなったところ（見つけて、いっぱいほめて！）
+③ にがてなところ（どの科目の何が足りない？）
+④ つぎのテストまでにやること（3つだけ。すぐできる具体的なことで）
+
+【ルール】
+・小学4年生でもわかる言葉で。むずかしい言葉を使うときは説明をつける
+・全体で600字くらい
+・#や**などのMarkdown記号は使わず、プレーンテキストで
+・あいさつや前置きは書かない`;
+}
+
+function escapeHtml(s) {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function openAdviceModal() {
+  const prompt = buildAdvicePrompt();
+  if (!prompt) { alert('先に成績を入力してね'); return; }
+
+  // クリック直後に同期で書き込む（iOSは非同期を挟むと失敗する）
+  navigator.clipboard.writeText(prompt).catch(() => {});
+
+  document.getElementById('adviceBody').innerHTML = `
+    <p style="font-size:13px;color:#86efac;line-height:1.6;margin-bottom:10px;">
+      質問文をコピーしたよ！📋<br>
+      Geminiが開いたら、入力らんを長押し →「ペースト」して送ってね✨
+    </p>
+    <textarea class="advice-text" id="adviceText" readonly onclick="this.select()">${escapeHtml(prompt)}</textarea>
+    <button class="advice-gemini-btn" onclick="window.open('${GEMINI_URL}','_blank')">🤖 Geminiを開く</button>
+    <div class="advice-sub-btns">
+      <button onclick="copyAdvice()">📋 もう一度コピー</button>
+      <button onclick="closeAdviceModal()">とじる</button>
+    </div>
+    <div class="advice-copied" id="adviceCopied"></div>
+  `;
+  document.getElementById('adviceModal').classList.add('open');
+}
+
+function closeAdviceModal() {
+  document.getElementById('adviceModal').classList.remove('open');
+}
+
+function copyAdvice() {
+  const el = document.getElementById('adviceText');
+  el.select();
+  el.setSelectionRange(0, 99999);
+  const done = () => { document.getElementById('adviceCopied').textContent = '✅ コピーしたよ！'; };
+  navigator.clipboard.writeText(el.value).then(done).catch(() => {
+    try { document.execCommand('copy'); done(); } catch(e) {}
   });
 }
 

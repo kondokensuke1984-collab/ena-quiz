@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>➗ 分数の計算 まとめ</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+      background: linear-gradient(135deg, #f0e6ff 0%, #e6f0ff 50%, #ffe6f5 100%);
+      min-height: 100vh;
+      padding: 16px;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #7c3aed, #f472b6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 24px 0 8px;
+      line-height: 1.3;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #a78bfa;
+      font-size: 0.95rem;
+      margin-bottom: 28px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(124, 58, 237, 0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .card h2 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #7c3aed;
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      position: relative;
+    }
+
+    .card h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, #a78bfa, #f472b6, #60a5fa);
+    }
+
+    .section-emoji { font-size: 1.3rem; margin-right: 4px; }
+
+    /* Rule boxes */
+    .rule-box {
+      border-left: 4px solid #a78bfa;
+      background: #f5f3ff;
+      border-radius: 0 10px 10px 0;
+      padding: 12px 16px;
+      margin: 10px 0;
+      font-size: 0.95rem;
+      color: #5b21b6;
+      line-height: 1.7;
+    }
+
+    .rule-box.pink {
+      border-left-color: #f472b6;
+      background: #fff0f6;
+      color: #831843;
+    }
+
+    .rule-box.blue {
+      border-left-color: #60a5fa;
+      background: #eff6ff;
+      color: #1e3a8a;
+    }
+
+    .rule-box.green {
+      border-left-color: #34d399;
+      background: #ecfdf5;
+      color: #065f46;
+    }
+
+    .rule-box strong { font-weight: 800; }
+
+    /* Formula box */
+    .formula-box {
+      background: linear-gradient(135deg, #ede9fe, #fce7f3);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin: 12px 0;
+    }
+
+    .formula-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.97rem;
+      color: #5b21b6;
+      font-weight: 600;
+      margin-bottom: 6px;
+      line-height: 1.6;
+    }
+
+    .formula-row:last-child { margin-bottom: 0; }
+
+    .badge {
+      display: inline-block;
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      white-space: nowrap;
+      margin-top: 2px;
+    }
+
+    .badge.purple { background: #7c3aed; color: #fff; }
+    .badge.pink   { background: #f472b6; color: #fff; }
+    .badge.blue   { background: #60a5fa; color: #fff; }
+    .badge.green  { background: #34d399; color: #fff; }
+
+    /* Step card */
+    .step-card {
+      background: #fff;
+      border: 2px solid #e9d5ff;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin: 10px 0;
+    }
+
+    .step-card .ex-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #a78bfa;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+
+    .step-card .problem {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #374151;
+      margin-bottom: 8px;
+    }
+
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 0.92rem;
+      color: #6b7280;
+      line-height: 1.5;
+    }
+
+    .step-num {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #a78bfa;
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .step-num.pink  { background: #f472b6; }
+    .step-num.blue  { background: #60a5fa; }
+    .step-num.green { background: #34d399; }
+
+    .step .ans {
+      color: #7c3aed;
+      font-weight: 800;
+      font-size: 1rem;
+    }
+
+    /* Fraction display */
+    .frac {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      vertical-align: middle;
+      margin: 0 2px;
+      line-height: 1.1;
+    }
+
+    .frac .num, .frac .den {
+      font-size: 0.88em;
+      font-weight: 700;
+    }
+
+    .frac .bar {
+      width: 100%;
+      height: 1.5px;
+      background: currentColor;
+      margin: 1px 0;
+    }
+
+    /* Conversion table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 0.95rem;
+    }
+
+    thead th {
+      background: linear-gradient(135deg, #7c3aed, #a78bfa);
+      color: #fff;
+      padding: 10px 12px;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    thead th:first-child { border-radius: 8px 0 0 0; }
+    thead th:last-child  { border-radius: 0 8px 0 0; }
+
+    tbody td {
+      padding: 10px 12px;
+      text-align: center;
+      border-bottom: 1px solid #ede9fe;
+      color: #374151;
+    }
+
+    tbody td.frac-col {
+      font-weight: 800;
+      color: #7c3aed;
+      font-size: 1.05rem;
+    }
+
+    tbody td.dec-col {
+      font-weight: 700;
+      color: #f472b6;
+    }
+
+    tbody tr:nth-child(even) td { background: #f5f3ff; }
+    tbody tr:last-child td:first-child { border-radius: 0 0 0 8px; }
+    tbody tr:last-child td:last-child  { border-radius: 0 0 8px 0; }
+
+    /* Highlight box */
+    .highlight-box {
+      background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
+      border-radius: 14px;
+      padding: 16px 18px;
+      color: #fff;
+      margin: 12px 0;
+      font-size: 0.97rem;
+      font-weight: 700;
+      line-height: 1.7;
+    }
+
+    .highlight-box .hb-title {
+      font-size: 1rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    /* Warn box */
+    .warn-box {
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      border-left: 4px solid #f59e0b;
+      border-radius: 0 10px 10px 0;
+      padding: 12px 16px;
+      margin: 10px 0;
+      font-size: 0.94rem;
+      color: #78350f;
+      line-height: 1.7;
+    }
+
+    .warn-box strong { font-weight: 800; }
+
+    /* Grid for operation summary */
+    .op-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 12px 0;
+    }
+
+    @media (max-width: 480px) {
+      .op-grid { grid-template-columns: 1fr; }
+    }
+
+    .op-item {
+      background: #f5f3ff;
+      border-radius: 12px;
+      padding: 12px 14px;
+      border-top: 4px solid #a78bfa;
+    }
+
+    .op-item.pink { border-top-color: #f472b6; }
+    .op-item.blue { border-top-color: #60a5fa; }
+    .op-item.green { border-top-color: #34d399; }
+
+    .op-item .op-title {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #7c3aed;
+      margin-bottom: 6px;
+    }
+
+    .op-item.pink .op-title { color: #be185d; }
+    .op-item.blue .op-title { color: #1d4ed8; }
+    .op-item.green .op-title { color: #065f46; }
+
+    .op-item .op-rule {
+      font-size: 0.88rem;
+      color: #374151;
+      line-height: 1.6;
+    }
+
+    .back-btn {
+      display: block;
+      text-align: center;
+      background: linear-gradient(135deg, #7c3aed, #f472b6);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 14px;
+      padding: 14px 24px;
+      font-size: 1rem;
+      font-weight: 800;
+      margin: 28px 0 16px;
+      box-shadow: 0 4px 16px rgba(124, 58, 237, 0.25);
+      transition: opacity 0.2s;
+    }
+
+    .back-btn:hover { opacity: 0.85; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>➗ 分数の計算 まとめ</h1>
+    <p class="subtitle">足し算・引き算・かけ算・割り算・変換をマスターしよう！</p>
+
+    <!-- 4演算まとめ -->
+    <div class="card">
+      <h2><span class="section-emoji">📝</span>4つの計算のルール まとめ</h2>
+      <div class="op-grid">
+        <div class="op-item">
+          <div class="op-title">➕ 足し算・引き算</div>
+          <div class="op-rule">通分して分母をそろえてから計算する</div>
+        </div>
+        <div class="op-item pink">
+          <div class="op-title">✖️ かけ算</div>
+          <div class="op-rule">分子同士・分母同士をそれぞれかける</div>
+        </div>
+        <div class="op-item blue">
+          <div class="op-title">➗ 割り算</div>
+          <div class="op-rule">わる数を逆数にしてかけ算にする</div>
+        </div>
+        <div class="op-item green">
+          <div class="op-title">🔄 帯分数</div>
+          <div class="op-rule">仮分数に直してから計算する</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 足し算・引き算 -->
+    <div class="card">
+      <h2><span class="section-emoji">➕</span>足し算・引き算（通分）</h2>
+
+      <div class="rule-box">
+        <strong>通分</strong> とは → 分母をそろえること<br>
+        最小公倍数を使って分母をそろえる
+      </div>
+
+      <div class="step-card">
+        <div class="ex-label">ステップ解説 ▶ 1/2 + 1/3</div>
+        <div class="problem">1/2 + 1/3 = ？</div>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <span>2と3の最小公倍数 → <strong>6</strong></span>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <span>1/2 = 3/6、　1/3 = 2/6</span>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <span>3/6 + 2/6 = <span class="ans">5/6</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="formula-box">
+        <div class="formula-row">
+          <span class="badge purple">例1</span>
+          <span>1/4 + 1/6 → 通分（12）→ 3/12 + 2/12 = <strong>5/12</strong></span>
+        </div>
+        <div class="formula-row">
+          <span class="badge pink">例2</span>
+          <span>3/4 − 1/6 → 通分（12）→ 9/12 − 2/12 = <strong>7/12</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- かけ算 -->
+    <div class="card">
+      <h2><span class="section-emoji">✖️</span>かけ算</h2>
+
+      <div class="rule-box pink">
+        <strong>分子同士 × 分子同士、分母同士 × 分母同士</strong><br>
+        先に約分できる場合は先に約分すると楽！
+      </div>
+
+      <div class="step-card">
+        <div class="ex-label">ステップ解説 ▶ 2/3 × 3/4</div>
+        <div class="problem">2/3 × 3/4 = ？</div>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num pink">1</div>
+            <span>先に約分：2と4（÷2）、3と3（÷3）</span>
+          </div>
+          <div class="step">
+            <div class="step-num pink">2</div>
+            <span>約分後：1/1 × 1/2</span>
+          </div>
+          <div class="step">
+            <div class="step-num pink">3</div>
+            <span>答え：<span class="ans">1/2</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="formula-box">
+        <div class="formula-row">
+          <span class="badge purple">確認</span>
+          <span>2/3 × 3/4 = (2×3)/(3×4) = 6/12 = <strong>1/2</strong>（約分で同じ答え）</span>
+        </div>
+      </div>
+
+      <div class="rule-box">
+        💡 <strong>先に約分のコツ</strong>：斜めに約分できる（分子と分母を交差させてチェック）
+      </div>
+    </div>
+
+    <!-- 割り算 -->
+    <div class="card">
+      <h2><span class="section-emoji">➗</span>割り算（逆数にしてかける）</h2>
+
+      <div class="rule-box blue">
+        <strong>わる数（右の分数）を逆数にしてかけ算にする</strong><br>
+        逆数 = 分子と分母をひっくり返した数<br>
+        例：4/5 の逆数 = <strong>5/4</strong>
+      </div>
+
+      <div class="step-card">
+        <div class="ex-label">ステップ解説 ▶ 2/3 ÷ 4/5</div>
+        <div class="problem">2/3 ÷ 4/5 = ？</div>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num blue">1</div>
+            <span>わる数 4/5 を逆数にする → <strong>5/4</strong></span>
+          </div>
+          <div class="step">
+            <div class="step-num blue">2</div>
+            <span>かけ算に変える：2/3 × 5/4</span>
+          </div>
+          <div class="step">
+            <div class="step-num blue">3</div>
+            <span>= (2×5)/(3×4) = 10/12</span>
+          </div>
+          <div class="step">
+            <div class="step-num blue">4</div>
+            <span>約分：10/12 ÷ 2 = <span class="ans">5/6</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 帯分数 -->
+    <div class="card">
+      <h2><span class="section-emoji">🔄</span>帯分数の計算</h2>
+
+      <div class="rule-box green">
+        <strong>帯分数は仮分数に直してから計算する！</strong>
+      </div>
+
+      <div class="highlight-box">
+        <div class="hb-title">帯分数 → 仮分数の変換</div>
+        1と2/3 = (1×3+2)/3 = <strong>5/3</strong><br>
+        2と3/4 = (2×4+3)/4 = <strong>11/4</strong>
+      </div>
+
+      <div class="formula-box">
+        <div class="formula-row">
+          <span class="badge purple">公式</span>
+          <span>（整数）と（分子）/（分母） = （整数 × 分母 + 分子）/（分母）</span>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="ex-label">ステップ解説 ▶ 1と2/3 + 2と1/2</div>
+        <div class="problem">1と2/3 + 2と1/2 = ？</div>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num green">1</div>
+            <span>仮分数に変換：1と2/3 = 5/3、　2と1/2 = 5/2</span>
+          </div>
+          <div class="step">
+            <div class="step-num green">2</div>
+            <span>通分（分母6）：5/3 = 10/6、　5/2 = 15/6</span>
+          </div>
+          <div class="step">
+            <div class="step-num green">3</div>
+            <span>10/6 + 15/6 = 25/6 = <span class="ans">4と1/6</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 分数と小数の変換 -->
+    <div class="card">
+      <h2><span class="section-emoji">🔢</span>分数と小数の変換</h2>
+
+      <div class="rule-box">
+        <strong>分数 → 小数：</strong> 分子 ÷ 分母
+      </div>
+
+      <div class="formula-box">
+        <div class="formula-row">
+          <span class="badge purple">例1</span>
+          <span>1/4 = 1 ÷ 4 = <strong>0.25</strong></span>
+        </div>
+        <div class="formula-row">
+          <span class="badge pink">例2</span>
+          <span>1/3 = 1 ÷ 3 = <strong>0.333…</strong>（循環小数）</span>
+        </div>
+        <div class="formula-row">
+          <span class="badge blue">例3</span>
+          <span>3/4 = 3 ÷ 4 = <strong>0.75</strong></span>
+        </div>
+      </div>
+
+      <div class="warn-box">
+        <strong>循環小数に注意！</strong><br>
+        1/3、1/6、1/7、1/9 などは割り切れない小数になる。<br>
+        問題によっては「分数のまま答える」ことも多い。
+      </div>
+
+      <h3 style="font-size:0.95rem; color:#7c3aed; font-weight:800; margin: 14px 0 8px;">よく出る 分数・小数 対応表</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>分数</th>
+            <th>小数</th>
+            <th>覚え方のヒント</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="frac-col">1/2</td>
+            <td class="dec-col">0.5</td>
+            <td>半分</td>
+          </tr>
+          <tr>
+            <td class="frac-col">1/4</td>
+            <td class="dec-col">0.25</td>
+            <td>1/2 の半分</td>
+          </tr>
+          <tr>
+            <td class="frac-col">3/4</td>
+            <td class="dec-col">0.75</td>
+            <td>0.25 × 3</td>
+          </tr>
+          <tr>
+            <td class="frac-col">1/5</td>
+            <td class="dec-col">0.2</td>
+            <td>100÷5=20 → 0.2</td>
+          </tr>
+          <tr>
+            <td class="frac-col">2/5</td>
+            <td class="dec-col">0.4</td>
+            <td>0.2 × 2</td>
+          </tr>
+          <tr>
+            <td class="frac-col">1/8</td>
+            <td class="dec-col">0.125</td>
+            <td>0.25 ÷ 2</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 約分のコツ -->
+    <div class="card">
+      <h2><span class="section-emoji">✂️</span>約分のコツ</h2>
+
+      <div class="rule-box">
+        <strong>分子と分母を、最大公約数（GCD）で割る</strong><br>
+        最大公約数 = 両方で割り切れる最大の数
+      </div>
+
+      <div class="step-card">
+        <div class="ex-label">例 ▶ 12/18 を約分する</div>
+        <div class="problem">12/18 を約分せよ</div>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <span>12 の約数：1, 2, 3, 4, <strong>6</strong>, 12</span>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <span>18 の約数：1, 2, 3, <strong>6</strong>, 9, 18</span>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <span>最大公約数 = <strong>6</strong></span>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <span>12÷6 / 18÷6 = <span class="ans">2/3</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="formula-box">
+        <div class="formula-row">
+          <span class="badge green">コツ</span>
+          <span>2で割る → 3で割る → 5で割る … と順番に試すと見つけやすい</span>
+        </div>
+      </div>
+    </div>
+
+    <a href="/" class="back-btn">🏠 トップにもどる</a>
+  </div>
+</body>
+</html>

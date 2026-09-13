@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>あたたかい地域のくらし（沖縄）一問一答</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+  background: linear-gradient(135deg, #e0f7fa 0%, #e8f5e9 50%, #fff9e6 100%);
+  min-height: 100vh;
+  padding: 12px 12px 80px;
+  color: #1a3a3a;
+}
+
+/* ヘッダー */
+.page-header {
+  text-align: center;
+  padding: 16px 12px 12px;
+  margin-bottom: 16px;
+}
+.page-header h1 {
+  font-size: 18px;
+  font-weight: 900;
+  background: linear-gradient(135deg, #00b4d8, #06d6a0, #ffd166);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+.page-header p { font-size: 12px; color: #00897b; }
+
+/* プログレスバー */
+.progress-wrap {
+  background: rgba(255,255,255,0.8);
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  box-shadow: 0 2px 8px rgba(0,180,216,0.1);
+}
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 700;
+  color: #00897b;
+  margin-bottom: 6px;
+}
+.progress-bar-bg {
+  height: 8px;
+  background: #e0f7fa;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #00b4d8, #06d6a0);
+  border-radius: 10px;
+  transition: width 0.4s;
+}
+.score-display {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.score-correct { color: #06d6a0; }
+.score-wrong   { color: #ef476f; }
+.score-skip    { color: #aaa; }
+
+/* カード */
+.card-wrap {
+  perspective: 1000px;
+  margin-bottom: 14px;
+  cursor: pointer;
+}
+.card-inner {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.45s;
+  border-radius: 20px;
+  min-height: 160px;
+}
+.card-inner.flipped { transform: rotateY(180deg); }
+
+.card-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 20px;
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.card-front {
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0 6px 24px rgba(0,180,216,0.18);
+  border-left: 5px solid #00b4d8;
+}
+.card-back {
+  background: linear-gradient(135deg, #00b4d8, #06d6a0);
+  color: #fff;
+  transform: rotateY(180deg);
+  box-shadow: 0 6px 24px rgba(6,214,160,0.25);
+}
+
+.card-num {
+  font-size: 10px;
+  font-weight: 700;
+  color: #aaa;
+  margin-bottom: 6px;
+}
+.card-back .card-num { color: rgba(255,255,255,0.7); }
+
+.card-question {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.6;
+  color: #1a3a3a;
+  flex: 1;
+}
+.card-hint {
+  font-size: 10px;
+  color: #aaa;
+  margin-top: 10px;
+  text-align: right;
+}
+
+.card-answer-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.75);
+  margin-bottom: 6px;
+}
+.card-answer {
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 1.4;
+}
+.card-answer-sub {
+  font-size: 11px;
+  color: rgba(255,255,255,0.85);
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
+/* 選択肢カード */
+.card-front.choice { border-left-color: #ffd166; }
+.choices-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 10px;
+}
+.choice-btn {
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 2px solid #e0e0e0;
+  background: #f9f9f9;
+  font-size: 12px;
+  font-weight: 700;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+  line-height: 1.4;
+}
+.choice-btn:active { transform: scale(0.96); }
+.choice-btn.correct { background: #06d6a0; border-color: #06d6a0; color: #fff; }
+.choice-btn.wrong   { background: #ef476f; border-color: #ef476f; color: #fff; }
+.choice-btn.show-correct { background: #06d6a0; border-color: #06d6a0; color: #fff; }
+.choice-btn.disabled { pointer-events: none; }
+
+/* 評価ボタン */
+.eval-wrap {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+.eval-btn {
+  flex: 1;
+  padding: 10px;
+  border-radius: 14px;
+  border: none;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.eval-btn:active { transform: scale(0.95); }
+.eval-ok   { background: linear-gradient(135deg, #06d6a0, #00b4d8); color: #fff; }
+.eval-ng   { background: linear-gradient(135deg, #ef476f, #ff6b6b); color: #fff; }
+
+/* ナビ */
+.nav-wrap {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.nav-btn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 14px;
+  border: none;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.nav-btn:active { transform: scale(0.95); }
+.nav-prev { background: rgba(255,255,255,0.9); color: #00b4d8; border: 2px solid #00b4d8; }
+.nav-next { background: linear-gradient(135deg, #00b4d8, #06d6a0); color: #fff; }
+.nav-btn:disabled { opacity: 0.35; pointer-events: none; }
+
+/* モード切替 */
+.mode-wrap {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.mode-btn {
+  flex: 1;
+  padding: 8px;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+  background: rgba(255,255,255,0.7);
+  color: #888;
+}
+.mode-btn.active {
+  background: linear-gradient(135deg, #00b4d8, #06d6a0);
+  color: #fff;
+  border-color: transparent;
+}
+
+/* リストビュー */
+.list-item {
+  background: rgba(255,255,255,0.92);
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 8px rgba(0,180,216,0.1);
+  border-left: 4px solid #00b4d8;
+}
+.list-num { font-size: 10px; color: #aaa; font-weight: 700; margin-bottom: 4px; }
+.list-q   { font-size: 13px; font-weight: 700; color: #1a3a3a; line-height: 1.5; margin-bottom: 6px; }
+.list-a   {
+  font-size: 13px; font-weight: 900;
+  background: linear-gradient(135deg, #00b4d8, #06d6a0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.list-item.choice-item { border-left-color: #ffd166; }
+
+/* 完了画面 */
+.result-wrap {
+  background: rgba(255,255,255,0.95);
+  border-radius: 20px;
+  padding: 24px 16px;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0,180,216,0.2);
+  display: none;
+}
+.result-emoji { font-size: 60px; margin-bottom: 12px; }
+.result-title { font-size: 20px; font-weight: 900; color: #00b4d8; margin-bottom: 8px; }
+.result-score { font-size: 32px; font-weight: 900; color: #1a3a3a; margin-bottom: 16px; }
+.result-btn {
+  display: block;
+  padding: 14px;
+  background: linear-gradient(135deg, #00b4d8, #06d6a0);
+  color: #fff;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 900;
+  cursor: pointer;
+  margin-bottom: 10px;
+  border: none;
+  width: 100%;
+}
+
+/* 戻るリンク */
+.back-link {
+  display: block;
+  text-align: center;
+  padding: 14px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 14px;
+  color: #00b4d8;
+  font-size: 14px;
+  font-weight: 800;
+  text-decoration: none;
+  margin-top: 14px;
+  box-shadow: 0 2px 8px rgba(0,180,216,0.1);
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>🏝️ あたたかい地域のくらし（沖縄）<br>一問一答カラーページ</h1>
+  <p>全26問 ・ 社会 中学受験 ANRINO対策</p>
+</div>
+
+<!-- モード切替 -->
+<div class="mode-wrap" id="modeWrap">
+  <button class="mode-btn active" id="modeCard" onclick="setMode('card')">🃏 カード</button>
+  <button class="mode-btn" id="modeList" onclick="setMode('list')">📋 一覧</button>
+</div>
+
+<!-- プログレス（カードモード） -->
+<div class="progress-wrap" id="progressWrap">
+  <div class="progress-label">
+    <span id="progressText">1 / 26</span>
+    <span id="progressPct">0%</span>
+  </div>
+  <div class="progress-bar-bg"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
+  <div class="score-display">
+    <span class="score-correct">✅ <span id="cntOk">0</span>問 正解</span>
+    <span class="score-wrong">❌ <span id="cntNg">0</span>問 間違い</span>
+    <span class="score-skip">⬜ <span id="cntSkip">26</span>問 未回答</span>
+  </div>
+</div>
+
+<!-- カードビュー -->
+<div id="cardView">
+  <div class="card-wrap" id="cardWrap" onclick="flipCard()">
+    <div class="card-inner" id="cardInner">
+      <div class="card-face card-front" id="cardFront">
+        <div class="card-num" id="cardNum"></div>
+        <div class="card-question" id="cardQuestion"></div>
+        <div id="choicesContainer" class="choices-wrap" style="display:none"></div>
+        <div class="card-hint" id="cardHint">タップして答えを確認 👆</div>
+      </div>
+      <div class="card-face card-back" id="cardBack">
+        <div class="card-num" id="cardBackNum"></div>
+        <div class="card-answer-label">答え</div>
+        <div class="card-answer" id="cardAnswer"></div>
+        <div class="card-answer-sub" id="cardAnswerSub"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 記述式の評価ボタン（カード裏表示後） -->
+  <div class="eval-wrap" id="evalWrap" style="display:none">
+    <button class="eval-btn eval-ok" onclick="record(true)">✅ 正解！</button>
+    <button class="eval-btn eval-ng" onclick="record(false)">❌ 間違い</button>
+  </div>
+
+  <!-- ナビ -->
+  <div class="nav-wrap" id="navWrap">
+    <button class="nav-btn nav-prev" id="prevBtn" onclick="goCard(-1)" disabled>◀ 前へ</button>
+    <button class="nav-btn nav-next" id="nextBtn" onclick="goCard(1)">次へ ▶</button>
+  </div>
+</div>
+
+<!-- 一覧ビュー -->
+<div id="listView" style="display:none"></div>
+
+<!-- 完了画面 -->
+<div class="result-wrap" id="resultWrap">
+  <div class="result-emoji">🎉</div>
+  <div class="result-title">全問チャレンジ完了！</div>
+  <div class="result-score" id="resultScore"></div>
+  <button class="result-btn" onclick="restart()">もう一度チャレンジ</button>
+</div>
+
+<a class="back-link" href="/">← アプリに戻る</a>
+
+<script>
+const QUESTIONS = [
+  { id:1,  type:'fill', q:'沖縄県は日本のどこに位置していますか。', a:'南西端' },
+  { id:2,  type:'fill', q:'沖縄島にある沖縄県の県庁所在地はどこですか。', a:'那覇（なは）市' },
+  { id:3,  type:'choice', q:'那覇市を中心に円を描いたとき、東京よりも距離が近い国や地域はどこですか。',
+    opts:['ア：北海道・青森','イ：台湾・フィリピン','ウ：大阪・高知'], correct:'イ' },
+  { id:4,  type:'choice', q:'沖縄県にはおよそいくつの島がありますか。',
+    opts:['ア：約70個','イ：約700個','ウ：約7000個'], correct:'イ' },
+  { id:5,  type:'fill', q:'沖縄県を構成する沖縄島・宮古島・石垣島・西表島などは何という諸島に含まれますか。', a:'南西諸島' },
+  { id:6,  type:'fill', q:'日本の最西端にある、天気の良い日には台湾が見えることもある島はどこですか。', a:'与那国（よなぐに）島' },
+  { id:7,  type:'fill', q:'沖縄本島のすぐ近くにある与論島から北東の島々は、何県に属していますか。', a:'鹿児島県' },
+  { id:8,  type:'fill', q:'沖縄に、かつて明治時代より前にあった国を何といいますか。', a:'琉球（りゅうきゅう）王国' },
+  { id:9,  type:'fill', q:'昭和時代の太平洋戦争において、日本で唯一の地上戦が行われたのは何県ですか。', a:'沖縄県' },
+  { id:10, type:'fill', q:'沖縄県の糸満市にある、太平洋戦争の犠牲者の名前を刻んだ石碑を何といいますか。', a:'礎（いしじ）' },
+  { id:11, type:'fill', q:'沖縄は戦後しばらくどこの国に占領されていましたか。（1972年に日本へ返還）', a:'アメリカ' },
+  { id:12, type:'choice', q:'那覇市の1月の平均気温は約何℃ですか。',
+    opts:['ア：5℃','イ：10℃','ウ：17℃'], correct:'ウ' },
+  { id:13, type:'choice', q:'沖縄（那覇市）では、平均気温が20℃以上になる月は1年のうち何ヶ月ありますか。',
+    opts:['ア：4ヶ月','イ：6ヶ月','ウ：8ヶ月'], correct:'ウ' },
+  { id:14, type:'choice', q:'沖縄県には毎年平均して、いくつの台風がやってきますか。',
+    opts:['ア：約3つ','イ：約7つ','ウ：約15つ'], correct:'イ' },
+  { id:15, type:'choice', q:'沖縄県の年間の降水量は一般的にどれくらいですか。',
+    opts:['ア：1000mm未満','イ：1500mm程度','ウ：2000mm以上'], correct:'ウ' },
+  { id:16, type:'fill', q:'沖縄の古い家で、台風の強い風から家を守るために周りを囲んでいるものは何ですか。', a:'防風林・石がき（石垣）' },
+  { id:17, type:'fill', q:'沖縄の古い家で、屋根の瓦が飛ばされないように瓦を止めている、石灰や砂などを混ぜたものを何といいますか。', a:'しっくい' },
+  { id:18, type:'fill', q:'沖縄の古い家の屋根の上によく置かれている、魔よけの焼き物を何といいますか。', a:'シーサー' },
+  { id:19, type:'choice', q:'沖縄県は雨が多いにもかかわらず水不足になりやすい。正しくないものはどれですか。',
+    opts:['ア：石灰岩の土地が多く水を保ちにくい','イ：大きな森林が少ない','ウ：川が長く水がたまりやすい','エ：川が短く雨水がすぐ海へ流れる'], correct:'ウ', cols:1 },
+  { id:20, type:'fill', q:'沖縄の家で水不足に備えるため、建物の屋根や屋上によく設置されているものは何ですか。', a:'貯水タンク' },
+  { id:21, type:'fill', q:'沖縄県で昔から栽培がさかんで、砂糖の原料となる台風に強い農作物は何ですか。', a:'さとうきび' },
+  { id:22, type:'fill', q:'沖縄でパイナップルの栽培面積が減少したあとに、かわりに栽培が増えた果物は何ですか。', a:'マンゴー' },
+  { id:23, type:'fill', q:'冬でも暖かい気候を利用して電灯で日照時間を調整し、12月や3月に出荷する花は何ですか。', a:'菊（でんしょうぎく）', sub:'電照菊ともいう。開花時期を遅らせてお葬式・卒業式シーズンに出荷。' },
+  { id:24, type:'fill', q:'沖縄島北部の森林（山原）にしか生息していない、飛べない鳥の名前は何ですか。', a:'ヤンバルクイナ' },
+  { id:25, type:'fill', q:'沖縄県の西表島にしか生息していない、国の特別天然記念物である野生のネコは何ですか。', a:'イリオモテヤマネコ' },
+  { id:26, type:'fill', q:'琉球王国の都の城跡で、守礼門などが世界文化遺産に登録されており、2019年に火災で焼け落ちてしまったお城は何ですか。', a:'首里城（しゅりじょう）', sub:'守礼門がシンボル。現在再建中。' },
+];
+
+let current = 0;
+let flipped = false;
+let results = new Array(QUESTIONS.length).fill(null); // null=未, true=正, false=誤
+let mode = 'card';
+let choiceAnswered = false;
+
+function setMode(m) {
+  mode = m;
+  document.getElementById('modeCard').classList.toggle('active', m==='card');
+  document.getElementById('modeList').classList.toggle('active', m==='list');
+  document.getElementById('cardView').style.display = m==='card' ? 'block' : 'none';
+  document.getElementById('progressWrap').style.display = m==='card' ? 'block' : 'none';
+  document.getElementById('listView').style.display = m==='list' ? 'block' : 'none';
+  document.getElementById('resultWrap').style.display = 'none';
+  if (m==='list') renderList();
+}
+
+function renderList() {
+  const el = document.getElementById('listView');
+  el.innerHTML = QUESTIONS.map(q => {
+    const isChoice = q.type === 'choice';
+    const answerText = isChoice
+      ? q.opts.find(o => o.startsWith(q.correct)) || q.correct
+      : q.a;
+    return `
+      <div class="list-item${isChoice ? ' choice-item' : ''}">
+        <div class="list-num">問${q.id}</div>
+        <div class="list-q">${q.q}</div>
+        ${isChoice ? `<div style="font-size:11px;color:#888;margin-bottom:4px">${q.opts.join('　')}</div>` : ''}
+        <div class="list-a">▶ ${answerText}${q.sub ? `　<span style="font-size:11px;font-weight:400;color:#555">${q.sub}</span>` : ''}</div>
+      </div>`;
+  }).join('');
+}
+
+function renderCard() {
+  const q = QUESTIONS[current];
+  flipped = false;
+  choiceAnswered = false;
+  const inner = document.getElementById('cardInner');
+  inner.classList.remove('flipped');
+
+  // フロント
+  document.getElementById('cardNum').textContent = `問${q.id} / 全${QUESTIONS.length}問`;
+  document.getElementById('cardQuestion').textContent = q.q;
+
+  const choicesEl = document.getElementById('choicesContainer');
+  const hintEl = document.getElementById('cardHint');
+  const cardFront = document.getElementById('cardFront');
+
+  if (q.type === 'choice') {
+    cardFront.className = 'card-face card-front choice';
+    const cols = q.cols === 1 ? '1fr' : '1fr 1fr';
+    choicesEl.style.gridTemplateColumns = cols;
+    choicesEl.style.display = 'grid';
+    choicesEl.innerHTML = q.opts.map(o =>
+      `<button class="choice-btn" onclick="event.stopPropagation();selectChoice('${o.charAt(0)}',this)">${o}</button>`
+    ).join('');
+    hintEl.textContent = '選択肢をタップ 👆';
+    document.getElementById('evalWrap').style.display = 'none';
+    document.getElementById('cardWrap').style.pointerEvents = 'none';
+  } else {
+    cardFront.className = 'card-face card-front';
+    choicesEl.style.display = 'none';
+    choicesEl.innerHTML = '';
+    hintEl.textContent = 'タップして答えを確認 👆';
+    document.getElementById('evalWrap').style.display = 'none';
+    document.getElementById('cardWrap').style.pointerEvents = '';
+  }
+
+  // バック
+  document.getElementById('cardBackNum').textContent = `問${q.id}の答え`;
+  if (q.type === 'choice') {
+    const correctOpt = q.opts.find(o => o.startsWith(q.correct)) || q.correct;
+    document.getElementById('cardAnswer').textContent = correctOpt;
+    document.getElementById('cardAnswerSub').textContent = '';
+  } else {
+    document.getElementById('cardAnswer').textContent = q.a;
+    document.getElementById('cardAnswerSub').textContent = q.sub || '';
+  }
+
+  // ナビ
+  document.getElementById('prevBtn').disabled = current === 0;
+  document.getElementById('nextBtn').textContent = current === QUESTIONS.length - 1 ? '完了 🎊' : '次へ ▶';
+
+  updateProgress();
+}
+
+function selectChoice(chosen, btnEl) {
+  if (choiceAnswered) return;
+  choiceAnswered = true;
+  const q = QUESTIONS[current];
+  const correct = q.correct;
+  const btns = document.querySelectorAll('.choice-btn');
+  btns.forEach(b => {
+    b.classList.add('disabled');
+    if (b.textContent.charAt(0) === correct) b.classList.add('show-correct');
+  });
+  const isOk = chosen === correct;
+  btnEl.classList.add(isOk ? 'correct' : 'wrong');
+  results[current] = isOk;
+  updateProgress();
+
+  // 少し待ってからカードをフリップ
+  setTimeout(() => {
+    document.getElementById('cardInner').classList.add('flipped');
+    flipped = true;
+    document.getElementById('cardWrap').style.pointerEvents = 'none';
+  }, 800);
+}
+
+function flipCard() {
+  const q = QUESTIONS[current];
+  if (q.type === 'choice') return;
+  if (flipped) return;
+  document.getElementById('cardInner').classList.add('flipped');
+  flipped = true;
+  document.getElementById('evalWrap').style.display = 'flex';
+}
+
+function record(ok) {
+  results[current] = ok;
+  updateProgress();
+  goCard(1);
+}
+
+function goCard(dir) {
+  const next = current + dir;
+  if (next < 0) return;
+  if (next >= QUESTIONS.length) {
+    showResult();
+    return;
+  }
+  current = next;
+  renderCard();
+}
+
+function updateProgress() {
+  const total = QUESTIONS.length;
+  const answered = results.filter(r => r !== null).length;
+  const ok = results.filter(r => r === true).length;
+  const ng = results.filter(r => r === false).length;
+  const skip = total - answered;
+  const pct = Math.round(answered / total * 100);
+
+  document.getElementById('progressText').textContent = `${current + 1} / ${total}`;
+  document.getElementById('progressPct').textContent = `${pct}%`;
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('cntOk').textContent = ok;
+  document.getElementById('cntNg').textContent = ng;
+  document.getElementById('cntSkip').textContent = skip;
+
+  // localStorage に保存
+  try {
+    const key = 'ena_stats_202606';
+    const s = JSON.parse(localStorage.getItem(key) || '{}');
+    const prev = s['okinawa_color'] || { correct: 0, total: 0 };
+    s['okinawa_color'] = { correct: ok, total: answered };
+    localStorage.setItem(key, JSON.stringify(s));
+  } catch(e) {}
+}
+
+function showResult() {
+  document.getElementById('cardView').style.display = 'none';
+  document.getElementById('progressWrap').style.display = 'none';
+  const ok = results.filter(r => r === true).length;
+  const total = QUESTIONS.length;
+  const el = document.getElementById('resultWrap');
+  el.style.display = 'block';
+  document.getElementById('resultScore').textContent = `${ok} / ${total} 問正解！`;
+}
+
+function restart() {
+  results = new Array(QUESTIONS.length).fill(null);
+  current = 0;
+  document.getElementById('resultWrap').style.display = 'none';
+  document.getElementById('cardView').style.display = 'block';
+  document.getElementById('progressWrap').style.display = 'block';
+  renderCard();
+}
+
+// 初期化
+renderCard();
+</script>
+</body>
+</html>

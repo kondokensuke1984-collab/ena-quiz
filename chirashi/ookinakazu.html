@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>おおきなかずの しくみ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Yusei+Magic&family=Zen+Maru+Gothic:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap">
+<style>
+  :root{
+    --paper:#FFFFFF;
+    --ink:#17232E;
+    --ink-soft:#4E606E;
+    --rule:#CDD8D2;
+
+    --gr:#17624A;
+    --gr-deep:#0E4632;
+    --gr-soft:#E4F0EA;
+    --gr-line:#A8CDBB;
+
+    --yellow:#FFD24A;
+    --yellow-soft:#FFF6DC;
+    --slate:#5A6B78;
+
+    --backdrop:#DDE3E8;
+    --backdrop-ink:#4E606E;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){ --backdrop:#161C22; --backdrop-ink:#8FA3B2; }
+  }
+  :root[data-theme="dark"]{ --backdrop:#161C22; --backdrop-ink:#8FA3B2; }
+
+  body{
+    background:var(--backdrop); color:var(--ink);
+    font-family:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;
+    display:flex; flex-direction:column; align-items:center;
+    padding:16px 12px 40px;
+  }
+  p{ margin:0; }
+  .hint{
+    color:var(--backdrop-ink); font-size:12px; letter-spacing:.06em;
+    margin:0 0 12px; text-align:center; line-height:1.7;
+  }
+
+  /* ───────── A4 sheet ───────── */
+  .sheet{
+    width:210mm; height:297mm; background:var(--paper);
+    padding:8.5mm 10mm; box-sizing:border-box;
+    display:flex; flex-direction:column; gap:3mm;
+    box-shadow:0 6px 28px rgba(0,0,0,.22);
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+
+  /* ───────── header ───────── */
+  .head{
+    display:flex; align-items:flex-end; justify-content:space-between;
+    gap:6mm; border-bottom:1.2mm solid var(--gr); padding-bottom:1.8mm;
+  }
+  .head h1{
+    margin:0; font-family:"Yusei Magic","Zen Maru Gothic",sans-serif;
+    font-size:13mm; line-height:1; color:var(--gr);
+  }
+  .head h1 .kanji{
+    font-family:"Zen Maru Gothic",sans-serif; font-size:6.4mm;
+    color:var(--ink-soft); padding-left:2.5mm; letter-spacing:.04em;
+  }
+  .head .lede{
+    text-align:right; flex:0 0 auto;
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:700;
+    font-size:3.2mm; line-height:1.5; color:var(--ink-soft);
+  }
+  .head .lede .nums{
+    display:block; font-size:6mm; color:var(--ink);
+    font-variant-numeric:tabular-nums;
+  }
+
+  /* ───────── steps ───────── */
+  .steps{ display:flex; flex-direction:column; gap:2.6mm; flex:1; min-height:0; justify-content:space-between; }
+  .step{ display:flex; flex-direction:column; gap:1.9mm; }
+  .step > header{ display:flex; align-items:center; gap:2.8mm; }
+  .step .no{
+    flex:0 0 auto; width:9mm; height:9mm; border-radius:50%;
+    background:var(--gr); color:#fff;
+    font-family:"Yusei Magic",sans-serif; font-size:5.6mm;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .step h2{
+    margin:0; font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:6.2mm; line-height:1.15; color:var(--gr-deep);
+  }
+  .step h2 rt{ font-size:.3em; font-weight:700; letter-spacing:.04em; }
+  .step h2 small{
+    font-family:"Zen Kaku Gothic New",sans-serif; font-weight:700;
+    font-size:3.5mm; color:var(--ink); padding-left:2mm;
+  }
+  .body{ padding-left:11.8mm; display:flex; flex-direction:column; gap:1.8mm; }
+
+  .def{
+    border-left:1.4mm solid var(--gr); background:var(--gr-soft);
+    border-radius:0 1.4mm 1.4mm 0; padding:1.8mm 3mm;
+    font-size:3.6mm; line-height:1.55; text-wrap:pretty;
+  }
+  .def b{ font-weight:900; color:var(--gr-deep); }
+
+  /* ───────── 位取り表 ───────── */
+  .kuraidori{ display:grid; grid-template-columns:18mm repeat(16,1fr); }
+  .kuraidori > *{ text-align:center; font-variant-numeric:tabular-nums; }
+  .kuraidori .rh{
+    text-align:right; padding-right:2.2mm; font-size:3.1mm; font-weight:700;
+    color:var(--ink-soft); white-space:nowrap;
+    display:flex; align-items:center; justify-content:flex-end;
+  }
+  .kuraidori .gh{
+    grid-column:span 4; background:var(--gr); color:#fff;
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900; font-size:4.2mm;
+    padding:1.1mm 0; border-radius:1mm; margin:0 .5mm 1mm; letter-spacing:.14em;
+  }
+  .kuraidori .gh.dim{ background:var(--gr-line); color:var(--gr-deep); }
+  .kuraidori .nm{
+    font-size:3.1mm; color:var(--ink-soft); font-weight:700;
+    padding:1.2mm 0; border-bottom:.35mm solid var(--gr-line);
+  }
+  .kuraidori .dg{
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:6.6mm; color:var(--ink); padding:2.1mm 0;
+  }
+  .kuraidori .gs{ border-left:.6mm solid var(--gr); }
+  .kuraidori .dg.hl{ background:var(--yellow-soft); }
+
+  .readout{ display:flex; align-items:baseline; gap:3mm; flex-wrap:wrap; }
+  .readout .lb{
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:3.2mm; color:var(--ink-soft);
+  }
+  .readout .kan{
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:6mm; color:var(--gr-deep);
+  }
+  .readout .kana{ font-size:3.2mm; color:var(--ink-soft); }
+  .real{ font-size:3.1mm; line-height:1.5; color:var(--ink-soft); }
+  .real b{ color:var(--gr-deep); font-weight:900; }
+
+  /* ───────── ずらしの表 ───────── */
+  .shift{ display:grid; grid-template-columns:18mm repeat(16,1fr); align-items:center; }
+  .shift > *{ text-align:center; font-variant-numeric:tabular-nums; }
+  .shift .nm{
+    font-size:2.7mm; color:var(--ink-soft); font-weight:700;
+    padding:.7mm 0; border-bottom:.35mm solid var(--gr-line);
+  }
+  .shift .rh{
+    text-align:right; padding-right:2.2mm; font-size:3.5mm;
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    color:var(--gr-deep); white-space:nowrap;
+  }
+  .shift .rh.mid{ color:var(--ink); }
+  .shift .dg{
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:5.6mm; color:var(--ink); padding:1.7mm 0;
+  }
+  .shift .gs{ border-left:.5mm solid var(--gr-line); }
+  .shift .mid .dg, .shift .dg.hl{ background:var(--yellow-soft); }
+  .shift .val{
+    grid-column:span 4; text-align:left; padding-left:2.4mm;
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:3.4mm; color:var(--gr);
+  }
+  .shiftcap{ font-size:3.3mm; line-height:1.5; }
+  .shiftcap b{ font-weight:900; color:var(--gr-deep); }
+  .shiftcap .ar{ color:var(--gr); font-weight:900; }
+
+  /* ───────── bottom two boxes ───────── */
+  .bottom{ display:grid; grid-template-columns:1fr 1.04fr; gap:3.6mm; }
+  .box{
+    border:.5mm solid var(--rule); border-radius:1.8mm; padding:2.4mm 3mm;
+    display:flex; flex-direction:column; gap:1.8mm;
+  }
+  .box h3{
+    margin:0; display:flex; align-items:center; gap:2.4mm;
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900; font-size:4.4mm;
+    color:var(--gr-deep);
+  }
+  .box h3 .no{
+    flex:0 0 auto; width:6.4mm; height:6.4mm; border-radius:50%;
+    background:var(--gr); color:#fff;
+    font-family:"Yusei Magic",sans-serif; font-size:4mm;
+    display:flex; align-items:center; justify-content:center;
+  }
+
+  .ruleline{ display:flex; gap:2.4mm; }
+  .rulecard{
+    flex:1; border-radius:1.4mm; padding:1.6mm 2mm; text-align:center;
+    font-size:3mm; line-height:1.35;
+  }
+  .rulecard.cut{ background:var(--gr-soft); }
+  .rulecard.up{ background:var(--yellow-soft); }
+  .rulecard b{
+    display:block; font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:4.4mm; color:var(--gr-deep); letter-spacing:.06em;
+  }
+  .rulecard.up b{ color:#9A6B00; }
+
+  .ex{ display:flex; flex-direction:column; gap:1mm; }
+  .ex .q{
+    font-size:3.1mm; font-weight:700; color:var(--ink-soft);
+  }
+  .ex .a{
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900; font-size:4mm;
+    color:var(--ink); font-variant-numeric:tabular-nums; line-height:1.35;
+  }
+  .ex .a u{ text-decoration:none; color:var(--gr); }
+  .ex .a mark{ background:var(--yellow-soft); color:#9A6B00; padding:0 .6mm; }
+  .ex .a .res{ color:var(--gr-deep); }
+
+  .calc{ display:flex; flex-direction:column; gap:1.4mm; }
+  .calcrow{
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:3.8mm; line-height:1.4; font-variant-numeric:tabular-nums;
+  }
+  .calcrow .step2{
+    display:block; font-family:"Zen Kaku Gothic New",sans-serif;
+    font-weight:700; font-size:3mm; color:var(--ink-soft);
+  }
+  .calcrow .z{ color:var(--gr); }
+  .calcrow .res{ color:var(--gr-deep); }
+
+  .note{ font-size:3.1mm; line-height:1.45; color:var(--ink-soft); text-wrap:pretty; }
+  .note b{ color:var(--gr-deep); font-weight:900; }
+
+  /* ───────── おぼえておく ───────── */
+  .memo{
+    border-top:.8mm solid var(--gr); padding-top:2.2mm;
+    display:grid; grid-template-columns:25mm 1fr 1fr; gap:1.8mm 4mm; align-items:start;
+  }
+  .memo .lbl{
+    grid-row:span 2; font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:3.7mm; color:var(--gr); line-height:1.25; white-space:nowrap;
+  }
+  .memo p{
+    font-size:3.2mm; line-height:1.45; padding-left:5.2mm;
+    position:relative; text-wrap:pretty;
+  }
+  .memo p::before{
+    content:"\2713"; position:absolute; left:0; top:-.2mm; color:var(--gr);
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900; font-size:3.8mm;
+  }
+  .memo b{ font-weight:900; color:var(--gr-deep); }
+
+  /* ───────── print ───────── */
+  @page{ size:210mm 297mm; margin:0; }
+  @media print{
+    html,body{
+      margin:0; padding:0; width:210mm; background:#fff;
+      display:block; -webkit-print-color-adjust:exact; print-color-adjust:exact;
+    }
+    .hint{ display:none; }
+    .sheet{
+      box-shadow:none; margin:0; width:210mm; height:296.8mm;
+      transform:none; overflow:hidden;
+      break-inside:avoid; break-after:avoid; page-break-after:avoid;
+    }
+  }
+  @media screen and (max-width:860px){
+    .sheet{ transform-origin:top center; transform:scale(.46); margin-bottom:-160mm; }
+  }
+</style>
+</head>
+<body>
+
+
+<p class="hint">A4たて・倍率100%（余白「なし」〜「せまい」）で印刷してください。<br>⌘P / Ctrl+P → 用紙 A4 → 背景のグラフィックを印刷 ON</p>
+
+<div class="sheet">
+
+  <header class="head">
+    <h1>おおきなかず<span class="kanji">大きな数</span></h1>
+    <p class="lede">この1枚は ぜんぶ この数<span class="nums">3億6500万</span></p>
+  </header>
+
+  <div class="steps">
+
+    <!-- ══ STEP 1 ══ -->
+    <section class="step">
+      <header>
+        <span class="no">1</span>
+        <h2><ruby>位取り<rt>くらいどり</rt></ruby><small>右から4けたずつ 区切る</small></h2>
+      </header>
+      <div class="body">
+        <p class="def">大きな数は <b>右から4けたずつ</b> かたまりに分ける。かたまりの区切りに <b>万・億・兆</b> がつく。かたまりの中は いつも <b>千・百・十・一</b> のくり返し。</p>
+
+        <div class="kuraidori">
+          <span class="rh"></span>
+          <span class="gh dim">兆</span><span class="gh">億</span><span class="gh">万</span><span class="gh">一</span>
+
+          <span class="rh">位の名前</span>
+          <span class="nm gs">千兆</span><span class="nm">百兆</span><span class="nm">十兆</span><span class="nm">兆</span>
+          <span class="nm gs">千億</span><span class="nm">百億</span><span class="nm">十億</span><span class="nm">億</span>
+          <span class="nm gs">千万</span><span class="nm">百万</span><span class="nm">十万</span><span class="nm">万</span>
+          <span class="nm gs">千</span><span class="nm">百</span><span class="nm">十</span><span class="nm">一</span>
+
+          <span class="rh">3億6500万</span>
+          <span class="dg gs"></span><span class="dg"></span><span class="dg"></span><span class="dg"></span>
+          <span class="dg gs"></span><span class="dg"></span><span class="dg"></span><span class="dg hl">3</span>
+          <span class="dg gs hl">6</span><span class="dg hl">5</span><span class="dg hl">0</span><span class="dg hl">0</span>
+          <span class="dg gs hl">0</span><span class="dg hl">0</span><span class="dg hl">0</span><span class="dg hl">0</span>
+        </div>
+
+        <p class="readout">
+          <span class="lb">読み方 ▸</span>
+          <span class="kan">三億 六千五百万</span>
+          <span class="kana">さんおく ろくせんごひゃくまん　／　0 は読まない</span>
+        </p>
+        <p class="real">身のまわりの大きな数 ▸ 日本の人口 約 <b>1億2500万</b> 人。　国の1年の予算 約 <b>115兆</b> 円。</p>
+      </div>
+    </section>
+
+    <!-- ══ STEP 2 ══ -->
+    <section class="step">
+      <header>
+        <span class="no">2</span>
+        <h2>10倍・100倍 と <span style="font-size:.8em">1/10・1/100</span></h2>
+      </header>
+      <div class="body">
+        <div class="shift">
+          <span class="rh"></span>
+          <span class="nm gs">千兆</span><span class="nm">百兆</span><span class="nm">十兆</span><span class="nm">兆</span>
+          <span class="nm gs">千億</span><span class="nm">百億</span><span class="nm">十億</span><span class="nm">億</span>
+          <span class="nm gs">千万</span><span class="nm">百万</span><span class="nm">十万</span><span class="nm">万</span>
+          <span class="nm gs">千</span><span class="nm">百</span><span class="nm">十</span><span class="nm">一</span>
+
+          <span class="rh">100倍</span>
+          <span class="dg gs"></span><span class="dg"></span><span class="dg"></span><span class="dg"></span>
+          <span class="dg gs"></span><span class="dg">3</span><span class="dg">6</span><span class="dg">5</span>
+          <span class="dg gs">0</span><span class="dg">0</span><span class="dg">0</span><span class="dg">0</span>
+          <span class="dg gs">0</span><span class="dg">0</span><span class="dg">0</span><span class="dg">0</span>
+
+          <span class="rh">10倍</span>
+          <span class="dg gs"></span><span class="dg"></span><span class="dg"></span><span class="dg"></span>
+          <span class="dg gs"></span><span class="dg"></span><span class="dg">3</span><span class="dg">6</span>
+          <span class="dg gs">5</span><span class="dg">0</span><span class="dg">0</span><span class="dg">0</span>
+          <span class="dg gs">0</span><span class="dg">0</span><span class="dg">0</span><span class="dg">0</span>
+
+          <span class="rh mid">もとの数</span>
+          <span class="dg gs"></span><span class="dg"></span><span class="dg"></span><span class="dg"></span>
+          <span class="dg gs"></span><span class="dg"></span><span class="dg"></span><span class="dg hl">3</span>
+          <span class="dg gs hl">6</span><span class="dg hl">5</span><span class="dg hl">0</span><span class="dg hl">0</span>
+          <span class="dg gs hl">0</span><span class="dg hl">0</span><span class="dg hl">0</span><span class="dg hl">0</span>
+
+          <span class="rh">1/10</span>
+          <span class="dg gs"></span><span class="dg"></span><span class="dg"></span><span class="dg"></span>
+          <span class="dg gs"></span><span class="dg"></span><span class="dg"></span><span class="dg"></span>
+          <span class="dg gs">3</span><span class="dg">6</span><span class="dg">5</span><span class="dg">0</span>
+          <span class="dg gs">0</span><span class="dg">0</span><span class="dg">0</span><span class="dg">0</span>
+
+          <span class="rh">1/100</span>
+          <span class="dg gs"></span><span class="dg"></span><span class="dg"></span><span class="dg"></span>
+          <span class="dg gs"></span><span class="dg"></span><span class="dg"></span><span class="dg"></span>
+          <span class="dg gs"></span><span class="dg">3</span><span class="dg">6</span><span class="dg">5</span>
+          <span class="dg gs">0</span><span class="dg">0</span><span class="dg">0</span><span class="dg">0</span>
+        </div>
+        <p class="shiftcap">10倍で <span class="ar">1つ左へ</span>、1/10で <span class="ar">1つ右へ</span> ずれるだけ。<b>数字の並び「3 6 5」は変わらない</b>。動くのは 位 のほう。100倍なら2つ左、1/100なら2つ右。</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- ══ bottom ══ -->
+  <div class="bottom">
+    <section class="box">
+      <h3><span class="no">3</span>がい数（四捨五入）</h3>
+      <div class="ruleline">
+        <div class="rulecard cut"><b>0 1 2 3 4</b>切り捨て（0にする）</div>
+        <div class="rulecard up"><b>5 6 7 8 9</b>切り上げ（1つ上げる）</div>
+      </div>
+      <p class="note">求める位の <b>すぐ下の位</b> だけを見て決める。</p>
+      <div class="ex">
+        <span class="q">上から2けたの がい数にすると</span>
+        <span class="a">3 6 <mark>5</mark> 000000 → <span class="res">3億7000万</span>　<u>5だから 切り上げ</u></span>
+      </div>
+      <div class="ex">
+        <span class="q">一億の位までの がい数にすると</span>
+        <span class="a">3 <mark>6</mark> 5000000 → <span class="res">4億</span>　<u>6だから 切り上げ</u></span>
+      </div>
+      <p class="note">四捨五入して <b>4億</b> になるのは、3億5000万 <b>以上</b>　4億5000万 <b>未満</b> の数。</p>
+    </section>
+
+    <section class="box">
+      <h3><span class="no">4</span>大きな数の かけ算・わり算</h3>
+      <p class="note">かけ算は <b>0 をいったん外して</b> 計算し、あとで <b>0 をまとめてつける</b>。</p>
+      <div class="calc">
+        <p class="calcrow">45<span class="z">000</span> × 3<span class="z">00</span> = <span class="res">1350万</span>
+          <span class="step2">45 × 3 = 135 に、0 を 3+2 = 5こ つけて 13500000</span></p>
+        <p class="calcrow">3万 × 4万 = <span class="res">12億</span>
+          <span class="step2">3 × 4 = 12 に、0 を 4+4 = 8こ つけて 1200000000</span></p>
+      </div>
+      <p class="note">わり算は <b>同じ数だけ 0 を消して</b> から計算する。</p>
+      <div class="calc">
+        <p class="calcrow">24億 ÷ 6万 = <span class="res">4万</span>
+          <span class="step2">24<span class="z">0000</span>0000 ÷ 6<span class="z">0000</span> → 0 を4こずつ消して 240000 ÷ 6</span></p>
+      </div>
+    </section>
+  </div>
+
+  <div class="memo">
+    <span class="lbl">おぼえておく</span>
+    <p>一・万・億・兆 は <b>4けたごと</b>。数字のコンマ（1,000,000）は <b>3けたごと</b>なので区切りが合わない。</p>
+    <p>1万の1万倍が <b>1億</b>、1億の1万倍が <b>1兆</b>。1億＝10000万、1兆＝10000億。</p>
+    <p>10倍・1/10 で <b>数字の並びは変わらない</b>。ずれるのは 位 だけ。</p>
+    <p>がい数は <b>およその数</b>。「約」「およそ」がついたら 四捨五入した数だと思ってよい。</p>
+  </div>
+
+</div>
+
+<style>
+@media screen and (max-width:860px){
+  body{ padding:8px 0 28px; }
+  .sheet{ transform:scale(var(--fit,.46)) !important;
+          margin-bottom:calc(-297mm * (1 - var(--fit,.46))) !important; }
+}
+</style>
+<script>
+(function(){
+  function fit(){
+    var w = Math.min(document.documentElement.clientWidth, 860);
+    document.documentElement.style.setProperty('--fit', Math.min(1,(w-10)/793.7).toFixed(4));
+  }
+  fit(); addEventListener('resize', fit); addEventListener('orientationchange', fit);
+})();
+</script>
+</body>
+</html>

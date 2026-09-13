@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>時差 まとめ</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+  background: linear-gradient(135deg, #f0e6ff 0%, #e6f0ff 50%, #ffe6f5 100%);
+  min-height: 100vh;
+  padding: 16px;
+  color: #3d2b5e;
+}
+
+/* ヘッダー */
+.page-header {
+  text-align: center;
+  padding: 20px 16px 16px;
+  margin-bottom: 20px;
+}
+.page-header h1 {
+  font-size: 24px;
+  font-weight: 900;
+  background: linear-gradient(135deg, #f472b6, #a78bfa, #60a5fa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 6px;
+}
+.page-header p { font-size: 13px; color: #a78bfa; }
+
+/* セクションタイトル */
+.section-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #3d2b5e;
+  margin: 24px 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-title::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(90deg, #a78bfa, transparent);
+  border-radius: 2px;
+}
+
+/* 基本ルールカード */
+.rule-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.rule-card {
+  background: rgba(255,255,255,0.9);
+  border-radius: 16px;
+  padding: 14px 12px;
+  box-shadow: 0 4px 16px rgba(167,139,250,0.15);
+  border-left: 4px solid var(--color);
+}
+.rule-icon { font-size: 28px; margin-bottom: 6px; }
+.rule-name {
+  font-size: 13px;
+  font-weight: 800;
+  color: #3d2b5e;
+  margin-bottom: 4px;
+}
+.rule-desc {
+  font-size: 11px;
+  color: #6b5e8a;
+  line-height: 1.5;
+}
+.rule-highlight {
+  background: rgba(167,139,250,0.1);
+  border-radius: 8px;
+  padding: 5px 8px;
+  font-size: 12px;
+  color: #7c3aed;
+  font-weight: 800;
+  margin-top: 6px;
+}
+
+/* フローカード */
+.flow-card {
+  background: rgba(255,255,255,0.9);
+  border-radius: 16px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 16px rgba(167,139,250,0.12);
+}
+.flow-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: #3d2b5e;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.flow-steps {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.flow-step {
+  background: linear-gradient(135deg, #a78bfa, #f472b6);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+.flow-step.east {
+  background: linear-gradient(135deg, #f472b6, #fb923c);
+}
+.flow-step.west {
+  background: linear-gradient(135deg, #60a5fa, #a78bfa);
+}
+.flow-arrow {
+  color: #a78bfa;
+  font-size: 16px;
+  font-weight: 900;
+}
+.flow-note {
+  font-size: 10.5px;
+  color: #9ca3af;
+  margin-top: 6px;
+  line-height: 1.5;
+}
+
+/* 公式ボックス */
+.law-box {
+  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+  border-radius: 20px;
+  padding: 20px 16px;
+  color: #fff;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(124,58,237,0.3);
+  margin-bottom: 10px;
+}
+.law-title { font-size: 15px; font-weight: 800; margin-bottom: 10px; }
+.law-main {
+  font-size: 17px;
+  font-weight: 900;
+  line-height: 1.7;
+  background: rgba(255,255,255,0.15);
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin-bottom: 10px;
+}
+.law-note { font-size: 11.5px; opacity: 0.9; line-height: 1.7; }
+
+/* テーブル */
+.device-table {
+  width: 100%;
+  background: rgba(255,255,255,0.9);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(167,139,250,0.12);
+  margin-bottom: 10px;
+}
+.device-table thead {
+  background: linear-gradient(135deg, #a78bfa, #f472b6);
+  color: #fff;
+}
+.device-table th, .device-table td {
+  padding: 10px 10px;
+  font-size: 12px;
+  text-align: left;
+  border-bottom: 1px solid rgba(167,139,250,0.1);
+}
+.device-table th { font-weight: 700; }
+.device-table tbody tr:last-child td { border-bottom: none; }
+.device-table tbody tr:nth-child(even) td { background: rgba(167,139,250,0.05); }
+.arrow-cell {
+  color: #a78bfa;
+  font-weight: 800;
+  font-size: 14px;
+  text-align: center;
+  white-space: nowrap;
+}
+.tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+}
+
+/* ポイントボックス */
+.point-box {
+  background: rgba(255,255,255,0.9);
+  border-radius: 16px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 16px rgba(167,139,250,0.12);
+  border-left: 4px solid #f472b6;
+}
+.point-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: #be185d;
+  margin-bottom: 8px;
+}
+.point-item {
+  font-size: 12px;
+  color: #3d2b5e;
+  padding: 4px 0;
+  border-bottom: 1px dashed rgba(167,139,250,0.2);
+  line-height: 1.5;
+}
+.point-item:last-child { border-bottom: none; }
+.point-item span { font-weight: 800; color: #7c3aed; }
+
+/* 警告ボックス */
+.warn-box {
+  background: rgba(255,255,255,0.9);
+  border-radius: 16px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 16px rgba(167,139,250,0.12);
+  border-left: 4px solid #fb923c;
+}
+.warn-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: #c2410c;
+  margin-bottom: 8px;
+}
+.warn-item {
+  font-size: 12px;
+  color: #3d2b5e;
+  padding: 4px 0;
+  border-bottom: 1px dashed rgba(251,146,60,0.2);
+  line-height: 1.5;
+}
+.warn-item:last-child { border-bottom: none; }
+.warn-item span { font-weight: 800; color: #c2410c; }
+
+/* 例題ボックス */
+.example-box {
+  background: linear-gradient(135deg, #1e1b4b, #312e81);
+  border-radius: 20px;
+  padding: 18px 16px;
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(30,27,75,0.3);
+  margin-bottom: 10px;
+}
+.example-title { font-size: 14px; font-weight: 800; margin-bottom: 12px; }
+.example-step {
+  background: rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 12px;
+  margin-bottom: 6px;
+  line-height: 1.6;
+}
+.example-step strong { color: #fbbf24; }
+.example-answer {
+  background: #fbbf24;
+  color: #1e1b4b;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 800;
+  text-align: center;
+  margin-top: 8px;
+}
+
+/* 日付変更線ボックス */
+.date-line-box {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.date-card {
+  background: rgba(255,255,255,0.9);
+  border-radius: 16px;
+  padding: 14px 12px;
+  box-shadow: 0 4px 16px rgba(167,139,250,0.15);
+  text-align: center;
+}
+.date-card.east-west { border-top: 4px solid #f472b6; }
+.date-card.west-east { border-top: 4px solid #60a5fa; }
+.date-card-icon { font-size: 32px; margin-bottom: 6px; }
+.date-card-title { font-size: 12px; font-weight: 800; color: #3d2b5e; margin-bottom: 4px; }
+.date-card-result {
+  font-size: 13px;
+  font-weight: 900;
+  padding: 4px 8px;
+  border-radius: 8px;
+  margin-top: 4px;
+}
+.date-card-result.back { background: rgba(244,114,182,0.15); color: #be185d; }
+.date-card-result.forward { background: rgba(96,165,250,0.15); color: #1d4ed8; }
+.date-card-note { font-size: 10px; color: #6b5e8a; margin-top: 4px; line-height: 1.4; }
+
+/* カラー定義 */
+.c-blue   { --color: #60a5fa; }
+.c-green  { --color: #34d399; }
+.c-orange { --color: #fb923c; }
+.c-red    { --color: #f87171; }
+.c-yellow { --color: #fbbf24; }
+.c-purple { --color: #a78bfa; }
+.c-pink   { --color: #f472b6; }
+.c-teal   { --color: #2dd4bf; }
+
+.bg-blue   { background: #60a5fa; }
+.bg-green  { background: #34d399; }
+.bg-orange { background: #fb923c; }
+.bg-red    { background: #f87171; }
+.bg-yellow { background: #fbbf24; }
+.bg-purple { background: #a78bfa; }
+.bg-pink   { background: #f472b6; }
+.bg-teal   { background: #2dd4bf; }
+.bg-gray   { background: #9ca3af; }
+.bg-indigo { background: #6366f1; }
+
+footer {
+  text-align: center;
+  padding: 24px 0 16px;
+  font-size: 11px;
+  color: #a78bfa;
+}
+.back-btn {
+  display: block;
+  margin: 0 auto 16px;
+  padding: 12px 28px;
+  background: linear-gradient(135deg, #a78bfa, #f472b6);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(167,139,250,0.35);
+  text-decoration: none;
+  width: fit-content;
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>🌍 時差 まとめ 🕐</h1>
+  <p>社会・地理 — 世界の時差のしくみをマスターしよう！</p>
+</div>
+
+<!-- ① 時差の基本ルール -->
+<div class="section-title">📚 時差の基本ルール</div>
+
+<div class="rule-grid">
+  <div class="rule-card c-purple">
+    <div class="rule-icon">🌏</div>
+    <div class="rule-name">地球の自転</div>
+    <div class="rule-desc">地球は1日（24時間）で360度回転する</div>
+    <div class="rule-highlight">24時間 ÷ 360度</div>
+  </div>
+
+  <div class="rule-card c-blue">
+    <div class="rule-icon">⏱️</div>
+    <div class="rule-name">15度 = 1時間</div>
+    <div class="rule-desc">経度が15度ちがうと、時差が1時間うまれる</div>
+    <div class="rule-highlight">360 ÷ 24 = 15度</div>
+  </div>
+
+  <div class="rule-card c-pink">
+    <div class="rule-icon">⏰</div>
+    <div class="rule-name">1度 = 4分</div>
+    <div class="rule-desc">経度1度の差で、時差は4分になる</div>
+    <div class="rule-highlight">60分 ÷ 15 = 4分</div>
+  </div>
+
+  <div class="rule-card c-orange">
+    <div class="rule-icon">🧭</div>
+    <div class="rule-name">東 → 時刻が進む</div>
+    <div class="rule-desc">東へ行くほど時刻が早く、西へ行くほど時刻が遅くなる</div>
+    <div class="rule-highlight">東＝早い　西＝遅い</div>
+  </div>
+</div>
+
+<!-- ② 重要な経線 -->
+<div class="section-title">📍 重要な経線 3つ</div>
+
+<div class="flow-card">
+  <div class="flow-title">🌐 世界の基準となる経線</div>
+  <div class="flow-steps">
+    <span class="flow-step west">経度0度<br>本初子午線</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step">東経135度<br>日本標準時</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step east">経度180度<br>日付変更線</span>
+  </div>
+  <div class="flow-note">
+    📌 経度0度：イギリス・ロンドンのグリニッジ天文台<br>
+    📌 東経135度：兵庫県明石市（日本の標準時子午線）<br>
+    📌 経度180度：太平洋上にある日付変更線
+  </div>
+</div>
+
+<!-- ③ 日本との時差一覧 -->
+<div class="section-title">🗺️ 日本との時差一覧</div>
+
+<table class="device-table">
+  <thead>
+    <tr>
+      <th>🌆 都市（国）</th>
+      <th>📐 標準時子午線</th>
+      <th>⏰ 日本との時差</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>🇬🇧 ロンドン（イギリス）</td>
+      <td>経度0度</td>
+      <td><span class="tag bg-blue">−9時間</span></td>
+    </tr>
+    <tr>
+      <td>🇺🇸 ニューヨーク（アメリカ）</td>
+      <td>西経75度</td>
+      <td><span class="tag bg-blue">−14時間</span></td>
+    </tr>
+    <tr>
+      <td>🇺🇸 ロサンゼルス（アメリカ）</td>
+      <td>西経120度</td>
+      <td><span class="tag bg-blue">−17時間</span></td>
+    </tr>
+    <tr>
+      <td>🌺 ホノルル（ハワイ）</td>
+      <td>西経150度</td>
+      <td><span class="tag bg-blue">−19時間</span></td>
+    </tr>
+    <tr>
+      <td>🇹🇭 タイ</td>
+      <td>東経105度</td>
+      <td><span class="tag bg-purple">−2時間</span></td>
+    </tr>
+    <tr>
+      <td>🇨🇳 中国</td>
+      <td>東経120度</td>
+      <td><span class="tag bg-purple">−1時間</span></td>
+    </tr>
+    <tr>
+      <td>🇮🇳 インド</td>
+      <td>東経82.5度</td>
+      <td><span class="tag bg-orange">−5時間30分</span></td>
+    </tr>
+    <tr>
+      <td>🇦🇺 オーストラリア（シドニー）</td>
+      <td>東経150度</td>
+      <td><span class="tag bg-green">+1時間</span></td>
+    </tr>
+    <tr>
+      <td>🇧🇷 ブラジル（リオ）</td>
+      <td>西経45度</td>
+      <td><span class="tag bg-blue">−12時間</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ④ 時差の計算方法 -->
+<div class="section-title">🔢 時差の計算方法</div>
+
+<div class="law-box">
+  <div class="law-title">📐 時差の公式</div>
+  <div class="law-main">
+    時差（時間）＝ 経度の差 ÷ 15
+  </div>
+  <div class="law-note">
+    東経と西経の差を求めるときは「足し算」！<br>
+    例：東経135度と西経75度の経度差 → 135 ＋ 75 ＝ 210度<br>
+    同じ東経どうしや西経どうしの差は「引き算」！
+  </div>
+</div>
+
+<div class="example-box">
+  <div class="example-title">📝 例題：日本（東経135度）が午前9時のとき、ニューヨーク（西経75度）は何時？</div>
+  <div class="example-step">
+    <strong>STEP 1</strong>　経度の差を計算する<br>
+    東経135度 + 西経75度 ＝ <strong>210度</strong>
+    （東経と西経は足し算！）
+  </div>
+  <div class="example-step">
+    <strong>STEP 2</strong>　時差を計算する<br>
+    210度 ÷ 15 ＝ <strong>14時間</strong>の時差
+  </div>
+  <div class="example-step">
+    <strong>STEP 3</strong>　向きを確認する<br>
+    ニューヨークは日本より<strong>西</strong>にある → 時刻が<strong>遅い（引き算）</strong>
+  </div>
+  <div class="example-step">
+    <strong>STEP 4</strong>　答えを出す<br>
+    午前9時 − 14時間 ＝ <strong>前日の午後7時（19時）</strong>
+  </div>
+  <div class="example-answer">🎯 答え：前日の午後7時（19時）</div>
+</div>
+
+<!-- ⑤ 日付変更線のルール -->
+<div class="section-title">📅 日付変更線のルール</div>
+
+<div class="flow-card">
+  <div class="flow-title">🌊 日付変更線とは？</div>
+  <div class="flow-steps">
+    <span class="flow-step">経度180度の線</span>
+  </div>
+  <div class="flow-note">太平洋の真ん中にある、日付が切り替わる特別な線。<br>まっすぐではなく、島の国々を避けて曲がっている。</div>
+</div>
+
+<div class="date-line-box">
+  <div class="date-card east-west">
+    <div class="date-card-icon">✈️</div>
+    <div class="date-card-title">西 → 東へ越える</div>
+    <div class="date-card-result back">🔙 日付が1日 戻る</div>
+    <div class="date-card-note">（同じ日をもう一度くり返す）<br>日本→ハワイ方向</div>
+  </div>
+  <div class="date-card west-east">
+    <div class="date-card-icon">✈️</div>
+    <div class="date-card-title">東 → 西へ越える</div>
+    <div class="date-card-result forward">⏩ 日付が1日 進む</div>
+    <div class="date-card-note">（1日とばす）<br>ハワイ→日本方向</div>
+  </div>
+</div>
+
+<!-- ⑥ 特殊なケース -->
+<div class="section-title">⚠️ 特殊なケース</div>
+
+<table class="device-table">
+  <thead>
+    <tr>
+      <th>🌏 国・地域</th>
+      <th>📝 特徴</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>🇨🇳 中国</td>
+      <td>広大な国なのに全土で同じ標準時（東経120度）を使用。時差は日本と−1時間。</td>
+    </tr>
+    <tr>
+      <td>🇮🇳 インド</td>
+      <td>東経82.5度を標準時子午線として使用。日本との時差が−5時間30分と<strong style="color:#7c3aed">半端</strong>になる。</td>
+    </tr>
+    <tr>
+      <td>🇷🇺 ロシア</td>
+      <td>国内に<strong style="color:#7c3aed">11の標準時</strong>がある。国が東西に非常に広いため。</td>
+    </tr>
+    <tr>
+      <td>☀️ サマータイム</td>
+      <td>主にヨーロッパ・アメリカで採用。夏に時計を<strong style="color:#7c3aed">1時間進める</strong>。日本は採用していない。</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ⑦ 間違えやすいポイント -->
+<div class="section-title">❌ 間違えやすいポイント</div>
+
+<div class="warn-box">
+  <div class="warn-title">⚡ よくある間違い・ひっかけ問題</div>
+  <div class="warn-item">❶ <span>東経と西経をまたぐとき</span>は足し算！　同じ側どうしは引き算。</div>
+  <div class="warn-item">❷ <span>日付変更線を西→東</span>で日付が「戻る」（東→西で「進む」）←方向に注意！</div>
+  <div class="warn-item">❸ <span>中国・インド</span>など、時差が整数にならない国がある（インドは30分単位）</div>
+  <div class="warn-item">❹ <span>サマータイム</span>の国は夏と冬で時差が1時間変わる</div>
+  <div class="warn-item">❺ 「東に行くほど時間が進む」→ <span>日本より東のオーストラリア（東経150度）</span>は+1時間進んでいる</div>
+</div>
+
+<!-- ⑧ テストのポイント -->
+<div class="section-title">📝 テストに出るポイント</div>
+
+<div class="point-box">
+  <div class="point-title">🎯 絶対おさえるポイント5つ</div>
+  <div class="point-item">① <span>明石市（兵庫県）</span>を通る東経135度が日本の標準時子午線</div>
+  <div class="point-item">② 時差の計算：<span>経度差 ÷ 15 = 時差（時間）</span>。東経と西経をまたぐときは足し算！</div>
+  <div class="point-item">③ <span>日付変更線（経度180度）</span>は太平洋上にあり、島を避けて曲がっている</div>
+  <div class="point-item">④ 東が「先」、西が「後」。<span>東の国ほど時刻が進んでいる</span></div>
+  <div class="point-item">⑤ <span>インドの−5時間30分</span>・<span>中国の−1時間</span>は頻出！しっかり覚えよう</div>
+</div>
+
+<div class="law-box">
+  <div class="law-title">🌟 まとめ公式チェックシート</div>
+  <div class="law-main">
+    📐 時差 ＝ 経度の差 ÷ 15<br>
+    🧭 東 ＝ 時刻が進む　／　西 ＝ 時刻が遅れる<br>
+    ✈️ 日付変更線：西→東＝1日戻る　東→西＝1日進む
+  </div>
+  <div class="law-note">
+    🏅 日本標準時子午線：東経135度（明石市）<br>
+    🏅 本初子午線：経度0度（ロンドン・グリニッジ）<br>
+    🏅 日付変更線：経度180度（太平洋上）
+  </div>
+</div>
+
+<br>
+<a href="/" class="back-btn">← アプリにもどる</a>
+
+<footer>ANRINOの問題アプリ 🌍 時差まとめ</footer>
+
+</body>
+</html>

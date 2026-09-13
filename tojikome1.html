@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>12 とじこめた空気と水 - デジタル学習教材</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@400;500&family=Yusei+Magic&family=Kosugi+Maru&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Kosugi Maru', 'Kiwi Maru', sans-serif;
+            background-color: #f0fdf4;
+        }
+        .text-title {
+            font-family: 'Yusei Magic', sans-serif;
+        }
+        .transition-all-300 {
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-12">
+
+    <!-- 戻るボタン -->
+    <div class="max-w-5xl mx-auto px-4 pt-3 pb-1">
+        <button onclick="history.back()" class="flex items-center gap-1 text-xs text-slate-500 hover:text-emerald-700 font-bold transition">
+            ← アプリに戻る
+        </button>
+    </div>
+
+    <!-- ヘッダーエリア -->
+    <header class="bg-emerald-600 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <span class="bg-yellow-400 text-emerald-900 font-bold text-lg px-3 py-1 rounded-full text-title shadow-sm">12</span>
+                <h1 class="text-xl md:text-2xl font-bold tracking-wider text-title">とじこめた空気と水</h1>
+            </div>
+            <!-- 学習モード切り替えタブ -->
+            <nav class="flex space-x-1 mt-2 sm:mt-0 w-full sm:w-auto bg-emerald-700 p-1 rounded-lg">
+                <button onclick="switchTab('theory')" id="tab-theory" class="flex-1 sm:flex-none px-4 py-1.5 rounded-md text-sm font-medium bg-white text-emerald-800 shadow">
+                    📖 要点まとめ
+                </button>
+                <button onclick="switchTab('simulator')" id="tab-simulator" class="flex-1 sm:flex-none px-4 py-1.5 rounded-md text-sm font-medium text-emerald-100 hover:text-white">
+                    🧪 実験シミュレーター
+                </button>
+                <button onclick="switchTab('toy')" id="tab-toy" class="flex-1 sm:flex-none px-4 py-1.5 rounded-md text-sm font-medium text-emerald-100 hover:text-white">
+                    🔫 空気でっぽう
+                </button>
+                <button onclick="switchTab('quiz')" id="tab-quiz" class="flex-1 sm:flex-none px-4 py-1.5 rounded-md text-sm font-medium text-emerald-100 hover:text-white">
+                    📝 たしかめクイズ
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 mt-6">
+
+        <!-- ================= TAB 1: 要点まとめ ================= -->
+        <section id="content-theory" class="space-y-6">
+            <!-- イントロカード -->
+            <div class="bg-white rounded-2xl p-6 shadow-md border-b-4 border-emerald-500">
+                <h2 class="text-2xl font-bold text-emerald-800 mb-4 flex items-center gap-2">
+                    <span>💡</span> とじこめた空気のふしぎを学ぼう！
+                </h2>
+                <p class="text-gray-700 leading-relaxed text-base">
+                    袋やペットボトルに空気をとじこめると、どんなことが起きるかな？<br>
+                    水と空気の違いに注目しながら、イラストと一緒に基本をおさえよう！
+                </p>
+            </div>
+
+            <!-- グリッドレイアウトで要点を並べる -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- ①空気をとじこめる -->
+                <div class="bg-white rounded-2xl p-6 shadow-md hover:shadow-lg transition-all duration-300">
+                    <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-1 rounded-full">テーマ 1</span>
+                    <h3 class="text-xl font-bold text-gray-800 mt-2 mb-3">① 空気をとじこめる</h3>
+                    <p class="text-gray-600 text-sm mb-4">
+                        ビニールぶくろに空気を入れて閉じ込めると、おすとへこむけど、手をはなすともとに戻るよ。
+                    </p>
+                    <!-- ペットボトルの比較イラスト -->
+                    <div class="bg-emerald-50 rounded-xl p-4 flex flex-col gap-4">
+                        <div>
+                            <span class="text-xs font-bold text-red-600">▼ ふたをしないペットボトル</span>
+                            <div class="flex items-center gap-3 mt-1 bg-white p-2 rounded-lg border border-gray-100">
+                                <svg class="w-24 h-10" viewBox="0 0 120 50">
+                                    <path d="M10,15 L90,15 L95,20 L110,20 L110,30 L95,30 L90,35 L10,35 Z" fill="none" stroke="#059669" stroke-width="2"/>
+                                    <line x1="15" y1="15" x2="15" y2="35" stroke="#a7f3d0" stroke-width="2" stroke-dasharray="2,2"/>
+                                    <line x1="45" y1="15" x2="45" y2="35" stroke="#a7f3d0" stroke-width="2" stroke-dasharray="2,2"/>
+                                    <line x1="75" y1="15" x2="75" y2="35" stroke="#a7f3d0" stroke-width="2" stroke-dasharray="2,2"/>
+                                </svg>
+                                <span class="text-emerald-800">➡</span>
+                                <svg class="w-24 h-10" viewBox="0 0 120 50">
+                                    <path d="M10,15 L35,15 C45,22 55,28 65,15 L90,15 L95,20 L110,20 L110,30 L95,30 L90,35 C75,25 65,22 45,35 L10,35 Z" fill="none" stroke="#dc2626" stroke-width="2"/>
+                                </svg>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">口から空気がにげるので、簡単につぶれる。</p>
+                        </div>
+                        <div>
+                            <span class="text-xs font-bold text-emerald-700">▼ ふたをしたペットボトル</span>
+                            <div class="flex items-center gap-3 mt-1 bg-white p-2 rounded-lg border border-gray-100">
+                                <svg class="w-24 h-10" viewBox="0 0 120 50">
+                                    <path d="M10,15 L90,15 L95,20 L110,20 L110,30 L95,30 L90,35 L10,35 Z" fill="none" stroke="#059669" stroke-width="2"/>
+                                    <rect x="108" y="18" width="5" height="14" fill="#047857" />
+                                    <circle cx="25" cy="25" r="2" fill="#34d399"/>
+                                    <circle cx="50" cy="20" r="2" fill="#34d399"/>
+                                    <circle cx="70" cy="30" r="2" fill="#34d399"/>
+                                </svg>
+                                <span class="text-emerald-800">➡</span>
+                                <svg class="w-24 h-10" viewBox="0 0 120 50">
+                                    <path d="M10,15 L90,15 L95,20 L110,20 L110,30 L95,30 L90,35 L10,35 Z" fill="none" stroke="#059669" stroke-width="2"/>
+                                    <rect x="108" y="18" width="5" height="14" fill="#047857" />
+                                    <circle cx="25" cy="25" r="2" fill="#34d399"/>
+                                    <circle cx="50" cy="20" r="2" fill="#34d399"/>
+                                    <circle cx="70" cy="30" r="2" fill="#34d399"/>
+                                    <path d="M40,5 L40,12 M40,12 L37,9 M40,12 L43,9" stroke="#dc2626" stroke-width="1.5" fill="none"/>
+                                    <path d="M40,45 L40,38 M40,38 L37,41 M40,38 L43,41" stroke="#dc2626" stroke-width="1.5" fill="none"/>
+                                </svg>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">空気が閉じ込められているので、つぶれない！</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ②空気を見る -->
+                <div class="bg-white rounded-2xl p-6 shadow-md hover:shadow-lg transition-all duration-300">
+                    <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-1 rounded-full">テーマ 2</span>
+                    <h3 class="text-xl font-bold text-gray-800 mt-2 mb-3">② 空気を見る・感じる</h3>
+                    <p class="text-gray-600 text-sm mb-3">
+                        ふだんは見えない空気だけど、水の中を使うと「あわ」として見ることができるよ！
+                    </p>
+
+                    <div class="space-y-3">
+                        <!-- コップ実験の簡単な解説イラスト -->
+                        <div class="bg-blue-50 p-3 rounded-xl border border-blue-100">
+                            <span class="text-xs font-bold text-blue-700">▼ さかさまコップ実験</span>
+                            <div class="grid grid-cols-2 gap-2 mt-2">
+                                <div class="bg-white p-2 rounded border border-blue-50 text-center">
+                                    <p class="text-xs font-semibold text-gray-700">まっすぐ沈める</p>
+                                    <svg class="w-full h-16 mx-auto mt-1" viewBox="0 0 100 60">
+                                        <rect x="10" y="25" width="80" height="30" fill="#bfdbfe" opacity="0.6"/>
+                                        <line x1="10" y1="25" x2="90" y2="25" stroke="#3b82f6" stroke-width="1"/>
+                                        <path d="M35,45 L35,15 L65,15 L65,45" fill="none" stroke="#4b5563" stroke-width="2"/>
+                                        <text x="50" y="32" font-size="8" text-anchor="middle" fill="#1e3a8a">空気のみ</text>
+                                    </svg>
+                                    <p class="text-[10px] text-gray-500 mt-1">水は入ってこない</p>
+                                </div>
+                                <div class="bg-white p-2 rounded border border-blue-50 text-center">
+                                    <p class="text-xs font-semibold text-gray-700">かたむける</p>
+                                    <svg class="w-full h-16 mx-auto mt-1" viewBox="0 0 100 60">
+                                        <rect x="10" y="25" width="80" height="30" fill="#bfdbfe" opacity="0.6"/>
+                                        <line x1="10" y1="25" x2="90" y2="25" stroke="#3b82f6" stroke-width="1"/>
+                                        <g transform="rotate(30, 50, 30)">
+                                            <path d="M35,45 L35,15 L65,15 L65,45" fill="none" stroke="#4b5563" stroke-width="2"/>
+                                        </g>
+                                        <circle cx="65" cy="20" r="3" fill="none" stroke="#3b82f6" stroke-width="1"/>
+                                        <circle cx="70" cy="12" r="2.5" fill="none" stroke="#3b82f6" stroke-width="1"/>
+                                        <text x="32" y="52" font-size="8" fill="#1e3a8a">水が入る</text>
+                                    </svg>
+                                    <p class="text-[10px] text-gray-500 mt-1">泡が出て水が入る</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- スポンジの解説 -->
+                        <div class="flex items-center gap-3 bg-yellow-50 p-3 rounded-xl border border-yellow-100">
+                            <div class="text-2xl">🧽</div>
+                            <div class="text-xs text-gray-700">
+                                <strong>乾いたスポンジ</strong>を水の中でにぎると泡が出るよ。これもスポンジのスキマにあった空気が押し出された証拠なんだ！
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ③空気と水のちがい（最重要） -->
+                <div class="bg-white rounded-2xl p-6 shadow-md hover:shadow-lg transition-all duration-300 md:col-span-2">
+                    <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-1 rounded-full">テーマ 3</span>
+                    <h3 class="text-xl font-bold text-gray-800 mt-2 mb-3">③ 空気と水のちがい（最重要！）</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="border-l-4 border-emerald-500 pl-4 space-y-2">
+                            <h4 class="font-bold text-emerald-800">💨 閉じ込めた空気</h4>
+                            <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
+                                <li>おすと、<strong>体積（かさ）が小さく</strong>なる。</li>
+                                <li>おせばおすほど、押し返す力が<strong>強く</strong>なる。</li>
+                                <li>手をはなすと、<strong>もとの体積にもどる</strong>。</li>
+                                <li>はじめの空気の量が多いほど、大きくちぢむ。</li>
+                            </ul>
+                        </div>
+                        <div class="border-l-4 border-blue-500 pl-4 space-y-2">
+                            <h4 class="font-bold text-blue-800">💧 閉じ込めた水</h4>
+                            <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
+                                <li>おしても、<strong>体積はほとんど変わらない</strong>（おしちぢめられない）。</li>
+                                <li>だからピストンはびくとも動かない！</li>
+                                <li>空気と水を混ぜておすと、<strong>空気の部分だけがちぢむ</strong>。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- クイック体験へ促すバナー -->
+            <div class="bg-gradient-to-r from-emerald-500 to-teal-600 rounded-2xl p-6 text-white flex flex-col md:flex-row items-center justify-between gap-4 shadow-md">
+                <div>
+                    <h4 class="text-lg font-bold">🧪 実際にピストンを押して、空気と水のちがいを確かめよう！</h4>
+                    <p class="text-emerald-100 text-sm mt-1">シミュレーター画面で、自分の手でドラッグしておしちぢめる実験ができます。</p>
+                </div>
+                <button onclick="switchTab('simulator')" class="bg-yellow-400 hover:bg-yellow-300 text-emerald-900 font-bold px-6 py-2.5 rounded-full shadow-lg transform hover:scale-105 transition">
+                    シミュレーターを開く 🚀
+                </button>
+            </div>
+        </section>
+
+
+        <!-- ================= TAB 2: 実験シミュレーター ================= -->
+        <section id="content-simulator" class="hidden space-y-6">
+            <div class="bg-white rounded-2xl p-6 shadow-md border-b-4 border-blue-500">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">🧪 ピストンおしちぢめシミュレーター</h2>
+                <p class="text-gray-600 text-sm">
+                    注射器（ピストン）の中に「空気のみ」「水のみ」「空気と水」を閉じ込めたときの違いを、スライダーを動かして体験しよう！
+                </p>
+
+                <!-- 物質切り替えコントローラー -->
+                <div class="flex flex-wrap gap-2 mt-4">
+                    <button onclick="setSimMode('air')" id="btn-sim-air" class="flex-1 py-2 px-4 rounded-xl font-bold border-2 border-emerald-500 bg-emerald-500 text-white transition">
+                        💨 空気だけを閉じ込める
+                    </button>
+                    <button onclick="setSimMode('water')" id="btn-sim-water" class="flex-1 py-2 px-4 rounded-xl font-bold border-2 border-blue-300 text-blue-700 hover:bg-blue-50 transition">
+                        💧 水だけを閉じ込める
+                    </button>
+                    <button onclick="setSimMode('both')" id="btn-sim-both" class="flex-1 py-2 px-4 rounded-xl font-bold border-2 border-purple-300 text-purple-700 hover:bg-purple-50 transition">
+                        🫧 空気と水の両方
+                    </button>
+                </div>
+            </div>
+
+            <!-- シミュレーションメイン表示 -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+                <!-- 左側：注射器ビジュアル (SVG) -->
+                <div class="bg-white rounded-2xl p-6 shadow-md flex flex-col items-center justify-center md:col-span-2">
+                    <h3 id="sim-title" class="text-lg font-bold text-emerald-800 mb-4">💨 空気のおしちぢめ実験中</h3>
+
+                    <!-- 注射器を描くSVG -->
+                    <div class="relative w-full max-w-md h-64 bg-gray-50 rounded-xl border border-gray-100 flex items-center justify-center p-4">
+                        <svg id="syringe-svg" class="w-full h-full" viewBox="0 0 320 150">
+                            <!-- 注射器のシリンダー本体 -->
+                            <rect x="50" y="40" width="180" height="70" fill="none" stroke="#9ca3af" stroke-width="3" rx="2"/>
+                            <!-- 先端のノズル部分 (ふさがっている) -->
+                            <rect x="30" y="65" width="20" height="20" fill="#9ca3af"/>
+                            <line x1="30" y1="65" x2="30" y2="85" stroke="#4b5563" stroke-width="4"/>
+
+                            <!-- 水の領域 (動的に幅が変化する) -->
+                            <rect id="svg-water" x="50" y="41" width="0" height="68" fill="#93c5fd" opacity="0.8" class="transition-all-300"/>
+
+                            <!-- 空気の領域 (シリンダーの左端からピストンヘッドまで。ドットで空気を表現) -->
+                            <g id="svg-air-container">
+                                <!-- JSで動的にドットを配置または変化させる -->
+                            </g>
+
+                            <!-- ピストンシャフト (おしぼう) -->
+                            <rect id="svg-shaft" x="180" y="65" width="120" height="20" fill="#d1d5db" stroke="#9ca3af" stroke-width="1"/>
+                            <!-- ピストンおし手 (端の丸) -->
+                            <circle id="svg-handle" cx="300" cy="75" r="15" fill="#9ca3af"/>
+
+                            <!-- ピストンヘッド（黒ゴム部分） -->
+                            <rect id="svg-piston-head" x="170" y="42" width="15" height="66" fill="#1f2937" rx="1"/>
+
+                            <!-- スケール目盛り -->
+                            <line x1="80" y1="40" x2="80" y2="50" stroke="#4b5563" stroke-width="1.5"/>
+                            <line x1="110" y1="40" x2="110" y2="50" stroke="#4b5563" stroke-width="1.5"/>
+                            <line x1="140" y1="40" x2="140" y2="50" stroke="#4b5563" stroke-width="1.5"/>
+                            <line x1="170" y1="40" x2="170" y2="50" stroke="#4b5563" stroke-width="1.5"/>
+                            <line x1="200" y1="40" x2="200" y2="50" stroke="#4b5563" stroke-width="1.5"/>
+                        </svg>
+
+                        <!-- 水面ラベルなどの動的アノテーション -->
+                        <div id="water-level-label" class="absolute left-[80px] top-[145px] text-[11px] font-bold text-blue-600 hidden">
+                            🌊 水面の位置（変わらない！）
+                        </div>
+                    </div>
+
+                    <!-- 操作スライダー -->
+                    <div class="w-full max-w-md mt-6 space-y-2">
+                        <div class="flex justify-between items-center text-sm font-bold text-gray-700">
+                            <span>ピストンを押す力 👈</span>
+                            <span id="force-display" class="text-emerald-600">0 % (おしていない)</span>
+                        </div>
+                        <input id="piston-slider" type="range" min="0" max="100" value="0"
+                               class="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-emerald-500"
+                               oninput="handlePistonMove(this.value)">
+                        <div class="flex justify-between text-xs text-gray-400">
+                            <span>よわく</span>
+                            <span>つよく！</span>
+                        </div>
+                    </div>
+
+                    <!-- 手をはなすボタン（空気に戻るアニメーション用） -->
+                    <button onclick="releasePiston()" id="btn-release" class="mt-4 px-6 py-2 bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-bold rounded-full shadow-md transition transform active:scale-95">
+                        🖐️ ピストンから手をはなす！
+                    </button>
+                </div>
+
+                <!-- 右側：現在の状態と解説 -->
+                <div class="space-y-4">
+                    <!-- 体積ゲージカード -->
+                    <div class="bg-white rounded-2xl p-6 shadow-md border-t-4 border-amber-500">
+                        <h4 class="font-bold text-gray-800 mb-3">📦 とじこめた物質のようす</h4>
+
+                        <!-- 空気の体積変化 -->
+                        <div class="space-y-1 mb-4">
+                            <div class="flex justify-between text-xs font-bold text-gray-500">
+                                <span>💨 空気の体積（かさ）</span>
+                                <span id="air-vol-text">100%</span>
+                            </div>
+                            <div class="w-full bg-gray-100 rounded-full h-3.5">
+                                <div id="air-vol-bar" class="bg-emerald-400 h-3.5 rounded-full transition-all duration-100" style="width: 100%"></div>
+                            </div>
+                        </div>
+
+                        <!-- 水の体積変化 -->
+                        <div class="space-y-1 mb-4">
+                            <div class="flex justify-between text-xs font-bold text-gray-500">
+                                <span>💧 水の体積（かさ）</span>
+                                <span id="water-vol-text">100%</span>
+                            </div>
+                            <div class="w-full bg-gray-100 rounded-full h-3.5">
+                                <div id="water-vol-bar" class="bg-blue-400 h-3.5 rounded-full transition-all duration-100" style="width: 100%"></div>
+                            </div>
+                        </div>
+
+                        <!-- 手ごたえゲージ -->
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-xs font-bold text-gray-500">
+                                <span>💪 手ごたえ（押し返す力）</span>
+                                <span id="reaction-text">なし</span>
+                            </div>
+                            <div class="w-full bg-gray-100 rounded-full h-3.5">
+                                <div id="reaction-bar" class="bg-red-400 h-3.5 rounded-full transition-all duration-100" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- リアルタイム実況解説 -->
+                    <div class="bg-emerald-50 rounded-2xl p-5 border border-emerald-100">
+                        <h4 class="font-bold text-emerald-800 mb-2">🧐 はかせの解説</h4>
+                        <p id="live-explanation" class="text-sm text-gray-700 leading-relaxed">
+                            ピストンをおして、空気の変化をみてみよう！
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- 初期体積の違い比較（第2画像の要点②） -->
+            <div class="bg-white rounded-2xl p-6 shadow-md">
+                <h3 class="text-lg font-bold text-gray-800 mb-3">🔍 体積を変えて力を加えると？（教科書90ページ②の内容）</h3>
+                <p class="text-gray-600 text-sm mb-4">
+                    同じ注射器でも、<strong>最初にとじこめる空気の量（体積）</strong>を変えると、同じ力で押したときのピストンの下がり方は変わるかな？
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-amber-50 p-4 rounded-xl border border-amber-100 flex items-center gap-4">
+                        <div class="bg-white p-3 rounded-lg shadow-sm font-bold text-amber-800 text-center w-24">
+                            空気：大<br><span class="text-xs font-normal text-gray-500">(はじめから多め)</span>
+                        </div>
+                        <div class="text-sm text-gray-700">
+                            空気の量が多いと、<strong>体積の変化が大きく</strong>なり、ピストンが<strong>奥まで大きく下がります</strong>。
+                        </div>
+                    </div>
+                    <div class="bg-yellow-50 p-4 rounded-xl border border-yellow-100 flex items-center gap-4">
+                        <div class="bg-white p-3 rounded-lg shadow-sm font-bold text-yellow-800 text-center w-24">
+                            空気：小<br><span class="text-xs font-normal text-gray-500">(はじめから少なめ)</span>
+                        </div>
+                        <div class="text-sm text-gray-700">
+                            もともとの空気が少ないと、ちぢむ余裕が少なく、ピストンの<strong>変化は小さくなります</strong>。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= TAB 3: 空気でっぽう ================= -->
+        <section id="content-toy" class="hidden space-y-6">
+            <div class="bg-white rounded-2xl p-6 shadow-md border-b-4 border-yellow-500">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">🔫 スッキリ飛ばそう！空気でっぽうゲーム</h2>
+                <p class="text-gray-600 text-sm">
+                    つつの中に「前玉」と「後玉」をつめて、後玉をおしぼうでおすと、なかの空気がおしちぢめられます。<br>
+                    おしちぢめられた空気が<strong>もとの体積にもどろうとする力</strong>で、前玉を遠くまで飛ばしましょう！
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- シミュレーション＆操作 -->
+                <div class="bg-white rounded-2xl p-6 shadow-md md:col-span-2 flex flex-col items-center justify-center">
+
+                    <div class="flex gap-4 mb-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="bullet-type" value="air" checked onchange="setToyMode('air')" class="form-radio text-emerald-600 h-4 w-4">
+                            <span class="ml-2 font-bold text-emerald-800 text-sm">💨 空気でっぽう (通常)</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="bullet-type" value="water" onchange="setToyMode('water')" class="form-radio text-blue-600 h-4 w-4">
+                            <span class="ml-2 font-bold text-blue-800 text-sm">💧 水でっぽう (水を入れる)</span>
+                        </label>
+                    </div>
+
+                    <!-- 空気でっぽうビジュアルエリア -->
+                    <div class="relative w-full h-48 bg-sky-50 rounded-xl border border-sky-100 overflow-hidden flex items-center justify-center">
+                        <svg id="toy-svg" class="w-full h-full" viewBox="0 0 400 150">
+                            <!-- 背景の的 -->
+                            <circle cx="360" cy="75" r="15" fill="none" stroke="#ef4444" stroke-width="3" opacity="0.4"/>
+                            <circle cx="360" cy="75" r="5" fill="#ef4444" opacity="0.4"/>
+
+                            <!-- 空気でっぽうのつつ -->
+                            <rect x="100" y="60" width="160" height="30" fill="none" stroke="#4b5563" stroke-width="2"/>
+
+                            <!-- つつの中の空気 -->
+                            <rect id="toy-air" x="150" y="61" width="109" height="28" fill="#e0f2fe" opacity="0.6"/>
+
+                            <!-- おしぼう (シャフト) -->
+                            <rect id="toy-shaft" x="40" y="70" width="110" height="10" fill="#d1d5db" stroke="#9ca3af" stroke-width="1"/>
+                            <rect id="toy-handle" x="30" y="60" width="10" height="30" fill="#4b5563" rx="1"/>
+
+                            <!-- 後玉 -->
+                            <circle id="toy-back-bullet" cx="150" cy="75" r="14" fill="#f59e0b"/>
+
+                            <!-- 前玉 -->
+                            <circle id="toy-front-bullet" cx="258" cy="75" r="14" fill="#3b82f6"/>
+
+                            <!-- 水モードの時の水色表現 -->
+                            <rect id="toy-water" x="150" y="61" width="109" height="28" fill="#93c5fd" opacity="0" class="transition-all-300"/>
+
+                            <!-- 飛んでいくエフェクト/軌跡 -->
+                            <path id="toy-trail" d="M 260 75 Q 310 75 360 75" stroke="#3b82f6" stroke-width="3" stroke-dasharray="5,5" fill="none" class="hidden"/>
+                        </svg>
+
+                        <!-- 発射メッセージ -->
+                        <div id="toy-msg" class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-70 text-white font-bold text-xl rounded-xl hidden">
+                            💥 ポンッ！大成功！
+                        </div>
+                    </div>
+
+                    <!-- おしぼうを引く・おすアクション -->
+                    <div class="w-full max-w-sm mt-6 text-center space-y-4">
+                        <p class="text-xs text-gray-500">スライダーを右にスライドして一気に押し込もう！</p>
+                        <input id="toy-slider" type="range" min="0" max="100" value="0"
+                               class="w-full h-4 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-yellow-500"
+                               oninput="handleToyPush(this.value)" onchange="checkToyRelease(this.value)">
+                        <div class="flex justify-between text-xs text-gray-400">
+                            <span>引いた状態</span>
+                            <span>おしこむ！</span>
+                        </div>
+                        <button onclick="resetToy()" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold rounded-lg border">
+                            🔄 たまを詰めなおす
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 飛び方をよくするコツ -->
+                <div class="space-y-4">
+                    <div class="bg-white rounded-2xl p-5 shadow-md border-l-4 border-emerald-500">
+                        <h4 class="font-bold text-emerald-800 text-sm mb-2">🚀 いきおいよく飛ばす方法</h4>
+                        <ul class="space-y-3 text-xs text-gray-600">
+                            <li class="flex gap-2">
+                                <span class="text-emerald-500 font-bold">1.</span>
+                                <span><strong>おしぼうをいきおいよく押す：</strong> 空気が一気に縮まり、戻る力も強くなるよ。</span>
+                            </li>
+                            <li class="flex gap-2">
+                                <span class="text-emerald-500 font-bold">2.</span>
+                                <span><strong>長いつつを使う：</strong> 縮まる空気の量が増えるから、もっと大きな力が出せるよ。</span>
+                            </li>
+                            <li class="flex gap-2">
+                                <span class="text-emerald-500 font-bold">3.</span>
+                                <span><strong>すき間をなくす：</strong> 空気が横から逃げないように密閉するのがコツ。</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- 水の場合の解説 -->
+                    <div class="bg-blue-50 rounded-2xl p-5 border border-blue-100">
+                        <h4 class="font-bold text-blue-800 text-sm mb-2">❓ 水を入れるとどうなる？</h4>
+                        <p class="text-xs text-gray-700 leading-relaxed">
+                            つつに水を満たして後玉を押すと、<strong>前玉はほとんど飛び出さず</strong>、ポトッと下に落ちてしまいます。<br>
+                            これは、水が力を加えられても<strong>おしちぢめられない（体積が変わらない）</strong>ため、空きスペースができず、元に戻ろうとする力（反発力）が生まれないからです。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= TAB 4: たしかめクイズ ================= -->
+        <section id="content-quiz" class="hidden space-y-6">
+            <div class="bg-white rounded-2xl p-6 shadow-md border-b-4 border-purple-500">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">📝 学んだことたしかめクイズ</h2>
+                <p class="text-gray-600 text-sm">
+                    教科書に書いてある大切なポイントを、3択クイズで復習しよう！全問正解できるかな？
+                </p>
+            </div>
+
+            <!-- クイズ表示エリア -->
+            <div id="quiz-card" class="bg-white rounded-2xl p-6 shadow-md border border-gray-100">
+                <div class="flex justify-between items-center mb-4">
+                    <span id="quiz-progress" class="text-xs font-bold text-purple-600 bg-purple-50 px-2.5 py-1 rounded-full">第 1 問 / 4 問</span>
+                    <span id="quiz-score" class="text-xs font-bold text-gray-500">せいかい：0</span>
+                </div>
+
+                <h3 id="quiz-question" class="text-lg font-bold text-gray-800 mb-6">
+                    <!-- 質問テキストがここに入ります -->
+                </h3>
+
+                <div class="space-y-3" id="quiz-options">
+                    <!-- 選択肢ボタンがここに入ります -->
+                </div>
+
+                <!-- 結果・解説表示（初期は非表示） -->
+                <div id="quiz-feedback" class="mt-6 p-4 rounded-xl hidden transition-all duration-300">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span id="feedback-icon" class="text-2xl"></span>
+                        <span id="feedback-title" class="font-bold text-lg"></span>
+                    </div>
+                    <p id="feedback-text" class="text-sm text-gray-700 leading-relaxed mb-4"></p>
+                    <button onclick="nextQuestion()" id="btn-next-quiz" class="w-full py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-xl transition shadow">
+                        つぎの問題へ ➡
+                    </button>
+                </div>
+            </div>
+
+            <!-- 全問修了時の画面 (初期は非表示) -->
+            <div id="quiz-result-screen" class="bg-white rounded-2xl p-8 shadow-md text-center hidden">
+                <div class="text-5xl mb-4">🏆</div>
+                <h3 class="text-2xl font-bold text-purple-800 mb-2">クイズおわり！</h3>
+                <p id="result-text" class="text-gray-600 mb-6">あなたのスコア：4問中 4問せいかい！</p>
+                <div class="flex gap-4 justify-center">
+                    <button onclick="resetQuiz()" class="px-6 py-2 bg-purple-100 hover:bg-purple-200 text-purple-700 font-bold rounded-xl transition">
+                        もういちど挑戦
+                    </button>
+                    <button onclick="switchTab('simulator')" class="px-6 py-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl transition">
+                        実験室にもどる
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ================= JAVASCRIPT LOGIC ================= -->
+    <script>
+        // ================= タブ切り替え =================
+        function switchTab(tabId) {
+            document.getElementById('content-theory').classList.add('hidden');
+            document.getElementById('content-simulator').classList.add('hidden');
+            document.getElementById('content-toy').classList.add('hidden');
+            document.getElementById('content-quiz').classList.add('hidden');
+
+            const tabs = ['theory', 'simulator', 'toy', 'quiz'];
+            tabs.forEach(t => {
+                const btn = document.getElementById(`tab-${t}`);
+                if (btn) {
+                    btn.className = "flex-1 sm:flex-none px-4 py-1.5 rounded-md text-sm font-medium text-emerald-100 hover:text-white";
+                }
+            });
+
+            document.getElementById(`content-${tabId}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`tab-${tabId}`);
+            if (activeBtn) {
+                activeBtn.className = "flex-1 sm:flex-none px-4 py-1.5 rounded-md text-sm font-medium bg-white text-emerald-800 shadow";
+            }
+
+            if (tabId === 'simulator') {
+                initSimulatorAirDots();
+                updateSimulatorUI();
+            } else if (tabId === 'quiz') {
+                resetQuiz();
+            }
+        }
+
+        // ================= シミュレーターロジック =================
+        let simMode = 'air';
+        let currentForce = 0;
+        const defaultAirDots = [];
+
+        function initSimulatorAirDots() {
+            defaultAirDots.length = 0;
+            for (let i = 0; i < 40; i++) {
+                defaultAirDots.push({
+                    x: 55 + Math.random() * 110,
+                    y: 45 + Math.random() * 60,
+                    speedX: (Math.random() - 0.5) * 1.5,
+                    speedY: (Math.random() - 0.5) * 1.5
+                });
+            }
+        }
+
+        function setSimMode(mode) {
+            simMode = mode;
+            currentForce = 0;
+            document.getElementById('piston-slider').value = 0;
+
+            const btnAir = document.getElementById('btn-sim-air');
+            const btnWater = document.getElementById('btn-sim-water');
+            const btnBoth = document.getElementById('btn-sim-both');
+
+            btnAir.className = "flex-1 py-2 px-4 rounded-xl font-bold border-2 border-emerald-500 text-emerald-700 hover:bg-emerald-50 transition";
+            btnWater.className = "flex-1 py-2 px-4 rounded-xl font-bold border-2 border-blue-300 text-blue-700 hover:bg-blue-50 transition";
+            btnBoth.className = "flex-1 py-2 px-4 rounded-xl font-bold border-2 border-purple-300 text-purple-700 hover:bg-purple-50 transition";
+
+            if (mode === 'air') {
+                btnAir.className = "flex-1 py-2 px-4 rounded-xl font-bold border-2 border-emerald-500 bg-emerald-500 text-white transition";
+                document.getElementById('sim-title').innerText = "💨 空気のおしちぢめ実験中";
+            } else if (mode === 'water') {
+                btnWater.className = "flex-1 py-2 px-4 rounded-xl font-bold border-2 border-blue-500 bg-blue-500 text-white transition";
+                document.getElementById('sim-title').innerText = "💧 水のおしちぢめ実験中";
+            } else {
+                btnBoth.className = "flex-1 py-2 px-4 rounded-xl font-bold border-2 border-purple-500 bg-purple-500 text-white transition";
+                document.getElementById('sim-title').innerText = "🫧 空気と水をいっしょにおす実験中";
+            }
+
+            updateSimulatorUI();
+        }
+
+        function handlePistonMove(val) {
+            currentForce = parseInt(val);
+            updateSimulatorUI();
+        }
+
+        function releasePiston() {
+            if (simMode === 'water') return;
+
+            const slider = document.getElementById('piston-slider');
+            const step = () => {
+                if (currentForce > 0) {
+                    currentForce -= 10;
+                    if (currentForce < 0) currentForce = 0;
+                    slider.value = currentForce;
+                    updateSimulatorUI();
+                    requestAnimationFrame(step);
+                }
+            };
+            requestAnimationFrame(step);
+        }
+
+        function updateSimulatorUI() {
+            const forcePercent = currentForce / 100;
+
+            let pistonX = 170;
+            let airVol = 100;
+            let waterVol = 100;
+            let reactionPercent = 0;
+            let explanation = "";
+
+            const waterLabel = document.getElementById('water-level-label');
+            const svgWater = document.getElementById('svg-water');
+
+            if (simMode === 'air') {
+                waterLabel.classList.add('hidden');
+                svgWater.setAttribute('width', 0);
+
+                pistonX = 170 - (100 * forcePercent);
+                airVol = Math.round(((pistonX - 50) / 120) * 100);
+                waterVol = 0;
+                reactionPercent = Math.round(Math.pow(forcePercent, 1.5) * 100);
+
+                if (currentForce === 0) {
+                    explanation = "空気が閉じ込められています。ピストンを押してみましょう！";
+                } else if (currentForce < 40) {
+                    explanation = "すこし縮みました。空気の体積（かさ）が小さくなっています。押し返す力をまだ少ししか感じません。";
+                } else if (currentForce < 80) {
+                    explanation = "さらにピストンが下がりました！空気のドット（分子）が狭いところに押し込められてギューギューになっています。押し返す手ごたえが強くなっています！";
+                } else {
+                    explanation = "これ以上押せない！空気はとても小さく縮みましたが、押し返す力がものすごく強くなっています。手をはなすとピストンが一気に元に戻るよ！";
+                }
+
+            } else if (simMode === 'water') {
+                waterLabel.classList.add('hidden');
+                pistonX = 170;
+                airVol = 0;
+                waterVol = 100;
+                reactionPercent = currentForce > 0 ? 100 : 0;
+                svgWater.setAttribute('width', 120);
+
+                if (currentForce === 0) {
+                    explanation = "水を閉じ込めました。押すとどうなるかな？";
+                } else {
+                    explanation = "力を入れておしても、<strong>ピストンはまったく動きません！</strong>水は空気とちがって、おしちぢめることができません。";
+                }
+
+            } else if (simMode === 'both') {
+                waterLabel.classList.remove('hidden');
+                svgWater.setAttribute('width', 60);
+
+                pistonX = 170 - (50 * forcePercent);
+                const currentAirWidth = pistonX - 110;
+                airVol = Math.round((currentAirWidth / 60) * 100);
+                waterVol = 100;
+                reactionPercent = Math.round(forcePercent * 100);
+
+                if (currentForce === 0) {
+                    explanation = "水と空気を半分ずつ閉じ込めました。押すと何が起きる？";
+                } else {
+                    explanation = "ピストンをおすと、<strong>空気の部分だけがちぢんで</strong>、水の部分の体積はまったく変わりません（水面の位置が変わらない）。";
+                }
+            }
+
+            document.getElementById('force-display').innerText = `${currentForce} %`;
+            document.getElementById('air-vol-text').innerText = airVol > 0 ? `${airVol} %` : 'なし';
+            document.getElementById('air-vol-bar').style.width = `${airVol}%`;
+            document.getElementById('water-vol-text').innerText = waterVol > 0 ? `${waterVol} %` : 'なし';
+            document.getElementById('water-vol-bar').style.width = `${waterVol}%`;
+            document.getElementById('reaction-text').innerText = reactionPercent > 0 ? `${reactionPercent} %` : 'なし';
+            document.getElementById('reaction-bar').style.width = `${reactionPercent}%`;
+            document.getElementById('live-explanation').innerHTML = explanation;
+
+            document.getElementById('svg-piston-head').setAttribute('x', pistonX);
+            document.getElementById('svg-shaft').setAttribute('x', pistonX + 10);
+            document.getElementById('svg-handle').setAttribute('cx', pistonX + 130);
+
+            renderAirDots(pistonX);
+        }
+
+        function renderAirDots(pistonX) {
+            const container = document.getElementById('svg-air-container');
+            container.innerHTML = '';
+
+            if (simMode === 'water') return;
+
+            let minX = 50;
+            let maxX = pistonX;
+
+            if (simMode === 'both') {
+                minX = 110;
+            }
+
+            const dotCount = 35;
+            for (let i = 0; i < dotCount; i++) {
+                const ratio = i / dotCount;
+                const x = minX + (ratio * (maxX - minX - 5)) + 2;
+                const y = 45 + ((i * 7) % 60);
+
+                const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                circle.setAttribute('cx', x);
+                circle.setAttribute('cy', y);
+                circle.setAttribute('r', 3);
+                circle.setAttribute('fill', currentForce > 70 ? '#f59e0b' : '#10b981');
+                circle.setAttribute('opacity', 0.8);
+                container.appendChild(circle);
+            }
+        }
+
+
+        // ================= 空気でっぽうロジック =================
+        let toyMode = 'air';
+        let toyPushed = false;
+
+        function setToyMode(mode) {
+            toyMode = mode;
+            resetToy();
+        }
+
+        function handleToyPush(val) {
+            const pushVal = parseInt(val);
+            if (toyPushed) return;
+
+            const backX = 150 + (90 * (pushVal / 100));
+            document.getElementById('toy-back-bullet').setAttribute('cx', backX);
+            document.getElementById('toy-shaft').setAttribute('x', backX - 110);
+            document.getElementById('toy-handle').setAttribute('x', backX - 120);
+
+            const airWidth = 250 - backX;
+            const airElem = document.getElementById('toy-air');
+            airElem.setAttribute('x', backX);
+            airElem.setAttribute('width', airWidth > 0 ? airWidth : 0);
+
+            const waterElem = document.getElementById('toy-water');
+            waterElem.setAttribute('x', backX);
+            waterElem.setAttribute('width', airWidth > 0 ? airWidth : 0);
+
+            if (toyMode === 'water') {
+                if (pushVal > 15) {
+                    document.getElementById('toy-slider').value = 15;
+                    handleToyPush(15);
+                }
+            }
+        }
+
+        function checkToyRelease(val) {
+            const pushVal = parseInt(val);
+            if (toyPushed) return;
+
+            if (toyMode === 'air') {
+                if (pushVal >= 80) {
+                    launchBullet();
+                } else {
+                    animateToyBack();
+                }
+            } else if (toyMode === 'water') {
+                if (pushVal >= 12) {
+                    dropBullet();
+                }
+            }
+        }
+
+        function animateToyBack() {
+            const slider = document.getElementById('toy-slider');
+            let current = parseInt(slider.value);
+            const step = () => {
+                if (current > 0) {
+                    current -= 10;
+                    slider.value = current;
+                    handleToyPush(current);
+                    requestAnimationFrame(step);
+                }
+            };
+            requestAnimationFrame(step);
+        }
+
+        function launchBullet() {
+            toyPushed = true;
+            const frontBullet = document.getElementById('toy-front-bullet');
+            const msg = document.getElementById('toy-msg');
+            const trail = document.getElementById('toy-trail');
+
+            trail.classList.remove('hidden');
+            let startX = 258;
+            const fly = () => {
+                if (startX < 360) {
+                    startX += 15;
+                    frontBullet.setAttribute('cx', startX);
+                    requestAnimationFrame(fly);
+                } else {
+                    frontBullet.setAttribute('cx', 360);
+                    msg.innerHTML = "💥 ポンッ！大成功！<br><span class='text-sm font-normal'>縮んだ空気が一気にもどる力で飛んだよ！</span>";
+                    msg.classList.remove('hidden');
+                }
+            };
+            requestAnimationFrame(fly);
+        }
+
+        function dropBullet() {
+            toyPushed = true;
+            const frontBullet = document.getElementById('toy-front-bullet');
+            const msg = document.getElementById('toy-msg');
+
+            let startY = 75;
+            let startX = 258;
+            const drop = () => {
+                if (startY < 130) {
+                    startY += 8;
+                    startX += 2;
+                    frontBullet.setAttribute('cy', startY);
+                    frontBullet.setAttribute('cx', startX);
+                    requestAnimationFrame(drop);
+                } else {
+                    msg.innerHTML = "💧 ポトッ... 失敗<br><span class='text-sm font-normal'>水は押し縮められないので、飛ぶ力が生まれない。</span>";
+                    msg.classList.remove('hidden');
+                }
+            };
+            requestAnimationFrame(drop);
+        }
+
+        function resetToy() {
+            toyPushed = false;
+            document.getElementById('toy-slider').value = 0;
+            document.getElementById('toy-msg').classList.add('hidden');
+            document.getElementById('toy-trail').classList.add('hidden');
+
+            const front = document.getElementById('toy-front-bullet');
+            front.setAttribute('cx', 258);
+            front.setAttribute('cy', 75);
+
+            const water = document.getElementById('toy-water');
+            if (toyMode === 'water') {
+                water.style.opacity = 0.8;
+                front.setAttribute('fill', '#9ca3af');
+            } else {
+                water.style.opacity = 0;
+                front.setAttribute('fill', '#3b82f6');
+            }
+
+            handleToyPush(0);
+        }
+
+
+        // ================= たしかめクイズロジック =================
+        const quizData = [
+            {
+                question: "閉じ込めた『空気』のピストンを強く押したとき、正しいものはどれ？",
+                options: [
+                    "体積（かさ）は大きくなる。",
+                    "体積（かさ）は小さくなり、押し返す力が強くなる。",
+                    "体積は全く変わらない。"
+                ],
+                correct: 1,
+                desc: "空気はおすと体積が小さくなり、押し縮められるほど元の姿に戻ろうとする強い反発力が生まれます。"
+            },
+            {
+                question: "閉じ込めた『水』に力を加えたとき、空気と違って水はどうなりますか？",
+                options: [
+                    "ほとんど体積は変わらず、おしちぢめられない。",
+                    "空気よりもかんたんに小さく縮む。",
+                    "少し縮んでから、一気にふくらむ。"
+                ],
+                correct: 0,
+                desc: "水はどれだけ強い力を加えても、体積はほとんど変わりません。注射器で水だけを閉じ込めるとピストンは全く動きません。"
+            },
+            {
+                question: "空気でっぽうの玉を『もっと遠くまでいきおいよく飛ばす』コツとして間違っているものは？",
+                options: [
+                    "おしぼうを、ゆっくりやさしくおす。",
+                    "筒をながくして、とじこめる空気の量を多くする。",
+                    "筒と玉のすき間をなくして、空気がもれないようにする。"
+                ],
+                correct: 0,
+                desc: "いきおいよく飛ばすためには、おしぼうを『いきおいよく』押す必要があります。ゆっくり押すと圧力が溜まらずよく飛びません。"
+            },
+            {
+                question: "空気でっぽうの筒のなかに『水』を満たして押すとどうなりますか？",
+                options: [
+                    "水が空気の代わりになって、さらに遠くへ飛ぶ。",
+                    "水は押し縮められないため、前玉は飛ばずにポトッと落ちる。",
+                    "つつが破裂して水が飛び散る。"
+                ],
+                correct: 1,
+                desc: "水は押し縮められないので、元に戻ろうとする力（反発力）が生まれません。そのため前玉を押し出すことができず、ただ落ちてしまいます。"
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function resetQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            document.getElementById('quiz-card').classList.remove('hidden');
+            document.getElementById('quiz-result-screen').classList.add('hidden');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const quiz = quizData[currentQuestionIndex];
+            document.getElementById('quiz-progress').innerText = `第 ${currentQuestionIndex + 1} 問 / ${quizData.length} 問`;
+            document.getElementById('quiz-score').innerText = `せいかい：${score}`;
+            document.getElementById('quiz-question').innerText = quiz.question;
+
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+
+            quiz.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-xl border-2 border-gray-100 hover:border-purple-300 hover:bg-purple-50 transition font-medium text-gray-700 flex justify-between items-center";
+                btn.innerHTML = `<span>${opt}</span> <span class="text-gray-400">▶</span>`;
+                btn.onclick = () => selectOption(idx);
+                optionsContainer.appendChild(btn);
+            });
+
+            document.getElementById('quiz-feedback').classList.add('hidden');
+        }
+
+        function selectOption(selectedIndex) {
+            const quiz = quizData[currentQuestionIndex];
+            const feedback = document.getElementById('quiz-feedback');
+            const fIcon = document.getElementById('feedback-icon');
+            const fTitle = document.getElementById('feedback-title');
+            const fText = document.getElementById('feedback-text');
+
+            const buttons = document.getElementById('quiz-options').getElementsByTagName('button');
+            for (let b of buttons) {
+                b.disabled = true;
+                b.className = b.className.replace('hover:border-purple-300 hover:bg-purple-50', 'opacity-60');
+            }
+
+            if (selectedIndex === quiz.correct) {
+                score++;
+                fIcon.innerText = "⭕";
+                fTitle.innerText = "正解！すごいです！";
+                fTitle.className = "font-bold text-lg text-emerald-600";
+                feedback.className = "mt-6 p-4 rounded-xl bg-emerald-50 border border-emerald-100";
+                buttons[selectedIndex].className += " border-emerald-500 bg-emerald-50 text-emerald-800";
+            } else {
+                fIcon.innerText = "❌";
+                fTitle.innerText = "ざんねん！ちがいます";
+                fTitle.className = "font-bold text-lg text-red-600";
+                feedback.className = "mt-6 p-4 rounded-xl bg-red-50 border border-red-100";
+                buttons[selectedIndex].className += " border-red-500 bg-red-50 text-red-800";
+                buttons[quiz.correct].className += " border-emerald-500 bg-emerald-50 text-emerald-800";
+            }
+
+            fText.innerText = quiz.desc;
+            feedback.classList.remove('hidden');
+
+            document.getElementById('quiz-score').innerText = `せいかい：${score}`;
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizData.length) {
+                showQuestion();
+            } else {
+                document.getElementById('quiz-card').classList.add('hidden');
+                const resultScreen = document.getElementById('quiz-result-screen');
+                resultScreen.classList.remove('hidden');
+                document.getElementById('result-text').innerText = `あなたの結果は：${quizData.length}問中 ${score}問せいかい！`;
+            }
+        }
+
+        window.onload = function() {
+            initSimulatorAirDots();
+            updateSimulatorUI();
+            resetToy();
+        };
+    </script>
+</body>
+</html>

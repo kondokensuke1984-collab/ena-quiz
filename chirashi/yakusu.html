@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>やくすうの みつけ方</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Yusei+Magic&family=Zen+Maru+Gothic:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap">
+<style>
+  :root{
+    --paper:#FFFFFF;
+    --ink:#17232E;
+    --ink-soft:#4E606E;
+    --rule:#C9D6DF;
+
+    --blue:#12657F;
+    --blue-deep:#0B4859;
+    --blue-soft:#E3F1F6;
+    --blue-line:#A9CFDC;
+
+    --yellow:#FFD24A;
+    --yellow-soft:#FFF6DC;
+    --red:#B23A2E;
+    --red-soft:#FBEAE7;
+
+    --backdrop:#DDE3E8;
+    --backdrop-ink:#4E606E;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){ --backdrop:#161C22; --backdrop-ink:#8FA3B2; }
+  }
+  :root[data-theme="dark"]{ --backdrop:#161C22; --backdrop-ink:#8FA3B2; }
+
+  body{
+    background:var(--backdrop); color:var(--ink);
+    font-family:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;
+    display:flex; flex-direction:column; align-items:center;
+    padding:16px 12px 40px;
+  }
+  p{ margin:0; }
+  .hint{
+    color:var(--backdrop-ink); font-size:12px; letter-spacing:.06em;
+    margin:0 0 12px; text-align:center; line-height:1.7;
+  }
+
+  /* ───────── A4 sheet ───────── */
+  .sheet{
+    width:210mm; height:297mm; background:var(--paper);
+    padding:8.5mm 10mm; box-sizing:border-box;
+    display:flex; flex-direction:column; gap:3.2mm;
+    box-shadow:0 6px 28px rgba(0,0,0,.22);
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+
+  /* ───────── header ───────── */
+  .head{
+    display:flex; align-items:flex-end; justify-content:space-between;
+    gap:6mm; border-bottom:1.2mm solid var(--blue); padding-bottom:1.8mm;
+  }
+  .head h1{
+    margin:0; font-family:"Yusei Magic","Zen Maru Gothic",sans-serif;
+    font-size:13mm; line-height:1; color:var(--blue);
+  }
+  .head h1 .kanji{
+    font-family:"Zen Maru Gothic",sans-serif; font-size:6.4mm;
+    color:var(--ink-soft); padding-left:2.5mm; letter-spacing:.04em;
+  }
+  .head .lede{
+    text-align:right; flex:0 0 auto;
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:700;
+    font-size:3.2mm; line-height:1.5; color:var(--ink-soft);
+  }
+  .head .lede .nums{
+    display:block; font-size:6mm; color:var(--ink);
+    font-variant-numeric:tabular-nums;
+  }
+
+  /* ───────── steps ───────── */
+  .steps{ display:flex; flex-direction:column; gap:2.8mm; flex:1; min-height:0; justify-content:space-between; }
+  .step{ display:flex; flex-direction:column; gap:2mm; }
+  .step > header{ display:flex; align-items:center; gap:2.8mm; }
+  .step .no{
+    flex:0 0 auto; width:9mm; height:9mm; border-radius:50%;
+    background:var(--blue); color:#fff;
+    font-family:"Yusei Magic",sans-serif; font-size:5.6mm;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .step h2{
+    margin:0; font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:6.2mm; line-height:1.15; color:var(--blue-deep);
+  }
+  .step h2 rt{ font-size:.3em; font-weight:700; letter-spacing:.04em; }
+  .step h2 small{
+    font-family:"Zen Kaku Gothic New",sans-serif; font-weight:700;
+    font-size:3.5mm; color:var(--ink); padding-left:2mm;
+  }
+  .body{ padding-left:11.8mm; display:flex; flex-direction:column; gap:1.9mm; }
+
+  .def{
+    border-left:1.4mm solid var(--blue); background:var(--blue-soft);
+    border-radius:0 1.4mm 1.4mm 0; padding:1.8mm 3mm;
+    font-size:3.6mm; line-height:1.55; text-wrap:pretty;
+  }
+  .def b{ font-weight:900; color:var(--blue-deep); }
+
+  .how{
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:3.9mm; color:var(--blue-deep);
+    display:flex; align-items:center; gap:2mm;
+  }
+  .how .pill{
+    font-size:2.9mm; letter-spacing:.06em; color:#fff; background:var(--blue);
+    padding:.7mm 2mm; border-radius:.8mm;
+  }
+  .how em{ font-style:normal; font-size:3.1mm; font-weight:700; color:var(--ink-soft); }
+
+  /* ── わり算の表 ── */
+  .divtable{ display:grid; grid-template-columns:21mm repeat(12,1fr); align-items:center; }
+  .divtable > *{
+    text-align:center; font-variant-numeric:tabular-nums;
+    padding:.9mm 0; font-size:3.9mm;
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+  }
+  .divtable .rh{
+    text-align:right; padding-right:2.4mm; font-size:3.1mm;
+    font-weight:700; color:var(--ink-soft); white-space:nowrap;
+  }
+  .divtable .d{ color:var(--ink); border-bottom:.35mm solid var(--rule); }
+  .divtable .m{ font-size:4.4mm; }
+  .divtable .m.ok{ color:var(--blue); background:var(--blue-soft); }
+  .divtable .m.ng{ color:var(--red); }
+  .divtable .d.ok{ background:var(--blue-soft); color:var(--blue-deep); }
+
+  .exline{ font-size:3.3mm; line-height:1.5; color:var(--ink-soft); }
+  .exline b{ color:var(--red); font-weight:900; }
+  .exline .ok{ color:var(--blue); font-weight:900; }
+
+  /* ── ペア図 ── */
+  .pairfig{ display:flex; align-items:center; gap:3mm; }
+  .pairfig svg{ width:86mm; height:auto; flex:0 0 auto; }
+  .pairfig .cap{
+    font-size:3.2mm; line-height:1.5; color:var(--ink-soft); text-wrap:pretty;
+  }
+  .pairfig .cap b{ color:var(--blue-deep); font-weight:900; }
+
+  /* ── chips ── */
+  .row{ display:flex; align-items:center; gap:2.4mm; }
+  .row .who{
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:3.5mm; color:var(--ink-soft); white-space:nowrap;
+    width:19mm; flex:0 0 auto; text-align:right;
+  }
+  .chips{ display:flex; flex-wrap:wrap; gap:1.6mm; }
+  .chip{
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:700;
+    font-size:4.6mm; line-height:1; font-variant-numeric:tabular-nums;
+    min-width:8.4mm; padding:1.7mm 1.3mm; text-align:center;
+    border-radius:1.2mm; box-sizing:border-box;
+    background:#fff; color:var(--blue); border:.35mm solid var(--blue-line);
+  }
+  .chip.hit{
+    background:var(--blue); color:#fff;
+    border-color:transparent; box-shadow:0 0 0 .75mm var(--yellow);
+  }
+  .chip.out{ color:#9AAAB5; border-color:#E2E9EE; background:#F7FAFB; }
+
+  /* ── 見つけ方 2列 ── */
+  .ways{ display:grid; grid-template-columns:1fr 1fr; gap:3.4mm; }
+  .way{
+    border:.4mm solid var(--rule); border-radius:1.6mm;
+    padding:2.2mm 2.6mm; display:flex; flex-direction:column; gap:1.8mm;
+  }
+  .way.easy{ border-color:var(--yellow); background:var(--yellow-soft); }
+  .way h4{
+    margin:0; font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:3.6mm; color:var(--blue-deep);
+    display:flex; align-items:center; gap:1.8mm; text-wrap:balance;
+  }
+  .way h4 .n{
+    flex:0 0 auto; width:5mm; height:5mm; border-radius:50%;
+    background:var(--blue-deep); color:#fff; font-size:3.2mm;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .way.easy h4 .n{ background:var(--red); }
+  .way .row .who{ width:15mm; font-size:3.2mm; }
+  .way .chip{ font-size:4mm; min-width:7.4mm; padding:1.4mm 1.1mm; }
+  .way p{ font-size:3.1mm; line-height:1.45; color:var(--ink-soft); text-wrap:pretty; }
+  .way p b{ color:var(--red); font-weight:900; }
+
+  /* ── step3 ── */
+  .final{ display:flex; gap:3.4mm; align-items:stretch; }
+  .plate{
+    background:var(--blue); border-radius:1.8mm; padding:2.4mm 4mm;
+    display:flex; align-items:center; gap:3.4mm; flex:0 0 auto;
+  }
+  .plate .big{
+    font-family:"Yusei Magic",sans-serif; font-size:15mm; line-height:.85;
+    color:var(--yellow); font-variant-numeric:tabular-nums;
+  }
+  .plate .txt{ color:#fff; font-size:3.2mm; line-height:1.45; }
+  .plate .txt strong{
+    display:block; font-family:"Zen Maru Gothic",sans-serif;
+    font-weight:900; font-size:4mm; margin-bottom:.5mm;
+  }
+  .check{
+    flex:1; background:var(--yellow-soft); border:.35mm dashed var(--yellow);
+    border-radius:1.6mm; padding:2mm 2.8mm;
+    display:flex; flex-direction:column; justify-content:center; gap:1.2mm;
+  }
+  .check .t{
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:3.6mm; color:var(--blue-deep);
+  }
+  .check p{ font-size:3.2mm; line-height:1.5; text-wrap:pretty; }
+  .check b{ font-weight:900; color:var(--blue); }
+
+  /* ───────── bottom ───────── */
+  .bottom{
+    border:.5mm solid var(--rule); border-radius:1.8mm; padding:2.6mm 3.2mm;
+    display:grid; grid-template-columns:auto 1fr; gap:2.4mm 3.4mm; align-items:start;
+  }
+  .bottom h3{
+    margin:0; grid-column:1 / -1;
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900; font-size:4.2mm;
+  }
+  ul.warn{
+    grid-column:1 / -1; margin:0; padding:0; list-style:none;
+    display:grid; grid-template-columns:1fr 1fr; gap:2mm 4mm;
+  }
+  ul.warn li{
+    font-size:3.4mm; line-height:1.5; padding-left:5.6mm;
+    position:relative; text-wrap:pretty;
+  }
+  ul.warn li::before{
+    content:"✓"; position:absolute; left:0; top:-.2mm; color:var(--blue);
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900; font-size:4mm;
+  }
+  ul.warn strong{ font-weight:900; color:var(--blue); }
+  .frac{
+    display:inline-flex; flex-direction:column; align-items:center;
+    vertical-align:middle; font-variant-numeric:tabular-nums;
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:3mm; line-height:1.15; color:var(--blue-deep); margin:0 .6mm;
+  }
+  .frac i{ font-style:normal; border-top:.35mm solid var(--blue-deep); padding-top:.25mm; }
+
+  /* ───────── print ───────── */
+  @page{ size:210mm 297mm; margin:0; }
+  @media print{
+    html,body{
+      margin:0; padding:0; width:210mm; background:#fff;
+      display:block; -webkit-print-color-adjust:exact; print-color-adjust:exact;
+    }
+    .hint{ display:none; }
+    .sheet{
+      box-shadow:none; margin:0; width:210mm; height:296.8mm;
+      transform:none; overflow:hidden;
+      break-inside:avoid; break-after:avoid; page-break-after:avoid;
+    }
+  }
+  @media screen and (max-width:860px){
+    .sheet{ transform-origin:top center; transform:scale(.46); margin-bottom:-160mm; }
+  }
+</style>
+</head>
+<body>
+
+
+<p class="hint">A4たて・倍率100%（余白「なし」〜「せまい」）で印刷してください。<br>⌘P / Ctrl+P → 用紙 A4 → 背景のグラフィックを印刷 ON</p>
+
+<div class="sheet">
+
+  <header class="head">
+    <h1>やくすう<span class="kanji">約数と公約数</span></h1>
+    <p class="lede">第5章 整数の性質 12／この1枚は<span class="nums">12 と 18</span></p>
+  </header>
+
+  <div class="steps">
+
+    <!-- ══ STEP 1 ══ -->
+    <section class="step">
+      <header>
+        <span class="no">1</span>
+        <h2><ruby>約数<rt>やくすう</rt></ruby><small>を もとめる</small></h2>
+      </header>
+      <div class="body">
+        <p class="def">ある整数 □ を <b>わり切ることのできる</b> 整数を、□ の <b>約数</b> という。<br><b>1</b> と <b>その数自身</b> である □ も、□ の約数になっている。</p>
+
+        <p class="how"><span class="pill">もとめ方</span>□ を 小さい整数から 順に わっていく<em>わり切れた「わる数」が 約数</em></p>
+
+        <div class="divtable">
+          <span class="rh">12 ÷</span>
+          <span class="d ok">1</span><span class="d ok">2</span><span class="d ok">3</span><span class="d ok">4</span><span class="d">5</span><span class="d ok">6</span><span class="d">7</span><span class="d">8</span><span class="d">9</span><span class="d">10</span><span class="d">11</span><span class="d ok">12</span>
+          <span class="rh">わり切れる？</span>
+          <span class="m ok">○</span><span class="m ok">○</span><span class="m ok">○</span><span class="m ok">○</span><span class="m ng">✗</span><span class="m ok">○</span><span class="m ng">✗</span><span class="m ng">✗</span><span class="m ng">✗</span><span class="m ng">✗</span><span class="m ng">✗</span><span class="m ok">○</span>
+        </div>
+        <p class="exline"><span class="ok">12 ÷ 3 = 4</span> …わり切れた → 3 は約数。　<b>12 ÷ 5 = 2 あまり 2</b> …わり切れない → 5 は約数ではない。</p>
+
+        <div class="row"><span class="who">12の約数</span><div class="chips">
+          <span class="chip hit">1</span><span class="chip hit">2</span><span class="chip hit">3</span><span class="chip">4</span><span class="chip hit">6</span><span class="chip">12</span>
+        </div></div>
+
+        <div class="pairfig">
+          <svg viewBox="0 0 400 116" role="img" aria-label="12の約数を組にしてかけると12になる図">
+            <g font-family="Zen Maru Gothic, sans-serif" font-weight="900" fill="var(--blue-deep)" font-size="24" text-anchor="middle">
+              <text x="30" y="22">1</text><text x="82" y="22">2</text><text x="134" y="22">3</text>
+              <text x="186" y="22">4</text><text x="238" y="22">6</text><text x="290" y="22">12</text>
+            </g>
+            <g fill="none" stroke="var(--blue)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M30 34 V46 H290 V34"/>
+              <path d="M82 58 V70 H238 V58"/>
+              <path d="M134 82 V94 H186 V82"/>
+            </g>
+            <g font-family="Zen Maru Gothic, sans-serif" font-weight="900" fill="var(--blue)" font-size="19">
+              <text x="302" y="52">1 × 12 = 12</text>
+              <text x="302" y="76">2 × 6 = 12</text>
+              <text x="302" y="100">3 × 4 = 12</text>
+            </g>
+          </svg>
+          <p class="cap"><b>参考｜組にしてかける</b><br>組にしてかけると もとの数（12）になる。これを使うと <b>もれなく</b> 見つけられる。外側から内側へ せまって、<b>ぶつかったら おしまい</b>。</p>
+        </div>
+
+        <div class="row"><span class="who">18の約数</span><div class="chips">
+          <span class="chip hit">1</span><span class="chip hit">2</span><span class="chip hit">3</span><span class="chip hit">6</span><span class="chip">9</span><span class="chip">18</span>
+        </div></div>
+      </div>
+    </section>
+
+    <!-- ══ STEP 2 ══ -->
+    <section class="step">
+      <header>
+        <span class="no">2</span>
+        <h2><ruby>公約数<rt>こうやくすう</rt></ruby><small>を もとめる</small></h2>
+      </header>
+      <div class="body">
+        <p class="def">12 の約数にも、18 の約数にも なっている数を、12 と 18 の <b>公約数</b> という。</p>
+
+        <div class="ways">
+          <div class="way">
+            <h4><span class="n">1</span>両方 書き出して 共通な数</h4>
+            <div class="row"><span class="who">12の約数</span><div class="chips">
+              <span class="chip hit">1</span><span class="chip hit">2</span><span class="chip hit">3</span><span class="chip">4</span><span class="chip hit">6</span><span class="chip">12</span>
+            </div></div>
+            <div class="row"><span class="who">18の約数</span><div class="chips">
+              <span class="chip hit">1</span><span class="chip hit">2</span><span class="chip hit">3</span><span class="chip hit">6</span><span class="chip">9</span><span class="chip">18</span>
+            </div></div>
+            <p>上下に そろってある数（黄色）が 公約数。</p>
+          </div>
+
+          <div class="way easy">
+            <h4><span class="n">2</span>小さいほうの 約数から えらぶ</h4>
+            <div class="row"><span class="who">12の約数</span><div class="chips">
+              <span class="chip hit">1</span><span class="chip hit">2</span><span class="chip hit">3</span><span class="chip out">4</span><span class="chip hit">6</span><span class="chip out">12</span>
+            </div></div>
+            <p>12 の約数のうち、<b>18 もわり切れる</b> ものだけ えらぶ。4 と 12 では 18 をわり切れない。<br>※ 小さいほうの数の約数から 見つけるほうが <b>かんたん</b>。</p>
+          </div>
+        </div>
+
+        <div class="row"><span class="who">公約数</span><div class="chips">
+          <span class="chip hit">1</span><span class="chip hit">2</span><span class="chip hit">3</span><span class="chip hit">6</span>
+        </div></div>
+      </div>
+    </section>
+
+    <!-- ══ STEP 3 ══ -->
+    <section class="step">
+      <header>
+        <span class="no">3</span>
+        <h2><ruby>最大公約数<rt>さいだいこうやくすう</rt></ruby></h2>
+      </header>
+      <div class="body">
+        <div class="final">
+          <div class="plate">
+            <span class="big">6</span>
+            <span class="txt"><strong>12と18の 最大公約数</strong>公約数 1・2・3・6 のうち<br>最も大きい整数</span>
+          </div>
+          <div class="check">
+            <span class="t">たしかめ｜公約数は 最大公約数の 約数</span>
+            <p>公約数 <b>1・2・3・6</b> は、どれも <b>6 の約数</b> になっている。書き出した公約数が これに当てはまらなかったら、どこかで まちがえている。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ══ bottom ══ -->
+  <div class="bottom">
+    <h3>おぼえておく</h3>
+    <ul class="warn">
+      <li><strong>1</strong> と <strong>その数自身</strong> も約数。12の約数には 1 も 12 も入る。</li>
+      <li>5 のように、<strong>1 と その数自身しか</strong> 約数をもたない数もある。</li>
+      <li>「最大」なのに もとの数より <strong>小さい</strong>（12・18 → 6）。約数は もとの数を こえない。</li>
+      <li>約分でつかう。<span class="frac">12<i>18</i></span>は 上下を <strong>6</strong> でわって <span class="frac">2<i>3</i></span>。最大公約数でわると <strong>1回</strong>で終わる。</li>
+    </ul>
+  </div>
+
+</div>
+
+<style>
+@media screen and (max-width:860px){
+  body{ padding:8px 0 28px; }
+  .sheet{ transform:scale(var(--fit,.46)) !important;
+          margin-bottom:calc(-297mm * (1 - var(--fit,.46))) !important; }
+}
+</style>
+<script>
+(function(){
+  function fit(){
+    var w = Math.min(document.documentElement.clientWidth, 860);
+    document.documentElement.style.setProperty('--fit', Math.min(1,(w-10)/793.7).toFixed(4));
+  }
+  fit(); addEventListener('resize', fit); addEventListener('orientationchange', fit);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>英語 まとめ</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+  background: linear-gradient(135deg, #f0e6ff 0%, #e6f0ff 50%, #ffe6f5 100%);
+  min-height: 100vh;
+  padding: 16px;
+  color: #3d2b5e;
+}
+
+/* ── 戻るボタン ── */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.85);
+  color: #7c3aed;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 30px;
+  padding: 8px 16px;
+  text-decoration: none;
+  box-shadow: 0 2px 10px rgba(167,139,250,0.18);
+  margin-bottom: 16px;
+  border: 1.5px solid rgba(167,139,250,0.25);
+  transition: box-shadow 0.2s;
+}
+.back-btn:hover { box-shadow: 0 4px 16px rgba(167,139,250,0.3); }
+
+/* ── ヘッダー ── */
+.page-header {
+  text-align: center;
+  padding: 20px 16px 16px;
+  margin-bottom: 20px;
+}
+.page-header .emoji-big { font-size: 48px; margin-bottom: 8px; display: block; }
+.page-header h1 {
+  font-size: 26px;
+  font-weight: 900;
+  background: linear-gradient(135deg, #f472b6, #a78bfa, #60a5fa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 6px;
+}
+.page-header p { font-size: 13px; color: #a78bfa; font-weight: 600; }
+
+/* ── セクションタイトル ── */
+.section-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #3d2b5e;
+  margin: 24px 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-title::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(90deg, #a78bfa, transparent);
+  border-radius: 2px;
+}
+
+/* ── 単語グリッド ── */
+.vocab-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.vocab-card {
+  background: rgba(255,255,255,0.92);
+  border-radius: 14px;
+  padding: 12px 12px;
+  box-shadow: 0 3px 12px rgba(167,139,250,0.13);
+  border-top: 3px solid var(--accent, #a78bfa);
+  text-align: center;
+}
+.vocab-card .en {
+  font-size: 14px;
+  font-weight: 800;
+  color: #7c3aed;
+  letter-spacing: 0.3px;
+  margin-bottom: 4px;
+}
+.vocab-card .ja {
+  font-size: 12px;
+  color: #be185d;
+  font-weight: 700;
+}
+.vocab-card.accent-pink { --accent: #f472b6; }
+.vocab-card.accent-blue { --accent: #60a5fa; }
+.vocab-card.accent-purple { --accent: #a78bfa; }
+.vocab-card.accent-green { --accent: #34d399; }
+
+/* ── 文法ルールボックス ── */
+.grammar-box {
+  background: rgba(255,255,255,0.92);
+  border-radius: 16px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 16px rgba(167,139,250,0.13);
+  border-left: 5px solid var(--border-color, #a78bfa);
+}
+.grammar-box.pink  { --border-color: #f472b6; }
+.grammar-box.blue  { --border-color: #60a5fa; }
+.grammar-box.green { --border-color: #34d399; }
+.grammar-box.orange { --border-color: #fb923c; }
+
+.grammar-box .box-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: #3d2b5e;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.grammar-box .formula {
+  background: linear-gradient(135deg, #f0e6ff, #e6f0ff);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #7c3aed;
+  margin-bottom: 8px;
+  text-align: center;
+  letter-spacing: 0.3px;
+}
+.example-item {
+  font-size: 12px;
+  color: #3d2b5e;
+  padding: 6px 0;
+  border-bottom: 1px dashed rgba(167,139,250,0.2);
+  line-height: 1.7;
+}
+.example-item:last-child { border-bottom: none; }
+.example-item .eng { font-weight: 800; color: #7c3aed; }
+.example-item .jp  { color: #6b5e8a; }
+
+/* ── be動詞テーブル ── */
+.data-table {
+  width: 100%;
+  background: rgba(255,255,255,0.92);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(167,139,250,0.12);
+  margin-bottom: 10px;
+}
+.data-table thead {
+  background: linear-gradient(135deg, #a78bfa, #f472b6);
+  color: #fff;
+}
+.data-table th, .data-table td {
+  padding: 10px 14px;
+  font-size: 13px;
+  text-align: left;
+  border-bottom: 1px solid rgba(167,139,250,0.1);
+}
+.data-table th { font-weight: 700; }
+.data-table tbody tr:last-child td { border-bottom: none; }
+.data-table tbody tr:nth-child(even) td { background: rgba(167,139,250,0.05); }
+.data-table td:first-child { font-weight: 800; color: #7c3aed; }
+.data-table td:last-child  { font-weight: 700; color: #be185d; font-size: 14px; }
+
+/* ── 短縮形グリッド ── */
+.contraction-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.contraction-card {
+  background: rgba(255,255,255,0.92);
+  border-radius: 12px;
+  padding: 10px 12px;
+  box-shadow: 0 2px 10px rgba(167,139,250,0.12);
+  text-align: center;
+}
+.contraction-card .from {
+  font-size: 11px;
+  color: #9ca3af;
+  margin-bottom: 2px;
+}
+.contraction-card .arrow { font-size: 12px; color: #a78bfa; }
+.contraction-card .to   { font-size: 15px; font-weight: 900; color: #7c3aed; }
+
+/* ── 文型カード ── */
+.sentence-card {
+  background: rgba(255,255,255,0.92);
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  box-shadow: 0 3px 12px rgba(167,139,250,0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.sentence-card .jp-q {
+  font-size: 12px;
+  color: #be185d;
+  font-weight: 700;
+}
+.sentence-card .en-a {
+  font-size: 15px;
+  font-weight: 900;
+  color: #7c3aed;
+  letter-spacing: 0.3px;
+}
+.sentence-card .tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #a78bfa, #f472b6);
+  color: #fff;
+  border-radius: 6px;
+  padding: 2px 8px;
+  align-self: flex-start;
+}
+
+/* ── 重要ポイントボックス ── */
+.important-box {
+  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+  border-radius: 20px;
+  padding: 20px 16px;
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(124,58,237,0.28);
+  margin-bottom: 10px;
+}
+.important-box .box-title { font-size: 15px; font-weight: 800; margin-bottom: 12px; }
+.important-box .point-item {
+  font-size: 12.5px;
+  line-height: 1.7;
+  background: rgba(255,255,255,0.12);
+  border-radius: 10px;
+  padding: 9px 12px;
+  margin-bottom: 6px;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+.important-box .point-item:last-child { margin-bottom: 0; }
+.important-box .point-item .num {
+  font-weight: 900;
+  background: rgba(255,255,255,0.25);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+/* ── want ボックス ── */
+.want-box {
+  background: linear-gradient(135deg, #f472b6, #fb923c);
+  border-radius: 20px;
+  padding: 18px 16px;
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(244,114,182,0.28);
+  margin-bottom: 10px;
+}
+.want-box .box-title { font-size: 15px; font-weight: 800; margin-bottom: 10px; }
+.want-box .want-item {
+  background: rgba(255,255,255,0.15);
+  border-radius: 10px;
+  padding: 9px 12px;
+  margin-bottom: 6px;
+  font-size: 12.5px;
+  line-height: 1.7;
+}
+.want-box .want-item:last-child { margin-bottom: 0; }
+.want-box .want-item .en { font-weight: 900; font-size: 14px; }
+.want-box .want-item .jp { opacity: 0.9; font-size: 12px; }
+</style>
+</head>
+<body>
+
+<a href="/" class="back-btn">← もどる</a>
+
+<!-- ヘッダー -->
+<div class="page-header">
+  <span class="emoji-big">🇬🇧</span>
+  <h1>英語 まとめ</h1>
+  <p>be動詞・職業・学校用品・よく出る文型</p>
+</div>
+
+<!-- 1. 職業・人 -->
+<div class="section-title">👩‍⚕️ 職業・人 (Jobs &amp; People)</div>
+<div class="vocab-grid">
+  <div class="vocab-card accent-pink">
+    <div class="en">nurse</div>
+    <div class="ja">看護師 👩‍⚕️</div>
+  </div>
+  <div class="vocab-card accent-blue">
+    <div class="en">doctor</div>
+    <div class="ja">医者 🩺</div>
+  </div>
+  <div class="vocab-card accent-purple">
+    <div class="en">teacher</div>
+    <div class="ja">先生 📚</div>
+  </div>
+  <div class="vocab-card accent-green">
+    <div class="en">baseball player</div>
+    <div class="ja">野球選手 ⚾</div>
+  </div>
+  <div class="vocab-card accent-pink">
+    <div class="en">soccer player</div>
+    <div class="ja">サッカー選手 ⚽</div>
+  </div>
+  <div class="vocab-card accent-blue">
+    <div class="en">singer</div>
+    <div class="ja">歌手 🎤</div>
+  </div>
+  <div class="vocab-card accent-purple">
+    <div class="en">bus driver</div>
+    <div class="ja">バス運転手 🚌</div>
+  </div>
+  <div class="vocab-card accent-green">
+    <div class="en">cook / chef</div>
+    <div class="ja">料理人 👨‍🍳</div>
+  </div>
+  <div class="vocab-card accent-pink">
+    <div class="en">police officer</div>
+    <div class="ja">警察官 👮</div>
+  </div>
+  <div class="vocab-card accent-blue">
+    <div class="en">firefighter</div>
+    <div class="ja">消防士 🚒</div>
+  </div>
+</div>
+
+<!-- 2. 学校・文房具 -->
+<div class="section-title">🏫 学校・文房具 (School Items)</div>
+<div class="vocab-grid">
+  <div class="vocab-card accent-purple">
+    <div class="en">chair</div>
+    <div class="ja">いす 🪑</div>
+  </div>
+  <div class="vocab-card accent-pink">
+    <div class="en">desk</div>
+    <div class="ja">机 🖥️</div>
+  </div>
+  <div class="vocab-card accent-blue">
+    <div class="en">eraser</div>
+    <div class="ja">消しゴム 🧹</div>
+  </div>
+  <div class="vocab-card accent-green">
+    <div class="en">pencil</div>
+    <div class="ja">えんぴつ ✏️</div>
+  </div>
+  <div class="vocab-card accent-pink">
+    <div class="en">pen</div>
+    <div class="ja">ペン 🖊️</div>
+  </div>
+  <div class="vocab-card accent-purple">
+    <div class="en">ruler</div>
+    <div class="ja">定規 📏</div>
+  </div>
+  <div class="vocab-card accent-blue">
+    <div class="en">bag</div>
+    <div class="ja">かばん 🎒</div>
+  </div>
+  <div class="vocab-card accent-green">
+    <div class="en">book</div>
+    <div class="ja">本 📖</div>
+  </div>
+</div>
+
+<!-- 3. 形容詞 -->
+<div class="section-title">💬 形容詞 (Adjectives)</div>
+<div class="vocab-grid">
+  <div class="vocab-card accent-pink">
+    <div class="en">new</div>
+    <div class="ja">新しい ✨</div>
+  </div>
+  <div class="vocab-card accent-blue">
+    <div class="en">old</div>
+    <div class="ja">古い 🏚️</div>
+  </div>
+  <div class="vocab-card accent-purple">
+    <div class="en">big</div>
+    <div class="ja">大きい 🐘</div>
+  </div>
+  <div class="vocab-card accent-green">
+    <div class="en">small</div>
+    <div class="ja">小さい 🐭</div>
+  </div>
+  <div class="vocab-card accent-pink">
+    <div class="en">fast</div>
+    <div class="ja">速い 💨</div>
+  </div>
+  <div class="vocab-card accent-blue">
+    <div class="en">slow</div>
+    <div class="ja">遅い 🐢</div>
+  </div>
+  <div class="vocab-card accent-purple">
+    <div class="en">sleepy</div>
+    <div class="ja">眠い 😴</div>
+  </div>
+  <div class="vocab-card accent-green">
+    <div class="en">happy</div>
+    <div class="ja">幸せな 😊</div>
+  </div>
+  <div class="vocab-card accent-pink" style="grid-column: 1 / -1;">
+    <div class="en">hungry</div>
+    <div class="ja">お腹がすいた 🍙</div>
+  </div>
+</div>
+
+<!-- 4. be動詞の使い方 -->
+<div class="section-title">📝 be動詞の使い方</div>
+
+<div class="grammar-box">
+  <div class="box-title">✅ 肯定文（〜です）</div>
+  <div class="formula">主語 ＋ am / is / are ＋ 名詞・形容詞</div>
+  <div class="example-item">
+    <span class="eng">I am a doctor.</span><br>
+    <span class="jp">わたしは医者です</span>
+  </div>
+  <div class="example-item">
+    <span class="eng">You are a teacher.</span><br>
+    <span class="jp">あなたは先生です</span>
+  </div>
+  <div class="example-item">
+    <span class="eng">Tom is a nurse.</span><br>
+    <span class="jp">トムは看護師です</span>
+  </div>
+</div>
+
+<div class="grammar-box pink">
+  <div class="box-title">❌ 否定文（〜ではありません）</div>
+  <div class="formula">主語 ＋ am / is / are ＋ <span style="color:#be185d">not</span> ＋ ...</div>
+  <div class="example-item">
+    <span class="eng">I am not sleepy.</span><br>
+    <span class="jp">わたしは眠くありません</span>
+  </div>
+  <div class="example-item">
+    <span class="eng">You are not a soccer player.</span><br>
+    <span class="jp">あなたはサッカー選手ではありません</span>
+  </div>
+</div>
+
+<div class="grammar-box blue">
+  <div class="box-title">❓ 疑問文（〜ですか？）</div>
+  <div class="formula"><span style="color:#2563eb">Am / Is / Are</span> ＋ 主語 ＋ ... ？</div>
+  <div class="example-item">
+    <span class="eng">Are you a singer?</span><br>
+    <span class="jp">あなたは歌手ですか？</span>
+  </div>
+  <div class="example-item">
+    <span class="eng">Is Tom a doctor?</span><br>
+    <span class="jp">トムは医者ですか？</span>
+  </div>
+</div>
+
+<!-- 5. want / don't want -->
+<div class="section-title">🌟 I want / I don't want</div>
+
+<div class="want-box">
+  <div class="box-title">💖 ほしい・ほしくない</div>
+  <div class="want-item">
+    <div class="en">I want a cat.</div>
+    <div class="jp">わたしはネコがほしいです 🐱</div>
+  </div>
+  <div class="want-item">
+    <div class="en">I don't want an apple.</div>
+    <div class="jp">わたしはリンゴがほしくありません 🍎</div>
+  </div>
+  <div class="want-item">
+    <div class="en">Do you want a new desk?</div>
+    <div class="jp">あなたは新しい机がほしいですか？ 🖥️</div>
+  </div>
+</div>
+
+<!-- 6. am/is/areの使い分け -->
+<div class="section-title">📊 am / is / are の使い分け</div>
+
+<table class="data-table">
+  <thead>
+    <tr>
+      <th>主語</th>
+      <th>be動詞</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>I</td>
+      <td>am</td>
+    </tr>
+    <tr>
+      <td>You</td>
+      <td>are</td>
+    </tr>
+    <tr>
+      <td>He / She / It / 名前</td>
+      <td>is</td>
+    </tr>
+    <tr>
+      <td>We / They</td>
+      <td>are</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-title">⚡ 短縮形</div>
+<div class="contraction-grid">
+  <div class="contraction-card">
+    <div class="from">I am</div>
+    <div class="arrow">↓</div>
+    <div class="to">I'm</div>
+  </div>
+  <div class="contraction-card">
+    <div class="from">You are</div>
+    <div class="arrow">↓</div>
+    <div class="to">You're</div>
+  </div>
+  <div class="contraction-card">
+    <div class="from">He is</div>
+    <div class="arrow">↓</div>
+    <div class="to">He's</div>
+  </div>
+  <div class="contraction-card">
+    <div class="from">I am not</div>
+    <div class="arrow">↓</div>
+    <div class="to">I'm not</div>
+  </div>
+  <div class="contraction-card">
+    <div class="from">are not</div>
+    <div class="arrow">↓</div>
+    <div class="to">aren't</div>
+  </div>
+  <div class="contraction-card">
+    <div class="from">is not</div>
+    <div class="arrow">↓</div>
+    <div class="to">isn't</div>
+  </div>
+</div>
+
+<!-- 7. よく出る文型（並べ替え） -->
+<div class="section-title">🔀 よく出る文型（並べ替え問題）</div>
+
+<div class="sentence-card">
+  <div class="tag">否定文</div>
+  <div class="jp-q">「ぼくは眠くありません。」</div>
+  <div class="en-a">I'm not sleepy. 😴</div>
+</div>
+<div class="sentence-card">
+  <div class="tag">疑問文</div>
+  <div class="jp-q">「あなたは歌手ですか？」</div>
+  <div class="en-a">Are you a singer? 🎤</div>
+</div>
+<div class="sentence-card">
+  <div class="tag">肯定文</div>
+  <div class="jp-q">「わたしは医者です。」</div>
+  <div class="en-a">I am a doctor. 🩺</div>
+</div>
+<div class="sentence-card">
+  <div class="tag">want</div>
+  <div class="jp-q">「わたしは新しい机がほしいです。」</div>
+  <div class="en-a">I want a new desk. 🖥️</div>
+</div>
+<div class="sentence-card">
+  <div class="tag">疑問文</div>
+  <div class="jp-q">「あなたはネコがほしいですか？」</div>
+  <div class="en-a">Do you want a cat? 🐱</div>
+</div>
+
+<!-- 8. テストのポイント -->
+<div class="section-title">🎯 テストのポイント</div>
+
+<div class="important-box">
+  <div class="box-title">🏆 絶対に覚えよう！</div>
+  <div class="point-item">
+    <span class="num">①</span>
+    <span><strong>am / is / are の使い分け</strong><br>I → am、You → are、それ以外 → is</span>
+  </div>
+  <div class="point-item">
+    <span class="num">②</span>
+    <span><strong>否定文</strong> → not を be動詞の<u>後ろ</u>に入れる<br>例: I am <em>not</em> sleepy.</span>
+  </div>
+  <div class="point-item">
+    <span class="num">③</span>
+    <span><strong>疑問文</strong> → be動詞を文の<u>最初</u>に出す<br>例: <em>Are</em> you a singer?</span>
+  </div>
+  <div class="point-item">
+    <span class="num">④</span>
+    <span><strong>want の否定</strong> → <em>don't want</em> を使う<br>例: I <em>don't want</em> an apple.</span>
+  </div>
+  <div class="point-item">
+    <span class="num">⑤</span>
+    <span><strong>職業・学校用品の単語</strong>をしっかり覚える 💪</span>
+  </div>
+</div>
+
+</body>
+</html>

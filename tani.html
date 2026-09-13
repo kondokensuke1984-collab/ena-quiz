@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>📏 単位変換 まとめ</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+      background: linear-gradient(135deg, #f0e6ff 0%, #e6f0ff 50%, #ffe6f5 100%);
+      min-height: 100vh;
+      padding: 16px;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #7c3aed, #f472b6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 24px 0 8px;
+      line-height: 1.3;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #a78bfa;
+      font-size: 0.95rem;
+      margin-bottom: 28px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(124, 58, 237, 0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .card h2 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #7c3aed;
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      position: relative;
+    }
+
+    .card h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, #a78bfa, #f472b6, #60a5fa);
+    }
+
+    .unit-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .unit-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1rem;
+      color: #374151;
+      padding: 8px 12px;
+      border-radius: 10px;
+      background: #f5f3ff;
+    }
+
+    .unit-list li .eq {
+      font-weight: 700;
+      color: #7c3aed;
+      font-size: 1.05rem;
+    }
+
+    .formula-box {
+      background: linear-gradient(135deg, #ede9fe, #fce7f3);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin: 12px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .formula-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1rem;
+      color: #5b21b6;
+      font-weight: 600;
+    }
+
+    .arrow-badge {
+      background: #7c3aed;
+      color: #fff;
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .tip-box {
+      border-left: 4px solid #a78bfa;
+      background: #f5f3ff;
+      border-radius: 0 10px 10px 0;
+      padding: 10px 14px;
+      margin: 10px 0;
+      font-size: 0.95rem;
+      color: #5b21b6;
+    }
+
+    .tip-box.pink {
+      border-left-color: #f472b6;
+      background: #fff0f6;
+      color: #831843;
+    }
+
+    .tip-box.blue {
+      border-left-color: #60a5fa;
+      background: #eff6ff;
+      color: #1e3a8a;
+    }
+
+    .example-card {
+      background: #fff;
+      border: 2px solid #e9d5ff;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin: 8px 0;
+    }
+
+    .example-card .ex-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #a78bfa;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+
+    .example-card .ex-problem {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #374151;
+      margin-bottom: 4px;
+    }
+
+    .example-card .ex-answer {
+      font-size: 0.95rem;
+      color: #6b7280;
+    }
+
+    .example-card .ex-answer span {
+      color: #7c3aed;
+      font-weight: 700;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 0.93rem;
+    }
+
+    th {
+      background: linear-gradient(135deg, #7c3aed, #a78bfa);
+      color: #fff;
+      padding: 10px 12px;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    th:first-child { border-radius: 8px 0 0 0; }
+    th:last-child  { border-radius: 0 8px 0 0; }
+
+    td {
+      padding: 9px 12px;
+      text-align: center;
+      border-bottom: 1px solid #ede9fe;
+      color: #374151;
+    }
+
+    tr:nth-child(even) td { background: #f5f3ff; }
+    tr:last-child td:first-child { border-radius: 0 0 0 8px; }
+    tr:last-child td:last-child  { border-radius: 0 0 8px 0; }
+
+    .konomi-box {
+      background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
+      border-radius: 14px;
+      padding: 16px 18px;
+      color: #fff;
+      margin: 10px 0;
+    }
+
+    .konomi-box .rule {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .konomi-box .rule .icon {
+      font-size: 1.4rem;
+    }
+
+    .konomi-box .rule:last-child { margin-bottom: 0; }
+
+    .back-btn {
+      display: block;
+      text-align: center;
+      background: linear-gradient(135deg, #7c3aed, #f472b6);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 14px;
+      padding: 14px 24px;
+      font-size: 1rem;
+      font-weight: 800;
+      margin: 28px 0 16px;
+      box-shadow: 0 4px 16px rgba(124, 58, 237, 0.25);
+      transition: opacity 0.2s;
+    }
+
+    .back-btn:hover { opacity: 0.85; }
+
+    .section-emoji {
+      font-size: 1.3rem;
+      margin-right: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📏 単位変換 まとめ</h1>
+    <p class="subtitle">算数でよく出る単位をまとめて覚えよう！</p>
+
+    <!-- 長さ -->
+    <div class="card">
+      <h2><span class="section-emoji">📐</span>長さ（km・m・cm・mm）</h2>
+      <ul class="unit-list">
+        <li><span class="eq">1 km</span> = <span class="eq">1,000 m</span></li>
+        <li><span class="eq">1 m</span> = <span class="eq">100 cm</span></li>
+        <li><span class="eq">1 cm</span> = <span class="eq">10 mm</span></li>
+        <li><span class="eq">1 km</span> = <span class="eq">100,000 cm</span> = <span class="eq">1,000,000 mm</span></li>
+      </ul>
+
+      <table style="margin-top:14px;">
+        <thead>
+          <tr>
+            <th>km</th>
+            <th>m</th>
+            <th>cm</th>
+            <th>mm</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>1,000</td><td>100,000</td><td>1,000,000</td></tr>
+          <tr><td>0.001</td><td>1</td><td>100</td><td>1,000</td></tr>
+          <tr><td>0.00001</td><td>0.01</td><td>1</td><td>10</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 重さ -->
+    <div class="card">
+      <h2><span class="section-emoji">⚖️</span>重さ（t・kg・g・mg）</h2>
+      <ul class="unit-list">
+        <li><span class="eq">1 t</span> = <span class="eq">1,000 kg</span></li>
+        <li><span class="eq">1 kg</span> = <span class="eq">1,000 g</span></li>
+        <li><span class="eq">1 g</span> = <span class="eq">1,000 mg</span></li>
+        <li><span class="eq">1 t</span> = <span class="eq">1,000,000 g</span></li>
+      </ul>
+    </div>
+
+    <!-- 体積 -->
+    <div class="card">
+      <h2><span class="section-emoji">🧪</span>体積・かさ（kL・L・dL・mL・cc）</h2>
+      <ul class="unit-list">
+        <li><span class="eq">1 kL</span> = <span class="eq">1,000 L</span></li>
+        <li><span class="eq">1 L</span> = <span class="eq">10 dL</span></li>
+        <li><span class="eq">1 dL</span> = <span class="eq">100 mL</span></li>
+        <li><span class="eq">1 L</span> = <span class="eq">1,000 mL</span></li>
+        <li><span class="eq">1 mL</span> = <span class="eq">1 cc</span></li>
+      </ul>
+
+      <div class="tip-box blue" style="margin-top:12px;">
+        💡 <strong>1dL = 100mL</strong>（dL は意外とよく出る！忘れずに）
+      </div>
+    </div>
+
+    <!-- 面積 -->
+    <div class="card">
+      <h2><span class="section-emoji">🗺️</span>面積（km²・ha・a・m²・cm²）</h2>
+      <ul class="unit-list">
+        <li><span class="eq">1 km²</span> = <span class="eq">100 ha</span></li>
+        <li><span class="eq">1 ha</span> = <span class="eq">100 a</span></li>
+        <li><span class="eq">1 a</span> = <span class="eq">100 m²</span></li>
+        <li><span class="eq">1 m²</span> = <span class="eq">10,000 cm²</span></li>
+        <li><span class="eq">1 km²</span> = <span class="eq">1,000,000 m²</span></li>
+      </ul>
+
+      <div class="tip-box pink" style="margin-top:12px;">
+        ⚠️ <strong>面積の単位変換は2乗！</strong><br>
+        1m = 100cm なら 1m² = 100×100 = 10,000cm²
+      </div>
+    </div>
+
+    <!-- 時間 -->
+    <div class="card">
+      <h2><span class="section-emoji">⏰</span>時間（時・分・秒）</h2>
+      <ul class="unit-list">
+        <li><span class="eq">1 時間</span> = <span class="eq">60 分</span></li>
+        <li><span class="eq">1 分</span> = <span class="eq">60 秒</span></li>
+        <li><span class="eq">1 時間</span> = <span class="eq">3,600 秒</span></li>
+      </ul>
+
+      <div class="tip-box" style="margin-top:12px;">
+        💡 3600 = 60 × 60 で覚えよう！
+      </div>
+    </div>
+
+    <!-- 変換のコツ -->
+    <div class="card">
+      <h2><span class="section-emoji">🔑</span>変換のコツ</h2>
+      <div class="konomi-box">
+        <div class="rule">
+          <span class="icon">✖️</span>
+          <span>大きい単位 → 小さい単位 ： ×（かける）</span>
+        </div>
+        <div class="rule">
+          <span class="icon">➗</span>
+          <span>小さい単位 → 大きい単位 ： ÷（わる）</span>
+        </div>
+      </div>
+
+      <div class="formula-box">
+        <div class="formula-row">
+          <span class="arrow-badge">例</span>
+          <span>km → m は ×1000 ／ m → km は ÷1000</span>
+        </div>
+        <div class="formula-row">
+          <span class="arrow-badge">例</span>
+          <span>kg → g は ×1000 ／ g → kg は ÷1000</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 例題 -->
+    <div class="card">
+      <h2><span class="section-emoji">✏️</span>例題</h2>
+
+      <div class="example-card">
+        <div class="ex-label">例題 1</div>
+        <div class="ex-problem">3kg 700g = ？g</div>
+        <div class="ex-answer">
+          3 × 1000 + 700 = <span>3700 g</span>
+        </div>
+      </div>
+
+      <div class="example-card">
+        <div class="ex-label">例題 2</div>
+        <div class="ex-problem">8m 40cm = ？m</div>
+        <div class="ex-answer">
+          40 ÷ 100 = 0.4 → <span>8.4 m</span>
+        </div>
+      </div>
+
+      <div class="example-card">
+        <div class="ex-label">例題 3</div>
+        <div class="ex-problem">0.25km = ？m</div>
+        <div class="ex-answer">
+          0.25 × 1000 = <span>250 m</span>
+        </div>
+      </div>
+    </div>
+
+    <a href="/" class="back-btn">🏠 トップにもどる</a>
+  </div>
+</body>
+</html>

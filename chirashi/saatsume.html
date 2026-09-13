@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>さあつめ算の とき方</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Yusei+Magic&family=Zen+Maru+Gothic:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap">
+<style>
+  :root{
+    --paper:#FFFFFF; --ink:#17232E; --ink-soft:#4E606E; --rule:#D6DBC4;
+    --ol:#66761F; --ol-deep:#465214; --ol-soft:#F1F4E1; --ol-line:#C4D096;
+    --yellow:#FFD24A; --yellow-soft:#FFF6DC; --red:#B23A2E; --red-soft:#FBEDEB;
+    --backdrop:#DDE3E8; --backdrop-ink:#4E606E;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){ --backdrop:#161C22; --backdrop-ink:#8FA3B2; }
+  }
+  :root[data-theme="dark"]{ --backdrop:#161C22; --backdrop-ink:#8FA3B2; }
+
+  body{ background:var(--backdrop); color:var(--ink);
+    font-family:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;
+    display:flex; flex-direction:column; align-items:center; padding:16px 12px 40px; }
+  p{ margin:0; }
+  .hint{ color:var(--backdrop-ink); font-size:12px; letter-spacing:.06em;
+    margin:0 0 12px; text-align:center; line-height:1.7; }
+
+  .sheet{ width:210mm; height:297mm; background:var(--paper);
+    padding:8.5mm 10mm; box-sizing:border-box;
+    display:flex; flex-direction:column; gap:2.6mm;
+    box-shadow:0 6px 28px rgba(0,0,0,.22);
+    -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+
+  .head{ display:flex; align-items:flex-end; justify-content:space-between;
+    gap:6mm; border-bottom:1.2mm solid var(--ol); padding-bottom:1.6mm; }
+  .head h1{ margin:0; font-family:"Yusei Magic","Zen Maru Gothic",sans-serif;
+    font-size:12.4mm; line-height:1; color:var(--ol); }
+  .head h1 .kanji{ font-family:"Zen Maru Gothic",sans-serif; font-size:5.8mm;
+    color:var(--ink-soft); padding-left:2.5mm; letter-spacing:.04em; }
+  .head .lede{ text-align:right; flex:0 0 auto;
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:700;
+    font-size:3.1mm; line-height:1.5; color:var(--ink-soft); }
+  .head .lede b{ display:block; font-size:4.4mm; color:var(--ol-deep); }
+
+  .lead{ background:var(--ol-soft); border-radius:1.6mm; padding:2mm 3mm;
+    font-size:3.5mm; line-height:1.5; text-wrap:pretty; }
+  .lead b{ font-weight:900; color:var(--ol-deep); }
+  .lead .bx{ display:inline-block; border:.4mm solid var(--ol-deep); border-radius:.8mm;
+    padding:0 1.2mm; font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    color:var(--ol-deep); margin:0 .4mm; }
+
+  .secs{ display:flex; flex-direction:column; gap:2.6mm; flex:1; min-height:0; justify-content:space-between; }
+  .sec{ display:flex; flex-direction:column; gap:1.6mm; }
+  .sec > header{ display:flex; align-items:center; gap:2.6mm; }
+  .sec .no{ flex:0 0 auto; width:8.4mm; height:8.4mm; border-radius:50%;
+    background:var(--ol); color:#fff; font-family:"Yusei Magic",sans-serif; font-size:5mm;
+    display:flex; align-items:center; justify-content:center; }
+  .sec h2{ margin:0; font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:5.6mm; line-height:1.15; color:var(--ol-deep); }
+  .sec h2 small{ font-family:"Zen Kaku Gothic New",sans-serif; font-weight:700;
+    font-size:3.2mm; color:var(--ink-soft); padding-left:2mm; }
+  .body{ padding-left:11mm; display:flex; flex-direction:column; gap:1.8mm; }
+
+  /* 立式パターン */
+  .pats{ display:grid; grid-template-columns:1fr 1fr; gap:1.6mm 3mm; }
+  .pat{ border:.4mm solid var(--rule); border-radius:1.4mm; padding:1.5mm 2.4mm; }
+  .pat .t{ font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:3.1mm; color:var(--ol-deep); display:block; margin-bottom:.8mm; }
+  .pat .f{ font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:3.5mm; color:var(--ink); font-variant-numeric:tabular-nums; line-height:1.35; }
+  .pat .f em{ font-style:normal; color:var(--ol); }
+
+  /* ルール */
+  .rulebox{ border:.7mm solid var(--ol-deep); border-radius:2mm; padding:2.4mm 3mm;
+    display:grid; grid-template-columns:auto 1fr; gap:1.1mm 3mm; align-items:start;
+    background:var(--yellow-soft); }
+  .rulebox .cap{ grid-column:1 / -1; font-family:"Yusei Magic",sans-serif;
+    font-size:5.4mm; color:var(--ol-deep); text-align:center; letter-spacing:.2em;
+    border-bottom:.4mm solid var(--ol-line); padding-bottom:1.2mm; margin-bottom:.6mm; }
+  .rulebox .n{ font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:4.6mm; color:var(--ol-deep); white-space:nowrap; }
+  .rulebox .d{ font-size:3.2mm; line-height:1.45; text-wrap:pretty; }
+  .rulebox .d b{ font-family:"Zen Maru Gothic",sans-serif; font-weight:900; color:var(--ol-deep); }
+  .rulebox .d .k{ font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-variant-numeric:tabular-nums; color:var(--ink); }
+
+  /* 例題 */
+  .exs{ display:grid; grid-template-columns:1fr 1fr; gap:1.8mm 3.4mm; }
+  .ex{ border:.4mm solid var(--ol-line); border-radius:1.6mm; padding:1.5mm 2.2mm;
+    display:flex; flex-direction:column; gap:.7mm; background:#fff; }
+  .ex .q{ font-size:2.95mm; line-height:1.4; color:var(--ink-soft); text-wrap:pretty; }
+  .ex .q b{ color:var(--ink); font-weight:900; }
+  .ex .q .lb{ display:inline-block; background:var(--ol); color:#fff; border-radius:.7mm;
+    padding:.2mm 1.2mm; font-size:2.7mm; font-weight:900; margin-right:1.2mm;
+    font-family:"Zen Maru Gothic",sans-serif; }
+  .eq{ font-family:"Zen Maru Gothic",sans-serif; font-weight:900; font-size:3.6mm;
+    font-variant-numeric:tabular-nums; color:var(--ink); line-height:1.3; }
+  .op{ font-size:2.8mm; color:var(--ol); font-weight:700; line-height:1.3; padding-left:2mm; }
+  .op .tg{ display:inline-flex; align-items:center; justify-content:center;
+    width:3.6mm; height:3.6mm; border-radius:50%; background:var(--ol); color:#fff;
+    font-size:2.4mm; font-weight:900; margin-right:1mm; vertical-align:-.5mm;
+    font-family:"Zen Maru Gothic",sans-serif; }
+  .eq.hit{ color:var(--ol-deep); background:var(--ol-soft); border-radius:1mm;
+    padding:.6mm 1.6mm; align-self:flex-start; }
+  .ans{ font-family:"Zen Maru Gothic",sans-serif; font-weight:900; font-size:3.4mm;
+    color:var(--ink); border-top:.35mm dashed var(--ol-line); padding-top:1mm; margin-top:.3mm;
+    font-variant-numeric:tabular-nums; }
+  .ans b{ color:var(--red); font-size:4mm; }
+
+  .warn{ border:.4mm solid var(--red); background:var(--red-soft); border-radius:1.4mm;
+    padding:1.5mm 2.4mm; font-size:3.1mm; line-height:1.45; text-wrap:pretty; }
+  .warn b{ font-family:"Zen Maru Gothic",sans-serif; font-weight:900; color:var(--red); }
+
+  .memo{ border-top:.8mm solid var(--ol); padding-top:2mm;
+    display:grid; grid-template-columns:23mm 1fr 1fr; gap:1.4mm 4mm; align-items:start; }
+  .memo .lbl{ grid-row:span 2; font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:3.6mm; color:var(--ol); line-height:1.25; white-space:nowrap; }
+  .memo p{ font-size:3.1mm; line-height:1.45; padding-left:5mm; position:relative; text-wrap:pretty; }
+  .memo p::before{ content:"\2713"; position:absolute; left:0; top:-.2mm; color:var(--ol);
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900; font-size:3.7mm; }
+  .memo b{ font-weight:900; color:var(--ol-deep); }
+
+  @page{ size:210mm 297mm; margin:0; }
+  @media print{
+    html,body{ margin:0; padding:0; width:210mm; background:#fff;
+      display:block; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    .hint{ display:none; }
+    .sheet{ box-shadow:none; margin:0; width:210mm; height:296.8mm;
+      transform:none; overflow:hidden; break-inside:avoid; break-after:avoid; page-break-after:avoid; }
+  }
+  @media screen and (max-width:860px){
+    .sheet{ transform-origin:top center; transform:scale(.46); margin-bottom:-160mm; }
+  }
+</style>
+</head>
+<body>
+
+
+<p class="hint">A4たて・倍率100%（余白「なし」〜「せまい」）で印刷してください。<br>⌘P / Ctrl+P → 用紙 A4 → 背景のグラフィックを印刷 ON</p>
+
+<div class="sheet">
+
+  <header class="head">
+    <h1>さあつめざん<span class="kanji">差集め算</span></h1>
+    <p class="lede">とくしゅ算 ③<b>□の式を つくって とく</b></p>
+  </header>
+
+  <p class="lead">わからない数を <span class="bx">□</span> とおいて、<b>同じものを 2通りの言い方で書いて「＝」でつなぐ</b>。あとは 下の <b>ルール①〜④</b> の順に変形するだけ。□の個数は <span class="bx">100</span> のように 四角で囲むと ラク（<span class="bx">100</span>＝100×□ のこと）。</p>
+
+  <div class="secs">
+
+    <!-- ══ 1 ══ -->
+    <section class="sec">
+      <header>
+        <span class="no">1</span>
+        <h2>式の つくり方<small>問題文の 型で 決まる</small></h2>
+      </header>
+      <div class="body">
+        <div class="pats">
+          <p class="pat"><span class="t">同じ数ずつ 買って 代金に差</span>
+            <span class="f">高い方×□ ＝ 安い方×□ <em>＋ 差</em></span></p>
+          <p class="pat"><span class="t">個数が ちがう（○個多く買った）</span>
+            <span class="f">高い方×(□<em>＋○</em>) ＝ 安い方×□ <em>＋ 差</em></span></p>
+          <p class="pat"><span class="t">配って あまる・足りない</span>
+            <span class="f">少なく配る×□ <em>＋あまり</em> ＝ 多く配る×□ <em>−不足</em></span></p>
+          <p class="pat"><span class="t">持っているお金は 同じ</span>
+            <span class="f">買い方Aの合計 ＝ 買い方Bの合計</span></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ 2 ══ -->
+    <section class="sec">
+      <header>
+        <span class="no">2</span>
+        <h2>ルール<small>この順に 変形する</small></h2>
+      </header>
+      <div class="body">
+        <div class="rulebox">
+          <span class="cap">ルール</span>
+          <span class="n">① −を なくす</span>
+          <span class="d">ひき算があったら、<b>両辺に 同じ数をたして</b> 消す。〈例〉<span class="k">−3</span> があるなら 両辺に <span class="k">+3</span>。</span>
+          <span class="n">② □を 片方にする</span>
+          <span class="d"><b>両辺から 同じ □ をひいて</b>、□ を片側に集める。〈例〉両辺から <span class="k">80×□</span> をひく。</span>
+          <span class="n">③ 数字を 片方にする</span>
+          <span class="d"><b>両辺から 同じ数をひいて</b>、数字を反対側に集める。〈例〉両辺から <span class="k">240</span> をひく。</span>
+          <span class="n">④ □1つ分を 出す</span>
+          <span class="d"><b>□の個数で わる</b>。〈例〉<span class="k">20×□＝320</span> なら 20でわって <span class="k">□＝16</span>。</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ 3 ══ -->
+    <section class="sec">
+      <header>
+        <span class="no">3</span>
+        <h2>この順でとく<small>4つの型を そのまま</small></h2>
+      </header>
+      <div class="body">
+        <div class="exs">
+
+          <div class="ex">
+            <p class="q"><span class="lb">1</span>1個 <b>100円</b> のリンゴと 1個 <b>80円</b> のミカンを <b>同じ数ずつ</b>。代金の差は <b>320円</b>。リンゴ代は？</p>
+            <p class="eq">100×□ ＝ 80×□ ＋ 320</p>
+            <p class="op"><span class="tg">2</span>両辺から 80×□ をひく</p>
+            <p class="eq">20×□ ＝ 320</p>
+            <p class="op"><span class="tg">4</span>20 でわる</p>
+            <p class="eq hit">□ ＝ 16</p>
+            <p class="ans">100×16 ＝ <b>1600円</b></p>
+          </div>
+
+          <div class="ex">
+            <p class="q"><span class="lb">2</span>ビー玉を配る。<b>5個ずつ</b>で <b>18個あまり</b>、<b>6個ずつ</b>で <b>3個足りない</b>。ビー玉は何個？</p>
+            <p class="eq">5×□ ＋ 18 ＝ 6×□ − 3</p>
+            <p class="op"><span class="tg">1</span>両辺に 3 をたす</p>
+            <p class="eq">5×□ ＋ 21 ＝ 6×□</p>
+            <p class="op"><span class="tg">2</span>両辺から 5×□ をひく</p>
+            <p class="eq hit">21 ＝ □</p>
+            <p class="ans">5×21 ＋ 18 ＝ <b>123個</b></p>
+          </div>
+
+          <div class="ex">
+            <p class="q"><span class="lb">3</span><b>120円</b>のアイスと <b>90円</b>のチョコ。アイスの方が <b>2個多く</b>、代金は <b>360円高い</b>。チョコは何個？</p>
+            <p class="eq">120×(□＋2) ＝ 90×□ ＋ 360</p>
+            <p class="op"><span class="tg">0</span>かっこを外す　120×□＋240</p>
+            <p class="op"><span class="tg">2</span>両辺から 90×□ をひく</p>
+            <p class="eq">30×□ ＋ 240 ＝ 360</p>
+            <p class="op"><span class="tg">3</span>両辺から 240 をひく　→　30×□ ＝ 120</p>
+            <p class="eq hit">□ ＝ <b style="color:var(--red)">4個</b></p>
+          </div>
+
+          <div class="ex">
+            <p class="q"><span class="lb">4</span><b>120円</b>のジュースを何本かで <b>40円あまる</b>予定。<b>90円</b>のお茶を <b>3本多く</b>買っても <b>40円あまった</b>。いくら持っていた？</p>
+            <p class="eq">120×□＋40 ＝ 90×(□＋3)＋40</p>
+            <p class="op"><span class="tg">0</span>かっこを外す　→　90×□＋310</p>
+            <p class="op"><span class="tg">2</span>両辺から 90×□ をひく　→　30×□＋40 ＝ 310</p>
+            <p class="op"><span class="tg">3</span>両辺から 40 をひく　→　30×□ ＝ 270</p>
+            <p class="eq hit">□ ＝ 9</p>
+            <p class="ans">120×9 ＋ 40 ＝ <b>1120円</b></p>
+          </div>
+
+        </div>
+        <p class="warn"><b>▲ □を出して 終わりではない</b>　□は「1つ分」（個数・人数・本数）。聞かれているのが 代金や総数なら <b>□を使って もう一度計算する</b>。〈例1〉□＝16は個数 → 代金 100×16。〈例2〉□＝21は人数 → ビー玉 5×21＋18。</p>
+      </div>
+    </section>
+  </div>
+
+  <div class="memo">
+    <span class="lbl">おぼえておく</span>
+    <p><b>「＝」でつなげるものを さがす</b>のが第一歩。同じものを 2通りで書けたら もう半分できている。</p>
+    <p>「あまる」は <b>＋</b>、「足りない」は <b>−</b>。ここを逆にすると 答えが合わない。</p>
+    <p>かっこがあったら <b>先に外す</b>。120×(□＋2) は 120×□＋240。かけ忘れに注意。</p>
+    <p>両辺に <b>同じこと</b> をすれば「＝」はくずれない。たす・ひく・わる、どれも同じ。</p>
+  </div>
+
+</div>
+
+<style>
+@media screen and (max-width:860px){
+  body{ padding:8px 0 28px; }
+  .sheet{ transform:scale(var(--fit,.46)) !important;
+          margin-bottom:calc(-297mm * (1 - var(--fit,.46))) !important; }
+}
+</style>
+<script>
+(function(){
+  function fit(){
+    var w = Math.min(document.documentElement.clientWidth, 860);
+    document.documentElement.style.setProperty('--fit', Math.min(1,(w-10)/793.7).toFixed(4));
+  }
+  fit(); addEventListener('resize', fit); addEventListener('orientationchange', fit);
+})();
+</script>
+</body>
+</html>

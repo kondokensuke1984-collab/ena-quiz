@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>かぞえかたで とく算</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Yusei+Magic&family=Zen+Maru+Gothic:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap">
+<style>
+  :root{
+    --paper:#FFFFFF;
+    --ink:#17232E;
+    --ink-soft:#4E606E;
+    --rule:#D2D6DC;
+
+    --sm:#33383F;
+    --sm-deep:#1E2228;
+    --sm-soft:#EDEFF2;
+
+    --ms:#B67F1C;
+    --ms-deep:#8A5E10;
+    --ms-soft:#FBF1DC;
+    --ms-line:#E4C88E;
+
+    --red:#B23A2E;
+    --yellow:#FFD24A;
+    --yellow-soft:#FFF6DC;
+
+    --backdrop:#DDE3E8;
+    --backdrop-ink:#4E606E;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){ --backdrop:#161C22; --backdrop-ink:#8FA3B2; }
+  }
+  :root[data-theme="dark"]{ --backdrop:#161C22; --backdrop-ink:#8FA3B2; }
+
+  body{
+    background:var(--backdrop); color:var(--ink);
+    font-family:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;
+    display:flex; flex-direction:column; align-items:center;
+    padding:16px 12px 40px;
+  }
+  p{ margin:0; }
+  .hint{
+    color:var(--backdrop-ink); font-size:12px; letter-spacing:.06em;
+    margin:0 0 12px; text-align:center; line-height:1.7;
+  }
+
+  .sheet{
+    width:210mm; height:297mm; background:var(--paper);
+    padding:8.5mm 10mm; box-sizing:border-box;
+    display:flex; flex-direction:column; gap:2.6mm;
+    box-shadow:0 6px 28px rgba(0,0,0,.22);
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+
+  .head{
+    display:flex; align-items:flex-end; justify-content:space-between;
+    gap:6mm; border-bottom:1.2mm solid var(--sm); padding-bottom:1.6mm;
+  }
+  .head h1{
+    margin:0; font-family:"Yusei Magic","Zen Maru Gothic",sans-serif;
+    font-size:12.4mm; line-height:1; color:var(--sm);
+  }
+  .head h1 .kanji{
+    font-family:"Zen Maru Gothic",sans-serif; font-size:5.8mm;
+    color:var(--ink-soft); padding-left:2.5mm; letter-spacing:.04em;
+  }
+  .head .lede{
+    text-align:right; flex:0 0 auto;
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:700;
+    font-size:3.1mm; line-height:1.5; color:var(--ink-soft);
+  }
+  .head .lede b{ display:block; font-size:4.4mm; color:var(--ms-deep); }
+
+  .lead{
+    background:var(--sm-soft); border-radius:1.6mm; padding:2mm 3mm;
+    font-size:3.5mm; line-height:1.5; text-wrap:pretty;
+  }
+  .lead b{ font-weight:900; color:var(--sm-deep); }
+  .lead .hi{ background:var(--yellow-soft); font-weight:900; color:var(--ms-deep); padding:0 .8mm; border-radius:.6mm; }
+
+  .secs{ display:flex; flex-direction:column; gap:2.6mm; flex:1; min-height:0; justify-content:space-between; }
+  .sec{ display:flex; flex-direction:column; gap:1.6mm; }
+  .sec > header{ display:flex; align-items:center; gap:2.6mm; }
+  .sec .no{
+    flex:0 0 auto; width:8.4mm; height:8.4mm; border-radius:50%;
+    background:var(--sm); color:#fff;
+    font-family:"Yusei Magic",sans-serif; font-size:5mm;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .sec h2{
+    margin:0; font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:5.6mm; line-height:1.15; color:var(--sm-deep);
+  }
+  .sec h2 rt{ font-size:.3em; font-weight:700; letter-spacing:.04em; }
+  .sec h2 small{
+    font-family:"Zen Kaku Gothic New",sans-serif; font-weight:700;
+    font-size:3.2mm; color:var(--ink-soft); padding-left:2mm;
+  }
+  .body{ padding-left:11mm; display:grid; grid-template-columns:78mm 1fr; gap:3.2mm; align-items:start; }
+  .fig svg{ width:100%; height:auto; display:block; }
+  .fig .cap{ font-size:2.95mm; line-height:1.4; color:var(--ink-soft); margin-top:.8mm; text-wrap:pretty; }
+  .fig .cap b{ color:var(--ms-deep); font-weight:900; }
+
+  .cards{ display:flex; flex-direction:column; gap:1.5mm; }
+  .fx{
+    background:var(--sm); color:#fff; border-radius:1.4mm; padding:1.5mm 2.6mm;
+    display:flex; align-items:baseline; gap:2.4mm; flex-wrap:wrap;
+  }
+  .fx .lb{
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900; font-size:3.2mm;
+    color:var(--yellow); white-space:nowrap;
+  }
+  .fx .t{ font-family:"Zen Maru Gothic",sans-serif; font-weight:900; font-size:4mm; }
+  .fx .t em{ font-style:normal; color:var(--yellow); }
+  .fx .v{ font-size:3.1mm; color:#CDD3DB; font-weight:700; font-variant-numeric:tabular-nums; }
+  .warn{
+    border:.4mm solid var(--red); background:#FBEDEB; border-radius:1.4mm;
+    padding:1.4mm 2.4mm; font-size:3.1mm; line-height:1.45; text-wrap:pretty;
+  }
+  .warn b{ font-family:"Zen Maru Gothic",sans-serif; font-weight:900; color:var(--red); }
+  .note{
+    border:.4mm solid var(--rule); border-radius:1.4mm; padding:1.4mm 2.4mm;
+    font-size:3.1mm; line-height:1.45; text-wrap:pretty;
+  }
+  .note b{ font-family:"Zen Maru Gothic",sans-serif; font-weight:900; color:var(--sm-deep); }
+  .note .num{ font-variant-numeric:tabular-nums; font-weight:700; }
+
+  .strip{
+    margin-left:11mm; background:var(--ms-soft);
+    border:.35mm dashed var(--ms-line); border-radius:1.4mm;
+    padding:1.6mm 2.6mm; display:flex; flex-direction:column; gap:1mm;
+  }
+  .strip .row{ font-size:3.1mm; line-height:1.5; text-wrap:pretty; }
+  .strip .row b{ font-family:"Zen Maru Gothic",sans-serif; font-weight:900; color:var(--ms-deep); }
+  .strip .row .tag{
+    display:inline-block; background:var(--ms); color:#fff; border-radius:.8mm;
+    padding:.3mm 1.4mm; font-size:2.8mm; font-weight:900; margin-right:1.4mm;
+    font-family:"Zen Maru Gothic",sans-serif; white-space:nowrap;
+  }
+  .strip .row .num{ font-variant-numeric:tabular-nums; font-weight:700; }
+  .strip .row .ng{ color:var(--red); font-weight:900; }
+
+  .memo{
+    border-top:.8mm solid var(--sm); padding-top:2mm;
+    display:grid; grid-template-columns:23mm 1fr 1fr; gap:1.4mm 4mm; align-items:start;
+  }
+  .memo .lbl{
+    grid-row:span 2; font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:3.6mm; color:var(--sm); line-height:1.25; white-space:nowrap;
+  }
+  .memo p{ font-size:3.1mm; line-height:1.45; padding-left:5mm; position:relative; text-wrap:pretty; }
+  .memo p::before{
+    content:"\2713"; position:absolute; left:0; top:-.2mm; color:var(--ms);
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900; font-size:3.7mm;
+  }
+  .memo b{ font-weight:900; color:var(--sm-deep); }
+
+  @page{ size:210mm 297mm; margin:0; }
+  @media print{
+    html,body{
+      margin:0; padding:0; width:210mm; background:#fff;
+      display:block; -webkit-print-color-adjust:exact; print-color-adjust:exact;
+    }
+    .hint{ display:none; }
+    .sheet{
+      box-shadow:none; margin:0; width:210mm; height:296.8mm;
+      transform:none; overflow:hidden;
+      break-inside:avoid; break-after:avoid; page-break-after:avoid;
+    }
+  }
+  @media screen and (max-width:860px){
+    .sheet{ transform-origin:top center; transform:scale(.46); margin-bottom:-160mm; }
+  }
+</style>
+</head>
+<body>
+
+
+<p class="hint">A4たて・倍率100%（余白「なし」〜「せまい」）で印刷してください。<br>⌘P / Ctrl+P → 用紙 A4 → 背景のグラフィックを印刷 ON</p>
+
+<div class="sheet">
+
+  <header class="head">
+    <h1>かぞえかた<span class="kanji">植木算・方陣算</span></h1>
+    <p class="lede">とくしゅ算 ②<b>はしと角に 気をつける</b></p>
+  </header>
+
+  <p class="lead">この2つは <b>数の求め方</b>ではなく <b>数えかた</b> が山場。<span class="hi">はし</span>を入れるか入れないか、<span class="hi">四すみ</span>を2回数えていないか。まよったら <b>小さい図をかいて 実際に数える</b>。それがいちばん速い。</p>
+
+  <div class="secs">
+
+    <!-- ══ 植木算 ══ -->
+    <section class="sec">
+      <header>
+        <span class="no">1</span>
+        <h2><ruby>植木算<rt>うえきざん</rt></ruby><small>木の本数 と 間の数</small></h2>
+      </header>
+      <div class="body">
+        <div class="fig">
+          <svg viewBox="0 0 300 250" role="img" aria-label="両はしに植える・植えない・丸く植える の3つの図">
+            <g stroke="var(--sm)" stroke-width="2.4">
+              <path d="M30 34 L270 34"/>
+            </g>
+            <g fill="var(--ms)">
+              <circle cx="30" cy="34" r="7"/><circle cx="90" cy="34" r="7"/><circle cx="150" cy="34" r="7"/><circle cx="210" cy="34" r="7"/><circle cx="270" cy="34" r="7"/>
+            </g>
+            <g font-family="Zen Maru Gothic, sans-serif" font-weight="900" font-size="13" fill="var(--sm-deep)">
+              <text x="30" y="18">両はしに植える</text>
+              <text x="30" y="58">12m ÷ 3m ＝ 間 4か所　→　木 <tspan fill="var(--ms-deep)">4+1＝5本</tspan></text>
+            </g>
+
+            <g stroke="var(--sm)" stroke-width="2.4">
+              <path d="M30 114 L270 114"/>
+              <path d="M30 96 L30 132 M270 96 L270 132" stroke-width="4"/>
+            </g>
+            <g fill="var(--ms)">
+              <circle cx="64" cy="114" r="7"/><circle cx="99" cy="114" r="7"/><circle cx="133" cy="114" r="7"/><circle cx="167" cy="114" r="7"/><circle cx="201" cy="114" r="7"/><circle cx="236" cy="114" r="7"/>
+            </g>
+            <g font-family="Zen Maru Gothic, sans-serif" font-weight="900" font-size="13" fill="var(--sm-deep)">
+              <text x="30" y="90">両はしに植えない（電柱と電柱の間）</text>
+              <text x="30" y="140">14m ÷ 2m ＝ 間 7か所　→　木 <tspan fill="var(--ms-deep)">7−1＝6本</tspan></text>
+            </g>
+
+            <circle cx="95" cy="206" r="36" fill="none" stroke="var(--sm)" stroke-width="2.4"/>
+            <g fill="var(--ms)">
+              <circle cx="95" cy="170" r="7"/><circle cx="129" cy="195" r="7"/><circle cx="116" cy="235" r="7"/><circle cx="74" cy="235" r="7"/><circle cx="61" cy="195" r="7"/>
+            </g>
+            <g font-family="Zen Maru Gothic, sans-serif" font-weight="900" font-size="13" fill="var(--sm-deep)">
+              <text x="30" y="158">丸く植える</text>
+              <text x="150" y="196">まわり 10m ÷ 2m</text>
+              <text x="150" y="214">＝ 間 5か所</text>
+              <text x="150" y="232" fill="var(--ms-deep)">→ 木 5本（同じ）</text>
+            </g>
+          </svg>
+          <p class="cap">※ 木・電柱・人は <b>はばを考えない</b>ものとする。</p>
+        </div>
+        <div class="cards">
+          <p class="fx"><span class="lb">両はしに植える</span><span class="t">木 ＝ 間 <em>+ 1</em></span></p>
+          <p class="fx"><span class="lb">両はしに植えない</span><span class="t">木 ＝ 間 <em>− 1</em></span></p>
+          <p class="fx"><span class="lb">丸く植える</span><span class="t">木 ＝ 間</span></p>
+          <p class="note"><b>間かくを求めるとき（逆）</b>　間の数は 上の式を ひっくり返す。20mの道に5本（両はし）→ 間 <span class="num">5−1＝4</span> → <span class="num">20÷4＝5m</span>。まわり44mの池に4本 → 間4 → <span class="num">44÷4＝11m</span>。</p>
+        </div>
+      </div>
+      <div class="strip">
+        <p class="row"><span class="tag">応用・絵をはる</span>はば15cmの絵を 5cmずつあけて まっすぐ20まい。→ 間は <span class="num">20−1＝19か所</span>。はしからはしまで <b><span class="num">15×20 + 5×19 ＝ 395cm</span></b>。</p>
+        <p class="row"><span class="tag">応用・のりしろ</span>10cmのテープ3本をつなぐ。のりしろは <span class="num">3−1＝2か所</span>。①のりしろ1cm → <span class="num">30−1×2＝28cm</span>。②全体24cm → <span class="num">30−24＝6</span>、のりしろ1つは <span class="num">6÷2＝3cm</span>。</p>
+      </div>
+    </section>
+
+    <!-- ══ 方陣算 ══ -->
+    <section class="sec">
+      <header>
+        <span class="no">2</span>
+        <h2><ruby>方陣算<rt>ほうじんざん</rt></ruby><small>ご石を 正方形に ならべる</small></h2>
+      </header>
+      <div class="body">
+        <div class="fig">
+          <svg viewBox="0 0 300 218" role="img" aria-label="1辺6個の中実方陣と、外まわりを4つに分ける追い回しの図">
+            <g fill="var(--ms)" fill-opacity="0.3" stroke="var(--ms)" stroke-width="1.6">
+              <rect x="18" y="10" width="166" height="30" rx="4"/>
+              <rect x="188" y="10" width="30" height="158" rx="4"/>
+              <rect x="52" y="170" width="166" height="30" rx="4"/>
+              <rect x="18" y="42" width="30" height="158" rx="4"/>
+            </g>
+            <g fill="var(--sm)">
+              <circle cx="33" cy="25" r="8"/><circle cx="67" cy="25" r="8"/><circle cx="101" cy="25" r="8"/><circle cx="135" cy="25" r="8"/><circle cx="169" cy="25" r="8"/><circle cx="203" cy="25" r="8"/>
+              <circle cx="33" cy="57" r="8"/><circle cx="67" cy="57" r="8"/><circle cx="101" cy="57" r="8"/><circle cx="135" cy="57" r="8"/><circle cx="169" cy="57" r="8"/><circle cx="203" cy="57" r="8"/>
+              <circle cx="33" cy="89" r="8"/><circle cx="67" cy="89" r="8"/><circle cx="101" cy="89" r="8"/><circle cx="135" cy="89" r="8"/><circle cx="169" cy="89" r="8"/><circle cx="203" cy="89" r="8"/>
+              <circle cx="33" cy="121" r="8"/><circle cx="67" cy="121" r="8"/><circle cx="101" cy="121" r="8"/><circle cx="135" cy="121" r="8"/><circle cx="169" cy="121" r="8"/><circle cx="203" cy="121" r="8"/>
+              <circle cx="33" cy="153" r="8"/><circle cx="67" cy="153" r="8"/><circle cx="101" cy="153" r="8"/><circle cx="135" cy="153" r="8"/><circle cx="169" cy="153" r="8"/><circle cx="203" cy="153" r="8"/>
+              <circle cx="33" cy="185" r="8"/><circle cx="67" cy="185" r="8"/><circle cx="101" cy="185" r="8"/><circle cx="135" cy="185" r="8"/><circle cx="169" cy="185" r="8"/><circle cx="203" cy="185" r="8"/>
+            </g>
+            <g font-family="Zen Maru Gothic, sans-serif" font-weight="900" font-size="13" fill="var(--ms-deep)">
+              <text x="228" y="30">追い回し</text>
+              <text x="228" y="50" fill="var(--sm-deep)">同じ形の</text>
+              <text x="228" y="68" fill="var(--sm-deep)">4つに分ける</text>
+              <text x="228" y="96">5個 × 4</text>
+              <text x="228" y="114">＝ 20個</text>
+              <text x="228" y="150" fill="var(--red)">6×4＝24</text>
+              <text x="228" y="168" fill="var(--red)">には しない</text>
+            </g>
+          </svg>
+          <p class="cap">1辺6個の <b>中実方陣</b>（中までぎっしり）。外まわりを 同じ形の4つに分けると、1つは <b>5個</b>。四すみを2回数えないための分け方が「追い回し」。</p>
+        </div>
+        <div class="cards">
+          <p class="fx"><span class="lb">中実の全部</span><span class="t">1辺 × 1辺</span><span class="v">6×6 ＝ 36個</span></p>
+          <p class="fx"><span class="lb">外まわり</span><span class="t">(1辺 <em>− 1</em>) × 4</span><span class="v">5×4 ＝ 20個</span></p>
+          <p class="warn"><b>▲ 6×4＝24 にならない</b>　四すみのご石を 2回ずつ数えてしまうから。だから 1辺から <b>1をひく</b>。</p>
+          <p class="note"><b>中空方陣（中が空）</b>　外側1辺6個・2列のとき。追い回しで <span class="num">(2×4)×4＝32個</span>。中実からひいても <span class="num">6×6−2×2＝32個</span>。どちらでもよい。</p>
+        </div>
+      </div>
+      <div class="strip">
+        <p class="row"><span class="tag">1辺を逆算</span>168個で3列の中空方陣。→ 4つに分けて <span class="num">168÷4＝42</span>、3列なので <span class="num">42÷3＝14</span>。1辺は <b><span class="num">14+3＝17個</span></b>。<span class="ng">▲14個は1辺の個数ではない</span>（列の分をたす）。</p>
+        <p class="row"><span class="tag">列を増やす</span>たて・横に1列ずつ増やすのに 新たに31個。（新たに使う数）＝（もとの1辺）<span class="num">×2+1</span> なので、もとの1辺は <span class="num">(31−1)÷2＝15個</span>、もとは <b><span class="num">15×15＝225個</span></b>。</p>
+        <p class="row"><span class="tag">正方形以外</span>たて6・横10の長方形 → 外まわりは <span class="num">(5+9)×2＝28個</span>。同じご石で三角形にすると <span class="num">6×10÷3＝20</span>、1辺は <b><span class="num">20+1＝21個</span></b>。</p>
+      </div>
+    </section>
+  </div>
+
+  <div class="memo">
+    <span class="lbl">おぼえておく</span>
+    <p>まよったら <b>小さい図</b> をかいて数える。木3本・1辺3個くらいなら すぐ確かめられる。</p>
+    <p>四すみ・はしは <b>2回数えやすい</b>。式に出てくる <b>−1</b> は たいてい その分。</p>
+    <p>円（まわり）には はしがない。だから <b>木の本数 ＝ 間の数</b>。</p>
+    <p>線分図でとく <b>和差算・分配算・消去算</b> は、もう1枚のチラシへ。</p>
+  </div>
+
+</div>
+
+<style>
+@media screen and (max-width:860px){
+  body{ padding:8px 0 28px; }
+  .sheet{ transform:scale(var(--fit,.46)) !important;
+          margin-bottom:calc(-297mm * (1 - var(--fit,.46))) !important; }
+}
+</style>
+<script>
+(function(){
+  function fit(){
+    var w = Math.min(document.documentElement.clientWidth, 860);
+    document.documentElement.style.setProperty('--fit', Math.min(1,(w-10)/793.7).toFixed(4));
+  }
+  fit(); addEventListener('resize', fit); addEventListener('orientationchange', fit);
+})();
+</script>
+</body>
+</html>

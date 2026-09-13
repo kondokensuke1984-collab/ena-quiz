@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>✖️ 小数のかけ算 まとめ</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+      background: linear-gradient(135deg, #f0e6ff 0%, #e6f0ff 50%, #ffe6f5 100%);
+      min-height: 100vh;
+      padding: 16px;
+    }
+    .container { max-width: 720px; margin: 0 auto; }
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #7c3aed, #f472b6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 24px 0 8px;
+      line-height: 1.3;
+    }
+    .subtitle { text-align: center; color: #a78bfa; font-size: 0.95rem; margin-bottom: 28px; }
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(124,58,237,0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .card h2 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #7c3aed;
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      position: relative;
+    }
+    .card h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%; height: 3px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, #a78bfa, #f472b6, #60a5fa);
+    }
+    .chapter-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #1e40af;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 900;
+      width: 30px; height: 30px;
+      border-radius: 6px;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+    .ex-label {
+      display: inline-block;
+      background: #7c3aed;
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 2px 10px;
+      border-radius: 20px;
+      margin-bottom: 8px;
+    }
+    .ex-label.pink  { background: #f472b6; }
+    .ex-label.blue  { background: #3b82f6; }
+    .ex-label.green { background: #059669; }
+    .ex-card {
+      background: #fafafa;
+      border: 1.5px solid #e9d5ff;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin: 12px 0;
+    }
+    .problem-text {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #374151;
+      margin: 4px 0 8px;
+      line-height: 1.6;
+    }
+    .ans-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 4px 0;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #374151;
+    }
+    .ans-val { font-size: 1.05rem; font-weight: 800; color: #dc2626; }
+    .rule-box {
+      border-left: 4px solid #a78bfa;
+      background: #f5f3ff;
+      border-radius: 0 10px 10px 0;
+      padding: 12px 16px;
+      margin: 10px 0;
+      font-size: 0.95rem;
+      color: #5b21b6;
+      line-height: 1.6;
+    }
+    .rule-box.pink  { border-left-color: #f472b6; background: #fff0f6; color: #831843; }
+    .rule-box.blue  { border-left-color: #60a5fa; background: #eff6ff; color: #1e3a8a; }
+    .rule-box.green { border-left-color: #34d399; background: #ecfdf5; color: #065f46; }
+    .rule-box strong { font-weight: 800; }
+    .point-box {
+      background: linear-gradient(135deg, #ede9fe, #fce7f3);
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin: 14px 0;
+      font-size: 0.95rem;
+      color: #5b21b6;
+      line-height: 1.8;
+    }
+    .point-box strong { font-weight: 800; color: #7c3aed; }
+    .warn-box {
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      border-left: 4px solid #f59e0b;
+      border-radius: 0 10px 10px 0;
+      padding: 12px 16px;
+      margin: 10px 0;
+      font-size: 0.94rem;
+      color: #78350f;
+      line-height: 1.6;
+    }
+    .warn-box strong { font-weight: 800; }
+
+    /* ===== ステップフロー ===== */
+    .steps-flow {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin: 14px 0;
+    }
+    .step-box {
+      background: #f5f3ff;
+      border: 2px solid #e9d5ff;
+      border-radius: 12px;
+      padding: 10px 12px;
+      text-align: center;
+      flex: 1;
+      min-width: 100px;
+    }
+    .step-box .sn {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: #7c3aed;
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 6px;
+    }
+    .step-box .st { font-size: 0.82rem; color: #5b21b6; font-weight: 600; line-height: 1.4; }
+    .arrow { font-size: 1.4rem; color: #a78bfa; flex-shrink: 0; padding-top: 20px; }
+
+    /* ===== 筆算 ===== */
+    .hs-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      align-items: flex-end;
+      margin: 14px 0;
+    }
+    .hs-block { text-align: center; }
+    .hs-block-label {
+      font-size: 0.75rem;
+      color: #a78bfa;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    /* 筆算本体 */
+    .hs {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-end;
+      font-family: 'Courier New', 'Menlo', monospace;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #1f2937;
+    }
+    .hs-row {
+      display: flex;
+      align-items: baseline;
+      width: 100%;
+      justify-content: flex-end;
+    }
+    .hs-op {
+      width: 1.4em;
+      text-align: right;
+      flex-shrink: 0;
+      padding-right: 2px;
+    }
+    .hs-n {
+      text-align: right;
+      min-width: 4.5em;
+      padding: 1px 0;
+    }
+    /* 罫線 */
+    .hs-row.ln .hs-n,
+    .hs-row.ln .hs-op  { border-bottom: 2.5px solid #374151; padding-bottom: 3px; }
+    .hs-row.ln2 .hs-n,
+    .hs-row.ln2 .hs-op { border-top: 2.5px solid #374151; padding-top: 3px; }
+    /* 答え */
+    .hs-row.ans .hs-n { color: #7c3aed; }
+    /* 中間行ずらし（十の位×） */
+    .hs-n.sh1 { padding-right: 0.62em; }
+    .hs-n.sh2 { padding-right: 1.24em; }
+    /* 赤字（強調） */
+    .hs .red { color: #ef4444; }
+
+    /* 答えラベル */
+    .hs-ans-label {
+      font-family: 'Courier New', monospace;
+      font-size: 1.05rem;
+      font-weight: 900;
+      color: #7c3aed;
+      margin-top: 4px;
+      text-align: right;
+    }
+
+    .back-btn {
+      display: block;
+      text-align: center;
+      background: linear-gradient(135deg, #7c3aed, #f472b6);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 14px;
+      padding: 14px 24px;
+      font-size: 1rem;
+      font-weight: 800;
+      margin: 28px 0 16px;
+      box-shadow: 0 4px 16px rgba(124,58,237,0.25);
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <h1>✖️ 小数のかけ算</h1>
+  <p class="subtitle">6月算数 — 小数点のうつし方をマスターしよう！</p>
+
+  <!-- ========== セクション1 ========== -->
+  <div class="card">
+    <h2><span class="chapter-badge">1</span>小数 × 整数（1けた）の計算</h2>
+
+    <!-- 例1 -->
+    <div class="ex-card">
+      <div class="ex-label">例① 重さで考える</div>
+      <p class="problem-text">1mの重さが300gの棒がある。</p>
+      <div class="ans-row">➡ 長さ<strong>2m</strong>の重さ：<span class="ans-val">300×2＝600g</span></div>
+      <div class="ans-row">➡ 長さ<strong>0.5m</strong>の重さ：<span class="ans-val">300×0.5＝150g</span></div>
+    </div>
+
+    <!-- 例2 -->
+    <div class="ex-card">
+      <div class="ex-label pink">例② コインで考える</div>
+      <p class="problem-text">1枚4.5gのコインがある。</p>
+      <div class="ans-row">➡ <strong>2枚分</strong>：<span class="ans-val">4.5×2＝9.0＝9g</span></div>
+      <div class="ans-row">➡ <strong>3枚分</strong>：<span class="ans-val">4.5×3＝13.5g</span></div>
+    </div>
+
+    <!-- 例3 -->
+    <div class="ex-card">
+      <div class="ex-label blue">例③ 0.001のいくつ分で考える</div>
+      <p class="problem-text">0.235は0.001が235個分。<br>
+        0.235の<strong>4倍</strong>は → 0.001が 235×4＝<strong>940個分</strong> → 0.940＝<span class="ans-val">0.94</span></p>
+    </div>
+
+    <!-- ポイント -->
+    <div class="point-box">
+      📌 <strong>小数のかけ算のきまり</strong><br>
+      小数点がないものとして計算してから、<br>
+      積の小数点は「<strong>かけられる数とかける数の小数部分のけた数の合計</strong>」だけ右からかぞえた位置に打つ！
+    </div>
+
+    <!-- 手順：300×0.5 -->
+    <div class="ex-label" style="margin-top:16px">手順ステップ ▶ 300 × 0.5</div>
+    <div class="steps-flow">
+      <div class="step-box">
+        <div class="sn">①</div>
+        <div class="st">小数点を考えず<br>たてにそろえてかく</div>
+      </div>
+      <div class="arrow">➡</div>
+      <div class="step-box">
+        <div class="sn">②</div>
+        <div class="st">整数のかけ算と<br>同じように計算<br>300×5＝1500</div>
+      </div>
+      <div class="arrow">➡</div>
+      <div class="step-box">
+        <div class="sn">③</div>
+        <div class="st">かける数の小数に<br>合わせて小数点を打つ<br>（小数1けた → 下1けた）</div>
+      </div>
+    </div>
+
+    <div class="hs-group">
+      <!-- ① -->
+      <div class="hs-block">
+        <div class="hs-block-label">① そろえてかく</div>
+        <div class="hs">
+          <div class="hs-row">
+            <div class="hs-op"></div><div class="hs-n">300</div>
+          </div>
+          <div class="hs-row ln">
+            <div class="hs-op">×</div><div class="hs-n">0.5</div>
+          </div>
+        </div>
+      </div>
+      <!-- ② -->
+      <div class="hs-block">
+        <div class="hs-block-label">② 300×5を計算</div>
+        <div class="hs">
+          <div class="hs-row">
+            <div class="hs-op"></div><div class="hs-n">300</div>
+          </div>
+          <div class="hs-row ln">
+            <div class="hs-op">×</div><div class="hs-n"><span class="red">5</span></div>
+          </div>
+          <div class="hs-row ans">
+            <div class="hs-op"></div><div class="hs-n">1500</div>
+          </div>
+        </div>
+      </div>
+      <!-- ③ -->
+      <div class="hs-block">
+        <div class="hs-block-label">③ 小数点を打つ（下1けた）</div>
+        <div class="hs">
+          <div class="hs-row">
+            <div class="hs-op"></div><div class="hs-n">300</div>
+          </div>
+          <div class="hs-row ln">
+            <div class="hs-op">×</div><div class="hs-n">0.5</div>
+          </div>
+          <div class="hs-row ans">
+            <div class="hs-op"></div><div class="hs-n">150.0</div>
+          </div>
+        </div>
+        <div class="hs-ans-label">＝ 150</div>
+      </div>
+    </div>
+
+    <!-- 手順：4.5×3 -->
+    <div class="ex-label pink" style="margin-top:16px">手順ステップ ▶ 4.5 × 3</div>
+    <div class="hs-group">
+      <div class="hs-block">
+        <div class="hs-block-label">① そろえてかく</div>
+        <div class="hs">
+          <div class="hs-row"><div class="hs-op"></div><div class="hs-n">4.5</div></div>
+          <div class="hs-row ln"><div class="hs-op">×</div><div class="hs-n">3</div></div>
+        </div>
+      </div>
+      <div class="hs-block">
+        <div class="hs-block-label">② 45×3を計算</div>
+        <div class="hs">
+          <div class="hs-row"><div class="hs-op"></div><div class="hs-n"><span class="red">45</span></div></div>
+          <div class="hs-row ln"><div class="hs-op">×</div><div class="hs-n"><span class="red">3</span></div></div>
+          <div class="hs-row ans"><div class="hs-op"></div><div class="hs-n">135</div></div>
+        </div>
+      </div>
+      <div class="hs-block">
+        <div class="hs-block-label">③ 小数点を打つ（下1けた）</div>
+        <div class="hs">
+          <div class="hs-row"><div class="hs-op"></div><div class="hs-n">4.5</div></div>
+          <div class="hs-row ln"><div class="hs-op">×</div><div class="hs-n">3</div></div>
+          <div class="hs-row ans"><div class="hs-op"></div><div class="hs-n">13.5</div></div>
+        </div>
+        <div class="hs-ans-label">＝ 13.5g</div>
+      </div>
+    </div>
+
+    <!-- 手順：0.235×4 -->
+    <div class="ex-label blue" style="margin-top:16px">手順ステップ ▶ 0.235 × 4</div>
+    <div class="hs-group">
+      <div class="hs-block">
+        <div class="hs-block-label">① そろえてかく</div>
+        <div class="hs">
+          <div class="hs-row"><div class="hs-op"></div><div class="hs-n">0.235</div></div>
+          <div class="hs-row ln"><div class="hs-op">×</div><div class="hs-n">4</div></div>
+        </div>
+      </div>
+      <div class="hs-block">
+        <div class="hs-block-label">② 235×4を計算</div>
+        <div class="hs">
+          <div class="hs-row"><div class="hs-op"></div><div class="hs-n"><span class="red">235</span></div></div>
+          <div class="hs-row ln"><div class="hs-op">×</div><div class="hs-n"><span class="red">4</span></div></div>
+          <div class="hs-row ans"><div class="hs-op"></div><div class="hs-n">940</div></div>
+        </div>
+      </div>
+      <div class="hs-block">
+        <div class="hs-block-label">③ 小数点を打つ（下3けた）</div>
+        <div class="hs">
+          <div class="hs-row"><div class="hs-op"></div><div class="hs-n">0.235</div></div>
+          <div class="hs-row ln"><div class="hs-op">×</div><div class="hs-n">4</div></div>
+          <div class="hs-row ans"><div class="hs-op"></div><div class="hs-n">0.940</div></div>
+        </div>
+        <div class="hs-ans-label">＝ 0.94</div>
+      </div>
+    </div>
+
+    <div class="warn-box">⚠️ <strong>末尾の0は消す！</strong>　0.940 → <strong>0.94</strong></div>
+  </div>
+
+  <!-- ========== セクション2 ========== -->
+  <div class="card">
+    <h2><span class="chapter-badge">2</span>小数 × 整数（2けた以上）の計算</h2>
+
+    <div class="rule-box">
+      2けた・3けたの整数をかける場合も<strong>同じやり方</strong>でOK！<br>
+      小数点を無視して整数どうしで計算し、最後に小数点を打つ。
+    </div>
+
+    <div class="ex-label" style="margin-top:14px">手順ステップ ▶ 3.14 × 16</div>
+
+    <div class="hs-group">
+      <div class="hs-block">
+        <div class="hs-block-label">① 4の下に6をそろえる</div>
+        <div class="hs">
+          <div class="hs-row"><div class="hs-op"></div><div class="hs-n">3.14</div></div>
+          <div class="hs-row ln"><div class="hs-op">×</div><div class="hs-n">16</div></div>
+        </div>
+      </div>
+      <div class="hs-block">
+        <div class="hs-block-label">② 314×16を計算</div>
+        <div class="hs">
+          <div class="hs-row"><div class="hs-op"></div><div class="hs-n"><span class="red">314</span></div></div>
+          <div class="hs-row ln"><div class="hs-op">×</div><div class="hs-n"><span class="red">16</span></div></div>
+          <!-- 314×6=1884 -->
+          <div class="hs-row"><div class="hs-op"></div><div class="hs-n">1884</div></div>
+          <!-- 314×10=3140 → 「314」を1桁左にずらして書く -->
+          <div class="hs-row ln2">
+            <div class="hs-op"></div><div class="hs-n sh1">314</div>
+          </div>
+          <div class="hs-row ans"><div class="hs-op"></div><div class="hs-n">5024</div></div>
+        </div>
+      </div>
+      <div class="hs-block">
+        <div class="hs-block-label">③ 小数点を打つ（下2けた）</div>
+        <div class="hs">
+          <div class="hs-row"><div class="hs-op"></div><div class="hs-n">3.14</div></div>
+          <div class="hs-row ln"><div class="hs-op">×</div><div class="hs-n">16</div></div>
+          <div class="hs-row"><div class="hs-op"></div><div class="hs-n">1884</div></div>
+          <div class="hs-row ln2">
+            <div class="hs-op"></div><div class="hs-n sh1">314</div>
+          </div>
+          <div class="hs-row ans"><div class="hs-op"></div><div class="hs-n">50.24</div></div>
+        </div>
+        <div class="hs-ans-label">＝ 50.24</div>
+      </div>
+    </div>
+
+    <div class="point-box">
+      📌 <strong>小数点の位置の決め方</strong><br>
+      3.14（小数2けた）× 16（小数0けた）<br>
+      → 答えの小数点は右から <strong>2けた</strong>の位置に打つ
+    </div>
+  </div>
+
+  <!-- ========== セクション3 ========== -->
+  <div class="card">
+    <h2><span class="chapter-badge">3</span>小数のかけ算の利用</h2>
+
+    <div class="rule-box green">
+      文章問題：「式を立てる → 小数のかけ算のきまりで計算する」の2ステップ！
+    </div>
+
+    <!-- 例題① -->
+    <div class="ex-card" style="margin-top:14px">
+      <div class="ex-label">例題①</div>
+      <p class="problem-text">えなさんの身長は弟の身長の1.2倍。弟の身長は120cm。えなさんの身長は何cm？</p>
+      <div class="ans-row">式：<strong>120 × 1.2</strong></div>
+      <div class="hs-group" style="margin-top:10px">
+        <div class="hs-block">
+          <div class="hs">
+            <div class="hs-row"><div class="hs-op"></div><div class="hs-n">120</div></div>
+            <div class="hs-row ln"><div class="hs-op">×</div><div class="hs-n">1.2</div></div>
+            <!-- 120×2=240 -->
+            <div class="hs-row"><div class="hs-op"></div><div class="hs-n">240</div></div>
+            <!-- 120×10=1200 → 「120」を1桁左にずらす -->
+            <div class="hs-row ln2">
+              <div class="hs-op"></div><div class="hs-n sh1">120</div>
+            </div>
+            <div class="hs-row ans"><div class="hs-op"></div><div class="hs-n">144.0</div></div>
+          </div>
+          <div class="hs-ans-label">＝ 144cm</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 例題② -->
+    <div class="ex-card">
+      <div class="ex-label pink">例題②</div>
+      <p class="problem-text">1枚5.4gのコインが12枚ある。コインの重さは合計何g？</p>
+      <div class="ans-row">式：<strong>5.4 × 12</strong></div>
+      <div class="hs-group" style="margin-top:10px">
+        <div class="hs-block">
+          <div class="hs">
+            <div class="hs-row"><div class="hs-op"></div><div class="hs-n">5.4</div></div>
+            <div class="hs-row ln"><div class="hs-op">×</div><div class="hs-n">12</div></div>
+            <!-- 54×2=108 -->
+            <div class="hs-row"><div class="hs-op"></div><div class="hs-n">108</div></div>
+            <!-- 54×10=540 → 「54」を1桁左にずらす -->
+            <div class="hs-row ln2">
+              <div class="hs-op"></div><div class="hs-n sh1">54</div>
+            </div>
+            <div class="hs-row ans"><div class="hs-op"></div><div class="hs-n">64.8</div></div>
+          </div>
+          <div class="hs-ans-label">＝ 64.8g</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== まとめ ========== -->
+  <div class="card">
+    <h2>📋 全体まとめ</h2>
+    <div class="rule-box"><strong>① 小数点を無視</strong>して整数のかけ算をする</div>
+    <div class="rule-box pink"><strong>② 小数点を打つ</strong>：かけられる数＋かける数の「小数点より右のけた数の合計」分だけ右からかぞえる</div>
+    <div class="rule-box green"><strong>③ 末尾の0は消す</strong>：0.940 → 0.94</div>
+    <div class="warn-box" style="margin-top:14px">
+      ⚠️ <strong>かけ算でも積が元の数より小さくなることがある！</strong><br>
+      例：300 × 0.5 ＝ 150（0.5倍 ＝ 半分）
+    </div>
+  </div>
+
+  <a class="back-btn" href="javascript:history.back()">◀ もどる</a>
+</div>
+</body>
+</html>

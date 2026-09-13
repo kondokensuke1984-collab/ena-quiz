@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>デジタル国語学習ワークシート - 説明的文章(4)＆同音異義語</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@400;500&family=Noto+Serif+JP:wght@400;700&family=Sawarabi+Mincho&display=swap" rel="stylesheet">
+
+  <style>
+    .font-mincho { font-family: 'Noto Serif JP', 'Sawarabi Mincho', Georgia, serif; }
+    .font-maru   { font-family: 'Kiwi Maru', sans-serif; }
+    .vertical-text { writing-mode: vertical-rl; text-combine-upright: all; font-feature-settings: "pkna"; }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    .genko-grid { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 2px; }
+    @keyframes pulse-yellow {
+      0%, 100% { background-color: rgba(253, 224, 71, 0.2); }
+      50%       { background-color: rgba(253, 224, 71, 0.6); }
+    }
+    .pulse-highlight { animation: pulse-yellow 2s infinite; border-radius: 4px; padding: 2px 4px; }
+  </style>
+</head>
+<body class="bg-[#f5f4f0] text-[#2c3e50] font-sans min-h-screen">
+
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    const homophoneQuiz = [
+      { id:1, sentence:"今回のテストの（　　）と解説をよく読む。",       options:["解答","回答","街頭"],  correct:"解答",  desc:"「解答」は問題を解いて答えを出すこと。「回答」は質問や要望に答えること。" },
+      { id:2, sentence:"自分の将来の（　　）をはっきりと表明する。",     options:["意思","意志","医師"],  correct:"意志",  desc:"「意志」は何かをしようとする強い志・決意。「意思」は考えや思い（意思表示など）。" },
+      { id:3, sentence:"予想（　　）の出来事に、みんなが驚いた。",       options:["意外","以外","遺害"],  correct:"意外",  desc:"「意外」は考えていたことと違って驚く様子。「以外」はそれを除いた他のこと。" },
+      { id:4, sentence:"真理を（　　）するために、日夜研究に励む。",     options:["追求","追究","追及"],  correct:"追究",  desc:"「追究」は学問や真理などを深く突き詰めること。「追求」は目的のものを追い求めること。「追及」は責任や犯人を追い詰めること。" }
+    ];
+
+    function App() {
+      const [activeTab, setActiveTab]                     = useState('reading');
+      const [fontSize, setFontSize]                       = useState('lg');
+      const [layoutDirection, setLayoutDirection]         = useState('horizontal');
+      const [activeQuestionFocus, setActiveQuestionFocus] = useState(null);
+
+      const [answers, setAnswers] = useState({
+        q1_A:'', q1_B:'', q1_C:'', q1_D:'', q1_E:'', q1_F:'',
+        q2_start:'', q2_end:'',
+        q3_start:'', q3_end:'',
+        q4:'', q5_G:'', q5_H:'', q6:''
+      });
+
+      const [graded, setGraded]   = useState(false);
+      const [results, setResults] = useState({});
+      const [score, setScore]     = useState(0);
+
+      const [homophoneIndex,    setHomophoneIndex]    = useState(0);
+      const [homophoneSelected, setHomophoneSelected] = useState('');
+      const [homophoneGraded,   setHomophoneGraded]   = useState(false);
+      const [homophoneScore,    setHomophoneScore]    = useState(0);
+
+      const [showHints, setShowHints] = useState({ q2:false, q3:false, q5:false, q6:false });
+
+      const lineRefs = { line1:useRef(null), line2:useRef(null), line3:useRef(null), line4:useRef(null) };
+
+      const correctAnswers = {
+        q1_A:'キ', q1_B:'ウ', q1_C:'ア', q1_D:'カ', q1_E:'エ', q1_F:'イ',
+        q2_start:'そもそも日', q2_end:'違っている',
+        q3_start:'お互いの気', q3_end:'し出すこと',
+        q4:'エ', q5_G:'個', q5_H:'関係性'
+      };
+
+      const scrollToLine = (n) => {
+        setActiveQuestionFocus(n);
+        lineRefs[`line${n}`]?.current?.scrollIntoView({ behavior:'smooth', block:'center' });
+        setTimeout(() => setActiveQuestionFocus(null), 4000);
+      };
+
+      const handleGrading = () => {
+        let t = {}, points = 0;
+        ['A','B','C','D','E','F'].forEach(k => {
+          const ok = answers[`q1_${k}`] === correctAnswers[`q1_${k}`];
+          t[`q1_${k}`] = ok; if (ok) points += 5;
+        });
+        const q2ok = answers.q2_start.trim() === correctAnswers.q2_start && answers.q2_end.trim() === correctAnswers.q2_end;
+        t.q2 = q2ok; if (q2ok) points += 15;
+        const q3ok = answers.q3_start.trim() === correctAnswers.q3_start && answers.q3_end.trim() === correctAnswers.q3_end;
+        t.q3 = q3ok; if (q3ok) points += 15;
+        const q4ok = answers.q4 === correctAnswers.q4;
+        t.q4 = q4ok; if (q4ok) points += 10;
+        const q5Gok = answers.q5_G.trim() === correctAnswers.q5_G;
+        const q5Hok = answers.q5_H.trim() === correctAnswers.q5_H;
+        t.q5_G = q5Gok; if (q5Gok) points += 10;
+        t.q5_H = q5Hok; if (q5Hok) points += 10;
+        const q6t = answers.q6.trim();
+        const q6ok = q6t.length >= 35 && q6t.length <= 45
+          && q6t.includes('他者') && q6t.includes('影響')
+          && (q6t.includes('文脈') || q6t.includes('関係') || q6t.includes('状況'));
+        t.q6 = q6ok; if (q6ok) points += 10;
+
+        // メインアプリのlocalStorageに反映
+        try {
+          const key = 'ena_stats_202606';
+          const s = JSON.parse(localStorage.getItem(key) || '{}');
+          const prev = s['douon'] || { correct:0, total:0 };
+          s['douon'] = { correct: prev.correct + points, total: prev.total + 100 };
+          localStorage.setItem(key, JSON.stringify(s));
+        } catch(e) {}
+
+        setResults(t); setScore(points); setGraded(true);
+      };
+
+      const handleReset = () => {
+        setAnswers({ q1_A:'', q1_B:'', q1_C:'', q1_D:'', q1_E:'', q1_F:'', q2_start:'', q2_end:'', q3_start:'', q3_end:'', q4:'', q5_G:'', q5_H:'', q6:'' });
+        setGraded(false); setResults({}); setScore(0);
+      };
+
+      const handleHomophoneSubmit = (option) => {
+        setHomophoneSelected(option); setHomophoneGraded(true);
+        if (option === homophoneQuiz[homophoneIndex].correct) setHomophoneScore(p => p + 1);
+      };
+      const nextHomophone = () => {
+        setHomophoneIndex(p => (p + 1) % homophoneQuiz.length);
+        setHomophoneSelected(''); setHomophoneGraded(false);
+      };
+
+
+      const inputCls = (ok) =>
+        `w-full p-2 text-sm border rounded-lg focus:outline-none focus:ring-1 focus:ring-emerald-500 font-mincho tracking-widest text-center ${graded ? (ok ? 'border-emerald-300 bg-emerald-50 text-emerald-800' : 'border-rose-300 bg-rose-50 text-rose-800') : 'border-slate-300'}`;
+
+      return (
+        <div className="flex flex-col min-h-screen">
+
+          {/* ヘッダー */}
+          <header className="bg-gradient-to-r from-[#5a7264] to-[#405347] text-white shadow-md p-4 sticky top-0 z-40">
+            <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3">
+              <div className="flex items-center gap-3">
+                <div className="bg-white text-[#405347] font-bold px-3 py-1.5 rounded-lg text-lg shadow-inner font-sans">国語 11</div>
+                <div>
+                  <h1 className="text-xl sm:text-2xl font-bold font-mincho">デジタル国語学習ワークシート</h1>
+                  <p className="text-xs text-emerald-100 font-sans">説明的文章(4) 同音異義語 ／ 榎本博明『〈自分らしさ〉って何だろう？』</p>
+                </div>
+              </div>
+              <nav className="flex bg-[#2f3e34] rounded-full p-1 shadow-inner">
+                <button onClick={() => setActiveTab('reading')}   className={`px-5 py-1.5 rounded-full text-sm font-semibold transition ${activeTab === 'reading'   ? 'bg-white text-[#405146] shadow' : 'text-slate-200 hover:text-white'}`}>
+                  📖 本文読解＆問題
+                </button>
+                <button onClick={() => setActiveTab('homophone')} className={`px-5 py-1.5 rounded-full text-sm font-semibold transition ${activeTab === 'homophone' ? 'bg-white text-[#405146] shadow' : 'text-slate-200 hover:text-white'}`}>
+                  🏆 同音異義語クイズ
+                </button>
+              </nav>
+            </div>
+          </header>
+
+          {activeTab === 'reading' ? (
+            <main className="flex-1 max-w-7xl w-full mx-auto p-4 grid grid-cols-1 md:grid-cols-12 gap-6">
+
+              {/* 左：本文 */}
+              <section className="md:col-span-7 bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col md:h-[calc(100vh-140px)] md:min-h-[550px]">
+                <div className="bg-slate-50 border-b border-slate-200 p-3 flex flex-wrap justify-between items-center gap-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-white bg-emerald-700 px-2.5 py-1 rounded-full font-sans">本文</span>
+                    <h2 className="text-sm font-bold text-slate-700 font-mincho">榎本博明『〈自分らしさ〉って何だろう？』</h2>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-3 text-xs font-sans">
+                    <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-lg p-0.5">
+                      <button onClick={() => setLayoutDirection('horizontal')} className={`px-2 py-1 rounded flex items-center gap-1 ${layoutDirection === 'horizontal' ? 'bg-emerald-100 text-emerald-800 font-bold' : 'text-slate-500'}`}>
+                        横書き
+                      </button>
+                      <button onClick={() => setLayoutDirection('vertical')} className={`px-2 py-1 rounded flex items-center gap-1 ${layoutDirection === 'vertical' ? 'bg-emerald-100 text-emerald-800 font-bold' : 'text-slate-500'}`}>
+                        縦書き
+                      </button>
+                    </div>
+                    <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-lg p-0.5">
+                      <button onClick={() => setFontSize('md')} className={`px-2 py-1 rounded ${fontSize === 'md' ? 'bg-emerald-100 text-emerald-800 font-bold' : 'text-slate-500'}`}>小</button>
+                      <button onClick={() => setFontSize('lg')} className={`px-2 py-1 rounded ${fontSize === 'lg' ? 'bg-emerald-100 text-emerald-800 font-bold' : 'text-slate-500'}`}>中</button>
+                      <button onClick={() => setFontSize('xl')} className={`px-2 py-1 rounded ${fontSize === 'xl' ? 'bg-emerald-100 text-emerald-800 font-bold' : 'text-slate-500'}`}>大</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div className={`md:flex-1 md:overflow-auto p-6 sm:p-8 bg-[#faf9f5] selection:bg-amber-100 transition-all duration-300 ${layoutDirection === 'vertical' ? 'vertical-text flex flex-row-reverse md:h-full md:max-h-full pr-10 pl-6' : 'block md:h-full'}`}>
+                  <div className={`font-mincho leading-loose tracking-widest ${layoutDirection === 'vertical' ? 'h-full flex flex-row-reverse gap-8 text-lg' : 'space-y-6'} ${fontSize === 'md' ? 'text-sm' : fontSize === 'lg' ? 'text-base sm:text-lg' : 'text-xl sm:text-2xl'}`}>
+
+                    <p className={layoutDirection === 'vertical' ? 'ml-6' : 'indent-4'}>
+                      日本人（あるいは東洋人）は自己主張が苦手だと言われる。グローバル化の時代だし、もっと自己主張ができるようにならないといけないなどと言う人もいる。でも、本人が自己主張が苦手なのには理由がある。そして、それはけっして悪いことではない。
+                    </p>
+
+                    <p className={layoutDirection === 'vertical' ? 'ml-6' : 'indent-4'}>
+                      <span ref={lineRefs.line1} className={`inline-block transition-all duration-500 rounded-lg p-1 ${activeQuestionFocus === 1 ? 'pulse-highlight ring-2 ring-red-400' : ''}`}>
+                        <span className="inline-flex items-center justify-center bg-red-600 text-white text-xs font-bold font-sans rounded px-1.5 py-0.5 mr-1 align-middle">線 ①</span>
+                        <span className="border-b-4 border-red-500 pb-0.5 font-bold text-slate-900 bg-red-50/50">アメリカ人は堂々と自己主張ができるのに、僕たち日本人はなぜうまく自己主張ができないのか。</span>
+                      </span>
+                    </p>
+
+                    <p className={layoutDirection === 'vertical' ? 'ml-6' : 'indent-4'}>
+                      それは、そもそも日本人とアメリカ人では自己のあり方が違っていて、コミュニケーションの法則がまったく違っているからだ。
+                    </p>
+
+                    <p className={layoutDirection === 'vertical' ? 'ml-6' : 'indent-4'}>
+                      アメリカ人にとって、コミュニケーションの最も重要な役割は、相手を説得し、自分の意見を通すことだ。お互いにそういうつもりでコミュニケーションをするため、遠慮のない自己主張がぶつかり合う。お互いの意見がぶつかり合うのは日常茶飯事なため、まったく気にならない。
+                    </p>
+
+                    <p className={layoutDirection === 'vertical' ? 'ml-6' : 'indent-4'}>
+                      <span className="bg-yellow-200 text-yellow-950 font-bold px-2 py-0.5 rounded border border-yellow-400 mr-1 font-sans text-xs">A</span>
+                      、日本人にとって、コミュニケーションの最も重要な役割は何だろう（
+                      <span ref={lineRefs.line2} className={`inline-block transition-all duration-500 rounded-lg p-1 ${activeQuestionFocus === 2 ? 'pulse-highlight ring-2 ring-emerald-400' : ''}`}>
+                        <span className="inline-flex items-center justify-center bg-emerald-700 text-white text-xs font-bold font-sans rounded px-1.5 py-0.5 mr-1 align-middle">線 ②</span>
+                        <span className="border-b-4 border-emerald-500 pb-0.5 font-bold text-slate-950 bg-emerald-50/50">日本人にとって、コミュニケーションの最も重要な役割は何だろう</span>
+                      </span>
+                      ）。相手を説得して自分の意見を通すことだろうか。そうではないだろう。僕たちは、自分の意見を通そうというより前に、相手はどうしたいんだろう、どんな考えなんだろうと、相手の意向を気にする。そして、できることなら相手の期待を裏切らないような方向に話をまとめたいと思う。意見が対立するようなことはできるだけ避けたい。そうでないと気まずい。
+                    </p>
+
+                    <p className={layoutDirection === 'vertical' ? 'ml-6' : 'indent-4'}>
+                      <span className="bg-yellow-200 text-yellow-950 font-bold px-2 py-0.5 rounded border border-yellow-400 mr-1 font-sans text-xs">B</span>
+                      、僕たち日本人にとっては、コミュニケーションの最も重要な役割は、お互いの気持ちを結びつけ、良好な場の雰囲気を醸し出すことなのだ。強烈な自己主張によって相手を説き伏せることではない。
+                    </p>
+
+                    <p className={layoutDirection === 'vertical' ? 'ml-6' : 'indent-4'}>
+                      <span className="bg-yellow-200 text-yellow-950 font-bold px-2 py-0.5 rounded border border-yellow-400 mr-1 font-sans text-xs">C</span>
+                      、自己主張のスキルを磨かずに育つことになる。自己主張が苦手なのは当然なのだ。その代わりに相手の気持ちを察する共感性を磨いて育つため、相手の意向や気持ちを汲み取ることができる。
+                    </p>
+
+                    <p className={layoutDirection === 'vertical' ? 'ml-6' : 'indent-4'}>
+                      相手の意向を汲み取って動くというのは、僕たち日本人の行動原理といってもいい。コミュニケーションの場面だけではない。
+                      <span className="bg-yellow-200 text-yellow-950 font-bold px-2 py-0.5 rounded border border-yellow-400 mr-1 font-sans text-xs">D</span>
+                      、何かを頑張るとき、ひたすら自分のためというのが欧米式だとすると、僕たち日本人は、
+                      <span ref={lineRefs.line3} className={`inline-block transition-all duration-500 rounded-lg p-1 ${activeQuestionFocus === 3 ? 'pulse-highlight ring-2 ring-blue-400' : ''}`}>
+                        <span className="inline-flex items-center justify-center bg-blue-600 text-white text-xs font-bold font-sans rounded px-1.5 py-0.5 mr-1 align-middle">線 ③</span>
+                        <span className="border-b-4 border-blue-500 pb-0.5 font-bold text-slate-900 bg-blue-50/50">だれかのため</span>
+                      </span>
+                      という思いがわりと大きい。
+                    </p>
+
+                    <p className={layoutDirection === 'vertical' ? 'ml-6' : 'indent-4'}>
+                      親を喜ばせるため、
+                      <span className="bg-yellow-200 text-yellow-950 font-bold px-2 py-0.5 rounded border border-yellow-400 mr-1 font-sans text-xs">E</span>
+                      親を悲しませないために勉強を頑張る、ピアノを頑張る。先生の期待を裏切らないためにきちんと役割を果たす。そんなところが多分にある。大人だって、監督のために何としても優勝したいなんて言ったりするし、優勝すると監督の期待に応えることができてホッとしていると言ったりする。
+                    </p>
+
+                    <p className={layoutDirection === 'vertical' ? 'ml-6' : 'indent-4'}>
+                      自分の中に息づいているだれかのために頑張るのだ。もちろん自分のためでもあるのだが、自分だけのためではない。
+                    </p>
+
+                    <p className={layoutDirection === 'vertical' ? 'ml-6' : 'indent-4'}>
+                      このような意向や期待を気にする日本的な心のあり方は、「他人の意向を気にするなんて自主性がない」とか「自分がない」などと批判されることがある。
+                      <span className="bg-yellow-200 text-yellow-950 font-bold px-2 py-0.5 rounded border border-yellow-400 mr-1 font-sans text-xs">F</span>
+                      、それは欧米的な価値観に染まった見方に過ぎない。
+                    </p>
+
+                    <p className={layoutDirection === 'vertical' ? 'ml-6' : 'indent-4'}>
+                      教育心理学者の東洋は、日本人の他者志向を未熟とみなすのは欧米流であって、他者との絆を強化し、他者との絆を自分のなかに取り込んでいくのも、一つの発達の方向性とみなすべきではないかという。
+                    </p>
+
+                    <p className={layoutDirection === 'vertical' ? 'ml-6' : 'indent-4'}>
+                      そもそも欧米人と日本人では自己のあり方が違う。僕たち日本人が、率直な自己主張をぶつけ合って議論するよりも、だれも傷つけないように気をつかい、気まずくならないように配慮するのも、欧米人のように（ <span className="font-bold border-b-2 border-rose-400 px-2 bg-rose-50 text-rose-800">G</span> ）を生きているのではなくて、（ <span className="font-bold border-b-2 border-indigo-400 px-2 bg-indigo-50 text-indigo-800">H</span> ）を生きているからだ。
+                    </p>
+
+                    <p className={layoutDirection === 'vertical' ? 'ml-6' : 'indent-4'}>
+                      心理学者のマークスと北山忍は、アメリカ的な独立的自己観と日本的な相互協調的自己観を対比させている。独立的自己観では、個人の自己は他者や状況といった社会的文脈から切り離され、そうしたもの影響を受けない独自の存在とみなされる。そのため個人の行動は本人自身の意向によって決まると考える。
+                    </p>
+
+                    <p className={layoutDirection === 'vertical' ? 'ml-6' : 'indent-4'}>
+                      それに対して、
+                      <span ref={lineRefs.line4} className={`inline-block transition-all duration-500 rounded-lg p-1 ${activeQuestionFocus === 4 ? 'pulse-highlight ring-2 ring-purple-400' : ''}`}>
+                        <span className="inline-flex items-center justify-center bg-purple-600 text-white text-xs font-bold font-sans rounded px-1.5 py-0.5 mr-1 align-middle">線 ④</span>
+                        <span className="border-b-4 border-purple-500 pb-0.5 font-bold text-slate-900 bg-purple-50/50">相互協調的自己観</span>
+                      </span>
+                      では、個人の自己は他者や状況といった社会的文脈と強く結びついており、影響を強く受けるとされる。そのため個人の行動は他者との関係性や周囲の状況に大いに左右されると考える。
+                    </p>
+
+                    <p className={layoutDirection === 'vertical' ? 'ml-6' : 'indent-4'}>
+                      このような相互協調的自己観をもつ僕たち日本人は、個としての自己を生きているのではなく、関係性としての自己を生きている。関係性としての自己は、相手との関係に応じてさまざまに姿を変える。その場その場の関係性にふさわしい自分になる。相手との関係性によって言葉づかいまで違ってくる。欧米人のように相手との関係性に影響を受けない一定不変の自己などというものはない。
+                    </p>
+
+                    <p className={layoutDirection === 'vertical' ? 'ml-6' : 'indent-4'}>
+                      「だれが何と言おうと、私はこう考える」「僕はこう思う」と自分を押し出していく欧米社会では視線恐怖があまり見られないのに対して、自分を押し出すよりも相手の意向を汲み取ろうとする日本人の間には視線恐怖が多い。それは、僕たち日本人は、相手との関係性によって自分の出方を変えなければならないからだ。相手がどう思っているかが気になる。こんなことを言ったら相手はどう感じるだろうかと気になる。それも、僕たちが関係性としての自己を生きているからだ。
+                    </p>
+
+                    <p className={layoutDirection === 'vertical' ? 'ml-6' : 'indent-4'}>
+                      僕たちの自己は、相手から独立したものではなく、相手との相互依存に基づきものであり、間柄（あいだがら）によって形を変える。僕たちの自己は、相手にとっての「あなた」の要素を取り込む必要がある。だから相手の意向が気になる。相手の視線が気になるのだ。
+                    </p>
+
+                    <p className="text-right text-xs text-slate-400 mt-8 font-sans">
+                      （榎本博明『〈自分らしさ〉って何だろう？　自分と向き合う心理学』より）
+                    </p>
+                  </div>
+                </div>
+              </section>
+
+              {/* 右：問題 */}
+              <section className="md:col-span-5 flex flex-col md:h-[calc(100vh-140px)] md:min-h-[550px]">
+
+                <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 mb-4 flex justify-between items-center">
+                  <div>
+                    <h3 className="text-xs text-slate-400 font-bold uppercase tracking-wider font-sans">進捗・得点</h3>
+                    {graded ? (
+                      <div className="flex items-baseline gap-1.5 mt-1 font-sans">
+                        <span className={`text-3xl font-extrabold ${score >= 80 ? 'text-emerald-600' : score >= 50 ? 'text-amber-500' : 'text-rose-500'}`}>{score}</span>
+                        <span className="text-slate-500 text-sm">/ 100 点</span>
+                      </div>
+                    ) : (
+                      <p className="text-base font-bold text-slate-600 mt-1 font-sans">解答中...</p>
+                    )}
+                  </div>
+                  <div className="flex gap-2">
+                    <button onClick={handleGrading} className="px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-xl font-bold shadow hover:from-emerald-700 hover:to-teal-700 transition flex items-center gap-1.5 font-sans">
+                      ✅ 採点する
+                    </button>
+                    <button onClick={handleReset} className="px-3 py-2 bg-slate-100 text-slate-600 rounded-xl font-semibold hover:bg-slate-200 transition font-sans" title="リセット">
+                      ↩
+                    </button>
+                  </div>
+                </div>
+
+                <div className="flex-1 overflow-y-auto space-y-4 pr-1">
+
+                  <div className="bg-amber-50 border border-amber-200 text-amber-900 rounded-xl p-3 text-xs leading-relaxed font-sans flex gap-2">
+                    ℹ️ 
+                    <div>各問題の<strong>「👁 線〇を確認」</strong>ボタンを押すと、本文の該当箇所が自動的に表示され、わかりやすく点滅します。</div>
+                  </div>
+
+                  {/* 問1 */}
+                  <div className={`p-4 rounded-2xl bg-white border transition ${graded ? (['A','B','C','D','E','F'].every(k => results[`q1_${k}`]) ? 'border-emerald-200 bg-emerald-50/20' : 'border-rose-100 bg-rose-50/10') : 'border-slate-200'}`}>
+                    <div className="flex justify-between items-start mb-3">
+                      <h4 className="font-bold text-slate-800 text-sm"><span className="bg-slate-600 text-white text-xs px-2 py-0.5 rounded-full mr-1.5 font-sans">問1</span>空欄補充 (配点各5点)</h4>
+                      <span className="text-xs text-slate-400 font-bold font-sans">30点</span>
+                    </div>
+                    <p className="text-xs text-slate-600 mb-3 font-sans">本文中の <strong>A 〜 F</strong> にあてはまる接続語をそれぞれ選びなさい。</p>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                      {['A','B','C','D','E','F'].map(char => (
+                        <div key={char} className="flex flex-col gap-1 bg-slate-50 p-2 rounded-xl border border-slate-200">
+                          <label className="text-[11px] font-bold text-slate-500">空欄 [{char}]</label>
+                          <select value={answers[`q1_${char}`]} onChange={e => setAnswers({...answers, [`q1_${char}`]: e.target.value})} disabled={graded}
+                            className={`w-full text-xs bg-white border rounded-lg p-1.5 font-bold focus:ring-1 focus:ring-emerald-500 focus:outline-none ${graded ? (results[`q1_${char}`] ? 'border-emerald-300 text-emerald-800 bg-emerald-50' : 'border-rose-300 text-rose-800 bg-rose-50') : 'border-slate-300'}`}>
+                            <option value="">選択...</option>
+                            <option value="ア">ア だから</option>
+                            <option value="イ">イ でも</option>
+                            <option value="ウ">ウ つまり</option>
+                            <option value="エ">エ あるいは</option>
+                            <option value="オ">オ ところで</option>
+                            <option value="カ">カ たとえば</option>
+                            <option value="キ">キ 一方</option>
+                            <option value="ク">ク しかも</option>
+                          </select>
+                          {graded && !results[`q1_${char}`] && <span className="text-[10px] text-rose-600 font-bold mt-1 text-right">正解: {correctAnswers[`q1_${char}`]}</span>}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* 問2 */}
+                  <div className={`p-4 rounded-2xl bg-white border transition ${graded ? (results.q2 ? 'border-emerald-200 bg-emerald-50/20' : 'border-rose-100 bg-rose-50/10') : 'border-slate-200'}`}>
+                    <div className="flex justify-between items-start mb-2">
+                      <h4 className="font-bold text-slate-800 text-sm"><span className="bg-red-600 text-white text-xs px-2 py-0.5 rounded-full mr-1.5 font-sans">問2</span>理由の抜き出し</h4>
+                      <div className="flex items-center gap-2">
+                        <button onClick={() => scrollToLine(1)} className="px-2 py-1 bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 text-[10px] font-bold rounded flex items-center gap-0.5">
+                          👁 線①を確認
+                        </button>
+                        <span className="text-xs text-slate-400 font-bold font-sans">15点</span>
+                      </div>
+                    </div>
+                    <p className="text-xs text-slate-600 mb-3 leading-relaxed font-sans">
+                      <span className="inline-block bg-red-100 text-red-800 px-1 py-0.5 rounded font-bold">線①</span>「アメリカ人は自己主張ができるのに〜できないのか」について、その具体的な理由が述べられている一文（50文字）をさがし、<strong>初めの五字</strong>と<strong>終わりの五字</strong>を抜き出しなさい。
+                    </p>
+                    <button onClick={() => setShowHints(p => ({...p, q2: !p.q2}))} className="text-[11px] text-slate-500 hover:text-emerald-600 mb-2.5 flex items-center gap-1 font-semibold focus:outline-none">
+                      ❓ {showHints.q2 ? 'ヒントを閉じる' : '解答へのヒントを見る'}
+                    </button>
+                    {showHints.q2 && <div className="bg-amber-50/60 border border-amber-200 rounded-xl p-2.5 text-xs text-amber-800 mb-3">線①の直後の文「それは、〜」の後に「そもそも〜」で始まる一文があります。その文の「そもそも」から「〜違っている」までを数えてみましょう。</div>}
+                    <div className="space-y-3 bg-slate-50 p-3 rounded-xl border border-slate-200">
+                      <div>
+                        <div className="flex justify-between items-center mb-1">
+                          <label className="text-xs font-bold text-slate-500 font-sans">初めの五字</label>
+                          <span className="text-[10px] text-slate-400 font-sans">（例：そもそも日）</span>
+                        </div>
+                        <input type="text" maxLength={5} value={answers.q2_start} onChange={e => setAnswers({...answers, q2_start: e.target.value})} disabled={graded} placeholder="五字を入力" className={inputCls(results.q2)} />
+                      </div>
+                      <div>
+                        <div className="flex justify-between items-center mb-1">
+                          <label className="text-xs font-bold text-slate-500 font-sans">終わりの五字</label>
+                          <span className="text-[10px] text-slate-400 font-sans">（例：違っている）</span>
+                        </div>
+                        <input type="text" maxLength={5} value={answers.q2_end} onChange={e => setAnswers({...answers, q2_end: e.target.value})} disabled={graded} placeholder="五字を入力" className={inputCls(results.q2)} />
+                      </div>
+                      {graded && !results.q2 && <div className="bg-rose-50 border border-rose-200 text-rose-800 text-xs p-2.5 rounded-lg font-semibold mt-1">正解: 初め「{correctAnswers.q2_start}」／ 終わり「{correctAnswers.q2_end}」</div>}
+                    </div>
+                  </div>
+
+                  {/* 問3 */}
+                  <div className={`p-4 rounded-2xl bg-white border transition ${graded ? (results.q3 ? 'border-emerald-200 bg-emerald-50/20' : 'border-rose-100 bg-rose-50/10') : 'border-slate-200'}`}>
+                    <div className="flex justify-between items-start mb-2">
+                      <h4 className="font-bold text-slate-800 text-sm"><span className="bg-emerald-600 text-white text-xs px-2 py-0.5 rounded-full mr-1.5 font-sans">問3</span>重要な役割の抜き出し</h4>
+                      <div className="flex items-center gap-2">
+                        <button onClick={() => scrollToLine(2)} className="px-2 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 text-[10px] font-bold rounded flex items-center gap-0.5">
+                          👁 線②を確認
+                        </button>
+                        <span className="text-xs text-slate-400 font-bold font-sans">15点</span>
+                      </div>
+                    </div>
+                    <p className="text-xs text-slate-600 mb-3 leading-relaxed font-sans">
+                      <span className="inline-block bg-emerald-100 text-emerald-800 px-1 py-0.5 rounded font-bold">線②</span>「日本人にとって、コミュニケーションの役割とは何か」について、当てはまる言葉を本文から<strong>初めの五字</strong>と<strong>終わりの五字</strong>でそれぞれ抜き出しなさい。
+                    </p>
+                    <button onClick={() => setShowHints(p => ({...p, q3: !p.q3}))} className="text-[11px] text-slate-500 hover:text-emerald-600 mb-2.5 flex items-center gap-1 font-semibold focus:outline-none">
+                      ❓ {showHints.q3 ? 'ヒントを閉じる' : '解答へのヒントを見る'}
+                    </button>
+                    {showHints.q3 && <div className="bg-amber-50/60 border border-amber-200 rounded-xl p-2.5 text-xs text-amber-800 mb-3">第3段落「お互いの気持ちを結びつけ、良好な場の雰囲気を醸し出すことなのだ」の箇所に注目しましょう。</div>}
+                    <div className="space-y-3 bg-slate-50 p-3 rounded-xl border border-slate-200">
+                      <div>
+                        <label className="text-xs font-bold text-slate-500 block mb-1">初めの五字</label>
+                        <input type="text" maxLength={5} value={answers.q3_start} onChange={e => setAnswers({...answers, q3_start: e.target.value})} disabled={graded} placeholder="五字を入力" className={inputCls(results.q3)} />
+                      </div>
+                      <div>
+                        <label className="text-xs font-bold text-slate-500 block mb-1">終わりの五字</label>
+                        <input type="text" maxLength={5} value={answers.q3_end} onChange={e => setAnswers({...answers, q3_end: e.target.value})} disabled={graded} placeholder="五字を入力" className={inputCls(results.q3)} />
+                      </div>
+                      {graded && !results.q3 && <div className="bg-rose-50 border border-rose-200 text-rose-800 text-xs p-2 rounded-lg font-semibold">正解: 初め「{correctAnswers.q3_start}」 ／ 終わり「{correctAnswers.q3_end}」</div>}
+                    </div>
+                  </div>
+
+                  {/* 問4 */}
+                  <div className={`p-4 rounded-2xl bg-white border transition ${graded ? (results.q4 ? 'border-emerald-200 bg-emerald-50/20' : 'border-rose-100 bg-rose-50/10') : 'border-slate-200'}`}>
+                    <div className="flex justify-between items-start mb-2">
+                      <h4 className="font-bold text-slate-800 text-sm"><span className="bg-emerald-600 text-white text-xs px-2 py-0.5 rounded-full mr-1.5 font-sans">問4</span>具体例の適不適</h4>
+                      <div className="flex items-center gap-2">
+                        <button onClick={() => scrollToLine(3)} className="px-2 py-1 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-[10px] font-bold rounded flex items-center gap-0.5 font-sans">
+                          👁 線③を確認
+                        </button>
+                        <span className="text-xs text-slate-400 font-bold font-sans">10点</span>
+                      </div>
+                    </div>
+                    <p className="text-xs text-slate-600 mb-3 leading-relaxed font-sans">
+                      <span className="inline-block bg-blue-100 text-blue-800 px-1 py-0.5 rounded font-bold">線③</span>「だれかのため」の具体例として、本文の表現から照らし合わせて<strong>正しくないもの</strong>を一つ選びなさい。
+                    </p>
+                    <div className="space-y-2 font-sans">
+                      {[
+                        { key:'ア', text:'ア．親を喜ばせるためにピアノを頑張る。' },
+                        { key:'イ', text:'イ．先生の期待を裏切らないためにきちんと役割を果たす。' },
+                        { key:'ウ', text:'ウ．監督のために何としても優勝したいと言ったりする。' },
+                        { key:'エ', text:'エ．優勝して監督がホッとしていることをうれしく思う。' }
+                      ].map(item => (
+                        <label key={item.key} className={`flex items-start gap-3 p-3 rounded-xl border cursor-pointer transition text-xs leading-relaxed ${answers.q4 === item.key ? 'bg-emerald-50 border-emerald-400 font-semibold' : 'bg-slate-50 border-slate-200 hover:bg-slate-100/70'} ${graded && item.key === correctAnswers.q4 ? 'border-emerald-500 bg-emerald-50 text-emerald-950 font-bold ring-2 ring-emerald-200' : ''} ${graded && answers.q4 === item.key && item.key !== correctAnswers.q4 ? 'border-rose-400 bg-rose-50 text-rose-950 ring-2 ring-rose-200' : ''}`}>
+                          <input type="radio" name="q4" value={item.key} checked={answers.q4 === item.key} onChange={() => !graded && setAnswers({...answers, q4: item.key})} disabled={graded} className="mt-0.5 text-emerald-600 focus:ring-emerald-500" />
+                          <span>{item.text}</span>
+                        </label>
+                      ))}
+                    </div>
+                    {graded && !results.q4 && (
+                      <div className="mt-2.5 bg-rose-50 border border-rose-200 text-rose-800 text-xs p-2.5 rounded-lg font-semibold">
+                        <p>正解: <strong>エ</strong></p>
+                        <p className="font-normal text-slate-600 mt-1">本文中には「（選手自身が）優勝すると監督の期待に応えることができてホッとしている」と書かれているため、「監督がホッとしている」とする「エ」が誤りとなります。</p>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* 問5 */}
+                  <div className={`p-4 rounded-2xl bg-white border transition ${graded ? (results.q5_G && results.q5_H ? 'border-emerald-200 bg-emerald-50/20' : 'border-rose-100 bg-rose-50/10') : 'border-slate-200'}`}>
+                    <div className="flex justify-between items-start mb-2">
+                      <h4 className="font-bold text-slate-800 text-sm"><span className="bg-emerald-600 text-white text-xs px-2 py-0.5 rounded-full mr-1.5 font-sans">問5</span>空欄抜き出し (G: 一字 / H: 三字)</h4>
+                      <span className="text-xs text-slate-400 font-bold font-sans">20点</span>
+                    </div>
+                    <p className="text-xs text-slate-600 mb-3 font-sans">本文中の ( G ) ・ ( H ) にあてはまる対比の言葉を、本文中からそれぞれ抜き出しなさい。</p>
+                    <div className="grid grid-cols-2 gap-4 bg-slate-50 p-3 rounded-xl border border-slate-200 font-sans">
+                      <div>
+                        <label className="text-xs font-bold text-slate-500 block mb-1">空欄(G) 漢字一字</label>
+                        <input type="text" maxLength={1} value={answers.q5_G} onChange={e => setAnswers({...answers, q5_G: e.target.value})} disabled={graded} placeholder="一字"
+                          className={`w-full p-2 text-sm border rounded-lg focus:outline-none focus:ring-1 focus:ring-emerald-500 text-center font-mincho font-bold ${graded ? (results.q5_G ? 'border-emerald-300 bg-emerald-50 text-emerald-800' : 'border-rose-300 bg-rose-50 text-rose-800') : 'border-slate-300'}`} />
+                        {graded && !results.q5_G && <span className="text-[10px] text-rose-600 font-bold block mt-1 text-right">正解: {correctAnswers.q5_G}</span>}
+                      </div>
+                      <div>
+                        <label className="text-xs font-bold text-slate-500 block mb-1">空欄(H) 漢字三字</label>
+                        <input type="text" maxLength={3} value={answers.q5_H} onChange={e => setAnswers({...answers, q5_H: e.target.value})} disabled={graded} placeholder="三字"
+                          className={`w-full p-2 text-sm border rounded-lg focus:outline-none focus:ring-1 focus:ring-emerald-500 text-center font-mincho font-bold ${graded ? (results.q5_H ? 'border-emerald-300 bg-emerald-50 text-emerald-800' : 'border-rose-300 bg-rose-50 text-rose-800') : 'border-slate-300'}`} />
+                        {graded && !results.q5_H && <span className="text-[10px] text-rose-600 font-bold block mt-1 text-right">正解: {correctAnswers.q5_H}</span>}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 問6 */}
+                  <div className={`p-4 rounded-2xl bg-white border transition ${graded ? (results.q6 ? 'border-emerald-200 bg-emerald-50/20' : 'border-rose-100 bg-rose-50/10') : 'border-slate-200'}`}>
+                    <div className="flex justify-between items-start mb-2">
+                      <h4 className="font-bold text-slate-800 text-sm"><span className="bg-purple-600 text-white text-xs px-2 py-0.5 rounded-full mr-1.5 font-sans">問6</span>記述課題 (35〜45文字)</h4>
+                      <div className="flex items-center gap-2">
+                        <button onClick={() => scrollToLine(4)} className="px-2 py-1 bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 text-[10px] font-bold rounded flex items-center gap-0.5 font-sans">
+                          👁 線④を確認
+                        </button>
+                        <span className="text-xs text-slate-400 font-bold font-sans">10点</span>
+                      </div>
+                    </div>
+                    <p className="text-xs text-slate-600 mb-2 leading-relaxed font-sans">
+                      <span className="inline-block bg-purple-100 text-purple-800 px-1 py-0.5 rounded font-bold">線④</span>「相互協調的自己観」とはどのような考え方ですか。<strong>「個人の自己」</strong>で書き始め、最後に<strong>「〜という考え方。」</strong>に繋がるように、本文の言葉を用いて<strong>35字以上45字以内</strong>で書きなさい。
+                    </p>
+                    <button onClick={() => setShowHints(p => ({...p, q6: !p.q6}))} className="text-[11px] text-slate-500 hover:text-emerald-600 mb-2 flex items-center gap-1 font-semibold focus:outline-none">
+                      ❓ {showHints.q6 ? 'ヒントを閉じる' : '解答へのヒントを見る'}
+                    </button>
+                    {showHints.q6 && <div className="bg-amber-50/60 border border-amber-200 rounded-xl p-2.5 text-xs text-amber-800 mb-3 leading-relaxed">線④「相互協調的自己観」と対比されている記述を近くから見つけ出しましょう。直後の段落「それに対して、相互協調的自己観では…」以降の文を参考にまとめます。</div>}
+                    <div className="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                      <div className="mb-2 font-sans">
+                        <div className="flex justify-between items-center text-xs text-slate-400 mb-1">
+                          <span>原稿用紙プレビュー (45マス)</span>
+                          <span className={`font-bold ${answers.q6.length >= 35 && answers.q6.length <= 45 ? 'text-emerald-600' : 'text-rose-500'}`}>{answers.q6.length} / 45文字</span>
+                        </div>
+                        <div className="genko-grid grid-cols-10 gap-1 bg-[#fffdf9] p-2 border border-amber-200 rounded-lg max-w-full font-mincho">
+                          {Array.from({length:45}).map((_,i) => {
+                            const c = answers.q6[i] || '';
+                            return (
+                              <div key={i} className={`aspect-square border flex items-center justify-center text-xs relative ${c ? 'bg-amber-50/50 text-slate-800 font-bold border-amber-300' : 'border-slate-200 text-transparent'} ${i===34 ? 'ring-1 ring-blue-300 bg-blue-50/30' : ''} ${i===44 ? 'ring-1 ring-red-300 bg-red-50/30' : ''}`}>
+                                {c || '・'}
+                                {i===34 && <span className="absolute -bottom-1 -right-1 text-[8px] scale-75 text-blue-500 font-bold font-sans">35</span>}
+                                {i===44 && <span className="absolute -bottom-1 -right-1 text-[8px] scale-75 text-red-500 font-bold font-sans">45</span>}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                      <textarea value={answers.q6} onChange={e => setAnswers({...answers, q6: e.target.value})} disabled={graded} maxLength={45} rows={3}
+                        placeholder="「個人の自己」で書き始め、35〜45字で記述してください"
+                        className={`w-full p-2.5 text-sm font-mincho border rounded-xl focus:outline-none focus:ring-1 focus:ring-emerald-500 leading-relaxed ${graded ? (results.q6 ? 'border-emerald-300 bg-emerald-50' : 'border-rose-300 bg-rose-50') : 'border-slate-300'}`} />
+                      {graded && (
+                        <div className="mt-3 p-3 bg-emerald-50/80 border border-emerald-200 text-emerald-950 text-xs rounded-xl font-sans">
+                          <p className="font-bold flex items-center gap-1 text-emerald-800">ℹ️ 解答例</p>
+                          <p className="mt-1.5 font-semibold text-sm text-slate-800 font-mincho bg-white px-2 py-1.5 rounded border border-emerald-100">
+                            「個人の自己は他者や状況といった社会的文脈と強く結びついており、影響を強く受ける」 <span className="text-slate-400 font-normal text-xs font-sans">(39文字)</span>
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                </div>
+              </section>
+            </main>
+
+          ) : (
+            <main className="flex-1 max-w-4xl w-full mx-auto p-4 flex flex-col justify-center items-center">
+              <div className="bg-white w-full max-w-2xl rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div className="bg-gradient-to-r from-emerald-700 to-teal-700 text-white p-4 text-center">
+                  <h3 className="font-mincho text-xl font-bold flex justify-center items-center gap-1.5">
+                    ✨ 国語知識アップ！同音異義語クイズ
+                  </h3>
+                  <p className="text-xs text-emerald-100 mt-1 font-sans">前後の文脈に合う正しい漢字をえらびましょう</p>
+                </div>
+                <div className="p-6 sm:p-8 flex flex-col items-center">
+                  <div className="w-full flex justify-between text-xs text-slate-400 font-bold mb-6 font-sans">
+                    <span>問題 {homophoneIndex + 1} / {homophoneQuiz.length}</span>
+                    <span className="text-emerald-600 font-sans">正解数: {homophoneScore}</span>
+                  </div>
+                  <div className="bg-[#fcfbf7] border border-amber-100 rounded-2xl p-6 w-full text-center mb-6 shadow-inner">
+                    <p className="text-lg sm:text-xl font-mincho font-bold leading-relaxed text-slate-800">{homophoneQuiz[homophoneIndex].sentence}</p>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full mb-6">
+                    {homophoneQuiz[homophoneIndex].options.map((option, idx) => {
+                      const isCorrect  = option === homophoneQuiz[homophoneIndex].correct;
+                      const isSelected = option === homophoneSelected;
+                      let s = "border-slate-200 hover:bg-slate-50 text-slate-700";
+                      if (homophoneGraded) {
+                        if (isCorrect)         s = "border-emerald-500 bg-emerald-50 text-emerald-800 font-bold ring-2 ring-emerald-200";
+                        else if (isSelected)   s = "border-rose-400 bg-rose-50 text-rose-800 font-bold ring-2 ring-rose-200";
+                        else                   s = "border-slate-100 bg-slate-50/50 text-slate-400 opacity-60";
+                      }
+                      return (
+                        <button key={idx} onClick={() => !homophoneGraded && handleHomophoneSubmit(option)} disabled={homophoneGraded}
+                          className={`p-4 border-2 rounded-xl text-base font-bold font-mincho transition duration-150 flex items-center justify-center gap-2 ${s}`}>
+                          {option}
+                          {homophoneGraded && isCorrect  && '✅'}
+                          {homophoneGraded && isSelected && !isCorrect && '❌'}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  {homophoneGraded && (
+                    <div className="w-full bg-emerald-50/40 border border-emerald-100 rounded-xl p-4 mb-6">
+                      <div className="flex items-center gap-2 mb-1.5 text-emerald-800 font-bold text-sm">
+                        ❓ <span>解説</span>
+                      </div>
+                      <p className="text-xs text-slate-700 leading-relaxed font-mincho">{homophoneQuiz[homophoneIndex].desc}</p>
+                    </div>
+                  )}
+                  {homophoneGraded && (
+                    <button onClick={nextHomophone} className="px-6 py-2.5 bg-[#405146] text-white rounded-xl font-bold hover:bg-[#324037] transition flex items-center gap-1.5 text-sm font-sans">
+                      <span>次の問題へ</span>→
+                    </button>
+                  )}
+                </div>
+              </div>
+            </main>
+          )}
+
+          <footer className="bg-slate-800 text-slate-400 py-3 text-center text-xs border-t border-slate-700 font-sans">
+            <p>© 2026 デジタル学習教材開発チーム. 本文出典：榎本博明『〈自分らしさ〉って何だろう？』</p>
+          </footer>
+        </div>
+      );
+    }
+
+    class ErrorBoundary extends React.Component {
+      constructor(props) { super(props); this.state = { hasError: false }; }
+      static getDerivedStateFromError() { return { hasError: true }; }
+      render() {
+        if (this.state.hasError) {
+          return <div style={{padding:'2rem',textAlign:'center'}}>
+            <p style={{fontSize:'1.2rem',marginBottom:'1rem'}}>⚠️ 表示エラーが発生しました</p>
+            <button onClick={() => this.setState({ hasError: false })}
+              style={{padding:'0.5rem 1.5rem',background:'#405146',color:'#fff',borderRadius:'8px',border:'none',fontSize:'1rem',cursor:'pointer'}}>
+              もう一度試す
+            </button>
+          </div>;
+        }
+        return this.props.children;
+      }
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<ErrorBoundary><App /></ErrorBoundary>);
+  </script>
+</body>
+</html>

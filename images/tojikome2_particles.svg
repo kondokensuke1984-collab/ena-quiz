@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 200" width="540" height="200" style="background:#f8fafc;font-family:sans-serif">
+  <!-- 図ラベル -->
+  <text x="10" y="22" font-size="16" font-weight="bold" fill="#1e293b">図</text>
+
+  <!-- A: 気体（疎らに散らばる） -->
+  <text x="60" y="22" font-size="15" font-weight="bold" fill="#1e293b">A</text>
+  <!-- 5つの球 疎らに配置 -->
+  <circle cx="80"  cy="60"  r="18" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <circle cx="130" cy="50"  r="18" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <circle cx="70"  cy="110" r="18" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <circle cx="140" cy="120" r="18" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <circle cx="100" cy="160" r="18" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+
+  <!-- B: 液体（やや密に、不規則） -->
+  <text x="220" y="22" font-size="15" font-weight="bold" fill="#1e293b">B</text>
+  <!-- 4列×5行=20個 -->
+  <!-- row1 -->
+  <circle cx="235" cy="42"  r="16" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <circle cx="268" cy="42"  r="16" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <circle cx="301" cy="42"  r="16" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <circle cx="334" cy="42"  r="16" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <!-- row2 -->
+  <circle cx="251" cy="74"  r="16" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <circle cx="284" cy="74"  r="16" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <circle cx="317" cy="74"  r="16" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <!-- row3 -->
+  <circle cx="235" cy="106" r="16" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <circle cx="268" cy="106" r="16" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <circle cx="301" cy="106" r="16" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <circle cx="334" cy="106" r="16" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <!-- row4 -->
+  <circle cx="251" cy="138" r="16" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <circle cx="284" cy="138" r="16" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <circle cx="317" cy="138" r="16" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <!-- row5 -->
+  <circle cx="235" cy="170" r="16" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <circle cx="268" cy="170" r="16" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <circle cx="301" cy="170" r="16" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <circle cx="334" cy="170" r="16" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+
+  <!-- C: 固体（規則正しく整列） -->
+  <text x="390" y="22" font-size="15" font-weight="bold" fill="#1e293b">C</text>
+  <!-- 5列×6行=30個 -->
+  <!-- row1 -->
+  <circle cx="405" cy="40"  r="15" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <circle cx="435" cy="40"  r="15" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <circle cx="465" cy="40"  r="15" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <circle cx="495" cy="40"  r="15" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <circle cx="525" cy="40"  r="15" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <!-- row2 -->
+  <circle cx="405" cy="70"  r="15" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <circle cx="435" cy="70"  r="15" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <circle cx="465" cy="70"  r="15" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <circle cx="495" cy="70"  r="15" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <circle cx="525" cy="70"  r="15" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <!-- row3 -->
+  <circle cx="405" cy="100" r="15" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <circle cx="435" cy="100" r="15" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <circle cx="465" cy="100" r="15" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <circle cx="495" cy="100" r="15" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <circle cx="525" cy="100" r="15" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <!-- row4 -->
+  <circle cx="405" cy="130" r="15" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <circle cx="435" cy="130" r="15" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <circle cx="465" cy="130" r="15" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <circle cx="495" cy="130" r="15" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <circle cx="525" cy="130" r="15" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <!-- row5 -->
+  <circle cx="405" cy="160" r="15" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <circle cx="435" cy="160" r="15" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <circle cx="465" cy="160" r="15" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <circle cx="495" cy="160" r="15" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+  <circle cx="525" cy="160" r="15" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+</svg>

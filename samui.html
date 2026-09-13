@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>中学社会 地理「寒い地域のくらし（北海道）」</title>
+  <!-- Tailwind CSS (デザインを綺麗にするツール) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome (アイコンを表示するツール) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Kosugi+Maru&family=Noto+Sans+JP:wght@400;500;700;900&display=swap');
+    body {
+      font-family: 'Noto Sans JP', 'Kosugi Maru', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+  <!-- ヘッダー（タイトル部分） -->
+  <header class="bg-blue-600 text-white shadow-md sticky top-0 z-50">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center space-x-2">
+        <i class="fa-solid fa-snowflake text-2xl animate-pulse"></i>
+        <span class="text-lg sm:text-xl font-bold tracking-wider">中学地理：寒い地域のくらし</span>
+      </div>
+      <span class="text-xs bg-blue-700 px-3 py-1 rounded-full text-blue-100">教科書 P.81 - P.82 完全対応</span>
+    </div>
+  </header>
+
+  <!-- メインコンテンツ -->
+  <main class="max-w-5xl mx-auto px-4 py-6 flex-grow pb-24 w-full">
+
+    <!-- タブメニュー（スライド可能） -->
+    <div class="flex overflow-x-auto pb-3 mb-6 border-b border-slate-200 gap-2 scrollbar-none">
+      <button onclick="switchTab('climate')" id="btn-climate" class="tab-btn px-4 py-2 rounded-lg font-bold text-sm whitespace-nowrap bg-blue-600 text-white shadow">
+        <i class="fa-solid fa-cloud-sun-rain mr-1"></i> 気候と住まい
+      </button>
+      <button onclick="switchTab('ishikari')" id="btn-ishikari" class="tab-btn px-4 py-2 rounded-lg font-bold text-sm whitespace-nowrap bg-white text-slate-600 hover:bg-slate-100 border border-slate-200">
+        <i class="fa-solid fa-wheat-awn mr-1"></i> 石狩平野(稲作)
+      </button>
+      <button onclick="switchTab('tokachi')" id="btn-tokachi" class="tab-btn px-4 py-2 rounded-lg font-bold text-sm whitespace-nowrap bg-white text-slate-600 hover:bg-slate-100 border border-slate-200">
+        <i class="fa-solid fa-arrows-spin mr-1"></i> 十勝平野(輪作)
+      </button>
+      <button onclick="switchTab('konsen')" id="btn-konsen" class="tab-btn px-4 py-2 rounded-lg font-bold text-sm whitespace-nowrap bg-white text-slate-600 hover:bg-slate-100 border border-slate-200">
+        <i class="fa-solid fa-cow mr-1"></i> 根釧台地(酪農)
+      </button>
+      <button onclick="switchTab('reigai')" id="btn-reigai" class="tab-btn px-4 py-2 rounded-lg font-bold text-sm whitespace-nowrap bg-white text-slate-600 hover:bg-slate-100 border border-slate-200">
+        <i class="fa-solid fa-smog mr-1"></i> 濃霧と冷害
+      </button>
+      <button onclick="switchTab('quiz')" id="btn-quiz" class="tab-btn px-4 py-2 rounded-lg font-bold text-sm whitespace-nowrap bg-amber-500 text-white hover:bg-amber-600 shadow">
+        <i class="fa-solid fa-graduation-cap mr-1"></i> おさらいクイズ
+      </button>
+    </div>
+
+    <!-- 1. 気候と住まい -->
+    <section id="tab-climate" class="tab-content block space-y-6">
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+        <h2 class="text-lg sm:text-xl font-bold text-blue-800 border-b pb-2 mb-4 flex items-center">
+          <span class="bg-blue-100 text-blue-800 rounded-full w-8 h-8 flex items-center justify-center mr-2 text-sm">1</span>
+          北海道の厳しい気候
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div class="p-4 bg-blue-50 rounded-xl border border-blue-100">
+            <h3 class="font-bold text-blue-900 mb-1"><i class="fa-solid fa-temperature-low mr-1"></i> 冷帯（亜寒帯）の気候</h3>
+            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+              日本の多くは温帯ですが、北海道は唯一<strong>冷帯</strong>に属します。冬は厳しく冷え込み、ほとんどの都市で12月〜2月の平均気温が氷点下（0℃以下）になります。
+            </p>
+          </div>
+          <div class="p-4 bg-sky-50 rounded-xl border border-sky-100">
+            <h3 class="font-bold text-sky-900 mb-1"><i class="fa-solid fa-snowflake mr-1"></i> 地域による雪の違い</h3>
+            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+              日本海側（札幌など）は冬の雪が多い一方、太平洋側（釧路など）は冬に晴れの日が多く、雪があまり積もらないという特徴があります。
+            </p>
+          </div>
+          <div class="p-4 bg-indigo-50 rounded-xl border border-indigo-100">
+            <h3 class="font-bold text-indigo-900 mb-1"><i class="fa-solid fa-umbrella mr-1"></i> 梅雨がない・台風が少ない</h3>
+            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+              北海道には本州のような<strong>梅雨がなく</strong>、台風の通り道からも外れやすいため、年間の降水量は本州に比べて少なめです。
+            </p>
+          </div>
+        </div>
+
+        <!-- 簡易雨温図 -->
+        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+          <h3 class="font-bold text-slate-800 mb-3 text-center text-xs sm:text-sm">📍 都市別の雨温図（グラフの比較）</h3>
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+            <div class="bg-white p-3 rounded-lg border border-slate-200 text-center">
+              <span class="font-bold text-blue-600 block text-xs sm:text-sm">札幌 (日本海側)</span>
+              <div class="text-[10px] text-slate-500 mb-2">年平均 9.2℃ / 1146.1mm</div>
+              <div class="h-16 flex items-end justify-center space-x-1 border-b border-slate-300 pb-1">
+                <div class="bg-sky-400 w-3 h-10" title="12月"></div>
+                <div class="bg-blue-500 w-3 h-14" title="8月"></div>
+              </div>
+              <div class="text-[10px] text-slate-400 mt-1">冬の雪が多い</div>
+            </div>
+            <div class="bg-white p-3 rounded-lg border border-slate-200 text-center">
+              <span class="font-bold text-teal-600 block text-xs sm:text-sm">釧路 (太平洋側)</span>
+              <div class="text-[10px] text-slate-500 mb-2">年平均 6.7℃ / 1080.1mm</div>
+              <div class="h-16 flex items-end justify-center space-x-1 border-b border-slate-300 pb-1">
+                <div class="bg-sky-300 w-3 h-3" title="12月"></div>
+                <div class="bg-blue-500 w-3 h-16" title="8月"></div>
+              </div>
+              <div class="text-[10px] text-slate-400 mt-1">冬の雪はとても少ない</div>
+            </div>
+            <div class="bg-white p-3 rounded-lg border border-slate-200 text-center">
+              <span class="font-bold text-slate-700 block text-xs sm:text-sm">新潟 (本州日本海)</span>
+              <div class="text-[10px] text-slate-500 mb-2">年平均 13.9℃ / 1845.9mm</div>
+              <div class="h-16 flex items-end justify-center space-x-1 border-b border-slate-300 pb-1">
+                <div class="bg-sky-500 w-3 h-16" title="12月"></div>
+                <div class="bg-blue-500 w-3 h-12" title="8月"></div>
+              </div>
+              <div class="text-[10px] text-slate-400 mt-1">冬の雪が非常に多い</div>
+            </div>
+            <div class="bg-white p-3 rounded-lg border border-slate-200 text-center">
+              <span class="font-bold text-red-500 block text-xs sm:text-sm">東京 (本州太平洋)</span>
+              <div class="text-[10px] text-slate-500 mb-2">年平均 15.8℃ / 1598.2mm</div>
+              <div class="h-16 flex items-end justify-center space-x-1 border-b border-slate-300 pb-1">
+                <div class="bg-sky-300 w-3 h-3" title="12月"></div>
+                <div class="bg-blue-600 w-3 h-15" title="9月"></div>
+              </div>
+              <div class="text-[10px] text-slate-400 mt-1">夏〜秋に雨が多い</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 寒さに備えた家（タップで解説） -->
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+        <h2 class="text-lg sm:text-xl font-bold text-blue-800 border-b pb-2 mb-4 flex items-center">
+          <span class="bg-blue-100 text-blue-800 rounded-full w-8 h-8 flex items-center justify-center mr-2 text-sm">2</span>
+          寒さにそなえた住まいの工夫
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-4">家の各部分をタップすると、寒さに負けないアイデアや仕組みが表示されます！</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+          <!-- 家のSVGイラスト -->
+          <div class="relative bg-slate-100 rounded-xl p-4 flex justify-center items-center h-64 border border-slate-200 overflow-hidden">
+            <svg viewBox="0 0 400 300" class="w-full h-full max-w-[320px]">
+              <!-- 屋根 -->
+              <polygon points="50,120 200,40 350,120" fill="#dc2626" stroke="#991111" stroke-width="3" class="cursor-pointer hover:opacity-80 transition-opacity" onclick="showHouseDetail('roof')" />
+              <text x="200" y="95" fill="white" font-size="12" font-weight="bold" text-anchor="middle" pointer-events="none">急な角度の屋根</text>
+
+              <!-- 壁 -->
+              <rect x="70" y="120" width="260" height="150" fill="#f5f3ff" stroke="#a78bfa" stroke-width="3" class="cursor-pointer hover:opacity-80 transition-opacity" onclick="showHouseDetail('wall')" />
+
+              <!-- 二重窓 -->
+              <rect x="100" y="150" width="60" height="50" fill="#bae6fd" stroke="#0284c7" stroke-width="2" class="cursor-pointer hover:opacity-80 transition-opacity" onclick="showHouseDetail('window')" />
+              <line x1="130" y1="150" x2="130" y2="200" stroke="#0284c7" stroke-width="2"/>
+              <text x="130" y="180" fill="#0369a1" font-size="11" font-weight="bold" text-anchor="middle" pointer-events="none">二重窓</text>
+
+              <!-- 二重玄関 -->
+              <rect x="230" y="170" width="50" height="100" fill="#ffedd5" stroke="#ea580c" stroke-width="2" class="cursor-pointer hover:opacity-80 transition-opacity" onclick="showHouseDetail('door')" />
+              <text x="255" y="225" fill="#c2410c" font-size="11" font-weight="bold" text-anchor="middle" pointer-events="none">二重扉</text>
+
+              <!-- 地下の水道管 -->
+              <line x1="20" y1="285" x2="380" y2="285" stroke="#2563eb" stroke-width="6" class="cursor-pointer hover:opacity-80 transition-opacity" onclick="showHouseDetail('pipe')" />
+              <text x="200" y="295" fill="#1d4ed8" font-size="11" font-weight="bold" text-anchor="middle" pointer-events="none">土深くを通る水道管</text>
+            </svg>
+          </div>
+
+          <!-- 解説文表示エリア -->
+          <div id="house-detail-panel" class="bg-blue-50 p-6 rounded-xl border border-blue-200 h-64 flex flex-col justify-center">
+            <div id="house-detail-default">
+              <div class="text-center text-blue-500 mb-2">
+                <i class="fa-solid fa-circle-info text-3xl animate-bounce"></i>
+              </div>
+              <h3 class="font-bold text-center text-slate-800 text-sm sm:text-base mb-1">お家をタップしてみてね！</h3>
+              <p class="text-xs text-slate-500 text-center">屋根、壁、窓、ドア、水道管をタップすると、雪国ならではの工夫が見られます。</p>
+            </div>
+            <div id="house-detail-content" class="hidden">
+              <h3 id="house-detail-title" class="font-bold text-base text-blue-950 mb-2"></h3>
+              <p id="house-detail-text" class="text-xs sm:text-sm text-slate-700 leading-relaxed"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. 石狩平野 -->
+    <section id="tab-ishikari" class="tab-content hidden space-y-6">
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+        <h2 class="text-lg sm:text-xl font-bold text-emerald-800 border-b pb-2 mb-4 flex items-center">
+          <i class="fa-solid fa-wheat-awn mr-2 text-emerald-600"></i>
+          石狩平野：どろどろの「泥炭地」を美田へ
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-4 text-xs sm:text-sm">
+            <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl">
+              <h3 class="font-bold text-amber-900 flex items-center gap-1 mb-1">
+                <i class="fa-solid fa-triangle-exclamation text-amber-600"></i>
+                元の土地：泥炭地（でいたんち）
+              </h3>
+              <p class="text-slate-700 leading-relaxed">
+                昔の石狩平野は、枯れた草木が腐りきらずに積もった<strong>「泥炭地」</strong>でした。水はけがとても悪く、ベチャベチャしていてお米を育てるにはまったく不向きな土地でした。
+              </p>
+            </div>
+
+            <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl">
+              <h3 class="font-bold text-emerald-900 flex items-center gap-1 mb-1">
+                <i class="fa-solid fa-circle-check text-emerald-600"></i>
+                大改善：客土（きゃくど）
+              </h3>
+              <p class="text-slate-700 leading-relaxed">
+                人々は、他の土地から持ってきて良い土をかぶせて混ぜ合わせる<strong>「客土」</strong>という大工事を行いました。さらに水路をつくって湿地を乾かし、日本有数の米づくり地域に生まれ変わらせました。
+              </p>
+            </div>
+          </div>
+
+          <!-- 客土シミュレーター -->
+          <div class="bg-slate-100 rounded-xl p-4 border border-slate-200 flex flex-col justify-between h-72">
+            <h3 class="font-bold text-slate-800 text-xs text-center mb-1">🌾 「客土（きゃくど）」アニメーション</h3>
+
+            <div class="relative w-full h-40 bg-sky-100 rounded-lg overflow-hidden border border-slate-300">
+              <!-- 稲（最初は非表示に近い） -->
+              <div id="paddy-field" class="absolute bottom-16 left-0 right-0 h-8 flex justify-around items-end opacity-20 transition-all duration-1000">
+                <span class="text-sm">🌱</span>
+                <span class="text-sm">🌱</span>
+                <span class="text-sm">🌱</span>
+                <span class="text-sm">🌱</span>
+                <span class="text-sm">🌱</span>
+              </div>
+
+              <!-- 降りてくる良い土 -->
+              <div id="kyakudo-soil" class="absolute -top-12 left-0 right-0 h-8 bg-amber-600 transition-all duration-1000 ease-out flex items-center justify-center text-[10px] text-white font-bold">
+                他から運んだ良い土を重ねる 🚛💨
+              </div>
+
+              <!-- もともとの泥炭地 -->
+              <div id="deitan-soil" class="absolute bottom-0 left-0 right-0 h-16 bg-stone-800 border-t-2 border-stone-600 flex flex-col justify-center items-center">
+                <span id="soil-label" class="text-[10px] text-stone-400 font-bold">もともとの泥炭層（ベチャベチャ）</span>
+                <span id="mixed-label" class="text-[10px] text-emerald-300 font-bold hidden">混ぜ合わせて栄養豊かな畑に！</span>
+              </div>
+            </div>
+
+            <!-- ボタン -->
+            <div class="flex justify-center gap-2">
+              <button onclick="runKyakudo()" id="btn-kyakudo" class="bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold px-4 py-2 rounded-lg shadow">
+                客土をスタート！
+              </button>
+              <button onclick="resetKyakudo()" class="bg-slate-300 hover:bg-slate-400 text-slate-700 text-xs font-bold px-4 py-2 rounded-lg">
+                リセット
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. 十勝平野（輪作） -->
+    <section id="tab-tokachi" class="tab-content hidden space-y-6">
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+        <h2 class="text-lg sm:text-xl font-bold text-amber-800 border-b pb-2 mb-4 flex items-center">
+          <i class="fa-solid fa-arrows-spin mr-2 text-amber-600"></i>
+          十勝平野：広大な畑作と「輪作（りんさく）」
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-4 text-xs sm:text-sm">
+            <p class="text-slate-700 leading-relaxed">
+              十勝平野は<strong>火山灰土（かざんばいど）</strong>でおおわれており、水はけが良すぎてお米が作れません。<br>
+              そのため、機械を使った広大な「畑作」が盛んです。主に<strong>じゃがいも、小麦、てんさい（砂糖の原料）、大豆</strong>の4つを育てています。
+            </p>
+
+            <div class="p-4 bg-orange-50 border border-orange-200 rounded-xl">
+              <h3 class="font-bold text-orange-900 mb-1">🚫 連作障害（れんさくしょうがい）って？</h3>
+              <p class="text-slate-700 leading-relaxed">
+                毎年同じ畑に同じ作物（例えばじゃがいもだけ）を植えていると、特定の栄養だけが奪われ、病気になりやすくなります。これを<strong>連作障害</strong>といいます。
+              </p>
+            </div>
+            <div class="p-4 bg-yellow-50 border border-yellow-200 rounded-xl">
+              <h3 class="font-bold text-yellow-900 mb-1">🔄 解決策：輪作（りんさく）の基本パターン</h3>
+              <p class="text-slate-700 leading-relaxed">
+                土の栄養バランスを保つため、同じ畑で毎年植える作物を変えて、4つの作物を順番に植える方法を<strong>輪作</strong>といいます。
+              </p>
+            </div>
+          </div>
+
+          <!-- 輪作パズルミニゲーム -->
+          <div class="bg-slate-100 rounded-xl p-4 border border-slate-200 flex flex-col justify-between min-h-[300px]">
+            <div>
+              <h3 class="font-bold text-slate-800 text-xs sm:text-sm text-center">🔄 4年間の輪作サイクルを作ろう！</h3>
+              <p class="text-[10px] text-slate-500 text-center mb-3">正しい順番で作物をタップして、サイクルを完成させてね！</p>
+
+              <!-- 畑スロット -->
+              <div class="grid grid-cols-4 gap-1.5 mb-4">
+                <div id="cycle-1" class="bg-white rounded-lg p-1.5 border-2 border-dashed border-slate-300 text-center h-16 flex flex-col justify-center items-center">
+                  <span class="text-[9px] text-slate-400">1年目</span>
+                  <span id="c1-val" class="text-xs font-bold text-slate-700">?</span>
+                </div>
+                <div id="cycle-2" class="bg-white rounded-lg p-1.5 border-2 border-dashed border-slate-300 text-center h-16 flex flex-col justify-center items-center">
+                  <span class="text-[9px] text-slate-400">2年目</span>
+                  <span id="c2-val" class="text-xs font-bold text-slate-700">?</span>
+                </div>
+                <div id="cycle-3" class="bg-white rounded-lg p-1.5 border-2 border-dashed border-slate-300 text-center h-16 flex flex-col justify-center items-center">
+                  <span class="text-[9px] text-slate-400">3年目</span>
+                  <span id="c3-val" class="text-xs font-bold text-slate-700">?</span>
+                </div>
+                <div id="cycle-4" class="bg-white rounded-lg p-1.5 border-2 border-dashed border-slate-300 text-center h-16 flex flex-col justify-center items-center">
+                  <span class="text-[9px] text-slate-400">4年目</span>
+                  <span id="c4-val" class="text-xs font-bold text-slate-700">?</span>
+                </div>
+              </div>
+
+              <!-- 選択肢 -->
+              <div class="flex flex-wrap justify-center gap-1.5 mb-3" id="crop-choices">
+                <button onclick="selectCrop('じゃがいも', '🥔')" class="bg-amber-100 hover:bg-amber-200 text-slate-800 text-xs font-bold px-2.5 py-1.5 rounded-lg border border-amber-300">
+                  🥔 じゃがいも
+                </button>
+                <button onclick="selectCrop('小麦', '🌾')" class="bg-yellow-100 hover:bg-yellow-200 text-slate-800 text-xs font-bold px-2.5 py-1.5 rounded-lg border border-yellow-300">
+                  🌾 小麦
+                </button>
+                <button onclick="selectCrop('てんさい', '🌱')" class="bg-emerald-100 hover:bg-emerald-200 text-slate-800 text-xs font-bold px-2.5 py-1.5 rounded-lg border border-emerald-300">
+                  🌱 てんさい
+                </button>
+                <button onclick="selectCrop('大豆', '🫘')" class="bg-orange-100 hover:bg-orange-200 text-slate-800 text-xs font-bold px-2.5 py-1.5 rounded-lg border border-orange-300">
+                  🫘 大豆
+                </button>
+              </div>
+            </div>
+
+            <div class="text-center">
+              <div id="game-feedback" class="text-[11px] font-bold text-slate-600 mb-2">作物をタップして計画を立てよう</div>
+              <button onclick="resetGame()" class="bg-slate-300 hover:bg-slate-400 text-slate-700 text-xs font-bold px-4 py-1.5 rounded-lg">
+                リセット
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. 根釧台地（酪農） -->
+    <section id="tab-konsen" class="tab-content hidden space-y-6">
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+        <h2 class="text-lg sm:text-xl font-bold text-sky-800 border-b pb-2 mb-4 flex items-center">
+          <i class="fa-solid fa-cow mr-2 text-sky-600"></i>
+          根釧台地：火山灰の土地を活かす「酪農」
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-4 text-xs sm:text-sm">
+            <div class="bg-sky-50 p-4 rounded-xl border border-sky-100">
+              <h3 class="font-bold text-sky-900 mb-1"><i class="fa-solid fa-temperature-arrow-down mr-1"></i> なぜ酪農（らくのう）なの？</h3>
+              <p class="text-slate-700 leading-relaxed">
+                根釧台地は十勝平野と同じ火山灰地で、しかも夏に冷たい風と霧のせいで気温が上がらず、農業ができませんでした。そのため、寒さに強い乳牛を飼う<strong>酪農</strong>がさかんになりました。
+              </p>
+            </div>
+
+            <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100">
+              <h3 class="font-bold text-indigo-900 mb-1"><i class="fa-solid fa-truck-moving mr-1"></i> 牛乳の届け方の工夫（生乳のヒミツ）</h3>
+              <p class="text-slate-700 leading-relaxed">
+                搾った生乳は重くて傷みやすいです。そのため、大消費地（東京など）から遠い北海道では、多くが<strong>バターやチーズなどの加工品</strong>にしてから出荷されます。
+              </p>
+            </div>
+          </div>
+
+          <!-- 近代化とロボット -->
+          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex flex-col justify-between">
+            <h3 class="font-bold text-slate-800 text-xs sm:text-sm text-center mb-2">🤖 酪農をたすける最新のロボット</h3>
+            <div class="space-y-2">
+              <div class="flex items-start gap-2 bg-white p-3 rounded-lg border border-slate-150">
+                <span class="text-xl">🤖</span>
+                <div>
+                  <h4 class="font-bold text-xs text-slate-800">自動エサやり・エサ寄せロボット</h4>
+                  <p class="text-[10px] text-slate-500 leading-relaxed">牛が食べて散らばったエサを、自動で牛の近くにまた集め直す賢いロボットが使われています。</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-2 bg-white p-3 rounded-lg border border-slate-150">
+                <span class="text-xl">🍼</span>
+                <div>
+                  <h4 class="font-bold text-xs text-slate-800">自動搾乳機（さくにゅうき）</h4>
+                  <p class="text-[10px] text-slate-500 leading-relaxed">牛が自分で搾乳機に行くと、機械が自動で乳頭を感知して牛乳を搾ってくれます。</p>
+                </div>
+              </div>
+              <p class="text-[10px] text-amber-600 bg-amber-50 p-2 rounded border border-amber-200 leading-relaxed">
+                ⚠️ <strong>酪農の課題：</strong> 酪農は朝が早く仕事がとても大変です。牛乳の価格が上がりにくい一方で、安い輸入品との競争もあるため、ロボットでの人手不足解消が進められています。
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. 濃霧と冷害 -->
+    <section id="tab-reigai" class="tab-content hidden space-y-6">
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+        <h2 class="text-lg sm:text-xl font-bold text-cyan-800 border-b pb-2 mb-4 flex items-center">
+          <i class="fa-solid fa-smog mr-2 text-cyan-600"></i>
+          日本の食をささえる北海道と、自然との闘い
+        </h2>
+
+        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed mb-4">
+          北海道はジャガイモ、玉ねぎ、人参、小麦など、カレーライスに使う多くの農産物の生産量が全国1位です！しかし、夏に太平洋側で発生する「ある霧」が、農業を脅かします。
+        </p>
+
+        <!-- シミュレーター -->
+        <div class="bg-slate-100 rounded-xl p-5 border border-slate-200">
+          <h3 class="font-bold text-slate-800 text-xs sm:text-sm text-center mb-4">🌫️ 「濃霧（のうむ）」と「冷害（れいがい）」の発生装置</h3>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+            <!-- 視覚グラフィック -->
+            <div class="relative h-44 bg-sky-100 rounded-xl border border-slate-300 overflow-hidden" id="fog-env">
+              <!-- 太陽 -->
+              <div id="fog-sun" class="absolute top-4 right-6 text-yellow-500 text-3xl transition-all duration-300"><i class="fa-solid fa-sun animate-pulse"></i></div>
+
+              <!-- 北海道（陸地） -->
+              <div class="absolute bottom-0 left-0 w-1/2 h-16 bg-lime-500 rounded-tr-3xl border-t border-r border-lime-600 flex items-center justify-center">
+                <div class="text-center">
+                  <span class="text-[10px] font-bold text-white block">北海道 (十勝・釧路方面)</span>
+                  <span id="crop-status" class="text-sm font-bold text-white">🥔🧅🥕 (元気に成長中！)</span>
+                </div>
+              </div>
+
+              <!-- 冷たい海（親潮） -->
+              <div class="absolute bottom-0 right-0 w-1/2 h-12 bg-blue-700 flex items-center justify-center">
+                <span class="text-[10px] text-white font-bold">冷たい海（寒流：親潮）</span>
+              </div>
+
+              <!-- 温かい空気 -->
+              <div id="warm-air" class="absolute top-16 right-0 w-28 h-12 bg-red-400 opacity-0 rounded-full blur-sm flex items-center justify-center text-[9px] text-white font-bold transition-all duration-500">
+                南からの温かい風
+              </div>
+
+              <!-- 霧レイヤー -->
+              <div id="fog-layer" class="absolute inset-0 bg-white opacity-0 transition-opacity duration-500 pointer-events-none flex items-center justify-center text-slate-500 font-bold text-xs">
+                🌫️ 濃霧が発生して太陽がさえぎられた！
+              </div>
+            </div>
+
+            <!-- コントロール -->
+            <div class="space-y-4 text-xs">
+              <div>
+                <label class="block font-bold text-slate-600 mb-2">【操作】スライダーを動かして風を送る：</label>
+                <input type="range" id="fog-slider" min="0" max="100" value="0" class="w-full h-2 bg-slate-300 rounded-lg appearance-none cursor-pointer" oninput="updateFogSimulation(this.value)">
+                <div class="flex justify-between text-[10px] text-slate-400 mt-1">
+                  <span>穏やかな夏</span>
+                  <span>風が冷たい海の上に移動</span>
+                </div>
+              </div>
+
+              <div class="p-3 bg-white rounded-lg border border-slate-200" id="fog-explanation">
+                <strong>☀️ ふだん：</strong>夏の強い日差しを浴びて、作物がよく育ちます。
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. クイズ -->
+    <section id="tab-quiz" class="tab-content hidden space-y-6">
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+        <h2 class="text-lg sm:text-xl font-bold text-amber-800 border-b pb-2 mb-4 flex items-center">
+          <i class="fa-solid fa-graduation-cap mr-2 text-amber-600"></i>
+          チェックテスト！おさらいクイズ
+        </h2>
+
+        <!-- 進行 -->
+        <div class="mb-4 flex justify-between items-center text-xs sm:text-sm">
+          <span class="text-slate-500 font-bold">問題 <span id="quiz-num">1</span> / 5</span>
+          <span class="text-amber-600 font-bold">現在のスコア: <span id="quiz-score">0</span> 点</span>
+        </div>
+
+        <!-- クイズエリア -->
+        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200 min-h-[220px] flex flex-col justify-between">
+          <div>
+            <h3 id="quiz-question" class="font-bold text-slate-800 text-sm sm:text-base mb-4"></h3>
+            <div class="space-y-2" id="quiz-options"></div>
+          </div>
+
+          <!-- 解説表示 -->
+          <div id="quiz-feedback" class="mt-4 p-3 rounded-lg text-xs leading-relaxed hidden"></div>
+        </div>
+
+        <!-- クイズ進行用ボタン -->
+        <div class="flex justify-end mt-4">
+          <button id="btn-next-quiz" onclick="nextQuestion()" class="bg-amber-500 hover:bg-amber-600 text-white font-bold px-5 py-2 rounded-lg text-xs hidden">
+            次の問題へ <i class="fa-solid fa-arrow-right ml-1"></i>
+          </button>
+          <button id="btn-restart-quiz" onclick="restartQuiz()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-5 py-2 rounded-lg text-xs hidden">
+            もう一度挑戦する <i class="fa-solid fa-rotate mr-1"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- フッター -->
+  <footer class="bg-slate-800 text-slate-400 text-[10px] py-4 border-t border-slate-700 text-center w-full mt-auto">
+    <p>© 2026年5月27日 中学社会・地理学習サポートツール</p>
+  </footer>
+
+  <!-- 動かすためのプログラム -->
+  <script>
+    // タブきりかえ
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.getElementById('tab-' + tabId).classList.remove('hidden');
+
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.className = "tab-btn px-4 py-2 rounded-lg font-bold text-sm whitespace-nowrap bg-white text-slate-600 hover:bg-slate-100 border border-slate-200";
+      });
+
+      const activeBtn = document.getElementById('btn-' + tabId);
+      if (tabId === 'quiz') {
+        activeBtn.className = "tab-btn px-4 py-2 rounded-lg font-bold text-sm whitespace-nowrap bg-amber-500 text-white shadow";
+      } else {
+        activeBtn.className = "tab-btn px-4 py-2 rounded-lg font-bold text-sm whitespace-nowrap bg-blue-600 text-white shadow";
+      }
+    }
+
+    // 家の工夫解説表示
+    function showHouseDetail(part) {
+      document.getElementById('house-detail-default').classList.add('hidden');
+      const content = document.getElementById('house-detail-content');
+      content.classList.remove('hidden');
+
+      const title = document.getElementById('house-detail-title');
+      const text = document.getElementById('house-detail-text');
+
+      const details = {
+        roof: {
+          title: "🏠 急な角度の屋根",
+          text: "屋根の角度を急に傾けることで、積もった雪の重みで家が潰れるのを防ぎ、雪が自然にすべり落ちるように工夫されています。"
+        },
+        wall: {
+          title: "🧱 壁の中の断熱材（だんねつざい）",
+          text: "壁の中に熱を伝えにくい素材を挟むことで、外の厳しい寒さが部屋に伝わらず、ストーブの暖かさを外へ逃がさないようにしています。"
+        },
+        window: {
+          title: "🪟 二重まど・ペアガラス",
+          text: "窓の隙間から冷気が入らないよう、窓を二重サッシ（2枚重ね）にしたり、ガラスの間に空気の層を作ることで防寒しています。"
+        },
+        door: {
+          title: "🚪 二重の玄関・風除室（ふうじょしつ）",
+          text: "玄関の扉の外にさらに「もう1枚の扉（ガラスの小部屋）」を作ることで、外の冷たい空気が直接家の中に吹き込むのを防ぎます。"
+        },
+        pipe: {
+          title: "🚰 土の下深くを通る水道管",
+          text: "冬に水道水が凍って水道管が破裂するのを防ぐため、凍らない深さの土の中（凍結深度の下）に水道管を通しています。"
+        }
+      };
+
+      if (details[part]) {
+        title.innerText = details[part].title;
+        text.innerText = details[part].text;
+      }
+    }
+
+    // 客土アニメーション
+    function runKyakudo() {
+      const kyakudoSoil = document.getElementById('kyakudo-soil');
+      const paddyField = document.getElementById('paddy-field');
+      const soilLabel = document.getElementById('soil-label');
+      const mixedLabel = document.getElementById('mixed-label');
+      const deitanSoil = document.getElementById('deitan-soil');
+
+      kyakudoSoil.style.top = "96px";
+
+      setTimeout(() => {
+        deitanSoil.className = "absolute bottom-0 left-0 right-0 h-16 bg-amber-800 border-t-2 border-amber-600 flex flex-col justify-center items-center transition-colors duration-1000";
+        soilLabel.classList.add('hidden');
+        mixedLabel.classList.remove('hidden');
+
+        paddyField.style.opacity = "1";
+        paddyField.innerHTML = `
+          <span class="text-xl animate-bounce">🌾</span>
+          <span class="text-xl animate-bounce" style="animation-delay: 0.2s">🌾</span>
+          <span class="text-xl animate-bounce" style="animation-delay: 0.4s">🌾</span>
+          <span class="text-xl animate-bounce" style="animation-delay: 0.1s">🌾</span>
+          <span class="text-xl animate-bounce" style="animation-delay: 0.3s">🌾</span>
+        `;
+      }, 1000);
+    }
+
+    function resetKyakudo() {
+      const kyakudoSoil = document.getElementById('kyakudo-soil');
+      const paddyField = document.getElementById('paddy-field');
+      const soilLabel = document.getElementById('soil-label');
+      const mixedLabel = document.getElementById('mixed-label');
+      const deitanSoil = document.getElementById('deitan-soil');
+
+      kyakudoSoil.style.top = "-48px";
+      deitanSoil.className = "absolute bottom-0 left-0 right-0 h-16 bg-stone-800 border-t-2 border-stone-600 flex flex-col justify-center items-center";
+      soilLabel.classList.remove('hidden');
+      mixedLabel.classList.add('hidden');
+      paddyField.style.opacity = "0.2";
+      paddyField.innerHTML = `
+        <span class="text-sm">🌱</span>
+        <span class="text-sm">🌱</span>
+        <span class="text-sm">🌱</span>
+        <span class="text-sm">🌱</span>
+        <span class="text-sm">🌱</span>
+      `;
+    }
+
+    // 輪作パズル
+    let currentStep = 1;
+    const correctCycle = ["じゃがいも", "小麦", "てんさい", "大豆"];
+
+    function selectCrop(crop, emoji) {
+      if (currentStep > 4) return;
+
+      const targetCell = document.getElementById(`cycle-${currentStep}`);
+      const targetVal = document.getElementById(`c${currentStep}-val`);
+      const feedback = document.getElementById('game-feedback');
+
+      targetVal.innerHTML = `${emoji}<br>${crop}`;
+      targetCell.classList.remove('border-dashed', 'border-slate-300');
+      targetCell.classList.add('border-solid', 'border-blue-500', 'bg-blue-50');
+
+      if (crop === correctCycle[currentStep - 1]) {
+        currentStep++;
+        if (currentStep === 5) {
+          feedback.innerHTML = "🎉 大正解！土の栄養を守りつつ、毎年たくさんの農作物を育てる『輪作』の完成です！";
+          feedback.className = "text-xs font-bold text-emerald-600 mb-2";
+        } else {
+          feedback.innerHTML = `大正解！次は ${currentStep} 年目の作物を選んでね。`;
+          feedback.className = "text-xs font-bold text-blue-600 mb-2";
+        }
+      } else {
+        feedback.innerHTML = "⚠️ 順番が違います！これだと『連作障害』がおきやすくなります。リセットしてやり直しましょう！";
+        feedback.className = "text-xs font-bold text-red-500 mb-2";
+      }
+    }
+
+    function resetGame() {
+      currentStep = 1;
+      const feedback = document.getElementById('game-feedback');
+      feedback.innerHTML = "作物をタップして計画を立てよう";
+      feedback.className = "text-xs font-bold text-slate-600 mb-2";
+
+      for (let i = 1; i <= 4; i++) {
+        const cell = document.getElementById(`cycle-${i}`);
+        const val = document.getElementById(`c${i}-val`);
+        val.innerText = "?";
+        cell.className = "bg-white rounded-lg p-1.5 border-2 border-dashed border-slate-300 text-center h-16 flex flex-col justify-center items-center";
+      }
+    }
+
+    // 霧と冷害
+    function updateFogSimulation(val) {
+      const warmAir = document.getElementById('warm-air');
+      const fogLayer = document.getElementById('fog-layer');
+      const cropStatus = document.getElementById('crop-status');
+      const explanation = document.getElementById('fog-explanation');
+      const sun = document.getElementById('fog-sun');
+
+      const airPos = 100 - val;
+      warmAir.style.right = `${airPos * 0.5}%`;
+      warmAir.style.opacity = val / 100;
+
+      if (val > 40) {
+        const fogOpacity = (val - 40) / 60;
+        fogLayer.style.opacity = fogOpacity * 0.9;
+
+        sun.style.transform = `scale(${1 - (fogOpacity * 0.4)})`;
+        sun.style.opacity = 1 - (fogOpacity * 0.6);
+
+        if (val > 80) {
+          cropStatus.innerHTML = "🥶❄️ (寒くてこれ以上育たない...)";
+          explanation.innerHTML = "<strong>❄️ 冷害が発生：</strong> 暖かく湿った南風が、冷たい海流（親潮）の上で冷やされ、巨大な<strong>濃霧（のうむ）</strong>になります。これが太陽を遮り、夏でも気温が上がらない<strong>冷害</strong>の原因になります。";
+        } else {
+          cropStatus.innerHTML = "🌾☁️ (ちょっと曇ってきた)";
+          explanation.innerHTML = "<strong>🌫️ 霧の発生：</strong> 暖かい空気と冷たい海が出会うことで、空気中の水分が冷やされ、霧が発生し始めます。";
+        }
+      } else {
+        fogLayer.style.opacity = 0;
+        sun.style.transform = "scale(1)";
+        sun.style.opacity = 1;
+        cropStatus.innerHTML = "🥔🧅🥕 (元気に成長中！)";
+        explanation.innerHTML = "<strong>☀️ ふだん：</strong>夏の強い日差しを浴びて、作物がよく育ちます。";
+      }
+    }
+
+    // 3択クイズ
+    const quizData = [
+      {
+        q: "北海道は世界の気候区分において、何帯に属していますか？",
+        a: ["冷帯（亜寒帯）", "温帯", "熱帯"],
+        correct: 0,
+        exp: "正解は「冷帯（亜寒帯）」です。日本の大半は温帯ですが、北海道だけは唯一冷帯に属しています。"
+      },
+      {
+        q: "石狩平野のかつての泥炭地（農業に不向きなベチャベチャな土地）を改良するため、他の土地から良い土を混ぜ合わせる対策を何といいますか？",
+        a: ["輪作", "客土（きゃくど）", "冷害"],
+        correct: 1,
+        exp: "正解は「客土（きゃくど）」です。これにより、泥炭地だった石狩平野は日本を代表するお米の産地になりました。"
+      },
+      {
+        q: "十勝平野で、連作障害（土の栄養不足や病気など）を防ぐために、毎年違う作物を順番に植え替える方法を何といいますか？",
+        a: ["客土", "酪農", "輪作（りんさく）"],
+        correct: 2,
+        exp: "正解は「輪作（りんさく）」です。じゃがいも、小麦、てんさい、大豆の4種類を順番に植えて土の栄養を守ります。"
+      },
+      {
+        q: "根釧台地で酪農がさかんな理由として、火山灰地であることのほかに、夏のどのような気候条件が挙げられますか？",
+        a: ["夏でも気温が低く冷涼であること", "夏にとても蒸し暑いこと", "雨がほとんど降らないこと"],
+        correct: 0,
+        exp: "正解は「夏でも気温が低く冷涼であること」です。作物が育ちにくい気候を逆手にとって、涼しい気候に強い乳牛を育てる酪農が発達しました。"
+      },
+      {
+        q: "北海道の太平洋側で夏に発生し、太陽の光をさえぎって農作物の生長をさまたげる（冷害をおこす）原因となる現象は何ですか？",
+        a: ["台風", "濃霧（のうむ）", "梅雨"],
+        correct: 1,
+        exp: "正解は「濃霧（のうむ）」です。冷たい海流（親潮）に暖かい風が吹くことで発生し、太陽の光をさえぎってしまいます。"
+      }
+    ];
+
+    let currentQuizIndex = 0;
+    let score = 0;
+
+    function initQuiz() {
+      currentQuizIndex = 0;
+      score = 0;
+      document.getElementById('quiz-score').innerText = score;
+      showQuestion();
+    }
+
+    function showQuestion() {
+      const qData = quizData[currentQuizIndex];
+      document.getElementById('quiz-num').innerText = currentQuizIndex + 1;
+      document.getElementById('quiz-question').innerText = qData.q;
+
+      const optionsContainer = document.getElementById('quiz-options');
+      optionsContainer.innerHTML = '';
+
+      qData.a.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = "w-full text-left bg-white hover:bg-slate-100 text-slate-800 text-xs sm:text-sm font-medium p-3 rounded-lg border border-slate-200 transition-colors flex items-center justify-between";
+        btn.innerHTML = `<span>${idx + 1}. ${opt}</span> <i class="fa-regular fa-circle-question opacity-30"></i>`;
+        btn.onclick = () => selectAnswer(idx);
+        optionsContainer.appendChild(btn);
+      });
+
+      document.getElementById('quiz-feedback').classList.add('hidden');
+      document.getElementById('btn-next-quiz').classList.add('hidden');
+      document.getElementById('btn-restart-quiz').classList.add('hidden');
+    }
+
+    function selectAnswer(selectedIndex) {
+      const qData = quizData[currentQuizIndex];
+      const feedback = document.getElementById('quiz-feedback');
+      const optionsContainer = document.getElementById('quiz-options');
+
+      Array.from(optionsContainer.children).forEach((btn, idx) => {
+        btn.disabled = true;
+        if (idx === qData.correct) {
+          btn.className = "w-full text-left bg-emerald-50 text-emerald-800 text-xs sm:text-sm font-bold p-3 rounded-lg border-2 border-emerald-500 flex items-center justify-between";
+          btn.innerHTML += ` <i class="fa-solid fa-circle-check text-emerald-600"></i>`;
+        } else if (idx === selectedIndex) {
+          btn.className = "w-full text-left bg-red-50 text-red-800 text-xs sm:text-sm font-bold p-3 rounded-lg border-2 border-red-500 flex items-center justify-between";
+          btn.innerHTML += ` <i class="fa-solid fa-circle-xmark text-red-600"></i>`;
+        }
+      });
+
+      feedback.classList.remove('hidden');
+      if (selectedIndex === qData.correct) {
+        feedback.className = "mt-4 p-3 rounded-lg text-xs leading-relaxed bg-emerald-50 border border-emerald-200 text-emerald-800";
+        feedback.innerHTML = `<strong>✨ 正解！</strong><br>${qData.exp}`;
+        score += 20;
+        document.getElementById('quiz-score').innerText = score;
+      } else {
+        feedback.className = "mt-4 p-3 rounded-lg text-xs leading-relaxed bg-red-50 border border-red-200 text-red-800";
+        feedback.innerHTML = `<strong>😢 ざんねん...</strong><br>${qData.exp}`;
+      }
+
+      if (currentQuizIndex < quizData.length - 1) {
+        document.getElementById('btn-next-quiz').classList.remove('hidden');
+      } else {
+        setTimeout(() => {
+          document.getElementById('quiz-question').innerText = `🎉 クイズ終了！お疲れ様でした！あなたのスコアは【 ${score} 点 / 100点 】です。`;
+          optionsContainer.innerHTML = '';
+          feedback.classList.add('hidden');
+          document.getElementById('btn-restart-quiz').classList.remove('hidden');
+        }, 2500);
+      }
+    }
+
+    function nextQuestion() {
+      currentQuizIndex++;
+      showQuestion();
+    }
+
+    function restartQuiz() {
+      initQuiz();
+    }
+
+    // ロード時に実行
+    window.onload = function() {
+      initQuiz();
+    };
+  </script>
+</body>
+</html>

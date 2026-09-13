@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>北海道・東北地方 2 - 要点のまとめ</title>
+    <!-- Tailwind CSS (デザイン・レイアウト用) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js (グラフ描画用) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Font Awesome (アイコン用) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* カスタムスタイル定義 */
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            background-color: #f8fafc;
+        }
+
+        /* 赤シート（暗記モード）用スタイル */
+        .memorize-mode .secret {
+            background-color: #ef4444;
+            color: #ef4444;
+            border-radius: 4px;
+            padding: 0 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+        .memorize-mode .secret:hover,
+        .memorize-mode .secret.revealed {
+            background-color: #fee2e2;
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        /* 印刷・プレビュー用調整 */
+        @media print {
+            .no-print { display: none; }
+        }
+    </style>
+</head>
+<body class="text-slate-800 pb-12">
+
+    <!-- 上部ヘッダー（教科書風デザイン） -->
+    <header class="bg-white border-b-4 border-red-600 shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <span class="bg-red-600 text-white font-black text-2xl px-4 py-1 rounded">2</span>
+                <h1 class="text-xl md:text-2xl font-bold text-slate-800">北海道・東北地方 2</h1>
+            </div>
+
+            <!-- コントロールボタン群（暗記モード切替など） -->
+            <div class="flex items-center gap-3 no-print">
+                <button id="toggleMemorize" onclick="toggleMemorizeMode()" class="flex items-center gap-2 bg-red-100 hover:bg-red-200 text-red-700 font-semibold px-4 py-2 rounded-lg transition border border-red-300">
+                    <i class="fa-solid fa-eye-slash"></i>
+                    <span id="memorizeBtnText">暗記モード ON</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <main class="max-w-7xl mx-auto px-4 pt-6">
+
+        <!-- 「要点のまとめ」タイトル帯 -->
+        <div class="bg-gradient-to-r from-red-600 to-rose-500 text-white px-6 py-2 rounded-t-lg shadow-sm flex items-center justify-between">
+            <h2 class="text-lg font-bold flex items-center gap-2">
+                <i class="fa-solid fa-book-bookmark"></i> 要点のまとめ
+            </h2>
+            <span class="text-xs bg-white/20 px-3 py-1 rounded-full">地理 / 中学社会</span>
+        </div>
+
+        <!-- 2カラムレイアウト（左：文章要点、右：データ・グラフ） -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-white p-4 md:p-6 rounded-b-lg shadow-md border border-slate-200">
+
+            <!-- ================= 左カラム：各道の産業・要点 (7/12) ================= -->
+            <section class="lg:col-span-7 space-y-6">
+
+                <h3 class="text-lg font-bold text-red-700 border-b-2 border-red-500 pb-1 flex items-center gap-2">
+                    <i class="fa-solid fa-industry"></i> 北海道・東北地方の産業
+                </h3>
+
+                <!-- (1) 北海道 -->
+                <div class="border-l-4 border-blue-500 pl-4 py-1 bg-slate-50 rounded-r-lg p-3">
+                    <h4 class="font-bold text-blue-900 text-base mb-2 flex items-center justify-between">
+                        <span>(1) 北海道</span>
+                    </h4>
+                    <ul class="space-y-2 text-sm md:text-base leading-relaxed">
+                        <li class="flex items-start gap-2">
+                            <span class="bg-blue-100 text-blue-800 text-xs font-bold px-2 py-0.5 rounded mt-1 shrink-0">①農業</span>
+                            <div>
+                                稲作…<span class="secret">石狩平野</span>、<span class="secret">上川盆地</span>。
+                                畑作…<span class="secret">十勝平野</span>。
+                                酪農…<span class="secret">根釧台地</span>。
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="bg-blue-100 text-blue-800 text-xs font-bold px-2 py-0.5 rounded mt-1 shrink-0">②水産業</span>
+                            <div>
+                                各国の<span class="secret">200海里の排他的経済水域</span>の設定で、北洋漁業など遠洋漁業の漁獲量が減少。<span class="secret">釧路港</span>…日本有数の水揚げ量。
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="bg-blue-100 text-blue-800 text-xs font-bold px-2 py-0.5 rounded mt-1 shrink-0">③工業</span>
+                            <div>
+                                <span class="secret">苫小牧</span>（パルプ・製紙）、<span class="secret">室蘭</span>（製鉄）、<span class="secret">札幌</span>（菓子、乳製品）、<span class="secret">釧路</span>（パルプ・製紙、食品加工）。<br>
+                                <span class="text-xs bg-amber-100 text-amber-800 px-1 rounded inline-block mt-1">伝統的工芸品</span> <span class="secret">二風谷アットゥシ</span>。
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- (2) 青森県 -->
+                <div class="border-l-4 border-teal-500 pl-4 py-1 bg-slate-50 rounded-r-lg p-3">
+                    <h4 class="font-bold text-teal-900 text-base mb-2">(2) 青森県</h4>
+                    <ul class="space-y-1.5 text-sm md:text-base">
+                        <li><strong>①農業：</strong> りんご…<span class="secret">津軽平野</span>。</li>
+                        <li><strong>②水産業：</strong> ほたて貝…<span class="secret">陸奥湾</span>での養殖。</li>
+                        <li><strong>③工業：</strong> <span class="text-xs bg-amber-100 text-amber-800 px-1 rounded">伝統工芸</span> <span class="secret">津軽塗</span>。</li>
+                    </ul>
+                </div>
+
+                <!-- (3) 秋田県 -->
+                <div class="border-l-4 border-emerald-500 pl-4 py-1 bg-slate-50 rounded-r-lg p-3">
+                    <h4 class="font-bold text-emerald-900 text-base mb-2">(3) 秋田県</h4>
+                    <ul class="space-y-1.5 text-sm md:text-base">
+                        <li><strong>①農業：</strong> 稲作…<span class="secret">八郎潟</span>、<span class="secret">秋田平野</span>でのあきたこまちなの生産。</li>
+                        <li><strong>②工業：</strong> <span class="text-xs bg-amber-100 text-amber-800 px-1 rounded">伝統工芸</span> <span class="secret">大館曲げわっぱ</span>。</li>
+                    </ul>
+                </div>
+
+                <!-- (4) 岩手県 -->
+                <div class="border-l-4 border-green-500 pl-4 py-1 bg-slate-50 rounded-r-lg p-3">
+                    <h4 class="font-bold text-green-900 text-base mb-2">(4) 岩手県</h4>
+                    <ul class="space-y-1.5 text-sm md:text-base">
+                        <li><strong>①水産業：</strong> わかめ…<span class="secret">三陸海岸</span>。</li>
+                        <li><strong>②工業：</strong> <span class="text-xs bg-amber-100 text-amber-800 px-1 rounded">伝統工芸</span> <span class="secret">南部鉄器</span>。</li>
+                    </ul>
+                </div>
+
+                <!-- (5) 山形県 -->
+                <div class="border-l-4 border-lime-500 pl-4 py-1 bg-slate-50 rounded-r-lg p-3">
+                    <h4 class="font-bold text-lime-900 text-base mb-2">(5) 山形県</h4>
+                    <ul class="space-y-1.5 text-sm md:text-base">
+                        <li><strong>①農業：</strong> 稲作…<span class="secret">庄内平野</span>でのはえぬきの生産。おうとう（さくらんぼ）…<span class="secret">山形盆地</span>。</li>
+                        <li><strong>②工業：</strong> <span class="text-xs bg-amber-100 text-amber-800 px-1 rounded">伝統工芸</span> <span class="secret">置賜紬</span>、<span class="secret">天童将棋駒</span>。</li>
+                    </ul>
+                </div>
+
+                <!-- (6) 宮城県 -->
+                <div class="border-l-4 border-amber-500 pl-4 py-1 bg-slate-50 rounded-r-lg p-3">
+                    <h4 class="font-bold text-amber-900 text-base mb-2">(6) 宮城県</h4>
+                    <ul class="space-y-1.5 text-sm md:text-base">
+                        <li><strong>①農業：</strong> 稲作…<span class="secret">仙台平野</span>でのひとめぼれの生産。</li>
+                        <li><strong>②水産業：</strong> かき…<span class="secret">松島湾</span>での養殖。</li>
+                        <li><strong>③工業：</strong> <span class="text-xs bg-amber-100 text-amber-800 px-1 rounded">伝統工芸</span> <span class="secret">こけし</span>。</li>
+                    </ul>
+                </div>
+
+                <!-- (7) 福島県 -->
+                <div class="border-l-4 border-orange-500 pl-4 py-1 bg-slate-50 rounded-r-lg p-3">
+                    <h4 class="font-bold text-orange-900 text-base mb-2">(7) 福島県</h4>
+                    <ul class="space-y-1.5 text-sm md:text-base">
+                        <li><strong>①農業：</strong> もも…<span class="secret">福島盆地</span>。</li>
+                    </ul>
+                </div>
+
+                <!-- (8) その他 -->
+                <div class="border-l-4 border-purple-500 pl-4 py-1 bg-slate-50 rounded-r-lg p-3">
+                    <h4 class="font-bold text-purple-900 text-base mb-2">(8) その他</h4>
+                    <p class="text-sm md:text-base">
+                        <span class="secret">東北自動車道</span>沿いに<span class="secret">IC（集積回路）</span>工場が進出。
+                    </p>
+                </div>
+
+            </section>
+
+            <!-- ================= 右カラム：データ・グラフエリア (5/12) ================= -->
+            <section class="lg:col-span-5 space-y-6">
+
+                <h3 class="text-lg font-bold text-red-700 border-b-2 border-red-500 pb-1 flex items-center gap-2">
+                    <i class="fa-chart-pie fa-solid"></i> 主な農産物とシェアデータ
+                </h3>
+
+                <!-- グラフ切替タブ -->
+                <div class="flex flex-wrap gap-1 border-b border-slate-200 text-xs font-semibold">
+                    <button onclick="updateChart('rice')" class="tab-btn px-3 py-1.5 rounded-t bg-red-600 text-white" id="tab-rice">米</button>
+                    <button onclick="updateChart('apple')" class="tab-btn px-3 py-1.5 rounded-t bg-slate-100 text-slate-600 hover:bg-slate-200" id="tab-apple">りんご</button>
+                    <button onclick="updateChart('peach')" class="tab-btn px-3 py-1.5 rounded-t bg-slate-100 text-slate-600 hover:bg-slate-200" id="tab-peach">もも</button>
+                    <button onclick="updateChart('grape')" class="tab-btn px-3 py-1.5 rounded-t bg-slate-100 text-slate-600 hover:bg-slate-200" id="tab-grape">ぶどう</button>
+                    <button onclick="updateChart('cherry')" class="tab-btn px-3 py-1.5 rounded-t bg-slate-100 text-slate-600 hover:bg-slate-200" id="tab-cherry">さくらんぼ</button>
+                    <button onclick="updateChart('cow')" class="tab-btn px-3 py-1.5 rounded-t bg-slate-100 text-slate-600 hover:bg-slate-200" id="tab-cow">乳用牛</button>
+                </div>
+
+                <!-- グラフ表示領域 -->
+                <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                    <div class="flex justify-between items-center mb-2">
+                        <h4 id="chartTitle" class="font-bold text-slate-800 text-base">米の全国生産割合</h4>
+                        <span id="chartTotal" class="text-xs bg-slate-200 px-2 py-0.5 rounded text-slate-600">全国計 727万t</span>
+                    </div>
+
+                    <div class="relative h-56 w-full">
+                        <canvas id="cropChart"></canvas>
+                    </div>
+                    <p class="text-[11px] text-slate-400 text-right mt-2">※データ：2023年版 日本のすがた（農林水産省資料より）</p>
+                </div>
+
+                <!-- 東北地方の高速道路とIC工場（簡易マップ表現） -->
+                <div class="bg-amber-50/60 p-4 rounded-lg border border-amber-200 space-y-3">
+                    <h4 class="font-bold text-amber-900 text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-map-location-dot"></i> 東北地方の高速道路とIC工場
+                    </h4>
+                    <p class="text-xs text-amber-800 leading-relaxed">
+                        交通網の整備（東北自動車道）に伴い、内陸部に電子部品や<strong class="text-red-600">IC（集積回路）工場</strong>が進出。「シリコンロード」とも呼ばれます。
+                    </p>
+
+                    <!-- 記号の凡例 -->
+                    <div class="grid grid-cols-2 gap-2 text-xs pt-1 border-t border-amber-200/60">
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-red-500 inline-block"></span>
+                            <span>IC工場</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-4 h-0.5 bg-red-500 inline-block"></span>
+                            <span>高速道路</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-plane text-slate-600 text-xs"></i>
+                            <span>空港</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-car text-slate-600 text-xs"></i>
+                            <span>自動車組立工場</span>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+        </div>
+    </main>
+
+    <!-- JavaScript ロジック -->
+    <script>
+        // --- 1. 暗記モード (伏せ字機能) の制御 ---
+        let isMemorizeMode = false;
+
+        function toggleMemorizeMode() {
+            isMemorizeMode = !isMemorizeMode;
+            const body = document.body;
+            const btnText = document.getElementById('memorizeBtnText');
+
+            if (isMemorizeMode) {
+                body.classList.add('memorize-mode');
+                btnText.textContent = '暗記モード OFF';
+            } else {
+                body.classList.remove('memorize-mode');
+                btnText.textContent = '暗記モード ON';
+            }
+        }
+
+        // 個別クリックで伏せ字解除
+        document.querySelectorAll('.secret').forEach(element => {
+            element.addEventListener('click', function() {
+                this.classList.toggle('revealed');
+            });
+        });
+
+
+        // --- 2. 農産物シェアグラフ (Chart.js) ---
+        const cropData = {
+            rice: {
+                title: "米（全国計 727万t）",
+                total: "全国計 727万t",
+                labels: ["新潟", "北海道", "秋田", "山形", "宮城", "茨城", "福島", "その他"],
+                data: [9, 8, 6, 5, 5, 4, 4, 59],
+                colors: ["#3b82f6", "#60a5fa", "#93c5fd", "#bfdbfe", "#dbeafe", "#e2e8f0", "#cbd5e1", "#94a3b8"]
+            },
+            apple: {
+                title: "りんご（全国計 66万t）",
+                total: "全国計 66万t",
+                labels: ["青森", "長野", "岩手", "山形", "福島", "その他"],
+                data: [63, 17, 6, 5, 3, 6],
+                colors: ["#ef4444", "#f87171", "#fca5a5", "#fecaca", "#fee2e2", "#94a3b8"]
+            },
+            peach: {
+                title: "もも（全国計 11万t）",
+                total: "全国計 11万t",
+                labels: ["山梨", "福島", "長野", "山形", "和歌山", "その他"],
+                data: [32, 23, 10, 8, 7, 20],
+                colors: ["#ec4899", "#f472b6", "#fbcfe8", "#fde047", "#fed7aa", "#94a3b8"]
+            },
+            grape: {
+                title: "ぶどう（全国計 17万t）",
+                total: "全国計 17万t",
+                labels: ["山梨", "長野", "岡山", "山形", "福岡", "その他"],
+                data: [25, 17, 9, 9, 4, 36],
+                colors: ["#8b5cf6", "#a78bfa", "#c4b5fd", "#ddd6fe", "#ede9fe", "#94a3b8"]
+            },
+            cherry: {
+                title: "おうとう/さくらんぼ（全国計 1.3万t）",
+                total: "全国計 1.3万t",
+                labels: ["山形", "その他"],
+                data: [70, 30],
+                colors: ["#f43f5e", "#94a3b8"]
+            },
+            cow: {
+                title: "乳用牛（全国計 137万頭）",
+                total: "全国計 137万頭",
+                labels: ["北海道", "栃木", "岩手", "群馬", "熊本", "その他"],
+                data: [62, 4, 3, 3, 3, 25],
+                colors: ["#0284c7", "#38bdf8", "#7dd3fc", "#bae6fd", "#e0f2fe", "#94a3b8"]
+            }
+        };
+
+        let myChart = null;
+
+        function initChart() {
+            const ctx = document.getElementById('cropChart').getContext('2d');
+            myChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: cropData.rice.labels,
+                    datasets: [{
+                        data: cropData.rice.data,
+                        backgroundColor: cropData.rice.colors,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                boxWidth: 12,
+                                font: { size: 11 }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ` ${context.label}: ${context.raw}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateChart(cropKey) {
+            const selected = cropData[cropKey];
+
+            // グラフ更新
+            myChart.data.labels = selected.labels;
+            myChart.data.datasets[0].data = selected.data;
+            myChart.data.datasets[0].backgroundColor = selected.colors;
+            myChart.update();
+
+            // 見出し更新
+            document.getElementById('chartTitle').textContent = selected.title;
+            document.getElementById('chartTotal').textContent = selected.total;
+
+            // タブのスタイル更新
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = 'tab-btn px-3 py-1.5 rounded-t bg-slate-100 text-slate-600 hover:bg-slate-200';
+            });
+            const activeTab = document.getElementById(`tab-${cropKey}`);
+            if (activeTab) {
+                activeTab.className = 'tab-btn px-3 py-1.5 rounded-t bg-red-600 text-white font-bold';
+            }
+        }
+
+        // ページロード時に初期化
+        window.onload = function() {
+            initChart();
+        };
+    </script>
+</body>
+</html>

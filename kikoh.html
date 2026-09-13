@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>日本の気候 まとめ</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+  background: linear-gradient(135deg, #f0e6ff 0%, #e6f0ff 50%, #ffe6f5 100%);
+  min-height: 100vh;
+  padding: 16px;
+  color: #3d2b5e;
+}
+
+/* ヘッダー */
+.page-header {
+  text-align: center;
+  padding: 20px 16px 16px;
+  margin-bottom: 20px;
+}
+.page-header h1 {
+  font-size: 24px;
+  font-weight: 900;
+  background: linear-gradient(135deg, #f472b6, #a78bfa, #60a5fa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 6px;
+}
+.page-header p { font-size: 13px; color: #a78bfa; }
+
+/* セクションタイトル */
+.section-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #3d2b5e;
+  margin: 24px 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-title::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(90deg, #a78bfa, transparent);
+  border-radius: 2px;
+}
+
+/* ── 気候帯ベーシックカード ── */
+.basic-card {
+  background: rgba(255,255,255,0.9);
+  border-radius: 16px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 16px rgba(167,139,250,0.12);
+  border-left: 4px solid #a78bfa;
+}
+.basic-card .card-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: #7c3aed;
+  margin-bottom: 6px;
+}
+.basic-card .card-body {
+  font-size: 12px;
+  color: #3d2b5e;
+  line-height: 1.7;
+}
+.basic-card .card-body span { font-weight: 800; color: #7c3aed; }
+
+/* ── 気候帯タグ ── */
+.climate-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.climate-tag {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+}
+.tag-hot      { background: #f87171; }
+.tag-dry      { background: #fbbf24; }
+.tag-temp     { background: #34d399; }
+.tag-cold     { background: #60a5fa; }
+.tag-polar    { background: #818cf8; }
+
+/* ── 気候区グリッド ── */
+.climate-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.climate-card {
+  background: rgba(255,255,255,0.92);
+  border-radius: 16px;
+  padding: 14px 12px;
+  box-shadow: 0 4px 16px rgba(167,139,250,0.15);
+  border-left: 4px solid var(--color);
+  transition: transform 0.15s;
+}
+.climate-card:active { transform: scale(0.97); }
+.climate-icon { font-size: 28px; margin-bottom: 6px; }
+.climate-name {
+  font-size: 12px;
+  font-weight: 800;
+  color: #3d2b5e;
+  margin-bottom: 3px;
+}
+.climate-area {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color);
+  margin-bottom: 5px;
+}
+.climate-desc {
+  font-size: 10.5px;
+  color: #6b5e8a;
+  line-height: 1.55;
+}
+.climate-key {
+  background: rgba(167,139,250,0.1);
+  border-radius: 8px;
+  padding: 4px 8px;
+  font-size: 10.5px;
+  color: #7c3aed;
+  font-weight: 700;
+  margin-top: 6px;
+}
+
+/* 気候区カラー定義 */
+.c-ice    { --color: #93c5fd; }
+.c-snow   { --color: #60a5fa; }
+.c-pacific { --color: #34d399; }
+.c-inland { --color: #fbbf24; }
+.c-seto   { --color: #fb923c; }
+.c-tropic { --color: #f472b6; }
+
+/* ── フローカード（季節風） ── */
+.flow-card {
+  background: rgba(255,255,255,0.9);
+  border-radius: 16px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 16px rgba(167,139,250,0.12);
+}
+.flow-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: #3d2b5e;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.flow-steps {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.flow-step {
+  background: linear-gradient(135deg, #a78bfa, #f472b6);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+.flow-step.blue { background: linear-gradient(135deg, #60a5fa, #a78bfa); }
+.flow-step.green { background: linear-gradient(135deg, #34d399, #60a5fa); }
+.flow-step.orange { background: linear-gradient(135deg, #fb923c, #fbbf24); }
+.flow-arrow {
+  color: #a78bfa;
+  font-size: 16px;
+  font-weight: 900;
+}
+.flow-note {
+  font-size: 10.5px;
+  color: #9ca3af;
+  margin-top: 6px;
+  line-height: 1.5;
+}
+
+/* ── 大きなルールボックス ── */
+.law-box {
+  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+  border-radius: 20px;
+  padding: 20px 16px;
+  color: #fff;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(124,58,237,0.3);
+  margin-bottom: 10px;
+}
+.law-box.blue-box {
+  background: linear-gradient(135deg, #1d4ed8, #60a5fa);
+  box-shadow: 0 8px 24px rgba(29,78,216,0.3);
+}
+.law-box.pink-box {
+  background: linear-gradient(135deg, #be185d, #f472b6);
+  box-shadow: 0 8px 24px rgba(190,24,93,0.3);
+}
+.law-box.green-box {
+  background: linear-gradient(135deg, #065f46, #34d399);
+  box-shadow: 0 8px 24px rgba(6,95,70,0.3);
+}
+.law-title { font-size: 15px; font-weight: 800; margin-bottom: 10px; }
+.law-main {
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1.7;
+  background: rgba(255,255,255,0.15);
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin-bottom: 10px;
+}
+.law-note { font-size: 11.5px; opacity: 0.9; line-height: 1.6; }
+
+/* ── テーブル ── */
+.data-table {
+  width: 100%;
+  background: rgba(255,255,255,0.9);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(167,139,250,0.12);
+  margin-bottom: 10px;
+}
+.data-table thead {
+  background: linear-gradient(135deg, #a78bfa, #f472b6);
+  color: #fff;
+}
+.data-table th, .data-table td {
+  padding: 10px 10px;
+  font-size: 11.5px;
+  text-align: left;
+  border-bottom: 1px solid rgba(167,139,250,0.1);
+  vertical-align: top;
+  line-height: 1.55;
+}
+.data-table th { font-weight: 700; font-size: 12px; }
+.data-table tbody tr:last-child td { border-bottom: none; }
+.data-table tbody tr:nth-child(even) td { background: rgba(167,139,250,0.05); }
+
+/* ── ポイントボックス ── */
+.point-box {
+  background: rgba(255,255,255,0.9);
+  border-radius: 16px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 16px rgba(167,139,250,0.12);
+  border-left: 4px solid #f472b6;
+}
+.point-box.purple-border { border-left-color: #a78bfa; }
+.point-box.blue-border   { border-left-color: #60a5fa; }
+.point-box.green-border  { border-left-color: #34d399; }
+.point-box.orange-border { border-left-color: #fb923c; }
+.point-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: #be185d;
+  margin-bottom: 8px;
+}
+.point-box.purple-border .point-title { color: #7c3aed; }
+.point-box.blue-border   .point-title { color: #1d4ed8; }
+.point-box.green-border  .point-title { color: #065f46; }
+.point-box.orange-border .point-title { color: #c2410c; }
+.point-item {
+  font-size: 12px;
+  color: #3d2b5e;
+  padding: 5px 0;
+  border-bottom: 1px dashed rgba(167,139,250,0.2);
+  line-height: 1.6;
+}
+.point-item:last-child { border-bottom: none; }
+.point-item span { font-weight: 800; color: #7c3aed; }
+.point-item span.red { color: #dc2626; }
+.point-item span.blue { color: #1d4ed8; }
+.point-item span.green { color: #065f46; }
+.point-item span.orange { color: #c2410c; }
+
+/* ── 海流カード（2列） ── */
+.current-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.current-card {
+  background: rgba(255,255,255,0.9);
+  border-radius: 16px;
+  padding: 14px 12px;
+  box-shadow: 0 4px 16px rgba(167,139,250,0.12);
+  border-top: 4px solid var(--c);
+}
+.current-card.warm { --c: #f87171; }
+.current-card.cold { --c: #60a5fa; }
+.current-head {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--c);
+  margin-bottom: 6px;
+}
+.current-item {
+  font-size: 11px;
+  color: #3d2b5e;
+  padding: 3px 0;
+  border-bottom: 1px dashed rgba(167,139,250,0.15);
+  line-height: 1.5;
+}
+.current-item:last-child { border-bottom: none; }
+.current-item b { color: var(--c); }
+
+/* ── 雨温図ポイント ── */
+.rain-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.rain-card {
+  background: rgba(255,255,255,0.9);
+  border-radius: 14px;
+  padding: 12px 10px;
+  box-shadow: 0 4px 12px rgba(167,139,250,0.12);
+  border-left: 3px solid var(--rc);
+}
+.rain-name {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--rc);
+  margin-bottom: 4px;
+}
+.rain-desc {
+  font-size: 10.5px;
+  color: #6b5e8a;
+  line-height: 1.55;
+}
+
+.rc-hokkaido { --rc: #60a5fa; }
+.rc-pacific  { --rc: #34d399; }
+.rc-nihonkai { --rc: #a78bfa; }
+.rc-seto     { --rc: #fb923c; }
+
+/* ── 注意ワードハイライト ── */
+.highlight {
+  display: inline-block;
+  background: linear-gradient(135deg, #fef08a, #fde68a);
+  padding: 0 4px;
+  border-radius: 4px;
+  font-weight: 800;
+  color: #92400e;
+}
+
+/* フッター */
+footer {
+  text-align: center;
+  padding: 24px 0 16px;
+  font-size: 11px;
+  color: #a78bfa;
+}
+.back-btn {
+  display: block;
+  margin: 0 auto 16px;
+  padding: 12px 28px;
+  background: linear-gradient(135deg, #a78bfa, #f472b6);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(167,139,250,0.35);
+  text-decoration: none;
+  width: fit-content;
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>🌦 日本の気候 まとめ 🌦</h1>
+  <p>社会・地理 ― 気候区・季節風・雨温図・海流</p>
+</div>
+
+<!-- ① 気候帯の基本 -->
+<div class="section-title">🌍 気候帯の基本</div>
+
+<div class="basic-card">
+  <div class="card-title">地球の5つの気候帯</div>
+  <div class="card-body">
+    <span>熱帯</span> 🔥・<span>乾燥帯</span> 🏜・<span>温帯</span> 🌿・<span>冷帯（亜寒帯）</span> ❄️・<span>寒帯</span> 🧊<br>
+    気候は <span>「気温」</span> と <span>「降水量」</span> の組み合わせで決まる！
+  </div>
+</div>
+
+<div class="climate-tags">
+  <span class="climate-tag tag-hot">熱帯 🔥</span>
+  <span class="climate-tag tag-dry">乾燥帯 🏜</span>
+  <span class="climate-tag tag-temp">温帯 🌿 ← 日本の多く</span>
+  <span class="climate-tag tag-cold">冷帯 ❄️ ← 北海道</span>
+  <span class="climate-tag tag-polar">寒帯 🧊</span>
+</div>
+
+<div class="law-box">
+  <div class="law-title">🗾 日本の気候帯</div>
+  <div class="law-main">
+    日本の大部分 → <strong>温帯</strong><br>
+    北海道だけ → <strong>冷帯（亜寒帯）</strong>
+  </div>
+  <div class="law-note">温帯は四季があり、夏は暑く冬は寒い。冷帯は冬がとても厳しく夏は短い。</div>
+</div>
+
+<!-- ② 6つの気候区 -->
+<div class="section-title">🗺 日本の6つの気候区</div>
+
+<div class="climate-grid">
+
+  <div class="climate-card c-ice">
+    <div class="climate-icon">🧊</div>
+    <div class="climate-name">北海道の気候</div>
+    <div class="climate-area">📍 北海道</div>
+    <div class="climate-desc">冷帯。梅雨がない。夏は涼しく、冬の寒さが厳しい。</div>
+    <div class="climate-key">ポイント：梅雨なし！</div>
+  </div>
+
+  <div class="climate-card c-snow">
+    <div class="climate-icon">❄️</div>
+    <div class="climate-name">日本海側の気候</div>
+    <div class="climate-area">📍 新潟・富山・金沢</div>
+    <div class="climate-desc">冬に雪がとても多い。北西の季節風が日本海の水蒸気を運ぶ。</div>
+    <div class="climate-key">ポイント：冬に大雪！</div>
+  </div>
+
+  <div class="climate-card c-pacific">
+    <div class="climate-icon">☀️</div>
+    <div class="climate-name">太平洋側の気候</div>
+    <div class="climate-area">📍 東京・大阪・広島</div>
+    <div class="climate-desc">夏に雨が多く冬は乾燥。典型的な日本の気候。</div>
+    <div class="climate-key">ポイント：夏に大雨！</div>
+  </div>
+
+  <div class="climate-card c-inland">
+    <div class="climate-icon">🏔</div>
+    <div class="climate-name">内陸（中央高地）の気候</div>
+    <div class="climate-area">📍 長野・山梨</div>
+    <div class="climate-desc">夏冬の気温差が大きい（寒暖差が激しい）。雨が少ない。</div>
+    <div class="climate-key">ポイント：寒暖差大！</div>
+  </div>
+
+  <div class="climate-card c-seto">
+    <div class="climate-icon">⛵</div>
+    <div class="climate-name">瀬戸内の気候</div>
+    <div class="climate-area">📍 広島・香川・岡山</div>
+    <div class="climate-desc">1年中温暖で雨が少ない。山に囲まれていて季節風がさえぎられる。</div>
+    <div class="climate-key">ポイント：年中雨少ない！</div>
+  </div>
+
+  <div class="climate-card c-tropic">
+    <div class="climate-icon">🌴</div>
+    <div class="climate-name">南西諸島（亜熱帯）の気候</div>
+    <div class="climate-area">📍 沖縄・奄美</div>
+    <div class="climate-desc">1年中気温が高く梅雨が長い。台風が多い。</div>
+    <div class="climate-key">ポイント：高温・台風多！</div>
+  </div>
+
+</div>
+
+<!-- 気候区まとめ表 -->
+<table class="data-table">
+  <thead>
+    <tr>
+      <th>気候区</th>
+      <th>代表都市</th>
+      <th>特徴まとめ</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>🧊 北海道</td>
+      <td>札幌・旭川</td>
+      <td>冷帯・梅雨なし・冬厳しい</td>
+    </tr>
+    <tr>
+      <td>❄️ 日本海側</td>
+      <td>新潟・金沢</td>
+      <td>冬に大雪・夏は晴れ</td>
+    </tr>
+    <tr>
+      <td>☀️ 太平洋側</td>
+      <td>東京・大阪</td>
+      <td>夏大雨・冬乾燥</td>
+    </tr>
+    <tr>
+      <td>🏔 内陸高地</td>
+      <td>長野・松本</td>
+      <td>寒暖差大・少雨</td>
+    </tr>
+    <tr>
+      <td>⛵ 瀬戸内</td>
+      <td>高松・岡山</td>
+      <td>年中温暖・少雨</td>
+    </tr>
+    <tr>
+      <td>🌴 南西諸島</td>
+      <td>那覇・奄美</td>
+      <td>高温多雨・台風多い</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ③ 季節風 -->
+<div class="section-title">💨 季節風（モンスーン）</div>
+
+<div class="flow-card">
+  <div class="flow-title">☀️ 夏の季節風</div>
+  <div class="flow-steps">
+    <span class="flow-step green">太平洋から</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step green">南東から吹く</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step green">太平洋側に大雨 ☔</span>
+  </div>
+  <div class="flow-note">暖かく湿った空気が南東から入り、太平洋側にたっぷりの雨をもたらす。</div>
+</div>
+
+<div class="flow-card">
+  <div class="flow-title">❄️ 冬の季節風</div>
+  <div class="flow-steps">
+    <span class="flow-step blue">シベリアから</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step blue">北西から吹く</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step blue">日本海を渡る</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step blue">日本海側に大雪 ❄️</span>
+  </div>
+  <div class="flow-note">冷たい風が日本海上で水蒸気を吸い込み、山脈にぶつかって雪を降らせる。太平洋側は山が雪を受け止めるので冬は乾燥する。</div>
+</div>
+
+<div class="law-box blue-box">
+  <div class="law-title">💡 絶対覚える！季節風の向き</div>
+  <div class="law-main">
+    夏 → <strong>南東</strong>から（太平洋から）<br>
+    冬 → <strong>北西</strong>から（シベリアから）
+  </div>
+  <div class="law-note">「夏は南東、冬は北西」と声に出して覚えよう！</div>
+</div>
+
+<!-- ④ 梅雨 -->
+<div class="section-title">🌧 梅雨（つゆ）</div>
+
+<div class="point-box purple-border">
+  <div class="point-title">🌂 梅雨の基本</div>
+  <div class="point-item"><span>時期</span>：6月〜7月にかけて雨が多い時期</div>
+  <div class="point-item"><span>梅雨前線</span>：停滞前線。暖気と寒気がぶつかって動かない前線</div>
+  <div class="point-item"><span>北海道</span>：梅雨がない！（梅雨前線が北海道まで届かないため）</div>
+  <div class="point-item"><span class="red">からつゆ（空梅雨）</span>：梅雨の時期なのに雨が少ないこと</div>
+</div>
+
+<div class="law-box pink-box">
+  <div class="law-title">❓ なぜ北海道には梅雨がない？</div>
+  <div class="law-main">
+    梅雨前線が北海道まで北上しないから！<br>
+    前線は本州付近で停滞して終わる。
+  </div>
+  <div class="law-note">テストでよく出る！「北海道には梅雨がない」とセットで理由も覚えよう。</div>
+</div>
+
+<!-- ⑤ 台風 -->
+<div class="section-title">🌀 台風</div>
+
+<div class="point-box blue-border">
+  <div class="point-title">🌀 台風の基本</div>
+  <div class="point-item"><span class="blue">発生場所</span>：熱帯の海上（フィリピン近海・南シナ海）</div>
+  <div class="point-item"><span class="blue">回転方向</span>：<span class="red">反時計回り</span>（北半球のきまり）</div>
+  <div class="point-item"><span class="blue">多い時期</span>：夏〜秋（8〜9月）がピーク</div>
+  <div class="point-item"><span class="blue">上陸すると</span>：地面との摩擦・水蒸気補給が減って<span>弱まる</span></div>
+  <div class="point-item"><span class="blue">南西諸島</span>：沖縄・奄美は台風が特に多い</div>
+</div>
+
+<!-- ⑥ 特殊な気象現象 -->
+<div class="section-title">⚡ 特殊な気象現象</div>
+
+<div class="flow-card">
+  <div class="flow-title">🌡 フェーン現象</div>
+  <div class="flow-steps">
+    <span class="flow-step">日本海側から風</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step">山を越える</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step orange">太平洋側で気温上昇 🔥</span>
+  </div>
+  <div class="flow-note">山の<strong>風下側</strong>で、乾燥した温かい風が吹く現象。山を下るときに空気が圧縮されて温度が上がる。日本海側から太平洋側へ、または逆も起きる。</div>
+</div>
+
+<div class="flow-card">
+  <div class="flow-title">🌬 やませ</div>
+  <div class="flow-steps">
+    <span class="flow-step blue">北東からの冷たい風</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step blue">東北の太平洋側へ</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step blue">冷害 🌾💔</span>
+  </div>
+  <div class="flow-note">夏に吹く冷たく湿った北東の風。気温が上がらず農作物が育たない「冷害」の原因になる。</div>
+</div>
+
+<div class="basic-card">
+  <div class="card-title">🌤 気団（きだん）</div>
+  <div class="card-body">
+    <span>小笠原気団（太平洋高気圧）</span>：夏の暑さをもたらす。南東から暖かく湿った空気を送る。<br>
+    <span>シベリア気団（シベリア高気圧）</span>：冬の寒さをもたらす。北西から冷たく乾いた空気を送る。
+  </div>
+</div>
+
+<!-- ⑦ 雨温図の読み方 -->
+<div class="section-title">📊 雨温図（クライモグラフ）の読み方</div>
+
+<div class="law-box green-box">
+  <div class="law-title">📈 グラフの見方</div>
+  <div class="law-main">
+    折れ線グラフ → <strong>気温</strong>（℃）<br>
+    棒グラフ → <strong>降水量</strong>（mm）
+  </div>
+  <div class="law-note">グラフの「形」を見て、どの気候区か当てられるようにしよう！</div>
+</div>
+
+<div class="rain-grid">
+
+  <div class="rain-card rc-hokkaido">
+    <div class="rain-name">🧊 北海道</div>
+    <div class="rain-desc">気温が全体的に低い。6〜7月に降水量が急増しない（梅雨なし）。</div>
+  </div>
+
+  <div class="rain-card rc-pacific">
+    <div class="rain-name">☀️ 太平洋側</div>
+    <div class="rain-desc">夏（6〜9月）に降水量が多い。冬は乾燥して降水量が少ない。</div>
+  </div>
+
+  <div class="rain-card rc-nihonkai">
+    <div class="rain-name">❄️ 日本海側</div>
+    <div class="rain-desc">冬（12〜2月）に降水量が多い（雪）。夏は晴れて少ない。</div>
+  </div>
+
+  <div class="rain-card rc-seto">
+    <div class="rain-name">⛵ 瀬戸内</div>
+    <div class="rain-desc">年間を通じて降水量が少ない。気温は温暖。グラフが全体的に低い棒。</div>
+  </div>
+
+</div>
+
+<div class="point-box orange-border">
+  <div class="point-title">🔑 雨温図で気候区を判定するコツ</div>
+  <div class="point-item">① 気温が全体に低い → <span class="orange">北海道</span></div>
+  <div class="point-item">② 夏に降水量のピーク → <span class="green">太平洋側</span></div>
+  <div class="point-item">③ 冬に降水量のピーク → <span class="blue">日本海側</span></div>
+  <div class="point-item">④ 1年中降水量が少ない → <span class="orange">瀬戸内</span></div>
+  <div class="point-item">⑤ 気温が高くて降水量も多い → <span>南西諸島</span></div>
+  <div class="point-item">⑥ 梅雨の時期（6〜7月）に増えない → <span class="blue">北海道</span></div>
+</div>
+
+<!-- ⑧ 海流 -->
+<div class="section-title">🌊 海流</div>
+
+<div class="current-grid">
+
+  <div class="current-card warm">
+    <div class="current-head">🔴 暖流（温める）</div>
+    <div class="current-item"><b>黒潮（日本海流）</b><br>太平洋側を北上</div>
+    <div class="current-item"><b>対馬海流</b><br>日本海側を北上</div>
+  </div>
+
+  <div class="current-card cold">
+    <div class="current-head">🔵 寒流（冷やす）</div>
+    <div class="current-item"><b>親潮（千島海流）</b><br>太平洋側を南下<br>（東北・北海道沖）</div>
+    <div class="current-item"><b>リマン海流</b><br>日本海側を南下</div>
+  </div>
+
+</div>
+
+<div class="basic-card">
+  <div class="card-title">🐟 潮目（しおめ）とは？</div>
+  <div class="card-body">
+    <span>黒潮（暖流）</span>と<span>親潮（寒流）</span>がぶつかる場所を「潮目」という。<br>
+    プランクトンが豊富でよい漁場になる。→ <span>三陸沖</span>が有名！
+  </div>
+</div>
+
+<!-- ⑨ 間違えやすいポイント -->
+<div class="section-title">⚠️ 間違えやすいポイント</div>
+
+<div class="point-box">
+  <div class="point-title">❌ よくある間違い・ひっかけ注意！</div>
+  <div class="point-item">❶ <span>北海道に梅雨がない</span>理由 → 梅雨前線が北海道まで「届かない」から（前線がなくなるわけではない）</div>
+  <div class="point-item">❷ 日本海側が冬に雪が多い → <span>北西の季節風</span>が日本海上を通るときに<span>水蒸気を含む</span>から</div>
+  <div class="point-item">❸ フェーン現象で気温が上がるのは → <span class="red">山の「風下」側</span>（風上側ではない！）</div>
+  <div class="point-item">❹ やませは → <span>東北の太平洋側</span>に吹く<span class="red">冷たい</span>風（夏の風だが気温が上がらない）</div>
+  <div class="point-item">❺ 台風の回転 → <span class="red">反時計回り</span>（北半球）。南半球では時計回り</div>
+  <div class="point-item">❻ 瀬戸内が雨少ない理由 → <span>山に囲まれて</span>季節風がさえぎられるから（海に面しているのに少ない！）</div>
+</div>
+
+<!-- ⑩ テストのポイント -->
+<div class="section-title">📝 テストのポイント</div>
+
+<div class="law-box">
+  <div class="law-title">🏆 これだけ覚えれば完璧！ 10大ポイント</div>
+  <div class="law-main" style="text-align:left; font-size:12.5px; font-weight:700; line-height:1.9;">
+    ① 6つの気候区と代表都市を覚える<br>
+    ② 夏の季節風＝<strong>南東</strong>、冬の季節風＝<strong>北西</strong><br>
+    ③ 北海道<strong>だけ</strong>梅雨がない<br>
+    ④ やませ＝東北太平洋側の<strong>冷害</strong>の原因<br>
+    ⑤ フェーン現象＝<strong>山の風下側</strong>で気温上昇<br>
+    ⑥ 雨温図：折れ線＝気温、棒＝降水量<br>
+    ⑦ 暖流：黒潮・対馬海流／寒流：親潮・リマン<br>
+    ⑧ 台風は<strong>8〜9月</strong>に多く、<strong>反時計回り</strong><br>
+    ⑨ 瀬戸内は<strong>年中少雨</strong>（山にさえぎられる）<br>
+    ⑩ 内陸高地は<strong>寒暖差大</strong>・少雨
+  </div>
+</div>
+
+<br>
+<a href="/" class="back-btn">← アプリにもどる</a>
+
+<footer>ANRINOの問題アプリ 🌦 日本の気候まとめ</footer>
+
+</body>
+</html>

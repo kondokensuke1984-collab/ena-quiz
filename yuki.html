@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>雪の多い地域のくらし</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif; background: #f1f5f9; color: #1e293b; }
+
+    /* ヘッダー */
+    header {
+      background: linear-gradient(135deg, #1d4ed8, #0ea5e9, #38bdf8);
+      color: #fff;
+      padding: 20px 16px 24px;
+    }
+    .header-badge {
+      display: inline-block;
+      background: #fbbf24;
+      color: #1e3a8a;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 999px;
+      margin-bottom: 8px;
+    }
+    header h1 { font-size: 22px; font-weight: 900; line-height: 1.3; }
+    header p { font-size: 12px; opacity: .88; margin-top: 6px; line-height: 1.6; }
+
+    /* タブナビ */
+    nav {
+      background: #fff;
+      border-bottom: 1px solid #e2e8f0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      overflow-x: auto;
+      display: flex;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+    }
+    nav button {
+      flex-shrink: 0;
+      padding: 12px 14px;
+      border: none;
+      border-bottom: 3px solid transparent;
+      background: none;
+      font-size: 12px;
+      font-weight: 700;
+      color: #64748b;
+      cursor: pointer;
+      transition: color .2s, border-color .2s, background .2s;
+    }
+    nav button.active {
+      color: #2563eb;
+      border-bottom-color: #2563eb;
+      background: #eff6ff;
+    }
+
+    /* コンテンツ */
+    main { padding: 16px; max-width: 800px; margin: 0 auto; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* カード */
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 16px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 1px 3px rgba(0,0,0,.06);
+    }
+    .card-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #1e293b;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #e2e8f0;
+      margin-bottom: 12px;
+    }
+    .card p { font-size: 13px; color: #475569; line-height: 1.75; margin-bottom: 10px; }
+    .card strong { color: #1e293b; }
+
+    /* ダイアグラム */
+    .diagram-wrap {
+      background: linear-gradient(180deg, #0c4a6e, #0369a1, #38bdf8);
+      border-radius: 12px;
+      padding: 12px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin-bottom: 8px;
+    }
+
+    /* インフォボックス */
+    .info-box {
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 12px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+    }
+    .info-box.blue   { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
+    .info-box.sky    { background: #e0f2fe; border: 1px solid #7dd3fc; color: #075985; }
+    .info-box.yellow { background: #fefce8; border: 1px solid #fde68a; color: #713f12; }
+    .info-box h4 { font-weight: 800; margin-bottom: 6px; }
+    .info-box ul { padding-left: 18px; }
+    .info-box li { margin-bottom: 4px; }
+
+    /* グリッド */
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+    @media (max-width: 500px) { .grid2, .grid3 { grid-template-columns: 1fr; } }
+
+    /* データカード */
+    .data-card { border-radius: 12px; padding: 14px; border: 1px solid #e2e8f0; }
+    .data-card .rank { font-size: 10px; font-weight: 700; }
+    .data-card .city { font-size: 18px; font-weight: 900; margin: 4px 0; }
+
+    /* 表 */
+    table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    th, td { padding: 8px 10px; text-align: left; }
+    thead tr { background: #f1f5f9; }
+    tbody tr { border-bottom: 1px solid #f1f5f9; }
+    .val-blue { color: #1d4ed8; font-weight: 700; }
+    .val-green { color: #059669; font-weight: 700; }
+
+    /* 雪対策カード */
+    .measure-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (max-width: 500px) { .measure-grid { grid-template-columns: 1fr; } }
+    .measure-card { border-radius: 12px; padding: 12px; font-size: 12px; line-height: 1.6; }
+    .measure-card .badge { font-size: 9px; font-weight: 700; letter-spacing: .04em; opacity: .75; display: block; margin-bottom: 3px; }
+    .measure-card h4 { font-size: 14px; font-weight: 800; margin-bottom: 6px; }
+
+    /* 活用カード */
+    .use-card { background: #fff; border-radius: 14px; padding: 16px; border: 1px solid #e2e8f0; margin-bottom: 10px; }
+    .use-card .tag { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 999px; margin-bottom: 6px; }
+    .use-card h3 { font-size: 15px; font-weight: 800; margin-bottom: 6px; }
+    .use-card p { font-size: 12px; color: #475569; line-height: 1.75; }
+
+    /* クイズ */
+    .quiz-q { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; margin-bottom: 16px; }
+    .quiz-q .q-label { display: inline-block; background: #2563eb; color: #fff; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 999px; margin-bottom: 8px; }
+    .quiz-q .q-text { font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 10px; line-height: 1.65; }
+    .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    @media (max-width: 440px) { .quiz-options { grid-template-columns: 1fr; } }
+    .quiz-opt { width: 100%; padding: 10px 12px; border: 2px solid #e2e8f0; border-radius: 10px; background: #fff; font-size: 12px; font-weight: 600; text-align: left; cursor: pointer; transition: all .15s; line-height: 1.45; }
+    .quiz-opt:active { transform: scale(.97); }
+    .quiz-opt.selected { background: #dbeafe; border-color: #3b82f6; color: #1d4ed8; }
+    .quiz-opt.correct  { background: #dcfce7; border-color: #22c55e; color: #15803d; }
+    .quiz-opt.wrong    { background: #fee2e2; border-color: #ef4444; color: #b91c1c; }
+    .quiz-opt:disabled { cursor: default; }
+    .quiz-explanation { margin-top: 10px; background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 10px 12px; font-size: 12px; color: #475569; line-height: 1.7; display: none; }
+    .quiz-explanation.show { display: block; }
+    .quiz-explanation strong { color: #1e293b; display: block; margin-bottom: 4px; }
+    .quiz-footer { text-align: center; margin-top: 20px; }
+    .submit-btn { background: #2563eb; color: #fff; border: none; border-radius: 12px; padding: 12px 28px; font-size: 14px; font-weight: 700; cursor: pointer; }
+    .submit-btn:disabled { background: #cbd5e1; cursor: default; }
+    .reset-btn { background: #475569; color: #fff; border: none; border-radius: 12px; padding: 12px 28px; font-size: 14px; font-weight: 700; cursor: pointer; }
+    .score-display { font-size: 20px; font-weight: 900; color: #2563eb; margin: 12px 0; }
+    .perfect-badge { display: inline-block; background: #fbbf24; color: #713f12; font-weight: 700; font-size: 13px; padding: 4px 12px; border-radius: 999px; }
+
+    footer { background: #1e293b; color: #94a3b8; text-align: center; font-size: 11px; padding: 20px 16px; margin-top: 24px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <span class="header-badge">社会 6年 / 地理・教科書対応</span>
+  <h1>❄️ 雪の多い地域のくらし</h1>
+  <p>日本の豪雪地帯（ごうせつちたい）の自然環境と、そこで暮らす人々の工夫や知恵を学ぼう！</p>
+</header>
+
+<nav id="tab-nav">
+  <button class="active" onclick="switchTab('mechanism', this)">① 雪の降るしくみ</button>
+  <button onclick="switchTab('data', this)">② データで比較</button>
+  <button onclick="switchTab('measures', this)">③ 雪への対策</button>
+  <button onclick="switchTab('utilization', this)">④ 雪をいかす知恵</button>
+  <button onclick="switchTab('quiz', this)">⑤ 理解度テスト</button>
+</nav>
+
+<main>
+
+  <!-- TAB 1: しくみ -->
+  <div id="tab-mechanism" class="tab-panel active">
+    <div class="card">
+      <div class="card-title">❄️ なぜ日本海側にはたくさんの雪が降るの？</div>
+      <p>日本の冬は、ロシア（ユーラシア大陸）から冷たく乾燥した<strong>「北西の季節風」</strong>が強く吹いてきます。</p>
+      <p>この風が温かい<strong>日本海（対馬海流）</strong>の上を通るとき、大量の水蒸気を吸い込んで雲を作ります。</p>
+      <p>雲が日本の高い山脈（三国山脈など）にぶつかって上昇し、さらに冷やされることで、<strong>日本海側に大雪を降らせる</strong>のです。</p>
+    </div>
+
+    <div class="card" style="background:linear-gradient(180deg,#e0f2fe,#bae6fd);border-color:#7dd3fc;">
+      <div class="card-title" style="border-color:#7dd3fc;color:#0c4a6e;">🌬️ 冬の風と雪のしくみ（ダイアグラム）</div>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 560 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:200px;">
+          <rect width="560" height="200" fill="#0c4a6e"/>
+          <rect x="100" y="130" width="220" height="70" fill="#1d4ed8" opacity=".8"/>
+          <text x="175" y="175" fill="#93c5fd" font-size="11" font-weight="bold">日本海（暖流が流れる）</text>
+          <path d="M150 130 Q160 115 170 130 T190 130" stroke="#e0f2fe" stroke-width="2" stroke-dasharray="3,3" fill="none"/>
+          <path d="M210 125 Q220 110 230 125 T250 125" stroke="#e0f2fe" stroke-width="2" stroke-dasharray="3,3" fill="none"/>
+          <path d="M270 130 Q280 115 290 130 T310 130" stroke="#e0f2fe" stroke-width="2" stroke-dasharray="3,3" fill="none"/>
+          <rect x="0" y="110" width="105" height="90" fill="#5c4033"/>
+          <text x="12" y="160" fill="#fff" font-size="10" font-weight="bold">ユーラシア</text>
+          <text x="22" y="173" fill="#fff" font-size="10" font-weight="bold">大陸</text>
+          <path d="M90 90 L200 90" stroke="#93c5fd" stroke-width="3" marker-end="url(#arr)"/>
+          <defs>
+            <marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" fill="#93c5fd"/>
+            </marker>
+          </defs>
+          <text x="105" y="82" fill="#bae6fd" font-size="9" font-weight="bold">北西の季節風（冷たく乾いた風）</text>
+          <ellipse cx="200" cy="60" rx="38" ry="20" fill="#cbd5e1" opacity=".9"/>
+          <text x="180" y="55" fill="#1e3a8a" font-size="9" font-weight="bold">水蒸気を</text>
+          <text x="180" y="66" fill="#1e3a8a" font-size="9" font-weight="bold">吸い込む</text>
+          <polygon points="320,200 390,60 460,200" fill="#166534"/>
+          <text x="370" y="120" fill="#fff" font-size="9" font-weight="bold">山脈</text>
+          <circle cx="340" cy="100" r="4" fill="#fff" opacity=".9"/>
+          <circle cx="355" cy="115" r="3" fill="#fff" opacity=".9"/>
+          <circle cx="325" cy="125" r="5" fill="#fff" opacity=".9"/>
+          <circle cx="360" cy="90" r="3" fill="#fff" opacity=".9"/>
+          <circle cx="343" cy="140" r="4" fill="#fff" opacity=".9"/>
+          <text x="320" y="50" fill="#fff" font-size="9" font-weight="bold">【日本海側】大雪！</text>
+          <rect x="460" y="130" width="100" height="70" fill="#15803d" opacity=".7"/>
+          <text x="462" y="175" fill="#fef08a" font-size="9" font-weight="bold">太平洋側</text>
+          <text x="462" y="188" fill="#fef08a" font-size="9">（冬は晴れ）</text>
+          <circle cx="510" cy="40" r="16" fill="#dc2626"/>
+          <line x1="510" y1="18" x2="510" y2="10" stroke="#dc2626" stroke-width="2"/>
+          <line x1="510" y1="62" x2="510" y2="70" stroke="#dc2626" stroke-width="2"/>
+          <line x1="488" y1="40" x2="480" y2="40" stroke="#dc2626" stroke-width="2"/>
+          <line x1="532" y1="40" x2="540" y2="40" stroke="#dc2626" stroke-width="2"/>
+        </svg>
+      </div>
+      <p style="font-size:11px;color:#075985;text-align:center;">湿った空気が高い山を登るときに冷やされ雲になり、日本海側に雪を降らせます。山を越えた風は「乾いた空気」になるため、太平洋側は晴天が続きます。</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">💧 空気と「水蒸気（すいじょうき）」のひみつ</div>
+      <div class="grid2">
+        <div class="info-box blue">
+          <h4>① 水の3つの姿</h4>
+          <ul>
+            <li><strong>水（液体）:</strong> 自由に形が変わる</li>
+            <li><strong>氷（固体）:</strong> 冷やされて固まった姿</li>
+            <li><strong>水蒸気（気体）:</strong> 目に見えないほど小さい粒。空気中をただよっている。</li>
+          </ul>
+        </div>
+        <div class="info-box sky">
+          <h4>② 温度と水蒸気の量</h4>
+          <ul>
+            <li>温度が<strong>高い</strong>ほど、空気はたくさんの水蒸気を持てる。</li>
+            <li>温度が<strong>低い</strong>と、持てる水蒸気の量が少なくなる。</li>
+            <li>湿った空気が上空で冷やされると、雲や水滴に変わる。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 2: データ -->
+  <div id="tab-data" class="tab-panel">
+    <div class="card">
+      <div class="card-title">🏆 年間降雪量ランキング（1991〜2020年平均）</div>
+      <div class="grid3">
+        <div class="data-card" style="background:#fef3c7;border-color:#fcd34d;">
+          <span class="rank" style="color:#92400e;">第１位</span>
+          <div class="city" style="color:#78350f;">青森県</div>
+          <span style="font-size:22px;">❄️</span>
+        </div>
+        <div class="data-card" style="background:#f1f5f9;border-color:#cbd5e1;">
+          <span class="rank" style="color:#334155;">第２位</span>
+          <div class="city" style="color:#1e293b;">北海道</div>
+          <span style="font-size:22px;">❄️</span>
+        </div>
+        <div class="data-card" style="background:#ffedd5;border-color:#fdba74;">
+          <span class="rank" style="color:#7c2d12;">第３位</span>
+          <div class="city" style="color:#431407;">富山県</div>
+          <span style="font-size:22px;">❄️</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📊 札幌市と新潟市の降雪データ比較</div>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>項目</th>
+              <th style="color:#1d4ed8;">札幌市（北海道）</th>
+              <th style="color:#059669;">新潟市（新潟県）</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>年間降雪日数</td>
+              <td class="val-blue">124.4 日</td>
+              <td class="val-green">69.9 日</td>
+            </tr>
+            <tr>
+              <td>年間降雪量</td>
+              <td class="val-blue" style="background:#eff6ff;">479 cm（約 4.8m）</td>
+              <td class="val-green" style="background:#f0fdf4;">139 cm（約 1.4m）</td>
+            </tr>
+            <tr>
+              <td>1月の降水量</td>
+              <td class="val-blue">108.4 mm</td>
+              <td class="val-green" style="font-size:14px;">180.9 mm ★</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="info-box yellow" style="margin-top:12px;">
+        <h4>💡 データを読み解くポイント</h4>
+        <ul>
+          <li><strong>札幌市:</strong> 降雪日数・年間降雪量ともに圧倒的に多い。サラサラした軽い雪が多い。</li>
+          <li><strong>新潟市:</strong> 年間降雪量は札幌より少ないが、<strong>1月の降水量がとても多い</strong>。気温が比較的高いため、水分を多く含んだ「重くて湿った雪」が降る。</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card" style="background:linear-gradient(135deg,#eff6ff,#e0f2fe);border-color:#bae6fd;">
+      <div class="card-title" style="border-color:#7dd3fc;color:#0c4a6e;">⚠️ おそろしい「雪の重さ」</div>
+      <div class="grid3">
+        <div class="info-box blue">
+          <h4 style="font-size:11px;">1㎡に1m積もると…</h4>
+          <p style="font-size:20px;font-weight:900;text-align:center;color:#1e3a8a;margin:6px 0;">約300〜350kg</p>
+          <p style="font-size:11px;text-align:center;"><strong>グランドピアノ1台分</strong>の重さ！</p>
+        </div>
+        <div class="info-box sky">
+          <h4 style="font-size:11px;">普通の屋根（100㎡）に1m積もると…</h4>
+          <p style="font-size:20px;font-weight:900;text-align:center;color:#075985;margin:6px 0;">約30トン</p>
+          <p style="font-size:11px;text-align:center;"><strong>電車2両分</strong>の重さ！</p>
+        </div>
+        <div class="info-box" style="background:#fff1f2;border-color:#fecdd3;color:#9f1239;">
+          <h4 style="font-size:11px;">雪下ろしの危険性</h4>
+          <p style="font-size:14px;font-weight:900;text-align:center;margin:6px 0;">命がけの作業</p>
+          <p style="font-size:11px;text-align:center;">高くてすべりやすい屋根での作業は非常に危険。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 3: 対策 -->
+  <div id="tab-measures" class="tab-panel">
+    <div class="card">
+      <div class="card-title">🏠 雪下ろしをせずに安全に暮らす技術</div>
+      <p>現代では、危険な「雪下ろし」をしなくても大丈夫な「<strong>克雪（こくせつ）住宅</strong>」が増えています。</p>
+      <div class="info-box blue" style="margin-top:10px;">
+        <h4>北海道の耐雪基準の例</h4>
+        <div class="grid2" style="font-size:12px;">
+          <span>• 札幌市：<strong>140cm</strong></span>
+          <span>• 岩見沢市：<strong>160cm</strong></span>
+          <span>• 函館市：<strong>70cm</strong></span>
+          <span>• 北見市：<strong>100cm</strong></span>
+        </div>
+      </div>
+      <div class="grid2" style="margin-top:12px;">
+        <div class="info-box sky">
+          <h4>① 急勾配屋根・自然落雪型</h4>
+          <p>屋根に角度をつけ、雪が自然にすべり落ちるようにした屋根。</p>
+        </div>
+        <div class="info-box sky">
+          <h4>② 耐雪屋根</h4>
+          <p>頑丈な柱・梁で作り、春まで雪を乗せたままにしておく屋根。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🚛 道路と歩道の雪対策</div>
+      <div class="measure-grid">
+        <div class="measure-card" style="background:#fefce8;border:1px solid #fde68a;">
+          <span class="badge" style="color:#713f12;">機械の力</span>
+          <h4>ロータリー車</h4>
+          <p style="font-size:11px;color:#475569;">前にある歯車で雪をかきこみ、ダンプカーへ移したり、じゃまでない場所へ吹き飛ばしたりする除雪車。</p>
+        </div>
+        <div class="measure-card" style="background:#e0f2fe;border:1px solid #7dd3fc;">
+          <span class="badge" style="color:#0c4a6e;">水の力</span>
+          <h4>流雪溝（りゅうせつこう）</h4>
+          <p style="font-size:11px;color:#475569;">手作業で集めた雪を道路の穴へ落とし、処理水や川の水で一気に流す仕組み。</p>
+        </div>
+        <div class="measure-card" style="background:#eff6ff;border:1px solid #bfdbfe;">
+          <span class="badge" style="color:#1e3a8a;">地下水の力</span>
+          <h4>消雪パイプ</h4>
+          <p style="font-size:11px;color:#475569;">道路に一定間隔でパイプを設置し、地下水をふきだして雪を溶かす。やりすぎると地盤沈下の原因にもなる。</p>
+        </div>
+        <div class="measure-card" style="background:#fff7ed;border:1px solid #fed7aa;">
+          <span class="badge" style="color:#7c2d12;">伝統の知恵</span>
+          <h4>雁木（がんぎ）</h4>
+          <p style="font-size:11px;color:#475569;">自分の家のひさしを道路側へ長く伸ばし、歩行者が雪に濡れずに歩けるようにした伝統的な木造のひさし。</p>
+        </div>
+        <div class="measure-card" style="background:#fdf4ff;border:1px solid #e9d5ff;">
+          <span class="badge" style="color:#581c87;">現代の工夫</span>
+          <h4>アーケード</h4>
+          <p style="font-size:11px;color:#475569;">商店街などの道路・歩道の上全体を大きな透明な屋根でおおったもの。</p>
+        </div>
+        <div class="measure-card" style="background:#f0fdf4;border:1px solid #bbf7d0;">
+          <span class="badge" style="color:#14532d;">電気・熱の力</span>
+          <h4>ロードヒーティング</h4>
+          <p style="font-size:11px;color:#475569;">道路自体を電気や温水であたためて、雪や氷の凍結を防止する仕組み。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 4: 活用 -->
+  <div id="tab-utilization" class="tab-panel">
+    <div class="card">
+      <div class="card-title">✨ 雪は「敵」じゃない！雪を生活に活かす知恵</div>
+      <p>雪国の人々は、昔から雪の「冷たさ」や「多さ」を生活や産業にうまく活かしてきました。ただのやっかいものとしてではなく、貴重な資源として利用する知恵が受け継がれています。</p>
+    </div>
+
+    <div class="use-card">
+      <span class="tag" style="background:#dcfce7;color:#14532d;">農業の知恵</span>
+      <h3>越冬（えっとう）野菜</h3>
+      <p>秋に収穫時期をむかえた<strong>キャベツ、大根、にんじん</strong>などを、あえて冬の間雪の下に埋めて保存します。野菜は凍ってしまわないように<strong>体の中に糖分（とうぶん）をため込む</strong>性質があるため、非常に甘くておいしい野菜になります。</p>
+    </div>
+
+    <div class="use-card">
+      <span class="tag" style="background:#e0f2fe;color:#075985;">伝統の織物</span>
+      <h3>雪さらし（ゆきさらし）</h3>
+      <p>雪国では昔から<strong>麻（あさ）の織物</strong>（小千谷ちぢみなど）がさかんです。湿気が多く乾燥しにくい雪国は糸が切れにくく、織物作りに最適です。織り上がった布を雪の上に並べて日光に当てる「雪さらし」をすると、雪から発生するオゾンにより、布地が驚くほど<strong>白く美しく漂白（ひょうはく）</strong>されます。</p>
+    </div>
+
+    <div class="use-card">
+      <span class="tag" style="background:#dbeafe;color:#1e40af;">天然の冷蔵庫</span>
+      <h3>雪室（ゆきむろ）</h3>
+      <p>冬の雪をたくさん集めてためておく部屋<strong>「雪室」</strong>が昔から使われてきました。年間を通して一定の低い温度と高い湿度が保たれるため、お米や野菜、お肉などを新鮮なまま長期保存したり、夏の冷房用として利用したりします。</p>
+    </div>
+  </div>
+
+  <!-- TAB 5: クイズ -->
+  <div id="tab-quiz" class="tab-panel">
+    <div class="card">
+      <div class="card-title">📝 雪の多い地域のくらし 理解度クイズ</div>
+      <div id="quiz-area"></div>
+      <div class="quiz-footer">
+        <button class="submit-btn" id="submit-btn" onclick="submitQuiz()" disabled>回答を送信する →</button>
+        <button class="reset-btn" id="reset-btn" onclick="resetQuiz()" style="display:none;">もう一度挑戦する</button>
+        <div id="score-area" style="display:none;margin-top:12px;">
+          <div class="score-display" id="score-text"></div>
+          <div id="perfect-area"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p>© 2026 社会科「雪の多い地域のくらし」デジタル副読本</p>
+  <p style="margin-top:4px;opacity:.7;">データは教科書掲載の1991〜2020年平年値に基づきます。</p>
+</footer>
+
+<script>
+  function switchTab(tabId, btn) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('#tab-nav button').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + tabId).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  const QUESTIONS = [
+    { id:1, q:"冬に日本列島に吹いてくる冷たい季節風は、どの方角から吹いてきますか？",
+      opts:[{id:'A',t:"南東（太平洋側から）"},{id:'B',t:"北西（シベリア大陸側から）"},{id:'C',t:"南西（インド洋側から）"},{id:'D',t:"北東（オホーツク海側から）"}],
+      ans:'B', exp:"冬はロシア（シベリア）などのユーラシア大陸から、冷たくて乾いた「北西の季節風」が吹いてきます。これが日本海を渡るときに水分をたっぷり吸い込みます。" },
+    { id:2, q:"1平方メートル（1m×1m）の広さに1メートルの雪が積もると、その重さは約どれくらいになりますか？",
+      opts:[{id:'A',t:"約30〜50kg（米俵1個分）"},{id:'B',t:"約100〜150kg（大人2人分）"},{id:'C',t:"約300〜350kg（グランドピアノ1台分）"},{id:'D',t:"約1000kg（乗用車1台分）"}],
+      ans:'C', exp:"積もった雪は水分を含んでとても重くなります。1m積もると約300〜350kg（グランドピアノ1台分）にもなります。100㎡の屋根全体だと約30トン（電車2両分）の重さになります！" },
+    { id:3, q:"道路に一定の距離で設置され、地下水をふき出して雪を溶かす仕組みを何と呼びますか？",
+      opts:[{id:'A',t:"流雪溝（りゅうせつこう）"},{id:'B',t:"消雪パイプ（しょうせつパイプ）"},{id:'C',t:"ロードヒーティング"},{id:'D',t:"雁木（がんぎ）"}],
+      ans:'B', exp:"道路にパイプを埋め込み、地下水をスプリンクラーのように吹き出させて雪を溶かすのが「消雪パイプ」です。やりすぎると地盤沈下が起きる原因にもなります。" },
+    { id:4, q:"雪の下に置いておいたキャベツや大根などの「越冬野菜」が、とても甘くておいしくなるのはなぜですか？",
+      opts:[{id:'A',t:"雪の中のビタミンを吸収するから"},{id:'B',t:"凍らないように体内に糖分をたくわえるから"},{id:'C',t:"太陽の光を浴びないことで化学反応が起きるから"},{id:'D',t:"雪の冷たさで野菜の水分が抜けるから"}],
+      ans:'B', exp:"雪の下に置かれた野菜は、凍ってしまわないように自分の体に「糖分」をため込みます。これが、雪国特有の甘くておいしい越冬野菜ができる秘密です。" },
+    { id:5, q:"札幌市と新潟市の1月の「降水量（雨や雪が溶けた水の量）」が多いのはどちらですか？",
+      opts:[{id:'A',t:"札幌市"},{id:'B',t:"新潟市"},{id:'C',t:"どちらも同じ"}],
+      ans:'B', exp:"1月の降水量は新潟市が「180.9mm」で、札幌市の「108.4mm」よりもかなり多いです。新潟の方が比較的気温が高く、水分を多く含んだ重くて湿った雪や雨が多く降るためです。" }
+  ];
+
+  let answers = {}, submitted = false;
+
+  function renderQuiz() {
+    document.getElementById('quiz-area').innerHTML = QUESTIONS.map((q,i) => `
+      <div class="quiz-q" id="qq-${q.id}">
+        <span class="q-label">問 ${i+1}</span>
+        <div class="q-text">${q.q}</div>
+        <div class="quiz-options">
+          ${q.opts.map(o=>`<button class="quiz-opt" id="opt-${q.id}-${o.id}" onclick="selectOpt(${q.id},'${o.id}')">${o.id}. ${o.t}</button>`).join('')}
+        </div>
+        <div class="quiz-explanation" id="exp-${q.id}"><strong>正解: ${q.ans}</strong>${q.exp}</div>
+      </div>`).join('');
+  }
+
+  function selectOpt(qId, optId) {
+    if (submitted) return;
+    answers[qId] = optId;
+    QUESTIONS.find(q=>q.id===qId).opts.forEach(o => {
+      document.getElementById(`opt-${qId}-${o.id}`).className = 'quiz-opt' + (o.id===optId?' selected':'');
+    });
+    document.getElementById('submit-btn').disabled = Object.keys(answers).length < QUESTIONS.length;
+  }
+
+  function submitQuiz() {
+    submitted = true;
+    let score = 0;
+    QUESTIONS.forEach(q => {
+      const chosen = answers[q.id];
+      q.opts.forEach(o => {
+        const btn = document.getElementById(`opt-${q.id}-${o.id}`);
+        btn.disabled = true;
+        btn.className = 'quiz-opt' + (o.id===q.ans?' correct':(o.id===chosen?' wrong':''));
+      });
+      document.getElementById(`exp-${q.id}`).classList.add('show');
+      if (chosen===q.ans) score++;
+    });
+    document.getElementById('submit-btn').style.display = 'none';
+    document.getElementById('reset-btn').style.display = 'inline-block';
+    document.getElementById('score-area').style.display = 'block';
+    document.getElementById('score-text').textContent = `あなたのスコア: ${score} / ${QUESTIONS.length} 問正解`;
+    if (score===QUESTIONS.length) document.getElementById('perfect-area').innerHTML = '<span class="perfect-badge">パーフェクト！🎉</span>';
+  }
+
+  function resetQuiz() {
+    answers = {}; submitted = false;
+    document.getElementById('submit-btn').style.display = 'inline-block';
+    document.getElementById('submit-btn').disabled = true;
+    document.getElementById('reset-btn').style.display = 'none';
+    document.getElementById('score-area').style.display = 'none';
+    document.getElementById('perfect-area').innerHTML = '';
+    renderQuiz();
+  }
+
+  renderQuiz();
+</script>
+</body>
+</html>

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>せんぶんずで とく算</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Yusei+Magic&family=Zen+Maru+Gothic:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap">
+<style>
+  :root{
+    --paper:#FFFFFF;
+    --ink:#17232E;
+    --ink-soft:#4E606E;
+    --rule:#E0CDD2;
+
+    --cr:#A32E43;
+    --cr-deep:#75202F;
+    --cr-soft:#FBE9EC;
+    --cr-line:#E6B4BE;
+
+    --bl:#35507F;
+    --bl-soft:#E7ECF5;
+
+    --yellow:#FFD24A;
+    --yellow-soft:#FFF6DC;
+
+    --backdrop:#DDE3E8;
+    --backdrop-ink:#4E606E;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){ --backdrop:#161C22; --backdrop-ink:#8FA3B2; }
+  }
+  :root[data-theme="dark"]{ --backdrop:#161C22; --backdrop-ink:#8FA3B2; }
+
+  body{
+    background:var(--backdrop); color:var(--ink);
+    font-family:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;
+    display:flex; flex-direction:column; align-items:center;
+    padding:16px 12px 40px;
+  }
+  p{ margin:0; }
+  .hint{
+    color:var(--backdrop-ink); font-size:12px; letter-spacing:.06em;
+    margin:0 0 12px; text-align:center; line-height:1.7;
+  }
+
+  .sheet{
+    width:210mm; height:297mm; background:var(--paper);
+    padding:8.5mm 10mm; box-sizing:border-box;
+    display:flex; flex-direction:column; gap:2.6mm;
+    box-shadow:0 6px 28px rgba(0,0,0,.22);
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+
+  .head{
+    display:flex; align-items:flex-end; justify-content:space-between;
+    gap:6mm; border-bottom:1.2mm solid var(--cr); padding-bottom:1.6mm;
+  }
+  .head h1{
+    margin:0; font-family:"Yusei Magic","Zen Maru Gothic",sans-serif;
+    font-size:12.4mm; line-height:1; color:var(--cr);
+  }
+  .head h1 .kanji{
+    font-family:"Zen Maru Gothic",sans-serif; font-size:5.8mm;
+    color:var(--ink-soft); padding-left:2.5mm; letter-spacing:.04em;
+  }
+  .head .lede{
+    text-align:right; flex:0 0 auto;
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:700;
+    font-size:3.1mm; line-height:1.5; color:var(--ink-soft);
+  }
+  .head .lede b{ display:block; font-size:4.4mm; color:var(--cr-deep); }
+
+  .lead{
+    background:var(--cr-soft); border-radius:1.6mm; padding:2mm 3mm;
+    font-size:3.5mm; line-height:1.5; text-wrap:pretty;
+  }
+  .lead b{ font-weight:900; color:var(--cr-deep); }
+
+  .secs{ display:flex; flex-direction:column; gap:2.6mm; flex:1; min-height:0; justify-content:space-between; }
+  .sec{ display:flex; flex-direction:column; gap:1.6mm; }
+  .sec > header{ display:flex; align-items:center; gap:2.6mm; }
+  .sec .no{
+    flex:0 0 auto; width:8.4mm; height:8.4mm; border-radius:50%;
+    background:var(--cr); color:#fff;
+    font-family:"Yusei Magic",sans-serif; font-size:5mm;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .sec h2{
+    margin:0; font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:5.6mm; line-height:1.15; color:var(--cr-deep);
+  }
+  .sec h2 rt{ font-size:.3em; font-weight:700; letter-spacing:.04em; }
+  .sec h2 small{
+    font-family:"Zen Kaku Gothic New",sans-serif; font-weight:700;
+    font-size:3.2mm; color:var(--ink-soft); padding-left:2mm;
+  }
+  .body{ padding-left:11mm; display:grid; grid-template-columns:74mm 1fr; gap:3.2mm; align-items:start; }
+  .fig svg{ width:100%; height:auto; display:block; }
+  .fig .cap{ font-size:2.95mm; line-height:1.4; color:var(--ink-soft); margin-top:.8mm; text-wrap:pretty; }
+  .fig .cap b{ color:var(--cr); font-weight:900; }
+
+  .cards{ display:flex; flex-direction:column; gap:1.6mm; }
+  .fx{
+    background:var(--cr); color:#fff; border-radius:1.4mm; padding:1.6mm 2.6mm;
+    display:flex; align-items:baseline; gap:2.4mm; flex-wrap:wrap;
+  }
+  .fx .t{ font-family:"Zen Maru Gothic",sans-serif; font-weight:900; font-size:4.2mm; }
+  .fx .t em{ font-style:normal; color:var(--yellow); }
+  .fx .v{ font-size:3.2mm; color:#F3DDE1; font-weight:700; font-variant-numeric:tabular-nums; }
+  .way{
+    border:.4mm solid var(--rule); border-radius:1.4mm; padding:1.5mm 2.4mm;
+    font-size:3.1mm; line-height:1.5; text-wrap:pretty;
+  }
+  .way b{ font-family:"Zen Maru Gothic",sans-serif; font-weight:900; color:var(--cr-deep); }
+  .way .n{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:4.2mm; height:4.2mm; border-radius:50%; background:var(--cr-deep);
+    color:#fff; font-size:2.7mm; font-weight:900; margin-right:1.2mm;
+    font-family:"Zen Maru Gothic",sans-serif;
+  }
+  .way .num{ font-variant-numeric:tabular-nums; font-weight:700; color:var(--ink); }
+
+  .strip{
+    margin-left:11mm; background:var(--yellow-soft);
+    border:.35mm dashed var(--yellow); border-radius:1.4mm;
+    padding:1.6mm 2.6mm; display:flex; flex-direction:column; gap:1mm;
+  }
+  .strip .row{ font-size:3.1mm; line-height:1.5; text-wrap:pretty; }
+  .strip .row b{ font-family:"Zen Maru Gothic",sans-serif; font-weight:900; color:var(--cr-deep); }
+  .strip .row .tag{
+    display:inline-block; background:var(--cr); color:#fff; border-radius:.8mm;
+    padding:.3mm 1.4mm; font-size:2.8mm; font-weight:900; margin-right:1.4mm;
+    font-family:"Zen Maru Gothic",sans-serif;
+  }
+  .strip .row .num{ font-variant-numeric:tabular-nums; font-weight:700; }
+
+  /* 消去算のチップ図 */
+  .eqfig{ display:flex; flex-direction:column; gap:1.4mm; }
+  .eqrow{ display:flex; align-items:center; gap:1.2mm; font-variant-numeric:tabular-nums; }
+  .eqrow.sum{ border-top:.5mm solid var(--ink); padding-top:1.4mm; }
+  .dot{
+    width:5.4mm; height:5.4mm; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900; font-size:3.2mm;
+    color:#fff; flex:0 0 auto;
+  }
+  .dot.a{ background:var(--cr); }
+  .dot.b{ background:#D98A2B; }
+  .dot.hl{ box-shadow:0 0 0 .7mm var(--yellow); }
+  .eqrow .pl{ font-family:"Zen Maru Gothic",sans-serif; font-weight:900; color:var(--ink-soft); font-size:3.4mm; padding:0 .6mm; }
+  .eqrow .eq{
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900; font-size:3.6mm;
+    color:var(--ink); margin-left:1.6mm; white-space:nowrap;
+  }
+  .eqrow.sum .eq{ color:var(--cr); }
+  .eqleg{ font-size:2.9mm; color:var(--ink-soft); line-height:1.4; }
+  .eqleg b{ color:var(--cr); font-weight:900; }
+
+  .memo{
+    border-top:.8mm solid var(--cr); padding-top:2mm;
+    display:grid; grid-template-columns:23mm 1fr 1fr; gap:1.4mm 4mm; align-items:start;
+  }
+  .memo .lbl{
+    grid-row:span 2; font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:3.6mm; color:var(--cr); line-height:1.25; white-space:nowrap;
+  }
+  .memo p{ font-size:3.1mm; line-height:1.45; padding-left:5mm; position:relative; text-wrap:pretty; }
+  .memo p::before{
+    content:"\2713"; position:absolute; left:0; top:-.2mm; color:var(--cr);
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900; font-size:3.7mm;
+  }
+  .memo b{ font-weight:900; color:var(--cr-deep); }
+
+  @page{ size:210mm 297mm; margin:0; }
+  @media print{
+    html,body{
+      margin:0; padding:0; width:210mm; background:#fff;
+      display:block; -webkit-print-color-adjust:exact; print-color-adjust:exact;
+    }
+    .hint{ display:none; }
+    .sheet{
+      box-shadow:none; margin:0; width:210mm; height:296.8mm;
+      transform:none; overflow:hidden;
+      break-inside:avoid; break-after:avoid; page-break-after:avoid;
+    }
+  }
+  @media screen and (max-width:860px){
+    .sheet{ transform-origin:top center; transform:scale(.46); margin-bottom:-160mm; }
+  }
+</style>
+</head>
+<body>
+
+
+<p class="hint">A4たて・倍率100%（余白「なし」〜「せまい」）で印刷してください。<br>⌘P / Ctrl+P → 用紙 A4 → 背景のグラフィックを印刷 ON</p>
+
+<div class="sheet">
+
+  <header class="head">
+    <h1>せんぶんず<span class="kanji">和差算・分配算・消去算</span></h1>
+    <p class="lede">とくしゅ算 ①<b>そろえて ÷ する</b></p>
+  </header>
+
+  <p class="lead"><b>線分図</b>＝大きさを 線の長さで表した図。この3つは どれも <b>ちがいをそろえて、÷ で「1つ分」を出す</b> という同じやり方。まず図をかくこと。</p>
+
+  <div class="secs">
+
+    <!-- ══ 和差算 ══ -->
+    <section class="sec">
+      <header>
+        <span class="no">1</span>
+        <h2><ruby>和差算<rt>わさざん</rt></ruby><small>和 と 差 が どちらも わかっているとき</small></h2>
+      </header>
+      <div class="body">
+        <div class="fig">
+          <svg viewBox="0 0 340 116" role="img" aria-label="ゆう子と妹の枚数の線分図">
+            <g font-family="Zen Maru Gothic, sans-serif" font-weight="900" font-size="14" fill="var(--ink-soft)">
+              <text x="4" y="30">ゆう子</text><text x="18" y="76">妹</text>
+            </g>
+            <path d="M56 24 L56 36 M226 24 L226 36" stroke="var(--cr)" stroke-width="2"/>
+            <path d="M56 30 L226 30" stroke="var(--cr)" stroke-width="3.4"/>
+            <path d="M56 70 L56 82 M186 70 L186 82" stroke="var(--bl)" stroke-width="2"/>
+            <path d="M56 76 L186 76" stroke="var(--bl)" stroke-width="3.4"/>
+            <path d="M186 76 L226 76" stroke="var(--bl)" stroke-width="2" stroke-dasharray="4 3"/>
+            <path d="M226 70 L226 82" stroke="var(--bl)" stroke-width="1.6" stroke-dasharray="3 3"/>
+            <rect x="186" y="70" width="40" height="12" fill="var(--yellow)" opacity="0.55"/>
+            <text x="206" y="98" text-anchor="middle" font-family="Zen Maru Gothic, sans-serif" font-weight="900" font-size="13" fill="var(--cr-deep)">差 14まい</text>
+            <path d="M240 30 L248 30 M240 76 L248 76 M248 30 L248 76" stroke="var(--ink-soft)" stroke-width="1.6" fill="none"/>
+            <text x="254" y="58" font-family="Zen Maru Gothic, sans-serif" font-weight="900" font-size="14" fill="var(--ink)">和 60まい</text>
+          </svg>
+          <p class="cap">ゆう子さんと妹の色紙 あわせて60まい、ゆう子さんが14まい多い。<b>左をそろえて</b>かくと、はみ出た分が「差」。</p>
+        </div>
+        <div class="cards">
+          <p class="fx"><span class="t">大きい方 ＝ (和 <em>+</em> 差) ÷ 2</span><span class="v">(60+14)÷2 = 37まい</span></p>
+          <p class="fx"><span class="t">小さい方 ＝ (和 <em>−</em> 差) ÷ 2</span><span class="v">(60−14)÷2 = 23まい</span></p>
+          <p class="way"><span class="n">1</span><b>大きい方にそろえる</b>　妹に14たすと ゆう子と同じ長さ。<span class="num">60+14=74</span> は ゆう子の2倍。</p>
+          <p class="way"><span class="n">2</span><b>小さい方にそろえる</b>　ゆう子から14ひくと 妹と同じ長さ。<span class="num">60−14=46</span> は 妹の2倍。</p>
+        </div>
+      </div>
+      <div class="strip">
+        <p class="row"><span class="tag">3つのとき</span>2mのテープを A・B・C に切り分け、AはBより25cm、BはCより20cm長い。→ <b>Aにそろえる</b>と <span class="num">(200+25+45)÷3 = 90cm</span>（A）、B=65、C=45。<b>AとCの差は 25+20=45</b> に注意。</p>
+      </div>
+    </section>
+
+    <!-- ══ 分配算 ══ -->
+    <section class="sec">
+      <header>
+        <span class="no">2</span>
+        <h2><ruby>分配算<rt>ぶんぱいざん</rt></ruby><small>一方が 他方の 何倍か がわかっているとき</small></h2>
+      </header>
+      <div class="body">
+        <div class="fig">
+          <svg viewBox="0 0 300 116" role="img" aria-label="姉は妹の4倍で合計45まいの線分図">
+            <g font-family="Zen Maru Gothic, sans-serif" font-weight="900" font-size="14" fill="var(--ink-soft)">
+              <text x="18" y="30">姉</text><text x="18" y="76">妹</text>
+            </g>
+            <path d="M56 24 L56 36 M216 24 L216 36" stroke="var(--cr)" stroke-width="2"/>
+            <path d="M56 30 L216 30" stroke="var(--cr)" stroke-width="3.4"/>
+            <path d="M96 25 L96 35 M136 25 L136 35 M176 25 L176 35" stroke="var(--cr)" stroke-width="1.6"/>
+            <g font-family="Zen Maru Gothic, sans-serif" font-weight="900" font-size="12" fill="var(--cr)" text-anchor="middle">
+              <text x="76" y="18">1</text><text x="116" y="18">1</text><text x="156" y="18">1</text><text x="196" y="18">1</text>
+            </g>
+            <path d="M56 70 L56 82 M96 70 L96 82" stroke="var(--bl)" stroke-width="2"/>
+            <path d="M56 76 L96 76" stroke="var(--bl)" stroke-width="3.4"/>
+            <text x="76" y="96" text-anchor="middle" font-family="Zen Maru Gothic, sans-serif" font-weight="900" font-size="12" fill="var(--bl)">1</text>
+            <path d="M232 30 L240 30 M232 76 L240 76 M240 30 L240 76" stroke="var(--ink-soft)" stroke-width="1.6" fill="none"/>
+            <text x="246" y="58" font-family="Zen Maru Gothic, sans-serif" font-weight="900" font-size="14" fill="var(--ink)">45まい</text>
+          </svg>
+          <p class="cap">姉は妹の4倍。妹を <b>1</b> とすると、合計45まいは <b>4+1＝5つ分</b>。1つ分がわかれば両方出せる。</p>
+        </div>
+        <div class="cards">
+          <p class="fx"><span class="t">和のとき　和 ÷ (倍 <em>+</em> 1)</span><span class="v">45÷5 = 9（妹）→ 姉 36</span></p>
+          <p class="fx"><span class="t">差のとき　差 ÷ (倍 <em>−</em> 1)</span><span class="v">24÷3 = 8（B）→ A 32</span></p>
+          <p class="way"><b>差のとき</b>　あめをA・Bに分け、AはBの4倍。差が24個 → 24個は <span class="num">4−1=3つ分</span>。B=8個、A=32個。</p>
+        </div>
+      </div>
+      <div class="strip">
+        <p class="row"><span class="tag">過不足</span>兄は弟の2倍より8個多く、2人で50個。→「8個多く」が <b>なかったら</b> <span class="num">50−8=42</span> が弟の <span class="num">2+1=3つ分</span>。弟14個、兄 14×2+8=36個。</p>
+        <p class="row"><span class="tag">差が一定</span>姉1000円・妹550円。同じ額ずつ出すと <b>差450円は変わらない</b>。姉の残りが妹の4倍 → 450は <span class="num">4−1=3つ分</span>、妹の残り150円。出した額 550−150=400円、代金 400×2=800円。</p>
+      </div>
+    </section>
+
+    <!-- ══ 消去算 ══ -->
+    <section class="sec">
+      <header>
+        <span class="no">3</span>
+        <h2><ruby>消去算<rt>しょうきょざん</rt></ruby><small>一方を 消して もう一方を もとめる</small></h2>
+      </header>
+      <div class="body">
+        <div class="fig">
+          <div class="eqfig">
+            <p class="eqrow">
+              <span class="dot a">り</span><span class="dot a">り</span><span class="pl">+</span>
+              <span class="dot b">み</span><span class="dot b">み</span><span class="dot b">み</span>
+              <span class="eq">= 510円</span>
+            </p>
+            <p class="eqrow">
+              <span class="dot a">り</span><span class="dot a">り</span><span class="pl">+</span>
+              <span class="dot b">み</span><span class="dot b">み</span><span class="dot b">み</span><span class="dot b hl">み</span><span class="dot b hl">み</span>
+              <span class="eq">= 650円</span>
+            </p>
+            <p class="eqrow sum">
+              <span class="dot b hl">み</span><span class="dot b hl">み</span>
+              <span class="eq">= 140円</span>
+            </p>
+          </div>
+          <p class="cap">りんごが <b>同じ2個でそろっている</b>ので、ひくと消える。残った みかん2個が 差の140円。→ み=70円、り=(510−210)÷2=150円。</p>
+        </div>
+        <div class="cards">
+          <p class="fx"><span class="t">加減法　式を たす・ひく</span><span class="v">そろっている方を 消す</span></p>
+          <p class="fx"><span class="t">代入法　式を おきかえる</span><span class="v">「◯は△の□倍」を使う</span></p>
+          <p class="way"><b>代入法の例</b>　ノート＝えんぴつ×2、ノート1+えんぴつ5＝490円。ノートを えんぴつ2本に <b>おきかえる</b> と <span class="num">え×2+え×5＝え×7＝490</span> → えんぴつ <span class="num">70円</span>、ノート <span class="num">140円</span>。</p>
+        </div>
+      </div>
+      <div class="strip">
+        <p class="row"><span class="tag">そろわないとき</span>ノ×2+え×5＝750（A）、ノ×3+え×4＝810（B）。ノートを <b>2と3の最小公倍数 6</b> にそろえる（A×3、B×2）→ <span class="num">ノ×6+え×15＝2250</span>、<span class="num">ノ×6+え×8＝1620</span>。差630円は えんぴつ7本 → 90円、ノート150円。</p>
+      </div>
+    </section>
+  </div>
+
+  <div class="memo">
+    <span class="lbl">おぼえておく</span>
+    <p>線分図は <b>左をそろえて</b> かく。そうしないと、はみ出た分が「差」だと見えない。</p>
+    <p>和差算・分配算は、そろえてから <b>÷ で1つ分</b> を出す。何つ分にあたるかを数えるのが山場。</p>
+    <p>式を たす・ひく のが <b>加減法</b>、おきかえる のが <b>代入法</b>。消去算はこの2つだけ。</p>
+    <p>数えかたが山場の <b>植木算・方陣算</b> は、もう1枚のチラシへ。</p>
+  </div>
+
+</div>
+
+<style>
+@media screen and (max-width:860px){
+  body{ padding:8px 0 28px; }
+  .sheet{ transform:scale(var(--fit,.46)) !important;
+          margin-bottom:calc(-297mm * (1 - var(--fit,.46))) !important; }
+}
+</style>
+<script>
+(function(){
+  function fit(){
+    var w = Math.min(document.documentElement.clientWidth, 860);
+    document.documentElement.style.setProperty('--fit', Math.min(1,(w-10)/793.7).toFixed(4));
+  }
+  fit(); addEventListener('resize', fit); addEventListener('orientationchange', fit);
+})();
+</script>
+</body>
+</html>
