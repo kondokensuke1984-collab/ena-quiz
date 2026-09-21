@@ -994,6 +994,21 @@ body {
   transition: opacity 0.15s, transform 0.15s;
 }
 .manual-master-btn:active { opacity: 0.8; transform: scale(0.98); }
+/* まだ押せない（ちがう日にもう一度正解するまで） */
+.manual-master-btn.master-locked {
+  background: #f1f5f9;
+  border: 2px dashed #cbd5e1;
+  color: #64748b;
+  font-weight: 700;
+  cursor: default;
+}
+.manual-master-btn.master-locked:active { opacity: 1; transform: none; }
+/* 「完璧をとりけす」ときの見た目（登録ボタンと見分けがつくように） */
+.manual-master-btn.unmaster-btn {
+  background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+  border: 2px solid #94a3b8;
+  color: #475569;
+}
 
 /* ===== 記述・自己判定モード ===== */
 .selfjudge-textarea {
@@ -1402,10 +1417,13 @@ body {
 .tag-rika    { background: #d1fae5; color: #065f46; }
 .tag-tsuki   { background: #ede9fe; color: #5b21b6; }
 .tag-tsuki2  { background: #e0e7ff; color: #3730a3; }
+.tag-tsukimie { background: #fef3c7; color: #92400e; }
 .tag-taiyou  { background: #d1fae5; color: #065f46; }
 .tag-kanji   { background: #e0e7ff; color: #3730a3; }
 .tag-dokkai  { background: #fce7f3; color: #be185d; }
 .tag-goi     { background: #f3e8ff; color: #6b21a8; }
+.tag-meishi  { background: #dcfce7; color: #166534; }
+.tag-doushi  { background: #ffe4e6; color: #9f1239; }
 .tag-kanyou  { background: #ffe4e6; color: #9f1239; }
 .tag-eigo        { background: #fef3c7; color: #92400e; }
 .tag-shosu-calc  { background: #fce7f3; color: #be185d; }
@@ -1589,11 +1607,56 @@ body {
 .video-btn-icon { font-size: 22px; margin-bottom: 3px; }
 .video-btn-label { font-size: 12px; font-weight: 700; color: #4338ca; }
 .video-btn-sub { font-size: 10px; color: #6366f1; margin-top: 2px; }
+.topic-btn-video { width: 100%; box-sizing: border-box; }
+/* ===== チャンネル動画（YouTubeへ出られない安全プレーヤー） ===== */
+/* 古いiPad（iPadOS 14以前）でも動くように aspect-ratio・inset・flexのgap は使わない */
+#video-modal-body.cv-mode { aspect-ratio: auto; height: auto; padding-top: 0; background: #1e1b4b; }
+.cv-stage { position: relative; width: 100%; background: #000; overflow: hidden; }
+.cv-stage::before { content: ''; display: block; padding-top: 56.25%; }   /* 16:9 の高さをつくる */
+.cv-stage > div:first-child, .cv-stage iframe { position: absolute; top: 0; right: 0; bottom: 0; left: 0; width: 100%; height: 100%; border: 0; }
+.cv-shield { position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: 2; background: transparent; cursor: pointer; }
+.cv-shield-top, .cv-shield-bottom { position: absolute; left: 0; right: 0; z-index: 2; }
+.cv-shield-top { top: 0; height: 24%; } .cv-shield-bottom { bottom: 0; height: 24%; }
+.cv-shield-br { position: absolute; right: 0; bottom: 0; width: 42%; height: 20%; z-index: 2; }
+.cv-panel { position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: 3; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: #000 center / cover no-repeat; }
+.cv-panel::before { content: ''; position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: rgba(30,27,75,0.62); }
+.cv-panel > * { position: relative; }
+.cv-panel > * + * { margin-top: 12px; }
+.cv-panel[hidden] { display: none; }
+.cv-panel-msg { color: #fff; font-weight: 800; font-size: 15px; text-shadow: 0 2px 8px rgba(0,0,0,0.6); padding: 0 12px; text-align: center; }
+.cv-panel-btns { display: flex; flex-wrap: wrap; justify-content: center; }
+.cv-panel-btns button { border: none; border-radius: 99px; padding: 10px 18px; font-size: 14px; font-weight: 800; cursor: pointer; font-family: inherit; margin: 5px; }
+.cv-pbtn-main { background: linear-gradient(135deg, #f472b6, #a78bfa); color: #fff; }
+.cv-pbtn-sub { background: rgba(255,255,255,0.9); color: #5b21b6; }
+.cv-bar { display: flex; align-items: center; padding: 10px 12px 14px; }
+.cv-bar[hidden] { display: none; }
+.cv-bar > * + * { margin-left: 6px; }
+.cv-bar button { background: rgba(255,255,255,0.12); color: #e0d9ff; border: none; border-radius: 10px; padding: 7px 9px;
+  font-size: 13px; font-weight: 800; cursor: pointer; font-family: inherit; flex: 0 0 auto; }
+.cv-seek { flex: 1 1 auto; min-width: 40px; accent-color: #a78bfa; }
+.cv-time { color: #c4b5fd; font-size: 11px; font-weight: 700; flex: 0 0 auto; font-variant-numeric: tabular-nums; }
+.cv-simple-note { color: #c4b5fd; font-size: 11px; font-weight: 700; padding: 8px 14px 12px; text-align: center; }
+#video-modal.cv-big { position: fixed; top: 0; right: 0; bottom: 0; left: 0; max-width: none; border-radius: 0; display: flex; flex-direction: column; justify-content: center; z-index: 201; }
+#video-modal.cv-big .cv-stage { width: 100vw; max-width: calc((100vh - 120px) * 16 / 9); margin: 0 auto; }
+/* ===== ずんだもん動画 一覧 ===== */
+#video-list { display: none; padding: 30px 20px 60px; max-width: 500px; margin: 0 auto; }
+.vl-note { font-size: 12px; color: #7c3aed; background: rgba(255,255,255,0.8); border-radius: 12px; padding: 10px 14px; margin-bottom: 14px; }
+.vl-card { display: block; width: 100%; box-sizing: border-box; border: none; text-align: left; cursor: pointer; font-family: inherit;
+  background: rgba(255,255,255,0.92); border-radius: 18px; overflow: hidden; margin-bottom: 14px; padding: 0;
+  box-shadow: 0 4px 16px rgba(167,139,250,0.18); }
+.vl-thumb { position: relative; background: #000 center / cover no-repeat; }
+.vl-thumb::before { content: ''; display: block; padding-top: 56.25%; }
+.vl-thumb::after { content: '▶'; position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: 56px; height: 56px;
+  border-radius: 50%; background: rgba(124,58,237,0.85); color: #fff; font-size: 22px; display: flex; align-items: center; justify-content: center; }
+.vl-body { padding: 12px 14px 14px; }
+.vl-title { font-size: 14px; font-weight: 800; color: #3d2b5e; line-height: 1.5; }
+.vl-meta { font-size: 11px; color: #a78bfa; font-weight: 700; margin-top: 4px; }
 /* ===== 動画モーダル ===== */
 #video-modal-overlay {
   display: none;
   position: fixed;
-  inset: 0;
+  top: 0; right: 0; bottom: 0; left: 0;
   background: rgba(0,0,0,0.75);
   z-index: 200;
   justify-content: center;
@@ -1885,6 +1948,51 @@ body {
   border-radius: 99px; padding: 4px 10px;
 }
 .dex-medal-month { background: linear-gradient(135deg,#fbbf24,#f472b6); color: #fff; }
+.dex-medal-coin  { background: linear-gradient(135deg,#f59e0b,#fbbf24); color: #fff; }
+
+/* 🪙 アンリノメダル */
+.medal-row { display: flex; gap: 8px; width: 100%; margin: 0 0 12px; }
+.medal-bar {
+  flex: 1; min-width: 0; border: none; cursor: pointer; font-family: inherit;
+  display: flex; align-items: center; gap: 10px;
+  background: linear-gradient(135deg,#b45309,#f59e0b);
+  border-radius: 18px; padding: 12px 16px; margin: 0;
+  box-shadow: 0 6px 20px rgba(180,83,9,0.28);
+}
+/* 🏝 島（/game）への入口 */
+.island-btn {
+  flex: 0 0 76px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 2px; text-decoration: none; font-family: inherit;
+  background: linear-gradient(135deg,#0d9488,#22c55e);
+  border-radius: 18px; padding: 10px 6px;
+  box-shadow: 0 6px 20px rgba(13,148,136,0.3);
+}
+.island-btn-emoji { font-size: 24px; line-height: 1; }
+.island-btn-text  { font-size: 11px; font-weight: 800; color: #ecfdf5; }
+.medal-bar-coin  { font-size: 26px; line-height: 1; }
+.medal-bar-num   { font-size: 22px; font-weight: 900; color: #fff7ed; }
+.medal-bar-unit  { font-size: 11px; font-weight: 800; color: #fde68a; margin-left: -4px; }
+.medal-bar-text  { flex: 1; text-align: left; font-size: 11px; font-weight: 700; color: #fff7ed; line-height: 1.5; }
+
+#medal-overlay {
+  display: none;
+  position: fixed; inset: 0; z-index: 10000;
+  background: rgba(69,26,3,0.92);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  align-items: center; justify-content: center; padding: 20px;
+}
+#medal-overlay.show { display: flex; animation: chara-bg-in 0.35s ease; }
+.medal-popup {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  max-width: 330px; text-align: center;
+  animation: chara-pop 0.55s cubic-bezier(0.34,1.56,0.64,1);
+}
+.medal-kicker { font-size: 13px; font-weight: 800; color: #fde68a; letter-spacing: 0.14em; }
+.medal-coin-art { font-size: 72px; line-height: 1; animation: pet-float 3s ease-in-out infinite; }
+.medal-coin-num { font-size: 40px; font-weight: 900; color: #fff; text-shadow: 0 2px 16px rgba(0,0,0,0.5); }
+.medal-unit   { font-size: 15px; font-weight: 800; color: #fff; line-height: 1.5; }
+.medal-sub    { font-size: 13px; color: rgba(255,255,255,0.85); font-weight: 700; }
+.medal-tap    { font-size: 11px; color: rgba(255,255,255,0.6); font-weight: 700; margin-top: 6px; }
 
 /* レベルアップ演出 */
 #levelup-overlay {
@@ -1961,7 +2069,9 @@ body {
   <button id="gakuhan-btn" class="tendency-btn" onclick="location.href='/gakuhan.html'" style="background:linear-gradient(135deg,#7c3aed,#4f46e5);margin-top:12px;color:#fff;">📈 ガクハン成績グラフ</button>
   <button id="yonka-btn" class="tendency-btn" onclick="location.href='/yonka.html'" style="background:linear-gradient(135deg,#15803d,#16a34a);margin-top:8px;color:#fff;display:none;">📝 4科演習 成績グラフ</button>
   <button id="gouhan-moshi-btn" class="tendency-btn" onclick="location.href='/gouhan_moshi.html'" style="background:linear-gradient(135deg,#0d9488,#0f766e);margin-top:8px;color:#fff;display:none;">🎯 合格判定模試 成績グラフ</button>
+  <button id="zunda-btn" class="tendency-btn" onclick="showVideoList()" style="background:linear-gradient(135deg,#65a30d,#16a34a);margin-top:8px;color:#fff;display:none;">📺 ずんだもん動画</button>
   <button id="gakuhan-eikoh-btn" class="tendency-btn" onclick="location.href='/gakuhan_eikoh.html'" style="background:linear-gradient(135deg,#1d4ed8,#2563eb);margin-top:12px;color:#fff;display:none;">📈 成績グラフ</button>
+  <button id="yakusu-btn" class="tendency-btn" onclick="window.open('https://yakusu-battle.vercel.app','_blank','noopener')" style="background:linear-gradient(135deg,#f59e0b,#ea580c);margin-top:8px;color:#fff;display:none;">⚔️ やくすうバトル（やくすう・こうやくすう）</button>
   <button id="chirashi-btn" class="tendency-btn" onclick="location.href='/chirashi.html'" style="background:linear-gradient(135deg,#f472b6,#a78bfa);margin-top:12px;color:#fff;">📄 チラシ集（おぼえたいこと1枚）</button>
   <button id="dex-btn" class="tendency-btn" onclick="showDexScreen()" style="background:linear-gradient(135deg,#f59e0b,#f472b6);margin-top:8px;color:#fff;">📖 コレクション図鑑</button>
   <button class="back-to-month" style="margin-top:12px" onclick="showSchoolSelect()">◀ 塾選択に戻る</button>
@@ -2001,6 +2111,7 @@ body {
       <div class="home-month-sub" id="home-month-sub"></div>
     </div>
     <a id="enabase-header-btn" class="enabase-header-btn" href="https://app.ena.co.jp" target="_blank" rel="noopener" style="display:none">▶ エナベース</a>
+    <a id="rpg-header-btn" class="enabase-header-btn" href="/rpg.html" style="display:none">⚔️ クエスト</a>
   </div>
   <div class="quote-banner" id="quote-banner">
     <div class="quote-text" id="quote-text"></div>
@@ -2008,6 +2119,10 @@ body {
   </div>
   <div class="test-countdown" id="test-countdown" style="display:none"></div>
   <button id="pet-card" onclick="showPetScreen()"></button>
+  <div class="medal-row">
+    <button class="medal-bar" id="medal-bar" onclick="showDexScreen()"></button>
+    <a class="island-btn" href="/game/"><span class="island-btn-emoji">🏝</span><span class="island-btn-text">島へいく</span></a>
+  </div>
   <div class="subject-grid" id="subject-grid"></div>
   <div id="home-main-actions">
   <button class="tendency-btn" id="gouhan-exam-btn" onclick="startGouhanExam()" style="display:none;background:linear-gradient(135deg,#e11d48,#9f1239);color:#fff;font-weight:800;">📝 合格判定模試（苦手20問）</button>
@@ -2063,7 +2178,7 @@ body {
       <button class="prev-btn" id="prev-btn" style="display:none" onclick="prevQuestion()">← 前の問題</button>
       <button class="next-btn" id="next-btn" style="display:none;flex:1" onclick="nextQuestion()">次の問題へ →</button>
     </div>
-    <button class="manual-master-btn" id="manual-master-btn" style="display:none" onclick="manualMaster()">⭐ もう完璧にする</button>
+    <button class="manual-master-btn" id="manual-master-btn" style="display:none" onclick="toggleMaster()">⭐ もう完璧にする</button>
     <button class="ai-btn" id="ai-btn" onclick="openAiModal()">🤖 AIにもっと詳しく聞く</button>
   </div>
 </div>
@@ -2088,6 +2203,16 @@ body {
     </div>
     <div id="video-modal-body"></div>
   </div>
+</div>
+
+<!-- ずんだもん動画 一覧 -->
+<div id="video-list">
+  <div class="tend-header">
+    <button class="back-to-month" onclick="showMonthSelect()">◀ もどる</button>
+    <div class="tend-page-title">📺 ずんだもん動画</div>
+  </div>
+  <div class="vl-note">「ずんだもんと学ぶ中学受験」の動画だけ見られるよ</div>
+  <div id="video-list-items"></div>
 </div>
 
 <!-- きみの傾向 画面 -->
@@ -2217,6 +2342,18 @@ body {
   </div>
 </div>
 
+<!-- 🪙 アンリノメダル獲得演出 -->
+<div id="medal-overlay" onclick="hideMedalGet()">
+  <div class="medal-popup">
+    <div class="medal-kicker">アンリノメダル ゲット！</div>
+    <div class="medal-coin-art">🪙</div>
+    <div class="medal-coin-num" id="medal-coin-num"></div>
+    <div class="medal-unit" id="medal-unit-label"></div>
+    <div class="medal-sub" id="medal-total-label"></div>
+    <div class="medal-tap">タップしてとじる</div>
+  </div>
+</div>
+
 <!-- レベルアップ演出 -->
 <div id="levelup-overlay" onclick="hideLevelUp()">
   <div class="levelup-popup">
@@ -2257,6 +2394,7 @@ const MONTHS = {
   '202607':    { label: '7月',        fullLabel: '2026年7月',    emoji: '🌻', desc: '未定',           comingSoon: false, school: 'ena' },
   '202608':    { label: '8月',        fullLabel: '2026年8月',    emoji: '🍉', desc: '東北・北海道地方', comingSoon: false, school: 'ena' },
   '202609':    { label: '9月',        fullLabel: '2026年9月',    emoji: '🌰', desc: '月の動きと満ち欠け', comingSoon: false, school: 'ena' },
+  '202610':    { label: '10月',       fullLabel: '2026年10月',   emoji: '🍁', desc: '月の位置と見え方', comingSoon: false, school: 'ena' },
   'eikoh_l56': { label: 'Lesson 5-6', fullLabel: '第4回 小テスト', emoji: '📝', desc: 'Lesson 5・6',   comingSoon: false, school: 'eikoh' },
   'eikoh_l78': { label: 'Lesson 7-8', fullLabel: '第5回 小テスト', emoji: '📖', desc: 'Lesson 7・8',   comingSoon: false, school: 'eikoh' },
   'eikoh_l9':  { label: 'Lesson 9',   fullLabel: '第6回 小テスト', emoji: '📓', desc: 'Lesson 9',      comingSoon: false, school: 'eikoh' },
@@ -2403,15 +2541,21 @@ const SUBJECTS = {
   tsuki1_kihon: { label: '基本問題', icon: '📝', tag: 'tag-tsuki', category: 'rika', month: '202609', parent: 'tsuki1' },
   tsuki1_renshu:  { label: '練習問題１', icon: '✏️', tag: 'tag-tsuki', category: 'rika', month: '202609', parent: 'tsuki1' },
   tsuki1_renshu2: { label: '練習問題２', icon: '🌗', tag: 'tag-tsuki', category: 'rika', month: '202609', parent: 'tsuki1' },
+  tsuki1_kakomon: { label: '過去問演習', icon: '📋', tag: 'tag-tsuki', category: 'rika', month: '202609', parent: 'tsuki1' },
   tsuki2:       { label: '月の動きと満ち欠け２', icon: '🌘', tag: 'tag-tsuki2', category: 'rika', month: '202609', isGroup: true },
   tsuki2_kihon: { label: '基本問題', icon: '📝', tag: 'tag-tsuki2', category: 'rika', month: '202609', parent: 'tsuki2' },
   tsuki2_renshu:{ label: '練習問題', icon: '✏️', tag: 'tag-tsuki2', category: 'rika', month: '202609', parent: 'tsuki2' },
+  tsuki2_kakomon:{ label: '過去問演習', icon: '📋', tag: 'tag-tsuki2', category: 'rika', month: '202609', parent: 'tsuki2' },
+  tsukimie:       { label: '月の位置と見え方', icon: '🌔', tag: 'tag-tsukimie', category: 'rika', month: '202610', isGroup: true, ref: '/tsukimie.html', refLabel: 'カラーページ（要点まとめ）', refSub: '満ち欠けのしくみ・位置を切りかえて見え方と出入りの時刻・同じ時刻に見える月' },
+  tsukimie_kihon: { label: '基本問題', icon: '📝', tag: 'tag-tsukimie', category: 'rika', month: '202610', parent: 'tsukimie' },
   nougyou1:       { label: '日本の農業１', icon: '🌾', tag: 'tag-nougyou', category: 'shakai', month: '202609', isGroup: true },
   nougyou1_kihon: { label: '基本問題', icon: '📝', tag: 'tag-nougyou', category: 'shakai', month: '202609', parent: 'nougyou1' },
   nougyou1_renshu:{ label: '練習問題', icon: '✏️', tag: 'tag-nougyou', category: 'shakai', month: '202609', parent: 'nougyou1' },
+  nougyou1_kakomon:{ label: '過去問演習', icon: '📋', tag: 'tag-nougyou', category: 'shakai', month: '202609', parent: 'nougyou1' },
   nougyou2:       { label: '日本の農業２', icon: '🥔', tag: 'tag-nougyou2', category: 'shakai', month: '202609', isGroup: true },
   nougyou2_kihon: { label: '基本問題', icon: '📝', tag: 'tag-nougyou2', category: 'shakai', month: '202609', parent: 'nougyou2' },
   nougyou2_renshu:{ label: '練習問題', icon: '✏️', tag: 'tag-nougyou2', category: 'shakai', month: '202609', parent: 'nougyou2' },
+  nougyou2_kakomon:{ label: '過去問演習', icon: '📋', tag: 'tag-nougyou2', category: 'shakai', month: '202609', parent: 'nougyou2' },
   kanji:   { label: '漢字',       icon: '✍️', tag: 'tag-kanji',   category: 'kokugo', isGroup: true },
   kanji10: { label: '10級',       icon: '🌸', tag: 'tag-kanji',   category: 'kokugo', parent: 'kanji' },
   kanji09: { label: '9級',        icon: '🌼', tag: 'tag-kanji',   category: 'kokugo', parent: 'kanji' },
@@ -2426,6 +2570,12 @@ const SUBJECTS = {
   kanyou8:       { label: '和語・漢語・慣用句・ことわざ', icon: '🗣️', tag: 'tag-kanyou', category: 'kokugo', month: '202608', isGroup: true },
   kanyou8_kihon: { label: '基本問題', icon: '📝', tag: 'tag-kanyou', category: 'kokugo', month: '202608', parent: 'kanyou8' },
   kanyou8_renshu:{ label: '練習問題', icon: '✏️', tag: 'tag-kanyou', category: 'kokugo', month: '202608', parent: 'kanyou8' },
+  meishi9:        { label: '名詞', icon: '🏷️', tag: 'tag-meishi', category: 'kokugo', month: '202609', isGroup: true },
+  meishi9_kihon:  { label: '基本問題', icon: '📝', tag: 'tag-meishi', category: 'kokugo', month: '202609', parent: 'meishi9' },
+  meishi9_hojuu:  { label: '補充問題', icon: '➕', tag: 'tag-meishi', category: 'kokugo', month: '202609', parent: 'meishi9' },
+  doushi9:        { label: '動詞', icon: '🏃', tag: 'tag-doushi', category: 'kokugo', month: '202609', isGroup: true },
+  doushi9_kihon:  { label: '基本問題', icon: '📝', tag: 'tag-doushi', category: 'kokugo', month: '202609', parent: 'doushi9' },
+  doushi9_hojuu:  { label: '補充問題', icon: '➕', tag: 'tag-doushi', category: 'kokugo', month: '202609', parent: 'doushi9' },
   eigo:         { label: '英語',       icon: '🔤', tag: 'tag-eigo',       category: 'eigo',  ref: '/eigo.html'  },
   shosu_calc:   { label: '小数の計算', icon: '➕', tag: 'tag-shosu-calc', category: 'sansu', ref: '/shosu.html' },
   shosu_kake:        { label: '小数のかけ算', icon: '✖️', tag: 'tag-shosu-calc', category: 'sansu', isGroup: true, ref: '/shosu_kake.html' },
@@ -9438,6 +9588,35 @@ const QUESTIONS = [
     answer:'太陽',
     explanation:'月は自分では光を出さず、太陽の光を反射してかがやいています。' },
 
+  // ── 9月 理科 月の動きと満ち欠け１ 過去問演習 ───────────────────────────────
+  { id:'tsk1_k01', subject:'tsuki1_kakomon', month:'202609',
+    q:'過去問演習1-(問1)\n月面には模様が見られ、日本では「ウサギが餅つきをしているように見える」などと言われています。このように、月面に模様が見える理由として正しいものを次から1つ選びなさい。',
+    options:['1：地球の影が映っているから。','2：人工衛星の影が映っているから。','3：表面の岩石の種類が場所によって違うから。','4：表面に水がある部分とない部分で見え方が違うから。','5：雲がある部分とない部分で見え方が違うから。'], answer:2,
+    explanation:'黒っぽく見える「海」は玄武岩という黒い岩石、白っぽく見える「陸（高地）」は白っぽい岩石でできています。岩石の種類のちがいで反射する光の量がちがうため、模様に見えます。月には空気も水も雲もないので、4・5はまちがいです。' },
+  { id:'tsk1_k02', subject:'tsuki1_kakomon', month:'202609',
+    q:'過去問演習1-(問2)\n月面の模様は、違う日に観察してもいつも同じ模様が見え、地球から月の裏側を見ることはできません。月の裏側が見えない理由として正しいものを次から1つ選びなさい。',
+    options:['1：月は公転しているが、自転はしていないから。','2：月の自転周期が、地球の公転周期と等しいから。','3：月の自転周期が、地球の自転周期と等しいから。','4：月の公転周期が、地球の自転周期と等しいから。','5：月の公転周期が、月の自転周期と等しいから。'], answer:4,
+    explanation:'月は地球のまわりを1周する間（約27.3日）に、ちょうど1回自転します。公転周期と自転周期が同じなので、いつも同じ面を地球に向けたままになり、裏側は地球から見えません。' },
+  { id:'tsk1_k03', subject:'tsuki1_kakomon', month:'202609',
+    qImage:'/images/tsuki1_k_ookisa.jpg',
+    q:'過去問演習1-(問3)\n地球の大きさと比べて、月の大きさはどのくらいですか。図の中で、地球に対する月の大きさを正しく表しているものを1〜4から1つ選びなさい。',
+    options:['1','2','3','4'], answer:1,
+    explanation:'月の直径は約3500km、地球の直径は約13000kmなので、月は地球の約4分の1です。図の2が地球の円のおよそ4分の1の大きさになっています。3は約半分、4は地球とほぼ同じ大きさです。' },
+  { id:'tsk1_k04', subject:'tsuki1_kakomon', month:'202609', type:'selfjudge',
+    q:'過去問演習2-(1)\n地球からは、月は毎日その形を変えて見えますが、月から地球を見ると地球も形を変えているように見えます。月が形を変えて見える理由を次から2つ選び、番号で答えなさい。\n【1：月が自転しているから／2：地球が自転しているから／3：月が公転しているから／4：地球が公転しているから／5：月が発光しているから／6：月が太陽の光を反射しているから】',
+    answer:'3と6',
+    explanation:'月は自分では光らず、太陽の光を反射して光っています（6）。その月が地球のまわりを公転することで、太陽・地球・月の位置関係が変わり、光って見える部分の形が変化します（3）。自転は形の変化には関係ありません。2つとも書けていれば正解です。' },
+  { id:'tsk1_k05', subject:'tsuki1_kakomon', month:'202609',
+    qImage:'/images/tsuki1_k_zu1.jpg',
+    qImage2:'/images/tsuki1_k_katachi.jpg',
+    q:'過去問演習2-(2)\n図1は、あるときの地球から見た太陽と月の方向を、北極側から見て表したものです。このとき、地球から月はどのような形に見えますか。下の1〜6から1つ選びなさい。',
+    options:['1','2','3','4','5','6'], answer:5,
+    explanation:'太陽は上、月は左ななめ下にあるので、太陽・地球・月のつくる角は約135度です。角が90度なら半月、180度なら満月なので、その間の「満月に近いふくらんだ月」になります。北極側から見た図では、月は反時計まわりに公転し、この位置は上弦の月（左）と満月（下）の間なので、右側が光った形の6が正解です。' },
+  { id:'tsk1_k06', subject:'tsuki1_kakomon', month:'202609',
+    q:'過去問演習2-(3)\n月は地球にいつも同じ側しか見せていません。その理由として正しいものを次から1つ選びなさい。',
+    options:['1：地球の自転周期と地球の公転周期が同じであるから','2：月の自転周期と地球の公転周期が同じであるから','3：地球の自転周期と月の公転周期が同じであるから','4：月の自転周期と月の公転周期が同じであるから','5：月の自転周期と地球の自転周期が同じであるから','6：月の公転周期と地球の公転周期が同じであるから'], answer:3,
+    explanation:'月の自転周期も公転周期も約27.3日で同じです。地球のまわりを1周する間にちょうど1回まわるので、いつも同じ面を地球に向けます。（問2）と同じ内容を別の言い方で聞いています。' },
+
   // ── 9月 理科 月の動きと満ち欠け２ 基本問題 ─────────────────────────────────
   { id:'tsk2_01', subject:'tsuki2_kihon', month:'202609',
     q:'基本問題1-(1)\n月の1日の動きについて、正しく説明しているものを次の中から選びなさい。',
@@ -9571,6 +9750,120 @@ const QUESTIONS = [
     q:'練習問題2-2(4)\n(2)の日は、(1)の日から約何日後ですか。次のア〜エから1つ選びなさい。',
     options:['ア：7日後','イ：14日後','ウ：21日後','エ：28日後'], answer:0,
     explanation:'(1)は上弦の月、(2)は満月。新月→上弦→満月→下弦はそれぞれ約7日ずつなので、上弦から満月までは約7日後です。' },
+
+  // ── 9月 理科 月の動きと満ち欠け２ 過去問演習 ───────────────────────────────
+  { id:'tsk2_k01', subject:'tsuki2_kakomon', month:'202609',
+    qImage:'/images/tsuki2_k_graph1.jpg',
+    q:'過去問演習1-(1)\nグラフ1は、横浜におけるある時期の約1か月間の、日の出・日の入り・月の出の時刻を表したものです（たて軸は時刻、24時間法）。満月が地平線からあがってくる日はいつですか。次のア〜オから1つ選びなさい。',
+    options:['ア：7日','イ：12日','ウ：17日','エ：22日','オ：27日'], answer:4,
+    explanation:'満月は太陽と反対側にあるので、太陽がしずむのと入れかわりにのぼります。つまり「月の出の時刻＝日の入りの時刻」になる日が満月です。グラフでは月の出の線と日の入りの線が交わるのが⑥のあたりで、27日ごろにあたります。' },
+  { id:'tsk2_k02', subject:'tsuki2_kakomon', month:'202609',
+    qImage:'/images/tsuki2_k_graph1.jpg',
+    q:'過去問演習1-(2)\n月が午後9時ごろに南の空に見えるのはいつですか。グラフ1の①〜⑦から1つ選びなさい。',
+    options:['①','②','③','④','⑤','⑥','⑦'], answer:4,
+    explanation:'月は、のぼってから南の空に来る（南中する）までに約6時間かかります。午後9時（21時）に南中するには、その6時間前の15時に月の出をむかえていればよいので、月の出が15時の⑤が正解です。' },
+  { id:'tsk2_k03', subject:'tsuki2_kakomon', month:'202609',
+    qImage:'/images/tsuki2_k_graph1.jpg',
+    q:'過去問演習1-(3)\n10日ごろ、月はどのように見えますか。次のア〜カから1つ選びなさい。',
+    options:['ア：日没後の西の空','イ：日没後の東の空','ウ：日の出前の東の空','エ：日の出前の西の空','オ：真夜中の南の空','カ：一晩中見えない'], answer:2,
+    explanation:'グラフを読むと、10日ごろの月の出は4時半ごろ、日の出は6時ごろです。月は日の出の1時間半ほど前に東からのぼるので、明け方の東の空に細い月（新月の少し前の月）として見えます。' },
+  { id:'tsk2_k04', subject:'tsuki2_kakomon', month:'202609',
+    q:'過去問演習2-(1)\n月は地球のまわりをおよそひと月で1周し、満月から次の満月までおよそ29日かかります。また、地球は太陽のまわりをおよそ365日で1周しています。\nある日の午後6時に半月が見えました。月が見える方角は、3日前の午後6時とくらべてどちらにずれていますか。',
+    options:['1：東','2：西'], answer:0,
+    explanation:'月は地球のまわりを西から東へ公転しているので、毎日同じ時刻にくらべると1日に約12度ずつ東へずれていきます。3日前とくらべると約36度、東へずれた位置に見えます。' },
+  { id:'tsk2_k05', subject:'tsuki2_kakomon', month:'202609',
+    q:'過去問演習2-(2)\nある日の午後6時に半月が見えました。翌日に見える月の形はどのように変わりますか。',
+    options:['1：少しふくらむ','2：少し欠ける'], answer:0,
+    explanation:'午後6時に空に見えている半月は上弦の月です（下弦の月は真夜中にのぼるので、午後6時にはまだ出ていません）。上弦の月はこのあと満月に向かって太っていくので、翌日は少しふくらみます。' },
+  { id:'tsk2_k06', subject:'tsuki2_kakomon', month:'202609',
+    q:'過去問演習2-(3)\n満月から次の満月までをおよそ29日として考えます。ある年の7月20日の午後9時に、真南に月が見えました。同じ年の9月20日の午後9時に、月が見える方角はどうなっていると考えられますか。',
+    options:['1：南東の方角になっている','2：南西の方角になっている','3：真南で変わらない'], answer:0,
+    explanation:'7月20日から9月20日までは62日です。満ち欠けの周期29日で2周すると58日なので、62−58＝4日ぶんだけ先に進んだ月になります。月が南中する時刻は1日に約50分ずつおそくなるので、4日で約3時間おそくなり、午後9時にはまだ南までたどりついていません。南よりも東がわ、つまり南東の空に見えます。' },
+  { id:'tsk2_k07', subject:'tsuki2_kakomon', month:'202609',
+    q:'過去問演習2-(4)\n満月から次の満月までをおよそ29日、1年を365日として考えます。ある年の2月20日の午後6時に半月が見えました。翌年の2月20日の午後6時の月について、正しいものを1つ選びなさい。',
+    options:['1：東の方角に見える','2：南東の方角に見える','3：南の方角に見える','4：南西の方角に見える','5：西の方角に見える','6：どの方角にも見えない'], answer:5,
+    explanation:'1年は365日。29日の周期で12周すると29×12＝348日なので、365−348＝17日ぶん先に進んだ月になります。午後6時に見えた半月は上弦の月（月齢約7）なので、そこから17日進むと月齢約24、下弦を過ぎた細い月です。この月がのぼるのは午前2〜3時ごろで、しずむのは午後2〜3時ごろ。午後6時にはもうしずんでいるので、どの方角にも見えません。' },
+
+  // ── 10月 理科 月の位置と見え方 基本問題 ─────────────────────────────────────────
+  { id:'tkm_01', subject:'tsukimie_kihon', month:'202610',
+    q:'基本問題1-(1)\n月の満ち欠けが起こる理由として、最も適切なものを次のア〜エから1つ選び、記号で答えなさい。',
+    options:['ア：月が自分で光ったり消えたりしているから。','イ：地球の影に月がかくされるから。','ウ：太陽、地球、月の位置関係が変わり、月の光る半分の見え方が変わるから。','エ：地球の自転によって、月を見る角度が変わるから。'], answer:2,
+    explanation:'月は自分では光らず、太陽の光を受けた半分だけが光っています。月が地球のまわりを回ると、太陽・地球・月の位置関係が変わり、光っている半分を地球からどれだけ見られるかが変わるため、満ち欠けして見えます。イは月食、エは1日の月の動きの説明です。' },
+  { id:'tkm_02', subject:'tsukimie_kihon', month:'202610',
+    qImage:'/images/tsukimie_zu.jpg',
+    q:'基本問題1-(2)\n地球から見て満月が見えるのは、月が図のどの位置にあるときですか。次のア〜エから1つ選び、記号で答えなさい。',
+    options:['ア：A','イ：C','ウ：E','エ：G'], answer:1,
+    explanation:'太陽は図の右側にあります。満月は、月が地球をはさんで太陽と反対側（C）にあり、光っている面がすべて地球を向くときです。' },
+  { id:'tkm_03', subject:'tsukimie_kihon', month:'202610',
+    qImage:'/images/tsukimie_zu.jpg',
+    q:'基本問題1-(3)\n地球から見て上弦の月が見えるのは、月が図のどの位置にあるときですか。次のア〜エから1つ選び、記号で答えなさい。',
+    options:['ア：A','イ：C','ウ：E','エ：G'], answer:0,
+    explanation:'月は矢印のとおり G（新月）→H→A→B→C（満月）→D→E→F の順に回ります。新月から4分の1周したA（新月から約7日後）が上弦の月で、右半分が光って見えます。' },
+  { id:'tkm_04', subject:'tsukimie_kihon', month:'202610',
+    qImage:'/images/tsukimie_zu.jpg',
+    q:'基本問題1-(4)\n地球から見て月が見えなくなる（新月）のは、月が図のどの位置にあるときですか。次のア〜エから1つ選び、記号で答えなさい。',
+    options:['ア：A','イ：C','ウ：E','エ：G'], answer:3,
+    explanation:'新月は、月が地球と太陽の間（太陽側のG）にあるときです。光っている面が地球と反対を向くので見えません。' },
+  { id:'tkm_05', subject:'tsukimie_kihon', month:'202610',
+    qImage:'/images/tsukimie_zu.jpg',
+    q:'基本問題1-(5)\n新月（太陽側にある位置G）にあるとき、月が見えないのはなぜですか。次のア〜エから1つ選び、記号で答えなさい。',
+    options:['ア：月の光っている側が、地球の反対を向いているから。','イ：月が地球の影に完全にかくれているから。','ウ：月が太陽の影に完全にかくれているから。','エ：月がとても遠い位置にあるから。'], answer:0,
+    explanation:'Gの月は太陽の光を太陽側の面に受けているので、光っている側が地球と反対を向き、地球からは暗い側しか見えません。地球の影にかくれるのは月食（満月のとき）です。' },
+  { id:'tkm_06', subject:'tsukimie_kihon', month:'202610',
+    qImage:'/images/tsukimie_zu.jpg',
+    q:'基本問題1-(6)\n満月（太陽と反対側にある位置C）にあるとき、月が丸く見えるのはなぜですか。次のア〜エから1つ選び、記号で答えなさい。',
+    options:['ア：月のすべての部分が光っているから。','イ：月の光っている側が、すべて地球に向いているから。','ウ：月が地球に最も近づき、大きく見えるから。','エ：地球の大気によって、月が丸く見えるから。'], answer:1,
+    explanation:'月はいつも太陽側の半分だけが光っています（アは×）。Cでは、その光っている半分がそっくり地球を向くので、丸く見えます。' },
+  { id:'tkm_07', subject:'tsukimie_kihon', month:'202610',
+    qImage:'/images/tsukimie_zu.jpg',
+    q:'基本問題2-(1)\n夕方（18時ごろ）、真南の空に見える月は図のA〜Hのどれですか。次のア〜エから選びなさい。',
+    options:['ア：A','イ：C','ウ：E','エ：G'], answer:0,
+    explanation:'太陽は右にあるので、地球の右側が正午、上側が夕方（18時）、左側が真夜中（0時）、下側が明け方（6時）です。夕方の人の真上（真南）にあるのはAの上弦の月です。' },
+  { id:'tkm_08', subject:'tsukimie_kihon', month:'202610',
+    qImage:'/images/tsukimie_zu.jpg',
+    q:'基本問題2-(2)\n真夜中（0時ごろ）に、地平線から昇る月は図のA〜Hのどれですか。次のア〜エから選びなさい。',
+    options:['ア：A','イ：C','ウ：E','エ：G'], answer:2,
+    explanation:'真夜中の人は地球の左側にいて、東は図の下の方向です。東の地平線から昇ってくるのはEの下弦の月です。下弦の月は真夜中に昇り、明け方に南中します。' },
+  { id:'tkm_09', subject:'tsukimie_kihon', month:'202610',
+    qImage:'/images/tsukimie_zu.jpg',
+    q:'基本問題2-(3)\n明け方（6時ごろ）、西の空に見える月は図のA〜Hのどれですか。次のア〜エから選びなさい。',
+    options:['ア：A','イ：C','ウ：E','エ：G'], answer:1,
+    explanation:'明け方の人は地球の下側にいて、西は図の左の方向です。そこにあるのはCの満月です。満月は夕方に昇り、真夜中に南中し、明け方に西へしずみます。' },
+  { id:'tkm_10', subject:'tsukimie_kihon', month:'202610',
+    qImage:'/images/tsukimie_zu.jpg',
+    q:'基本問題2-(4)\n夕方（18時ごろ）に地平線から昇る月は図のA〜Hのどれですか。次のア〜エから選びなさい。',
+    options:['ア：A','イ：C','ウ：E','エ：G'], answer:1,
+    explanation:'夕方の人は地球の上側にいて、東は図の左の方向です。東から昇るのはCの満月です。満月は太陽としずむ・昇るが入れかわる月です。' },
+  { id:'tkm_11', subject:'tsukimie_kihon', month:'202610',
+    qImage:'/images/tsukimie_zu.jpg',
+    q:'基本問題2-(5)\n図のHの位置の月は、いつごろ、どの方角の空に見えますか。次のア〜エから選びなさい。',
+    options:['ア：夕方、東の空','イ：夕方、西の空','ウ：真夜中、南の空','エ：明け方、西の空'], answer:1,
+    explanation:'Hは新月から少し進んだ三日月のころの月です。太陽のすぐあとを追うように動くので、夕方、太陽がしずんだあとの西の空に見えます。' },
+  { id:'tkm_12', subject:'tsukimie_kihon', month:'202610',
+    qImage:'/images/tsukimie_zu.jpg',
+    q:'基本問題2-(6)\n真夜中（0時ごろ）に南中する月は図のA〜Hのどれですか。次のア〜エから選びなさい。',
+    options:['ア：A','イ：C','ウ：E','エ：G'], answer:1,
+    explanation:'真夜中の人は地球の左側にいて、その真上（真南）にあるのはCの満月です。' },
+  { id:'tkm_13', subject:'tsukimie_kihon', month:'202610',
+    qImage:'/images/tsukimie_zu.jpg',
+    q:'基本問題2-(7)\n明け方（6時ごろ）に南中する月は図のA〜Hのどれですか。次のア〜エから選びなさい。',
+    options:['ア：A','イ：C','ウ：E','エ：G'], answer:2,
+    explanation:'明け方の人は地球の下側にいて、その真上（真南）にあるのはEの下弦の月です。' },
+  { id:'tkm_14', subject:'tsukimie_kihon', month:'202610',
+    qImage:'/images/tsukimie_zu.jpg',
+    q:'基本問題2-(8)\n夕方（18時ごろ）に地平線にしずむ月は図のA〜Hのどれですか。次のア〜エから選びなさい。',
+    options:['ア：A','イ：C','ウ：E','エ：G'], answer:3,
+    explanation:'夕方の人は地球の上側にいて、西は図の右の方向（太陽の方向）です。太陽といっしょにしずむのはGの新月です（新月なので実際には見えません）。' },
+  { id:'tkm_15', subject:'tsukimie_kihon', month:'202610',
+    qImage:'/images/tsukimie_zu.jpg',
+    q:'基本問題2-(9)\n真夜中（0時ごろ）に地平線にしずむ月は図のA〜Hのどれですか。次のア〜エから選びなさい。',
+    options:['ア：A','イ：C','ウ：E','エ：G'], answer:0,
+    explanation:'真夜中の人は地球の左側にいて、西は図の上の方向です。そこにあるのはAの上弦の月です。上弦の月は昼ごろ昇り、夕方南中し、真夜中にしずみます。' },
+  { id:'tkm_16', subject:'tsukimie_kihon', month:'202610',
+    qImage:'/images/tsukimie_zu.jpg',
+    q:'基本問題2-(10)\nFの位置にある月はいつごろ、どの方角の空に見えますか。次のア〜エから選びなさい。',
+    options:['ア：夕方、西の空','イ：真夜中、南の空','ウ：真夜中、西の空','エ：明け方、東の空'], answer:3,
+    explanation:'Fは下弦（E）から新月（G）に向かうとちゅうの、左側が細く光る月です。太陽より少し先に昇るので、明け方、東の空に見えます。' },
 
   // ── 9月 社会 日本の農業１ 基本問題 ─────────────────────────────────────────
   { id:'nog1_01', subject:'nougyou1_kihon', month:'202609', type:'selfjudge',
@@ -9721,6 +10014,24 @@ const QUESTIONS = [
     q:'練習問題2-(4)\n新潟県の越後平野などを流れる、日本で一番長い川の名前は何ですか。',
     answer:'信濃川',
     explanation:'信濃川は長さ約367kmで日本一長い川です。長野県では千曲川とよばれ、新潟県の越後平野を通って日本海に注ぎます。' },
+
+  // ── 9月 社会 日本の農業１ 過去問演習 ─────────────────────────────────────────
+  { id:'nog1_k01', subject:'nougyou1_kakomon', month:'202609',
+    q:'過去問演習1\n田んぼや田植えに関する説明として正しいものを次から1つ選びなさい。',
+    options:['ア：稲をしっかり育てるために、田んぼに水を入れ、土を砕いて平らにならす田おこしが行われる。','イ：種もみを直接田畑にまく、直まきが米作りの主流となっている。','ウ：同じ土地で稲作を続けるため、田んぼでは連作障害が生じやすい。','エ：傾斜が急な山地などでも、棚田という形で田んぼが作られている。'], answer:3,
+    explanation:'山の斜面を階段状にした「棚田」は、傾斜が急な土地でも米作りをするくふうです（エ）。ア：水を入れて土を砕き平らにするのは「代かき」。田おこしは田の土を掘り起こす作業です。イ：日本の米作りは苗を育ててから植える「田植え」が主流です。ウ：田んぼは水が養分を運び、病原菌なども流すので、同じ土地で続けても連作障害が起こりにくいのが特ちょうです。' },
+  { id:'nog1_k02', subject:'nougyou1_kakomon', month:'202609',
+    q:'過去問演習2\n東北地方の稲作について述べられた文章のうち、正しいものを1つ選びなさい。',
+    options:['ア：寒冷な東北地方は稲作に不向きであったが、温暖化によって気候が変わったために稲作ができるようになった。','イ：東北地方に夏に北西から吹く冷たい風は、この地域を涼しくするため、米の収穫量を増やす。','ウ：東北地方の米どころといえば、北上川の流域にある山形県の庄内平野などが有名である。','エ：東北地方の稲作農家は、全国の稲作農家と同じように兼業農家が大半を占める。','オ：東北地方で生産される米は値段が高いため、海外から輸入される価格の安い米よりも日本国内での販売量は少ない。'], answer:3,
+    explanation:'東北地方の稲作農家も、全国と同じく兼業農家が大半です（エ）。ア：寒さに強い品種への改良や技術の進歩で稲作がさかんになりました。イ：夏に北東から吹く冷たく湿った風「やませ」は、冷害を起こして収穫量を減らします。ウ：庄内平野を流れるのは最上川です（北上川は岩手・宮城）。オ：国産米のほうが輸入米よりずっと多く販売されています。' },
+  { id:'nog1_k03', subject:'nougyou1_kakomon', month:'202609', type:'selfjudge',
+    q:'過去問演習3\n福岡県では耕地面積（79,700ha）よりも作付け延べ面積（91,400ha）のほうが大きくなっており、耕地利用率は100％を超えている（115％）。これは福岡県で（　）作がさかんなためである。空らんにあてはまる言葉を漢字2字で答えなさい。',
+    answer:'二毛',
+    explanation:'同じ耕地で1年に2種類の作物をつくる「二毛作」がさかんだと、のべの作付け面積が耕地面積より大きくなり、耕地利用率が100％をこえます。福岡県の筑紫平野では、夏に米、冬に小麦や大麦をつくる二毛作が行われています。' },
+  { id:'nog1_k04', subject:'nougyou1_kakomon', month:'202609', type:'selfjudge',
+    q:'過去問演習4\n日本では長年にわたってコメの品種改良がつづけられてきました。温暖化対策の前、長年の品種改良ではどのような気候に対応することが目的とされてきましたか。',
+    answer:'（例）寒さの厳しい気候',
+    explanation:'稲はもともと暖かい地域の作物なので、東北や北海道など寒い地域でも育つように、寒さや冷害に強い品種への改良が長く続けられてきました。近年は逆に、温暖化による暑さに強い品種の開発も進められています。' },
 
   // ── 9月 社会 日本の農業２ 基本問題 ─────────────────────────────────────────
   { id:'nog2_01', subject:'nougyou2_kihon', month:'202609', type:'selfjudge',
@@ -9873,6 +10184,157 @@ const QUESTIONS = [
     q:'練習問題2-(4)\n静岡県の大井川流域にある、茶の栽培がさかんな台地の名前を答えなさい。',
     answer:'牧之原台地',
     explanation:'牧之原台地（まきのはらだいち）は大井川の下流の西側に広がる台地で、日本有数の茶の産地です。' },
+
+  // ── 9月 社会 日本の農業２ 過去問演習 ─────────────────────────────────────────
+  { id:'nog2_k01', subject:'nougyou2_kakomon', month:'202609',
+    q:'過去問演習1\n以下のAとBの文章で述べられている「工芸作物」について、組み合わせが正しいものをア～カから1つ選びなさい。\nA：昨年は、日本三大急流の一つである川が、大量の雨水により氾濫を起こし被害をもたらしました。この県では、カルデラ地形で有名な山もあり、豊かな自然が特徴です。県南地方ではある工芸作物の生産がさかんとなっており、県内シェアの96％を占めています。\nB：県内には流域面積が日本一である川が流れています。キャベツの生産が日本一であるほか、ある工芸作物の生産も日本一となっています。県内には、町内人口の約10％がある国の人である町もあります。',
+    options:['ア：A―いぐさ　B―茶','イ：A―こんにゃくいも　B―いぐさ','ウ：A―いぐさ　B―なたね','エ：A―茶　B―こんにゃくいも','オ：A―いぐさ　B―こんにゃくいも','カ：A―なたね　B―こんにゃくいも'], answer:4,
+    explanation:'Aは熊本県です。日本三大急流の球磨川、カルデラで有名な阿蘇山があり、県南の八代平野ではたたみの原料の「いぐさ」がさかんにつくられています。Bは群馬県です。流域面積日本一の利根川が流れ、嬬恋村のキャベツが有名で、「こんにゃくいも」の生産は全国の大部分をしめています。大泉町はブラジル人など外国の人が多く住む町です。よってオ。' },
+  { id:'nog2_k02', subject:'nougyou2_kakomon', month:'202609', type:'selfjudge',
+    q:'過去問演習2\n静岡県にある牧ノ原台地では、ある工芸作物の栽培がさかんに行われています。この工芸作物の名称を答えなさい。',
+    answer:'茶',
+    explanation:'牧ノ原台地は大井川の下流に広がる水はけのよい台地で、日本有数の茶の産地です。静岡県は茶の生産量が全国トップクラスです。' },
+  { id:'nog2_k03', subject:'nougyou2_kakomon', month:'202609',
+    qImage:'/images/nougyou2_k_chizu.jpg', qImage2:'/images/nougyou2_k_shashin.jpg',
+    q:'過去問演習3\n資料1（地図）は、ある工芸作物の生産量上位5県（2011年）を示しています。資料1で示されている工芸作物を、下の写真ア〜エから選び、記号で答えなさい。',
+    options:['ア','イ','ウ','エ'], answer:3,
+    explanation:'色がぬられているのは静岡・三重・京都・宮崎・鹿児島で、茶の産地です。エは、かまぼこ形にきれいに刈りそろえられた茶畑です（立っている柱は、霜の害を防ぐための防霜ファン）。アはさとうきび、イはいぐさの畑です。' },
+
+  // ── 9月 国語 名詞 基本問題 ─────────────────────────────────────────
+  { id:'msh_01', subject:'meishi9_kihon', month:'202609',
+    q:'基本問題1-(1)\n次の選択肢の中から「普通名詞」を選び、記号で答えなさい。',
+    options:['ア 七枚','イ あれ','ウ どなた','エ 筆箱','オ 佐藤さん','カ 静岡県','キ おれ','ク 十四番目','ケ 利根川','コ ここ'], answer:3,
+    explanation:'普通名詞は、同じ種類のもの全体に使える一般的な名前です。「筆箱」はどの筆箱にも使える名前なので普通名詞（エ）。「佐藤さん」「静岡県」「利根川」はただ一つのものの名前なので固有名詞、「七枚」「十四番目」は数詞、「あれ」「どなた」「おれ」「ここ」は代名詞です。' },
+  { id:'msh_02', subject:'meishi9_kihon', month:'202609', type:'selfjudge',
+    q:'基本問題1-(2)\n次の選択肢の中から「固有名詞」をすべて選び、記号で答えなさい。\n【選択肢】ア 七枚／イ あれ／ウ どなた／エ 筆箱／オ 佐藤さん／カ 静岡県／キ おれ／ク 十四番目／ケ 利根川／コ ここ',
+    answer:'オ、カ、ケ',
+    explanation:'固有名詞は、人名・地名・国名など、ただ一つのものにつけられた名前です。「佐藤さん」（人名）、「静岡県」（地名）、「利根川」（川の名前）が固有名詞です。' },
+  { id:'msh_03', subject:'meishi9_kihon', month:'202609', type:'selfjudge',
+    q:'基本問題1-(3)\n次の選択肢の中から「数詞」をすべて選び、記号で答えなさい。\n【選択肢】ア 七枚／イ あれ／ウ どなた／エ 筆箱／オ 佐藤さん／カ 静岡県／キ おれ／ク 十四番目／ケ 利根川／コ ここ',
+    answer:'ア、ク',
+    explanation:'数詞は、ものの数や量・順番を表す名詞です。「七枚」（数）、「十四番目」（順番）が数詞です。' },
+  { id:'msh_04', subject:'meishi9_kihon', month:'202609', type:'selfjudge',
+    q:'基本問題1-(4)\n次の選択肢の中から「人称代名詞」をすべて選び、記号で答えなさい。\n【選択肢】ア 七枚／イ あれ／ウ どなた／エ 筆箱／オ 佐藤さん／カ 静岡県／キ おれ／ク 十四番目／ケ 利根川／コ ここ',
+    answer:'ウ、キ',
+    explanation:'人称代名詞は、人を指し示す代名詞です。「どなた」（だれかをていねいにたずねる）、「おれ」（自分を指す）が人称代名詞です。' },
+  { id:'msh_05', subject:'meishi9_kihon', month:'202609', type:'selfjudge',
+    q:'基本問題1-(5)\n次の選択肢の中から「指示代名詞」をすべて選び、記号で答えなさい。\n【選択肢】ア 七枚／イ あれ／ウ どなた／エ 筆箱／オ 佐藤さん／カ 静岡県／キ おれ／ク 十四番目／ケ 利根川／コ ここ',
+    answer:'イ、コ',
+    explanation:'指示代名詞は、物・場所・方向などを指し示す代名詞です。「あれ」（物）、「ここ」（場所）が指示代名詞です。' },
+  { id:'msh_06', subject:'meishi9_kihon', month:'202609',
+    q:'基本問題2-①\n次の文の①「三日前」の名詞の種類を選び、記号で答えなさい。\n『①三日前、私は学校でブラジルの文化について調べた。そこは日本とのかかわりが深いとわかり、次に他の国についても調べることにした。』',
+    options:['ア 普通名詞','イ 固有名詞','ウ 数詞','エ 代名詞','オ 形式名詞'], answer:2,
+    explanation:'「三日前」は日にち（時間の量）を数で表す言葉なので「数詞」です。' },
+  { id:'msh_07', subject:'meishi9_kihon', month:'202609',
+    q:'基本問題2-②\n次の文の②「学校」の名詞の種類を選び、記号で答えなさい。\n『三日前、私は②学校でブラジルの文化について調べた。そこは日本とのかかわりが深いとわかり、次に他の国についても調べることにした。』',
+    options:['ア 普通名詞','イ 固有名詞','ウ 数詞','エ 代名詞','オ 形式名詞'], answer:0,
+    explanation:'「学校」は同じ種類のもの全体に使える一般的な名前なので「普通名詞」です。' },
+  { id:'msh_08', subject:'meishi9_kihon', month:'202609',
+    q:'基本問題2-③\n次の文の③「ブラジル」の名詞の種類を選び、記号で答えなさい。\n『三日前、私は学校で③ブラジルの文化について調べた。そこは日本とのかかわりが深いとわかり、次に他の国についても調べることにした。』',
+    options:['ア 普通名詞','イ 固有名詞','ウ 数詞','エ 代名詞','オ 形式名詞'], answer:1,
+    explanation:'「ブラジル」は国の名前で、ただ一つのものを表すので「固有名詞」です。' },
+  { id:'msh_09', subject:'meishi9_kihon', month:'202609',
+    q:'基本問題2-④\n次の文の④「そこ」の名詞の種類を選び、記号で答えなさい。\n『三日前、私は学校でブラジルの文化について調べた。④そこは日本とのかかわりが深いとわかり、次に他の国についても調べることにした。』',
+    options:['ア 普通名詞','イ 固有名詞','ウ 数詞','エ 代名詞','オ 形式名詞'], answer:3,
+    explanation:'「そこ」は前に出た「ブラジル」を指し示す言葉なので「代名詞」（指示代名詞）です。' },
+  { id:'msh_10', subject:'meishi9_kihon', month:'202609',
+    q:'基本問題2-⑤\n次の文の⑤「こと」の名詞の種類を選び、記号で答えなさい。\n『三日前、私は学校でブラジルの文化について調べた。そこは日本とのかかわりが深いとわかり、次に他の国についても調べる⑤ことにした。』',
+    options:['ア 普通名詞','イ 固有名詞','ウ 数詞','エ 代名詞','オ 形式名詞'], answer:4,
+    explanation:'「こと」は本来の意味がうすれ、「調べる」という前の言葉を受けて形式的に使われているので「形式名詞」です。' },
+
+  // ── 9月 国語 名詞 補充問題 ─────────────────────────────────────────
+  { id:'msh_h01', subject:'meishi9_hojuu', month:'202609', type:'selfjudge',
+    q:'補充問題1-(1)\n次の文の中から名詞をすべてぬき出しなさい。\n『赤い大きな花が庭に咲いた。』',
+    answer:'花、庭',
+    explanation:'「赤い」は形容詞、「大きな」は連体詞、「咲い（た）」は動詞です。ものの名前を表す「花」「庭」が名詞です。' },
+  { id:'msh_h02', subject:'meishi9_hojuu', month:'202609', type:'selfjudge',
+    q:'補充問題1-(2)\n次の文の中から名詞をすべてぬき出しなさい。\n『あれは、隣の人の車だ。』',
+    answer:'あれ、隣、人、車',
+    explanation:'「あれ」は物を指す代名詞（指示代名詞）で、代名詞も名詞のなかまです。「隣」「人」「車」も名詞です。' },
+  { id:'msh_h03', subject:'meishi9_hojuu', month:'202609', type:'selfjudge',
+    q:'補充問題1-(3)\n次の文の中から名詞をすべてぬき出しなさい。\n『私は、将来、教師になりたいと考えています。』',
+    answer:'私、将来、教師',
+    explanation:'「私」は人称代名詞、「将来」「教師」は普通名詞です。「なり（たい）」「考え（て）」は動詞です。' },
+  { id:'msh_h04', subject:'meishi9_hojuu', month:'202609', type:'selfjudge',
+    q:'補充問題1-(4)\n次の文の中から名詞をすべてぬき出しなさい。\n『お母さんが弟に「早く起きなさい」と言った。』',
+    answer:'お母さん、弟',
+    explanation:'「早く」は形容詞、「起き（なさい）」「言っ（た）」は動詞です。名詞は「お母さん」「弟」です。' },
+  { id:'msh_h05', subject:'meishi9_hojuu', month:'202609', type:'selfjudge',
+    q:'補充問題1-(5)\n次の文の中から名詞をすべてぬき出しなさい。\n『私はぶどうよりもバナナのほうが好きです。』',
+    answer:'私、ぶどう、バナナ、ほう',
+    explanation:'「ほう」は本来の方向の意味がうすれ、くらべる意味で形式的に使われている形式名詞です。形式名詞も名詞です。「好きです」は形容動詞です。' },
+  { id:'msh_h06', subject:'meishi9_hojuu', month:'202609', type:'selfjudge',
+    q:'補充問題1-(6)\n次の文の中から名詞をすべてぬき出しなさい。\n『昨日、家族と浅草へ行った。そこではたくさんの外国人が観光をしていた。』',
+    answer:'昨日、家族、浅草、そこ、外国人、観光',
+    explanation:'「昨日」は時を表す名詞、「浅草」は固有名詞、「そこ」は指示代名詞です。「観光（を）」も「〜を」がつくので名詞です。' },
+
+  // ── 9月 国語 動詞 基本問題 ─────────────────────────────────────────
+  { id:'dsh_01', subject:'doushi9_kihon', month:'202609', type:'selfjudge',
+    q:'基本問題1-(1)\n次の文の［　］の動詞の言い切りの形を答えなさい。\n『本を［読み］たかった。』',
+    answer:'読む',
+    explanation:'「読み（たかった）」は、言い切ると「読む」。動詞の言い切りの形（終止形）は、ウ段の音（む・ぶ・う…）で終わります。' },
+  { id:'dsh_02', subject:'doushi9_kihon', month:'202609', type:'selfjudge',
+    q:'基本問題1-(2)\n次の文の［　］の動詞の言い切りの形を答えなさい。\n『今日、［遊び］ましょう。』',
+    answer:'遊ぶ',
+    explanation:'「遊び（ましょう）」は、言い切ると「遊ぶ」です。' },
+  { id:'dsh_03', subject:'doushi9_kihon', month:'202609', type:'selfjudge',
+    q:'基本問題1-(3)\n次の文の［　］の動詞の言い切りの形を答えなさい。\n『書道では書写を［習い］ます。』',
+    answer:'習う',
+    explanation:'「習い（ます）」は、言い切ると「習う」です。' },
+  { id:'dsh_04', subject:'doushi9_kihon', month:'202609', type:'selfjudge',
+    q:'基本問題2-(1)\n次の文がほとんど同じ意味になるように、［　］の動詞の形を変えなさい。\n『水を［流す］。』→「水が（　　）。」',
+    answer:'流れる',
+    explanation:'「水を流す」は人が水に何かをする言い方（他動詞）、「水が流れる」は水そのものの動きを表す言い方（自動詞）です。「〜を」なら流す、「〜が」なら流れる。' },
+  { id:'dsh_05', subject:'doushi9_kihon', month:'202609', type:'selfjudge',
+    q:'基本問題2-(2)\n次の文がほとんど同じ意味になるように、［　］の動詞の形を変えなさい。\n『火が［消える］。』→「火を（　　）。」',
+    answer:'消す',
+    explanation:'「火が消える」（自動詞）⇔「火を消す」（他動詞）。「〜を」がつくと、人が何かに働きかける動詞になります。' },
+  { id:'dsh_06', subject:'doushi9_kihon', month:'202609', type:'selfjudge',
+    q:'基本問題2-(3)\n次の文がほとんど同じ意味になるように、［　］の動詞の形を変えなさい。\n『目が［覚める］。』→「目を（　　）。」',
+    answer:'覚ます',
+    explanation:'「目が覚める」（自動詞）⇔「目を覚ます」（他動詞）です。' },
+  { id:'dsh_07', subject:'doushi9_kihon', month:'202609', type:'selfjudge',
+    q:'基本問題2-(4)\n次の文がほとんど同じ意味になるように、［　］の動詞の形を変えなさい。\n『お金を［ためる］。』→「お金が（　　）。」',
+    answer:'たまる',
+    explanation:'「お金をためる」（他動詞）⇔「お金がたまる」（自動詞）です。' },
+
+  // ── 9月 国語 動詞 補充問題 ─────────────────────────────────────────
+  { id:'dsh_h01', subject:'doushi9_hojuu', month:'202609', type:'selfjudge',
+    q:'補充問題1-(1)\n次の文の（　）の言葉を、意味が通るように形を直しなさい。\n『急がば（まわる）。』',
+    answer:'まわれ',
+    explanation:'ことわざ「急がば回れ」。急ぐときほど、遠回りでも安全な道を行くほうが結局早いという意味。「回れ」は命令の形（命令形）です。' },
+  { id:'dsh_h02', subject:'doushi9_hojuu', month:'202609', type:'selfjudge',
+    q:'補充問題1-(2)\n次の文の（　）の言葉を、意味が通るように形を直しなさい。\n『三人（寄る）ば文殊の知恵。』',
+    answer:'寄れ',
+    explanation:'ことわざ「三人寄れば文殊の知恵」。「ば」に続くときは「寄れ（ば）」の形（仮定形）になります。' },
+  { id:'dsh_h03', subject:'doushi9_hojuu', month:'202609', type:'selfjudge',
+    q:'補充問題1-(3)\n次の文の（　）の言葉を、意味が通るように形を直しなさい。\n『（飛ぶ）て火にいる夏の虫。』',
+    answer:'飛ん',
+    explanation:'ことわざ「飛んで火にいる夏の虫」。「飛ぶ」に「て」がつくと「飛んで」と音が変わります（撥音便）。' },
+  { id:'dsh_h04', subject:'doushi9_hojuu', month:'202609', type:'selfjudge',
+    q:'補充問題1-(4)\n次の文の（　）の言葉を、意味が通るように形を直しなさい。\n『人のふり（見る）我がふり直せ。』',
+    answer:'見て',
+    explanation:'ことわざ「人のふり見て我がふり直せ」。後ろに言葉が続くので「見て」の形にします。' },
+  { id:'dsh_h05', subject:'doushi9_hojuu', month:'202609', type:'selfjudge',
+    q:'補充問題1-(5)\n次の文の（　）の言葉を、意味が通るように形を直しなさい。\n『（寄る）ば大樹の陰。』',
+    answer:'寄ら',
+    explanation:'ことわざ「寄らば大樹の陰」。昔の言い方で、「寄らば」＝「もし寄るなら」という意味です。' },
+  { id:'dsh_h06', subject:'doushi9_hojuu', month:'202609', type:'selfjudge',
+    q:'補充問題1-(6)\n次の文の（　）の言葉を、意味が通るように形を直しなさい。\n『彼は絶対に（泣く）ない。』',
+    answer:'泣か',
+    explanation:'「ない」に続くときは「泣か（ない）」の形（未然形）になります。' },
+  { id:'dsh_h07', subject:'doushi9_hojuu', month:'202609', type:'selfjudge',
+    q:'補充問題1-(7)\n次の文の（　）の言葉を、意味が通るように形を直しなさい。\n『母に早く（ねる）なさいと怒られる。』',
+    answer:'ね',
+    explanation:'「なさい」に続くときは「寝（なさい）」＝「ね」の形（連用形）になります。' },
+  { id:'dsh_h08', subject:'doushi9_hojuu', month:'202609', type:'selfjudge',
+    q:'補充問題1-(8)\n次の文の（　）の言葉を、意味が通るように形を直しなさい。\n『兄にそうじを（する）と命令された。』',
+    answer:'しろ（せよ）',
+    explanation:'「命令された」とあるので命令の形（命令形）。「する」の命令形は「しろ」または「せよ」です。' },
+  { id:'dsh_h09', subject:'doushi9_hojuu', month:'202609', type:'selfjudge',
+    q:'補充問題1-(9)\n次の文の（　）の言葉を、意味が通るように形を直しなさい。\n『うちに（くる）て、おやつを食べよう。』',
+    answer:'き',
+    explanation:'「来る」に「て」がつくと「来（き）て」になります。「来る」は形の変わり方が特別な動詞（カ行変格活用）です。' },
 
   // ── 8月 理科 夏のいきもの 練習問題 ─────────────────────────────────────────
   { id:'ntu_r01', subject:'natsu_renshu', month:'202608', type:'selfjudge',
@@ -11602,6 +12064,36 @@ function loadWrongSet(){ try { return new Set(JSON.parse(localStorage.getItem(wr
 function saveWrongSet(s){ localStorage.setItem(wrongKey(), JSON.stringify([...s])); }
 function loadCorrectCounts(){ try { return JSON.parse(localStorage.getItem(correctCountKey()) || '{}'); } catch(e) { return {}; } }
 function saveCorrectCounts(c){ localStorage.setItem(correctCountKey(), JSON.stringify(c)); }
+// 正解した日の記録（ちがう日に2回正解したら「もう完璧」にできる）{ 問題ID: ['2026-09-19', ...] }
+function correctDaysKey()  { return 'ena_correct_days_' + state.selectedMonth; }
+function loadCorrectDays() { try { return JSON.parse(localStorage.getItem(correctDaysKey()) || '{}'); } catch(e) { return {}; } }
+function saveCorrectDays(d){ localStorage.setItem(correctDaysKey(), JSON.stringify(d)); }
+function todayStr() {
+  const d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+}
+// 今日の正解を記録。今日はじめての正解なら true（「押し間違えた」で取り消せるように覚えておく）
+function recordCorrectDay(q) {
+  const days = loadCorrectDays(), t = todayStr();
+  const list = days[q.id] || [];
+  if (list.includes(t)) { state.dayAddedFor = null; return false; }
+  list.push(t); days[q.id] = list; saveCorrectDays(days);
+  state.dayAddedFor = q.id;
+  return true;
+}
+function unrecordTodayCorrect(q) {
+  if (state.dayAddedFor !== q.id) return;
+  const days = loadCorrectDays(), t = todayStr();
+  days[q.id] = (days[q.id] || []).filter(d => d !== t);
+  if (!days[q.id].length) delete days[q.id];
+  saveCorrectDays(days);
+  state.dayAddedFor = null;
+}
+// 今日正解していて、しかも前の日にも正解している → もう完璧にしてよい
+function canMasterNow(q) {
+  const list = loadCorrectDays()[q.id] || [], t = todayStr();
+  return list.includes(t) && list.some(d => d !== t);
+}
 function loadMasteredSet(){ try { return new Set(JSON.parse(localStorage.getItem(masteredKey()) || '[]')); } catch(e) { return new Set(); } }
 function saveMasteredSet(s){ localStorage.setItem(masteredKey(), JSON.stringify([...s])); }
 function loadWrongCounts(){ try { return JSON.parse(localStorage.getItem(wrongCountKey()) || '{}'); } catch(e) { return {}; } }
@@ -11656,11 +12148,14 @@ function selectSchool(schoolId) {
   document.getElementById('gakuhan-btn').style.display       = schoolId === 'ena'   ? '' : 'none';
   document.getElementById('yonka-btn').style.display         = schoolId === 'ena'   ? '' : 'none';
   document.getElementById('gouhan-moshi-btn').style.display  = schoolId === 'ena'   ? '' : 'none';
+  document.getElementById('zunda-btn').style.display         = schoolId === 'ena'   ? '' : 'none';
   document.getElementById('gakuhan-eikoh-btn').style.display = schoolId === 'eikoh' ? '' : 'none';
+  document.getElementById('yakusu-btn').style.display        = schoolId === 'eikoh' ? '' : 'none';
   initMonthSelect();
 }
 
 function showSchoolSelect() {
+  document.getElementById('video-list').style.display = 'none';
   const dexEl = document.getElementById('dex-screen'); if (dexEl) dexEl.style.display = 'none';
   document.getElementById('pet-screen').style.display = 'none';
   document.getElementById('month-select').style.display = 'none';
@@ -11671,6 +12166,7 @@ function showSchoolSelect() {
 }
 
 function showMonthSelect() {
+  document.getElementById('video-list').style.display = 'none';
   const dexEl = document.getElementById('dex-screen'); if (dexEl) dexEl.style.display = 'none';
   document.getElementById('pet-screen').style.display = 'none';
   document.getElementById('home').style.display = 'none';
@@ -11681,13 +12177,16 @@ function showMonthSelect() {
   document.getElementById('gakuhan-btn').style.display       = state.selectedSchool === 'ena'   ? '' : 'none';
   document.getElementById('yonka-btn').style.display         = state.selectedSchool === 'ena'   ? '' : 'none';
   document.getElementById('gouhan-moshi-btn').style.display  = state.selectedSchool === 'ena'   ? '' : 'none';
+  document.getElementById('zunda-btn').style.display         = state.selectedSchool === 'ena'   ? '' : 'none';
   document.getElementById('gakuhan-eikoh-btn').style.display = state.selectedSchool === 'eikoh' ? '' : 'none';
+  document.getElementById('yakusu-btn').style.display        = state.selectedSchool === 'eikoh' ? '' : 'none';
 }
 
 // ============================================================
 // ホーム画面
 // ============================================================
 function showHome() {
+  document.getElementById('video-list').style.display = 'none';
   const dexEl = document.getElementById('dex-screen'); if (dexEl) dexEl.style.display = 'none';
   document.getElementById('pet-screen').style.display = 'none';
   document.getElementById('month-select').style.display = 'none';
@@ -11813,6 +12312,8 @@ function initHome() {
     (state.selectedSchool === 'eikoh' && state.selectedMonth !== 'eikoh_kiso2026') ? 'block' : 'none';
   document.getElementById('enabase-header-btn').style.display =
     state.selectedMonth === '202606' ? '' : 'none';
+  document.getElementById('rpg-header-btn').style.display =
+    state.selectedMonth === '202609' ? '' : 'none';
 
   const stats = loadStats();
   const wrongSet = loadWrongSet();
@@ -11842,6 +12343,10 @@ function initHome() {
 
   // 月うさぎ育成カード
   renderPetCard();
+
+  // 🪙 アンリノメダル（この月のコンプリート分を拾ってから表示）
+  medalAward(state.selectedMonth);
+  renderMedalBar();
 }
 
 function renderStatsBar(filterCatKey) {
@@ -12108,11 +12613,12 @@ function showCategoryTopics(catKey) {
         kbtn2.innerHTML = `<div class="kyokasho-icon">${kIcon2}</div><div class="kyokasho-label">${kLabel2}</div><div class="kyokasho-sub">${kSub2}</div>`;
         wrapper.appendChild(kbtn2);
       }
+      appendChannelVideoBtns(wrapper, topicKey);
       topicGrid.appendChild(wrapper);
       return;
     }
     const total = qs.filter(q => q.subject === topicKey).length;
-    if (total === 0 && !topic.ref && !topic.video) return;
+    if (total === 0 && !topic.ref && !topic.video && !channelVideosFor(topicKey).length) return;
     if (total > 0) {
       const btn = document.createElement('button');
       btn.className = 'topic-btn';
@@ -12137,6 +12643,7 @@ function showCategoryTopics(catKey) {
       kbtn.innerHTML = `<div class="kyokasho-icon">${kIcon}</div><div class="kyokasho-label">${kLabel}</div><div class="kyokasho-sub">${kSub}${refStatStr}</div>`;
       topicGrid.appendChild(kbtn);
     }
+    appendChannelVideoBtns(topicGrid, topicKey);
 
     // 科目別アクションボタン（苦手・完璧・超苦手）
     const subWrong      = qs.filter(q => q.subject === topicKey && wrongSet.has(q.id)).length;
@@ -12241,7 +12748,7 @@ function startSuperWrongQuiz() {
 
 function startMasteredQuiz() {
   const mastered = loadMasteredSet();
-  if (mastered.size === 0) { alert('まだ完璧な問題がないよ。3回正解するともう完璧になるよ！'); return; }
+  if (mastered.size === 0) { alert('まだ完璧な問題がないよ。ちがう日に2回正解すると「⭐ もう完璧にする」が押せるよ！'); return; }
   const qs = monthQuestions();
   state.mode = 'review';
   state.currentSubject = 'mastered';
@@ -12283,7 +12790,7 @@ function startSubjectMastered(subjectKey) {
   const mastered = loadMasteredSet();
   const qs = monthQuestions();
   const queue = shuffle(qs.filter(q => q.subject === subjectKey && mastered.has(q.id)));
-  if (queue.length === 0) { alert('この科目にまだ完璧な問題がないよ。3回正解するともう完璧になるよ！'); return; }
+  if (queue.length === 0) { alert('この科目にまだ完璧な問題がないよ。ちがう日に2回正解すると「⭐ もう完璧にする」が押せるよ！'); return; }
   state.mode = 'review';
   state.currentSubject = subjectKey;
   state.queue = queue;
@@ -12810,7 +13317,7 @@ function recordSelfJudge(status) {
     // 合ってたけど不安：正解にはカウントするが、復習リストに入れる（マスター用の連続正解は増やさない）
     state.correct++;
     document.getElementById('feedback-label').textContent = '合ってたけど不安…復習リストに入れたよ 🤔';
-    document.getElementById('manual-master-btn').style.display = 'none';
+    showManualMasterBtn(q, loadCorrectCounts(), false);
     state.sessionWrong.push(q.id);
     const wrongSet = loadWrongSet(); wrongSet.add(q.id); saveWrongSet(wrongSet);
   } else if (isCorrect) {
@@ -12818,19 +13325,11 @@ function recordSelfJudge(status) {
     document.getElementById('feedback-label').textContent = '合ってた！さすが！';
     const wrongSet = loadWrongSet(); wrongSet.delete(q.id); saveWrongSet(wrongSet);
     const counts = loadCorrectCounts(); counts[q.id] = (counts[q.id]||0)+1; saveCorrectCounts(counts);
-    if (counts[q.id] >= 3) {
-      const mastered = loadMasteredSet(); mastered.add(q.id); saveMasteredSet(mastered);
-      document.getElementById('feedback-label').textContent = '⭐ もう完璧！3回正解！' + petShardNote();
-      document.getElementById('manual-master-btn').style.display = 'none';
-    } else if (counts[q.id] >= 2) {
-      document.getElementById('manual-master-btn').style.display = 'block';
-      document.getElementById('manual-master-btn').textContent = `⭐ もう完璧にする（${counts[q.id]}回正解済み）`;
-    } else {
-      document.getElementById('manual-master-btn').style.display = 'none';
-    }
+    recordCorrectDay(q);
+    showManualMasterBtn(q, counts);
   } else {
     document.getElementById('feedback-label').textContent = '間違えた…もう一度確認しよう！';
-    document.getElementById('manual-master-btn').style.display = 'none';
+    showManualMasterBtn(q, loadCorrectCounts(), false);
     state.sessionWrong.push(q.id);
     const wrongSet = loadWrongSet(); wrongSet.add(q.id); saveWrongSet(wrongSet);
     const wCounts = loadWrongCounts(); wCounts[q.id]=(wCounts[q.id]||0)+1; saveWrongCounts(wCounts);
@@ -12873,6 +13372,7 @@ function undoSelfJudge(status) {
   } else if (wasCorrect) {
     state.correct = Math.max(0, state.correct - 1);
     const counts = loadCorrectCounts(); counts[q.id] = Math.max(0, (counts[q.id]||1)-1); saveCorrectCounts(counts);
+    unrecordTodayCorrect(q);
     const mastered = loadMasteredSet(); mastered.delete(q.id); saveMasteredSet(mastered);
   } else {
     const wrongSet = loadWrongSet(); wrongSet.delete(q.id); saveWrongSet(wrongSet);
@@ -12944,12 +13444,11 @@ function submitInputAnswer() {
     document.getElementById('feedback-label').textContent = '正解！すごい！';
     const wrongSet = loadWrongSet(); wrongSet.delete(q.id); saveWrongSet(wrongSet);
     const counts = loadCorrectCounts(); counts[q.id] = (counts[q.id]||0)+1; saveCorrectCounts(counts);
-    if (counts[q.id] >= 3) {
-      const mastered = loadMasteredSet(); mastered.add(q.id); saveMasteredSet(mastered);
-      document.getElementById('feedback-label').textContent = '⭐ もう完璧！3回正解！' + petShardNote();
-    }
+    recordCorrectDay(q);
+    showManualMasterBtn(q, counts);
   } else {
     document.getElementById('feedback-label').textContent = 'おしい…！';
+    showManualMasterBtn(q, loadCorrectCounts(), false);
     state.sessionWrong.push(q.id);
     const wrongSet = loadWrongSet(); wrongSet.add(q.id); saveWrongSet(wrongSet);
     const wCounts = loadWrongCounts(); wCounts[q.id]=(wCounts[q.id]||0)+1; saveWrongCounts(wCounts);
@@ -13012,17 +13511,8 @@ function selectAnswer(chosen) {
     const counts = loadCorrectCounts();
     counts[q.id] = (counts[q.id] || 0) + 1;
     saveCorrectCounts(counts);
-    if (counts[q.id] >= 3) {
-      const mastered = loadMasteredSet();
-      mastered.add(q.id);
-      saveMasteredSet(mastered);
-      document.getElementById('feedback-label').textContent = '⭐ もう完璧！3回正解！' + petShardNote();
-      document.getElementById('manual-master-btn').style.display = 'none';
-    } else if (counts[q.id] >= 2) {
-      // 2回以上正解 → 手動で完璧にできるボタンを表示
-      document.getElementById('manual-master-btn').style.display = 'block';
-      document.getElementById('manual-master-btn').textContent = `⭐ もう完璧にする（${counts[q.id]}回正解済み）`;
-    }
+    recordCorrectDay(q);
+    showManualMasterBtn(q, counts);
   } else {
     state.sessionWrong.push(q.id);
     const wrongSet = loadWrongSet();
@@ -13038,8 +13528,8 @@ function selectAnswer(chosen) {
       saveSuperWrongSet(superWrong);
       document.getElementById('feedback-label').textContent = '🔥 超苦手！3回間違えちゃった…';
     }
-    // 不正解時はもう完璧ボタンを隠す
-    document.getElementById('manual-master-btn').style.display = 'none';
+    // 不正解時は隠す（すでに完璧な問題だけ「とりけす」ボタンを出す）
+    showManualMasterBtn(q, loadCorrectCounts(), false);
   }
 
   document.getElementById('ai-btn').style.display = 'block';
@@ -13068,9 +13558,61 @@ function prevQuestion() {
   window.scrollTo(0, 0);
 }
 
-function manualMaster() {
+// ⭐もう完璧は「自分でボタンを押したとき」だけ。
+// ・まだ完璧じゃない問題に正解 → 「⭐ もう完璧にする」
+// ・もう完璧にしてある問題    → 「⭐ 完璧をとりけす」（正解でも不正解でも出す）
+function showManualMasterBtn(q, counts, isCorrect) {
+  const btn = document.getElementById('manual-master-btn');
+  if (!btn) return;
+  if (loadMasteredSet().has(q.id)) {
+    btn.style.display = 'block';
+    btn.classList.remove('master-locked');
+    btn.classList.add('unmaster-btn');
+    btn.textContent = '⭐ 完璧をとりけす（もう一度れんしゅうする）';
+    return;
+  }
+  btn.classList.remove('unmaster-btn');
+  btn.classList.remove('master-locked');
+  if (isCorrect === false) { btn.style.display = 'none'; return; }
+  btn.style.display = 'block';
+  if (!canMasterNow(q)) {
+    btn.classList.add('master-locked');
+    btn.textContent = '🔒 あした以降にもう一度正解したら「もう完璧」にできるよ';
+    return;
+  }
+  const n = (loadCorrectDays()[q.id] || []).length;
+  btn.textContent = `⭐ もう完璧にする（${n}日正解済み）`;
+}
+
+// ボタンの役目を切りかえる（登録 / とりけし）
+function toggleMaster() {
   const q = state.queue[state.current];
   if (!q) return;
+  if (loadMasteredSet().has(q.id)) unmaster();
+  else if (canMasterNow(q)) manualMaster();
+}
+
+// ⭐もう完璧からはずす（またふつうの問題として出てくるようになる）
+function unmaster() {
+  const q = state.queue[state.current];
+  if (!q) return;
+  const mastered = loadMasteredSet();
+  mastered.delete(q.id);
+  saveMasteredSet(mastered);
+  // 正解カウントも0に戻す（次はまた自分で「もう完璧にする」を押す）
+  const counts = loadCorrectCounts();
+  counts[q.id] = 0;
+  saveCorrectCounts(counts);
+  const btn = document.getElementById('manual-master-btn');
+  btn.classList.remove('unmaster-btn');
+  btn.classList.remove('master-locked');
+  btn.style.display = 'none';
+  document.getElementById('feedback-label').textContent = '⭐ 完璧をとりけしたよ。またれんしゅうしよう！';
+}
+
+function manualMaster() {
+  const q = state.queue[state.current];
+  if (!q || !canMasterNow(q)) return;   // ちがう日に2回正解していないと登録しない
   // masteredSetに追加
   const mastered = loadMasteredSet();
   mastered.add(q.id);
@@ -13079,13 +13621,18 @@ function manualMaster() {
   const wrongSet = loadWrongSet();
   wrongSet.delete(q.id);
   saveWrongSet(wrongSet);
-  // correctCountを3にセット（自動判定と統一）
+  // correctCountも3にしておく（このボタン以外では完璧にならない）
   const counts = loadCorrectCounts();
   counts[q.id] = Math.max(counts[q.id] || 0, 3);
   saveCorrectCounts(counts);
   // ボタンを隠してフィードバックを更新
   document.getElementById('manual-master-btn').style.display = 'none';
-  document.getElementById('feedback-label').textContent = '⭐ もう完璧！登録したよ！' + petShardNote();
+  // この⭐で単元コンプリートしたら、その単元の問題数ぶんアンリノメダルをゲット
+  const gained = medalAward(state.selectedMonth);
+  const coins  = gained.reduce((a, g) => a + g.count, 0);
+  document.getElementById('feedback-label').textContent =
+    '⭐ もう完璧！登録したよ！' + petShardNote() + (coins ? `　🪙 アンリノメダル +${coins}枚` : '');
+  if (gained.length) setTimeout(() => showMedalGet(gained), 400);
 }
 
 function updateStats(q, isCorrect) {
@@ -13506,6 +14053,27 @@ const CAT_CHARS = {
       { ratio:1.00, name:'計算王ハム太',     hint:'かんむりをかぶった、計算の王さま！' },
     ],
   },
+  piko: {
+    title:    '🦜 インコのピコ',
+    short:    'ピコ',
+    render:   (lv, fill, size, o) => renderParrotSVG(lv, fill, size, o),
+    phases:   ['🥚','🐣','🔤','📝','📖'],
+    shard:    '🔤 ことばカード',
+    complete: 'ぜんぶ完璧！ことばカードがそろったよ📖',
+    grew:     d => `🔤 新しい問題が${d}問！またことばを集めよう`,
+    grewNew:  d => `🆕 新しい問題が${d}問ふえたよ！`,
+    starKick: '📖 ぜんぶ完璧！',
+    starSub:  'ことばカードがぜんぶそろったよ！',
+    dexNote:  'をぜんぶ完璧にするたびに、ピコに★が1つ増えるよ！',
+    levels: [
+      { ratio:0,    name:'たまごのピコ',       hint:'たまごの中で、ことばをじっと聞いているよ' },
+      { ratio:0.12, name:'ひなのピコ',         hint:'「ピッ！」はじめてのことばをしゃべった！' },
+      { ratio:0.30, name:'ことばカードのピコ', hint:'名詞カードを持って、ものの名前をおぼえ中' },
+      { ratio:0.53, name:'ちょうネクタイのピコ', hint:'ちょうネクタイで、ことばの発表会へ！' },
+      { ratio:0.76, name:'じしょのピコ',       hint:'国語じしょをひらいて、どんなことばも説明できる' },
+      { ratio:1.00, name:'ことばの王ピコ',     hint:'かんむりをかぶった、おしゃべり文法博士！' },
+    ],
+  },
 };
 
 // 育成の対象（ctx）。ctx を省略するとルナ（その月の全教科）として動く
@@ -13523,7 +14091,7 @@ const MONTH_CAT_PET = {
   '202605': { shakai: 'mei',    rika: 'kero',      kokugo: 'mike',     sansu: 'penta'     },
   '202606': { shakai: 'maimai', rika: 'ahi',       kokugo: 'risumaru', sansu: 'kamekichi' },
   '202607': { shakai: 'konta',   rika: 'doruru'     },
-  '202609': { shakai: 'ponta',   rika: 'hou'        },
+  '202609': { shakai: 'ponta',   rika: 'hou',   kokugo: 'piko' },
   'eikoh_kiso2026': { shakai: 'zoumaru', rika: 'harry', kokugo: 'panko', sansu: 'hamuta' },
 };
 function catPetKey(cat) { return (MONTH_CAT_PET[state.selectedMonth] || {})[cat]; }
@@ -14007,6 +14575,59 @@ function renderTanukiSVG(level, fillPct, size, opts) {
       <ellipse cx="126" cy="126" rx="6" ry="4" fill="${c.blush}" opacity="0.7"/>
       ${head}
       ${scroll}`;
+  }
+  return petWrapSVG(L, size, bg, deco, body);
+}
+
+// 国語：インコのピコ（ことばカード→ちょうネクタイ→国語じしょ→かんむり）
+function renderParrotSVG(level, fillPct, size, opts) {
+  opts = opts || {};
+  const sil = !!opts.silhouette, L = Math.max(1, level | 0);
+  const pal = { body:'#4ade80', chick:'#bbf7d0', wing:'#16a34a', stripe:'#14532d', belly:'#d9f99d', face:'#fde047',
+                crest:'#facc15', tail:'#3b82f6', cheek:'#60a5fa', line:'#15803d', eye:'#2a1d3d', beak:'#fdba74',
+                beakLine:'#c2410c', blush:'#fda4af', card:'#ffffff', cardLine:'#a78bfa', cardText:'#6d28d9',
+                tie:'#e11d48', book:'#fef3c7', cover:'#2563eb', crown:'#fbbf24', crownLine:'#d97706',
+                star:'#fde68a', egg:'#f0fdf4', spot:'#86efac' };
+  const c = sil ? petSilPalette(pal) : pal;
+  const bg = petRingBG(fillPct, '#86efac', sil);
+  const deco = petCommonDeco(L, opts.stars, c.star, sil);
+  let body;
+  if (L === 1) {
+    body = petEggBody(c, `
+      <path d="M100 80 Q94 62 100 52 Q104 64 108 58 Q108 72 100 80 Z" fill="${c.crest}" stroke="${c.line}" stroke-width="2" stroke-linejoin="round"/>`);
+  } else {
+    const bodyCol = L === 2 ? c.chick : c.body;
+    const tail = L >= 3 ? `<path d="M118 160 L152 196 L140 198 L112 168 Z" fill="${c.tail}" stroke="${c.line}" stroke-width="2" stroke-linejoin="round"/>` : '';
+    const card = (L >= 3 && L < 5) ? `<g transform="rotate(-12 58 150)">
+        <rect x="40" y="130" width="34" height="42" rx="5" fill="${c.card}" stroke="${c.cardLine}" stroke-width="2.5"/>
+        ${sil ? '' : `<text x="57" y="160" font-size="22" font-weight="900" fill="${c.cardText}" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif">名</text>`}
+      </g>` : '';
+    const book = L >= 5 ? `<g transform="rotate(-8 56 158)">
+        <path d="M24 146 Q42 138 58 146 L58 178 Q42 170 24 178 Z" fill="${c.book}" stroke="${c.cover}" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M58 146 Q74 138 92 146 L92 178 Q74 170 58 178 Z" fill="${c.book}" stroke="${c.cover}" stroke-width="3" stroke-linejoin="round"/>
+        ${sil ? '' : `<path d="M30 154 h20 M30 161 h20 M30 168 h16 M64 154 h20 M64 161 h20 M64 168 h16" stroke="#a8a29e" stroke-width="2" stroke-linecap="round"/>`}
+      </g>` : '';
+    const tie = L >= 4 ? `<path d="M100 146 L84 138 L84 154 Z M100 146 L116 138 L116 154 Z" fill="${c.tie}" stroke="${sil ? c.line : '#9f1239'}" stroke-width="1.5" stroke-linejoin="round"/>
+        <circle cx="100" cy="146" r="4.5" fill="${c.tie}" stroke="${sil ? c.line : '#9f1239'}" stroke-width="1.5"/>` : '';
+    const crown = L >= 6 ? `<path d="M80 80 L84 60 L94 72 L100 56 L106 72 L116 60 L120 80 Z" fill="${c.crown}" stroke="${c.crownLine}" stroke-width="2" stroke-linejoin="round"/>
+        ${sil ? '' : '<circle cx="100" cy="70" r="3" fill="#f43f5e"/>'}` : '';
+    const crest = L >= 6 ? '' : `<path d="M100 84 Q92 64 100 50 Q106 64 110 56 Q112 74 102 84 Z" fill="${c.crest}" stroke="${c.line}" stroke-width="2" stroke-linejoin="round"/>`;
+    body = `
+      ${tail}
+      <ellipse cx="100" cy="138" rx="36" ry="42" fill="${bodyCol}" stroke="${c.line}" stroke-width="3"/>
+      <ellipse cx="100" cy="152" rx="22" ry="24" fill="${c.belly}"/>
+      <path d="M66 124 Q58 150 74 172 Q84 150 80 128 Z" fill="${c.wing}" stroke="${c.line}" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M134 124 Q142 150 126 172 Q116 150 120 128 Z" fill="${c.wing}" stroke="${c.line}" stroke-width="2" stroke-linejoin="round"/>
+      ${L >= 3 && !sil ? `<path d="M68 138 q5 3 10 0 M69 150 q5 3 10 0 M122 138 q5 3 10 0 M121 150 q5 3 10 0" stroke="${c.stripe}" stroke-width="2" fill="none" stroke-linecap="round"/>` : ''}
+      ${crest}
+      <ellipse cx="100" cy="110" rx="28" ry="24" fill="${c.face}" stroke="${c.line}" stroke-width="2.5"/>
+      ${petEyes(c, sil, 88, 112, 106, 5.5)}
+      ${sil ? '' : `<circle cx="80" cy="120" r="3" fill="${c.cheek}"/><circle cx="120" cy="120" r="3" fill="${c.cheek}"/>`}
+      <ellipse cx="78" cy="113" rx="5" ry="3.5" fill="${c.blush}" opacity="0.7"/>
+      <ellipse cx="122" cy="113" rx="5" ry="3.5" fill="${c.blush}" opacity="0.7"/>
+      <path d="M92 114 Q100 108 108 114 Q108 124 100 128 Q97 122 92 114 Z" fill="${c.beak}" stroke="${c.beakLine}" stroke-width="1.8" stroke-linejoin="round"/>
+      <path d="M86 178 v5 M92 178 v5 M108 178 v5 M114 178 v5" stroke="${c.beakLine}" stroke-width="3" stroke-linecap="round"/>
+      ${tie}${card}${book}${crown}`;
   }
   return petWrapSVG(L, size, bg, deco, body);
 }
@@ -14979,6 +15600,108 @@ function petShardNote() {
 }
 
 // ============================================================
+// 🪙 アンリノメダル
+//   ・単元（教科）の問題をぜんぶ⭐にすると、その単元の問題数ぶんもらえる
+//     （＝1問正解ぶん1枚。コインみたいにたまっていく）
+//   ・もらった記録は台帳（ena_anrino_medals）に残すので、
+//     あとで⭐をとりけしても枚数は減らない
+//   ・あとから問題がふえて、また全問⭐にしたら、ふえたぶんだけ追加でもらえる
+// ============================================================
+const MEDAL_KEY = 'ena_anrino_medals';
+
+function loadMedalLedger() {
+  try {
+    const d = JSON.parse(localStorage.getItem(MEDAL_KEY) || '{}');
+    return (d && typeof d.units === 'object' && d.units) ? d : { units: {} };
+  } catch(e) { return { units: {} }; }
+}
+function saveMedalLedger(led) { localStorage.setItem(MEDAL_KEY, JSON.stringify(led)); }
+
+function medalTotal() {
+  return Object.values(loadMedalLedger().units).reduce((a, b) => a + (b || 0), 0);
+}
+function medalMonthTotal(month) {
+  const u = loadMedalLedger().units;
+  return Object.keys(u).reduce((a, k) => a + (k.split('|')[0] === month ? (u[k] || 0) : 0), 0);
+}
+
+// その月の「単元」＝問題の subject ごとのまとまり
+// （SUBJECTS 側の month 指定もれに左右されないよう、問題そのものから作る）
+function medalUnits(month) {
+  const by = {};
+  QUESTIONS.forEach(q => {
+    if (q.month !== month) return;
+    (by[q.subject] = by[q.subject] || []).push(q);
+  });
+  return by;
+}
+
+// コンプリートした単元を台帳に記録して、新しくもらえた分を返す
+function medalAward(month) {
+  const mastered = dexMasteredSet(month);
+  if (!mastered.size) return [];
+  const led = loadMedalLedger();
+  const gained = [];
+  Object.entries(medalUnits(month)).forEach(([sub, list]) => {
+    if (!list.every(q => mastered.has(q.id))) return;
+    const id   = month + '|' + sub;
+    const have = led.units[id] || 0;
+    if (list.length <= have) return;
+    led.units[id] = list.length;
+    gained.push({ month, sub, count: list.length - have });
+  });
+  if (gained.length) saveMedalLedger(led);
+  return gained;
+}
+
+// ぜんぶの月をまとめてチェック（この機能より前にコンプリートしていた単元を拾う）
+function medalSyncAll() {
+  Object.keys(MONTHS).forEach(m => { try { medalAward(m); } catch(e) {} });
+}
+
+function medalUnitLabel(sub) {
+  const v = SUBJECTS[sub] || {};
+  const p = v.parent ? SUBJECTS[v.parent] : null;
+  return `${p ? (p.icon || '') + ' ' + p.label + ' / ' : ''}${v.icon || ''} ${v.label || sub}`.trim();
+}
+
+// ホームのメダルバー
+function renderMedalBar() {
+  const bar = document.getElementById('medal-bar');
+  if (!bar) return;
+  const all   = medalTotal();
+  const mine  = medalMonthTotal(state.selectedMonth);
+  const label = (MONTHS[state.selectedMonth] || {}).label || '';
+  bar.innerHTML = `
+    <span class="medal-bar-coin">🪙</span>
+    <span class="medal-bar-num">${all}</span><span class="medal-bar-unit">枚</span>
+    <span class="medal-bar-text">アンリノメダル<br>${label}は${mine}枚</span>`;
+}
+
+// 獲得演出（2単元いっぺんにコンプリートしたら順番に見せる）
+let _medalQueue = [];
+function showMedalGet(gained) {
+  if (!gained || !gained.length) return false;
+  _medalQueue = gained.slice();
+  playMedalPopup();
+  return true;
+}
+function playMedalPopup() {
+  const g = _medalQueue.shift();
+  const ov = document.getElementById('medal-overlay');
+  if (!g || !ov) { if (ov) ov.classList.remove('show'); return; }
+  document.getElementById('medal-coin-num').textContent   = `+${g.count}枚`;
+  document.getElementById('medal-unit-label').textContent  = `${medalUnitLabel(g.sub)} をぜんぶ⭐にしたよ！`;
+  document.getElementById('medal-total-label').textContent = `ぜんぶで 🪙${medalTotal()}枚`;
+  ov.classList.add('show');
+}
+function hideMedalGet() {
+  const ov = document.getElementById('medal-overlay');
+  if (ov) ov.classList.remove('show');
+  if (_medalQueue.length) setTimeout(playMedalPopup, 350);
+}
+
+// ============================================================
 // コレクション図鑑（月をまたいで、ゲットしたキャラとメダルを集める）
 //   ・state.selectedMonth は変えずに、保存データから直接よみとる
 //   ・レベル計算は既存の petRawLevel / petLevelDef に { cfg } だけの ctx を渡して使い回す
@@ -15087,13 +15810,20 @@ function renderDexScreen() {
       charsBox.appendChild(grid);
     }
     const medals = dexMedalList(mid);
-    if (medals.length) {
+    const coins  = medalMonthTotal(mid);
+    if (medals.length || coins) {
       medalCount += medals.length;
       const mh = document.createElement('div');
       mh.className = 'dex-month-head';
       mh.textContent = `${m.emoji} ${m.label}`;
       medalBox.appendChild(mh);
       const row = document.createElement('div');
+      if (coins) {
+        const coinChip = document.createElement('span');
+        coinChip.className = 'dex-medal dex-medal-coin';
+        coinChip.textContent = `🪙 アンリノメダル ${coins}枚`;
+        row.appendChild(coinChip);
+      }
       medals.forEach(md => {
         const chip = document.createElement('span');
         chip.className = 'dex-medal' + (md.isMonth ? ' dex-medal-month' : '');
@@ -15105,11 +15835,12 @@ function renderDexScreen() {
   });
 
   if (!charsBox.children.length) charsBox.innerHTML = '<div class="tend-no-data">まだキャラがいないよ</div>';
-  if (!medalBox.children.length) medalBox.innerHTML = '<div class="tend-no-data">単元をぜんぶ⭐にするとメダルがもらえるよ</div>';
+  if (!medalBox.children.length) medalBox.innerHTML = '<div class="tend-no-data">単元をぜんぶ⭐にすると、その問題数ぶんアンリノメダル🪙がもらえるよ</div>';
 
   document.getElementById('dex-summary').innerHTML = `
-    <div class="dex-sum-card"><div class="dex-sum-num">${got}/${all}</div><div class="dex-sum-label">🐾 ゲットしたキャラ</div></div>
-    <div class="dex-sum-card"><div class="dex-sum-num">${medalCount}</div><div class="dex-sum-label">🥇 メダル</div></div>`;
+    <div class="dex-sum-card"><div class="dex-sum-num">${got}/${all}</div><div class="dex-sum-label">🐾 キャラ</div></div>
+    <div class="dex-sum-card"><div class="dex-sum-num">${medalCount}</div><div class="dex-sum-label">🥇 メダル</div></div>
+    <div class="dex-sum-card"><div class="dex-sum-num">${medalTotal()}</div><div class="dex-sum-label">🪙 アンリノメダル</div></div>`;
 
   // 見たので、次からは NEW を出さない
   localStorage.setItem('ena_dex_seen', JSON.stringify({ chars: gotKeys }));
@@ -15501,6 +16232,315 @@ function closeAiModal(e) {
 // ============================================================
 // 動画モーダル
 // ============================================================
+// ============================================================
+// ずんだもん動画（YouTubeチャンネル「ずんだもんと学ぶ中学受験」）
+//   ・再生できるのは CHANNEL_VIDEOS に書いた動画だけ（ほかの動画は開けない）
+//   ・動画の上を透明なカバーでおおい、YouTubeのロゴ・おすすめ動画などを押せなくする
+//   ・操作は下の自前ボタンで行う。一時停止・終了時は自前パネルで動画をかくす
+//   新しい動画を出したら、ここに1行足す（subject＝ボタンを出す単元のキー）
+// ============================================================
+const CHANNEL_VIDEOS = [
+  { id:'qpiZ2zWmDUw', title:'【小4理科】月の形と時こく・方角｜18時に見える月、ぜんぶ見える？',
+    subject:'tsukimie', month:'202610' },
+];
+function channelVideo(id) { return CHANNEL_VIDEOS.find(v => v.id === id) || null; }
+function channelVideosFor(subjectKey) { return CHANNEL_VIDEOS.filter(v => v.subject === subjectKey); }
+
+function appendChannelVideoBtns(container, subjectKey) {
+  channelVideosFor(subjectKey).forEach(v => {
+    const b = document.createElement('button');
+    b.className = 'topic-btn-video';
+    b.innerHTML = `<div class="video-btn-icon">📺</div><div class="video-btn-label">ずんだもん動画</div><div class="video-btn-sub">${v.title}</div>`;
+    b.onclick = () => openChannelVideo(v.id);
+    container.appendChild(b);
+  });
+}
+
+// ── 一覧画面 ──
+function showVideoList() {
+  ['school-select','month-select','home','quiz','result','tendency','pet-screen'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.style.display = 'none';
+  });
+  const dexEl = document.getElementById('dex-screen'); if (dexEl) dexEl.style.display = 'none';
+  document.getElementById('video-list').style.display = 'block';
+  const box = document.getElementById('video-list-items');
+  box.innerHTML = '';
+  CHANNEL_VIDEOS.forEach(v => {
+    const sub = SUBJECTS[v.subject] || {};
+    const cat = CATEGORIES[sub.category] || {};
+    const mon = MONTHS[v.month] || {};
+    const meta = [mon.emoji && mon.label ? `${mon.emoji}${mon.label}` : '', cat.label || '', sub.label || ''].filter(Boolean).join('・');
+    const card = document.createElement('button');
+    card.className = 'vl-card';
+    card.innerHTML = `<div class="vl-thumb" style="background-image:url('https://i.ytimg.com/vi/${v.id}/hqdefault.jpg')"></div>
+      <div class="vl-body"><div class="vl-title">${v.title}</div>${meta ? `<div class="vl-meta">${meta}</div>` : ''}</div>`;
+    card.onclick = () => openChannelVideo(v.id);
+    box.appendChild(card);
+  });
+  if (!CHANNEL_VIDEOS.length) box.innerHTML = '<div class="tend-no-data">まだ動画がないよ</div>';
+  window.scrollTo(0, 0);
+}
+
+// ── YouTube IFrame API（はじめて使うときだけ読みこむ）──
+let _ytApiPromise = null;
+function loadYTApi() {
+  if (window.YT && window.YT.Player) return Promise.resolve();
+  if (_ytApiPromise) return _ytApiPromise;
+  _ytApiPromise = new Promise((resolve, reject) => {
+    const prev = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = () => { if (prev) { try { prev(); } catch (e) {} } resolve(); };
+    const sc = document.createElement('script');
+    sc.src = 'https://www.youtube.com/iframe_api';
+    sc.onerror = () => { _ytApiPromise = null; reject(new Error('yt api')); };
+    document.head.appendChild(sc);
+  });
+  return _ytApiPromise;
+}
+
+// ── 安全プレーヤー ──
+let _cv = null;
+function cvFmt(t) { t = Math.max(0, Math.floor(t || 0)); return Math.floor(t / 60) + ':' + String(t % 60).padStart(2, '0'); }
+
+function openChannelVideo(id) {
+  const v = channelVideo(id);
+  if (!v) return false;                         // 許可リストにない動画は再生しない
+  cvTeardown();
+  const body = document.getElementById('video-modal-body');
+  document.getElementById('video-modal-title').textContent = '📺 ' + v.title;
+  body.classList.add('cv-mode');
+  body.innerHTML = `
+    <div class="cv-stage" id="cv-stage">
+      <div id="cv-player"></div>
+      <div class="cv-shield" id="cv-shield" onclick="cvToggle()"></div>
+      <div class="cv-shield-top" id="cv-shield-top" hidden></div>
+      <div class="cv-shield-bottom" id="cv-shield-bottom" hidden></div>
+      <div class="cv-shield-br" id="cv-shield-br" hidden></div>
+      <div class="cv-panel" id="cv-panel" style="background-image:url('https://i.ytimg.com/vi/${v.id}/hqdefault.jpg')">
+        <div class="cv-panel-msg" id="cv-panel-msg">よみこみ中…</div>
+        <div class="cv-panel-btns" id="cv-panel-btns"></div>
+      </div>
+    </div>
+    <div class="cv-bar" id="cv-bar">
+      <button id="cv-play" onclick="cvToggle()" aria-label="再生・一時停止">▶</button>
+      <button onclick="cvSkip(-10)" aria-label="10秒もどる">⏪10</button>
+      <button onclick="cvSkip(10)" aria-label="10秒すすむ">10⏩</button>
+      <input type="range" class="cv-seek" id="cv-seek" min="0" max="1000" step="1" value="0"
+             oninput="cvSeekDrag(this.value)" onchange="cvSeekTo(this.value)" aria-label="再生位置">
+      <span class="cv-time" id="cv-time">0:00 / 0:00</span>
+      <button onclick="cvBig()" aria-label="大きく表示">⛶</button>
+    </div>
+    <div class="cv-simple-note" id="cv-simple-note" hidden></div>`;
+  document.getElementById('video-modal-overlay').classList.add('open');
+  const my = { id: v.id, player: null, timer: null, dragging: false, state: -1, tapTimer: null,
+               step: 0, ready: false, slowTimer: null, failTimer: null };
+  _cv = my;
+  // 検証用：?cvstep=2 / ?cvstep=3 でその段階から始める
+  let first = 1;
+  try { const f = parseInt(new URLSearchParams(location.search).get('cvstep'), 10); if (f >= 1 && f <= 3) first = f; } catch (e) {}
+  cvStartStep(my, first);
+  return true;
+}
+
+// 読みこみを段階的にためす
+//   ① IFrame API＋youtube-nocookie → ② IFrame API＋youtube.com → ③ APIなしのふつうの埋めこみ
+//   ①②は8秒たっても準備完了が来なければ次へ（古いiPadのSafari対策）
+function cvStartStep(my, step) {
+  if (_cv !== my) return;
+  my.step = step; my.ready = false;
+  clearTimeout(my.slowTimer); clearTimeout(my.failTimer); clearInterval(my.timer);
+  if (my.player && my.player.destroy) { try { my.player.destroy(); } catch (e) {} }
+  my.player = null;
+  const stage = document.getElementById('cv-stage');
+  if (!stage) return;
+  const old = document.getElementById('cv-player');
+  if (old && old.parentNode) old.parentNode.removeChild(old);
+  const mount = document.createElement('div');
+  mount.id = 'cv-player';
+  stage.insertBefore(mount, stage.firstChild);
+  cvSetMsg('よみこみ中…');
+  my.slowTimer = setTimeout(() => { if (_cv === my && !my.ready) cvSetMsg('よみこみに時間がかかっています…'); }, 4000);
+  if (step >= 3) { cvPlainEmbed(my); return; }
+  my.failTimer = setTimeout(() => { if (_cv === my && my.step === step && !my.ready) cvStartStep(my, step + 1); }, 8000);
+  loadYTApi().then(() => {
+    if (_cv !== my || my.step !== step) return;
+    try {
+      my.player = new YT.Player('cv-player', {
+        host: step === 1 ? 'https://www.youtube-nocookie.com' : 'https://www.youtube.com',
+        videoId: my.id,
+        playerVars: { controls: 0, rel: 0, modestbranding: 1, playsinline: 1, disablekb: 1, fs: 0,
+                      iv_load_policy: 3, cc_load_policy: 0, cc_lang_pref: 'none', origin: location.origin },
+        events: {
+          onReady: () => {
+            if (_cv !== my || my.step !== step) return;
+            my.ready = true; clearTimeout(my.slowTimer); clearTimeout(my.failTimer);
+            cvNoCaptions(); cvShowPanel('start'); cvTick(); my.timer = setInterval(cvTick, 500);
+          },
+          onApiChange: () => { if (_cv === my) cvNoCaptions(); },
+          onStateChange: e => { if (_cv === my && my.step === step) cvOnState(e.data); },
+          onError: () => { if (_cv === my && my.step === step) cvStartStep(my, step + 1); },
+        },
+      });
+    } catch (e) { cvStartStep(my, step + 1); }
+  }).catch(() => { if (_cv === my && my.step === step) cvStartStep(my, 3); });
+}
+
+function cvSetMsg(text) {
+  const panel = document.getElementById('cv-panel');
+  if (!panel) return;
+  panel.hidden = false;
+  document.getElementById('cv-panel-msg').textContent = text;
+  document.getElementById('cv-panel-btns').innerHTML = '';
+}
+
+// Safari のバージョン（iPadOS のバージョンとほぼ同じ）。調べるときのための表示用
+function cvBrowserVer() {
+  const ua = navigator.userAgent || '';
+  const ios = ua.match(/OS (\d+)_(\d+)/);
+  if (/iPhone|iPad/.test(ua) && ios) return 'iOS ' + ios[1] + '.' + ios[2];
+  const sv = ua.match(/Version\/(\d+(?:\.\d+)?).*Safari/);
+  if (sv) return 'Safari ' + sv[1];
+  const cv = ua.match(/Chrome\/(\d+)/);
+  return cv ? 'Chrome ' + cv[1] : '';
+}
+
+// ③ かんたん再生モード：YouTube の再生ボタンをそのまま使う。
+//    タイトル・チャンネル名（上の帯）と YouTube ロゴ（右下）はカバーして押せなくする
+function cvPlainEmbed(my) {
+  const mount = document.getElementById('cv-player');
+  if (!mount) return;
+  const f = document.createElement('iframe');
+  f.id = 'cv-player';
+  f.src = 'https://www.youtube.com/embed/' + my.id +
+          '?rel=0&modestbranding=1&playsinline=1&cc_load_policy=0&iv_load_policy=3&fs=0&disablekb=1';
+  f.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture');
+  f.setAttribute('frameborder', '0');
+  f.title = 'ずんだもん動画';
+  mount.parentNode.replaceChild(f, mount);
+  my.ready = true;
+  clearTimeout(my.slowTimer);
+  document.getElementById('cv-panel').hidden = true;
+  document.getElementById('cv-shield').hidden = true;
+  document.getElementById('cv-shield-top').hidden = false;
+  document.getElementById('cv-shield-bottom').hidden = true;
+  document.getElementById('cv-shield-br').hidden = false;
+  document.getElementById('cv-bar').hidden = true;
+  const note = document.getElementById('cv-simple-note');
+  const ver = cvBrowserVer();
+  note.textContent = 'かんたん再生モード' + (ver ? '（' + ver + '）' : '') + '　まん中の ▶ をタップしてね';
+  note.hidden = false;
+}
+
+// YouTubeの自動字幕を消す（字幕は再生が始まるたびに読みこまれるので、そのつど外す）
+function cvNoCaptions() {
+  const p = _cv && _cv.player;
+  if (!p) return;
+  try { p.setOption && p.setOption('captions', 'track', {}); } catch (e) {}
+  try { p.unloadModule && p.unloadModule('captions'); } catch (e) {}
+  try { p.unloadModule && p.unloadModule('cc'); } catch (e) {}
+}
+
+function cvShowPanel(kind) {
+  const panel = document.getElementById('cv-panel');
+  if (!panel) return;
+  const msg = document.getElementById('cv-panel-msg');
+  const btns = document.getElementById('cv-panel-btns');
+  const B = (label, fn, main) => `<button class="${main ? 'cv-pbtn-main' : 'cv-pbtn-sub'}" onclick="${fn}">${label}</button>`;
+  const close = B('✕ とじる', 'closeVideoModal()', false);
+  if (kind === 'start')  { msg.textContent = '';                             btns.innerHTML = B('▶ 再生する', 'cvPlay()', true); }
+  if (kind === 'paused') { msg.textContent = '一時停止中';                   btns.innerHTML = B('▶ つづきから見る', 'cvPlay()', true) + close; }
+  if (kind === 'ended')  { msg.textContent = 'さいごまで見たね！';           btns.innerHTML = B('🔁 もう一度見る', 'cvReplay()', true) + close; }
+  if (kind === 'error')  { const ver = cvBrowserVer(); msg.textContent = 'このiPadでは動画を読みこめませんでした' + (ver ? '（' + ver + '）' : ''); btns.innerHTML = close; }
+  if (kind === 'tap')    { panel.hidden = true; return; }
+  panel.hidden = false;
+}
+
+function cvSetShield(full) {
+  const sh = document.getElementById('cv-shield'); if (!sh) return;
+  sh.hidden = !full;
+  document.getElementById('cv-shield-top').hidden = full;
+  document.getElementById('cv-shield-bottom').hidden = full;
+}
+
+function cvOnState(st) {
+  _cv.state = st;
+  const playBtn = document.getElementById('cv-play');
+  if (playBtn) playBtn.textContent = st === 1 ? '⏸' : '▶';
+  if (st === 1 || st === 3) {                // 再生中・読みこみ中
+    cvNoCaptions();
+    clearTimeout(_cv.tapTimer);
+    cvSetShield(true);
+    document.getElementById('cv-panel').hidden = true;
+  } else if (st === 2) {
+    cvShowPanel('paused');
+  } else if (st === 0) {
+    cvShowPanel('ended');
+  }
+}
+
+function cvPlay() {
+  if (!_cv || !_cv.player || !_cv.player.playVideo) return;
+  _cv.player.playVideo();
+  // iPhoneなどでボタンから再生が始まらないときは、まん中だけ直接タップできるようにする
+  //（上下のタイトル・ロゴ・おすすめの場所はカバーしたまま）
+  clearTimeout(_cv.tapTimer);
+  const my = _cv;
+  _cv.tapTimer = setTimeout(() => {
+    if (_cv !== my || my.state === 1 || my.state === 3) return;
+    cvSetShield(false);
+    cvShowPanel('tap');
+  }, 1500);
+}
+function cvReplay() { if (_cv && _cv.player) { _cv.player.seekTo(0, true); cvPlay(); } }
+function cvToggle() {
+  if (!_cv || !_cv.player || !_cv.player.getPlayerState) return;
+  if (_cv.player.getPlayerState() === 1) _cv.player.pauseVideo(); else cvPlay();
+}
+function cvSkip(sec) {
+  if (!_cv || !_cv.player || !_cv.player.getCurrentTime) return;
+  const d = _cv.player.getDuration() || 0;
+  _cv.player.seekTo(Math.max(0, Math.min(d - 0.5, _cv.player.getCurrentTime() + sec)), true);
+  cvTick();
+}
+function cvSeekDrag(v) {
+  if (!_cv || !_cv.player || !_cv.player.getDuration) return;
+  _cv.dragging = true;
+  const d = _cv.player.getDuration() || 0;
+  document.getElementById('cv-time').textContent = cvFmt(d * v / 1000) + ' / ' + cvFmt(d);
+}
+function cvSeekTo(v) {
+  if (!_cv || !_cv.player || !_cv.player.getDuration) return;
+  _cv.dragging = false;
+  _cv.player.seekTo((_cv.player.getDuration() || 0) * v / 1000, true);
+}
+function cvTick() {
+  if (!_cv || !_cv.player || !_cv.player.getCurrentTime || _cv.dragging) return;
+  const t = _cv.player.getCurrentTime() || 0, d = _cv.player.getDuration() || 0;
+  const seek = document.getElementById('cv-seek'), time = document.getElementById('cv-time');
+  if (seek) seek.value = d > 0 ? Math.round(t / d * 1000) : 0;
+  if (time) time.textContent = cvFmt(t) + ' / ' + cvFmt(d);
+}
+function cvBig() {
+  const m = document.getElementById('video-modal');
+  const on = !m.classList.contains('cv-big');
+  m.classList.toggle('cv-big', on);
+  try {
+    if (on) { (m.requestFullscreen || m.webkitRequestFullscreen || (() => {})).call(m); }
+    else if (document.fullscreenElement || document.webkitFullscreenElement) {
+      (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+    }
+  } catch (e) {}
+}
+function cvTeardown() {
+  if (_cv) {
+    clearInterval(_cv.timer); clearTimeout(_cv.tapTimer); clearTimeout(_cv.slowTimer); clearTimeout(_cv.failTimer);
+    try { if (_cv.player && _cv.player.destroy) _cv.player.destroy(); } catch (e) {}
+    _cv = null;
+  }
+  const m = document.getElementById('video-modal'); if (m) m.classList.remove('cv-big');
+  const body = document.getElementById('video-modal-body'); if (body) body.classList.remove('cv-mode');
+  try { if (document.fullscreenElement || document.webkitFullscreenElement) (document.exitFullscreen || document.webkitExitFullscreen).call(document); } catch (e) {}
+}
+
 function openVideoModal(videoUrl, label) {
   const body = document.getElementById('video-modal-body');
   const title = document.getElementById('video-modal-title');
@@ -15530,6 +16570,7 @@ function openVideoModal(videoUrl, label) {
 
 function closeVideoModal(e) {
   if (e && e.target !== document.getElementById('video-modal-overlay')) return;
+  cvTeardown();
   const body = document.getElementById('video-modal-body');
   body.innerHTML = '';
   document.getElementById('video-modal-overlay').classList.remove('open');
@@ -15904,6 +16945,8 @@ window.onload = () => {
   document.getElementById('school-select').style.display = 'flex';
   document.getElementById('month-select').style.display = 'none';
   updateMascotQuote();
+  // すでにコンプリートしてある単元のアンリノメダルを取り込む（演出は出さない）
+  medalSyncAll();
 };
 
 const MSG_CHOICES = [
