@@ -1,0 +1,189 @@
+{
+"tsuki1": {
+"label": "月の動きと満ち欠け１",
+"icon": "🌕",
+"tag": "tag-tsuki",
+"category": "rika",
+"month": "202609",
+"isGroup": true,
+"ref": "/tsuki1.html",
+"refLabel": "カラーページ（要点まとめ）",
+"refSub": "月のかんきょう・クレーターと海・太陽との大きさくらべ・満ち欠けの図解"
+},
+"tsuki1_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-tsuki",
+"category": "rika",
+"month": "202609",
+"parent": "tsuki1"
+},
+"tsuki1_renshu": {
+"label": "練習問題１",
+"icon": "✏️",
+"tag": "tag-tsuki",
+"category": "rika",
+"month": "202609",
+"parent": "tsuki1"
+},
+"tsuki1_renshu2": {
+"label": "練習問題２",
+"icon": "🌗",
+"tag": "tag-tsuki",
+"category": "rika",
+"month": "202609",
+"parent": "tsuki1"
+},
+"tsuki1_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-tsuki",
+"category": "rika",
+"month": "202609",
+"parent": "tsuki1"
+},
+"tsuki2": {
+"label": "月の動きと満ち欠け２",
+"icon": "🌘",
+"tag": "tag-tsuki2",
+"category": "rika",
+"month": "202609",
+"isGroup": true
+},
+"tsuki2_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-tsuki2",
+"category": "rika",
+"month": "202609",
+"parent": "tsuki2"
+},
+"tsuki2_renshu": {
+"label": "練習問題",
+"icon": "✏️",
+"tag": "tag-tsuki2",
+"category": "rika",
+"month": "202609",
+"parent": "tsuki2"
+},
+"tsuki2_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-tsuki2",
+"category": "rika",
+"month": "202609",
+"parent": "tsuki2"
+},
+"nougyou1": {
+"label": "日本の農業１",
+"icon": "🌾",
+"tag": "tag-nougyou",
+"category": "shakai",
+"month": "202609",
+"isGroup": true
+},
+"nougyou1_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-nougyou",
+"category": "shakai",
+"month": "202609",
+"parent": "nougyou1"
+},
+"nougyou1_renshu": {
+"label": "練習問題",
+"icon": "✏️",
+"tag": "tag-nougyou",
+"category": "shakai",
+"month": "202609",
+"parent": "nougyou1"
+},
+"nougyou1_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-nougyou",
+"category": "shakai",
+"month": "202609",
+"parent": "nougyou1"
+},
+"nougyou2": {
+"label": "日本の農業２",
+"icon": "🥔",
+"tag": "tag-nougyou2",
+"category": "shakai",
+"month": "202609",
+"isGroup": true
+},
+"nougyou2_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-nougyou2",
+"category": "shakai",
+"month": "202609",
+"parent": "nougyou2"
+},
+"nougyou2_renshu": {
+"label": "練習問題",
+"icon": "✏️",
+"tag": "tag-nougyou2",
+"category": "shakai",
+"month": "202609",
+"parent": "nougyou2"
+},
+"nougyou2_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-nougyou2",
+"category": "shakai",
+"month": "202609",
+"parent": "nougyou2"
+},
+"meishi9": {
+"label": "名詞",
+"icon": "🏷️",
+"tag": "tag-meishi",
+"category": "kokugo",
+"month": "202609",
+"isGroup": true
+},
+"meishi9_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-meishi",
+"category": "kokugo",
+"month": "202609",
+"parent": "meishi9"
+},
+"meishi9_hojuu": {
+"label": "補充問題",
+"icon": "➕",
+"tag": "tag-meishi",
+"category": "kokugo",
+"month": "202609",
+"parent": "meishi9"
+},
+"doushi9": {
+"label": "動詞",
+"icon": "🏃",
+"tag": "tag-doushi",
+"category": "kokugo",
+"month": "202609",
+"isGroup": true
+},
+"doushi9_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-doushi",
+"category": "kokugo",
+"month": "202609",
+"parent": "doushi9"
+},
+"doushi9_hojuu": {
+"label": "補充問題",
+"icon": "➕",
+"tag": "tag-doushi",
+"category": "kokugo",
+"month": "202609",
+"parent": "doushi9"
+}
+}

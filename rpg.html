@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANRINO クエスト ｜ 9月のかげモンスター</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<style>
+  :root{ --ink:#1e1b4b; --card:#ffffff; --line:#c7d2fe; }
+  *{ -webkit-tap-highlight-color: transparent; }
+  body{
+    font-family:'M PLUS Rounded 1c',sans-serif; color:var(--ink); margin:0;
+    background:linear-gradient(160deg,#1e1b4b 0%,#312e81 45%,#4c1d95 100%);
+    min-height:100vh;
+  }
+  #app{ max-width:480px; margin:0 auto; padding:0 12px 40px; }
+  .scr{ display:none; }
+  .scr.on{ display:block; animation:fade .18s ease-out; }
+  @keyframes fade{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;} }
+  .panel{ background:var(--card); border-radius:18px; padding:16px; box-shadow:0 8px 24px rgba(0,0,0,.28); }
+  .btn{
+    display:block; width:100%; text-align:left; background:#fff; border:2px solid var(--line);
+    border-radius:14px; padding:13px 15px; font-weight:700; margin-bottom:9px; cursor:pointer;
+    transition:transform .08s, border-color .12s;
+  }
+  .btn:active{ transform:scale(.985); }
+  .btn:disabled{ opacity:.55; cursor:default; }
+  .btn.ok{ background:#bbf7d0; border-color:#22c55e; }
+  .btn.ng{ background:#fecaca; border-color:#ef4444; }
+  .btn-main{
+    display:block; width:100%; text-align:center; border:none; border-radius:14px; padding:15px;
+    font-weight:800; font-size:17px; color:#fff; cursor:pointer;
+    background:linear-gradient(135deg,#8b5cf6,#6366f1); box-shadow:0 6px 16px rgba(99,102,241,.45);
+  }
+  .btn-main:active{ transform:scale(.985); }
+  .hpbar{ height:13px; border-radius:99px; background:#e5e7eb; overflow:hidden; }
+  .hpbar > i{ display:block; height:100%; border-radius:99px; transition:width .45s cubic-bezier(.2,.8,.2,1); }
+  .qimg{ display:block; max-width:100%; max-height:300px; margin:10px auto; border-radius:10px; }
+  .shake{ animation:shake .4s; }
+  @keyframes shake{ 0%,100%{transform:none} 20%{transform:translateX(-9px)} 40%{transform:translateX(9px)} 60%{transform:translateX(-5px)} 80%{transform:translateX(5px)} }
+  .pop{ animation:pop .45s; }
+  @keyframes pop{ 0%{transform:scale(1)} 35%{transform:scale(1.12) rotate(-3deg)} 100%{transform:scale(1)} }
+  .dmg{
+    position:absolute; left:50%; top:26%; transform:translateX(-50%);
+    font-size:32px; font-weight:800; color:#fde047; text-shadow:0 2px 0 #b45309,0 0 12px rgba(0,0,0,.5);
+    animation:dmg .9s forwards; pointer-events:none;
+  }
+  @keyframes dmg{ 0%{opacity:0; transform:translate(-50%,10px) scale(.7)} 25%{opacity:1; transform:translate(-50%,-12px) scale(1.15)} 100%{opacity:0; transform:translate(-50%,-54px) scale(1)} }
+  #levelup{
+    display:none; position:fixed; inset:0; z-index:60; background:rgba(30,27,75,.88);
+    align-items:center; justify-content:center; padding:20px;
+  }
+  #levelup.on{ display:flex; }
+  .gem{ font-size:12px; font-weight:800; padding:2px 9px; border-radius:99px; background:#ede9fe; color:#5b21b6; }
+  .lock{ filter:grayscale(1); opacity:.5; }
+  textarea{ font-family:inherit; }
+</style>
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ══ タイトル ══ -->
+  <section id="scr-title" class="scr on">
+    <div style="text-align:center; padding:34px 0 16px;">
+      <div style="font-size:13px; letter-spacing:.24em; color:#c4b5fd; font-weight:700;">ANRINO</div>
+      <h1 style="font-size:30px; font-weight:800; color:#fff; margin:6px 0 2px;">クエスト</h1>
+      <div style="color:#ddd6fe; font-size:14px;">9月のかげモンスター</div>
+      <div id="title-hero" style="margin:14px 0; display:flex; justify-content:center;"></div>
+    </div>
+    <div class="panel">
+      <p style="font-size:14px; line-height:1.85; margin:0 0 14px;">
+        9月の単元に <b>かげのモンスター</b> があらわれた。<br>
+        問題に正解して こうげきし、たおすと かげが晴れて <b>なかま</b> になるよ。
+      </p>
+      <button class="btn-main" id="title-start" onclick="startGame()">ぼうけんをはじめる</button>
+      <button onclick="sfxTest()" style="width:100%; margin-top:10px; background:none; border:2px dashed var(--line);
+        border-radius:12px; padding:10px; font-family:inherit; font-weight:700; color:#6366f1; cursor:pointer;">
+        🔊 音をテスト（斬る音が3回鳴るよ）</button>
+      <div id="sfx-status" style="font-size:10.5px; color:#94a3b8; text-align:center; margin-top:6px; line-height:1.6;"></div>
+    </div>
+    <a href="/" style="display:block; text-align:center; margin-top:14px; padding:14px; border-radius:14px;
+       background:rgba(255,255,255,.16); color:#fff; font-weight:800; text-decoration:none;">← ANRINOアプリにもどる</a>
+  </section>
+
+  <!-- ══ ステージ選択 ══ -->
+  <section id="scr-map" class="scr">
+    <div id="map-status"></div>
+    <div id="map-list"></div>
+    <div style="display:flex; gap:9px; margin-top:14px;">
+      <button class="btn-main" style="background:linear-gradient(135deg,#0ea5e9,#0284c7); box-shadow:none;" onclick="showDex()">📖 ずかん</button>
+      <button class="btn-main" style="background:rgba(255,255,255,.16); box-shadow:none;" onclick="sfxTest()">🔊 音</button>
+      <button class="btn-main" style="background:rgba(255,255,255,.16); box-shadow:none;" onclick="showScreen('title')">タイトル</button>
+    </div>
+  </section>
+
+  <!-- ══ 戦闘 ══ -->
+  <section id="scr-battle" class="scr">
+    <div class="panel" style="position:relative; overflow:hidden; padding-bottom:12px;">
+      <div style="display:flex; justify-content:space-between; align-items:baseline;">
+        <b id="enemy-name" style="font-size:16px;"></b>
+        <span id="enemy-hp-text" style="font-size:12px; color:#64748b;"></span>
+      </div>
+      <div class="hpbar" style="margin:6px 0 4px;"><i id="enemy-hp" style="width:100%; background:linear-gradient(90deg,#f43f5e,#fb7185);"></i></div>
+      <div id="enemy-art" style="text-align:center; min-height:190px; position:relative;"></div>
+      <div id="battle-msg" style="text-align:center; font-weight:700; font-size:14px; min-height:22px; color:#4c1d95;"></div>
+    </div>
+
+    <div class="panel" style="margin-top:10px;">
+      <div id="q-area"></div>
+      <div id="a-area" style="margin-top:12px;"></div>
+      <div id="ex-area"></div>
+    </div>
+
+    <div class="panel" style="margin-top:10px; padding:11px 14px;">
+      <div style="display:flex; justify-content:space-between; align-items:baseline;">
+        <b style="font-size:14px;">ルナ <span id="my-lv" class="gem"></span></b>
+        <span id="my-hp-text" style="font-size:12px; color:#64748b;"></span>
+      </div>
+      <div class="hpbar" style="margin-top:6px;"><i id="my-hp" style="width:100%; background:linear-gradient(90deg,#22c55e,#4ade80);"></i></div>
+      <div class="hpbar" style="height:6px; margin-top:5px;"><i id="my-exp" style="width:0; background:linear-gradient(90deg,#facc15,#fde047);"></i></div>
+    </div>
+
+    <button class="btn-main" style="margin-top:12px; background:rgba(255,255,255,.16); box-shadow:none;" onclick="fleeBattle()">にげる</button>
+  </section>
+
+  <!-- ══ 結果 ══ -->
+  <section id="scr-result" class="scr">
+    <div class="panel" style="text-align:center; margin-top:26px;">
+      <div id="result-body"></div>
+      <button class="btn-main" style="margin-top:16px;" onclick="showMap()">マップへもどる</button>
+    </div>
+  </section>
+
+  <!-- ══ ずかん ══ -->
+  <section id="scr-dex" class="scr">
+    <div class="panel" style="margin-top:16px;">
+      <h2 style="font-size:19px; font-weight:800; margin:0 0 4px;">📖 なかまずかん</h2>
+      <div id="dex-count" style="font-size:13px; color:#64748b; margin-bottom:12px;"></div>
+      <div id="dex-grid" style="display:grid; grid-template-columns:repeat(3,1fr); gap:9px;"></div>
+      <button class="btn-main" style="margin-top:16px;" onclick="showMap()">もどる</button>
+    </div>
+  </section>
+
+</div>
+
+<audio id="silent-loop" loop preload="auto" playsinline src="data:audio/wav;base64,UklGRvQHAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YdAHAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgA=="></audio>
+
+<div id="levelup">
+  <div class="panel" style="text-align:center; max-width:330px;">
+    <div style="font-size:13px; font-weight:800; color:#a855f7; letter-spacing:.14em;">LEVEL UP!</div>
+    <div id="lvup-art" style="margin:10px 0; display:flex; justify-content:center;"></div>
+    <div id="lvup-text" style="font-weight:800; font-size:19px;"></div>
+    <div id="lvup-sub" style="font-size:13px; color:#64748b; margin-top:5px;"></div>
+    <button class="btn-main" style="margin-top:14px;" onclick="closeLevelUp()">つづける</button>
+  </div>
+</div>
+
+<script src="js/chars.js"></script>
+<script src="js/util.js"></script>
+<script>
+// ════════════════════════════════════════════════════════════
+//  ANRINO クエスト — 9月版ミニRPG
+//  問題データ : data/questions_202609.json（index.html から機械抽出）
+//  キャラ描画 : js/chars.js の render*SVG（silhouette 対応）
+// ════════════════════════════════════════════════════════════
+
+// ── かげのモンスターの顔を「悪者」にする ──────────────────────
+// chars.js の petEyes / petWrapSVG を実行時に差し替える。render*SVG は
+// 名前で呼ぶので、window 側を入れかえれば18体すべてに効く。
+// （renderLunaSVG だけ petEyes を使っていないので、主人公の顔は変わらない）
+(function () {
+  const origEyes = window.petEyes;
+  const origWrap = window.petWrapSVG;
+  let face = null;                       // 直前に描いた「かげの目」の位置
+  const n = (v) => (+v).toFixed(1);
+
+  window.petEyes = function (c, sil, lx, rx, y, r, ring) {
+    if (!sil) { face = null; return origEyes(c, sil, lx, rx, y, r, ring); }
+    face = { lx: lx, rx: rx, y: y, r: r, lid: c.skin };
+    const glow = (cx) =>
+      `<ellipse cx="${cx}" cy="${y}" rx="${n(r * 2.2)}" ry="${n(r * 2.4)}" fill="#ef4444" opacity="0.16"/>`;
+    const eye = (cx) =>
+      `<ellipse cx="${cx}" cy="${y}" rx="${r}" ry="${n(r * 1.25)}" fill="#e11d48"/>` +
+      `<ellipse cx="${cx}" cy="${n(y - r * 0.28)}" rx="${n(r * 0.40)}" ry="${n(r * 0.48)}" fill="#ffe4e6" opacity="0.85"/>`;
+    return glow(lx) + glow(rx) + eye(lx) + eye(rx);
+  };
+
+  // 本体を描いたあと、いちばん上に「つり目」と「まゆ」を重ねる
+  window.petWrapSVG = function (L, size, bg, deco, body) {
+    let extra = '';
+    if (face) { extra = villainFace(face); face = null; }
+    return origWrap(L, size, bg, deco, body + extra);
+  };
+
+  function villainFace(f) {
+    const r = f.r, y = f.y;
+    // 目の内がわ上を本体と同じ色でけずって、つり目にする
+    const cut = (cx, d) =>
+      `<path d="M${n(cx - d * r * 1.35)} ${n(y - r * 1.7)} L${n(cx + d * r * 1.45)} ${n(y - r * 1.7)} ` +
+      `L${n(cx + d * r * 1.45)} ${n(y + r * 0.25)} Z" fill="${f.lid}"/>`;
+    // つり上がったまゆ
+    const brow = (cx, d) =>
+      `<path d="M${n(cx - d * r * 1.5)} ${n(y - r * 2.5)} L${n(cx + d * r * 1.6)} ${n(y - r * 1.25)}" ` +
+      `stroke="#3b0764" stroke-width="${n(r * 0.7)}" stroke-linecap="round" fill="none"/>`;
+    return cut(f.lx, 1) + cut(f.rx, -1) + brow(f.lx, 1) + brow(f.rx, -1);
+  }
+})();
+
+const SAVE_KEY = 'anrino_rpg_v1';
+
+// 17単元 ↔ 17体。ルナ（主人公）とカブたろう（ボス）は除いてある。
+const MONSTER_POOL = ['tanuki','parrot','owl','neko','penguin','sheep','frog','snail','duck',
+                      'squirrel','turtle','fox','dolphin','elephant','hedgehog','panda','hamster'];
+const CHAR_NAME = {
+  tanuki:'タヌキ', parrot:'インコ', owl:'フクロウ', neko:'ネコ', penguin:'ペンギン',
+  sheep:'ヒツジ', frog:'カエル', snail:'カタツムリ', duck:'アヒル', squirrel:'リス',
+  turtle:'カメ', fox:'キツネ', dolphin:'イルカ', elephant:'ゾウ', hedgehog:'ハリネズミ',
+  panda:'パンダ', hamster:'ハムスター', kabu:'カブたろう', luna:'ルナ'
+};
+const BOSS_KEY = 'kabu';
+
+const MAX_Q_PER_BATTLE = 8;   // 1体あたり最大8問
+const DMG_HIT = 10, DMG_CRIT = 15, DMG_TAKE = 10, HP_BASE = 30, HP_PER_LV = 5;
+const EXP_HIT = 10, EXP_WIN = 50;
+
+let QUESTIONS = [], SUBJECTS = {}, STAGES = [];
+let save = null;
+let bt = null;                // 戦闘中の状態
+
+// ── セーブ ──────────────────────────────────────────────────
+function freshSave() {
+  return { v:1, lv:1, exp:0, hp:HP_BASE, cleared:{}, seen:{}, wins:0, bossDown:false };
+}
+function loadSave() {
+  try {
+    const raw = localStorage.getItem(SAVE_KEY);
+    if (!raw) return null;
+    const s = JSON.parse(raw);
+    if (!s || s.v !== 1) return null;          // 将来バージョンが上がったらここで移行する
+    return Object.assign(freshSave(), s);
+  } catch (e) { return null; }
+}
+function persist() {
+  try { localStorage.setItem(SAVE_KEY, JSON.stringify(save)); } catch (e) {}
+}
+function maxHp()  { return HP_BASE + (save.lv - 1) * HP_PER_LV; }
+function needExp(){ return save.lv * 100; }
+
+// ── 画面 ────────────────────────────────────────────────────
+function showScreen(id) {
+  document.querySelectorAll('.scr').forEach(el => el.classList.remove('on'));
+  document.getElementById('scr-' + id).classList.add('on');
+  window.scrollTo(0, 0);
+}
+
+// ── 起動 ────────────────────────────────────────────────────
+async function boot() {
+  const [qs, su] = await Promise.all([
+    fetch('data/questions_202609.json').then(r => r.json()),
+    fetch('data/subjects_202609.json').then(r => r.json())
+  ]);
+  QUESTIONS = qs;
+  SUBJECTS  = su;
+  buildStages();
+  save = loadSave();
+
+  document.getElementById('title-hero').innerHTML = CHARS.luna(6, 100, 150, {});
+  if (save) {
+    document.getElementById('title-start').textContent =
+      'つづきから（Lv' + save.lv + '・なかま ' +
+      Object.keys(save.seen).length + '/' + STAGES.length + '）';
+  }
+}
+
+
+// SUBJECTS の 親→子 の並びを、そのまま ダンジョン→フロア にする
+function buildStages() {
+  const counts = {};
+  QUESTIONS.forEach(q => { counts[q.subject] = (counts[q.subject] || 0) + 1; });
+
+  const groups = Object.keys(SUBJECTS).filter(k => SUBJECTS[k].isGroup);
+  let i = 0;
+  STAGES = [];
+  groups.forEach(g => {
+    Object.keys(SUBJECTS).forEach(k => {
+      if (SUBJECTS[k].parent !== g || !counts[k]) return;
+      STAGES.push({
+        key: k,
+        group: g,
+        label: SUBJECTS[k].label,
+        groupLabel: SUBJECTS[g].label,
+        groupIcon: SUBJECTS[g].icon,
+        category: SUBJECTS[g].category,
+        total: counts[k],
+        char: MONSTER_POOL[i % MONSTER_POOL.length]
+      });
+      i++;
+    });
+  });
+}
+
+function startGame()    { save = loadSave() || freshSave(); persist(); showMap(); }
+function continueGame() { showMap(); }
+
+// ── マップ ──────────────────────────────────────────────────
+function showMap() {
+  const done = STAGES.filter(s => save.cleared[s.key]).length;
+  document.getElementById('map-status').innerHTML =
+    '<div class="panel" style="margin:14px 0 12px; display:flex; align-items:center; gap:12px;">' +
+      '<div style="flex:0 0 58px;">' + CHARS.luna(Math.min(6, save.lv), 100, 58, {}) + '</div>' +
+      '<div style="flex:1;">' +
+        '<b style="font-size:15px;">ルナ <span class="gem">Lv ' + save.lv + '</span></b>' +
+        '<div class="hpbar" style="margin-top:6px;"><i style="width:' +
+          pct(save.hp, maxHp()) + '%; background:linear-gradient(90deg,#22c55e,#4ade80);"></i></div>' +
+        '<div style="font-size:11px; color:#64748b; margin-top:3px;">HP ' + save.hp + ' / ' + maxHp() +
+          '　なかま ' + done + ' / ' + STAGES.length + '</div>' +
+      '</div>' +
+    '</div>';
+
+  let html = '';
+  let lastGroup = null;
+  STAGES.forEach(s => {
+    if (s.group !== lastGroup) {
+      if (lastGroup !== null) html += '</div>';
+      html += '<div class="panel" style="margin-bottom:11px;">' +
+              '<div style="font-weight:800; font-size:15px; margin-bottom:9px;">' +
+                s.groupIcon + ' ' + s.groupLabel + '</div>';
+      lastGroup = s.group;
+    }
+    const clear = !!save.cleared[s.key];
+    html += '<button class="btn" onclick="startBattle(\'' + s.key + '\')" ' +
+            'style="display:flex; align-items:center; gap:11px;' +
+            (clear ? 'background:#f0fdf4; border-color:#86efac;' : '') + '">' +
+              '<span style="flex:0 0 42px;' + (clear ? '' : ' opacity:.85;') + '">' +
+                CHARS[s.char](6, 100, 42, { silhouette: !clear }) + '</span>' +
+              '<span style="flex:1;">' + s.label +
+                '<span style="display:block; font-size:11px; color:#64748b; font-weight:400;">' +
+                  (clear ? CHAR_NAME[s.char] + '　なかま' : 'かげの' + CHAR_NAME[s.char]) +
+                  '　全' + s.total + '問</span></span>' +
+              '<span style="font-size:17px;">' + (clear ? '✅' : '⚔️') + '</span>' +
+            '</button>';
+  });
+  if (lastGroup !== null) html += '</div>';
+
+  // 17体すべて倒すとボスが出る
+  const all = STAGES.every(s => save.cleared[s.key]);
+  html += '<div class="panel" style="margin-bottom:11px;' + (all ? '' : ' opacity:.55;') + '">' +
+            '<div style="font-weight:800; font-size:15px; margin-bottom:9px;">🌑 さいごのたたかい</div>' +
+            (all
+              ? '<button class="btn" onclick="startBattle(\'__boss__\')" style="display:flex; align-items:center; gap:11px;' +
+                (save.bossDown ? 'background:#f0fdf4; border-color:#86efac;' : '') + '">' +
+                  '<span style="flex:0 0 42px;">' + CHARS[BOSS_KEY](6, 100, 42, { silhouette: !save.bossDown }) + '</span>' +
+                  '<span style="flex:1;">つきのぬし<span style="display:block; font-size:11px; color:#64748b; font-weight:400;">9月ぜんぶから出題・全12問</span></span>' +
+                  '<span style="font-size:17px;">' + (save.bossDown ? '👑' : '⚔️') + '</span>' +
+                '</button>'
+              : '<div style="font-size:12.5px; color:#64748b;">なかまを17体あつめると あらわれる。</div>') +
+          '</div>';
+
+  document.getElementById('map-list').innerHTML = html;
+  showScreen('map');
+}
+
+function pct(a, b) { return Math.max(0, Math.min(100, Math.round(a / b * 100))); }
+
+// ── 戦闘 ────────────────────────────────────────────────────
+function startBattle(key) {
+  const boss = key === '__boss__';
+  const st = boss ? null : STAGES.find(s => s.key === key);
+  const pool = boss ? QUESTIONS.slice() : QUESTIONS.filter(q => q.subject === key);
+  const n = boss ? 12 : Math.min(pool.length, MAX_Q_PER_BATTLE);
+
+  if (save.hp <= 0) save.hp = maxHp();      // 全滅したままにはしない
+
+  bt = {
+    boss, key,
+    char: boss ? BOSS_KEY : st.char,
+    name: boss ? 'つきのぬし カブたろう' : 'かげの' + CHAR_NAME[st.char],
+    queue: shuffle(pool.slice()).slice(0, n),
+    idx: 0,
+    maxHp: n * DMG_HIT,
+    hp: n * DMG_HIT,
+    streak: 0,
+    correct: 0,
+    answered: false
+  };
+  renderBattle();
+  setMsg(bt.name + ' が あらわれた！');
+  showScreen('battle');
+}
+
+function setMsg(t) { document.getElementById('battle-msg').textContent = t; }
+
+function renderBattle() {
+  document.getElementById('enemy-name').textContent = bt.name;
+  document.getElementById('enemy-hp-text').textContent =
+    'HP ' + Math.max(0, bt.hp) + ' / ' + bt.maxHp + '　（' + (bt.idx + 1) + '問目 / ' + bt.queue.length + '）';
+  document.getElementById('enemy-hp').style.width = pct(bt.hp, bt.maxHp) + '%';
+  document.getElementById('enemy-art').innerHTML =
+    '<div id="enemy-sprite">' + CHARS[bt.char](6, 100, 180, { silhouette: true }) + '</div>';
+  renderMyBar();
+  renderQuestion();
+}
+
+function renderMyBar() {
+  document.getElementById('my-lv').textContent = 'Lv ' + save.lv;
+  document.getElementById('my-hp-text').textContent = 'HP ' + Math.max(0, save.hp) + ' / ' + maxHp();
+  document.getElementById('my-hp').style.width = pct(save.hp, maxHp()) + '%';
+  document.getElementById('my-exp').style.width = pct(save.exp, needExp()) + '%';
+}
+
+function esc(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+function qHTML(s) { return renderMath(esc(s)).replace(/\n/g, '<br>'); }
+
+function renderQuestion() {
+  const q = bt.queue[bt.idx];
+  bt.answered = false;
+  document.getElementById('ex-area').innerHTML = '';
+  document.getElementById('q-area').innerHTML =
+    '<div style="font-weight:700; line-height:1.8; font-size:15px;">' + qHTML(q.q) + '</div>' +
+    (q.qImage  ? '<img class="qimg" src="' + q.qImage  + '" alt="図">' : '') +
+    (q.qImage2 ? '<img class="qimg" src="' + q.qImage2 + '" alt="図2">' : '');
+
+  const a = document.getElementById('a-area');
+  if (q.type === 'selfjudge') {
+    a.innerHTML =
+      '<textarea id="sj-input" rows="2" placeholder="ここに こたえを書く…" ' +
+        'style="width:100%; border:2px solid var(--line); border-radius:12px; padding:11px; font-size:15px;"></textarea>' +
+      '<button class="btn-main" style="margin-top:8px;" onclick="revealSelfJudge()">こたえを見る 👀</button>';
+  } else {
+    q._order = q._order || shuffle(q.options.map((_, i) => i));
+    a.innerHTML = q._order.map((orig, i) =>
+      '<button class="btn" data-i="' + i + '" onclick="answerChoice(' + orig + ',' + i + ')">' +
+        qHTML(q.options[orig]) + '</button>').join('');
+  }
+}
+
+// 選択式
+function answerChoice(origIdx, btnIdx) {
+  if (bt.answered) return;
+  bt.answered = true;
+  const q = bt.queue[bt.idx];
+  const ok = origIdx === q.answer;
+  document.querySelectorAll('#a-area .btn').forEach(b => {
+    b.disabled = true;
+    if (+b.dataset.i === btnIdx) b.classList.add(ok ? 'ok' : 'ng');
+  });
+  resolveTurn(ok, q);
+}
+
+// 自己採点式
+function revealSelfJudge() {
+  if (bt.answered) return;
+  const q = bt.queue[bt.idx];
+  const mine = (document.getElementById('sj-input') || {}).value || '';
+  document.getElementById('a-area').innerHTML =
+    '<div style="background:#eef2ff; border-radius:12px; padding:12px; font-size:15px;">' +
+      '<div style="font-size:11px; color:#6366f1; font-weight:800;">こたえ</div>' +
+      '<div style="font-weight:800; margin-top:3px;">' + qHTML(q.answer) + '</div>' +
+      (mine.trim() ? '<div style="font-size:12px; color:#64748b; margin-top:7px;">きみの答え：' + esc(mine) + '</div>' : '') +
+    '</div>' +
+    '<div style="display:flex; gap:9px; margin-top:10px;">' +
+      '<button class="btn" style="text-align:center; background:#bbf7d0; border-color:#22c55e;" onclick="judgeSelf(true)">⭕ あってた</button>' +
+      '<button class="btn" style="text-align:center; background:#fecaca; border-color:#ef4444;" onclick="judgeSelf(false)">❌ ちがった</button>' +
+    '</div>';
+}
+function judgeSelf(ok) {
+  if (bt.answered) return;
+  bt.answered = true;
+  document.querySelectorAll('#a-area .btn').forEach(b => b.disabled = true);
+  resolveTurn(ok, bt.queue[bt.idx]);
+}
+
+// ── 効果音（剣） ────────────────────────────────────────────
+// util.js の playSound は index.html 側の `let _audioCtx` に依存していて
+// 鳴らないので、ここで自前に持つ。
+let _sfxCtx = null;
+function sfxCtx() {
+  if (!_sfxCtx) {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return null;
+    _sfxCtx = new AC();
+  }
+  return _sfxCtx;
+}
+
+// 出力はマスターゲイン経由。スマホのスピーカーは小さいので少し持ち上げる。
+function sfxOut(ctx) {
+  if (!ctx._master) {
+    const g = ctx.createGain();
+    g.gain.value = 1.7;
+    g.connect(sfxOut(ctx));
+    ctx._master = g;
+  }
+  return ctx._master;
+}
+
+function sfxNoise(ctx, dur) {
+  const n = Math.max(1, Math.floor(ctx.sampleRate * dur));
+  const buf = ctx.createBuffer(1, n, ctx.sampleRate);
+  const d = buf.getChannelData(0);
+  for (let i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+  return buf;
+}
+
+// こちらの攻撃：空気を切る「シュッ」＋刃の「キィン」
+function sfxSlash(ctx, t0, crit) {
+  const swing = (at, hi, lo, vol) => {
+    const src = ctx.createBufferSource();
+    src.buffer = sfxNoise(ctx, 0.26);
+    const bp = ctx.createBiquadFilter();
+    bp.type = 'bandpass'; bp.Q.value = 1.2;
+    bp.frequency.setValueAtTime(hi, at);
+    bp.frequency.exponentialRampToValueAtTime(lo, at + 0.16);
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(0.0001, at);
+    g.gain.exponentialRampToValueAtTime(vol, at + 0.018);
+    g.gain.exponentialRampToValueAtTime(0.0001, at + 0.19);
+    src.connect(bp); bp.connect(g); g.connect(sfxOut(ctx));
+    src.start(at); src.stop(at + 0.26);
+  };
+  const ring = (at, f1, f2, vol) => {
+    const o = ctx.createOscillator();
+    const g = ctx.createGain();
+    o.type = 'triangle';
+    o.frequency.setValueAtTime(f1, at);
+    o.frequency.exponentialRampToValueAtTime(f2, at + 0.42);
+    g.gain.setValueAtTime(0.0001, at);
+    g.gain.exponentialRampToValueAtTime(vol, at + 0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001, at + 0.46);
+    o.connect(g); g.connect(sfxOut(ctx));
+    o.start(at); o.stop(at + 0.5);
+  };
+  swing(t0, 5600, 800, 0.66);
+  ring(t0 + 0.05, crit ? 2800 : 2000, crit ? 1500 : 1150, crit ? 0.32 : 0.22);
+  if (crit) {                       // 会心はもう一撃かさねる
+    swing(t0 + 0.14, 6400, 900, 0.58);
+    ring(t0 + 0.20, 3400, 1800, 0.28);
+  }
+}
+
+// 斬られる：にぶい「ザシュッ」＋重い一撃
+function sfxHurt(ctx, t0) {
+  const src = ctx.createBufferSource();
+  src.buffer = sfxNoise(ctx, 0.34);
+  const lp = ctx.createBiquadFilter();
+  lp.type = 'lowpass'; lp.Q.value = 0.9;
+  lp.frequency.setValueAtTime(2600, t0);
+  lp.frequency.exponentialRampToValueAtTime(320, t0 + 0.30);
+  const g = ctx.createGain();
+  g.gain.setValueAtTime(0.0001, t0);
+  g.gain.exponentialRampToValueAtTime(0.36, t0 + 0.015);
+  g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.32);
+  src.connect(lp); lp.connect(g); g.connect(sfxOut(ctx));
+  src.start(t0); src.stop(t0 + 0.34);
+
+  const o = ctx.createOscillator();
+  const og = ctx.createGain();
+  o.type = 'square';
+  o.frequency.setValueAtTime(420, t0);
+  o.frequency.exponentialRampToValueAtTime(110, t0 + 0.28);   // スマホのスピーカーで出る高さに
+  og.gain.setValueAtTime(0.0001, t0);
+  og.gain.exponentialRampToValueAtTime(0.24, t0 + 0.02);
+  og.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.30);
+  o.connect(og); og.connect(sfxOut(ctx));
+  o.start(t0); o.stop(t0 + 0.34);
+}
+
+// iOS はサイレントスイッチでWebAudioが消える。無音の<audio>を1本鳴らして
+// オーディオセッションを「再生中」に切りかえると、スイッチの影響を受けなくなる。
+let _unlocked = false;
+function unlockAudio() {
+  if (_unlocked) return;
+  _unlocked = true;
+  try {                                   // iOS 16.4+ / Safari 17+ の正式なやり方
+    if (navigator.audioSession) navigator.audioSession.type = 'playback';
+  } catch (e) {}
+  const ctx = sfxCtx();
+  if (ctx) {
+    try { ctx.resume(); } catch (e) {}
+    try {                                   // 無音バッファを1回鳴らして解錠
+      const b = ctx.createBuffer(1, 1, ctx.sampleRate);
+      const s = ctx.createBufferSource();
+      s.buffer = b; s.connect(ctx.destination); s.start(0);
+    } catch (e) {}
+  }
+  const el = document.getElementById('silent-loop');
+  if (el) { el.volume = 0.001; el.play().catch(() => {}); }
+}
+document.addEventListener('pointerdown', unlockAudio);
+document.addEventListener('touchstart', unlockAudio);
+
+// タイトル／マップの「🔊 音をテスト」
+function sfxTest(btn) {
+  unlockAudio();
+  sfx(true, false);
+  setTimeout(() => sfx(true, true), 800);
+  setTimeout(() => sfx(false), 1900);
+  const el = document.getElementById('sfx-status');
+  if (el) {
+    const ctx = sfxCtx();
+    const lp = document.getElementById('silent-loop');
+    el.textContent = '鳴らした → ' +
+      (ctx ? ctx.state : 'ctxなし') +
+      ' / session:' + ((navigator.audioSession && navigator.audioSession.type) || '—') +
+      ' / 無音ループ:' + (lp && !lp.paused ? 'ON' : 'OFF') +
+      '　※これが running でも聞こえないときは本体の音量かマナーモード';
+  }
+}
+
+function sfx(ok, crit) {
+  unlockAudio();
+  const ctx = sfxCtx();
+  if (!ctx) return;
+  const go = () => {
+    const t = ctx.currentTime + 0.01;
+    if (ok) sfxSlash(ctx, t, !!crit); else sfxHurt(ctx, t);
+  };
+  try {
+    if (ctx.state === 'suspended') ctx.resume().then(go).catch(() => {});
+    else go();
+  } catch (e) {}
+}
+
+// 1ターンの決着（正誤→ダメージ→EXP→次へ）
+function resolveTurn(ok, q) {
+  const sprite = document.getElementById('enemy-sprite');
+
+  if (ok) {
+    bt.streak++;
+    bt.correct++;
+    const dmg = bt.streak >= 2 ? DMG_CRIT : DMG_HIT;
+    sfx(true, bt.streak >= 2);
+    bt.hp -= dmg;
+    save.exp += EXP_HIT;
+    popDamage(dmg, bt.streak >= 2);
+    if (sprite) { sprite.classList.remove('shake'); void sprite.offsetWidth; sprite.classList.add('shake'); }
+    setMsg(bt.streak >= 2 ? 'かいしんの一撃！ ' + dmg + 'ダメージ！' : 'せいかい！ ' + dmg + 'ダメージ！');
+  } else {
+    bt.streak = 0;
+    sfx(false);
+    save.hp -= DMG_TAKE;
+    setMsg('ざんねん… ' + DMG_TAKE + 'のダメージを受けた');
+  }
+
+  document.getElementById('enemy-hp').style.width = pct(Math.max(0, bt.hp), bt.maxHp) + '%';
+  document.getElementById('enemy-hp-text').textContent =
+    'HP ' + Math.max(0, bt.hp) + ' / ' + bt.maxHp + '　（' + (bt.idx + 1) + '問目 / ' + bt.queue.length + '）';
+  renderMyBar();
+
+  document.getElementById('ex-area').innerHTML =
+    '<div style="margin-top:12px; background:' + (ok ? '#f0fdf4' : '#fef2f2') +
+      '; border-radius:12px; padding:12px; font-size:13.5px; line-height:1.8;">' +
+      '<b>' + (ok ? '⭕ せいかい' : '❌ ざんねん') + '</b><br>' + qHTML(q.explanation || '') +
+    '</div>' +
+    '<button class="btn-main" style="margin-top:10px;" onclick="nextTurn()">つぎへ →</button>';
+  persist();
+}
+
+function popDamage(n, crit) {
+  const host = document.getElementById('enemy-art');
+  const el = document.createElement('div');
+  el.className = 'dmg';
+  el.textContent = (crit ? '✨' : '') + n;
+  host.appendChild(el);
+  setTimeout(() => el.remove(), 950);
+}
+
+function nextTurn() {
+  if (save.hp <= 0)      return endBattle(false);
+  if (bt.hp <= 0)        return endBattle(true);
+  bt.idx++;
+  if (bt.idx >= bt.queue.length) return endBattle(bt.hp <= 0);
+  renderBattle();
+  setMsg('');
+}
+
+function fleeBattle() {
+  setMsg('');
+  showMap();
+}
+
+function endBattle(win) {
+  let lvUps = 0;
+  if (win) {
+    save.exp += EXP_WIN;
+    save.wins++;
+    if (bt.boss) save.bossDown = true;
+    else { save.cleared[bt.key] = true; save.seen[bt.char] = true; }
+  }
+  while (save.exp >= needExp()) {
+    save.exp -= needExp();
+    save.lv++;
+    lvUps++;
+  }
+  if (lvUps) save.hp = maxHp();
+  if (save.hp <= 0) save.hp = Math.max(1, Math.round(maxHp() / 2));  // にげかえって半分回復
+  persist();
+
+  document.getElementById('result-body').innerHTML =
+    (win
+      ? '<div style="font-size:21px; font-weight:800; color:#16a34a;">' +
+          (bt.boss ? '👑 つきのぬしを たおした！' : CHAR_NAME[bt.char] + ' が なかまになった！') + '</div>' +
+        '<div style="margin:12px 0; display:flex; justify-content:center;">' + CHARS[bt.char](6, 100, 150, {}) + '</div>'
+      : '<div style="font-size:21px; font-weight:800; color:#b45309;">にげかえった…</div>' +
+        '<div style="margin:12px 0; opacity:.75; display:flex; justify-content:center;">' + CHARS[bt.char](6, 100, 150, { silhouette: true }) + '</div>' +
+        '<div style="font-size:13px; color:#64748b;">HPを半分まで回復した。もう一度いどめるよ。</div>') +
+    '<div style="margin-top:10px; font-size:14px;">せいかい ' + bt.correct + ' / ' + bt.queue.length +
+      '　けいけんち +' + (bt.correct * EXP_HIT + (win ? EXP_WIN : 0)) + '</div>';
+
+  if (lvUps) showLevelUp(lvUps);
+  showScreen('result');
+}
+
+// ── レベルアップ演出 ────────────────────────────────────────
+function showLevelUp(n) {
+  document.getElementById('lvup-art').innerHTML = CHARS.luna(Math.min(6, save.lv), 100, 130, {});
+  document.getElementById('lvup-text').textContent = 'ルナは Lv ' + save.lv + ' になった！';
+  document.getElementById('lvup-sub').textContent =
+    (n > 1 ? n + '段階アップ！　' : '') + 'さいだいHP ' + maxHp() + ' ／ HPが全回復した';
+  document.getElementById('levelup').classList.add('on');
+}
+function closeLevelUp() { document.getElementById('levelup').classList.remove('on'); }
+
+// ── ずかん ──────────────────────────────────────────────────
+function showDex() {
+  const got = STAGES.filter(s => save.seen[s.char]).length;
+  document.getElementById('dex-count').textContent =
+    got + ' / ' + STAGES.length + ' 体' + (save.bossDown ? '　＋ つきのぬし 👑' : '');
+  document.getElementById('dex-grid').innerHTML = STAGES.map(s => {
+    const seen = !!save.seen[s.char];
+    return '<div style="text-align:center;">' +
+      CHARS[s.char](6, 100, 88, { silhouette: !seen }) +
+      '<div style="font-size:11px; font-weight:700; margin-top:2px;">' +
+        (seen ? CHAR_NAME[s.char] : '？？？') + '</div>' +
+      '<div style="font-size:9.5px; color:#64748b;">' + s.groupIcon + ' ' + s.label + '</div>' +
+    '</div>';
+  }).join('');
+  showScreen('dex');
+}
+
+boot();
+</script>
+</body>
+</html>
