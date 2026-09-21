@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* rpg.html の見た目をそのまま移植して、2つのゲームが兄弟に見えるようにする */
+:root { --ink:#1e1b4b; --card:#ffffff; --line:#c7d2fe; }
+
+* { -webkit-tap-highlight-color: transparent; }
+
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  color: var(--ink);
+  background: linear-gradient(160deg,#1e1b4b 0%,#312e81 45%,#4c1d95 100%);
+  background-attachment: fixed;
+  overscroll-behavior: none;
+}
+
+@layer components {
+  .panel {
+    background: var(--card);
+    border-radius: 18px;
+    padding: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.28);
+  }
+  .btn {
+    display: block; width: 100%; text-align: left;
+    background: #fff; border: 2px solid var(--line); border-radius: 14px;
+    padding: 13px 15px; font-weight: 700; cursor: pointer;
+    transition: transform .08s, border-color .12s, opacity .12s;
+  }
+  .btn:active { transform: scale(.985); }
+  .btn:disabled { opacity: .55; cursor: default; }
+  .btn-main {
+    display: block; width: 100%; text-align: center;
+    border: none; border-radius: 14px; padding: 15px;
+    font-weight: 800; font-size: 17px; color: #fff; cursor: pointer;
+    background: linear-gradient(135deg,#8b5cf6,#6366f1);
+    box-shadow: 0 6px 16px rgba(99,102,241,.45);
+    transition: transform .08s, opacity .12s;
+  }
+  .btn-main:active { transform: scale(.985); }
+  .btn-main:disabled { opacity: .5; cursor: default; box-shadow: none; }
+}
+
+.fade-in { animation: fade .18s ease-out; }
+@keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+/* ── キャラと家具のうごき ── */
+@keyframes egg-wobble {
+  0%, 60%, 100% { transform: rotate(0deg); }
+  70% { transform: rotate(-6deg); }
+  80% { transform: rotate(5deg); }
+  90% { transform: rotate(-3deg); }
+}
+@keyframes mill-spin { to { transform: rotate(360deg); } }
+@keyframes idle-breathe {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2.5px); }
+}
+@keyframes toast-in {
+  from { opacity: 0; transform: translate(-50%, 10px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
+.idle-breathe { animation: idle-breathe 3.2s ease-in-out infinite; }
+.toast-in { animation: toast-in .22s ease-out; }
+
+/* 島のタップで文字選択やスクロールが起きないようにする */
+.island-stage {
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
