@@ -54,6 +54,7 @@ export const ITEMS: Item[] = [
   { id: 'gf_cookie', kind: 'gift', name: 'クッキー',   emoji: '🍪', price: 2, desc: 'なかよし +1', love: 1 },
   { id: 'gf_flower', kind: 'gift', name: 'おはな',     emoji: '🌸', price: 3, desc: 'なかよし +2', love: 2 },
   { id: 'gf_berry',  kind: 'gift', name: 'いちご',     emoji: '🍓', price: 4, desc: 'なかよし +2', love: 2 },
+  { id: 'gf_apple',  kind: 'gift', name: 'りんご',     emoji: '🍎', price: 4, desc: 'なかよし +2', love: 2 },
   { id: 'gf_book',   kind: 'gift', name: 'えほん',     emoji: '📚', price: 5, desc: 'なかよし +3', love: 3 },
   { id: 'gf_dango',  kind: 'gift', name: 'おだんご',   emoji: '🍡', price: 5, desc: 'なかよし +3', love: 3 },
 
@@ -117,7 +118,7 @@ export const STAMP_REWARDS: { days: number; item?: string; label: string }[] = [
   { days: 20, item: 'fn_fountain', label: '⛲ ふんすい' },
 ];
 /** たからばこ・スタンプで もらえる プレゼント（季節の品は入れない） */
-export const EVERYDAY_GIFTS = ['gf_cookie', 'gf_flower', 'gf_berry', 'gf_book', 'gf_dango'];
+export const EVERYDAY_GIFTS = ['gf_cookie', 'gf_flower', 'gf_berry', 'gf_apple', 'gf_book', 'gf_dango'];
 
 /** いまの月（1..12）。?season=10 で見た目の確認ができる */
 export function seasonNow(): number {
@@ -145,7 +146,7 @@ export function expansionOf(buildings: string[]): number {
 
 /** 教科キャラの だいすきなもの（ポイント2倍） */
 export const FAVORITE: Record<string, string> = {
-  tanuki: 'gf_dango', owl: 'gf_book', parrot: 'gf_berry', rabbit: 'gf_flower', bear: 'gf_cookie',
+  tanuki: 'gf_dango', owl: 'gf_book', parrot: 'gf_berry', rabbit: 'gf_flower', bear: 'gf_cookie', cow: 'gf_apple',
 };
 export const GIFTS_PER_DAY = 3;
 /** ♥が1つ増える なかよしポイント */

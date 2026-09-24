@@ -1,6 +1,6 @@
 {
 "tsukimie": {
-"label": "月の位置と見え方",
+"label": "月の形と時こく・方角1",
 "icon": "🌔",
 "tag": "tag-tsukimie",
 "category": "rika",
@@ -17,5 +17,85 @@
 "category": "rika",
 "month": "202610",
 "parent": "tsukimie"
+},
+"tsukimie_renshu": {
+"label": "練習問題",
+"icon": "✏️",
+"tag": "tag-tsukimie",
+"category": "rika",
+"month": "202610",
+"parent": "tsukimie"
+},
+"tsukimie_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-tsukimie",
+"category": "rika",
+"month": "202610",
+"parent": "tsukimie"
+},
+"nougyou3": {
+"label": "日本の農業３",
+"icon": "🍎",
+"tag": "tag-nougyou3",
+"category": "shakai",
+"month": "202610",
+"isGroup": true
+},
+"nougyou3_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-nougyou3",
+"category": "shakai",
+"month": "202610",
+"parent": "nougyou3"
+},
+"nougyou3_renshu": {
+"label": "練習問題",
+"icon": "✏️",
+"tag": "tag-nougyou3",
+"category": "shakai",
+"month": "202610",
+"parent": "nougyou3"
+},
+"nougyou3_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-nougyou3",
+"category": "shakai",
+"month": "202610",
+"parent": "nougyou3"
+},
+"nougyou4": {
+"label": "日本の農業４",
+"icon": "🐄",
+"tag": "tag-nougyou4",
+"category": "shakai",
+"month": "202610",
+"isGroup": true
+},
+"nougyou4_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-nougyou4",
+"category": "shakai",
+"month": "202610",
+"parent": "nougyou4"
+},
+"nougyou4_renshu": {
+"label": "練習問題",
+"icon": "✏️",
+"tag": "tag-nougyou4",
+"category": "shakai",
+"month": "202610",
+"parent": "nougyou4"
+},
+"nougyou4_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-nougyou4",
+"category": "shakai",
+"month": "202610",
+"parent": "nougyou4"
 }
 }

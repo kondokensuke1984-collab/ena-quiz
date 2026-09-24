@@ -1,4 +1,4 @@
-// 既存の /js/chars.js（20体のキャラSVG描画関数）を、React から使うための橋渡し。
+// 既存の /js/chars.js（22体のキャラSVG描画関数）を、React から使うための橋渡し。
 //
 // なぜ index.html に <script src="/js/chars.js"> と静的に書かないか：
 // Vite はエントリHTMLの src 属性を publicDir 基準で解決しようとするが、
@@ -8,7 +8,8 @@
 export type CharKey =
   | 'luna' | 'kabu' | 'tanuki' | 'parrot' | 'owl' | 'neko' | 'penguin'
   | 'sheep' | 'frog' | 'snail' | 'duck' | 'squirrel' | 'turtle' | 'fox'
-  | 'dolphin' | 'elephant' | 'hedgehog' | 'panda' | 'hamster' | 'rabbit' | 'bear';
+  | 'dolphin' | 'elephant' | 'hedgehog' | 'panda' | 'hamster' | 'rabbit' | 'bear'
+  | 'cow';
 
 export interface CharOpts {
   silhouette?: boolean;
@@ -38,6 +39,7 @@ export const CHAR_NAMES: Record<CharKey, string> = {
   neko: 'ミケ', penguin: 'ペンタ', sheep: 'メイ', frog: 'ケロ', snail: 'マイマイ',
   duck: 'アヒ', squirrel: 'リスまる', turtle: 'カメきち', fox: 'コンタ', dolphin: 'ドルル',
   elephant: 'ゾウまる', hedgehog: 'ハリー', panda: 'パンコ', hamster: 'ハムタ', rabbit: 'ミミ', bear: 'ツキミ',
+  cow: 'モモ',
 };
 
 const SCRIPT_URL = '/js/chars.js';
