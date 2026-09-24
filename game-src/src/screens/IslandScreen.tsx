@@ -151,7 +151,7 @@ export function IslandScreen() {
   const [sleeping, setSleeping] = useState(false);
   const [deskOpen, setDeskOpen] = useState(false);
 
-  // ── クイズで育てている教科キャラ（ぽんた・ホウ・ピコ・ミミ）。クイズ側の書き出しを読むだけ ──
+  // ── クイズで育てている教科キャラ（その月の主役と前の月の住人）。クイズ側の書き出しを読むだけ ──
   const [snap, setSnap] = useState(() => readFriends());
   // 主役＝いまの月の子。住人（前の月の子）は毎日何体かだけ あそびに来る（画面がいっぱいにならないように）
   const day = todayKey();

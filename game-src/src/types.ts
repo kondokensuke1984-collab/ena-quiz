@@ -34,7 +34,7 @@ export interface PlacedFurniture {
   area?: Area;   // ないものは main（エリアを作る前に置いた家具）
 }
 
-/** 教科キャラ（ぽんた・ホウ・ピコ・ミミ）と あそんだ記録 */
+/** 教科キャラと あそんだ記録（char キーごと。月をまたいで引きつぐ） */
 export interface FriendPlay {
   pts: number;          // なかよしポイント（♥の元）
   day: string;          // today を数えている日（YYYY-MM-DD）

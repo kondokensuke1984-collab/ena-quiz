@@ -142,7 +142,7 @@ export function ShopScreen() {
 
       {active.key === 'gift' && (
         <p className="mt-3 rounded-2xl bg-white/10 px-4 py-3 text-[11px] font-bold leading-relaxed text-indigo-100/75">
-          かった プレゼントは、🏝しま で ぽんた・ホウ・ピコ・ミミに ちかづいて「🎁 プレゼント」で あげよう。<br />
+          かった プレゼントは、🏝しま で きょうかキャラに ちかづいて「🎁 プレゼント」で あげよう。<br />
           みんな 1つずつ だいすきな ものが あるよ。
         </p>
       )}
