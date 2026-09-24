@@ -8,7 +8,7 @@ import { earnedTotal, isMedalKey } from '../lib/medals';
 import { isSpentKey, loadSpent, spend, type SpendLedger, type SpendResult } from '../lib/spend';
 import { feed } from '../lib/monster';
 import {
-  isConsumable, ITEM_BY_ID, BATTLE_REWARDS, WHEEL_TITLE,
+  isConsumable, ITEM_BY_ID, WHEEL_TITLE,
   FAVORITE, GIFTS_PER_DAY, heartsOf, STAMP_REWARDS, EVERYDAY_GIFTS, nextBuildId,
 } from '../lib/items';
 import { FISH_PER_DAY, FISH_REWARDS, FISH_STUDY_BONUS } from '../lib/fish';
@@ -118,9 +118,6 @@ export interface GameApi {
   setRoom(part: 'wall' | 'floor', id: string): void;
   moveFurniture(uid: string, x: number, y: number): void;
   storeFurniture(uid: string): void;
-  winBattle(): { furniture: string[]; titles: string[] };
-  loseBattle(): void;
-  spendFullness(n: number): void;
   resetAll(): void;
   showToast(text: string, tone?: 'ok' | 'ng'): void;
   build(itemId: string): void;
@@ -324,30 +321,6 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       setSave((s) => ({ ...s, placed: s.placed.map((p) => (p.uid === uid ? { ...p, x, y } : p)) })),
 
     storeFurniture: (uid) => setSave((s) => ({ ...s, placed: s.placed.filter((p) => p.uid !== uid) })),
-
-    winBattle: () => {
-      const cur = saveRef.current;
-      const wins = cur.battle.wins + 1;
-      const hit = BATTLE_REWARDS.filter((r) => r.wins === wins);
-      const furniture = hit.map((r) => r.furniture).filter((id) => !cur.owned.includes(id));
-      const titles = hit.map((r) => r.title).filter((t) => !cur.titles.includes(t));
-
-      setSave((s) => ({
-        ...s,
-        battle: { ...s.battle, wins, lastAt: Date.now() },
-        monster: { ...s.monster, exp: s.monster.exp + 30 },
-        owned: [...s.owned, ...furniture],
-        titles: [...s.titles, ...titles],
-      }));
-      return { furniture, titles };
-    },
-
-    loseBattle: () =>
-      setSave((s) => ({ ...s, battle: { ...s.battle, losses: s.battle.losses + 1, lastAt: Date.now() } })),
-
-    // バトル1回ぶんの満腹度を減らす。lastFedAt は動かさない（空腹判定は時刻ベースのまま）
-    spendFullness: (n) =>
-      setSave((s) => ({ ...s, monster: { ...s.monster, fullness: Math.max(0, s.monster.fullness - n) } })),
 
     resetAll: () => {
       const f = freshSave();

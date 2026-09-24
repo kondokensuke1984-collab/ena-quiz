@@ -180,11 +180,3 @@ export function slotOf(item: Item): 'weapon' | 'shield' | 'costume' | 'hat' | nu
   return null;
 }
 
-/** 勝利数の節目でもらえるもの。★メダルは配らない（メダルはクイズでしか増えない） */
-export const BATTLE_REWARDS: { wins: number; furniture: string; title: string }[] = [
-  { wins: 1, furniture: 'fn_rug',   title: 'はじめての しょうり' },
-  { wins: 2, furniture: 'fn_sign',  title: 'しまの たんけんか' },
-  { wins: 3, furniture: 'fn_lamp',  title: 'たたかいの たつじん' },
-  { wins: 5, furniture: 'fn_tree',  title: 'しまの えいゆう' },
-  { wins: 8, furniture: 'fn_mill',  title: 'でんせつの しまぬし' },
-];

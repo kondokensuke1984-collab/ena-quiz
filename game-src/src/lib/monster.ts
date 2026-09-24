@@ -71,10 +71,6 @@ export function pickCharKey(createdAt: number): CharKey {
   return HATCHABLE[i];
 }
 
-export function canBattle(m: MonsterState, now = Date.now()): boolean {
-  return m.stage !== 'egg' && mood(m, now) !== 'down' && displayFullness(m, now) >= 30;
-}
-
 export interface FeedOutcome {
   monster: MonsterState;
   hatched: boolean;
