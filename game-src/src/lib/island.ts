@@ -1,5 +1,7 @@
 // 島の座標系と移動。
-// 島は論理サイズ 1000 x 750 の固定フィールド。セーブには 0..1 の割合で入れる。
+// 位置は 1000 x 750 の枠に対する割合で持つ（セーブもこの単位）。
+// main（アンリノ島）は 2026-09-22 に土地を広げた：割合は 0..1 の外（x −0.3〜1.3、y −0.35〜1.45）まで使う。
+// いまある座標は 1つも動かしていない（今の島が 大きな島の まんなかに そのまま残る）。画面は カメラで スクロールする。
 
 import type { Pos } from '../types';
 import { clamp } from './monster';
@@ -7,8 +9,63 @@ import { clamp } from './monster';
 export const ISLAND_W = 1000;
 export const ISLAND_H = 750;
 
-/** 歩ける範囲（割合）。外周は海と砂浜なので少し内側に寄せる */
-export const BOUNDS = { minX: 0.08, maxX: 0.92, minY: 0.30, maxY: 0.88 };
+/** main の世界の大きさ（px。1000x750 の枠の外まで ある）。カメラは この中だけ動く */
+export const WORLD = { x: -300, y: -260, w: 1600, h: 1360 };
+/** main の島の形（px）。砂浜・芝の楕円と、歩ける楕円 */
+export const MAIN_GROUND = { cx: 500, cy: 430, sandRx: 740, sandRy: 590, grassRx: 690, grassRy: 540 };
+const MAIN_WALK = { cx: 0.5, cy: 430 / 750, rx: 0.64, ry: 490 / 750 };   // 割合
+let WALK: typeof MAIN_WALK | null = null;
+
+/** 歩ける範囲（割合）。外周は海と砂浜なので少し内側に寄せる。
+ *  建物を建てると島が広がる（expansion 0..2）。今の大きさが最小なので、置いた家具が外に出ることはない */
+const BOUNDS_BY_EXP = [
+  { minX: 0.08, maxX: 0.92, minY: 0.30, maxY: 0.88 },
+  { minX: 0.06, maxX: 0.94, minY: 0.27, maxY: 0.90 },
+  { minX: 0.05, maxX: 0.95, minY: 0.25, maxY: 0.91 },
+];
+export let BOUNDS = BOUNDS_BY_EXP[0];
+export function setExpansion(level: number): void {
+  BOUNDS = BOUNDS_BY_EXP[Math.max(0, Math.min(BOUNDS_BY_EXP.length - 1, level | 0))];
+}
+/** main の歩ける範囲（楕円を かこむ四角。置く・動かすモードの ふちどりにも使う） */
+const BOUNDS_MAIN = {
+  minX: MAIN_WALK.cx - MAIN_WALK.rx, maxX: MAIN_WALK.cx + MAIN_WALK.rx,
+  minY: MAIN_WALK.cy - MAIN_WALK.ry, maxY: MAIN_WALK.cy + MAIN_WALK.ry,
+};
+
+/** 場所ごとの歩ける範囲。house＝部屋の ゆか、east＝となりの島 */
+const BOUNDS_HOUSE = { minX: 0.08, maxX: 0.92, minY: 0.56, maxY: 0.92 };
+const BOUNDS_EAST = { minX: 0.08, maxX: 0.9, minY: 0.3, maxY: 0.88 };
+export function setArea(area: 'main' | 'east' | 'house', _expansion?: number): void {
+  WALK = area === 'main' ? MAIN_WALK : null;
+  if (area === 'house') BOUNDS = BOUNDS_HOUSE;
+  else if (area === 'east') BOUNDS = BOUNDS_EAST;
+  else BOUNDS = BOUNDS_MAIN;   // 土地を広げたので、main は いつも いちばん広い形
+}
+/** いまの場所が main（広い島・カメラあり）か */
+export function isWideArea(): boolean { return WALK !== null; }
+export const MAIN_WALK_ELLIPSE = MAIN_WALK;
+
+/** 行き来する場所（割合）。はいり口に近づくとボタンが出る */
+export const DOORS = {
+  mainToHouse: { x: 0.2, y: 0.45 },      // おうちの 戸口
+  houseToMain: { x: 0.14, y: 0.6 },      // 部屋の ドア
+  mainToEast: { x: 1.12, y: 0.6 },       // はしの たもと（main の右の海岸）
+  eastToMain: { x: 0.09, y: 0.6 },       // はしの たもと（east の左はし）
+};
+export const ENTRY = {
+  house: { x: 0.2, y: 0.68 },
+  mainFromHouse: { x: 0.2, y: 0.5 },
+  east: { x: 0.14, y: 0.6 },
+  mainFromEast: { x: 1.07, y: 0.6 },
+};
+
+/** 芝と砂浜の大きさ（段階ごと） */
+export const GROUND_BY_EXP = [
+  { cy: 0.62, sandRx: 0.47, sandRy: 0.40, grassRx: 0.415, grassRy: 0.335 },
+  { cy: 0.615, sandRx: 0.49, sandRy: 0.425, grassRx: 0.445, grassRy: 0.365 },
+  { cy: 0.61, sandRx: 0.50, sandRy: 0.44, grassRx: 0.465, grassRy: 0.385 },
+];
 
 export const PLAYER_SPEED = 0.42;   // 画面の割合 / 秒
 export const MONSTER_SPEED = 0.10;
@@ -16,6 +73,14 @@ export const NEAR_DIST = 0.13;      // このくらい近づいたら話しか�
 export const ARRIVE_DIST = 0.008;
 
 export function clampToIsland(p: Pos): Pos {
+  if (WALK) {
+    // main は 楕円の中に おさえる（四角だと 角が 海に なる）
+    const x = Number.isFinite(p.x) ? p.x : WALK.cx, y = Number.isFinite(p.y) ? p.y : WALK.cy;
+    const dx = (x - WALK.cx) / WALK.rx, dy = (y - WALK.cy) / WALK.ry;
+    const d = Math.hypot(dx, dy);
+    if (d <= 1) return { x, y };
+    return { x: WALK.cx + (dx / d) * WALK.rx * 0.999, y: WALK.cy + (dy / d) * WALK.ry * 0.999 };
+  }
   return {
     x: clamp(p.x, BOUNDS.minX, BOUNDS.maxX),
     y: clamp(p.y, BOUNDS.minY, BOUNDS.maxY),

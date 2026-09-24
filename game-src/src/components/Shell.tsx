@@ -22,7 +22,7 @@ export function MedalBadge() {
 export function TabBar() {
   const { screen, go } = useGame();
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-30 mx-auto flex max-w-[480px] gap-1.5 border-t border-white/10 bg-indigo-950/90 px-3 pb-[max(10px,env(safe-area-inset-bottom))] pt-2 backdrop-blur">
+    <nav className="fixed inset-x-0 bottom-0 z-30 mx-auto flex max-w-[480px] lg:landscape:max-w-[1200px] gap-1.5 border-t border-white/10 bg-indigo-950/90 px-3 pb-[max(10px,env(safe-area-inset-bottom))] pt-2 backdrop-blur">
       {TABS.map((t) => (
         <button
           key={t.key}
@@ -57,7 +57,7 @@ function Toast() {
 
 export function Shell({ title, sub, children }: { title: string; sub?: string; children: ReactNode }) {
   return (
-    <div className="mx-auto min-h-full max-w-[480px] px-3 pb-24 pt-3">
+    <div className="mx-auto min-h-full max-w-[480px] px-3 pb-24 pt-3 lg:landscape:max-w-[1200px] lg:landscape:px-5">
       <header className="mb-3 flex items-center gap-2">
         <a
           href="/"

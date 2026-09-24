@@ -27,6 +27,19 @@ export function freshSave(now = Date.now()): SaveV1 {
     placed: [],
     titles: [],
     battle: { wins: 0, losses: 0, lastAt: 0 },
+    buildings: [],
+    friendsPlay: {},
+    stampClaims: [],
+    letters: [],
+    letterMarks: { init: false, lv: {}, full: {}, stamp: [], weekly: '' },
+    lastChest: '',
+    area: 'main',
+    room: { wall: 'wl_beige', floor: 'fl_wood' },
+    fish: { day: '', today: 0, caught: {}, big: {} },
+    farm: { plots: [null, null, null] },
+    treats: { day: '', got: [] },
+    stars: { dex: [] },
+    moon: { lastOffer: '' },
   };
 }
 
@@ -65,6 +78,29 @@ export function loadSave(): SaveV1 {
     owned: Array.isArray(s.owned) ? s.owned : [],
     titles: Array.isArray(s.titles) ? s.titles : [],
     placed: Array.isArray(s.placed) ? s.placed : [],
+    buildings: Array.isArray(s.buildings) ? s.buildings : [],
+    friendsPlay: obj(s.friendsPlay, {}),
+    stampClaims: Array.isArray(s.stampClaims) ? s.stampClaims : [],
+    letters: Array.isArray(s.letters) ? s.letters.slice(0, 30) : [],
+    letterMarks: { ...f.letterMarks, ...obj(s.letterMarks, {}) },
+    lastChest: typeof s.lastChest === 'string' ? s.lastChest : '',
+    area: s.area === 'east' || s.area === 'house' ? s.area : 'main',
+    room: { ...f.room, ...obj(s.room, {}) },
+    fish: {
+      ...f.fish,
+      ...obj(s.fish, {}),
+      caught: obj(s.fish?.caught, {}),
+      big: obj(s.fish?.big, {}),
+    },
+    farm: {
+      plots: [0, 1, 2].map((i) => {
+        const p = Array.isArray(s.farm?.plots) ? s.farm!.plots[i] : null;
+        return p && typeof p === 'object' && typeof p.seed === 'string' ? p : null;
+      }),
+    },
+    treats: { ...f.treats, ...obj(s.treats, {}), got: Array.isArray(s.treats?.got) ? s.treats!.got : [] },
+    stars: { ...f.stars, ...obj(s.stars, {}), dex: Array.isArray(s.stars?.dex) ? s.stars!.dex : [] },
+    moon: { ...f.moon, ...obj(s.moon, {}) },
   };
 }
 

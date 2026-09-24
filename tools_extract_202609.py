@@ -30,6 +30,7 @@ out = subprocess.run(['node', js], capture_output=True, text=True)
 if out.returncode:
     sys.exit('QUESTIONS の評価に失敗:\n' + out.stderr[:800])
 questions = json.loads(out.stdout)
+os.remove(js)
 
 os.makedirs(os.path.join(ROOT, 'data'), exist_ok=True)
 with open(os.path.join(ROOT, 'data/questions_202609.json'), 'w', encoding='utf-8') as f:
@@ -47,6 +48,7 @@ out2 = subprocess.run(['node', js2], capture_output=True, text=True)
 if out2.returncode:
     sys.exit('SUBJECTS の評価に失敗:\n' + out2.stderr[:800])
 subjects = json.loads(out2.stdout)
+os.remove(js2)
 with open(os.path.join(ROOT, 'data/subjects_202609.json'), 'w', encoding='utf-8') as f:
     json.dump(subjects, f, ensure_ascii=False, indent=0)
 
@@ -71,8 +73,13 @@ with open(os.path.join(ROOT, 'js/chars.js'), 'w', encoding='utf-8') as f:
 # ── 4. 汎用ユーティリティ ───────────────────────────────────────────────
 with open(os.path.join(ROOT, 'js/util.js'), 'w', encoding='utf-8') as f:
     f.write('// index.html から機械的に切り出した汎用関数。手で編集しない。\n\n')
-    for n in ('shuffle', 'renderMath', 'playSound'):
+    for n in ('shuffle', 'renderMath'):
         f.write(grab_function(n) + '\n\n')
+    # playSound は getAudioCtx に、getAudioCtx は index.html の別行の `let _audioCtx` に依存する。
+    # 抜き出しただけだと ReferenceError で無音になる（try/catch に飲まれて気づけない）ので、宣言ごと書く。
+    f.write('let _audioCtx = null;   // index.html 側の宣言が別行にあるため、ここで補う\n')
+    f.write(grab_function('getAudioCtx') + '\n\n')
+    f.write(grab_function('playSound') + '\n\n')
 
 # ── 検算（中身は見ない。数だけ） ─────────────────────────────────────────
 imgs = {q[k][len('/images/'):] for q in questions for k in ('qImage', 'qImage2') if q.get(k)}

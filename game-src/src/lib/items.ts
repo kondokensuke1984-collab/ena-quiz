@@ -2,6 +2,23 @@
 
 import type { Item, ItemKind } from '../types';
 
+// ── おうちの中（へやのかぐ・かべがみ・ゆか）──
+export const ROOM_ITEMS: Item[] = [
+  { id: 'in_bed',    kind: 'indoor', name: 'ベッド',           emoji: '🛏️', price: 15, desc: 'よるに タップすると おやすみ', once: true },
+  { id: 'in_desk',   kind: 'indoor', name: 'べんきょうづくえ', emoji: '📚', price: 12, desc: 'きょうの がんばりが みられる', once: true },
+  { id: 'in_shelf',  kind: 'indoor', name: 'ほんだな',         emoji: '📖', price: 10, desc: 'えほんが いっぱい',           once: true },
+  { id: 'in_bear',   kind: 'indoor', name: 'ぬいぐるみ',       emoji: '🧸', price: 8,  desc: 'ふわふわの くま',             once: true },
+  { id: 'in_plant',  kind: 'indoor', name: 'はちうえ',         emoji: '🪴', price: 6,  desc: 'へやに みどりを',             once: true },
+  { id: 'in_carpet', kind: 'indoor', name: 'カーペット',       emoji: '🟪', price: 8,  desc: 'ゆかに しく',                 once: true },
+  { id: 'wl_beige',  kind: 'wall',  name: 'ベージュの かべ',   emoji: '🟨', price: 0,  desc: 'はじめの かべがみ', once: true, builtin: true },
+  { id: 'wl_star',   kind: 'wall',  name: 'ほしの かべがみ',   emoji: '🌟', price: 10, desc: 'よぞらの もよう',   once: true },
+  { id: 'wl_flower', kind: 'wall',  name: 'はなの かべがみ',   emoji: '🌸', price: 10, desc: 'ピンクの はなもよう', once: true },
+  { id: 'fl_wood',   kind: 'floor', name: 'もくめの ゆか',     emoji: '🟫', price: 0,  desc: 'はじめの ゆか', once: true, builtin: true },
+  { id: 'fl_check',  kind: 'floor', name: 'チェックの ゆか',   emoji: '🏁', price: 8,  desc: 'しろと みずいろ', once: true },
+  { id: 'fl_grass',  kind: 'floor', name: 'くさはらの ゆか',   emoji: '🌿', price: 8,  desc: 'へやの なかに くさはら', once: true },
+];
+
+
 export const ITEMS: Item[] = [
   // ── エサ・おやつ（満腹度と進化）──
   { id: 'fd_rice',   kind: 'food',  name: 'おにぎり',     emoji: '🍙', price: 3,  desc: 'まんぷく +30',            fullness: 30, exp: 10 },
@@ -32,19 +49,127 @@ export const ITEMS: Item[] = [
   { id: 'fn_swing',  kind: 'furniture', name: 'ブランコ',   emoji: '🛝', price: 16, desc: 'ゆらゆら あそべる',   once: true },
   { id: 'fn_sign',   kind: 'furniture', name: 'かんばん',   emoji: '🪧', price: 5,  desc: 'しまの なまえ',       once: true },
   { id: 'fn_mill',   kind: 'furniture', name: 'ふうしゃ',   emoji: '🌬️', price: 22, desc: 'かぜで まわる',       once: true },
+
+  // ── 教科キャラへの プレゼント（消耗品）──
+  { id: 'gf_cookie', kind: 'gift', name: 'クッキー',   emoji: '🍪', price: 2, desc: 'なかよし +1', love: 1 },
+  { id: 'gf_flower', kind: 'gift', name: 'おはな',     emoji: '🌸', price: 3, desc: 'なかよし +2', love: 2 },
+  { id: 'gf_berry',  kind: 'gift', name: 'いちご',     emoji: '🍓', price: 4, desc: 'なかよし +2', love: 2 },
+  { id: 'gf_book',   kind: 'gift', name: 'えほん',     emoji: '📚', price: 5, desc: 'なかよし +3', love: 3 },
+  { id: 'gf_dango',  kind: 'gift', name: 'おだんご',   emoji: '🍡', price: 5, desc: 'なかよし +3', love: 3 },
+
+  // ── 教科キャラの きせかえ（1回かえば ずっと つかえる）──
+  { id: 'fw_silk',   kind: 'fwear', name: 'シルクハット', emoji: '🎩', price: 12, desc: 'きょうかキャラに かぶせる', once: true },
+  { id: 'fw_glass',  kind: 'fwear', name: 'サングラス',   emoji: '🕶️', price: 10, desc: 'きょうかキャラに かける',   once: true },
+  { id: 'fw_scarf',  kind: 'fwear', name: 'マフラー',     emoji: '🧣', price: 10, desc: 'きょうかキャラに まく',     once: true },
+  { id: 'fw_flower', kind: 'fwear', name: 'はなかんむり', emoji: '🌼', price: 14, desc: 'きょうかキャラに のせる',   once: true },
+
+  // ── けんせつ（BUILD_ORDER の順に1つずつ）──
+  { id: 'bd_house',  kind: 'building', name: 'みんなの おうち',     emoji: '🏠', price: 30,  desc: 'しまの おくに おうちが たつ', once: true },
+  { id: 'bd_pier',   kind: 'building', name: 'さんばし と ボート', emoji: '🌉', price: 60,  desc: 'しまが ひとまわり ひろがる',  once: true },
+  { id: 'bd_light',  kind: 'building', name: 'とうだい',           emoji: '🗼', price: 100, desc: 'ひかりが くるくる まわる',    once: true },
+  { id: 'bd_school', kind: 'building', name: 'しまの がっこう',     emoji: '🏫', price: 150, desc: 'しまが もっと ひろがって こじまも できる', once: true },
+  { id: 'bd_bridge', kind: 'building', name: 'となりの しまへの はし', emoji: '🌉', price: 200, desc: 'はなばたけの しまへ いけるように なる', once: true },
+  { id: 'bd_wheel',  kind: 'building', name: 'かんらんしゃ',       emoji: '🎡', price: 250, desc: 'しょうごう「しまの おうさま」', once: true },
+  // 10月：月の位置と見え方
+  { id: 'bd_observ', kind: 'building', name: 'てんもんだい',       emoji: '🔭', price: 300, desc: 'よるに なると 月が みえる',  once: true },
+  { id: 'bd_moon',   kind: 'building', name: 'おつきみだい',       emoji: '🎑', price: 400, desc: 'おだんごと すすきで お月見',  once: true },
+
+  // ── 季節の品（その月のあいだだけ 並ぶ。かったものは ずっと つかえる）──
+  { id: 'gf_pumpkin', kind: 'gift',  name: 'かぼちゃだんご', emoji: '🎃', price: 4, desc: '10月だけ・なかよし +3', love: 3, season: 10 },
+  { id: 'fw_pumpkin', kind: 'fwear', name: 'かぼちゃの ぼうし', emoji: '🎃', price: 12, desc: '10月だけの きせかえ', once: true, season: 10 },
+  { id: 'gf_imo',     kind: 'gift',  name: 'やきいも',       emoji: '🍠', price: 4, desc: '11月だけ・なかよし +3', love: 3, season: 11 },
+  { id: 'fw_leaf',    kind: 'fwear', name: 'もみじの かみかざり', emoji: '🍁', price: 12, desc: '11月だけの きせかえ', once: true, season: 11 },
+
+  // ── まいにちスタンプの ごほうび（ショップでは売らない）──
+  { id: 'fn_trophy',   kind: 'furniture', name: 'がんばりトロフィー', emoji: '🏆', price: 0, desc: 'スタンプ7日の ごほうび',  once: true, reward: true, anywhere: true },
+  { id: 'fw_gold',     kind: 'fwear',     name: 'きんの かんむり',    emoji: '👑', price: 0, desc: 'スタンプ14日の ごほうび', once: true, reward: true },
+  { id: 'fn_fountain', kind: 'furniture', name: 'ふんすい',           emoji: '⛲', price: 0, desc: 'スタンプ20日の ごほうび', once: true, reward: true },
+  // ── ハロウィンの おかし・つりの ずかんの ごほうび（ショップでは売らない）──
+  { id: 'gf_candy',    kind: 'gift',      name: 'ハロウィンの おかし', emoji: '🍬', price: 0, desc: 'ハロウィンの よるに もらえる・なかよし +2', love: 2, reward: true },
+  { id: 'fn_fishsign', kind: 'furniture', name: 'さかなの かんばん',   emoji: '🐟', price: 0, desc: 'さかなを 5しゅるい つった ごほうび',  once: true, reward: true },
+  { id: 'fn_forest',   kind: 'furniture', name: 'もりの トロフィー',   emoji: '🌲', price: 0, desc: 'クエストの まよいの森で もりのぬしを たおした ごほうび', once: true, reward: true, anywhere: true },
+  { id: 'fn_aquarium', kind: 'furniture', name: 'すいそう',           emoji: '🐠', price: 0, desc: 'さかなを 10しゅるい つった ごほうび', once: true, reward: true, anywhere: true },
+  // ── 星座ずかん・おだんごお供えの ごほうび（ショップでは売らない）──
+  { id: 'fn_starsign',   kind: 'furniture', name: 'ほしざの かんばん',     emoji: '🌟', price: 0, desc: '星座を 5しゅるい みつけた ごほうび',  once: true, reward: true },
+  { id: 'fn_stardome',   kind: 'furniture', name: 'プラネタリウムドーム', emoji: '🪐', price: 0, desc: '星座を 10しゅるい みつけた ごほうび', once: true, reward: true, anywhere: true },
+  { id: 'fn_moonrabbit', kind: 'furniture', name: 'もちつき うさぎ',     emoji: '🐇', price: 0, desc: 'まんげつの よるに おだんごを おそなえした ごほうび', once: true, reward: true, anywhere: true },
+
+  // ── はたけの たね（うえて クイズを 3にち やると とれる）──
+  { id: 'sd_berry',   kind: 'seed', name: 'いちごの たね',     emoji: '🍓', price: 3, desc: 'いちごが 2つ とれる',   crop: 'gf_berry' },
+  { id: 'sd_flower',  kind: 'seed', name: 'おはなの たね',     emoji: '🌸', price: 3, desc: 'おはなが 2つ さく',     crop: 'gf_flower' },
+  { id: 'sd_pumpkin', kind: 'seed', name: 'かぼちゃの たね',   emoji: '🎃', price: 4, desc: '10月だけ・かぼちゃだんごが 2つ', crop: 'gf_pumpkin', season: 10 },
+  { id: 'sd_imo',     kind: 'seed', name: 'さつまいもの たね', emoji: '🍠', price: 4, desc: '11月だけ・やきいもが 2つ',     crop: 'gf_imo', season: 11 },
+  ...ROOM_ITEMS,
 ];
+
+/** その場所に置ける家具か */
+export function placeableIn(item: Item | undefined, area: 'main' | 'east' | 'house'): boolean {
+  if (!item) return false;
+  if (item.anywhere) return item.kind === 'furniture' || item.kind === 'indoor';
+  return area === 'house' ? item.kind === 'indoor' : item.kind === 'furniture';
+}
+
+/** まいにちスタンプの ごほうび（その月の日数）。item がないものは プレゼント3つ */
+export const STAMP_REWARDS: { days: number; item?: string; label: string }[] = [
+  { days: 3,  label: '🎁 プレゼント 3つ' },
+  { days: 7,  item: 'fn_trophy',   label: '🏆 がんばりトロフィー' },
+  { days: 14, item: 'fw_gold',     label: '👑 きんの かんむり' },
+  { days: 20, item: 'fn_fountain', label: '⛲ ふんすい' },
+];
+/** たからばこ・スタンプで もらえる プレゼント（季節の品は入れない） */
+export const EVERYDAY_GIFTS = ['gf_cookie', 'gf_flower', 'gf_berry', 'gf_book', 'gf_dango'];
+
+/** いまの月（1..12）。?season=10 で見た目の確認ができる */
+export function seasonNow(): number {
+  const q = Number(new URLSearchParams(location.search).get('season'));
+  return q >= 1 && q <= 12 ? q : new Date().getMonth() + 1;
+}
+/** ショップに並べるか（季節の品は その月だけ。もう持っている きせかえは いつでも見える） */
+export function onSale(item: Item, ownedIds: string[]): boolean {
+  if (item.reward) return false;
+  return !item.season || item.season === seasonNow() || ownedIds.includes(item.id);
+}
+
+/** 建てる順番。前のを建てると次が出る */
+export const BUILD_ORDER = ['bd_house', 'bd_pier', 'bd_light', 'bd_school', 'bd_bridge', 'bd_wheel', 'bd_observ', 'bd_moon'];
+/** つぎに建てるもの＝BUILD_ORDER の順で まだ建てていない最初の1つ（途中に足しても 今のセーブが こわれない） */
+export function nextBuildId(buildings: string[]): string | undefined {
+  return BUILD_ORDER.find((id) => !buildings.includes(id));
+}
+export const WHEEL_TITLE = 'しまの おうさま';
+
+/** 建てた数 → 島の広がり段階（0..2）。さんばしで1段、がっこうでもう1段 */
+export function expansionOf(buildings: string[]): number {
+  return buildings.includes('bd_school') ? 2 : buildings.includes('bd_pier') ? 1 : 0;
+}
+
+/** 教科キャラの だいすきなもの（ポイント2倍） */
+export const FAVORITE: Record<string, string> = {
+  tanuki: 'gf_dango', owl: 'gf_book', parrot: 'gf_berry', rabbit: 'gf_flower', bear: 'gf_cookie',
+};
+export const GIFTS_PER_DAY = 3;
+/** ♥が1つ増える なかよしポイント */
+export const LOVE_STEPS = [3, 8, 15, 25, 40];
+export function heartsOf(pts: number): number {
+  return LOVE_STEPS.filter((t) => pts >= t).length;
+}
+export const FOLLOW_HEARTS = 3;
 
 export const ITEM_BY_ID: Record<string, Item> = Object.fromEntries(ITEMS.map((i) => [i.id, i]));
 
-export const KIND_TABS: { key: 'eat' | 'gear' | 'dress' | 'room'; label: string; kinds: ItemKind[] }[] = [
+export const KIND_TABS: { key: 'eat' | 'gear' | 'gift' | 'seed' | 'dress' | 'room' | 'home' | 'build'; label: string; kinds: ItemKind[] }[] = [
   { key: 'eat',   label: '🍙 エサ・おやつ', kinds: ['food', 'snack'] },
-  { key: 'gear',  label: '🛡️ そうび',       kinds: ['gun', 'shield'] },
-  { key: 'dress', label: '🎀 きせかえ',     kinds: ['costume', 'hat'] },
+  { key: 'gift',  label: '🎁 プレゼント',   kinds: ['gift'] },
+  { key: 'seed',  label: '🌱 たね',         kinds: ['seed'] },
+  // 'gear'（じゅう・たて）はミニバトル用だったので、バトル廃止とともに売り場から外した
+  { key: 'dress', label: '🎀 きせかえ',     kinds: ['costume', 'hat', 'fwear'] },
   { key: 'room',  label: '🌴 かぐ',         kinds: ['furniture'] },
+  { key: 'home',  label: '🛋️ へや',         kinds: ['indoor', 'wall', 'floor'] },
+  { key: 'build', label: '🏗️ けんせつ',     kinds: ['building'] },
 ];
 
 export function isConsumable(item: Item): boolean {
-  return item.kind === 'food' || item.kind === 'snack';
+  return item.kind === 'food' || item.kind === 'snack' || item.kind === 'gift' || item.kind === 'seed';
 }
 
 export function slotOf(item: Item): 'weapon' | 'shield' | 'costume' | 'hat' | null {

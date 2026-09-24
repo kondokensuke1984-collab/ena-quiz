@@ -21,6 +21,19 @@
   #app{ max-width:480px; margin:0 auto; padding:0 12px 40px; }
   .scr{ display:none; }
   .scr.on{ display:block; animation:fade .18s ease-out; }
+  /* 🌲 まよいの森 */
+  .fz-view{ display:grid; grid-template-columns:repeat(9,1fr); gap:2px; margin-top:10px; padding:4px; background:#052e16; border-radius:16px; }
+  .fz-cell{ aspect-ratio:1; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:clamp(14px,5.2vw,26px); overflow:hidden; }
+  .fz-cell svg{ width:92%; height:92%; }
+  .fz-pad{ display:grid; grid-template-columns:repeat(3,52px); grid-template-rows:repeat(3,52px); gap:4px; }
+  .fz-pad button{ border:0; border-radius:14px; background:rgba(255,255,255,.9); font-size:20px; font-weight:800; color:#14532d; box-shadow:0 3px 0 rgba(0,0,0,.25); touch-action:manipulation; }
+  .fz-pad button:active{ transform:translateY(2px); box-shadow:none; }
+  .fz-mapwrap{ position:fixed; inset:0; background:rgba(0,0,0,.6); display:flex; align-items:center; justify-content:center; padding:16px; z-index:50; }
+  .rpgmemo-wrap{ position:fixed; inset:0; background:rgba(0,0,0,.6); display:flex; align-items:center; justify-content:center; padding:16px; z-index:55; }
+  .rpgmemo-header{ display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+  #rpgmemo-canvas{ display:block; width:100%; touch-action:none; background:#fff; border:2px solid var(--line); border-radius:12px; cursor:crosshair; }
+  .fz-mini{ display:grid; gap:1px; width:min(78vw,320px); margin:10px auto 6px; background:#0f172a; padding:2px; border-radius:8px; }
+  .fz-mini i{ aspect-ratio:1; display:block; }
   @keyframes fade{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;} }
   .panel{ background:var(--card); border-radius:18px; padding:16px; box-shadow:0 8px 24px rgba(0,0,0,.28); }
   .btn{
@@ -84,8 +97,8 @@
         🔊 音をテスト（斬る音が3回鳴るよ）</button>
       <div id="sfx-status" style="font-size:10.5px; color:#94a3b8; text-align:center; margin-top:6px; line-height:1.6;"></div>
     </div>
-    <a href="/" style="display:block; text-align:center; margin-top:14px; padding:14px; border-radius:14px;
-       background:rgba(255,255,255,.16); color:#fff; font-weight:800; text-decoration:none;">← ANRINOアプリにもどる</a>
+    <a href="/game/#battle" style="display:block; text-align:center; margin-top:14px; padding:14px; border-radius:14px;
+       background:rgba(255,255,255,.16); color:#fff; font-weight:800; text-decoration:none;">← しまの バトルに もどる</a>
   </section>
 
   <!-- ══ ステージ選択 ══ -->
@@ -112,6 +125,7 @@
     </div>
 
     <div class="panel" style="margin-top:10px;">
+      <div id="tt-bar"></div>
       <div id="q-area"></div>
       <div id="a-area" style="margin-top:12px;"></div>
       <div id="ex-area"></div>
@@ -129,11 +143,14 @@
     <button class="btn-main" style="margin-top:12px; background:rgba(255,255,255,.16); box-shadow:none;" onclick="fleeBattle()">にげる</button>
   </section>
 
+  <!-- ══ 🌲 まよいの森（js/forest.js が かく）══ -->
+  <section id="scr-forest" class="scr"><div id="forest-root"></div></section>
+
   <!-- ══ 結果 ══ -->
   <section id="scr-result" class="scr">
     <div class="panel" style="text-align:center; margin-top:26px;">
       <div id="result-body"></div>
-      <button class="btn-main" style="margin-top:16px;" onclick="showMap()">マップへもどる</button>
+      <button class="btn-main" id="result-back" style="margin-top:16px;" onclick="resultBack()">マップへもどる</button>
     </div>
   </section>
 
@@ -158,6 +175,19 @@
     <div id="lvup-text" style="font-weight:800; font-size:19px;"></div>
     <div id="lvup-sub" style="font-size:13px; color:#64748b; margin-top:5px;"></div>
     <button class="btn-main" style="margin-top:14px;" onclick="closeLevelUp()">つづける</button>
+  </div>
+</div>
+
+<div class="rpgmemo-wrap" id="rpgmemo-wrap" style="display:none" onclick="toggleRpgMemo()">
+  <div class="panel" style="width:100%; max-width:420px;" onclick="event.stopPropagation()">
+    <div class="rpgmemo-header">
+      <b>✏️ 計算メモ</b>
+      <div>
+        <button onclick="clearRpgMemo()" title="消す">🗑️</button>
+        <button class="btn-main" style="margin-left:6px;" onclick="toggleRpgMemo()">とじる</button>
+      </div>
+    </div>
+    <canvas id="rpgmemo-canvas" height="260"></canvas>
   </div>
 </div>
 
@@ -229,13 +259,189 @@ const MAX_Q_PER_BATTLE = 8;   // 1体あたり最大8問
 const DMG_HIT = 10, DMG_CRIT = 15, DMG_TAKE = 10, HP_BASE = 30, HP_PER_LV = 5;
 const EXP_HIT = 10, EXP_WIN = 50;
 
+// ── 🪙 アンリノメダル（クイズアプリ・島と共通の台帳 ena_anrino_medals） ──────────
+//   ・はじめて正解した問題は1枚（クイズと同じ「led.first」を使うので、クイズで正解ずみの問題はもらえない＝二重取りなし）
+//   ・かげモンスターを はじめて たおすと ボーナス（ステージ3枚・ボス10枚）
+//   台帳の形はクイズ側（index.html の medalFirstCorrect / medalAward）と同じ。数を減らす処理は書かない。
+const MEDAL_KEY = 'ena_anrino_medals';
+const MEDAL_MONTH = '202609';
+const MEDAL_STAGE_CLEAR = 3, MEDAL_BOSS_CLEAR = 10;
+function loadMedalLedger() {
+  try {
+    const d = JSON.parse(localStorage.getItem(MEDAL_KEY) || '{}');
+    return (d && typeof d.units === 'object' && d.units) ? d : { units: {} };
+  } catch (e) { return { units: {} }; }
+}
+function saveMedalLedger(led) { try { localStorage.setItem(MEDAL_KEY, JSON.stringify(led)); } catch (e) {} }
+function medalTotal() {
+  const u = loadMedalLedger().units;
+  return Object.keys(u).reduce((a, k) => a + (Number(u[k]) > 0 ? Math.floor(u[k]) : 0), 0);
+}
+function medalFirstCorrect(q) {
+  if (!q || !q.id) return 0;
+  const led = loadMedalLedger();
+  led.first = (led.first && typeof led.first === 'object') ? led.first : {};
+  if (led.first[q.id]) return 0;
+  led.first[q.id] = 1;
+  const key = (q.month || MEDAL_MONTH) + '|first:' + (q.subject || '');
+  led.units[key] = (led.units[key] || 0) + 1;
+  saveMedalLedger(led);
+  return 1;
+}
+function medalQuestClear(stageKey, count) {
+  const led = loadMedalLedger();
+  const key = MEDAL_MONTH + '|quest:' + stageKey;
+  if (led.units[key]) return 0;
+  led.units[key] = count;
+  saveMedalLedger(led);
+  return count;
+}
+
+// ── ⏱️ タイムトライアル（1日1回ずつ）──────────────────────────────
+//   q30 ＝ えらんだステージを 1問30秒で。rush ＝ 9月の問題ぜんぶから ランダムに 3分。
+//   時間内に正解すると どの問題でも 🪙2（はじめての正解の1枚＋のこりを tt の枠へ）
+const TT_Q_SEC = 30, TT_RUSH_SEC = 180;
+let ttPick = false;      // 30秒トライアルの ステージを えらんでいるところ
+let ttTimer = null;
+function todayKey() { return new Date().toLocaleDateString('ja-JP'); }
+function medalTT(n) {
+  if (!(n > 0)) return;
+  const led = loadMedalLedger();
+  const key = MEDAL_MONTH + '|tt:' + todayKey();
+  led.units[key] = (led.units[key] || 0) + n;
+  saveMedalLedger(led);
+}
+function ttUsed(kind) { return save.tt && save.tt[kind] === todayKey(); }
+function ttStart() {
+  ttStop();
+  ttTimer = setInterval(ttTick, 200);
+  ttRender();
+}
+function ttStop() { if (ttTimer) { clearInterval(ttTimer); ttTimer = null; } }
+function ttRemain() {
+  if (!bt || !bt.tt) return 0;
+  if (bt.tt === 'rush') return Math.max(0, (bt.endsAt - Date.now()) / 1000);
+  const used = bt.qElapsed != null ? bt.qElapsed : (Date.now() - bt.qStart);
+  return Math.max(0, TT_Q_SEC - used / 1000);
+}
+function ttRender() {
+  const el = document.getElementById('tt-bar');
+  if (!el) return;
+  if (!bt || !bt.tt) { el.innerHTML = ''; return; }
+  const total = bt.tt === 'rush' ? TT_RUSH_SEC : TT_Q_SEC;
+  const r = ttRemain();
+  const red = r <= 10;
+  const sec = Math.ceil(r);
+  const label = bt.tt === 'rush'
+    ? '⏱️ のこり ' + Math.floor(sec / 60) + ':' + String(sec % 60).padStart(2, '0') + '　せいかい ' + bt.correct + 'もん'
+    : '⏱️ のこり ' + Math.ceil(r) + 'びょう';
+  el.innerHTML =
+    '<div style="display:flex; justify-content:space-between; font-size:13px; font-weight:800; color:' + (red ? '#dc2626' : '#b45309') + ';">' +
+      '<span>' + label + '</span><span>じかん内 せいかい 🪙×2</span></div>' +
+    '<div class="hpbar" style="height:8px; margin:4px 0 10px;"><i style="width:' + pct(r, total) + '%; background:' +
+      (red ? 'linear-gradient(90deg,#ef4444,#f87171)' : 'linear-gradient(90deg,#f59e0b,#fbbf24)') + '; transition:width .2s linear;"></i></div>';
+}
+function ttTick() {
+  if (!bt || !bt.tt || !document.getElementById('scr-battle').classList.contains('on')) { ttStop(); return; }
+  if (bt.tt === 'rush' && Date.now() >= bt.endsAt) { endRush(); return; }
+  if (bt.tt === 'q30' && !bt.answered && bt.qElapsed == null && Date.now() - bt.qStart > TT_Q_SEC * 1000) { ttTimeUp(); return; }
+  ttRender();
+}
+function ttTimeUp() {
+  if (bt.answered) return;
+  bt.answered = true;
+  bt.qElapsed = TT_Q_SEC * 1000;
+  const q = bt.queue[bt.idx];
+  document.getElementById('a-area').innerHTML =
+    '<div style="background:#fee2e2; border-radius:12px; padding:12px; font-size:15px; font-weight:800; color:#b91c1c;">⏰ じかんぎれ…　こたえ：' + qHTML(q.answer != null && q.options ? q.options[q.answer] : q.answer) + '</div>';
+  resolveTurn(false, q, true);
+}
+function logTT() {
+  if (!bt || !bt.tt || bt.ttLogged) return;
+  bt.ttLogged = true;
+  const kind = bt.tt, info = { stage: stageLabel(), answered: bt.ttAnswered || 0, correct: bt.correct, medals: bt.ttMedals || 0 };
+  questLogDay(d => { d.tt = d.tt || {}; d.tt[kind] = info; });
+}
+function startTT30() { if (ttUsed('q30')) return; ttPick = !ttPick; showMap(); }
+function pickStage(key) { startBattle(key, ttPick ? 'q30' : null); }
+function startRush() {
+  if (ttUsed('rush')) return;
+  ttPick = false;
+  save.tt.rush = todayKey();
+  if (save.hp <= 0) save.hp = maxHp();
+  persist();
+  bt = {
+    boss: false, key: '__rush__', char: 'luna', name: '⏱️ 3ぷん チャレンジ',
+    queue: shuffle(QUESTIONS.slice()), idx: 0, maxHp: 1, hp: 1,
+    streak: 0, correct: 0, medals: 0, answered: false,
+    tt: 'rush', endsAt: Date.now() + TT_RUSH_SEC * 1000, ttMedals: 0, ttIn: 0, ttAnswered: 0
+  };
+  renderBattle();
+  setMsg('3ぷんで なんもん とけるかな？ よーい スタート！');
+  showScreen('battle');
+  ttStart();
+}
+function endRush() {
+  if (!bt || bt.tt !== 'rush' || bt.ended) return;
+  bt.ended = true;
+  ttStop();
+  logTT();
+  let lvUps = 0;
+  while (save.exp >= needExp()) { save.exp -= needExp(); save.lv++; lvUps++; }
+  if (lvUps) save.hp = maxHp();
+  const best = bt.correct > (save.rushBest || 0);
+  if (best) save.rushBest = bt.correct;
+  persist();
+  document.getElementById('result-body').innerHTML =
+    '<div style="font-size:21px; font-weight:800; color:#b45309;">⏱️ タイムアップ！</div>' +
+    '<div style="margin:12px 0; display:flex; justify-content:center;">' + CHARS.luna(Math.min(6, save.lv), 100, 130, {}) + '</div>' +
+    '<div style="font-size:18px; font-weight:800;">3ぷんで ' + bt.correct + 'もん せいかい！</div>' +
+    '<div style="font-size:13px; color:#64748b; margin-top:3px;">（' + (bt.ttAnswered || 0) + 'もん といた・さいこう ' + (save.rushBest || 0) + 'もん）</div>' +
+    (best && bt.correct > 0 ? '<div style="font-size:16px; font-weight:800; color:#db2777; margin-top:6px;">🎉 しんきろく！</div>' : '') +
+    '<div style="margin-top:10px; font-size:15px; font-weight:800; color:#b45309;">🪙 アンリノメダル +' + bt.medals + ' 枚' +
+      '<div style="font-size:11.5px; color:#94a3b8; font-weight:700; margin-top:3px;">もっているメダル ' + medalTotal() + ' 枚（しまの ショップで つかえるよ）</div>' +
+    '</div>';
+  if (lvUps) showLevelUp(lvUps);
+  showScreen('result');
+}
+
+// ── 入力式（算数など）の答え合わせ ──────────────────────────────
+//   「1と1/4」「1 1/4」「5/4」「１２個」などを数として比べる。分数の問題は約分できていないと ×
+function toHalf(s) {
+  return String(s).replace(/[０-９．／]/g, c => String.fromCharCode(c.charCodeAt(0) - 0xFEE0)).replace(/　/g, ' ');
+}
+function parseAnsVal(s) {
+  s = toHalf(s).trim().replace(/と/g, ' ').replace(/\s+/g, ' ');
+  let m = s.match(/^(-?\d+) (\d+)\/(\d+)$/);
+  if (m) return +m[1] + +m[2] / +m[3];
+  m = s.match(/^(-?\d+)\/(\d+)$/);
+  if (m) return +m[1] / +m[2];
+  const n = parseFloat(s.replace(/,/g, ''));
+  return isNaN(n) ? null : n;
+}
+function checkInputAns(user, q) {
+  const u = parseAnsVal(user), c = parseAnsVal(q.answer);
+  if (u === null || c === null) return toHalf(user).trim() === String(q.answer).trim();
+  if (Math.abs(u - c) > 1e-6) return false;
+  if (q.mustReduce) {
+    const m = toHalf(user).trim().replace(/と/g, ' ').replace(/\s+/g, ' ').match(/^(?:(\d+) )?(\d+)\/(\d+)$/);
+    if (String(q.answer).includes('/') && !m) return false;          // 分数で答える問題に小数で答えた
+    if (m) {
+      const gcd = (x, y) => y ? gcd(y, x % y) : x;
+      if (gcd(+m[2], +m[3]) !== 1 || (m[1] && +m[2] >= +m[3])) return false;
+    }
+  }
+  return true;
+}
+
 let QUESTIONS = [], SUBJECTS = {}, STAGES = [];
 let save = null;
 let bt = null;                // 戦闘中の状態
 
 // ── セーブ ──────────────────────────────────────────────────
 function freshSave() {
-  return { v:1, lv:1, exp:0, hp:HP_BASE, cleared:{}, seen:{}, wins:0, bossDown:false };
+  return { v:1, lv:1, exp:0, hp:HP_BASE, cleared:{}, seen:{}, wins:0, bossDown:false,
+           tt:{ q30:'', rush:'' }, rushBest:0 };   // tt＝タイムトライアルを使った日（1日1回ずつ）
 }
 function loadSave() {
   try {
@@ -243,12 +449,54 @@ function loadSave() {
     if (!raw) return null;
     const s = JSON.parse(raw);
     if (!s || s.v !== 1) return null;          // 将来バージョンが上がったらここで移行する
-    return Object.assign(freshSave(), s);
+    const r = Object.assign(freshSave(), s);
+    r.tt = Object.assign({ q30:'', rush:'' }, (s.tt && typeof s.tt === 'object') ? s.tt : {});
+    return r;
   } catch (e) { return null; }
 }
 function persist() {
   try { localStorage.setItem(SAVE_KEY, JSON.stringify(save)); } catch (e) {}
 }
+// ── 保護者レポート用の きろく（クイズの「📤 保護者に成績を送る」が読む）──
+//   anrino_rpg_log_v1 = { v:1, days: { 'YYYY/M/D': { answered, correct, battles, wins, stages:{key:{label,answered,correct}}, wrong:[{id,stage,q}] } } }
+const LOG_KEY = 'anrino_rpg_log_v1';
+const LOG_KEEP_DAYS = 60;
+const LOG_WRONG_MAX = 20;
+function questLogDay(fn) {
+  try {
+    let log = JSON.parse(localStorage.getItem(LOG_KEY) || 'null');
+    if (!log || log.v !== 1 || typeof log.days !== 'object') log = { v: 1, days: {} };
+    const key = new Date().toLocaleDateString('ja-JP');
+    const d = log.days[key] || { answered: 0, correct: 0, battles: 0, wins: 0, stages: {}, wrong: [] };
+    fn(d);
+    log.days[key] = d;
+    const limit = Date.now() - LOG_KEEP_DAYS * 86400000;
+    Object.keys(log.days).forEach(k => { const t = new Date(k).getTime(); if (t && t < limit) delete log.days[k]; });
+    localStorage.setItem(LOG_KEY, JSON.stringify(log));
+  } catch (e) { /* きろくに失敗しても クエストは止めない */ }
+}
+function stageLabel() {
+  if (bt.forest) return bt.forest.boss ? '🌲 もりのぬし' : '🌲 まよいの森 B' + bt.forest.floor;
+  if (bt.boss) return '👑 つきのぬし';
+  if (bt.tt === 'rush') return '⏱️ 3ぷん トライアル';
+  const st = STAGES.find(s => s.key === bt.key);
+  return st ? st.groupLabel + '・' + st.label : bt.key;
+}
+function logAnswer(ok, q) {
+  questLogDay(d => {
+    d.answered++;
+    if (ok) d.correct++;
+    const k = bt.boss ? '__boss__' : bt.key;
+    const st = d.stages[k] || (d.stages[k] = { label: stageLabel(), answered: 0, correct: 0 });
+    st.answered++;
+    if (ok) st.correct++;
+    if (!ok && q && !d.wrong.some(w => w.id === q.id) && d.wrong.length < LOG_WRONG_MAX) {
+      const text = String(q.q || '').replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
+      d.wrong.push({ id: q.id, stage: stageLabel(), q: text.length > 60 ? text.slice(0, 60) + '…' : text });
+    }
+  });
+}
+
 function maxHp()  { return HP_BASE + (save.lv - 1) * HP_PER_LV; }
 function needExp(){ return save.lv * 100; }
 
@@ -275,6 +523,13 @@ async function boot() {
     document.getElementById('title-start').textContent =
       'つづきから（Lv' + save.lv + '・なかま ' +
       Object.keys(save.seen).length + '/' + STAGES.length + '）';
+  }
+  // 島の「もりの こじま」から来たときは、そのまま 森に入る
+  if (location.hash === '#forest' && typeof enterForest === 'function') {
+    forestFromIsland = true;
+    history.replaceState(null, '', location.pathname);
+    startGame();
+    enterForest();
   }
 }
 
@@ -324,6 +579,22 @@ function showMap() {
     '</div>';
 
   let html = '';
+  // ⏱️ きょうの タイムトライアル
+  const u30 = ttUsed('q30'), uR = ttUsed('rush');
+  const ttBtn = (used, on, label, fn) =>
+    '<button class="btn" ' + (used ? 'disabled ' : '') + 'onclick="' + fn + '" style="flex:1; text-align:center; font-size:13px; padding:10px 6px;' +
+      (used ? ' opacity:.55;' : on ? ' background:#fde68a; border-color:#f59e0b;' : ' background:#fff;') + '">' + label + '</button>';
+  html += '<div class="panel" style="margin-bottom:11px; background:linear-gradient(135deg,#fef3c7,#fde68a);">' +
+            '<div style="font-weight:800; font-size:15px;">⏱️ きょうの タイムトライアル</div>' +
+            '<div style="font-size:11.5px; color:#78350f; margin:3px 0 9px; line-height:1.6;">じかん内に せいかいすると 🪙2まい（まえに といた もんだいでも OK）。1にち 1かいずつ</div>' +
+            '<div style="display:flex; gap:8px;">' +
+              ttBtn(u30, ttPick, u30 ? '✅ 30びょう<br><small>もう やったよ</small>' : ttPick ? '✕ やめる' : '⏱️ 30びょう<br><small>ステージを えらぶ</small>', 'startTT30()') +
+              ttBtn(uR, false, uR ? '✅ 3ぷん<br><small>もう やったよ</small>' : '⏱️ 3ぷん<br><small>ランダム もんだい</small>', 'startRush()') +
+            '</div>' +
+            (ttPick ? '<div style="margin-top:9px; font-size:13px; font-weight:800; color:#b45309; text-align:center;">⬇️ たたかう ステージを えらんでね（1もん 30びょう）</div>' : '') +
+            (save.rushBest ? '<div style="margin-top:6px; font-size:11px; color:#78350f; text-align:right;">3ぷんの さいこう記録 ' + save.rushBest + 'もん</div>' : '') +
+          '</div>';
+  if (typeof forestMapPanel === 'function') html += forestMapPanel();
   let lastGroup = null;
   STAGES.forEach(s => {
     if (s.group !== lastGroup) {
@@ -334,7 +605,7 @@ function showMap() {
       lastGroup = s.group;
     }
     const clear = !!save.cleared[s.key];
-    html += '<button class="btn" onclick="startBattle(\'' + s.key + '\')" ' +
+    html += '<button class="btn" onclick="pickStage(\'' + s.key + '\')" ' +
             'style="display:flex; align-items:center; gap:11px;' +
             (clear ? 'background:#f0fdf4; border-color:#86efac;' : '') + '">' +
               '<span style="flex:0 0 42px;' + (clear ? '' : ' opacity:.85;') + '">' +
@@ -343,7 +614,7 @@ function showMap() {
                 '<span style="display:block; font-size:11px; color:#64748b; font-weight:400;">' +
                   (clear ? CHAR_NAME[s.char] + '　なかま' : 'かげの' + CHAR_NAME[s.char]) +
                   '　全' + s.total + '問</span></span>' +
-              '<span style="font-size:17px;">' + (clear ? '✅' : '⚔️') + '</span>' +
+              '<span style="font-size:17px;">' + (ttPick ? '⏱️' : clear ? '✅' : '⚔️') + '</span>' +
             '</button>';
   });
   if (lastGroup !== null) html += '</div>';
@@ -353,11 +624,11 @@ function showMap() {
   html += '<div class="panel" style="margin-bottom:11px;' + (all ? '' : ' opacity:.55;') + '">' +
             '<div style="font-weight:800; font-size:15px; margin-bottom:9px;">🌑 さいごのたたかい</div>' +
             (all
-              ? '<button class="btn" onclick="startBattle(\'__boss__\')" style="display:flex; align-items:center; gap:11px;' +
+              ? '<button class="btn" onclick="pickStage(\'__boss__\')" style="display:flex; align-items:center; gap:11px;' +
                 (save.bossDown ? 'background:#f0fdf4; border-color:#86efac;' : '') + '">' +
                   '<span style="flex:0 0 42px;">' + CHARS[BOSS_KEY](6, 100, 42, { silhouette: !save.bossDown }) + '</span>' +
                   '<span style="flex:1;">つきのぬし<span style="display:block; font-size:11px; color:#64748b; font-weight:400;">9月ぜんぶから出題・全12問</span></span>' +
-                  '<span style="font-size:17px;">' + (save.bossDown ? '👑' : '⚔️') + '</span>' +
+                  '<span style="font-size:17px;">' + (ttPick ? '⏱️' : save.bossDown ? '👑' : '⚔️') + '</span>' +
                 '</button>'
               : '<div style="font-size:12.5px; color:#64748b;">なかまを17体あつめると あらわれる。</div>') +
           '</div>';
@@ -369,7 +640,9 @@ function showMap() {
 function pct(a, b) { return Math.max(0, Math.min(100, Math.round(a / b * 100))); }
 
 // ── 戦闘 ────────────────────────────────────────────────────
-function startBattle(key) {
+function startBattle(key, tt) {
+  if (tt === 'q30' && ttUsed('q30')) tt = null;
+  ttPick = false;
   const boss = key === '__boss__';
   const st = boss ? null : STAGES.find(s => s.key === key);
   const pool = boss ? QUESTIONS.slice() : QUESTIONS.filter(q => q.subject === key);
@@ -387,24 +660,32 @@ function startBattle(key) {
     hp: n * DMG_HIT,
     streak: 0,
     correct: 0,
-    answered: false
+    medals: 0,
+    answered: false,
+    tt: tt === 'q30' ? 'q30' : null, ttMedals: 0, ttIn: 0, ttAnswered: 0
   };
+  if (bt.tt) { save.tt.q30 = todayKey(); persist(); }   // 始めた時点で きょうの1回を使う
   renderBattle();
-  setMsg(bt.name + ' が あらわれた！');
+  setMsg(bt.name + ' が あらわれた！' + (bt.tt ? '　⏱️ 1もん 30びょう！' : ''));
   showScreen('battle');
+  if (bt.tt) ttStart(); else ttRender();
 }
 
 function setMsg(t) { document.getElementById('battle-msg').textContent = t; }
 
 function renderBattle() {
   document.getElementById('enemy-name').textContent = bt.name;
-  document.getElementById('enemy-hp-text').textContent =
-    'HP ' + Math.max(0, bt.hp) + ' / ' + bt.maxHp + '　（' + (bt.idx + 1) + '問目 / ' + bt.queue.length + '）';
-  document.getElementById('enemy-hp').style.width = pct(bt.hp, bt.maxHp) + '%';
+  document.getElementById('enemy-hp-text').textContent = enemyHpText();
+  document.getElementById('enemy-hp').style.width = (bt.tt === 'rush' ? 100 : pct(bt.hp, bt.maxHp)) + '%';
   document.getElementById('enemy-art').innerHTML =
-    '<div id="enemy-sprite">' + CHARS[bt.char](6, 100, 180, { silhouette: true }) + '</div>';
+    '<div id="enemy-sprite">' + CHARS[bt.char](6, 100, 180, { silhouette: bt.tt !== 'rush' }) + '</div>';
   renderMyBar();
   renderQuestion();
+}
+
+function enemyHpText() {
+  if (bt.tt === 'rush') return (bt.idx + 1) + 'もんめ　せいかい ' + bt.correct;
+  return 'HP ' + Math.max(0, bt.hp) + ' / ' + bt.maxHp + '　（' + (bt.idx + 1) + '問目 / ' + bt.queue.length + '）';
 }
 
 function renderMyBar() {
@@ -422,6 +703,10 @@ function qHTML(s) { return renderMath(esc(s)).replace(/\n/g, '<br>'); }
 function renderQuestion() {
   const q = bt.queue[bt.idx];
   bt.answered = false;
+  bt.qStart = Date.now();
+  bt.qElapsed = null;
+  hideRpgMemo();
+  ttRender();
   document.getElementById('ex-area').innerHTML = '';
   document.getElementById('q-area').innerHTML =
     '<div style="font-weight:700; line-height:1.8; font-size:15px;">' + qHTML(q.q) + '</div>' +
@@ -429,7 +714,19 @@ function renderQuestion() {
     (q.qImage2 ? '<img class="qimg" src="' + q.qImage2 + '" alt="図2">' : '');
 
   const a = document.getElementById('a-area');
-  if (q.type === 'selfjudge') {
+  if (q.type === 'input') {
+    const frac = String(q.answer).includes('/');
+    a.innerHTML =
+      '<input id="in-input" type="text" inputmode="' + (frac ? 'text' : 'decimal') + '" autocomplete="off" ' +
+        'placeholder="' + (frac ? '例）1と1/4 や 5/4' : 'こたえ（数字）') + '" ' +
+        'style="width:100%; border:2px solid var(--line); border-radius:12px; padding:12px; font-size:17px; font-weight:700;" ' +
+        'onkeydown="if(event.key===\'Enter\')answerInput()">' +
+      '<div style="display:flex; gap:8px; margin-top:8px;">' +
+        '<button class="btn-main" style="flex:1;" onclick="answerInput()">こたえる ⚔️</button>' +
+        '<button class="btn" style="width:auto; margin-bottom:0; padding:10px 14px;" onclick="toggleRpgMemo()" title="計算メモ">✏️</button>' +
+      '</div>';
+    setTimeout(() => { const el = document.getElementById('in-input'); if (el) el.focus(); }, 100);
+  } else if (q.type === 'selfjudge') {
     a.innerHTML =
       '<textarea id="sj-input" rows="2" placeholder="ここに こたえを書く…" ' +
         'style="width:100%; border:2px solid var(--line); border-radius:12px; padding:11px; font-size:15px;"></textarea>' +
@@ -440,6 +737,77 @@ function renderQuestion() {
       '<button class="btn" data-i="' + i + '" onclick="answerChoice(' + orig + ',' + i + ')">' +
         qHTML(q.options[orig]) + '</button>').join('');
   }
+}
+
+// ── 計算メモ（手書き。算数の「入力して答える」問題だけ）──────────
+let _rmCtx = null, _rmDrawing = false, _rmLastX = 0, _rmLastY = 0;
+
+function initRpgMemo() {
+  const canvas = document.getElementById('rpgmemo-canvas');
+  if (!canvas) return;
+  const w = canvas.offsetWidth || canvas.parentElement.clientWidth || 360;
+  canvas.width = w;
+  _rmCtx = canvas.getContext('2d');
+  _rmCtx.lineCap = 'round';
+  _rmCtx.lineJoin = 'round';
+  _rmCtx.strokeStyle = '#3d2b5e';
+  _rmCtx.lineWidth = 2.5;
+
+  canvas.addEventListener('pointerdown', e => {
+    e.preventDefault();
+    _rmDrawing = true;
+    const r = canvas.getBoundingClientRect();
+    const scale = canvas.width / r.width;
+    _rmLastX = (e.clientX - r.left) * scale;
+    _rmLastY = (e.clientY - r.top) * scale;
+    _rmCtx.lineWidth = e.pointerType === 'pen' ? Math.max(1, e.pressure * 5) : 2.5;
+    _rmCtx.beginPath();
+    _rmCtx.arc(_rmLastX, _rmLastY, _rmCtx.lineWidth / 2, 0, Math.PI * 2);
+    _rmCtx.fillStyle = '#3d2b5e';
+    _rmCtx.fill();
+  });
+  canvas.addEventListener('pointermove', e => {
+    if (!_rmDrawing) return;
+    e.preventDefault();
+    const r = canvas.getBoundingClientRect();
+    const scale = canvas.width / r.width;
+    const x = (e.clientX - r.left) * scale;
+    const y = (e.clientY - r.top) * scale;
+    if (e.pointerType === 'pen') _rmCtx.lineWidth = Math.max(1, e.pressure * 5);
+    _rmCtx.beginPath();
+    _rmCtx.moveTo(_rmLastX, _rmLastY);
+    _rmCtx.lineTo(x, y);
+    _rmCtx.stroke();
+    _rmLastX = x; _rmLastY = y;
+  });
+  const stopDraw = () => { _rmDrawing = false; };
+  canvas.addEventListener('pointerup', stopDraw);
+  canvas.addEventListener('pointerleave', stopDraw);
+  canvas.addEventListener('pointercancel', stopDraw);
+}
+
+function clearRpgMemo() {
+  const canvas = document.getElementById('rpgmemo-canvas');
+  if (_rmCtx && canvas) _rmCtx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+function toggleRpgMemo() {
+  const wrap = document.getElementById('rpgmemo-wrap');
+  if (!wrap) return;
+  const show = wrap.style.display === 'none';
+  wrap.style.display = show ? 'flex' : 'none';
+  if (show) {
+    setTimeout(() => {
+      const canvas = document.getElementById('rpgmemo-canvas');
+      if (!_rmCtx || (canvas && canvas.width < 10)) initRpgMemo();
+    }, 50);
+  }
+}
+
+function hideRpgMemo() {
+  const wrap = document.getElementById('rpgmemo-wrap');
+  if (wrap) wrap.style.display = 'none';
+  clearRpgMemo();
 }
 
 // 選択式
@@ -455,9 +823,27 @@ function answerChoice(origIdx, btnIdx) {
   resolveTurn(ok, q);
 }
 
+// 入力式
+function answerInput() {
+  if (bt.answered) return;
+  const q = bt.queue[bt.idx];
+  const el = document.getElementById('in-input');
+  const mine = el ? el.value.trim() : '';
+  if (!mine) { if (el) el.style.borderColor = '#ef4444'; return; }
+  bt.answered = true;
+  const ok = checkInputAns(mine, q);
+  document.getElementById('a-area').innerHTML =
+    '<div style="background:' + (ok ? '#dcfce7' : '#fee2e2') + '; border-radius:12px; padding:12px; font-size:15px;">' +
+      '<div style="font-size:12px; color:#64748b;">きみの答え：' + qHTML(mine) + '</div>' +
+      '<div style="font-weight:800; margin-top:3px;">こたえ：' + qHTML(q.answer) + '</div>' +
+    '</div>';
+  resolveTurn(ok, q);
+}
+
 // 自己採点式
 function revealSelfJudge() {
   if (bt.answered) return;
+  if (bt.tt === 'q30' && bt.qElapsed == null) bt.qElapsed = Date.now() - bt.qStart;   // 「こたえを見る」までの時間で はかる
   const q = bt.queue[bt.idx];
   const mine = (document.getElementById('sj-input') || {}).value || '';
   document.getElementById('a-area').innerHTML =
@@ -630,29 +1016,46 @@ function sfx(ok, crit) {
 }
 
 // 1ターンの決着（正誤→ダメージ→EXP→次へ）
-function resolveTurn(ok, q) {
+function resolveTurn(ok, q, timeout) {
   const sprite = document.getElementById('enemy-sprite');
+  logAnswer(ok, q);
+  if (bt.qElapsed == null) bt.qElapsed = Date.now() - bt.qStart;
+  const rush = bt.tt === 'rush';
+  const inTime = bt.tt === 'rush' ? Date.now() < bt.endsAt : bt.tt === 'q30' ? bt.qElapsed <= TT_Q_SEC * 1000 : false;
+  if (bt.tt) bt.ttAnswered = (bt.ttAnswered || 0) + 1;
 
   if (ok) {
     bt.streak++;
     bt.correct++;
     const dmg = bt.streak >= 2 ? DMG_CRIT : DMG_HIT;
     sfx(true, bt.streak >= 2);
-    bt.hp -= dmg;
+    if (!rush) bt.hp -= dmg;
     save.exp += EXP_HIT;
-    popDamage(dmg, bt.streak >= 2);
+    if (!rush) popDamage(dmg, bt.streak >= 2);
     if (sprite) { sprite.classList.remove('shake'); void sprite.offsetWidth; sprite.classList.add('shake'); }
-    setMsg(bt.streak >= 2 ? 'かいしんの一撃！ ' + dmg + 'ダメージ！' : 'せいかい！ ' + dmg + 'ダメージ！');
+    const gotMedal = medalFirstCorrect(q);
+    let got = gotMedal;
+    if (inTime) {   // ⏱️ 時間内の正解は どの問題でも 🪙2
+      medalTT(2 - gotMedal);
+      got = 2;
+      bt.ttMedals = (bt.ttMedals || 0) + 2;
+      bt.ttIn = (bt.ttIn || 0) + 1;
+    }
+    bt.medals += got;
+    setMsg(inTime
+      ? (rush ? 'せいかい！' : (bt.streak >= 2 ? 'かいしん！ ' : 'せいかい！ ') + dmg + 'ダメージ！') + '　⏱️ じかん内！ 🪙+2'
+      : (bt.streak >= 2 ? 'かいしんの一撃！ ' + dmg + 'ダメージ！' : 'せいかい！ ' + dmg + 'ダメージ！') + (gotMedal ? '　🪙 メダル +1' : ''));
   } else {
     bt.streak = 0;
     sfx(false);
-    save.hp -= DMG_TAKE;
-    setMsg('ざんねん… ' + DMG_TAKE + 'のダメージを受けた');
+    if (!rush) save.hp -= DMG_TAKE;
+    setMsg(rush ? 'ざんねん… つぎ いこう！'
+      : (timeout ? '⏰ じかんぎれ… ' : 'ざんねん… ') + DMG_TAKE + 'のダメージを受けた');
   }
+  ttRender();
 
-  document.getElementById('enemy-hp').style.width = pct(Math.max(0, bt.hp), bt.maxHp) + '%';
-  document.getElementById('enemy-hp-text').textContent =
-    'HP ' + Math.max(0, bt.hp) + ' / ' + bt.maxHp + '　（' + (bt.idx + 1) + '問目 / ' + bt.queue.length + '）';
+  document.getElementById('enemy-hp').style.width = (rush ? 100 : pct(Math.max(0, bt.hp), bt.maxHp)) + '%';
+  document.getElementById('enemy-hp-text').textContent = enemyHpText();
   renderMyBar();
 
   document.getElementById('ex-area').innerHTML =
@@ -662,6 +1065,8 @@ function resolveTurn(ok, q) {
     '</div>' +
     '<button class="btn-main" style="margin-top:10px;" onclick="nextTurn()">つぎへ →</button>';
   persist();
+  // 3分トライアルは 正解なら すぐ つぎへ（時間を むだにしない）
+  if (rush && ok) { const at = bt.idx; setTimeout(() => { if (bt && bt.tt === 'rush' && !bt.ended && bt.idx === at) nextTurn(); }, 700); }
 }
 
 function popDamage(n, crit) {
@@ -674,6 +1079,15 @@ function popDamage(n, crit) {
 }
 
 function nextTurn() {
+  if (bt && bt.tt === 'rush') {
+    if (bt.ended) return;
+    if (Date.now() >= bt.endsAt) return endRush();
+    bt.idx++;
+    if (bt.idx >= bt.queue.length) bt.queue = bt.queue.concat(shuffle(QUESTIONS.slice()));
+    renderBattle();
+    setMsg('');
+    return;
+  }
   if (save.hp <= 0)      return endBattle(false);
   if (bt.hp <= 0)        return endBattle(true);
   bt.idx++;
@@ -682,18 +1096,37 @@ function nextTurn() {
   setMsg('');
 }
 
+// 結果画面の「もどる」（森の戦いのあとは 森へ）
+let afterResult = null;
+function resultBack() {
+  const f = afterResult;
+  afterResult = null;
+  document.getElementById('result-back').textContent = 'マップへもどる';
+  (f || showMap)();
+}
+
 function fleeBattle() {
+  if (bt && bt.forest) return forestFlee();       // 森の戦いは 森に もどる
+  if (bt && bt.tt === 'rush') return endRush();   // 3分トライアルは そこで おしまい（結果を出す）
+  ttStop();
+  logTT();
   setMsg('');
   showMap();
 }
 
 function endBattle(win) {
+  if (bt && bt.forest) return forestEndBattle(win);   // 🌲 森の戦い（js/forest.js）
+  ttStop();
+  logTT();
   let lvUps = 0;
+  questLogDay(d => { d.battles++; if (win) d.wins++; });
   if (win) {
     save.exp += EXP_WIN;
     save.wins++;
     if (bt.boss) save.bossDown = true;
     else { save.cleared[bt.key] = true; save.seen[bt.char] = true; }
+    bt.clearBonus = medalQuestClear(bt.boss ? 'boss' : bt.key, bt.boss ? MEDAL_BOSS_CLEAR : MEDAL_STAGE_CLEAR);
+    bt.medals += bt.clearBonus;
   }
   while (save.exp >= needExp()) {
     save.exp -= needExp();
@@ -713,7 +1146,14 @@ function endBattle(win) {
         '<div style="margin:12px 0; opacity:.75; display:flex; justify-content:center;">' + CHARS[bt.char](6, 100, 150, { silhouette: true }) + '</div>' +
         '<div style="font-size:13px; color:#64748b;">HPを半分まで回復した。もう一度いどめるよ。</div>') +
     '<div style="margin-top:10px; font-size:14px;">せいかい ' + bt.correct + ' / ' + bt.queue.length +
-      '　けいけんち +' + (bt.correct * EXP_HIT + (win ? EXP_WIN : 0)) + '</div>';
+      '　けいけんち +' + (bt.correct * EXP_HIT + (win ? EXP_WIN : 0)) + '</div>' +
+    '<div style="margin-top:8px; font-size:15px; font-weight:800; color:#b45309;">🪙 アンリノメダル +' + bt.medals + ' 枚' +
+      (bt.clearBonus ? '<span style="font-size:12px; font-weight:700;">（はじめて たおした ボーナス ' + bt.clearBonus + '枚 ふくむ）</span>' : '') +
+      '<div style="font-size:11.5px; color:#94a3b8; font-weight:700; margin-top:3px;">もっているメダル ' + medalTotal() + ' 枚（しまの ショップで つかえるよ）</div>' +
+    '</div>' +
+    (bt.tt === 'q30'
+      ? '<div style="margin-top:8px; font-size:14px; font-weight:800; color:#b45309;">⏱️ じかん内の せいかい ' + (bt.ttIn || 0) + 'もん ／ 🪙+' + (bt.ttMedals || 0) + '</div>'
+      : '');
 
   if (lvUps) showLevelUp(lvUps);
   showScreen('result');
@@ -748,5 +1188,6 @@ function showDex() {
 
 boot();
 </script>
+<script src="js/forest.js"></script>
 </body>
 </html>

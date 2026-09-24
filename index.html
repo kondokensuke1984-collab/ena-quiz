@@ -942,6 +942,7 @@ body {
   font-size: 13px;
   color: #4b3a6e;
   line-height: 1.6;
+  white-space: pre-line;
   background: rgba(255,255,255,0.6);
   border-radius: 10px;
   padding: 10px 12px;
@@ -1283,7 +1284,7 @@ body {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
-.result-subtitle { font-size: 14px; color: #a78bfa; text-align: center; margin-bottom: 24px; }
+.result-subtitle { font-size: 14px; color: #a78bfa; text-align: center; margin-bottom: 24px; white-space: pre-line; }
 .score-circle {
   width: 140px;
   height: 140px;
@@ -1427,6 +1428,9 @@ body {
 .tag-kanyou  { background: #ffe4e6; color: #9f1239; }
 .tag-eigo        { background: #fef3c7; color: #92400e; }
 .tag-shosu-calc  { background: #fce7f3; color: #be185d; }
+.tag-yakusu  { background: #ffedd5; color: #c2410c; }
+.tag-baisu  { background: #e0f2fe; color: #0369a1; }
+.tag-shobun  { background: #fef9c3; color: #a16207; }
 .tag-tani        { background: #ffe4e6; color: #9f1239; }
 .tag-bunsu-calc  { background: #fdf4ff; color: #7e22ce; }
 
@@ -2111,7 +2115,6 @@ body {
       <div class="home-month-sub" id="home-month-sub"></div>
     </div>
     <a id="enabase-header-btn" class="enabase-header-btn" href="https://app.ena.co.jp" target="_blank" rel="noopener" style="display:none">▶ エナベース</a>
-    <a id="rpg-header-btn" class="enabase-header-btn" href="/rpg.html" style="display:none">⚔️ クエスト</a>
   </div>
   <div class="quote-banner" id="quote-banner">
     <div class="quote-text" id="quote-text"></div>
@@ -2577,14 +2580,23 @@ const SUBJECTS = {
   doushi9_kihon:  { label: '基本問題', icon: '📝', tag: 'tag-doushi', category: 'kokugo', month: '202609', parent: 'doushi9' },
   doushi9_hojuu:  { label: '補充問題', icon: '➕', tag: 'tag-doushi', category: 'kokugo', month: '202609', parent: 'doushi9' },
   eigo:         { label: '英語',       icon: '🔤', tag: 'tag-eigo',       category: 'eigo',  ref: '/eigo.html'  },
-  shosu_calc:   { label: '小数の計算', icon: '➕', tag: 'tag-shosu-calc', category: 'sansu', ref: '/shosu.html' },
+  shosu_calc:   { label: '小数の計算', icon: '➕', tag: 'tag-shosu-calc', category: 'sansu', month: '202605', ref: '/shosu.html' },
   shosu_kake:        { label: '小数のかけ算', icon: '✖️', tag: 'tag-shosu-calc', category: 'sansu', isGroup: true, ref: '/shosu_kake.html' },
   shosu_kake_kihon:  { label: '基本問題',   icon: '📝', tag: 'tag-shosu-calc', category: 'sansu', parent: 'shosu_kake' },
   shosu_kake_renshu: { label: '練習問題',   icon: '✏️', tag: 'tag-shosu-calc', category: 'sansu', month: '202606', parent: 'shosu_kake' },
   kodo1:        { label: '角度１',     icon: '📐', tag: 'tag-kodo',       category: 'sansu', month: '202606', isGroup: true },
   kodo1_kihon:  { label: '基本問題', icon: '📝', tag: 'tag-kodo',       category: 'sansu', month: '202606', parent: 'kodo1' },
-  tani_henkan:  { label: '単位変換',   icon: '📏', tag: 'tag-tani',       category: 'sansu', ref: '/tani.html'  },
-  bunsu_calc:   { label: '分数の計算', icon: '➗', tag: 'tag-bunsu-calc', category: 'sansu', ref: '/bunsu.html' },
+  yakusu9:       { label: '約数と公約数', icon: '🧩', tag: 'tag-yakusu', category: 'sansu', month: '202609', isGroup: true },
+  yakusu9_kihon: { label: '基本問題', icon: '📝', tag: 'tag-yakusu', category: 'sansu', month: '202609', parent: 'yakusu9' },
+  yakusu9_renshu:{ label: '練習問題', icon: '✏️', tag: 'tag-yakusu', category: 'sansu', month: '202609', parent: 'yakusu9' },
+  baisu9:        { label: '倍数と公倍数', icon: '🔁', tag: 'tag-baisu', category: 'sansu', month: '202609', isGroup: true },
+  baisu9_kihon:  { label: '基本問題', icon: '📝', tag: 'tag-baisu', category: 'sansu', month: '202609', parent: 'baisu9' },
+  baisu9_renshu: { label: '練習問題', icon: '✏️', tag: 'tag-baisu', category: 'sansu', month: '202609', parent: 'baisu9' },
+  shobun9:       { label: '小数と分数', icon: '🥧', tag: 'tag-shobun', category: 'sansu', month: '202609', isGroup: true },
+  shobun9_kihon: { label: '基本問題', icon: '📝', tag: 'tag-shobun', category: 'sansu', month: '202609', parent: 'shobun9' },
+  shobun9_renshu:{ label: '練習問題', icon: '✏️', tag: 'tag-shobun', category: 'sansu', month: '202609', parent: 'shobun9' },
+  tani_henkan:  { label: '単位変換',   icon: '📏', tag: 'tag-tani',       category: 'sansu', month: '202605', ref: '/tani.html'  },
+  bunsu_calc:   { label: '分数の計算', icon: '➗', tag: 'tag-bunsu-calc', category: 'sansu', month: '202605', ref: '/bunsu.html' },
   kiso_kanji:   { label: '漢字',       icon: '✍️', tag: 'tag-kanji',      category: 'kokugo' },
   koji_seigo:   { label: '故事成語',   icon: '📜', tag: 'tag-koji',       category: 'kokugo' },
   kiso_keisan:     { label: '計算',         icon: '🔢', tag: 'tag-sansu',      category: 'sansu'  },
@@ -5282,6 +5294,516 @@ const QUESTIONS = [
   { id:'kd_b12', subject:'kodo1_kihon', month:'202606', type:'input', qImage:'/images/kodo1_kihon2.jpg',
     q:'基本問題2-3-(2)\n直線アとイは平行です。いの角度を求めなさい。\n（折れ線。アで155°、折れ目で80°、イにい）',
     answer:'125°', explanation:'アでの内角 = 180° - 155° = 25°。\n補助線を引いて 80° - 25° = 55°（折れ目からイへの角）。\nい = 180° - 55° = 125°' },
+  // ===== 9月 算数 約数と公約数 基本問題 =====
+  { id:'yks_01', subject:'yakusu9_kihon', month:'202609', type:'input',
+    q:'基本問題1-1\n72の約数は全部で何個ありますか。',
+    answer:'12個',
+    explanation:'72 = 2×2×2×3×3\n約数を組にして書き出すと\n1×72、2×36、3×24、4×18、6×12、8×9\n→ 1、2、3、4、6、8、9、12、18、24、36、72 の12個。\n（かけ算の組で書き出すと、もれや重なりがなくなります）' },
+  { id:'yks_02', subject:'yakusu9_kihon', month:'202609', type:'selfjudge',
+    q:'基本問題1-2\n180を素因数分解しなさい。',
+    answer:'2×2×3×3×5',
+    explanation:'小さい素数から順に割っていきます。\n180÷2=90、90÷2=45、45÷3=15、15÷3=5\n→ 180 = 2×2×3×3×5\n（素数を小さい順にかけ算で書けていれば正解）' },
+  { id:'yks_03', subject:'yakusu9_kihon', month:'202609', type:'selfjudge',
+    q:'基本問題1-3\n51を割って3あまる整数をすべて求めなさい。',
+    answer:'4、6、8、12、16、24、48',
+    explanation:'あまりの3を引いた 51-3=48 は、割り切れる数です。つまり答えは48の約数。\n48の約数：1、2、3、4、6、8、12、16、24、48\nただし「あまり3」なので、割る数は3より大きくないといけません（あまりは割る数より小さい）。\n→ 1、2、3 をのぞいて 4、6、8、12、16、24、48' },
+  { id:'yks_04', subject:'yakusu9_kihon', month:'202609', type:'input',
+    q:'基本問題1-4\n36と90の公約数は何個ありますか。',
+    answer:'6個',
+    explanation:'公約数は「最大公約数の約数」です。\n36と90の最大公約数は18（36=18×2、90=18×5）。\n18の約数：1、2、3、6、9、18 → 6個' },
+  { id:'yks_05', subject:'yakusu9_kihon', month:'202609', type:'selfjudge',
+    q:'基本問題1-5\n16と24と40の公約数をすべて求めなさい。',
+    answer:'1、2、4、8',
+    explanation:'3つの数の最大公約数を求めます。\n16=8×2、24=8×3、40=8×5 → 最大公約数は8\n8の約数を書き出して 1、2、4、8' },
+  { id:'yks_06', subject:'yakusu9_kihon', month:'202609', type:'input',
+    q:'基本問題2-1\n135の約数は全部で何個ありますか。',
+    answer:'8個',
+    explanation:'135 = 3×3×3×5\n約数を組にして書き出すと\n1×135、3×45、5×27、9×15\n→ 1、3、5、9、15、27、45、135 の8個。' },
+  { id:'yks_07', subject:'yakusu9_kihon', month:'202609', type:'selfjudge',
+    q:'基本問題2-2\n84を素因数分解しなさい。',
+    answer:'2×2×3×7',
+    explanation:'84÷2=42、42÷2=21、21÷3=7\n→ 84 = 2×2×3×7\n（素数を小さい順にかけ算で書けていれば正解）' },
+  { id:'yks_08', subject:'yakusu9_kihon', month:'202609', type:'selfjudge',
+    q:'基本問題2-3\n60を割って4あまる整数をすべて求めなさい。',
+    answer:'7、8、14、28、56',
+    explanation:'60-4=56 は割り切れる数なので、答えは56の約数。\n56の約数：1、2、4、7、8、14、28、56\nあまりが4なので、割る数は4より大きい数だけ。\n→ 1、2、4 をのぞいて 7、8、14、28、56\n（4で割るとあまりは0になるので、4も入りません）' },
+  { id:'yks_09', subject:'yakusu9_kihon', month:'202609', type:'input',
+    q:'基本問題2-4\n60と75の公約数は何個ありますか。',
+    answer:'4個',
+    explanation:'60と75の最大公約数は15（60=15×4、75=15×5）。\n15の約数：1、3、5、15 → 4個' },
+  { id:'yks_10', subject:'yakusu9_kihon', month:'202609', type:'selfjudge',
+    q:'基本問題2-5\n18と27と45の公約数をすべて求めなさい。',
+    answer:'1、3、9',
+    explanation:'18=9×2、27=9×3、45=9×5 → 最大公約数は9\n9の約数を書き出して 1、3、9' },
+  // ===== 9月 算数 約数と公約数 練習問題 =====
+  { id:'yks_r01', subject:'yakusu9_renshu', month:'202609', type:'input',
+    q:'練習問題1-1\n150の約数のうち、大きい方から4番目の数は何ですか。',
+    answer:'30',
+    explanation:'約数を組にして書き出すと\n1×150、2×75、3×50、5×30、6×25、10×15\n大きい方から 150、75、50、30 … → 4番目は30\n（小さい方から4番目の5と組になる数、と考えても求められます）' },
+  { id:'yks_r02', subject:'yakusu9_renshu', month:'202609', type:'selfjudge',
+    q:'練習問題1-2\n40を割っても、60を割っても割り切れる整数をすべて求めなさい。',
+    answer:'1、2、4、5、10、20',
+    explanation:'両方を割り切れる数＝40と60の公約数です。\n最大公約数は20（40=20×2、60=20×3）。\n20の約数：1、2、4、5、10、20' },
+  { id:'yks_r03', subject:'yakusu9_renshu', month:'202609', type:'selfjudge',
+    q:'練習問題1-3\nアメが32個、グミが48個あります。何人かの子どもに同じ数ずつ分けたいと思います。どちらもあまりなく分けられるのは、子どもの人数が何人のときですか。考えられる人数をすべて求めなさい。ただし、子どもの人数は4人より多いものとします。',
+    answer:'8人、16人',
+    explanation:'どちらもあまりなく分けられる人数＝32と48の公約数。\n最大公約数は16（32=16×2、48=16×3）。\n16の約数：1、2、4、8、16\n「4人より多い」ので4人は入らず → 8人、16人' },
+  { id:'yks_r04', subject:'yakusu9_renshu', month:'202609', type:'input',
+    q:'練習問題1-4(1)\nたて32cm、横80cmの長方形の紙があります。なるべく大きな正方形に切り分けるとき、切り分けられた正方形の1辺の長さは何cmですか。',
+    answer:'16cm',
+    explanation:'正方形の1辺は「たてと横の両方を割り切れる長さ」＝公約数。いちばん大きい正方形なので最大公約数です。\n32と80の最大公約数は16（32=16×2、80=16×5）→ 16cm' },
+  { id:'yks_r05', subject:'yakusu9_renshu', month:'202609', type:'input',
+    q:'練習問題1-4(2)\nたて32cm、横80cmの長方形の紙をなるべく大きな正方形に切り分けるとき、切り分けられた正方形は全部で何枚ですか。',
+    answer:'10枚',
+    explanation:'正方形の1辺は「たてと横の両方を割り切れる長さ」＝公約数。いちばん大きい正方形なので最大公約数です。\n32と80の最大公約数は16なので、1辺16cmの正方形。\nたてに 32÷16=2枚、横に 80÷16=5枚 → 2×5=10枚' },
+  { id:'yks_r06', subject:'yakusu9_renshu', month:'202609', type:'selfjudge',
+    q:'練習問題1-5\nある2つの2けたの整数の和は40で、最大公約数は8です。この2つの整数を求めなさい。',
+    answer:'16、24',
+    explanation:'最大公約数が8なので、2つの数は 8×□ と 8×△ と表せます（□と△は1以外に公約数をもたない数）。\n8×(□+△)=40 → □+△=5\n組み合わせは (1,4) と (2,3)。\n(1,4) → 8と32 … 8が1けたなのでだめ\n(2,3) → 16と24 ✓' },
+  { id:'yks_r07', subject:'yakusu9_renshu', month:'202609', type:'input',
+    q:'練習問題2-1\n96の約数のうち、大きい方から5番目の数は何ですか。',
+    answer:'16',
+    explanation:'約数を組にして書き出すと\n1×96、2×48、3×32、4×24、6×16、8×12\n大きい方から 96、48、32、24、16 … → 5番目は16' },
+  { id:'yks_r08', subject:'yakusu9_renshu', month:'202609', type:'selfjudge',
+    q:'練習問題2-2\n78を割っても、117を割っても割り切れる整数をすべて求めなさい。',
+    answer:'1、3、13、39',
+    explanation:'両方を割り切れる数＝78と117の公約数です。\n78=2×3×13、117=3×3×13 → 最大公約数は 3×13=39\n39の約数：1、3、13、39' },
+  { id:'yks_r09', subject:'yakusu9_renshu', month:'202609', type:'selfjudge',
+    q:'練習問題2-3\nボールペンが36本、えんぴつが90本あります。何人かの子どもに同じ数ずつ分けたいと思います。どちらもあまりなく分けられるのは、子どもの人数が何人のときですか。考えられる人数をすべて求めなさい。ただし、子どもの人数は3人以上とします。',
+    answer:'3人、6人、9人、18人',
+    explanation:'どちらもあまりなく分けられる人数＝36と90の公約数。\n最大公約数は18（36=18×2、90=18×5）。\n18の約数：1、2、3、6、9、18\n「3人以上」なので3人はふくむ → 3人、6人、9人、18人\n（「より多い」は その数をふくまない、「以上」は ふくむ）' },
+  { id:'yks_r10', subject:'yakusu9_renshu', month:'202609', type:'input',
+    q:'練習問題2-4(1)\nたて75cm、横120cmの長方形の紙があります。なるべく大きな正方形に切り分けるとき、切り分けられた正方形の1辺の長さは何cmですか。',
+    answer:'15cm',
+    explanation:'正方形の1辺は「たてと横の両方を割り切れる長さ」＝公約数。いちばん大きい正方形なので最大公約数です。\n75と120の最大公約数は15（75=15×5、120=15×8）→ 15cm' },
+  { id:'yks_r11', subject:'yakusu9_renshu', month:'202609', type:'input',
+    q:'練習問題2-4(2)\nたて75cm、横120cmの長方形の紙をなるべく大きな正方形に切り分けるとき、切り分けられた正方形は全部で何枚ですか。',
+    answer:'40枚',
+    explanation:'正方形の1辺は「たてと横の両方を割り切れる長さ」＝公約数。いちばん大きい正方形なので最大公約数です。\n75と120の最大公約数は15なので、1辺15cmの正方形。\nたてに 75÷15=5枚、横に 120÷15=8枚 → 5×8=40枚' },
+  { id:'yks_r12', subject:'yakusu9_renshu', month:'202609', type:'selfjudge',
+    q:'練習問題2-5\nある2つの2けたの整数の和は136で、最大公約数は17です。この2つの整数を求めなさい。',
+    answer:'51、85',
+    explanation:'2つの数は 17×□ と 17×△（□と△は1以外に公約数をもたない数）。\n17×(□+△)=136 → □+△=8\n公約数をもたない組は (1,7) と (3,5)。（(2,6)は2で割れるのでだめ）\n(1,7) → 17と119 … 119が3けたなのでだめ\n(3,5) → 51と85 ✓' },
+  // ===== 9月 算数 倍数と公倍数 基本問題 =====
+  { id:'bss_01', subject:'baisu9_kihon', month:'202609', type:'selfjudge',
+    q:'基本問題1-1\n8の倍数を、小さい方から順に4つ求めなさい。',
+    answer:'8、16、24、32',
+    explanation:'倍数は「その数に1、2、3、…をかけた数」です。\n8×1=8、8×2=16、8×3=24、8×4=32\n（0は倍数に入れません）' },
+  { id:'bss_02', subject:'baisu9_kihon', month:'202609', type:'input',
+    q:'基本問題1-2\n3と7の公倍数のうち、小さい方から4番目の数を求めなさい。',
+    answer:'84',
+    explanation:'公倍数は「最小公倍数の倍数」です。\n3と7の最小公倍数は 3×7=21（公約数が1だけなので、かけるだけ）。\n21、42、63、84 → 4番目は 21×4=84' },
+  { id:'bss_03', subject:'baisu9_kihon', month:'202609', type:'selfjudge',
+    q:'基本問題1-3\n6と8の公倍数のうち、100以下のものをすべて求めなさい。',
+    answer:'24、48、72、96',
+    explanation:'6と8の最小公倍数は24（6×8=48ではないので注意。6=2×3、8=2×2×2 → 2×2×2×3=24）。\n24の倍数で100以下：24、48、72、96\n（100÷24=4あまり4 → 4個）' },
+  { id:'bss_04', subject:'baisu9_kihon', month:'202609', type:'selfjudge',
+    q:'基本問題1-4\n7、11、18、23、42、80について、偶数をすべて答えなさい。',
+    answer:'18、42、80',
+    explanation:'偶数は2で割り切れる整数（一の位が0、2、4、6、8）。\n18、42、80 が偶数です。\n（7、11、23 は2で割ると1あまるので奇数）' },
+  { id:'bss_05', subject:'baisu9_kihon', month:'202609', type:'input',
+    q:'基本問題1-5-1\n20、40、50の公倍数のうち、最も小さい公倍数はいくつですか。',
+    answer:'200',
+    explanation:'3つの数の最小公倍数を求めます。\n20=2×2×5、40=2×2×2×5、50=2×5×5\nそれぞれに出てくる素数を、いちばん多い個数ずつかけて 2×2×2×5×5=200\n（40の倍数 40、80、120、160、200 … のうち、はじめて50でも割り切れるのが200、と調べてもOK）' },
+  { id:'bss_06', subject:'baisu9_kihon', month:'202609', type:'input',
+    q:'基本問題1-5-2\n20、40、50の公倍数のうち、3番目に小さい公倍数はいくつですか。',
+    answer:'600',
+    explanation:'20、40、50の最小公倍数は200。公倍数は200の倍数なので\n200、400、600 → 3番目は 200×3=600' },
+  { id:'bss_07', subject:'baisu9_kihon', month:'202609', type:'selfjudge',
+    q:'基本問題2-1\n13の倍数を、小さい方から順に4つ求めなさい。',
+    answer:'13、26、39、52',
+    explanation:'13×1=13、13×2=26、13×3=39、13×4=52' },
+  { id:'bss_08', subject:'baisu9_kihon', month:'202609', type:'input',
+    q:'基本問題2-2\n4と9の公倍数のうち、小さい方から3番目の数を求めなさい。',
+    answer:'108',
+    explanation:'4と9は1以外に公約数がないので、最小公倍数は 4×9=36。\n36、72、108 → 3番目は 36×3=108' },
+  { id:'bss_09', subject:'baisu9_kihon', month:'202609', type:'selfjudge',
+    q:'基本問題2-3\n12と15の公倍数のうち、200以下のものをすべて求めなさい。',
+    answer:'60、120、180',
+    explanation:'12=2×2×3、15=3×5 → 最小公倍数は 2×2×3×5=60（12×15=180ではないので注意）。\n60の倍数で200以下：60、120、180' },
+  { id:'bss_10', subject:'baisu9_kihon', month:'202609', type:'selfjudge',
+    q:'基本問題2-4\n7、11、18、23、42、80について、奇数をすべて答えなさい。',
+    answer:'7、11、23',
+    explanation:'奇数は2で割ると1あまる整数（一の位が1、3、5、7、9）。\n7、11、23 が奇数です。' },
+  { id:'bss_11', subject:'baisu9_kihon', month:'202609', type:'input',
+    q:'基本問題2-5-1\n9、14、21の公倍数のうち、最も小さい公倍数はいくつですか。',
+    answer:'126',
+    explanation:'9=3×3、14=2×7、21=3×7\nそれぞれに出てくる素数を、いちばん多い個数ずつかけて 2×3×3×7=126\n（21の倍数 21、42、63、84、105、126 … のうち、はじめて9でも14でも割り切れるのが126）' },
+  { id:'bss_12', subject:'baisu9_kihon', month:'202609', type:'input',
+    q:'基本問題2-5-2\n9、14、21の公倍数のうち、3番目に小さい公倍数はいくつですか。',
+    answer:'378',
+    explanation:'9、14、21の最小公倍数は126。公倍数は126の倍数なので\n126、252、378 → 3番目は 126×3=378' },
+  // ===== 9月 算数 倍数と公倍数 練習問題 =====
+  { id:'bss_r01', subject:'baisu9_renshu', month:'202609', type:'input',
+    q:'練習問題1-1\n1から50までの整数のなかに、7の倍数は何個ありますか。',
+    answer:'7個',
+    explanation:'1からある数までの中の7の倍数の個数は、わり算の商で求められます。\n50÷7=7あまり1 → 7個（7、14、21、28、35、42、49）' },
+  { id:'bss_r02', subject:'baisu9_renshu', month:'202609', type:'input',
+    q:'練習問題1-2-(1)\n2けたの整数について、6の倍数は何個ありますか。',
+    answer:'15個',
+    explanation:'2けたの整数は10〜99。\n1〜99の中の6の倍数：99÷6=16あまり3 → 16個\n1〜9の中の6の倍数：9÷6=1あまり3 → 1個（6）\n16-1=15個\n（「1〜大きい方」から「1〜小さい方の手前」を引くのがコツ）' },
+  { id:'bss_r03', subject:'baisu9_renshu', month:'202609', type:'input',
+    q:'練習問題1-2-(2)\n2けたの整数について、4でも6でも割り切れる数は何個ありますか。',
+    answer:'8個',
+    explanation:'4でも6でも割り切れる数＝4と6の公倍数＝最小公倍数12の倍数です（4×6=24ではありません）。\n1〜99：99÷12=8あまり3 → 8個\n1〜9：0個\n8-0=8個（12、24、36、48、60、72、84、96）' },
+  { id:'bss_r04', subject:'baisu9_renshu', month:'202609', type:'input',
+    q:'練習問題1-3-(1)\n50以上100以下の整数について、8の倍数は何個ありますか。',
+    answer:'6個',
+    explanation:'「50以上」は50をふくむので、1〜100 から 1〜49 を引きます。\n1〜100：100÷8=12あまり4 → 12個\n1〜49：49÷8=6あまり1 → 6個\n12-6=6個（56、64、72、80、88、96）' },
+  { id:'bss_r05', subject:'baisu9_renshu', month:'202609', type:'input',
+    q:'練習問題1-3-(2)\n50以上100以下の整数について、8でも10でも割り切れない数は何個ありますか。',
+    answer:'40個',
+    explanation:'全部の個数から「8か10で割り切れる数」を引きます。\n50〜100の整数：100-50+1=51個\n8の倍数：6個（1-3-(1)と同じ）\n10の倍数：100÷10=10、49÷10=4 → 10-4=6個\n8でも10でも割り切れる数（40の倍数）：80の1個 … 両方で数えているので1回引く\n8か10で割り切れる数：6+6-1=11個\n割り切れない数：51-11=40個' },
+  { id:'bss_r06', subject:'baisu9_renshu', month:'202609', type:'input',
+    q:'練習問題1-4-(1)\nたて15cm、横25cmの長方形の紙があります。この長方形の紙を何個かならべて、なるべく小さな1つの正方形を作ります。このとき、正方形の1辺の長さは何cmですか。',
+    answer:'75cm',
+    explanation:'正方形の1辺は、15cmでも25cmでも割り切れる長さ＝15と25の公倍数。いちばん小さい正方形なので最小公倍数です。\n15=3×5、25=5×5 → 最小公倍数は 3×5×5=75 → 75cm\n（約数の「大きな正方形に切り分ける」は最大公約数、倍数の「小さな正方形を作る」は最小公倍数）' },
+  { id:'bss_r07', subject:'baisu9_renshu', month:'202609', type:'input',
+    q:'練習問題1-4-(2)\nたて15cm、横25cmの長方形の紙をならべて、なるべく小さな1つの正方形を作るとき、長方形の紙は全部で何枚必要ですか。',
+    answer:'15枚',
+    explanation:'いちばん小さい正方形の1辺は、15と25の最小公倍数の75cm。\nたてに 75÷15=5枚、横に 75÷25=3枚 → 5×3=15枚' },
+  { id:'bss_r08', subject:'baisu9_renshu', month:'202609', type:'input',
+    q:'練習問題1-5\n1×2×3×4×5＝120、1×2×・・・×10＝3628800です。1から25までのかけ算を行ったとき、末尾に「0」は何個ならびますか。',
+    answer:'6個',
+    explanation:'末尾の0は「×10」でできます。10=2×5 なので、かけた数の中に2と5の組がいくつあるかを数えます。\n2は偶数ごとに出てきてたくさんあるので、少ない5の個数を数えればOK。\n5の倍数：25÷5=5個（5、10、15、20、25）\n25=5×5 は5を2個ふくむので、25の倍数の分をもう1個：25÷25=1個\n5+1=6個' },
+  { id:'bss_r09', subject:'baisu9_renshu', month:'202609', type:'input',
+    q:'練習問題2-1\n1から100までの整数のなかに、8の倍数は何個ありますか。',
+    answer:'12個',
+    explanation:'100÷8=12あまり4 → 12個' },
+  { id:'bss_r10', subject:'baisu9_renshu', month:'202609', type:'input',
+    q:'練習問題2-2-(1)\n2けたの整数について、4の倍数は何個ありますか。',
+    answer:'22個',
+    explanation:'2けたの整数は10〜99。\n1〜99：99÷4=24あまり3 → 24個\n1〜9：9÷4=2あまり1 → 2個（4、8）\n24-2=22個' },
+  { id:'bss_r11', subject:'baisu9_renshu', month:'202609', type:'input',
+    q:'練習問題2-2-(2)\n2けたの整数について、4でも5でも割り切れる数は何個ありますか。',
+    answer:'4個',
+    explanation:'4でも5でも割り切れる数＝4と5の最小公倍数20の倍数。\n1〜99：99÷20=4あまり19 → 4個\n1〜9：0個\n4個（20、40、60、80）' },
+  { id:'bss_r12', subject:'baisu9_renshu', month:'202609', type:'input',
+    q:'練習問題2-3-(1)\n50以上100以下の整数について、5の倍数は何個ありますか。',
+    answer:'11個',
+    explanation:'「50以上」は50をふくむので、1〜100 から 1〜49 を引きます。\n1〜100：100÷5=20個\n1〜49：49÷5=9あまり4 → 9個\n20-9=11個' },
+  { id:'bss_r13', subject:'baisu9_renshu', month:'202609', type:'input',
+    q:'練習問題2-3-(2)\n50以上100以下の整数について、5でも7でも割り切れない数は何個ありますか。',
+    answer:'34個',
+    explanation:'全部の個数から「5か7で割り切れる数」を引きます。\n50〜100の整数：100-50+1=51個\n5の倍数：11個（2-3-(1)と同じ）\n7の倍数：100÷7=14あまり2、49÷7=7 → 14-7=7個\n5でも7でも割り切れる数（35の倍数）：70の1個 … 両方で数えているので1回引く\n5か7で割り切れる数：11+7-1=17個\n割り切れない数：51-17=34個' },
+  { id:'bss_r14', subject:'baisu9_renshu', month:'202609', type:'input',
+    q:'練習問題2-4-(1)\nたて15cm、横25cm、高さ20cmの直方体のブロックがあります。この直方体のブロックを何個かならべて、なるべく小さな1つの立方体を作ります。このとき、立方体の1辺の長さは何cmですか。',
+    answer:'300cm',
+    explanation:'立方体の1辺は、15cmでも25cmでも20cmでも割り切れる長さ＝3つの数の最小公倍数。\n15=3×5、25=5×5、20=2×2×5\n→ 2×2×3×5×5=300 → 300cm' },
+  { id:'bss_r15', subject:'baisu9_renshu', month:'202609', type:'input',
+    q:'練習問題2-4-(2)\nたて15cm、横25cm、高さ20cmの直方体のブロックをならべて、なるべく小さな1つの立方体を作るとき、直方体のブロックは全部で何個必要ですか。',
+    answer:'3600個',
+    explanation:'いちばん小さい立方体の1辺は、15と25と20の最小公倍数の300cm。\nたて方向 300÷15=20個、横方向 300÷25=12個、高さ方向 300÷20=15個\n20×12×15=3600個' },
+  { id:'bss_r16', subject:'baisu9_renshu', month:'202609', type:'input',
+    q:'練習問題2-5\n1×2×3×4×5＝120、1×2×・・・×10＝3628800です。1から50までのかけ算を行ったとき、その数は5で何回割ることができますか。ただし、わり算の商は自然数とします。',
+    answer:'12回',
+    explanation:'かけた数の中に「5」が何個ふくまれているかを数えます。\n5の倍数：50÷5=10個\n25の倍数（5を2個ふくむ25、50）の分をもう1個ずつ：50÷25=2個\n10+2=12回' },
+  // ===== 9月 算数 小数と分数 基本問題 =====
+  { id:'sbn_01', subject:'shobun9_kihon', month:'202609', type:'input', mustReduce:true,
+    q:'基本問題1-1-(1)\n次の小数を分数になおしなさい。ただし、約分できる分数は約分しなさい。\n0.3',
+    answer:'3/10',
+    explanation:'0.3 は 0.1 が3こ → 3/10（これ以上約分できない）' },
+  { id:'sbn_02', subject:'shobun9_kihon', month:'202609', type:'input', mustReduce:true,
+    q:'基本問題1-1-(2)\n次の小数を分数になおしなさい。ただし、約分できる分数は約分しなさい。\n1.25',
+    answer:'1 1/4',
+    explanation:'1.25 = 1 + 0.25\n0.25 = 25/100 = 1/4（25で約分）\n→ 1と1/4（5/4 でもOK）\n※ 0.25=1/4、0.75=3/4 はおぼえておくと速い' },
+  { id:'sbn_03', subject:'shobun9_kihon', month:'202609', type:'input', mustReduce:true,
+    q:'基本問題1-1-(3)\n次の小数を分数になおしなさい。ただし、約分できる分数は約分しなさい。\n2.07',
+    answer:'2 7/100',
+    explanation:'2.07 = 2 + 0.07\n0.07 = 7/100（小数第2位なので分母は100）\n→ 2と7/100（207/100 でもOK）\n※ 7/10 としないように注意' },
+  { id:'sbn_04', subject:'shobun9_kihon', month:'202609', type:'input', mustReduce:true,
+    q:'基本問題1-1-(4)\n次の小数を分数になおしなさい。ただし、約分できる分数は約分しなさい。\n2.5',
+    answer:'2 1/2',
+    explanation:'2.5 = 2 + 0.5\n0.5 = 5/10 = 1/2\n→ 2と1/2（5/2 でもOK）' },
+  { id:'sbn_05', subject:'shobun9_kihon', month:'202609', type:'input', mustReduce:true,
+    q:'基本問題1-1-(5)\n次の小数を分数になおしなさい。ただし、約分できる分数は約分しなさい。\n0.49',
+    answer:'49/100',
+    explanation:'0.49 = 49/100\n49=7×7、100=2×2×5×5 で共通の約数がないので約分できない' },
+  { id:'sbn_06', subject:'shobun9_kihon', month:'202609', type:'input', mustReduce:true,
+    q:'基本問題1-1-(6)\n次の小数を分数になおしなさい。ただし、約分できる分数は約分しなさい。\n4.125',
+    answer:'4 1/8',
+    explanation:'4.125 = 4 + 0.125\n0.125 = 125/1000 = 1/8（125で約分）\n→ 4と1/8（33/8 でもOK）\n※ 0.125=1/8、0.375=3/8、0.625=5/8、0.875=7/8 はおぼえておこう' },
+  { id:'sbn_07', subject:'shobun9_kihon', month:'202609', type:'input', mustReduce:true,
+    q:'基本問題1-1-(7)\n次の小数を分数になおしなさい。ただし、約分できる分数は約分しなさい。\n0.76',
+    answer:'19/25',
+    explanation:'0.76 = 76/100\n76と100は4で割れる → 19/25' },
+  { id:'sbn_08', subject:'shobun9_kihon', month:'202609', type:'input', mustReduce:true,
+    q:'基本問題1-1-(8)\n次の小数を分数になおしなさい。ただし、約分できる分数は約分しなさい。\n2.75',
+    answer:'2 3/4',
+    explanation:'2.75 = 2 + 0.75\n0.75 = 75/100 = 3/4（25で約分）\n→ 2と3/4（11/4 でもOK）' },
+  { id:'sbn_09', subject:'shobun9_kihon', month:'202609', type:'input',
+    q:'基本問題1-2-(1)\n次の分数を小数になおしなさい。\n1/4',
+    answer:'0.25',
+    explanation:'分数は「分子÷分母」で小数になる。\n1÷4 = 0.25' },
+  { id:'sbn_10', subject:'shobun9_kihon', month:'202609', type:'input',
+    q:'基本問題1-2-(2)\n次の分数を小数になおしなさい。\n4/5',
+    answer:'0.8',
+    explanation:'4÷5 = 0.8\n（分母を10にすると 4/5 = 8/10 = 0.8 とも考えられる）' },
+  { id:'sbn_11', subject:'shobun9_kihon', month:'202609', type:'input',
+    q:'基本問題1-2-(3)\n次の分数を小数になおしなさい。\n1/8',
+    answer:'0.125',
+    explanation:'1÷8 = 0.125' },
+  { id:'sbn_12', subject:'shobun9_kihon', month:'202609', type:'input',
+    q:'基本問題1-2-(4)\n次の分数を小数になおしなさい。\n3/10',
+    answer:'0.3',
+    explanation:'分母が10なので 0.1 が3こ → 0.3' },
+  { id:'sbn_13', subject:'shobun9_kihon', month:'202609', type:'input',
+    q:'基本問題1-2-(5)\n次の分数を小数になおしなさい。\n1と2/5',
+    answer:'1.4',
+    explanation:'帯分数は整数部分と分数部分に分けて考える。\n2/5 = 2÷5 = 0.4 → 1 + 0.4 = 1.4' },
+  { id:'sbn_14', subject:'shobun9_kihon', month:'202609', type:'input',
+    q:'基本問題1-2-(6)\n次の分数を小数になおしなさい。\n2と5/8',
+    answer:'2.625',
+    explanation:'5/8 = 5÷8 = 0.625 → 2 + 0.625 = 2.625' },
+  { id:'sbn_15', subject:'shobun9_kihon', month:'202609', type:'input',
+    q:'基本問題1-2-(7)\n次の分数を小数になおしなさい。\n3と3/10',
+    answer:'3.3',
+    explanation:'3/10 = 0.3 → 3 + 0.3 = 3.3' },
+  { id:'sbn_16', subject:'shobun9_kihon', month:'202609', type:'input',
+    q:'基本問題1-2-(8)\n次の分数を小数になおしなさい。\n5と3/4',
+    answer:'5.75',
+    explanation:'3/4 = 3÷4 = 0.75 → 5 + 0.75 = 5.75' },
+  { id:'sbn_17', subject:'shobun9_kihon', month:'202609', type:'input', mustReduce:true,
+    q:'基本問題1-3-(1)\n次の計算をしなさい。\n0.5＋1/3',
+    answer:'5/6',
+    explanation:'1/3 は小数で割り切れないので、小数を分数にそろえて計算する。\n0.5 = 1/2\n1/2 + 1/3 = 3/6 + 2/6 = 5/6' },
+  { id:'sbn_18', subject:'shobun9_kihon', month:'202609', type:'input', mustReduce:true,
+    q:'基本問題1-3-(2)\n次の計算をしなさい。\n0.25×2/3',
+    answer:'1/6',
+    explanation:'0.25 = 1/4\n1/4 × 2/3 = 2/12 = 1/6（とちゅうで約分すると 1/2 × 1/3 = 1/6）' },
+  { id:'sbn_19', subject:'shobun9_kihon', month:'202609', type:'input', mustReduce:true,
+    q:'基本問題1-3-(3)\n次の計算をしなさい。\n1と1/3÷1.5',
+    answer:'8/9',
+    explanation:'1と1/3 = 4/3、1.5 = 3/2\n4/3 ÷ 3/2 = 4/3 × 2/3 = 8/9\n（わり算は、わる数を逆数にしてかける）' },
+  { id:'sbn_20', subject:'shobun9_kihon', month:'202609', type:'input', mustReduce:true,
+    q:'基本問題1-3-(4)\n次の計算をしなさい。\n1.2÷3/7',
+    answer:'2 4/5',
+    explanation:'1.2 = 6/5\n6/5 ÷ 3/7 = 6/5 × 7/3 = 42/15 = 14/5 = 2と4/5（14/5 でもOK）\n（とちゅうで6と3を約分すると 2/5 × 7/1 = 14/5）' },
+  { id:'sbn_21', subject:'shobun9_kihon', month:'202609', type:'input', mustReduce:true,
+    q:'基本問題1-3-(5)\n次の計算をしなさい。\n0.9×2/3－0.5',
+    answer:'1/10',
+    explanation:'かけ算を先に計算する。\n0.9 = 9/10 → 9/10 × 2/3 = 3/5\n3/5 − 1/2 = 6/10 − 5/10 = 1/10' },
+  { id:'sbn_22', subject:'shobun9_kihon', month:'202609', type:'input', mustReduce:true,
+    q:'基本問題1-3-(6)\n次の計算をしなさい。\n0.75÷1と1/5－0.125',
+    answer:'1/2',
+    explanation:'わり算を先に計算する。\n0.75 = 3/4、1と1/5 = 6/5 → 3/4 × 5/6 = 5/8\n0.125 = 1/8 → 5/8 − 1/8 = 4/8 = 1/2' },
+  { id:'sbn_23', subject:'shobun9_kihon', month:'202609', type:'input', mustReduce:true,
+    q:'基本問題2-1-(1)\n次の小数を真分数または帯分数になおしなさい。ただし、約分できる分数は約分しなさい。\n0.8',
+    answer:'4/5',
+    explanation:'0.8 = 8/10 = 4/5（2で約分）' },
+  { id:'sbn_24', subject:'shobun9_kihon', month:'202609', type:'input', mustReduce:true,
+    q:'基本問題2-1-(2)\n次の小数を真分数または帯分数になおしなさい。ただし、約分できる分数は約分しなさい。\n9.3',
+    answer:'9 3/10',
+    explanation:'9.3 = 9 + 0.3 = 9と3/10（93/10 でもOK）' },
+  { id:'sbn_25', subject:'shobun9_kihon', month:'202609', type:'input', mustReduce:true,
+    q:'基本問題2-1-(3)\n次の小数を真分数または帯分数になおしなさい。ただし、約分できる分数は約分しなさい。\n10.2',
+    answer:'10 1/5',
+    explanation:'10.2 = 10 + 0.2\n0.2 = 2/10 = 1/5 → 10と1/5（51/5 でもOK）' },
+  { id:'sbn_26', subject:'shobun9_kihon', month:'202609', type:'input', mustReduce:true,
+    q:'基本問題2-1-(4)\n次の小数を真分数または帯分数になおしなさい。ただし、約分できる分数は約分しなさい。\n0.85',
+    answer:'17/20',
+    explanation:'0.85 = 85/100\n85と100は5で割れる → 17/20' },
+  { id:'sbn_27', subject:'shobun9_kihon', month:'202609', type:'input', mustReduce:true,
+    q:'基本問題2-1-(5)\n次の小数を真分数または帯分数になおしなさい。ただし、約分できる分数は約分しなさい。\n0.45',
+    answer:'9/20',
+    explanation:'0.45 = 45/100\n45と100は5で割れる → 9/20' },
+  { id:'sbn_28', subject:'shobun9_kihon', month:'202609', type:'input', mustReduce:true,
+    q:'基本問題2-1-(6)\n次の小数を真分数または帯分数になおしなさい。ただし、約分できる分数は約分しなさい。\n1.875',
+    answer:'1 7/8',
+    explanation:'1.875 = 1 + 0.875\n0.875 = 875/1000 = 7/8（125で約分）→ 1と7/8（15/8 でもOK）' },
+  { id:'sbn_29', subject:'shobun9_kihon', month:'202609', type:'input', mustReduce:true,
+    q:'基本問題2-1-(7)\n次の小数を真分数または帯分数になおしなさい。ただし、約分できる分数は約分しなさい。\n0.375',
+    answer:'3/8',
+    explanation:'0.375 = 375/1000 = 3/8（125で約分）' },
+  { id:'sbn_30', subject:'shobun9_kihon', month:'202609', type:'input', mustReduce:true,
+    q:'基本問題2-1-(8)\n次の小数を真分数または帯分数になおしなさい。ただし、約分できる分数は約分しなさい。\n4.25',
+    answer:'4 1/4',
+    explanation:'4.25 = 4 + 0.25 = 4と1/4（17/4 でもOK）' },
+  { id:'sbn_31', subject:'shobun9_kihon', month:'202609', type:'input',
+    q:'基本問題2-2-(1)\n次の分数を小数になおしなさい。\n7/8',
+    answer:'0.875',
+    explanation:'7÷8 = 0.875' },
+  { id:'sbn_32', subject:'shobun9_kihon', month:'202609', type:'input',
+    q:'基本問題2-2-(2)\n次の分数を小数になおしなさい。\n3/5',
+    answer:'0.6',
+    explanation:'3÷5 = 0.6（3/5 = 6/10 と考えてもよい）' },
+  { id:'sbn_33', subject:'shobun9_kihon', month:'202609', type:'input',
+    q:'基本問題2-2-(3)\n次の分数を小数になおしなさい。\n1/8',
+    answer:'0.125',
+    explanation:'1÷8 = 0.125' },
+  { id:'sbn_34', subject:'shobun9_kihon', month:'202609', type:'input',
+    q:'基本問題2-2-(4)\n次の分数を小数になおしなさい。\n3/100',
+    answer:'0.03',
+    explanation:'分母が100なので 0.01 が3こ → 0.03\n※ 0.3 としないように注意' },
+  { id:'sbn_35', subject:'shobun9_kihon', month:'202609', type:'input',
+    q:'基本問題2-2-(5)\n次の分数を小数になおしなさい。\n7と4/5',
+    answer:'7.8',
+    explanation:'4/5 = 0.8 → 7 + 0.8 = 7.8' },
+  { id:'sbn_36', subject:'shobun9_kihon', month:'202609', type:'input',
+    q:'基本問題2-2-(6)\n次の分数を小数になおしなさい。\n21と7/10',
+    answer:'21.7',
+    explanation:'7/10 = 0.7 → 21 + 0.7 = 21.7' },
+  { id:'sbn_37', subject:'shobun9_kihon', month:'202609', type:'input',
+    q:'基本問題2-2-(7)\n次の分数を小数になおしなさい。\n7/50',
+    answer:'0.14',
+    explanation:'分母を100にそろえると 7/50 = 14/100 = 0.14\n（7÷50 = 0.14 でもよい）' },
+  { id:'sbn_38', subject:'shobun9_kihon', month:'202609', type:'input',
+    q:'基本問題2-2-(8)\n次の分数を小数になおしなさい。\n1と7/100',
+    answer:'1.07',
+    explanation:'7/100 = 0.07 → 1 + 0.07 = 1.07' },
+  { id:'sbn_39', subject:'shobun9_kihon', month:'202609', type:'input', mustReduce:true,
+    q:'基本問題2-3-(1)\n次の計算をしなさい。\n0.9－1/2',
+    answer:'2/5',
+    explanation:'1/2 = 0.5 なので 0.9 − 0.5 = 0.4 = 2/5\n（分数で 9/10 − 5/10 = 4/10 = 2/5 としてもよい）' },
+  { id:'sbn_40', subject:'shobun9_kihon', month:'202609', type:'input', mustReduce:true,
+    q:'基本問題2-3-(2)\n次の計算をしなさい。\n1/3＋0.3',
+    answer:'19/30',
+    explanation:'1/3 は小数で割り切れないので分数にそろえる。\n0.3 = 3/10\n1/3 + 3/10 = 10/30 + 9/30 = 19/30' },
+  { id:'sbn_41', subject:'shobun9_kihon', month:'202609', type:'input', mustReduce:true,
+    q:'基本問題2-3-(3)\n次の計算をしなさい。\n0.6÷3/7',
+    answer:'1 2/5',
+    explanation:'0.6 = 3/5\n3/5 ÷ 3/7 = 3/5 × 7/3 = 7/5 = 1と2/5（7/5 でもOK）' },
+  { id:'sbn_42', subject:'shobun9_kihon', month:'202609', type:'input', mustReduce:true,
+    q:'基本問題2-3-(4)\n次の計算をしなさい。\n2.1×2/7',
+    answer:'3/5',
+    explanation:'2.1 = 21/10\n21/10 × 2/7 = 42/70 = 3/5（とちゅうで21と7、2と10を約分すると 3/5 × 1/1）' },
+  { id:'sbn_43', subject:'shobun9_kihon', month:'202609', type:'input', mustReduce:true,
+    q:'基本問題2-3-(5)\n次の計算をしなさい。\n6/7÷2/3÷0.75',
+    answer:'1 5/7',
+    explanation:'0.75 = 3/4\n6/7 ÷ 2/3 ÷ 3/4 = 6/7 × 3/2 × 4/3 = 72/42 = 12/7 = 1と5/7（12/7 でもOK）' },
+  { id:'sbn_44', subject:'shobun9_kihon', month:'202609', type:'input', mustReduce:true,
+    q:'基本問題2-3-(6)\n次の計算をしなさい。\n2/9＋1/3÷0.25',
+    answer:'1 5/9',
+    explanation:'わり算を先に計算する。\n0.25 = 1/4 → 1/3 ÷ 1/4 = 1/3 × 4 = 4/3\n2/9 + 4/3 = 2/9 + 12/9 = 14/9 = 1と5/9（14/9 でもOK）' },
+  // ===== 9月 算数 小数と分数 練習問題 =====
+  { id:'sbn_r01', subject:'shobun9_renshu', month:'202609', type:'input', mustReduce:true,
+    q:'練習問題1-1-(1)\n次の小数を分数になおしなさい（約分できる分数は約分すること）。\n0.7',
+    answer:'7/10',
+    explanation:'0.7 は 0.1 が7こ → 7/10（これ以上約分できない）' },
+  { id:'sbn_r02', subject:'shobun9_renshu', month:'202609', type:'input', mustReduce:true,
+    q:'練習問題1-1-(2)\n次の小数を分数になおしなさい（約分できる分数は約分すること）。\n6.5',
+    answer:'6 1/2',
+    explanation:'6.5 = 6 + 0.5\n0.5 = 5/10 = 1/2 → 6と1/2（13/2 でもOK）' },
+  { id:'sbn_r03', subject:'shobun9_renshu', month:'202609', type:'input', mustReduce:true,
+    q:'練習問題1-1-(3)\n次の小数を分数になおしなさい（約分できる分数は約分すること）。\n0.84',
+    answer:'21/25',
+    explanation:'0.84 = 84/100\n84と100は4で割れる → 21/25' },
+  { id:'sbn_r04', subject:'shobun9_renshu', month:'202609', type:'input', mustReduce:true,
+    q:'練習問題1-1-(4)\n次の小数を分数になおしなさい（約分できる分数は約分すること）。\n1.18',
+    answer:'1 9/50',
+    explanation:'1.18 = 1 + 0.18\n0.18 = 18/100 = 9/50（2で約分）→ 1と9/50（59/50 でもOK）' },
+  { id:'sbn_r05', subject:'shobun9_renshu', month:'202609', type:'input',
+    q:'練習問題1-2-(1)\n次の分数を小数になおしなさい。\n1と2/5',
+    answer:'1.4',
+    explanation:'2/5 = 2÷5 = 0.4 → 1 + 0.4 = 1.4' },
+  { id:'sbn_r06', subject:'shobun9_renshu', month:'202609', type:'input',
+    q:'練習問題1-2-(2)\n次の分数を小数になおしなさい。\n3と7/20',
+    answer:'3.35',
+    explanation:'7/20 は分母を100にそろえると 35/100 = 0.35（7÷20 でもよい）\n→ 3 + 0.35 = 3.35' },
+  { id:'sbn_r07', subject:'shobun9_renshu', month:'202609', type:'input',
+    q:'練習問題1-2-(3)\n次の分数を小数になおしなさい。\n1と87/100',
+    answer:'1.87',
+    explanation:'87/100 = 0.87 → 1 + 0.87 = 1.87' },
+  { id:'sbn_r08', subject:'shobun9_renshu', month:'202609', type:'input',
+    q:'練習問題1-2-(4)\n次の分数を小数になおしなさい。\n4と9/25',
+    answer:'4.36',
+    explanation:'9/25 は分母を100にそろえると 36/100 = 0.36\n→ 4 + 0.36 = 4.36\n※ 分母が 2、4、5、20、25、50 の分数は、分母を100にすると小数にしやすい' },
+  { id:'sbn_r09', subject:'shobun9_renshu', month:'202609', type:'input', mustReduce:true,
+    q:'練習問題1-3-(1)\n次の計算をしなさい。\n1.2 + 7/10',
+    answer:'1 9/10',
+    explanation:'7/10 = 0.7 なので 1.2 + 0.7 = 1.9 = 1と9/10（19/10 でもOK）' },
+  { id:'sbn_r10', subject:'shobun9_renshu', month:'202609', type:'input', mustReduce:true,
+    q:'練習問題1-3-(2)\n次の計算をしなさい。\n2/3 - 0.25',
+    answer:'5/12',
+    explanation:'2/3 は小数で割り切れないので分数にそろえる。\n0.25 = 1/4\n2/3 − 1/4 = 8/12 − 3/12 = 5/12' },
+  { id:'sbn_r11', subject:'shobun9_renshu', month:'202609', type:'input', mustReduce:true,
+    q:'練習問題1-3-(3)\n次の計算をしなさい。\n5/21 × 0.7',
+    answer:'1/6',
+    explanation:'0.7 = 7/10\n5/21 × 7/10 … 5と10、7と21を約分して 1/3 × 1/2 = 1/6' },
+  { id:'sbn_r12', subject:'shobun9_renshu', month:'202609', type:'input', mustReduce:true,
+    q:'練習問題1-3-(4)\n次の計算をしなさい。\n2/3 + 10/9 × 0.4',
+    answer:'1 1/9',
+    explanation:'かけ算を先に計算する。\n0.4 = 2/5 → 10/9 × 2/5 = 4/9（10と5を約分）\n2/3 + 4/9 = 6/9 + 4/9 = 10/9 = 1と1/9（10/9 でもOK）' },
+  { id:'sbn_r13', subject:'shobun9_renshu', month:'202609', type:'input', mustReduce:true,
+    q:'練習問題1-3-(5)\n次の計算をしなさい。\n1/2 × 0.7 + 3/5',
+    answer:'19/20',
+    explanation:'かけ算を先に計算する。\n1/2 × 7/10 = 7/20\n7/20 + 3/5 = 7/20 + 12/20 = 19/20' },
+  { id:'sbn_r14', subject:'shobun9_renshu', month:'202609', type:'input', mustReduce:true,
+    q:'練習問題1-3-(6)\n次の計算をしなさい。\n8 ÷ 11 × 33 ÷ 9',
+    answer:'2 2/3',
+    explanation:'左から順に計算すると 8÷11 が割り切れないので、分数のかけ算にまとめる。\n8 ÷ 11 × 33 ÷ 9 = 8/1 × 1/11 × 33/1 × 1/9\n33と11、3と9を約分すると 8 × 1/3 = 8/3\n= 2と2/3（8/3 でもOK）' },
+  { id:'sbn_r15', subject:'shobun9_renshu', month:'202609', type:'input', mustReduce:true,
+    q:'練習問題1-3-(7)\n次の計算をしなさい。\n1.6 ÷ 0.25 ÷ 0.6',
+    answer:'10 2/3',
+    explanation:'分数になおすと 1.6 = 8/5、0.25 = 1/4、0.6 = 3/5\n8/5 ÷ 1/4 ÷ 3/5 = 8/5 × 4 × 5/3 = 32/3 = 10と2/3（32/3 でもOK）\n（0.6で割ると割り切れないので、分数で計算するのが安全）' },
+  { id:'sbn_r16', subject:'shobun9_renshu', month:'202609', type:'input', mustReduce:true,
+    q:'練習問題1-3-(8)\n次の計算をしなさい。\n2.3 - 1と2/3 × 0.75',
+    answer:'1 1/20',
+    explanation:'かけ算を先に計算する。\n1と2/3 = 5/3、0.75 = 3/4 → 5/3 × 3/4 = 5/4\n2.3 − 5/4 = 2.3 − 1.25 = 1.05 = 1と1/20（21/20 でもOK）\n（分数で 23/10 − 5/4 = 46/20 − 25/20 = 21/20 としてもよい）' },
+  { id:'sbn_r17', subject:'shobun9_renshu', month:'202609', type:'input', mustReduce:true,
+    q:'練習問題2-1-(1)\n次の小数を分数になおしなさい（約分できる分数は約分すること）。\n4.2',
+    answer:'4 1/5',
+    explanation:'4.2 = 4 + 0.2\n0.2 = 2/10 = 1/5 → 4と1/5（21/5 でもOK）' },
+  { id:'sbn_r18', subject:'shobun9_renshu', month:'202609', type:'input', mustReduce:true,
+    q:'練習問題2-1-(2)\n次の小数を分数になおしなさい（約分できる分数は約分すること）。\n12.5',
+    answer:'12 1/2',
+    explanation:'12.5 = 12 + 0.5 = 12と1/2（25/2 でもOK）' },
+  { id:'sbn_r19', subject:'shobun9_renshu', month:'202609', type:'input', mustReduce:true,
+    q:'練習問題2-1-(3)\n次の小数を分数になおしなさい（約分できる分数は約分すること）。\n0.125',
+    answer:'1/8',
+    explanation:'0.125 = 125/1000 = 1/8（125で約分）\n※ 0.125=1/8 はおぼえておこう' },
+  { id:'sbn_r20', subject:'shobun9_renshu', month:'202609', type:'input', mustReduce:true,
+    q:'練習問題2-1-(4)\n次の小数を分数になおしなさい（約分できる分数は約分すること）。\n2.375',
+    answer:'2 3/8',
+    explanation:'2.375 = 2 + 0.375\n0.375 = 375/1000 = 3/8（125で約分）→ 2と3/8（19/8 でもOK）' },
+  { id:'sbn_r21', subject:'shobun9_renshu', month:'202609', type:'input',
+    q:'練習問題2-2-(1)\n次の分数を小数になおしなさい。\n2と1/8',
+    answer:'2.125',
+    explanation:'1/8 = 1÷8 = 0.125 → 2 + 0.125 = 2.125' },
+  { id:'sbn_r22', subject:'shobun9_renshu', month:'202609', type:'input',
+    q:'練習問題2-2-(2)\n次の分数を小数になおしなさい。\n21/50',
+    answer:'0.42',
+    explanation:'分母を100にそろえると 21/50 = 42/100 = 0.42' },
+  { id:'sbn_r23', subject:'shobun9_renshu', month:'202609', type:'input',
+    q:'練習問題2-2-(3)\n次の分数を小数になおしなさい。\n1と3/25',
+    answer:'1.12',
+    explanation:'3/25 = 12/100 = 0.12 → 1 + 0.12 = 1.12' },
+  { id:'sbn_r24', subject:'shobun9_renshu', month:'202609', type:'input',
+    q:'練習問題2-2-(4)\n次の分数を小数になおしなさい。\n5と7/20',
+    answer:'5.35',
+    explanation:'7/20 = 35/100 = 0.35 → 5 + 0.35 = 5.35' },
+  { id:'sbn_r25', subject:'shobun9_renshu', month:'202609', type:'input', mustReduce:true,
+    q:'練習問題2-3-(1)\n次の計算をしなさい。\n1.3 + 9/10',
+    answer:'2 1/5',
+    explanation:'9/10 = 0.9 なので 1.3 + 0.9 = 2.2\n2.2 = 2と2/10 = 2と1/5（11/5 でもOK）' },
+  { id:'sbn_r26', subject:'shobun9_renshu', month:'202609', type:'input', mustReduce:true,
+    q:'練習問題2-3-(2)\n次の計算をしなさい。\n5/6 - 0.75',
+    answer:'1/12',
+    explanation:'0.75 = 3/4\n5/6 − 3/4 = 10/12 − 9/12 = 1/12' },
+  { id:'sbn_r27', subject:'shobun9_renshu', month:'202609', type:'input', mustReduce:true,
+    q:'練習問題2-3-(3)\n次の計算をしなさい。\n5/24 × 0.8',
+    answer:'1/6',
+    explanation:'0.8 = 4/5\n5/24 × 4/5 … 5と5、4と24を約分して 1/6' },
+  { id:'sbn_r28', subject:'shobun9_renshu', month:'202609', type:'input', mustReduce:true,
+    q:'練習問題2-3-(4)\n次の計算をしなさい。\n2/9 + 5/3 × 0.7',
+    answer:'1 7/18',
+    explanation:'かけ算を先に計算する。\n0.7 = 7/10 → 5/3 × 7/10 = 7/6（5と10を約分）\n2/9 + 7/6 = 4/18 + 21/18 = 25/18 = 1と7/18（25/18 でもOK）' },
+  { id:'sbn_r29', subject:'shobun9_renshu', month:'202609', type:'input', mustReduce:true,
+    q:'練習問題2-3-(5)\n次の計算をしなさい。\n1/2 × 0.9 + 4/5',
+    answer:'1 1/4',
+    explanation:'かけ算を先に計算する。\n1/2 × 9/10 = 9/20\n9/20 + 4/5 = 9/20 + 16/20 = 25/20 = 5/4 = 1と1/4（5/4 でもOK）' },
+  { id:'sbn_r30', subject:'shobun9_renshu', month:'202609', type:'input',
+    q:'練習問題2-3-(6)\n次の計算をしなさい。\n7 ÷ 13 × 39 ÷ 21',
+    answer:'1',
+    explanation:'左から順に計算すると 7÷13 が割り切れないので、分数のかけ算にまとめる。\n7 ÷ 13 × 39 ÷ 21 = 7/1 × 1/13 × 39/1 × 1/21\n39と13を約分すると 3、7と21を約分すると 3 が残り 3/3 = 1' },
+  { id:'sbn_r31', subject:'shobun9_renshu', month:'202609', type:'input', mustReduce:true,
+    q:'練習問題2-3-(7)\n次の計算をしなさい。\n1.8 ÷ 1.25 ÷ 0.3',
+    answer:'4 4/5',
+    explanation:'分数になおすと 1.8 = 9/5、1.25 = 5/4、0.3 = 3/10\n9/5 × 4/5 × 10/3 = 360/75 = 24/5 = 4と4/5（24/5 でもOK）\n（とちゅうで約分すると 9と3、5と10 が約分できて 3×4×2/5 = 24/5）' },
+  { id:'sbn_r32', subject:'shobun9_renshu', month:'202609', type:'input', mustReduce:true,
+    q:'練習問題2-3-(8)\n次の計算をしなさい。\n2.5 - 2と2/3 × 0.125',
+    answer:'2 1/6',
+    explanation:'かけ算を先に計算する。\n2と2/3 = 8/3、0.125 = 1/8 → 8/3 × 1/8 = 1/3\n2.5 − 1/3 = 5/2 − 1/3 = 15/6 − 2/6 = 13/6 = 2と1/6（13/6 でもOK）' },
 
   // ── 栄光 Lesson 5-6 ──────────────────────────────────────────
   { id:'e01', subject:'eigo', month:'eikoh_l56',
@@ -12046,6 +12568,7 @@ let state = {
   sessionWrong: [],
   answered: false,
   history: [],
+  replay: false,   // ぜんぶ⭐の単元を もういちど といているとき（⭐は けさない）
 };
 
 function statsKey() { return 'ena_stats_' + state.selectedMonth; }
@@ -12074,6 +12597,13 @@ function todayStr() {
 }
 // 今日の正解を記録。今日はじめての正解なら true（「押し間違えた」で取り消せるように覚えておく）
 function recordCorrectDay(q) {
+  // 正解はすべてここを通るので、初回正解のメダルもここで配る
+  state.medalAwardedFor = null;
+  if (medalFirstCorrect(q)) {
+    state.medalAwardedFor = q.id;
+    const fb = document.getElementById('feedback-label');
+    if (fb) fb.textContent += '\u3000\ud83e\ude99 アンリノメダル +1枚';
+  }
   const days = loadCorrectDays(), t = todayStr();
   const list = days[q.id] || [];
   if (list.includes(t)) { state.dayAddedFor = null; return false; }
@@ -12082,6 +12612,7 @@ function recordCorrectDay(q) {
   return true;
 }
 function unrecordTodayCorrect(q) {
+  medalUndoFirstCorrect(q);
   if (state.dayAddedFor !== q.id) return;
   const days = loadCorrectDays(), t = todayStr();
   days[q.id] = (days[q.id] || []).filter(d => d !== t);
@@ -12095,7 +12626,41 @@ function canMasterNow(q) {
   return list.includes(t) && list.some(d => d !== t);
 }
 function loadMasteredSet(){ try { return new Set(JSON.parse(localStorage.getItem(masteredKey()) || '[]')); } catch(e) { return new Set(); } }
-function saveMasteredSet(s){ localStorage.setItem(masteredKey(), JSON.stringify([...s])); }
+function saveMasteredSet(s){ localStorage.setItem(masteredKey(), JSON.stringify([...s])); publishIslandFriends(); }
+
+// アンリノ島（/game）に住む教科キャラの「いまの姿」を書き出す。島はこのキーを読むだけ。
+//   ・島ができた9月から先の月の教科キャラを、ぜんぶ書き出す（MONTH_CAT_PET に足せば自動で島に来る）
+//   ・currentMonth＝いま（実際の日付）いちばん新しい月。その月の子が島の「主役」、前の月の子は「住人」
+//   ・島での名前（char）は、キャラの render が呼んでいる render○○SVG から自動で決める（js/chars.js のキーと同じ）
+const ISLAND_FIRST_MONTH = '202609';
+function islandCharKey(cfg) {
+  const m = String(cfg && cfg.render).match(/render([A-Za-z]+)SVG/);
+  return m ? m[1].toLowerCase() : null;
+}
+function publishIslandFriends() {
+  try {
+    const d = new Date();
+    const nowYm = String(d.getFullYear()) + String(d.getMonth() + 1).padStart(2, '0');
+    const months = Object.keys(MONTH_CAT_PET).filter(m => /^\d{6}$/.test(m) && m >= ISLAND_FIRST_MONTH).sort();
+    const friends = [];
+    months.forEach(month => {
+      dexEntries(month).filter(e => e.cat).forEach(e => {
+        const char = islandCharKey(e.cfg);
+        if (!char) return;
+        friends.push({
+          month, monthLabel: (MONTHS[month] || {}).label || '',
+          cat: e.cat, catLabel: e.sub, char, name: e.cfg.short,
+          level: e.level, stars: e.stars, fill: e.fill, levelName: (e.def || {}).name || '',
+          n: e.n, total: e.total,
+        });
+      });
+    });
+    const past = months.filter(m => m <= nowYm && friends.some(f => f.month === m));
+    const currentMonth = past.length ? past[past.length - 1] : (months[0] || '');
+    localStorage.setItem('ena_island_friends_v1',
+      JSON.stringify({ v: 1, currentMonth, updatedAt: Date.now(), friends }));
+  } catch (e) { /* 島の表示用なので、失敗してもクイズは止めない */ }
+}
 function loadWrongCounts(){ try { return JSON.parse(localStorage.getItem(wrongCountKey()) || '{}'); } catch(e) { return {}; } }
 function saveWrongCounts(c){ localStorage.setItem(wrongCountKey(), JSON.stringify(c)); }
 function loadSuperWrongSet(){ try { return new Set(JSON.parse(localStorage.getItem(superWrongKey()) || '[]')); } catch(e) { return new Set(); } }
@@ -12109,6 +12674,38 @@ function dailyKey() {
 }
 function loadDaily()  { try { return JSON.parse(localStorage.getItem(dailyKey()) || '{"answered":0,"correct":0,"bySubject":{}}'); } catch(e) { return {answered:0,correct:0,bySubject:{}}; } }
 function saveDaily(d) { localStorage.setItem(dailyKey(), JSON.stringify(d)); }
+
+// ── 🏝 島の入口：その日に ISLAND_UNLOCK_CATS 教科で、単元を1つずつ 最後まで といたら ひらく ──
+//   （その回の正答率が ISLAND_UNLOCK_PCT% いじょうのときだけ）
+//   きろくは 今日の ena_daily_<月>_<日付> の units: { 単元キー: 教科 }。島（/game）も これを読む
+const ISLAND_UNLOCK_CATS = 2;
+const ISLAND_UNLOCK_PCT = 80;   // この正答率いじょうの回だけ 単元クリアに数える
+function recordUnitDone(key) {
+  const cat = CATEGORIES[key] ? key : (SUBJECTS[key] && SUBJECTS[key].category);
+  if (!cat) return;
+  const daily = loadDaily();
+  daily.units = (daily.units && typeof daily.units === 'object') ? daily.units : {};
+  daily.units[key] = cat;
+  saveDaily(daily);
+}
+// 今日 単元を といた教科（どの月の きろくでも）
+function unitCatsToday() {
+  const d = new Date().toLocaleDateString('ja-JP').replace(/\//g,'-');
+  const cats = new Set();
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i) || '';
+    if (!k.startsWith('ena_daily_') || !k.endsWith('_' + d)) continue;
+    try { Object.values(JSON.parse(localStorage.getItem(k) || '{}').units || {}).forEach(c => cats.add(c)); } catch(e) {}
+  }
+  return [...cats];
+}
+function islandUnlockedToday() { return unitCatsToday().length >= ISLAND_UNLOCK_CATS; }
+function renderIslandBtn() {
+  const el = document.querySelector('.island-btn .island-btn-text');
+  if (!el) return;
+  const left = ISLAND_UNLOCK_CATS - unitCatsToday().length;
+  el.textContent = left > 0 ? `🔒 あと${left}教科` : '島へいく';
+}
 
 function monthQuestions() {
   return QUESTIONS.filter(q => q.month === state.selectedMonth);
@@ -12197,6 +12794,7 @@ function showHome() {
   document.getElementById('home').style.display = 'flex';
   initHome();
   renderCountdown();
+  renderIslandBtn();
 }
 
 function showTendency() {
@@ -12312,8 +12910,6 @@ function initHome() {
     (state.selectedSchool === 'eikoh' && state.selectedMonth !== 'eikoh_kiso2026') ? 'block' : 'none';
   document.getElementById('enabase-header-btn').style.display =
     state.selectedMonth === '202606' ? '' : 'none';
-  document.getElementById('rpg-header-btn').style.display =
-    state.selectedMonth === '202609' ? '' : 'none';
 
   const stats = loadStats();
   const wrongSet = loadWrongSet();
@@ -12398,6 +12994,7 @@ function startQuiz(subject) {
       const qMap = Object.fromEntries(allQs.map(q => [q.id, q]));
       state.mode = r.mode;
       state.currentSubject = r.subject;
+      state.replay = !!r.replay;
       state.queue = r.queueIds.map(id => qMap[id]).filter(Boolean);
       state.current = r.current;
       state.correct = r.correct;
@@ -12415,7 +13012,12 @@ function startQuiz(subject) {
   state.currentSubject = subject;
   const base = subject === 'all' ? [...qs] : qs.filter(q => q.subject === subject);
   state.queue = shuffle(base.filter(q => !mastered.has(q.id)));
-  if (state.queue.length === 0) { alert('この分野の問題はすべて完璧だよ！⭐'); return; }
+  state.replay = false;
+  if (state.queue.length === 0) {
+    if (!base.length || !confirm('ぜんぶ ⭐かんぺき！\nもういちど ぜんぶ とく？（⭐は そのまま）')) return;
+    state.queue = shuffle([...base]);
+    state.replay = true;
+  }
   state.current = 0;
   state.correct = 0;
   state.sessionWrong = [];
@@ -12424,6 +13026,7 @@ function startQuiz(subject) {
 }
 
 function renderCategoryTiles() {
+  publishIslandFriends();
   state.currentCategory = null;
   document.getElementById('home-main-actions').style.display = '';
   document.getElementById('kenken-btn').style.display =
@@ -12689,7 +13292,12 @@ function startQuizGroup(groupKey) {
   state.currentSubject = groupKey;
   const base = qs.filter(q => q.subject === groupKey || childKeys.includes(q.subject));
   state.queue = shuffle(base.filter(q => !mastered.has(q.id)));
-  if (state.queue.length === 0) { alert('この分野の問題はすべて完璧だよ！⭐'); return; }
+  state.replay = false;
+  if (state.queue.length === 0) {
+    if (!base.length || !confirm('ぜんぶ ⭐かんぺき！\nもういちど ぜんぶ とく？（⭐は そのまま）')) return;
+    state.queue = shuffle([...base]);
+    state.replay = true;
+  }
   state.current = 0;
   state.correct = 0;
   state.sessionWrong = [];
@@ -12703,8 +13311,14 @@ function startQuizCategory(catKey) {
   const topicKeys = Object.entries(SUBJECTS).filter(([,v]) => v.category === catKey).map(([k]) => k);
   state.mode = 'subject';
   state.currentSubject = catKey;
-  state.queue = shuffle(qs.filter(q => topicKeys.includes(q.subject) && !mastered.has(q.id)));
-  if (state.queue.length === 0) { alert('この教科の問題はすべて完璧だよ！⭐'); return; }
+  const base = qs.filter(q => topicKeys.includes(q.subject));
+  state.queue = shuffle(base.filter(q => !mastered.has(q.id)));
+  state.replay = false;
+  if (state.queue.length === 0) {
+    if (!base.length || !confirm('ぜんぶ ⭐かんぺき！\nもういちど ぜんぶ とく？（⭐は そのまま）')) return;
+    state.queue = shuffle([...base]);
+    state.replay = true;
+  }
   state.current = 0;
   state.correct = 0;
   state.sessionWrong = [];
@@ -13373,7 +13987,8 @@ function undoSelfJudge(status) {
     state.correct = Math.max(0, state.correct - 1);
     const counts = loadCorrectCounts(); counts[q.id] = Math.max(0, (counts[q.id]||1)-1); saveCorrectCounts(counts);
     unrecordTodayCorrect(q);
-    const mastered = loadMasteredSet(); mastered.delete(q.id); saveMasteredSet(mastered);
+    // ぜんぶ⭐の単元の といなおし中は ⭐を けさない
+    if (!state.replay) { const mastered = loadMasteredSet(); mastered.delete(q.id); saveMasteredSet(mastered); }
   } else {
     const wrongSet = loadWrongSet(); wrongSet.delete(q.id); saveWrongSet(wrongSet);
     const wCounts = loadWrongCounts(); const wc = Math.max(0,(wCounts[q.id]||1)-1); wCounts[q.id]=wc; saveWrongCounts(wCounts);
@@ -13421,7 +14036,17 @@ function submitInputAnswer() {
     if (!inp || !inp.value.trim()) { if (inp) inp.style.borderColor = '#ef4444'; return; }
     userInput = inp.value.trim();
   }
-  const isCorrect = checkInputAnswer(userInput, q.answer);
+  let isCorrect = checkInputAnswer(userInput, q.answer);
+  // mustReduce: 値が合っていても、約分していない・帯分数の分数部分が仮分数なら不正解
+  let notReduced = false;
+  if (isCorrect && q.mustReduce && isFrac) {
+    const m = userInput.match(/^(?:(\d+) )?(\d+)\/(\d+)$/);
+    if (m) {
+      const gcd = (x, y) => y ? gcd(y, x % y) : x;
+      const nu = +m[2], de = +m[3];
+      if (gcd(nu, de) !== 1 || (m[1] && nu >= de)) { isCorrect = false; notReduced = true; }
+    }
+  }
   state.answered = true;
   playSound(isCorrect);
 
@@ -13459,7 +14084,7 @@ function submitInputAnswer() {
   }
   fb.className = 'feedback-card ' + (isCorrect ? 'correct-fb' : 'wrong-fb');
   fb.style.display = ''; showFeedbackImage(q);
-  if (q.explanation) { exp.innerHTML = renderMath(q.explanation); exp.style.display = 'block'; } else { exp.style.display = 'none'; }
+  if (q.explanation) { exp.innerHTML = (notReduced ? '<b>⚠️ 答えの大きさは合っているけど、約分（または帯分数に）しきれていないよ。</b><br>' : '') + renderMath(q.explanation); exp.style.display = 'block'; } else { exp.style.display = 'none'; }
   document.getElementById('ai-btn').style.display = 'block';
   showMemoArea(q.id);
   const nextBtn = document.getElementById('next-btn');
@@ -14074,6 +14699,48 @@ const CAT_CHARS = {
       { ratio:1.00, name:'ことばの王ピコ',     hint:'かんむりをかぶった、おしゃべり文法博士！' },
     ],
   },
+  mimi: {
+    title:    '🐰 うさぎのミミ',
+    short:    'ミミ',
+    render:   (lv, fill, size, o) => renderRabbitSVG(lv, fill, size, o),
+    phases:   ['🥚','🐰','🧩','🔢','🏆'],
+    shard:    '🧩 かずのピース',
+    complete: 'ぜんぶ完璧！かずのパズルが完成したよ🏆',
+    grew:     d => `🧩 新しい問題が${d}問！またピースを集めよう`,
+    grewNew:  d => `🆕 新しい問題が${d}問ふえたよ！`,
+    starKick: '🏆 ぜんぶ完璧！',
+    starSub:  'かずのパズルが完成したよ！',
+    dexNote:  'をぜんぶ完璧にするたびに、ミミに★が1つ増えるよ！',
+    levels: [
+      { ratio:0,    name:'たまごのミミ',       hint:'たまごの中で、かずをかぞえているよ' },
+      { ratio:0.12, name:'こうさぎミミ',       hint:'ぴょん！1、2、3…とはねる練習中' },
+      { ratio:0.30, name:'パズルのミミ',       hint:'かずのピースを組み合わせて遊んでいるよ' },
+      { ratio:0.53, name:'かずカードのミミ',   hint:'約数カードを持って、わり算の旅へ！' },
+      { ratio:0.76, name:'わりざんはかせミミ', hint:'どんな数も、すぐに約数を見つけられる！' },
+      { ratio:1.00, name:'かずの女王ミミ',     hint:'かんむりをかぶった、公約数マスター！' },
+    ],
+  },
+  tsukimi: {
+    title:    '🐻 くまのツキミ',
+    short:    'ツキミ',
+    render:   (lv, fill, size, o) => renderBearSVG(lv, fill, size, o),
+    phases:   ['🥚','🐻','🔭','🌙','🎑'],
+    shard:    '🌙 つきのかけら',
+    complete: 'ぜんぶ完璧！まんげつのお月見ができたよ🎑',
+    grew:     d => `🌙 新しい問題が${d}問！また月をしらべよう`,
+    grewNew:  d => `🆕 新しい問題が${d}問ふえたよ！`,
+    starKick: '🎑 ぜんぶ完璧！',
+    starSub:  'まんげつのお月見ができたよ！',
+    dexNote:  'をぜんぶ完璧にするたびに、ツキミに★が1つ増えるよ！',
+    levels: [
+      { ratio:0,    name:'たまごのツキミ',       hint:'たまごの中で、月のひかりをあびているよ' },
+      { ratio:0.12, name:'こぐまのツキミ',       hint:'夜空を見あげて、月をさがしている' },
+      { ratio:0.30, name:'ぼうえんきょうのツキミ', hint:'ぼうえんきょうで、月のもようを見つけた！' },
+      { ratio:0.53, name:'つきよみツキミ',       hint:'月がどこに見えるか、時こくで言いあてられる' },
+      { ratio:0.76, name:'おつきみはかせツキミ', hint:'おだんごをならべて、月のうごきを教えてくれる' },
+      { ratio:1.00, name:'まんげつの王ツキミ',   hint:'かんむりをかぶった、月の位置と見え方マスター！' },
+    ],
+  },
 };
 
 // 育成の対象（ctx）。ctx を省略するとルナ（その月の全教科）として動く
@@ -14091,7 +14758,8 @@ const MONTH_CAT_PET = {
   '202605': { shakai: 'mei',    rika: 'kero',      kokugo: 'mike',     sansu: 'penta'     },
   '202606': { shakai: 'maimai', rika: 'ahi',       kokugo: 'risumaru', sansu: 'kamekichi' },
   '202607': { shakai: 'konta',   rika: 'doruru'     },
-  '202609': { shakai: 'ponta',   rika: 'hou',   kokugo: 'piko' },
+  '202609': { shakai: 'ponta',   rika: 'hou',   kokugo: 'piko', sansu: 'mimi' },
+  '202610': { rika: 'tsukimi' },
   'eikoh_kiso2026': { shakai: 'zoumaru', rika: 'harry', kokugo: 'panko', sansu: 'hamuta' },
 };
 function catPetKey(cat) { return (MONTH_CAT_PET[state.selectedMonth] || {})[cat]; }
@@ -15397,6 +16065,108 @@ function renderHamsterSVG(level, fillPct, size, opts) {
   return petWrapSVG(L, size, bg, deco, body);
 }
 
+function renderRabbitSVG(level, fillPct, size, opts) {
+  opts = opts || {};
+  const sil = !!opts.silhouette, L = Math.max(1, level | 0);
+  const pal = { fur:'#f8fafc', belly:'#ffffff', ear:'#fbcfe8', line:'#9d174d', eye:'#2a1d3d',
+                blush:'#fda4af', pieceA:'#f97316', pieceB:'#3b82f6', pieceC:'#22c55e',
+                card:'#fef3c7', cardLine:'#b45309', crown:'#fbbf24', star:'#fde68a',
+                egg:'#fdf2f8', spot:'#f9a8d4' };
+  const c = sil ? petSilPalette(pal) : pal;
+  const bg = petRingBG(fillPct, '#f9a8d4', sil);
+  const deco = petCommonDeco(L, opts.stars, c.star, sil);
+  let body;
+  if (L === 1) {
+    body = petEggBody(c, `
+      <ellipse cx="88" cy="70" rx="6" ry="14" fill="${c.fur}" stroke="${c.line}" stroke-width="2"/>
+      <ellipse cx="112" cy="70" rx="6" ry="14" fill="${c.fur}" stroke="${c.line}" stroke-width="2"/>`);
+  } else {
+    const pieces = L >= 3 ? `<g>
+        <rect x="28" y="150" width="20" height="20" rx="3" fill="${c.pieceA}" stroke="${c.line}" stroke-width="1.6"/>
+        <rect x="50" y="150" width="20" height="20" rx="3" fill="${c.pieceB}" stroke="${c.line}" stroke-width="1.6"/>
+        <circle cx="49" cy="160" r="4" fill="${c.pieceB}"/>
+        <rect x="39" y="128" width="20" height="20" rx="3" fill="${c.pieceC}" stroke="${c.line}" stroke-width="1.6"/>
+        <circle cx="49" cy="149" r="4" fill="${c.pieceC}"/>
+      </g>` : '';
+    const card = L >= 4 ? `<g transform="rotate(12 150 145)">
+        <rect x="134" y="124" width="34" height="42" rx="4" fill="${c.card}" stroke="${c.cardLine}" stroke-width="2"/>
+        <text x="151" y="143" font-size="12" font-weight="bold" fill="${c.cardLine}" text-anchor="middle">12</text>
+        <text x="151" y="158" font-size="8" fill="${c.cardLine}" text-anchor="middle">1·2·3·4</text>
+      </g>` : '';
+    const glasses = L >= 5 ? `<g fill="none" stroke="${c.eye}" stroke-width="2">
+        <circle cx="90" cy="110" r="8"/><circle cx="110" cy="110" r="8"/><path d="M98 110 h4"/>
+      </g>` : '';
+    const crown = L >= 6 ? `<path d="M84 88 L88 72 L96 82 L100 68 L104 82 L112 72 L116 88 Z" fill="${c.crown}" stroke="${c.line}" stroke-width="1.6" stroke-linejoin="round"/>` : '';
+    body = `
+      <ellipse cx="86" cy="66" rx="10" ry="28" fill="${c.fur}" stroke="${c.line}" stroke-width="2.2" transform="rotate(-10 86 66)"/>
+      <ellipse cx="86" cy="68" rx="4.5" ry="19" fill="${c.ear}" transform="rotate(-10 86 68)"/>
+      <ellipse cx="114" cy="66" rx="10" ry="28" fill="${c.fur}" stroke="${c.line}" stroke-width="2.2" transform="rotate(10 114 66)"/>
+      <ellipse cx="114" cy="68" rx="4.5" ry="19" fill="${c.ear}" transform="rotate(10 114 68)"/>
+      <ellipse cx="100" cy="146" rx="32" ry="30" fill="${c.fur}" stroke="${c.line}" stroke-width="3"/>
+      <ellipse cx="100" cy="154" rx="19" ry="18" fill="${c.belly}"/>
+      <ellipse cx="86" cy="174" rx="10" ry="5" fill="${c.fur}" stroke="${c.line}" stroke-width="1.8"/>
+      <ellipse cx="114" cy="174" rx="10" ry="5" fill="${c.fur}" stroke="${c.line}" stroke-width="1.8"/>
+      <circle cx="100" cy="112" r="26" fill="${c.fur}" stroke="${c.line}" stroke-width="2.5"/>
+      <ellipse cx="80" cy="120" rx="6" ry="4" fill="${c.blush}" opacity="0.75"/>
+      <ellipse cx="120" cy="120" rx="6" ry="4" fill="${c.blush}" opacity="0.75"/>
+      ${petEyes(c, sil, 90, 110, 110, 4)}
+      <path d="M97 119 l3 3 l3 -3 z" fill="${c.ear}" stroke="${c.line}" stroke-width="1.2" stroke-linejoin="round"/>
+      <path d="M100 122 q-4 5 -8 1 M100 122 q4 5 8 1" stroke="${c.eye}" stroke-width="2" fill="none" stroke-linecap="round"/>
+      ${glasses}${crown}${pieces}${card}`;
+  }
+  return petWrapSVG(L, size, bg, deco, body);
+}
+
+function renderBearSVG(level, fillPct, size, opts) {
+  opts = opts || {};
+  const sil = !!opts.silhouette, L = Math.max(1, level | 0);
+  const pal = { fur:'#b45309', belly:'#fde68a', ear:'#f59e0b', line:'#78350f', eye:'#2a1d3d',
+                blush:'#fda4af', moon:'#fde047', scope:'#6366f1', scopeLine:'#312e81',
+                dango:'#fff7ed', plate:'#f59e0b', crown:'#fbbf24', star:'#fde68a',
+                egg:'#fef3c7', spot:'#fcd34d' };
+  const c = sil ? petSilPalette(pal) : pal;
+  const bg = petRingBG(fillPct, '#fde047', sil);
+  const deco = petCommonDeco(L, opts.stars, c.star, sil);
+  let body;
+  if (L === 1) {
+    body = petEggBody(c, `
+      <circle cx="84" cy="80" r="9" fill="${c.fur}" stroke="${c.line}" stroke-width="2"/>
+      <circle cx="116" cy="80" r="9" fill="${c.fur}" stroke="${c.line}" stroke-width="2"/>`);
+  } else {
+    const moon = L >= 2 ? `<path d="M150 58 a16 16 0 1 0 12 26 a13 13 0 1 1 -12 -26 z" fill="${c.moon}" stroke="${c.line}" stroke-width="1.5"/>` : '';
+    const scope = L >= 3 ? `<g transform="rotate(-35 146 150)">
+        <rect x="128" y="142" width="40" height="13" rx="4" fill="${c.scope}" stroke="${c.scopeLine}" stroke-width="2"/>
+        <rect x="164" y="139" width="9" height="19" rx="3" fill="${c.scope}" stroke="${c.scopeLine}" stroke-width="2"/>
+      </g>` : '';
+    const dango = L >= 5 ? `<g>
+        <ellipse cx="54" cy="176" rx="22" ry="6" fill="${c.plate}" stroke="${c.line}" stroke-width="1.6"/>
+        <circle cx="46" cy="168" r="7" fill="${c.dango}" stroke="${c.line}" stroke-width="1.4"/>
+        <circle cx="62" cy="168" r="7" fill="${c.dango}" stroke="${c.line}" stroke-width="1.4"/>
+        <circle cx="54" cy="157" r="7" fill="${c.dango}" stroke="${c.line}" stroke-width="1.4"/>
+      </g>` : '';
+    const crown = L >= 6 ? `<path d="M84 80 L88 64 L96 74 L100 60 L104 74 L112 64 L116 80 Z" fill="${c.crown}" stroke="${c.line}" stroke-width="1.6" stroke-linejoin="round"/>` : '';
+    body = `
+      <circle cx="78" cy="92" r="12" fill="${c.fur}" stroke="${c.line}" stroke-width="2.2"/>
+      <circle cx="78" cy="92" r="6" fill="${c.ear}"/>
+      <circle cx="122" cy="92" r="12" fill="${c.fur}" stroke="${c.line}" stroke-width="2.2"/>
+      <circle cx="122" cy="92" r="6" fill="${c.ear}"/>
+      <ellipse cx="100" cy="145" rx="34" ry="31" fill="${c.fur}" stroke="${c.line}" stroke-width="3"/>
+      <ellipse cx="100" cy="153" rx="20" ry="19" fill="${c.belly}"/>
+      <path d="M92 132 a8 8 0 1 0 16 0" fill="none" stroke="${c.moon}" stroke-width="3"/>
+      <ellipse cx="84" cy="174" rx="10" ry="5" fill="${c.fur}" stroke="${c.line}" stroke-width="1.8"/>
+      <ellipse cx="116" cy="174" rx="10" ry="5" fill="${c.fur}" stroke="${c.line}" stroke-width="1.8"/>
+      <circle cx="100" cy="114" r="27" fill="${c.fur}" stroke="${c.line}" stroke-width="2.5"/>
+      <ellipse cx="100" cy="124" rx="12" ry="9" fill="${c.belly}"/>
+      <ellipse cx="80" cy="122" rx="5.5" ry="3.5" fill="${c.blush}" opacity="0.75"/>
+      <ellipse cx="120" cy="122" rx="5.5" ry="3.5" fill="${c.blush}" opacity="0.75"/>
+      ${petEyes(c, sil, 90, 110, 110, 4)}
+      <ellipse cx="100" cy="121" rx="4.5" ry="3" fill="${c.eye}"/>
+      <path d="M100 124 q-4 5 -8 1 M100 124 q4 5 8 1" stroke="${c.eye}" stroke-width="2" fill="none" stroke-linecap="round"/>
+      ${moon}${crown}${scope}${dango}`;
+  }
+  return petWrapSVG(L, size, bg, deco, body);
+}
+
 // ============================================================
 // ホームの育成カード
 // ============================================================
@@ -15636,6 +16406,58 @@ function medalUnits(month) {
   return by;
 }
 
+// はじめて正解した問題は、その場で1枚もらえる。
+// 同じ問題に何度正解しても1枚だけ（水増しできないように、もらった問題IDを台帳に残す）
+function medalFirstCorrect(q) {
+  if (!q || !q.id) return 0;
+  const led = loadMedalLedger();
+  led.first = (led.first && typeof led.first === 'object') ? led.first : {};
+  if (led.first[q.id]) return 0;
+  led.first[q.id] = 1;
+  const key = (q.month || '') + '|first:' + (q.subject || '');
+  led.units[key] = (led.units[key] || 0) + 1;
+  saveMedalLedger(led);
+  return 1;
+}
+
+// 自己採点を⭕→❌に押しなおしたときは、いまもらった1枚も返す
+// （state.medalAwardedFor で「さっきもらった分」だけを対象にする）
+function medalUndoFirstCorrect(q) {
+  if (!q || !q.id || state.medalAwardedFor !== q.id) return;
+  state.medalAwardedFor = null;
+  const led = loadMedalLedger();
+  if (!led.first || !led.first[q.id]) return;
+  delete led.first[q.id];
+  const key = (q.month || '') + '|first:' + (q.subject || '');
+  led.units[key] = Math.max(0, (led.units[key] || 0) - 1);
+  if (!led.units[key]) delete led.units[key];
+  saveMedalLedger(led);
+}
+
+// この機能より前に正解ずみだった問題のぶんを、あとから取り込む
+function medalSyncFirstCorrect() {
+  const led = loadMedalLedger();
+  led.first = (led.first && typeof led.first === 'object') ? led.first : {};
+  const byId = new Map(QUESTIONS.map(q => [q.id, q]));
+  let changed = false;
+  Object.keys(MONTHS).forEach(month => {
+    const ids = new Set();
+    try { Object.keys(JSON.parse(localStorage.getItem('ena_correct_days_' + month) || '{}')).forEach(id => ids.add(id)); } catch(e) {}
+    // 古いデータには正解日が残っていないことがあるので、⭐済みの問題も正解ずみとみなす
+    try { JSON.parse(localStorage.getItem('ena_mastered_' + month) || '[]').forEach(id => ids.add(id)); } catch(e) {}
+    ids.forEach(id => {
+      if (led.first[id]) return;
+      const q = byId.get(id);
+      if (!q || q.month !== month) return;
+      led.first[id] = 1;
+      const key = month + '|first:' + q.subject;
+      led.units[key] = (led.units[key] || 0) + 1;
+      changed = true;
+    });
+  });
+  if (changed) saveMedalLedger(led);
+}
+
 // コンプリートした単元を台帳に記録して、新しくもらえた分を返す
 function medalAward(month) {
   const mastered = dexMasteredSet(month);
@@ -15656,6 +16478,7 @@ function medalAward(month) {
 
 // ぜんぶの月をまとめてチェック（この機能より前にコンプリートしていた単元を拾う）
 function medalSyncAll() {
+  try { medalSyncFirstCorrect(); } catch(e) {}
   Object.keys(MONTHS).forEach(m => { try { medalAward(m); } catch(e) {} });
 }
 
@@ -15728,7 +16551,7 @@ function dexEntries(month) {
     if (!cfg) return;
     const cqs = qs.filter(q => (SUBJECTS[q.subject] || {}).category === cat);
     if (!cqs.length) return;
-    base.push({ cfg, key: 'ena_pet_' + month + '_' + cat, qs: cqs, sub: (CATEGORIES[cat] || {}).label || '' });
+    base.push({ cfg, key: 'ena_pet_' + month + '_' + cat, qs: cqs, sub: (CATEGORIES[cat] || {}).label || '', cat, petKey: map[cat] });
   });
   return base.map(e => {
     const total = e.qs.length;
@@ -15737,7 +16560,7 @@ function dexEntries(month) {
     const ctx   = { cfg: e.cfg };
     const level = Math.max(petRawLevel(n, total, ctx), pet.seenLevel || 1);
     return {
-      cfg: e.cfg, key: e.key, sub: e.sub, total, n, level,
+      cfg: e.cfg, key: e.key, sub: e.sub, cat: e.cat, petKey: e.petKey, total, n, level,
       stars: Math.max(0, (pet.comps || 0) - 1),
       got: n > 0 || (pet.seenLevel || 1) > 1 || (pet.comps || 0) > 0,
       fill: total ? Math.min(1, n / total) : 0,
@@ -15835,7 +16658,7 @@ function renderDexScreen() {
   });
 
   if (!charsBox.children.length) charsBox.innerHTML = '<div class="tend-no-data">まだキャラがいないよ</div>';
-  if (!medalBox.children.length) medalBox.innerHTML = '<div class="tend-no-data">単元をぜんぶ⭐にすると、その問題数ぶんアンリノメダル🪙がもらえるよ</div>';
+  if (!medalBox.children.length) medalBox.innerHTML = '<div class="tend-no-data">はじめて正解した問題1問につき🪙1枚。単元をぜんぶ⭐にすると、その問題数ぶんもらえるよ</div>';
 
   document.getElementById('dex-summary').innerHTML = `
     <div class="dex-sum-card"><div class="dex-sum-num">${got}/${all}</div><div class="dex-sum-label">🐾 キャラ</div></div>
@@ -15865,6 +16688,20 @@ function showResult() {
              : state.mode === 'all' ? '全問題'
              : (CATEGORIES[state.currentSubject] || SUBJECTS[state.currentSubject])?.label || state.currentSubject;
   document.getElementById('result-subtitle').textContent = mode + '  ' + total + '問中 ' + state.correct + '問正解';
+
+  // 🏝 単元を最後まで といたら 島の入口に数える
+  if (state.mode === 'subject' && state.correct / total * 100 < ISLAND_UNLOCK_PCT) {
+    document.getElementById('result-subtitle').textContent +=
+      `\n🏝 ${ISLAND_UNLOCK_PCT / 10}わり いじょう せいかいで しまに かぞえるよ（こんかい ${pct}%）`;
+  } else if (state.mode === 'subject') {
+    const before = islandUnlockedToday();
+    recordUnitDone(state.currentSubject);
+    const left = ISLAND_UNLOCK_CATS - unitCatsToday().length;
+    const note = left <= 0
+      ? (before ? '' : '🏝 しまが ひらいたよ！ あそびに いこう')
+      : `🏝 あと ${left}教科 で しまが ひらくよ`;
+    if (note) document.getElementById('result-subtitle').textContent += '\n' + note;
+  }
 
   const pctEl = document.getElementById('score-pct');
   pctEl.textContent = pct + '%';
@@ -15980,6 +16817,7 @@ function goHome() {
       history: state.history,
       mode: state.mode,
       subject: state.currentSubject,
+      replay: !!state.replay,
     }));
   }
   document.getElementById('quiz').style.display = 'none';
@@ -17005,6 +17843,66 @@ function subjectTopic(key) {
   };
 }
 
+// ── ⚔️ クエスト（rpg.html）の きろく。rpg.html が anrino_rpg_log_v1 に日ごとに書く ──
+function loadQuestLog() {
+  try {
+    const log = JSON.parse(localStorage.getItem('anrino_rpg_log_v1') || 'null');
+    return (log && log.v === 1 && log.days && typeof log.days === 'object') ? log : { v: 1, days: {} };
+  } catch(e) { return { v: 1, days: {} }; }
+}
+function escHtml(t) {
+  return String(t).replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+}
+// ⏱️ タイムトライアル（rpg.html が d.tt = { q30:{stage,answered,correct,medals}, rush:{...} } を書く）
+function ttReportLine(tt) {
+  if (!tt) return '';
+  const part = [];
+  if (tt.q30) part.push(`30秒トライアル（${escHtml(tt.q30.stage)}）${tt.q30.answered}問中${tt.q30.correct}問正解・🪙${tt.q30.medals}`);
+  if (tt.rush) part.push(`3分トライアル ${tt.rush.answered}問中${tt.rush.correct}問正解・🪙${tt.rush.medals}`);
+  return part.length ? `<p style="font-size:12px;color:#b45309;font-weight:700;margin:0 0 8px;text-align:center;">⏱️ ${part.join('<br>⏱️ ')}</p>` : '';
+}
+function questReportHtml() {
+  const log = loadQuestLog();
+  const today = new Date().toLocaleDateString('ja-JP');
+  const d = log.days[today];
+  const col = p => p >= 80 ? '#16a34a' : p >= 60 ? '#ca8a04' : '#dc2626';
+  // この7日間（今日ふくむ）の合計
+  let wa = 0, wc = 0;
+  for (let i = 0; i < 7; i++) {
+    const x = new Date(); x.setDate(x.getDate() - i);
+    const w = log.days[x.toLocaleDateString('ja-JP')];
+    if (w) { wa += w.answered || 0; wc += w.correct || 0; }
+  }
+  const week = wa > 0
+    ? `<p style="font-size:11px;color:#6b7280;margin:10px 0 0;text-align:center;">この7日間：${wa}問 解いて ${wc}問 正解（正答率 ${Math.round(wc / wa * 100)}%）</p>`
+    : '';
+  if (!d || !d.answered) {
+    return `<div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:16px;padding:16px;margin-bottom:18px;">
+<h2 style="font-size:14px;color:#78350f;margin:0 0 10px;">⚔️ 今日のクエスト</h2>
+<p style="color:#9ca3af;font-size:13px;margin:0;text-align:center;">今日はクエストをしていません</p>${week}</div>`;
+  }
+  const wrongN = d.answered - d.correct;
+  const pct = Math.round(d.correct / d.answered * 100);
+  const box = (v, label, c) => `<div style="flex:1;background:white;border-radius:10px;padding:10px 4px;"><div style="font-size:22px;font-weight:900;color:${c};">${v}</div><div style="font-size:10px;color:#6b7280;">${label}</div></div>`;
+  const rows = Object.values(d.stages || {}).map(st => {
+    const p = st.answered ? Math.round(st.correct / st.answered * 100) : 0;
+    return `<tr><td style="padding:5px 10px;font-size:12px;">${escHtml(st.label)}</td><td style="padding:5px 10px;text-align:center;font-size:12px;">${st.answered}問</td><td style="padding:5px 10px;text-align:center;font-size:12px;">${st.correct}問</td><td style="padding:5px 10px;text-align:center;font-size:12px;font-weight:700;color:${col(p)};">${p}%</td></tr>`;
+  }).join('');
+  const wrong = d.wrong || [];
+  const wrongList = wrong.length
+    ? `<div style="background:white;border-radius:10px;padding:10px 12px;margin-top:10px;"><div style="font-size:12px;font-weight:800;color:#b91c1c;margin-bottom:4px;">❌ まちがえた問題</div><ul style="margin:0;padding-left:18px;">${
+        wrong.slice(0, 10).map(w => `<li style="margin:5px 0;font-size:12px;line-height:1.5;"><span style="background:#fee2e2;color:#b91c1c;font-size:10px;font-weight:700;padding:1px 6px;border-radius:6px;margin-right:6px;">${escHtml(w.stage)}</span>${escHtml(w.q)}</li>`).join('')
+      }${wrong.length > 10 ? `<li style="font-size:11px;color:#9ca3af;">…ほか${wrong.length - 10}問</li>` : ''}</ul></div>`
+    : '';
+  return `<div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:16px;padding:16px;margin-bottom:18px;">
+<h2 style="font-size:14px;color:#78350f;margin:0 0 10px;">⚔️ 今日のクエスト</h2>
+<div style="display:flex;gap:6px;text-align:center;margin-bottom:8px;">${box(d.answered, '問 解いた', '#3b82f6')}${box(d.correct, '問 正解', '#10b981')}${box(wrongN, '問 まちがい', '#dc2626')}${box(pct + '%', '正答率', col(pct))}</div>
+<p style="font-size:12px;color:#78350f;margin:0 0 8px;text-align:center;">たたかった回数 ${d.battles || 0}回（勝ち ${d.wins || 0}回）</p>
+${ttReportLine(d.tt)}
+${rows ? `<table style="width:100%;border-collapse:collapse;background:white;border-radius:10px;overflow:hidden;"><thead><tr style="background:#f3f4f6;"><th style="padding:5px 10px;text-align:left;font-size:11px;">ステージ</th><th style="padding:5px 10px;text-align:center;font-size:11px;">解答</th><th style="padding:5px 10px;text-align:center;font-size:11px;">正解</th><th style="padding:5px 10px;text-align:center;font-size:11px;">正答率</th></tr></thead><tbody>${rows}</tbody></table>` : ''}
+${wrongList}${week}</div>`;
+}
+
 async function sendReportEmail(userMessage, senderName) {
   const btn = document.querySelector('.share-btn');
   btn.textContent = '📤 送信中...';
@@ -17096,6 +17994,8 @@ ${todayAnswered === 0
     ${todaySubjectRows ? `<table style="width:100%;border-collapse:collapse;background:white;border-radius:10px;overflow:hidden;"><thead><tr style="background:#f3f4f6;"><th style="padding:5px 10px;text-align:left;font-size:11px;">科目</th><th style="padding:5px 10px;text-align:center;font-size:11px;">解答</th><th style="padding:5px 10px;text-align:center;font-size:11px;">正解</th><th style="padding:5px 10px;text-align:center;font-size:11px;">正答率</th></tr></thead><tbody>${todaySubjectRows}</tbody></table>` : ''}`
 }
 </div>
+
+${questReportHtml()}
 
 <h2 style="font-size:14px;color:#3d2b5e;margin:0 0 10px;">🎯 現在の状態</h2>
 <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:18px;">

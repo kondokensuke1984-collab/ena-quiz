@@ -185,5 +185,77 @@
 "category": "kokugo",
 "month": "202609",
 "parent": "doushi9"
+},
+"yakusu9": {
+"label": "約数と公約数",
+"icon": "🧩",
+"tag": "tag-yakusu",
+"category": "sansu",
+"month": "202609",
+"isGroup": true
+},
+"yakusu9_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-yakusu",
+"category": "sansu",
+"month": "202609",
+"parent": "yakusu9"
+},
+"yakusu9_renshu": {
+"label": "練習問題",
+"icon": "✏️",
+"tag": "tag-yakusu",
+"category": "sansu",
+"month": "202609",
+"parent": "yakusu9"
+},
+"baisu9": {
+"label": "倍数と公倍数",
+"icon": "🔁",
+"tag": "tag-baisu",
+"category": "sansu",
+"month": "202609",
+"isGroup": true
+},
+"baisu9_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-baisu",
+"category": "sansu",
+"month": "202609",
+"parent": "baisu9"
+},
+"baisu9_renshu": {
+"label": "練習問題",
+"icon": "✏️",
+"tag": "tag-baisu",
+"category": "sansu",
+"month": "202609",
+"parent": "baisu9"
+},
+"shobun9": {
+"label": "小数と分数",
+"icon": "🥧",
+"tag": "tag-shobun",
+"category": "sansu",
+"month": "202609",
+"isGroup": true
+},
+"shobun9_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-shobun",
+"category": "sansu",
+"month": "202609",
+"parent": "shobun9"
+},
+"shobun9_renshu": {
+"label": "練習問題",
+"icon": "✏️",
+"tag": "tag-shobun",
+"category": "sansu",
+"month": "202609",
+"parent": "shobun9"
 }
 }

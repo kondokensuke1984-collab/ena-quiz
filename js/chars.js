@@ -1213,6 +1213,108 @@ function renderHamsterSVG(level, fillPct, size, opts) {
   return petWrapSVG(L, size, bg, deco, body);
 }
 
+function renderRabbitSVG(level, fillPct, size, opts) {
+  opts = opts || {};
+  const sil = !!opts.silhouette, L = Math.max(1, level | 0);
+  const pal = { fur:'#f8fafc', belly:'#ffffff', ear:'#fbcfe8', line:'#9d174d', eye:'#2a1d3d',
+                blush:'#fda4af', pieceA:'#f97316', pieceB:'#3b82f6', pieceC:'#22c55e',
+                card:'#fef3c7', cardLine:'#b45309', crown:'#fbbf24', star:'#fde68a',
+                egg:'#fdf2f8', spot:'#f9a8d4' };
+  const c = sil ? petSilPalette(pal) : pal;
+  const bg = petRingBG(fillPct, '#f9a8d4', sil);
+  const deco = petCommonDeco(L, opts.stars, c.star, sil);
+  let body;
+  if (L === 1) {
+    body = petEggBody(c, `
+      <ellipse cx="88" cy="70" rx="6" ry="14" fill="${c.fur}" stroke="${c.line}" stroke-width="2"/>
+      <ellipse cx="112" cy="70" rx="6" ry="14" fill="${c.fur}" stroke="${c.line}" stroke-width="2"/>`);
+  } else {
+    const pieces = L >= 3 ? `<g>
+        <rect x="28" y="150" width="20" height="20" rx="3" fill="${c.pieceA}" stroke="${c.line}" stroke-width="1.6"/>
+        <rect x="50" y="150" width="20" height="20" rx="3" fill="${c.pieceB}" stroke="${c.line}" stroke-width="1.6"/>
+        <circle cx="49" cy="160" r="4" fill="${c.pieceB}"/>
+        <rect x="39" y="128" width="20" height="20" rx="3" fill="${c.pieceC}" stroke="${c.line}" stroke-width="1.6"/>
+        <circle cx="49" cy="149" r="4" fill="${c.pieceC}"/>
+      </g>` : '';
+    const card = L >= 4 ? `<g transform="rotate(12 150 145)">
+        <rect x="134" y="124" width="34" height="42" rx="4" fill="${c.card}" stroke="${c.cardLine}" stroke-width="2"/>
+        <text x="151" y="143" font-size="12" font-weight="bold" fill="${c.cardLine}" text-anchor="middle">12</text>
+        <text x="151" y="158" font-size="8" fill="${c.cardLine}" text-anchor="middle">1·2·3·4</text>
+      </g>` : '';
+    const glasses = L >= 5 ? `<g fill="none" stroke="${c.eye}" stroke-width="2">
+        <circle cx="90" cy="110" r="8"/><circle cx="110" cy="110" r="8"/><path d="M98 110 h4"/>
+      </g>` : '';
+    const crown = L >= 6 ? `<path d="M84 88 L88 72 L96 82 L100 68 L104 82 L112 72 L116 88 Z" fill="${c.crown}" stroke="${c.line}" stroke-width="1.6" stroke-linejoin="round"/>` : '';
+    body = `
+      <ellipse cx="86" cy="66" rx="10" ry="28" fill="${c.fur}" stroke="${c.line}" stroke-width="2.2" transform="rotate(-10 86 66)"/>
+      <ellipse cx="86" cy="68" rx="4.5" ry="19" fill="${c.ear}" transform="rotate(-10 86 68)"/>
+      <ellipse cx="114" cy="66" rx="10" ry="28" fill="${c.fur}" stroke="${c.line}" stroke-width="2.2" transform="rotate(10 114 66)"/>
+      <ellipse cx="114" cy="68" rx="4.5" ry="19" fill="${c.ear}" transform="rotate(10 114 68)"/>
+      <ellipse cx="100" cy="146" rx="32" ry="30" fill="${c.fur}" stroke="${c.line}" stroke-width="3"/>
+      <ellipse cx="100" cy="154" rx="19" ry="18" fill="${c.belly}"/>
+      <ellipse cx="86" cy="174" rx="10" ry="5" fill="${c.fur}" stroke="${c.line}" stroke-width="1.8"/>
+      <ellipse cx="114" cy="174" rx="10" ry="5" fill="${c.fur}" stroke="${c.line}" stroke-width="1.8"/>
+      <circle cx="100" cy="112" r="26" fill="${c.fur}" stroke="${c.line}" stroke-width="2.5"/>
+      <ellipse cx="80" cy="120" rx="6" ry="4" fill="${c.blush}" opacity="0.75"/>
+      <ellipse cx="120" cy="120" rx="6" ry="4" fill="${c.blush}" opacity="0.75"/>
+      ${petEyes(c, sil, 90, 110, 110, 4)}
+      <path d="M97 119 l3 3 l3 -3 z" fill="${c.ear}" stroke="${c.line}" stroke-width="1.2" stroke-linejoin="round"/>
+      <path d="M100 122 q-4 5 -8 1 M100 122 q4 5 8 1" stroke="${c.eye}" stroke-width="2" fill="none" stroke-linecap="round"/>
+      ${glasses}${crown}${pieces}${card}`;
+  }
+  return petWrapSVG(L, size, bg, deco, body);
+}
+
+function renderBearSVG(level, fillPct, size, opts) {
+  opts = opts || {};
+  const sil = !!opts.silhouette, L = Math.max(1, level | 0);
+  const pal = { fur:'#b45309', belly:'#fde68a', ear:'#f59e0b', line:'#78350f', eye:'#2a1d3d',
+                blush:'#fda4af', moon:'#fde047', scope:'#6366f1', scopeLine:'#312e81',
+                dango:'#fff7ed', plate:'#f59e0b', crown:'#fbbf24', star:'#fde68a',
+                egg:'#fef3c7', spot:'#fcd34d' };
+  const c = sil ? petSilPalette(pal) : pal;
+  const bg = petRingBG(fillPct, '#fde047', sil);
+  const deco = petCommonDeco(L, opts.stars, c.star, sil);
+  let body;
+  if (L === 1) {
+    body = petEggBody(c, `
+      <circle cx="84" cy="80" r="9" fill="${c.fur}" stroke="${c.line}" stroke-width="2"/>
+      <circle cx="116" cy="80" r="9" fill="${c.fur}" stroke="${c.line}" stroke-width="2"/>`);
+  } else {
+    const moon = L >= 2 ? `<path d="M150 58 a16 16 0 1 0 12 26 a13 13 0 1 1 -12 -26 z" fill="${c.moon}" stroke="${c.line}" stroke-width="1.5"/>` : '';
+    const scope = L >= 3 ? `<g transform="rotate(-35 146 150)">
+        <rect x="128" y="142" width="40" height="13" rx="4" fill="${c.scope}" stroke="${c.scopeLine}" stroke-width="2"/>
+        <rect x="164" y="139" width="9" height="19" rx="3" fill="${c.scope}" stroke="${c.scopeLine}" stroke-width="2"/>
+      </g>` : '';
+    const dango = L >= 5 ? `<g>
+        <ellipse cx="54" cy="176" rx="22" ry="6" fill="${c.plate}" stroke="${c.line}" stroke-width="1.6"/>
+        <circle cx="46" cy="168" r="7" fill="${c.dango}" stroke="${c.line}" stroke-width="1.4"/>
+        <circle cx="62" cy="168" r="7" fill="${c.dango}" stroke="${c.line}" stroke-width="1.4"/>
+        <circle cx="54" cy="157" r="7" fill="${c.dango}" stroke="${c.line}" stroke-width="1.4"/>
+      </g>` : '';
+    const crown = L >= 6 ? `<path d="M84 80 L88 64 L96 74 L100 60 L104 74 L112 64 L116 80 Z" fill="${c.crown}" stroke="${c.line}" stroke-width="1.6" stroke-linejoin="round"/>` : '';
+    body = `
+      <circle cx="78" cy="92" r="12" fill="${c.fur}" stroke="${c.line}" stroke-width="2.2"/>
+      <circle cx="78" cy="92" r="6" fill="${c.ear}"/>
+      <circle cx="122" cy="92" r="12" fill="${c.fur}" stroke="${c.line}" stroke-width="2.2"/>
+      <circle cx="122" cy="92" r="6" fill="${c.ear}"/>
+      <ellipse cx="100" cy="145" rx="34" ry="31" fill="${c.fur}" stroke="${c.line}" stroke-width="3"/>
+      <ellipse cx="100" cy="153" rx="20" ry="19" fill="${c.belly}"/>
+      <path d="M92 132 a8 8 0 1 0 16 0" fill="none" stroke="${c.moon}" stroke-width="3"/>
+      <ellipse cx="84" cy="174" rx="10" ry="5" fill="${c.fur}" stroke="${c.line}" stroke-width="1.8"/>
+      <ellipse cx="116" cy="174" rx="10" ry="5" fill="${c.fur}" stroke="${c.line}" stroke-width="1.8"/>
+      <circle cx="100" cy="114" r="27" fill="${c.fur}" stroke="${c.line}" stroke-width="2.5"/>
+      <ellipse cx="100" cy="124" rx="12" ry="9" fill="${c.belly}"/>
+      <ellipse cx="80" cy="122" rx="5.5" ry="3.5" fill="${c.blush}" opacity="0.75"/>
+      <ellipse cx="120" cy="122" rx="5.5" ry="3.5" fill="${c.blush}" opacity="0.75"/>
+      ${petEyes(c, sil, 90, 110, 110, 4)}
+      <ellipse cx="100" cy="121" rx="4.5" ry="3" fill="${c.eye}"/>
+      <path d="M100 124 q-4 5 -8 1 M100 124 q4 5 8 1" stroke="${c.eye}" stroke-width="2" fill="none" stroke-linecap="round"/>
+      ${moon}${crown}${scope}${dango}`;
+  }
+  return petWrapSVG(L, size, bg, deco, body);
+}
+
 // ============================================================
 // ホームの育成カード
 // ============================================================
@@ -1237,4 +1339,6 @@ window.CHARS = {
   hedgehog: renderHedgehogSVG,
   panda: renderPandaSVG,
   hamster: renderHamsterSVG,
+  rabbit: renderRabbitSVG,
+  bear: renderBearSVG,
 };

@@ -23,11 +23,45 @@ export interface MonsterState {
   wander: Pos;             // うろうろ移動の目的地
 }
 
+/** 島の場所。main＝いまの島、east＝となりの島、house＝おうちの中 */
+export type Area = 'main' | 'east' | 'house';
+
 export interface PlacedFurniture {
   uid: string;
   id: string;
   x: number;
   y: number;
+  area?: Area;   // ないものは main（エリアを作る前に置いた家具）
+}
+
+/** 教科キャラ（ぽんた・ホウ・ピコ・ミミ）と あそんだ記録 */
+export interface FriendPlay {
+  pts: number;          // なかよしポイント（♥の元）
+  day: string;          // today を数えている日（YYYY-MM-DD）
+  today: number;        // その日に あげたプレゼントの数
+  wear: string | null;  // つけている きせかえ（fwear のID）
+  followOff?: boolean;  // true＝なかよし♥3いじょうでも ついてこない（プレイヤーが選んだ）
+}
+
+/** キャラからの おてがみ */
+export interface Letter {
+  id: string;
+  from: string;       // CharKey（ルナは 'luna'）
+  fromName: string;
+  title: string;
+  body: string;
+  at: number;
+  read: boolean;
+}
+
+/** 手紙を出すかどうかを決めるための「前回の記録」 */
+export interface LetterMarks {
+  init: boolean;                    // はじめての記録（ここでは手紙を出さずに覚えるだけ）
+  lv: Record<string, number>;       // friend.id → 前回のLv
+  full: Record<string, boolean>;    // friend.id → ぜんぶ⭐のお祝いずみ
+  stamp: string[];                  // 'YYYY-M:7' スタンプのお祝いずみ
+  weekly: string;                   // 最後に週のまとめを出した日（YYYY-M-D）
+  halloween?: string;               // ハロウィンの手紙を出した年
 }
 
 export interface SaveV1 {
@@ -42,9 +76,38 @@ export interface SaveV1 {
   placed: PlacedFurniture[];          // 島に置いた家具
   titles: string[];
   battle: { wins: number; losses: number; lastAt: number };
+  buildings: string[];                        // 建てた建物（BUILD_ORDER の順）
+  friendsPlay: Record<string, FriendPlay>;    // キー＝CharKey
+  stampClaims: string[];                      // 'YYYY-M:日数' うけとった スタンプのごほうび
+  letters: Letter[];                          // 新しい順。最大30通
+  letterMarks: LetterMarks;
+  lastChest: string;                          // たからばこを あけた日（YYYY-M-D）
+  area: Area;                                 // いま いる場所（pos はこの場所での立ち位置）
+  room: { wall: string; floor: string };      // おうちの かべがみ・ゆか
+  fish: FishLog;                              // つりの きろく
+  farm: { plots: (FarmPlot | null)[] };       // はたけ 3まい
+  treats: { day: string; got: string[] };     // ハロウィンで おかしを くれた子（その日）
+  stars: { dex: string[] };                   // てんもんだいで みつけた星座ID
+  moon: { lastOffer: string };                // おだんごを おそなえした日（YYYY-M-D）
 }
 
-export type ItemKind = 'food' | 'snack' | 'gun' | 'shield' | 'costume' | 'hat' | 'furniture';
+export interface FishLog {
+  day: string;                    // today を数えている日（YYYY-M-D）
+  today: number;                  // その日に つりをした回数
+  caught: Record<string, number>; // 魚ID → つった数
+  big: Record<string, number>;    // 魚ID → いちばん大きい cm
+}
+
+export interface FarmPlot {
+  seed: string;     // たねの ID
+  at: string;       // うえた日（YYYY-M-D）
+  watered: string;  // さいごに みずをあげた日
+}
+
+export type ItemKind =
+  | 'food' | 'snack' | 'gun' | 'shield' | 'costume' | 'hat' | 'furniture'
+  | 'building' | 'gift' | 'fwear'
+  | 'indoor' | 'wall' | 'floor' | 'seed';
 
 export interface Item {
   id: string;
@@ -59,4 +122,10 @@ export interface Item {
   power?: number;     // 銃：攻撃力
   reduce?: number;    // 盾：追加の軽減率
   heal?: number;      // 盾：守ったときの追加回復
+  love?: number;      // プレゼント：なかよしポイント
+  season?: number;    // 季節の品：この月（1..12）のあいだだけ ショップに並ぶ
+  reward?: boolean;   // スタンプのごほうび（ショップでは売らない）
+  anywhere?: boolean; // そとにも おうちの中にも 置ける家具
+  builtin?: boolean;  // はじめから もっている（かべがみ・ゆかの さいしょの1つ）
+  crop?: string;      // たね：とれる プレゼントの ID（2つ）
 }
