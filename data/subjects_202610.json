@@ -1,0 +1,21 @@
+{
+"tsukimie": {
+"label": "月の位置と見え方",
+"icon": "🌔",
+"tag": "tag-tsukimie",
+"category": "rika",
+"month": "202610",
+"isGroup": true,
+"ref": "/tsukimie.html",
+"refLabel": "カラーページ（要点まとめ）",
+"refSub": "満ち欠けのしくみ・位置を切りかえて見え方と出入りの時刻・同じ時刻に見える月"
+},
+"tsukimie_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-tsukimie",
+"category": "rika",
+"month": "202610",
+"parent": "tsukimie"
+}
+}

@@ -1,4 +1,4 @@
-# index.html から「9月の問題」と「SVGキャラ描画」を機械的に切り出す。
+# index.html から「9月以降の月ごとの問題」と「SVGキャラ描画」を機械的に切り出す。
 # 中身は読まず、件数だけ検算する。
 import json, os, re, subprocess, sys
 
@@ -13,7 +13,10 @@ def grab_function(name):
     end = next(i for i in range(start + 1, len(lines)) if lines[i] == '}')
     return '\n'.join(lines[start:end + 1])
 
-# ── 1. QUESTIONS から 202609 の問題を抜く（node で評価してJSON化） ──────────
+# ── 1. QUESTIONS・SUBJECTS から 9月以降の月ごとに問題と単元を抜く（node で評価してJSON化） ──
+#   data/questions_<月>.json・data/subjects_<月>.json と、月の一覧 data/quest_months.json を書く。
+#   クエスト（rpg.html）は quest_months.json を見て、毎月6日に新しい月へ切りかえる。
+FIRST_MONTH = '202609'
 qs_start = next(i for i, l in enumerate(lines) if l.startswith('const QUESTIONS = ['))
 qs_end   = next(i for i in range(qs_start + 1, len(lines)) if lines[i] == '];')
 arr = '\n'.join(lines[qs_start:qs_end + 1])
@@ -24,33 +27,39 @@ deps = '\n'.join(l for l in lines[:qs_start]
 
 js = os.path.join(SP, '_q.js')
 open(js, 'w', encoding='utf-8').write(
-    deps + '\n' + arr + "\nconst out = QUESTIONS.filter(q => q.month === '202609');\n"
+    deps + '\n' + arr + "\nconst out = QUESTIONS.filter(q => /^\\d{6}$/.test(q.month || '') && q.month >= '" + FIRST_MONTH + "');\n"
           "process.stdout.write(JSON.stringify(out));\n")
 out = subprocess.run(['node', js], capture_output=True, text=True)
 if out.returncode:
     sys.exit('QUESTIONS の評価に失敗:\n' + out.stderr[:800])
-questions = json.loads(out.stdout)
+all_questions = json.loads(out.stdout)
 os.remove(js)
 
-os.makedirs(os.path.join(ROOT, 'data'), exist_ok=True)
-with open(os.path.join(ROOT, 'data/questions_202609.json'), 'w', encoding='utf-8') as f:
-    json.dump(questions, f, ensure_ascii=False, indent=0)
-
-# ── 2. SUBJECTS から 9月の単元だけ抜く（ステージ定義の元ネタ） ──────────────
 su_start = next(i for i, l in enumerate(lines) if l.startswith('const SUBJECTS = {'))
 su_end   = next(i for i in range(su_start + 1, len(lines)) if lines[i] == '};')
 js2 = os.path.join(SP, '_s.js')
 open(js2, 'w', encoding='utf-8').write(
     '\n'.join(lines[su_start:su_end + 1]) +
-    "\nconst o = {}; for (const [k, v] of Object.entries(SUBJECTS)) if (v.month === '202609') o[k] = v;\n"
-    "process.stdout.write(JSON.stringify(o));\n")
+    "\nprocess.stdout.write(JSON.stringify(SUBJECTS));\n")
 out2 = subprocess.run(['node', js2], capture_output=True, text=True)
 if out2.returncode:
     sys.exit('SUBJECTS の評価に失敗:\n' + out2.stderr[:800])
-subjects = json.loads(out2.stdout)
+all_subjects = json.loads(out2.stdout)
 os.remove(js2)
-with open(os.path.join(ROOT, 'data/subjects_202609.json'), 'w', encoding='utf-8') as f:
-    json.dump(subjects, f, ensure_ascii=False, indent=0)
+
+os.makedirs(os.path.join(ROOT, 'data'), exist_ok=True)
+months = sorted({q['month'] for q in all_questions})
+per_month = {}
+for m in months:
+    qs_m = [q for q in all_questions if q['month'] == m]
+    su_m = {k: v for k, v in all_subjects.items() if v.get('month') == m}
+    per_month[m] = (qs_m, su_m)
+    with open(os.path.join(ROOT, f'data/questions_{m}.json'), 'w', encoding='utf-8') as f:
+        json.dump(qs_m, f, ensure_ascii=False, indent=0)
+    with open(os.path.join(ROOT, f'data/subjects_{m}.json'), 'w', encoding='utf-8') as f:
+        json.dump(su_m, f, ensure_ascii=False, indent=0)
+with open(os.path.join(ROOT, 'data/quest_months.json'), 'w', encoding='utf-8') as f:
+    json.dump({'months': [{'month': m, 'count': len(per_month[m][0])} for m in months]}, f, ensure_ascii=False)
 
 # ── 3. SVGキャラ描画（petStar + render*SVG 19体）を chars.js に切り出す ─────
 c_start = next(i for i, l in enumerate(lines) if l.startswith('function petStar('))
@@ -82,9 +91,10 @@ with open(os.path.join(ROOT, 'js/util.js'), 'w', encoding='utf-8') as f:
     f.write(grab_function('playSound') + '\n\n')
 
 # ── 検算（中身は見ない。数だけ） ─────────────────────────────────────────
+questions = all_questions
 imgs = {q[k][len('/images/'):] for q in questions for k in ('qImage', 'qImage2') if q.get(k)}
-print(f'問題      : {len(questions)} 件')
-print(f'単元      : {len(subjects)} 件')
+for m in months:
+    print(f'{m}    : 問題 {len(per_month[m][0])} 件 / 単元 {len(per_month[m][1])} 件')
 print(f'図つき問題: {sum(1 for q in questions if q.get("qImage"))} 件 / 図ファイル {len(imgs)} 枚')
 print(f'キャラ    : {len(names)} 体 -> js/chars.js ({os.path.getsize(os.path.join(ROOT,"js/chars.js")):,} bytes)')
 print('type内訳  :', {t: sum(1 for q in questions if q.get('type', 'choice') == t)

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ANRINO クエスト ｜ 9月のかげモンスター</title>
+<title>ANRINO クエスト ｜ かげモンスター</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -83,12 +83,12 @@
     <div style="text-align:center; padding:34px 0 16px;">
       <div style="font-size:13px; letter-spacing:.24em; color:#c4b5fd; font-weight:700;">ANRINO</div>
       <h1 style="font-size:30px; font-weight:800; color:#fff; margin:6px 0 2px;">クエスト</h1>
-      <div style="color:#ddd6fe; font-size:14px;">9月のかげモンスター</div>
+      <div style="color:#ddd6fe; font-size:14px;"><span class="q-month">9月</span>のかげモンスター</div>
       <div id="title-hero" style="margin:14px 0; display:flex; justify-content:center;"></div>
     </div>
     <div class="panel">
       <p style="font-size:14px; line-height:1.85; margin:0 0 14px;">
-        9月の単元に <b>かげのモンスター</b> があらわれた。<br>
+        <span class="q-month">9月</span>の単元に <b>かげのモンスター</b> があらわれた。<br>
         問題に正解して こうげきし、たおすと かげが晴れて <b>なかま</b> になるよ。
       </p>
       <button class="btn-main" id="title-start" onclick="startGame()">ぼうけんをはじめる</button>
@@ -195,8 +195,8 @@
 <script src="js/util.js"></script>
 <script>
 // ════════════════════════════════════════════════════════════
-//  ANRINO クエスト — 9月版ミニRPG
-//  問題データ : data/questions_202609.json（index.html から機械抽出）
+//  ANRINO クエスト — 月ごとのミニRPG（毎月6日に新しい月へ切りかえ）
+//  問題データ : data/questions_<月>.json（index.html から機械抽出。月の一覧は data/quest_months.json）
 //  キャラ描画 : js/chars.js の render*SVG（silhouette 対応）
 // ════════════════════════════════════════════════════════════
 
@@ -264,7 +264,29 @@ const EXP_HIT = 10, EXP_WIN = 50;
 //   ・かげモンスターを はじめて たおすと ボーナス（ステージ3枚・ボス10枚）
 //   台帳の形はクイズ側（index.html の medalFirstCorrect / medalAward）と同じ。数を減らす処理は書かない。
 const MEDAL_KEY = 'ena_anrino_medals';
-const MEDAL_MONTH = '202609';
+let MEDAL_MONTH = '202609';   // クエストの月。boot() の pickQuestMonth() が決める（森・タイムトライアルも この月）
+
+// ── クエストの月：その月の6日から新しい月にする（manifest にある月だけ。問題の数は見ない）──
+//   localhost だけ ?month=202610 で月を、?today=2026-10-06 で日付を差しかえて確かめられる
+const QUEST_SWITCH_DAY = 6;
+const QUEST_IS_LOCAL = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+function pickQuestMonth(months) {
+  const qp = new URLSearchParams(location.search);
+  if (QUEST_IS_LOCAL && months.includes(qp.get('month'))) return qp.get('month');
+  let d = new Date();
+  if (QUEST_IS_LOCAL && /^\d{4}-\d{1,2}-\d{1,2}$/.test(qp.get('today') || '')) {
+    const [y, m, dd] = qp.get('today').split('-').map(Number); d = new Date(y, m - 1, dd);
+  }
+  if (d.getDate() < QUEST_SWITCH_DAY) d = new Date(d.getFullYear(), d.getMonth() - 1, 1);
+  const target = d.getFullYear() + String(d.getMonth() + 1).padStart(2, '0');
+  const ok = months.filter(m => m <= target).sort();
+  return ok.length ? ok[ok.length - 1] : '202609';
+}
+function questMonthLabel(m) { return Number(String(m).slice(4, 6)) + '月'; }
+// つきのぬしは月ごと（前は bossDown:true だけ＝9月ぶん）
+function bossDownNow() {
+  return !!((save.bossMonths || {})[MEDAL_MONTH] || (save.bossDown && MEDAL_MONTH === '202609'));
+}
 const MEDAL_STAGE_CLEAR = 3, MEDAL_BOSS_CLEAR = 10;
 function loadMedalLedger() {
   try {
@@ -298,7 +320,7 @@ function medalQuestClear(stageKey, count) {
 }
 
 // ── ⏱️ タイムトライアル（1日1回ずつ）──────────────────────────────
-//   q30 ＝ えらんだステージを 1問30秒で。rush ＝ 9月の問題ぜんぶから ランダムに 3分。
+//   q30 ＝ えらんだステージを 1問30秒で。rush ＝ その月の問題ぜんぶから ランダムに 3分。
 //   時間内に正解すると どの問題でも 🪙2（はじめての正解の1枚＋のこりを tt の枠へ）
 const TT_Q_SEC = 30, TT_RUSH_SEC = 180;
 let ttPick = false;      // 30秒トライアルの ステージを えらんでいるところ
@@ -441,7 +463,7 @@ let bt = null;                // 戦闘中の状態
 // ── セーブ ──────────────────────────────────────────────────
 function freshSave() {
   return { v:1, lv:1, exp:0, hp:HP_BASE, cleared:{}, seen:{}, wins:0, bossDown:false,
-           tt:{ q30:'', rush:'' }, rushBest:0 };   // tt＝タイムトライアルを使った日（1日1回ずつ）
+           tt:{ q30:'', rush:'' }, rushBest:0, bossMonths:{} };   // tt＝タイムトライアルを使った日（1日1回ずつ）
 }
 function loadSave() {
   try {
@@ -450,6 +472,7 @@ function loadSave() {
     const s = JSON.parse(raw);
     if (!s || s.v !== 1) return null;          // 将来バージョンが上がったらここで移行する
     const r = Object.assign(freshSave(), s);
+    r.bossMonths = (s.bossMonths && typeof s.bossMonths === 'object') ? s.bossMonths : {};
     r.tt = Object.assign({ q30:'', rush:'' }, (s.tt && typeof s.tt === 'object') ? s.tt : {});
     return r;
   } catch (e) { return null; }
@@ -509,9 +532,15 @@ function showScreen(id) {
 
 // ── 起動 ────────────────────────────────────────────────────
 async function boot() {
+  try {
+    const man = await fetch('data/quest_months.json', { cache: 'no-cache' }).then(r => r.json());
+    MEDAL_MONTH = pickQuestMonth((man.months || []).map(x => x.month));
+  } catch (e) { MEDAL_MONTH = '202609'; }
+  document.querySelectorAll('.q-month').forEach(el => { el.textContent = questMonthLabel(MEDAL_MONTH); });
+  document.title = 'ANRINO クエスト ｜ ' + questMonthLabel(MEDAL_MONTH) + 'のかげモンスター';
   const [qs, su] = await Promise.all([
-    fetch('data/questions_202609.json').then(r => r.json()),
-    fetch('data/subjects_202609.json').then(r => r.json())
+    fetch('data/questions_' + MEDAL_MONTH + '.json').then(r => r.json()),
+    fetch('data/subjects_' + MEDAL_MONTH + '.json').then(r => r.json())
   ]);
   QUESTIONS = qs;
   SUBJECTS  = su;
@@ -522,7 +551,7 @@ async function boot() {
   if (save) {
     document.getElementById('title-start').textContent =
       'つづきから（Lv' + save.lv + '・なかま ' +
-      Object.keys(save.seen).length + '/' + STAGES.length + '）';
+      STAGES.filter(s => save.cleared[s.key]).length + '/' + STAGES.length + '）';
   }
   // 島の「もりの こじま」から来たときは、そのまま 森に入る
   if (location.hash === '#forest' && typeof enterForest === 'function') {
@@ -619,18 +648,18 @@ function showMap() {
   });
   if (lastGroup !== null) html += '</div>';
 
-  // 17体すべて倒すとボスが出る
+  // その月のステージを すべて倒すとボスが出る
   const all = STAGES.every(s => save.cleared[s.key]);
   html += '<div class="panel" style="margin-bottom:11px;' + (all ? '' : ' opacity:.55;') + '">' +
             '<div style="font-weight:800; font-size:15px; margin-bottom:9px;">🌑 さいごのたたかい</div>' +
             (all
               ? '<button class="btn" onclick="pickStage(\'__boss__\')" style="display:flex; align-items:center; gap:11px;' +
-                (save.bossDown ? 'background:#f0fdf4; border-color:#86efac;' : '') + '">' +
-                  '<span style="flex:0 0 42px;">' + CHARS[BOSS_KEY](6, 100, 42, { silhouette: !save.bossDown }) + '</span>' +
-                  '<span style="flex:1;">つきのぬし<span style="display:block; font-size:11px; color:#64748b; font-weight:400;">9月ぜんぶから出題・全12問</span></span>' +
-                  '<span style="font-size:17px;">' + (ttPick ? '⏱️' : save.bossDown ? '👑' : '⚔️') + '</span>' +
+                (bossDownNow() ? 'background:#f0fdf4; border-color:#86efac;' : '') + '">' +
+                  '<span style="flex:0 0 42px;">' + CHARS[BOSS_KEY](6, 100, 42, { silhouette: !bossDownNow() }) + '</span>' +
+                  '<span style="flex:1;">つきのぬし<span style="display:block; font-size:11px; color:#64748b; font-weight:400;">' + questMonthLabel(MEDAL_MONTH) + 'ぜんぶから出題・全12問</span></span>' +
+                  '<span style="font-size:17px;">' + (ttPick ? '⏱️' : bossDownNow() ? '👑' : '⚔️') + '</span>' +
                 '</button>'
-              : '<div style="font-size:12.5px; color:#64748b;">なかまを17体あつめると あらわれる。</div>') +
+              : '<div style="font-size:12.5px; color:#64748b;">なかまを' + STAGES.length + '体あつめると あらわれる。</div>') +
           '</div>';
 
   document.getElementById('map-list').innerHTML = html;
@@ -1123,7 +1152,7 @@ function endBattle(win) {
   if (win) {
     save.exp += EXP_WIN;
     save.wins++;
-    if (bt.boss) save.bossDown = true;
+    if (bt.boss) { save.bossDown = true; save.bossMonths[MEDAL_MONTH] = true; }
     else { save.cleared[bt.key] = true; save.seen[bt.char] = true; }
     bt.clearBonus = medalQuestClear(bt.boss ? 'boss' : bt.key, bt.boss ? MEDAL_BOSS_CLEAR : MEDAL_STAGE_CLEAR);
     bt.medals += bt.clearBonus;
@@ -1171,11 +1200,12 @@ function closeLevelUp() { document.getElementById('levelup').classList.remove('o
 
 // ── ずかん ──────────────────────────────────────────────────
 function showDex() {
-  const got = STAGES.filter(s => save.seen[s.char]).length;
+  // なかまは その月のステージを たおしたか（キャラは月をまたいで使い回すので seen ではなく cleared で見る）
+  const got = STAGES.filter(s => save.cleared[s.key]).length;
   document.getElementById('dex-count').textContent =
-    got + ' / ' + STAGES.length + ' 体' + (save.bossDown ? '　＋ つきのぬし 👑' : '');
+    got + ' / ' + STAGES.length + ' 体' + (bossDownNow() ? '　＋ つきのぬし 👑' : '');
   document.getElementById('dex-grid').innerHTML = STAGES.map(s => {
-    const seen = !!save.seen[s.char];
+    const seen = !!save.cleared[s.key];
     return '<div style="text-align:center;">' +
       CHARS[s.char](6, 100, 88, { silhouette: !seen }) +
       '<div style="font-size:11px; font-weight:700; margin-top:2px;">' +
