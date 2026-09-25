@@ -18,6 +18,7 @@ import { dateKey } from '../lib/study';
 import { type Constellation, STAR_REWARDS, tonightConstellation } from '../lib/stars';
 import { isNearFull, moonAge, moonName } from '../lib/sky';
 import { LUNA, mk as mkLetter } from '../lib/letters';
+import { CASES, DETECTIVE_REWARDS, DETECTIVE_TITLE } from '../lib/detective';
 import { seasonNow } from '../lib/items';
 
 /** プレゼントの結果。IslandScreen がハートとふきだしを出すのに使う */
@@ -130,6 +131,12 @@ export interface GameApi {
   toggleFollow(charKey: string): void;
   /** オープニングを 見おわった */
   markOpeningSeen(): void;
+  /** 名探偵あんり：しょうこを みつけた */
+  detectiveFound(no: number, id: string): void;
+  /** 名探偵あんり：ヒントを 1つ ひらく */
+  detectiveHint(no: number): void;
+  /** 名探偵あんり：じけん かいけつ。もらえた プレゼント・ごほうび・しょうごう */
+  solveCase(no: number): { gift: string; reward: string | null; title: string | null } | null;
   /** まいにちスタンプの ごほうびを うけとる。うけとったものの説明を返す */
   claimStamp(ym: string, days: number): string | null;
   /** たからばこを あける（その日1回）。出たプレゼントのID */
@@ -418,6 +425,37 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       }),
 
     markOpeningSeen: () => setSave((s) => (s.openingSeen ? s : { ...s, openingSeen: true })),
+
+    detectiveFound: (no, id) =>
+      setSave((s) => {
+        const cur = s.detective.found[no] ?? [];
+        if (cur.includes(id)) return s;
+        return { ...s, detective: { ...s.detective, found: { ...s.detective.found, [no]: [...cur, id] } } };
+      }),
+
+    detectiveHint: (no) =>
+      setSave((s) => ({ ...s, detective: { ...s.detective, hint: { ...s.detective.hint, [no]: (s.detective.hint[no] ?? 0) + 1 } } })),
+
+    solveCase: (no) => {
+      const cur = saveRef.current;
+      if (cur.detective.solved.includes(no)) return null;
+      const n = cur.detective.solved.length + 1;
+      const gift = pick(EVERYDAY_GIFTS);
+      const reward = DETECTIVE_REWARDS.find((r) => r.solved === n && !cur.owned.includes(r.item))?.item ?? null;
+      const title = n >= CASES.length && !cur.titles.includes(DETECTIVE_TITLE) ? DETECTIVE_TITLE : null;
+      setSave((s) => {
+        if (s.detective.solved.includes(no)) return s;
+        return {
+          ...s,
+          detective: { ...s.detective, solved: [...s.detective.solved, no] },
+          inventory: { ...s.inventory, [gift]: (s.inventory[gift] ?? 0) + 1 },
+          owned: reward && !s.owned.includes(reward) ? [...s.owned, reward] : s.owned,
+          titles: title && !s.titles.includes(title) ? [...s.titles, title] : s.titles,
+        };
+      });
+      sfx('reveal');
+      return { gift, reward, title };
+    },
 
     toggleFollow: (charKey) =>
       setSave((s) => {

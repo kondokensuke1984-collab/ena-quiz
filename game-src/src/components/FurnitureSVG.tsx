@@ -177,6 +177,21 @@ const DRAWINGS: Record<string, Draw> = {
     </g>
   ),
 
+  // ── 名探偵あんりの ごほうび ──
+  fn_detective: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="26" ry="5" fill="rgba(0,0,0,0.2)" />
+      <rect x="-3" y="-30" width="6" height="30" fill="#78350f" {...S} strokeWidth={1.4} />
+      <rect x="-28" y="-62" width="56" height="34" rx="5" fill="#1e1b4b" {...S} />
+      <text x="0" y="-48" fontSize="9" fontWeight="900" textAnchor="middle" fill="#fde68a">たんてい</text>
+      <text x="0" y="-36" fontSize="9" fontWeight="900" textAnchor="middle" fill="#fde68a">じむしょ</text>
+      <g transform="translate(20 -66)">
+        <circle r="8" fill="#e0f2fe" fillOpacity="0.85" stroke="#b45309" strokeWidth="2.6" />
+        <path d="M5 6 L11 13" stroke="#78350f" strokeWidth="3.5" strokeLinecap="round" />
+      </g>
+    </g>
+  ),
+
   // ── しょくぶつ ずかんの ごほうび ──
   fn_planter: () => (
     <g>

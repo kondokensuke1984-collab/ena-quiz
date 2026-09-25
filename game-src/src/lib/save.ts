@@ -43,6 +43,7 @@ export function freshSave(now = Date.now()): SaveV1 {
     stars: { dex: [] },
     moon: { lastOffer: '' },
     openingSeen: false,
+    detective: { solved: [], found: {}, hint: {} },
   };
 }
 
@@ -89,6 +90,11 @@ export function loadSave(): SaveV1 {
     letterMarks: { ...f.letterMarks, ...obj(s.letterMarks, {}) },
     lastChest: typeof s.lastChest === 'string' ? s.lastChest : '',
     openingSeen: s.openingSeen === true,
+    detective: {
+      solved: Array.isArray(s.detective?.solved) ? s.detective!.solved : [],
+      found: obj(s.detective?.found, {}),
+      hint: obj(s.detective?.hint, {}),
+    },
     area: s.area === 'east' || s.area === 'house' ? s.area : 'main',
     room: { ...f.room, ...obj(s.room, {}) },
     fish: {

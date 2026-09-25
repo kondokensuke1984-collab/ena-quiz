@@ -509,6 +509,7 @@ function stageLabel() {
   if (bt.forest) return bt.forest.boss ? '🌲 もりのぬし' : '🌲 まよいの森 B' + bt.forest.floor;
   if (bt.boss) return '👑 つきのぬし';
   if (bt.tt === 'rush') return '⏱️ 3ぷん トライアル';
+  if (typeof DETECTIVE_KEY !== 'undefined' && bt.key === DETECTIVE_KEY) return '🔍 名探偵あんりの なぞとき';
   const st = STAGES.find(s => s.key === bt.key);
   return st ? st.groupLabel + '・' + st.label : bt.key;
 }
@@ -551,6 +552,7 @@ async function boot() {
   ]);
   QUESTIONS = qs;
   SUBJECTS  = su;
+  if (typeof loadDetective === 'function') await loadDetective();
   buildStages();
   save = loadSave();
 
@@ -630,6 +632,7 @@ function showMap() {
             (ttPick ? '<div style="margin-top:9px; font-size:13px; font-weight:800; color:#b45309; text-align:center;">⬇️ たたかう ステージを えらんでね（1もん 30びょう）</div>' : '') +
             (save.rushBest ? '<div style="margin-top:6px; font-size:11px; color:#78350f; text-align:right;">3ぷんの さいこう記録 ' + save.rushBest + 'もん</div>' : '') +
           '</div>';
+  if (typeof detectiveMapPanel === 'function') html += detectiveMapPanel();
   if (typeof forestMapPanel === 'function') html += forestMapPanel();
   let lastGroup = null;
   STAGES.forEach(s => {
@@ -681,16 +684,17 @@ function startBattle(key, tt) {
   if (tt === 'q30' && ttUsed('q30')) tt = null;
   ttPick = false;
   const boss = key === '__boss__';
-  const st = boss ? null : STAGES.find(s => s.key === key);
-  const pool = boss ? QUESTIONS.slice() : QUESTIONS.filter(q => q.subject === key);
-  const n = boss ? 12 : Math.min(pool.length, MAX_Q_PER_BATTLE);
+  const det = typeof DETECTIVE_KEY !== 'undefined' && key === DETECTIVE_KEY;   // 🔍 名探偵あんりの なぞとき（js/detective.js）
+  const st = boss || det ? null : STAGES.find(s => s.key === key);
+  const pool = boss ? QUESTIONS.slice() : det ? DETECTIVE_QS.slice() : QUESTIONS.filter(q => q.subject === key);
+  const n = boss ? 12 : det ? pool.length : Math.min(pool.length, MAX_Q_PER_BATTLE);
 
   if (save.hp <= 0) save.hp = maxHp();      // 全滅したままにはしない
 
   bt = {
     boss, key,
-    char: boss ? BOSS_KEY : st.char,
-    name: boss ? 'つきのぬし カブたろう' : 'かげの' + CHAR_NAME[st.char],
+    char: boss ? BOSS_KEY : det ? 'fox' : st.char,
+    name: boss ? 'つきのぬし カブたろう' : det ? 'なぞの かいとう' : 'かげの' + CHAR_NAME[st.char],
     queue: shuffle(pool.slice()).slice(0, n),
     idx: 0,
     maxHp: n * DMG_HIT,
@@ -1162,7 +1166,9 @@ function endBattle(win) {
     save.wins++;
     if (bt.boss) { save.bossDown = true; save.bossMonths[MEDAL_MONTH] = true; }
     else { save.cleared[bt.key] = true; save.seen[bt.char] = true; }
-    bt.clearBonus = medalQuestClear(bt.boss ? 'boss' : bt.key, bt.boss ? MEDAL_BOSS_CLEAR : MEDAL_STAGE_CLEAR * medalX(bt.key));
+    bt.clearBonus = (typeof DETECTIVE_KEY !== 'undefined' && bt.key === DETECTIVE_KEY)
+      ? medalQuestClear('detective', DETECTIVE_CLEAR)
+      : medalQuestClear(bt.boss ? 'boss' : bt.key, bt.boss ? MEDAL_BOSS_CLEAR : MEDAL_STAGE_CLEAR * medalX(bt.key));
     bt.medals += bt.clearBonus;
   }
   while (save.exp >= needExp()) {
@@ -1227,5 +1233,6 @@ function showDex() {
 boot();
 </script>
 <script src="js/forest.js"></script>
+<script src="js/detective.js"></script>
 </body>
 </html>

@@ -4,6 +4,7 @@
 import type { Letter, LetterMarks } from '../types';
 import type { Friend } from './friends';
 import { dateKey } from './study';
+import { CASES } from './detective';
 
 export const LUNA = { from: 'luna', fromName: 'ルナ' };
 
@@ -18,6 +19,7 @@ export interface LetterInput {
   ym: string;               // 'YYYY-M'
   weekDays: number;         // 今週 勉強した日数
   halloween?: boolean;      // ハロウィンの きかん
+  detectiveOpen?: number[]; // 名探偵あんり：いま ひらいている じけん
   currentMonth?: string;    // いまの しゅやくの 月（YYYYMM）
   /** その月（YYYYMM）の スタンプの日数。きねんしゃしんを わたすか決める */
   stampDaysOf?: (month: string) => number;
@@ -47,6 +49,7 @@ export function buildLetters(marks: LetterMarks, x: LetterInput): LetterResult {
     weekly: marks.weekly,
     halloween: marks.halloween,
     month: marks.month,
+    detective: marks.detective,
   };
   const out: Letter[] = [];
   const gifts: string[] = [];
@@ -142,6 +145,22 @@ ${names(olds)}と とった しゃしんを おくるよ。
     out.push(mk(LUNA.from, LUNA.fromName, '🎃 ハロウィンが はじまったよ！',
       `${to}10がつ31にちまで、しまは ハロウィンだよ。\nゆうがたと よるに みんなを タップしてみてね。\n「トリック・オア・トリート！」で おかしが もらえるかも？\nルナより`));
     next.halloween = year;
+  }
+
+  // 名探偵あんり：あたらしい じけんが ひらいたら（1じけん 1かい）
+  const told = next.detective ?? [];
+  const fresh = (x.detectiveOpen ?? []).filter((n) => !told.includes(n));
+  if (fresh.length) {
+    const c = CASES.find((k) => k.no === Math.max(...fresh));
+    if (c) {
+      out.push(mk(LUNA.from, LUNA.fromName, `🚨 じけんです！「${c.title}」`,
+        `${to}たいへん！ ${c.headline}
+めいたんていの でばん だよ。
+しまの「🔍 名探偵あんりの じけんぼ」から そうさしてね。
+（その日 クイズを 5もん やると そうさ できるよ）
+ルナより`));
+    }
+    next.detective = [...told, ...fresh];
   }
 
   // 日曜日：その週の まとめ（1週間に1回）

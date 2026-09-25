@@ -32,11 +32,12 @@ interface Props {
   size?: number;
   walking?: boolean;
   flip?: boolean;
-  hat?: 'cap' | 'crown' | null;
+  hat?: 'cap' | 'crown' | 'detective' | null;
   ribbon?: boolean;
+  magnifier?: boolean;
 }
 
-function KidSVGBase({ who, size = 110, walking = false, flip = false, hat = null, ribbon = false }: Props) {
+function KidSVGBase({ who, size = 110, walking = false, flip = false, hat = null, ribbon = false, magnifier = false }: Props) {
   const p = PALETTES[who];
 
   return (
@@ -198,6 +199,24 @@ function KidSVGBase({ who, size = 110, walking = false, flip = false, hat = null
           <g>
             <path d="M28 26 C28 13 40 7 50 7 C60 7 72 13 72 26 Z" fill="#38bdf8" stroke="#0284c7" strokeWidth="2.2" strokeLinejoin="round" />
             <path d="M72 26 C82 26 86 29 86 32 L70 32 Z" fill="#0ea5e9" stroke="#0284c7" strokeWidth="2.2" strokeLinejoin="round" />
+          </g>
+        )}
+        {hat === 'detective' && (
+          /* めいたんていの ぼうし（ハンチング） */
+          <g>
+            <path d="M22 27 C24 22 28 21 30 22 L30 27 Z" fill="#92400e" stroke="#78350f" strokeWidth="1.8" strokeLinejoin="round" />
+            <path d="M70 22 C74 21 78 23 80 27 L70 27 Z" fill="#92400e" stroke="#78350f" strokeWidth="1.8" strokeLinejoin="round" />
+            <path d="M28 27 C28 12 40 6 50 6 C60 6 72 12 72 27 Z" fill="#b45309" stroke="#78350f" strokeWidth="2.2" strokeLinejoin="round" />
+            <path d="M36 11 L36 27 M50 6 L50 27 M64 11 L64 27 M30 17 H70 M29 22 H71" stroke="#78350f" strokeWidth="1" opacity="0.45" />
+            <path d="M44 6 Q50 1 56 6 Q50 4 44 6 Z" fill="#78350f" />
+          </g>
+        )}
+        {magnifier && (
+          /* むしめがね（みぎてに もつ） */
+          <g>
+            <path d="M76 86 L71 95" stroke="#78350f" strokeWidth="4" strokeLinecap="round" />
+            <circle cx="81" cy="77" r="9" fill="#e0f2fe" fillOpacity="0.75" stroke="#b45309" strokeWidth="3" />
+            <path d="M77 72 Q79 70 82 70" stroke="#fff" strokeWidth="1.8" fill="none" strokeLinecap="round" />
           </g>
         )}
         {hat === 'crown' && (

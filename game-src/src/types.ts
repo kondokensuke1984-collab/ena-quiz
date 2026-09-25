@@ -63,6 +63,7 @@ export interface LetterMarks {
   weekly: string;                   // 最後に週のまとめを出した日（YYYY-M-D）
   halloween?: string;               // ハロウィンの手紙を出した年
   month?: string;                   // 最後に見た「しゅやくの 月」（YYYYMM）。かわったら ひっこしの手紙
+  detective?: number[];             // 名探偵あんり：ひらいたと 手紙で しらせた じけん
 }
 
 export interface SaveV1 {
@@ -91,6 +92,7 @@ export interface SaveV1 {
   stars: { dex: string[] };                   // てんもんだいで みつけた星座ID
   moon: { lastOffer: string };                // おだんごを おそなえした日（YYYY-M-D）
   openingSeen: boolean;                       // はじまりの ものがたり（オープニング）を 見た
+  detective: { solved: number[]; found: Record<string, string[]>; hint: Record<string, number> };  // 名探偵あんり：とけた じけん・みつけた しょうこ・つかった ヒント
 }
 
 export interface FishLog {

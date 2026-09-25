@@ -150,6 +150,10 @@ export const ITEMS: Item[] = [
   { id: 'gf_potato',   kind: 'gift', name: 'じゃがバター',   emoji: '🥔', price: 0, desc: 'はたけで とれた・なかよし +2', love: 2, reward: true },
   { id: 'gf_soramame', kind: 'gift', name: 'そらまめ',       emoji: '🫛', price: 0, desc: 'はたけで とれた・なかよし +3', love: 3, reward: true },
   { id: 'gf_tulip',    kind: 'gift', name: 'チューリップ',   emoji: '🌷', price: 0, desc: 'はたけで さいた・なかよし +3', love: 3, reward: true },
+  // ── 名探偵あんりの ごほうび（ショップでは売らない）──
+  { id: 'cs_magnifier', kind: 'costume',   name: 'むしめがね',         emoji: '🔍', price: 0, desc: 'じけんを 3つ かいけつした ごほうび',  once: true, reward: true },
+  { id: 'fn_detective', kind: 'furniture', name: 'たんてい じむしょ',   emoji: '🔎', price: 0, desc: 'じけんを 5つ かいけつした ごほうび',  once: true, reward: true, anywhere: true },
+  { id: 'ht_detective', kind: 'hat',       name: 'めいたんていの ぼうし', emoji: '🕵️', price: 0, desc: 'じけんを ぜんぶ かいけつした ごほうび', once: true, reward: true },
   // ── しょくぶつ ずかんの ごほうび ──
   { id: 'fn_planter',    kind: 'furniture', name: 'うえきばち だな', emoji: '🪴', price: 0, desc: 'しょくぶつを 5しゅるい しゅうかくした ごほうび',  once: true, reward: true, anywhere: true },
   { id: 'fn_greenhouse', kind: 'furniture', name: 'ミニ おんしつ',   emoji: '🏡', price: 0, desc: 'しょくぶつを 10しゅるい しゅうかくした ごほうび', once: true, reward: true },
@@ -194,7 +198,8 @@ export function seasonNow(): number {
 }
 /** ショップに並べるか（季節の品は その月だけ。もう持っている きせかえは いつでも見える） */
 export function onSale(item: Item, ownedIds: string[]): boolean {
-  if (item.reward) return false;
+  // ごほうびの ぼうし・きせかえは、もっていれば「きせかえ」に でる（そうびする ため）
+  if (item.reward) return (item.kind === 'hat' || item.kind === 'costume') && ownedIds.includes(item.id);
   return !item.season || item.season === seasonNow() || ownedIds.includes(item.id);
 }
 

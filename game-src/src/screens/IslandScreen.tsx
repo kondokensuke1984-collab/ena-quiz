@@ -34,6 +34,8 @@ import { FishingModal } from '../components/FishingModal';
 import { FarmPatch } from '../components/FarmPatch';
 import { FarmModal } from '../components/FarmModal';
 import { StarsModal } from '../components/StarsModal';
+import { DetectiveScreen } from '../components/DetectiveTheater';
+import { caseOpen, CASES, eventActive } from '../lib/detective';
 import { MoonViewModal } from '../components/MoonViewModal';
 import { costumeOf, halloweenNight, isHalloween } from '../lib/events';
 import { FARM_POS, isRipe, stageOf } from '../lib/farm';
@@ -142,6 +144,8 @@ export function IslandScreen() {
   const [fishOpen, setFishOpen] = useState(false);
   const [farmOpen, setFarmOpen] = useState(false);
   const [starsOpen, setStarsOpen] = useState(false);
+  const [detectiveOpen, setDetectiveOpen] = useState(false);
+  const detectiveNew = eventActive() && CASES.some((c) => caseOpen(c) && !save.detective.solved.includes(c.no));
   const [moonViewOpen, setMoonViewOpen] = useState(false);
   // 夜空の 星を うごかす（1分ごと）
   const [skyMin, setSkyMin] = useState(0);
@@ -254,7 +258,8 @@ export function IslandScreen() {
   useEffect(() => {
     const cur = saveRef2.current;
     // 同じ記録から2回 手紙を作らない（開発中の二重実行・すばやい再描画でも1回だけ）
-    const sig = JSON.stringify([cur.letterMarks, snap.currentMonth, snap.friends.map((f) => [f.id, f.level, f.n]), stamps.length, ym]);
+    const openCases = CASES.filter((c) => caseOpen(c)).map((c) => c.no);
+    const sig = JSON.stringify([cur.letterMarks, snap.currentMonth, snap.friends.map((f) => [f.id, f.level, f.n]), stamps.length, ym, openCases]);
     if (lastMarks.current === sig) return;
     lastMarks.current = sig;
     const r = buildLetters(cur.letterMarks, {
@@ -264,6 +269,7 @@ export function IslandScreen() {
       ym,
       weekDays: daysThisWeek(new Date(), byDate),
       halloween: isHalloween(),
+      detectiveOpen: openCases,
       currentMonth: snap.currentMonth,
       stampDaysOf: (m) => stampDays(Number(m.slice(0, 4)), Number(m.slice(4)), byDate).length,
     });
@@ -829,8 +835,9 @@ export function IslandScreen() {
                   who={save.player}
                   size={104}
                   walking={walking}
-                  hat={save.equipped.hat === 'ht_crown' ? 'crown' : save.equipped.hat === 'ht_cap' ? 'cap' : null}
+                  hat={save.equipped.hat === 'ht_crown' ? 'crown' : save.equipped.hat === 'ht_cap' ? 'cap' : save.equipped.hat === 'ht_detective' ? 'detective' : null}
                   ribbon={save.equipped.costume === 'cs_ribbon'}
+                  magnifier={save.equipped.costume === 'cs_magnifier'}
                 />
               )}
             </div>
@@ -909,6 +916,22 @@ export function IslandScreen() {
           </div>
         </div>
       </div>
+
+      {/* ── イベント：名探偵あんり ── */}
+      {eventActive() && (
+        <button
+          className="mb-2.5 flex w-full items-center gap-2 rounded-2xl bg-gradient-to-r from-[#312e81] to-[#7c3aed] px-3 py-2.5 text-left shadow active:scale-[0.98] lg:landscape:col-start-2"
+          onClick={() => setDetectiveOpen(true)}
+        >
+          <span className={`text-2xl ${detectiveNew ? 'dt-new' : ''}`}>🔍</span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-[10.5px] font-black text-amber-300">イベント</span>
+            <span className="block text-[14px] font-black text-white">名探偵あんりの じけんぼ</span>
+          </span>
+          <span className="text-[12px] font-black text-indigo-100">{save.detective.solved.length}/{CASES.length}</span>
+          {detectiveNew && <span className="rounded-full bg-rose-500 px-2 py-0.5 text-[10px] font-black text-white">NEW</span>}
+        </button>
+      )}
 
       {/* ── スタンプ・てがみ・おと ── */}
       <div className="mb-2.5 flex gap-1.5 lg:landscape:col-start-2">
@@ -1211,6 +1234,7 @@ export function IslandScreen() {
       )}
       {farmOpen && <FarmModal stages={farmStages} studied={studied} onClose={() => setFarmOpen(false)} />}
       {starsOpen && <StarsModal onClose={() => setStarsOpen(false)} />}
+      {detectiveOpen && <DetectiveScreen onClose={() => setDetectiveOpen(false)} />}
       {moonViewOpen && <MoonViewModal onClose={() => setMoonViewOpen(false)} />}
 
       {/* ── 🌲 まよいの森へ（クエストの ページに うつる）── */}
