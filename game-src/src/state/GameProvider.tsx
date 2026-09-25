@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import type { Area, Item, Letter, LetterMarks, PlayerKey, Pos, SaveV1, Screen, Slot } from '../types';
 import { sfx, unlockAudio } from '../lib/sound';
-import { freshSave, isSaveKey, loadSave, persist } from '../lib/save';
+import { freshSave, isSaveKey, lastRestored, loadSave, persist, storedRev } from '../lib/save';
 import { earnedTotal, isMedalKey } from '../lib/medals';
 import { isSpentKey, loadSpent, spend, type SpendLedger, type SpendResult } from '../lib/spend';
 import { feed } from '../lib/monster';
@@ -51,7 +51,6 @@ interface State {
 
 type Action =
   | { type: 'REFRESH_MEDALS' }
-  | { type: 'RELOAD_SAVE' }
   | { type: 'SET_SAVE'; save: SaveV1 }
   | { type: 'UPDATE_SAVE'; fn: (s: SaveV1) => SaveV1 }
   | { type: 'GO'; screen: Screen }
@@ -78,9 +77,6 @@ function reducer(state: State, action: Action): State {
     //   （保存前の変更を localStorage の古い内容で上書きしてしまうため）
     case 'REFRESH_MEDALS':
       return { ...state, earned: earnedTotal(), spent: loadSpent() };
-    // ほかのタブがセーブを書きかえたときだけ読み直す
-    case 'RELOAD_SAVE':
-      return { ...state, save: loadSave() };
     case 'SET_SAVE':
       return { ...state, save: action.save };
     // ★同じタイミングで2回以上セーブを更新しても打ち消し合わないよう、関数で渡して順に適用する
@@ -182,10 +178,33 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   saveRef.current = state.save;
 
   // ── 保存は effect でだけ行う（reducer では書かない）──
+  // ★古い画面（「もどる」で よみがえった ページ・止まっていた べつの タブ）が
+  //   古いセーブで 上書きして、買った家が 消えたことがある（2026-09-26）。
+  //   そこで 書くたびに rev を 1つ ふやし、localStorage の rev が 自分の知っている rev と ちがえば
+  //   （＝ほかの画面が あとから書いた）上書きせずに 読み直す。
+  const baseRev = useRef(state.save.rev);
+  const fromDisk = useRef<SaveV1 | null>(state.save);
+  const reloadSave = useCallback(() => {
+    const s = loadSave();
+    baseRev.current = s.rev;
+    fromDisk.current = s;
+    dispatch({ type: 'SET_SAVE', save: s });
+  }, []);
   useEffect(() => {
     if (!booted) { setBooted(true); return; }
-    persist(state.save);
-  }, [state.save, booted]);
+    if (fromDisk.current === state.save) return;   // 読んだ ばかりで かわっていない
+    if (storedRev() !== baseRev.current) { reloadSave(); return; }
+    const rev = baseRev.current + 1;
+    if (persist({ ...state.save, rev })) baseRev.current = rev;
+  }, [state.save, booted, reloadSave]);
+
+  // メダルの記録から もどした品が あれば しらせる（はじめの1回）
+  useEffect(() => {
+    if (!lastRestored.length) return;
+    const names = lastRestored.map((id) => ITEM_BY_ID[id]?.emoji ?? '').join('');
+    lastRestored.length = 0;
+    dispatch({ type: 'TOAST', text: `${names} きえていた ものを もどしたよ` });
+  }, []);
 
   // ── 画面とURLのハッシュを同期。戻るボタンとリロードが効くようにする ──
   useEffect(() => {
@@ -230,20 +249,29 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const onStorage = (e: StorageEvent) => {
       if (isMedalKey(e.key) || isSpentKey(e.key)) dispatch({ type: 'REFRESH_MEDALS' });
-      if (isSaveKey(e.key)) dispatch({ type: 'RELOAD_SAVE' });
+      if (isSaveKey(e.key) && storedRev() !== baseRev.current) reloadSave();
     };
-    // 同じタブでクイズ→ゲームと移動した場合は storage が飛ばないので、戻ってきたときにも読み直す
-    const onWake = () => { if (!document.hidden) dispatch({ type: 'REFRESH_MEDALS' }); };
+    // 同じタブでクイズ→ゲームと移動した場合は storage が飛ばないので、戻ってきたときにも読み直す。
+    // 止まっていた タブ・「もどる」で よみがえった ページ（pageshow persisted）では
+    // storage が とどかないことがあるので、セーブも ここで 読み直す
+    const onWake = () => {
+      if (document.hidden) return;
+      dispatch({ type: 'REFRESH_MEDALS' });
+      if (storedRev() !== baseRev.current) reloadSave();
+    };
+    const onShow = (e: PageTransitionEvent) => { if (e.persisted) onWake(); };
 
     window.addEventListener('storage', onStorage);
     document.addEventListener('visibilitychange', onWake);
     window.addEventListener('focus', onWake);
+    window.addEventListener('pageshow', onShow);
     return () => {
       window.removeEventListener('storage', onStorage);
       document.removeEventListener('visibilitychange', onWake);
       window.removeEventListener('focus', onWake);
+      window.removeEventListener('pageshow', onShow);
     };
-  }, []);
+  }, [reloadSave]);
 
   // ── 開きっぱなしのタブでも空腹・ダウンが更新されるように1分ごとに時刻を進める ──
   useEffect(() => {

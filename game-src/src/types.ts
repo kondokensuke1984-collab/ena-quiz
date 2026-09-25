@@ -68,6 +68,7 @@ export interface LetterMarks {
 
 export interface SaveV1 {
   v: 1;
+  rev: number;               // 書いた回数。ほかの画面が あとから書いていたら 上書きしないための しるし
   createdAt: number;
   player: PlayerKey | null;   // null＝まだ主人公を選んでいない
   pos: Pos;                   // 主人公の立ち位置

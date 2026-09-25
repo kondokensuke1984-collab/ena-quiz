@@ -1,6 +1,8 @@
 // ゲームのセーブデータ。rpg.html:237-250 と同じ「版で弾く」方式に、入れ子のマージを足したもの。
 
 import { readJSON, writeJSON } from './storage';
+import { loadSpent } from './spend';
+import { BUILD_ORDER, ITEM_BY_ID, isConsumable, WHEEL_TITLE } from './items';
 import type { PlayerKey, SaveV1 } from '../types';
 
 const PLAYERS: PlayerKey[] = ['anri', 'rino', 'mitsuki', 'kensuke'];
@@ -10,6 +12,7 @@ const SAVE_KEY = 'ena_island_save_v1';
 export function freshSave(now = Date.now()): SaveV1 {
   return {
     v: 1,
+    rev: 0,
     createdAt: now,
     player: null,
     pos: { x: 0.5, y: 0.62 },
@@ -65,10 +68,11 @@ export function loadSave(): SaveV1 {
 
   // 浅いマージだと、あとから増やしたフィールドが undefined のまま残るので入れ子も混ぜる
   const f = freshSave();
-  return {
+  return restorePaid({
     ...f,
     ...s,
     v: 1,
+    rev: typeof s.rev === 'number' && Number.isFinite(s.rev) ? s.rev : 0,
     player: s.player && PLAYERS.includes(s.player) ? s.player : null,
     pos: { ...f.pos, ...obj(s.pos, {}) },
     monster: {
@@ -114,7 +118,44 @@ export function loadSave(): SaveV1 {
     treats: { ...f.treats, ...obj(s.treats, {}), got: Array.isArray(s.treats?.got) ? s.treats!.got : [] },
     stars: { ...f.stars, ...obj(s.stars, {}), dex: Array.isArray(s.stars?.dex) ? s.stars!.dex : [] },
     moon: { ...f.moon, ...obj(s.moon, {}) },
-  };
+  });
+}
+
+/** さいごの loadSave() で メダルの記録から もどした品（トーストに出す） */
+export let lastRestored: string[] = [];
+
+/**
+ * メダルを はらったのに セーブに ない 建物・品を もどす。
+ * 古い画面が 古いセーブで 上書きすると 消えてしまうことがあったため（2026-09-26）。
+ * owned と buildings は ふつうの操作では へらないので、足すだけで こまることはない。
+ * 消費品（えさ・プレゼント・たね など）は つかって へるので もどさない。
+ */
+function restorePaid(save: SaveV1): SaveV1 {
+  lastRestored = [];
+  let { buildings, owned } = save;
+  for (const e of loadSpent().log) {
+    const m = /^(build|buy):(.+)$/.exec(typeof e?.reason === 'string' ? e.reason : '');
+    const item = m ? ITEM_BY_ID[m[2]] : undefined;
+    if (!m || !item) continue;
+    if (m[1] === 'build') {
+      if (item.kind !== 'building' || buildings.includes(item.id)) continue;
+      buildings = [...buildings, item.id];
+    } else {
+      if (item.kind === 'building' || isConsumable(item) || owned.includes(item.id)) continue;
+      owned = [...owned, item.id];
+    }
+    lastRestored.push(item.id);
+  }
+  if (!lastRestored.length) return save;
+  const at = (id: string) => { const i = BUILD_ORDER.indexOf(id); return i < 0 ? 999 : i; };
+  const titles = buildings.includes('bd_wheel') && !save.titles.includes(WHEEL_TITLE) ? [...save.titles, WHEEL_TITLE] : save.titles;
+  return { ...save, buildings: [...buildings].sort((x, y) => at(x) - at(y)), owned, titles };
+}
+
+/** localStorage に いま はいっている セーブの rev（なければ 0） */
+export function storedRev(): number {
+  const raw = readJSON<{ rev?: unknown } | null>(SAVE_KEY, null);
+  return raw && typeof raw.rev === 'number' && Number.isFinite(raw.rev) ? raw.rev : 0;
 }
 
 export function persist(save: SaveV1): boolean {
