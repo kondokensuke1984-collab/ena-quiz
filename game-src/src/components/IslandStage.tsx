@@ -187,6 +187,16 @@ function IslandGroundBase({ expansion = 0, pier = false, season = 0, bridge = fa
         <path key={y} d={wave(y)} fill="none" stroke="rgba(255,255,255,0.35)" strokeWidth={3 - (i % 3) * 0.6} />
       ))}
 
+      {/* 🚪 はるか むこうの「ゆめの しま」（オープニングで見た島。うすく 霧の中。タップは しない） */}
+      <g transform="translate(700 -222)" opacity="0.5" pointerEvents="none">
+        <path d="M-80 8 Q-60 -8 -34 -10 Q-20 -34 0 -38 Q20 -34 30 -14 Q58 -12 80 8 Z" fill="#94a3b8" />
+        <rect x="-5" y="-30" width="10" height="16" rx="5" fill="#fef9c3" className="twinkle" />
+        <g className="dream-mist">
+          <ellipse cx="-30" cy="0" rx="60" ry="9" fill="rgba(255,255,255,0.7)" />
+          <ellipse cx="36" cy="4" rx="54" ry="8" fill="rgba(255,255,255,0.6)" />
+        </g>
+      </g>
+
       {/* 🌲 左上の海の もりの こじま（いつも ある。タップで まよいの森へ） */}
       <g transform="translate(-300 -277) scale(1.3)">
         <ellipse cx="115" cy="86" rx="98" ry="36" fill="url(#sand)" />

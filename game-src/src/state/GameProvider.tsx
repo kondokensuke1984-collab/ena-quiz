@@ -12,7 +12,8 @@ import {
   FAVORITE, GIFTS_PER_DAY, heartsOf, stampRewardsFor, EVERYDAY_GIFTS, nextBuildId,
 } from '../lib/items';
 import { FISH_PER_DAY, FISH_REWARDS, FISH_STUDY_BONUS } from '../lib/fish';
-import { CROP_COUNT, GROW_DAYS, grownDays } from '../lib/farm';
+import { harvestOf, isRipe, plantOf, stageOf } from '../lib/farm';
+import { FERT_OF, PLANT_BY_SEED, PLANT_REWARDS } from '../lib/plants';
 import { dateKey } from '../lib/study';
 import { type Constellation, STAR_REWARDS, tonightConstellation } from '../lib/stars';
 import { isNearFull, moonAge, moonName } from '../lib/sky';
@@ -127,6 +128,8 @@ export interface GameApi {
   dressFriend(charKey: string, wearId: string | null): void;
   /** ついてくる／ついてこないを切りかえる（♥3いじょうの子だけ意味がある） */
   toggleFollow(charKey: string): void;
+  /** オープニングを 見おわった */
+  markOpeningSeen(): void;
   /** まいにちスタンプの ごほうびを うけとる。うけとったものの説明を返す */
   claimStamp(ym: string, days: number): string | null;
   /** たからばこを あける（その日1回）。出たプレゼントのID */
@@ -139,10 +142,16 @@ export interface GameApi {
   /** つれた さかなを きろくする。ずかんの ごほうびが あれば その家具ID */
   landFish(fishId: string, cm: number, studied: boolean): { isNew: boolean; best: boolean; reward: string | null } | null;
   plantSeed(plot: number, seedId: string): void;
-  /** みずやり（1日1回・見た目だけ）。あげられたら true */
+  /** みずやり（1日1回）。はつがの スタートと 成長の 水の日数。あげられたら true */
   waterPlot(plot: number): boolean;
-  /** しゅうかく。とれた プレゼントの ID */
-  harvest(plot: number): string | null;
+  /** ひりょうを あげる（はつがの あとだけ）。'early'＝まだ はつが していない */
+  fertilize(plot: number, fertId: string): 'ok' | 'early' | 'same' | 'none';
+  /** はこを かぶせる／はずす（日光の じっけん） */
+  toggleBox(plot: number): void;
+  /** はなを しらべた */
+  markFlower(seedId: string): void;
+  /** しゅうかく。quizOk＝まめクイズに せいかい（+1） */
+  harvest(plot: number, quizOk?: boolean): HarvestResult | null;
   /** ハロウィンの おかし（その日 その子から1回）。もらえたら true */
   trickOrTreat(charKey: string): boolean;
   /** てんもんだいで 今夜の星座を見る。ずかんの ごほうびが あれば その家具ID */
@@ -156,6 +165,8 @@ function pick<T>(list: T[]): T {
 }
 
 export const GameContext = createContext<GameApi | null>(null);
+
+export interface HarvestResult { crop: string; count: number; seedBack: string | null; isNew: boolean; reward: string | null }
 
 export function GameProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(reducer, undefined, initialState);
@@ -406,6 +417,8 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         return { ...s, friendsPlay: fp };
       }),
 
+    markOpeningSeen: () => setSave((s) => (s.openingSeen ? s : { ...s, openingSeen: true })),
+
     toggleFollow: (charKey) =>
       setSave((s) => {
         const prev = s.friendsPlay[charKey] ?? { pts: 0, day: '', today: 0, wear: null };
@@ -499,8 +512,10 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         const inventory = { ...s.inventory };
         if (left > 0) inventory[seedId] = left; else delete inventory[seedId];
         const plots = [...s.farm.plots];
-        plots[plot] = { seed: seedId, at: dateKey(), watered: '' };
-        return { ...s, inventory, farm: { plots } };
+        const day = dateKey();
+        // イネは 田んぼ（はじめから 水の中）
+        plots[plot] = PLANT_BY_SEED[seedId]?.paddy ? { seed: seedId, at: day, watered: day, wetAt: day, wetDays: 1 } : { seed: seedId, at: day, watered: '' };
+        return { ...s, inventory, farm: { ...s.farm, plots } };
       });
       sfx('stamp');
     },
@@ -512,25 +527,75 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       setSave((s) => {
         const plots = [...s.farm.plots];
         const q = plots[plot];
-        if (q) plots[plot] = { ...q, watered: day };
-        return { ...s, farm: { plots } };
+        if (q) plots[plot] = { ...q, watered: day, wetAt: q.wetAt || day, wetDays: (q.wetDays ?? 0) + 1 };
+        return { ...s, farm: { ...s.farm, plots } };
       });
       sfx('water');
       return true;
     },
 
-    harvest: (plot) => {
-      const p = saveRef.current.farm.plots[plot];
+    fertilize: (plot, fertId) => {
+      const cur = saveRef.current;
+      const p = cur.farm.plots[plot];
+      const f = FERT_OF[fertId];
+      if (!p || !f || (cur.inventory[fertId] ?? 0) <= 0) return 'none';
+      if (stageOf(p) < 1) return 'early';
+      if ((p.fert ?? []).includes(f)) return 'same';
+      setSave((s) => {
+        const q = s.farm.plots[plot];
+        if (!q) return s;
+        const left = (s.inventory[fertId] ?? 0) - 1;
+        const inventory = { ...s.inventory };
+        if (left > 0) inventory[fertId] = left; else delete inventory[fertId];
+        const plots = [...s.farm.plots];
+        plots[plot] = { ...q, fert: [...(q.fert ?? []), f] };
+        return { ...s, inventory, farm: { ...s.farm, plots } };
+      });
+      sfx('water');
+      return 'ok';
+    },
+
+    toggleBox: (plot) => {
+      setSave((s) => {
+        const q = s.farm.plots[plot];
+        if (!q) return s;
+        const plots = [...s.farm.plots];
+        plots[plot] = { ...q, box: !q.box };
+        return { ...s, farm: { ...s.farm, plots } };
+      });
+    },
+
+    markFlower: (seedId) => {
+      if (saveRef.current.farm.flowers.includes(seedId)) return;
+      setSave((s) => (s.farm.flowers.includes(seedId) ? s : { ...s, farm: { ...s.farm, flowers: [...s.farm.flowers, seedId] } }));
+    },
+
+    harvest: (plot, quizOk) => {
+      const cur = saveRef.current;
+      const p = cur.farm.plots[plot];
       const crop = p ? ITEM_BY_ID[p.seed]?.crop : undefined;
-      if (!p || !crop || grownDays(p) < GROW_DAYS) return null;
+      if (!p || !crop || !isRipe(p, stageOf(p))) return null;
+      const { count: base, seedBack } = harvestOf(p);
+      const count = base + (quizOk ? 1 : 0);
+      const plant = plantOf(p);
+      const isNew = !!plant && !cur.farm.dex.includes(p.seed);
+      const kinds = cur.farm.dex.length + (isNew ? 1 : 0);
+      const reward = plant ? PLANT_REWARDS.find((r) => r.kinds <= kinds && !cur.owned.includes(r.item))?.item ?? null : null;
       setSave((s) => {
         if (!s.farm.plots[plot]) return s;
         const plots = [...s.farm.plots];
         plots[plot] = null;
-        return { ...s, farm: { plots }, inventory: { ...s.inventory, [crop]: (s.inventory[crop] ?? 0) + CROP_COUNT } };
+        const inventory = { ...s.inventory, [crop]: (s.inventory[crop] ?? 0) + count };
+        if (seedBack) inventory[p.seed] = (inventory[p.seed] ?? 0) + 1;
+        return {
+          ...s,
+          farm: { ...s.farm, plots, dex: isNew && !s.farm.dex.includes(p.seed) ? [...s.farm.dex, p.seed] : s.farm.dex },
+          inventory,
+          owned: reward && !s.owned.includes(reward) ? [...s.owned, reward] : s.owned,
+        };
       });
       sfx('chest');
-      return crop;
+      return { crop, count, seedBack: seedBack ? p.seed : null, isNew, reward };
     },
 
     trickOrTreat: (charKey) => {

@@ -7,6 +7,7 @@ import { CharSVG } from '../components/CharSVG';
 import { EggSVG } from '../components/EggSVG';
 import { FurnitureSVG } from '../components/FurnitureSVG';
 import { PhotoFrame } from '../components/PhotoFrame';
+import { OpeningScreen } from './OpeningScreen';
 import { BuildingSVG, BUILDING_SPOTS, SCHOOL_FRONT, spotInArea } from '../components/BuildingSVG';
 import { useGame } from '../state/useGame';
 import { CHAR_NAMES } from '../lib/chars';
@@ -20,6 +21,7 @@ import {
 import { displayFullness, levelOf, mood, moodLine } from '../lib/monster';
 import { isFriendsKey, readFriends, readSeenLevels, visitorsFor, writeSeenLevels, type Friend } from '../lib/friends';
 import { SkyLayer } from '../components/SkyLayer';
+import { starInfo } from '../lib/starsky';
 import { moonAge as calcMoonAge, moonName, timeOfDay, weatherFor } from '../lib/sky';
 import { cycleSoundMode, setBgmNight, sfx, soundMode, voice, type SoundMode } from '../lib/sound';
 import { answeredByDate, daysThisWeek, stampDays, studiedToday } from '../lib/study';
@@ -33,7 +35,7 @@ import { FarmModal } from '../components/FarmModal';
 import { StarsModal } from '../components/StarsModal';
 import { MoonViewModal } from '../components/MoonViewModal';
 import { costumeOf, halloweenNight, isHalloween } from '../lib/events';
-import { FARM_POS, GROW_DAYS, grownDays } from '../lib/farm';
+import { FARM_POS, isRipe, stageOf } from '../lib/farm';
 
 const SAVE_DEBOUNCE = 600;
 const MAX_DT = 0.05; // タブ復帰で瞬間移動しないように、1フレームの進みを上限で止める
@@ -140,6 +142,12 @@ export function IslandScreen() {
   const [farmOpen, setFarmOpen] = useState(false);
   const [starsOpen, setStarsOpen] = useState(false);
   const [moonViewOpen, setMoonViewOpen] = useState(false);
+  // 夜空の 星を うごかす（1分ごと）
+  const [skyMin, setSkyMin] = useState(0);
+  useEffect(() => {
+    const t = window.setInterval(() => setSkyMin((n) => n + 1), 60000);
+    return () => window.clearInterval(t);
+  }, []);
   // タップで えらんだ子（ついてくる子が そばに いても、ほかの子を えらべるように）
   const [picked, setPicked] = useState<string | null>(null);
   const [forestAsk, setForestAsk] = useState(false);
@@ -230,7 +238,7 @@ export function IslandScreen() {
   const studied = studiedToday(byDate);
   const showChest = studied && save.lastChest !== day;
   // はたけの そだち（クイズの記録から計算）と ハロウィン
-  const farmStages = save.farm.plots.map((p) => (p ? grownDays(p, byDate) : 0));
+  const farmStages = save.farm.plots.map((p) => (p ? stageOf(p, byDate) : 0));
   const hw = isHalloween();
   const hwNight = halloweenNight();
   const hasPier = save.buildings.includes('bd_pier');
@@ -241,6 +249,7 @@ export function IslandScreen() {
   saveRef2.current = save;
   const lastMarks = useRef<unknown>(null);
   const [monthBanner, setMonthBanner] = useState<string | null>(null);
+  const [openingOpen, setOpeningOpen] = useState(false);
   useEffect(() => {
     const cur = saveRef2.current;
     // 同じ記録から2回 手紙を作らない（開発中の二重実行・すばやい再描画でも1回だけ）
@@ -860,7 +869,19 @@ export function IslandScreen() {
   );
 
   return (
-    <Shell title={AREA_TITLE[area]} sub={playerName ? `${playerName}の しま` : undefined}>
+    <Shell
+      title={AREA_TITLE[area]}
+      sub={playerName ? `${playerName}の しま` : undefined}
+      extra={
+        <button
+          className="shrink-0 rounded-xl border-2 border-indigo-300/40 px-2 py-1.5 text-[11px] font-extrabold text-indigo-100 active:scale-95"
+          onClick={() => setOpeningOpen(true)}
+          aria-label="はじまりの ものがたり"
+        >
+          📜<span className="ml-0.5 hidden sm:inline">はじまり</span>
+        </button>
+      }
+    >
       {/* iPad よこ向き：左に島を大きく、右に 300px の列（ステータス・ボタン・十字キー・家具）。
           スマホ・たて向きは 上から じゅんに ならぶ（いままでどおり） */}
       <div className="lg:landscape:grid lg:landscape:grid-cols-[minmax(0,1fr)_300px] lg:landscape:items-start lg:landscape:gap-x-4">
@@ -948,6 +969,8 @@ export function IslandScreen() {
               glows={[]}
               onMoon={() => g.showToast(`🌙 きょうの月は ${moonName(moonAge)}（月齢 やく${Math.round(moonAge)}）`)}
               onStar={() => { sfx('star'); g.showToast(`🌠 ねがいごと：「${WISHES[Math.floor(Math.random() * WISHES.length)]}」`); }}
+              skyTime={skyMin}
+              onStarTap={(id) => g.showToast(starInfo(id))}
             />}
             {hwNight && area !== 'house' && [[120, 90], [520, 60], [760, 130]].map(([x, y], i) => (
               <g key={'bat' + i} transform={`translate(${x} ${y})`} style={{ pointerEvents: 'none' }}>
@@ -1026,7 +1049,7 @@ export function IslandScreen() {
             <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => setFishOpen(true)}>🎣 つりを する</button>
           ) : nearFarm && !nearOther ? (
             <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => setFarmOpen(true)}>
-              🌱 はたけ{farmStages.some((n, i) => save.farm.plots[i] && n >= GROW_DAYS) ? '（しゅうかく できるよ！）' : ''}
+              🌱 はたけ{farmStages.some((n, i) => isRipe(save.farm.plots[i], n)) ? '（しゅうかく できるよ！）' : ''}
             </button>
           ) : nearObserv ? (
             <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={openObserv}>🔭 星座を みる</button>
@@ -1197,6 +1220,9 @@ export function IslandScreen() {
           </div>
         </div>
       )}
+
+      {/* ── はじまりの ものがたり（見なおし）── */}
+      {openingOpen && <OpeningScreen onDone={() => setOpeningOpen(false)} />}
 
       {/* ── 月がわり：あたらしい しゅやくが きた（1回だけ）── */}
       {monthBanner && (

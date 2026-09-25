@@ -36,10 +36,11 @@ export function freshSave(now = Date.now()): SaveV1 {
     area: 'main',
     room: { wall: 'wl_beige', floor: 'fl_wood' },
     fish: { day: '', today: 0, caught: {}, big: {} },
-    farm: { plots: [null, null, null] },
+    farm: { plots: [null, null, null], dex: [], flowers: [] },
     treats: { day: '', got: [] },
     stars: { dex: [] },
     moon: { lastOffer: '' },
+    openingSeen: false,
   };
 }
 
@@ -84,6 +85,7 @@ export function loadSave(): SaveV1 {
     letters: Array.isArray(s.letters) ? s.letters.slice(0, 30) : [],
     letterMarks: { ...f.letterMarks, ...obj(s.letterMarks, {}) },
     lastChest: typeof s.lastChest === 'string' ? s.lastChest : '',
+    openingSeen: s.openingSeen === true,
     area: s.area === 'east' || s.area === 'house' ? s.area : 'main',
     room: { ...f.room, ...obj(s.room, {}) },
     fish: {
@@ -97,6 +99,8 @@ export function loadSave(): SaveV1 {
         const p = Array.isArray(s.farm?.plots) ? s.farm!.plots[i] : null;
         return p && typeof p === 'object' && typeof p.seed === 'string' ? p : null;
       }),
+      dex: Array.isArray(s.farm?.dex) ? s.farm!.dex : [],
+      flowers: Array.isArray(s.farm?.flowers) ? s.farm!.flowers : [],
     },
     treats: { ...f.treats, ...obj(s.treats, {}), got: Array.isArray(s.treats?.got) ? s.treats!.got : [] },
     stars: { ...f.stars, ...obj(s.stars, {}), dex: Array.isArray(s.stars?.dex) ? s.stars!.dex : [] },

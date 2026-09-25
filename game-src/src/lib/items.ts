@@ -85,7 +85,7 @@ export const ITEMS: Item[] = [
   { id: 'bd_bridge', kind: 'building', name: 'となりの しまへの はし', emoji: '🌉', price: 200, desc: 'はなばたけの しまへ いけるように なる', once: true },
   { id: 'bd_wheel',  kind: 'building', name: 'かんらんしゃ',       emoji: '🎡', price: 250, desc: 'しょうごう「しまの おうさま」', once: true },
   // 10月：月の位置と見え方
-  { id: 'bd_observ', kind: 'building', name: 'てんもんだい',       emoji: '🔭', price: 300, desc: 'よるに なると 月が みえる',  once: true },
+  { id: 'bd_observ', kind: 'building', name: 'てんもんだい',       emoji: '🔭', price: 300, desc: 'よるの ほしぞらを しらべられる',  once: true },
   { id: 'bd_moon',   kind: 'building', name: 'おつきみだい',       emoji: '🎑', price: 400, desc: 'おだんごと すすきで お月見',  once: true },
   // 11月（となりの しまに たつ。単元が きまったら 名前・絵を さしかえる）
   { id: 'bd_imo',    kind: 'building', name: 'やきいも やたい',     emoji: '🍠', price: 500, desc: 'となりの しまに たつ。よるは あかりが つく', once: true },
@@ -124,11 +124,35 @@ export const ITEMS: Item[] = [
   { id: 'fn_stardome',   kind: 'furniture', name: 'プラネタリウムドーム', emoji: '🪐', price: 0, desc: '星座を 10しゅるい みつけた ごほうび', once: true, reward: true, anywhere: true },
   { id: 'fn_moonrabbit', kind: 'furniture', name: 'もちつき うさぎ',     emoji: '🐇', price: 0, desc: 'まんげつの よるに おだんごを おそなえした ごほうび', once: true, reward: true, anywhere: true },
 
-  // ── はたけの たね（うえて クイズを 3にち やると とれる）──
-  { id: 'sd_berry',   kind: 'seed', name: 'いちごの たね',     emoji: '🍓', price: 3, desc: 'いちごが 2つ とれる',   crop: 'gf_berry' },
-  { id: 'sd_flower',  kind: 'seed', name: 'おはなの たね',     emoji: '🌸', price: 3, desc: 'おはなが 2つ さく',     crop: 'gf_flower' },
-  { id: 'sd_pumpkin', kind: 'seed', name: 'かぼちゃの たね',   emoji: '🎃', price: 4, desc: '10月だけ・かぼちゃだんごが 2つ', crop: 'gf_pumpkin', season: 10 },
-  { id: 'sd_imo',     kind: 'seed', name: 'さつまいもの たね', emoji: '🍠', price: 4, desc: '11月だけ・やきいもが 2つ',     crop: 'gf_imo', season: 11 },
+  // ── はたけの たね（理科の しょくぶつ。くわしくは lib/plants.ts）──
+  { id: 'sd_ingen',    kind: 'seed', name: 'インゲンマメの たね', emoji: '🫘', price: 3, desc: '子葉 2まい・はいにゅう なし', crop: 'gf_mame' },
+  { id: 'sd_corn',     kind: 'seed', name: 'トウモロコシの たね', emoji: '🌽', price: 3, desc: '子葉 1まい・はいにゅう あり', crop: 'gf_corn' },
+  { id: 'sd_ine',      kind: 'seed', name: 'イネの たね（もみ）', emoji: '🌾', price: 3, desc: '田んぼで そだつ。水の中でも はつが', crop: 'gf_onigiri' },
+  { id: 'sd_asagao',   kind: 'seed', name: 'アサガオの たね',     emoji: '🌺', price: 3, desc: 'あさ さいて ひるに しぼむ', crop: 'gf_flower' },
+  { id: 'sd_himawari', kind: 'seed', name: 'ヒマワリの たね',     emoji: '🌻', price: 3, desc: 'しぼうが おおい たね', crop: 'gf_sunseed' },
+  { id: 'sd_berry',    kind: 'seed', name: 'イチゴの たね',       emoji: '🍓', price: 3, desc: 'はつがに 光が いる', crop: 'gf_berry' },
+  { id: 'sd_potato',   kind: 'seed', name: 'ジャガイモの たねいも', emoji: '🥔', price: 4, desc: 'いもは くきが へんかした もの', crop: 'gf_potato' },
+  { id: 'sd_soramame', kind: 'seed', name: 'ソラマメの たね',     emoji: '🫛', price: 4, desc: '10月だけ・子葉が 地上に でない', crop: 'gf_soramame', season: 10 },
+  { id: 'sd_imo',      kind: 'seed', name: 'サツマイモの なえ',   emoji: '🍠', price: 4, desc: '11月だけ・いもは 根が へんかした もの', crop: 'gf_imo', season: 11 },
+  { id: 'sd_tulip',    kind: 'seed', name: 'チューリップの きゅうこん', emoji: '🌷', price: 4, desc: '12月だけ・きゅうこんは 葉が へんかした もの', crop: 'gf_tulip', season: 12 },
+  // むかしの たね（もう うっていない。もっている分・うえた分は そのまま そだつ）
+  { id: 'sd_flower',  kind: 'seed', name: 'おはなの たね',     emoji: '🌸', price: 3, desc: 'おはなが 2つ さく',     crop: 'gf_flower', reward: true },
+  { id: 'sd_pumpkin', kind: 'seed', name: 'かぼちゃの たね',   emoji: '🎃', price: 4, desc: 'かぼちゃだんごが 2つ', crop: 'gf_pumpkin', reward: true },
+  // ── ひりょう（はつがの あとに あげる。3ようそ）──
+  { id: 'ft_n', kind: 'fert', name: 'ちっそ ひりょう',   emoji: '🍃', price: 1, desc: '葉が 大きく こい みどりに' },
+  { id: 'ft_p', kind: 'fert', name: 'リンさん ひりょう', emoji: '🌸', price: 1, desc: 'はなや みが 1つ ふえる' },
+  { id: 'ft_k', kind: 'fert', name: 'カリウム ひりょう', emoji: '🥕', price: 1, desc: '根や いもが じょうぶ（いもが 1つ ふえる）' },
+  // ── はたけで とれる もの（ショップでは売らない）──
+  { id: 'gf_mame',     kind: 'gift', name: 'いんげんまめ',   emoji: '🫘', price: 0, desc: 'はたけで とれた・なかよし +2', love: 2, reward: true },
+  { id: 'gf_corn',     kind: 'gift', name: 'とうもろこし',   emoji: '🌽', price: 0, desc: 'はたけで とれた・なかよし +2', love: 2, reward: true },
+  { id: 'gf_onigiri',  kind: 'gift', name: 'おにぎり',       emoji: '🍙', price: 0, desc: 'はたけの おこめで・なかよし +2', love: 2, reward: true },
+  { id: 'gf_sunseed',  kind: 'gift', name: 'ひまわりの たね', emoji: '🌻', price: 0, desc: 'はたけで とれた・なかよし +2', love: 2, reward: true },
+  { id: 'gf_potato',   kind: 'gift', name: 'じゃがバター',   emoji: '🥔', price: 0, desc: 'はたけで とれた・なかよし +2', love: 2, reward: true },
+  { id: 'gf_soramame', kind: 'gift', name: 'そらまめ',       emoji: '🫛', price: 0, desc: 'はたけで とれた・なかよし +3', love: 3, reward: true },
+  { id: 'gf_tulip',    kind: 'gift', name: 'チューリップ',   emoji: '🌷', price: 0, desc: 'はたけで さいた・なかよし +3', love: 3, reward: true },
+  // ── しょくぶつ ずかんの ごほうび ──
+  { id: 'fn_planter',    kind: 'furniture', name: 'うえきばち だな', emoji: '🪴', price: 0, desc: 'しょくぶつを 5しゅるい しゅうかくした ごほうび',  once: true, reward: true, anywhere: true },
+  { id: 'fn_greenhouse', kind: 'furniture', name: 'ミニ おんしつ',   emoji: '🏡', price: 0, desc: 'しょくぶつを 10しゅるい しゅうかくした ごほうび', once: true, reward: true },
   ...ROOM_ITEMS,
 ];
 
@@ -204,7 +228,7 @@ export const ITEM_BY_ID: Record<string, Item> = Object.fromEntries(ITEMS.map((i)
 export const KIND_TABS: { key: 'eat' | 'gear' | 'gift' | 'seed' | 'dress' | 'room' | 'home' | 'build'; label: string; kinds: ItemKind[] }[] = [
   { key: 'eat',   label: '🍙 エサ・おやつ', kinds: ['food', 'snack'] },
   { key: 'gift',  label: '🎁 プレゼント',   kinds: ['gift'] },
-  { key: 'seed',  label: '🌱 たね',         kinds: ['seed'] },
+  { key: 'seed',  label: '🌱 たね',         kinds: ['seed', 'fert'] },
   // 'gear'（じゅう・たて）はミニバトル用だったので、バトル廃止とともに売り場から外した
   { key: 'dress', label: '🎀 きせかえ',     kinds: ['costume', 'hat', 'fwear'] },
   { key: 'room',  label: '🌴 かぐ',         kinds: ['furniture'] },
@@ -213,7 +237,7 @@ export const KIND_TABS: { key: 'eat' | 'gear' | 'gift' | 'seed' | 'dress' | 'roo
 ];
 
 export function isConsumable(item: Item): boolean {
-  return item.kind === 'food' || item.kind === 'snack' || item.kind === 'gift' || item.kind === 'seed';
+  return item.kind === 'food' || item.kind === 'snack' || item.kind === 'gift' || item.kind === 'seed' || item.kind === 'fert';
 }
 
 export function slotOf(item: Item): 'weapon' | 'shield' | 'costume' | 'hat' | null {

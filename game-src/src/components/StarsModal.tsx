@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { useGame } from '../state/useGame';
 import { ITEM_BY_ID } from '../lib/items';
 import { CONSTELLATIONS, STAR_REWARDS, type Constellation } from '../lib/stars';
+import { Planisphere } from './Planisphere';
 
-// てんもんだい：のぞくと 今夜の星座が1つ 見える → ずかんに のる。5・10しゅるいで ごほうび。
+// てんもんだい：ほしぞらはやみ（星座早見）／のぞくと 今夜の星座が1つ 見える → ずかんに のる。5・10しゅるいで ごほうび。
 
 function ConstellationArt({ c, size = 140 }: { c: Constellation; size?: number }) {
   return (
@@ -25,7 +26,7 @@ function ConstellationArt({ c, size = 140 }: { c: Constellation; size?: number }
 
 export function StarsModal({ onClose }: { onClose(): void }) {
   const g = useGame();
-  const [tab, setTab] = useState<'tonight' | 'dex'>('tonight');
+  const [tab, setTab] = useState<'hayami' | 'tonight' | 'dex'>('hayami');
   const [result, setResult] = useState<{ constellation: Constellation; isNew: boolean; reward: string | null } | null>(null);
 
   const dex = g.save.stars.dex;
@@ -41,18 +42,20 @@ export function StarsModal({ onClose }: { onClose(): void }) {
     <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/60 p-3" onClick={onClose}>
       <div className="panel max-h-[88vh] w-full max-w-[440px] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
         <div className="mb-2 flex gap-1.5">
-          {(['tonight', 'dex'] as const).map((t) => (
+          {(['hayami', 'tonight', 'dex'] as const).map((t) => (
             <button
               key={t}
               className={`flex-1 rounded-xl px-2 py-2 text-[13px] font-black ${tab === t ? 'bg-indigo-600 text-white shadow' : 'bg-indigo-50 text-indigo-700'}`}
               onClick={() => setTab(t)}
             >
-              {t === 'tonight' ? '🔭 のぞく' : `📘 ずかん ${kinds}/${CONSTELLATIONS.length}`}
+              {t === 'hayami' ? '🌌 はやみ' : t === 'tonight' ? '🔭 のぞく' : `📘 ずかん ${kinds}/${CONSTELLATIONS.length}`}
             </button>
           ))}
         </div>
 
-        {tab === 'tonight' ? (
+        {tab === 'hayami' ? (
+          <Planisphere />
+        ) : tab === 'tonight' ? (
           <div>
             {!result ? (
               <div className="flex flex-col items-center gap-3 py-4">

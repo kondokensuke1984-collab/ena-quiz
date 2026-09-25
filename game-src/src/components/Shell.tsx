@@ -55,7 +55,8 @@ function Toast() {
   );
 }
 
-export function Shell({ title, sub, children }: { title: string; sub?: string; children: ReactNode }) {
+/** extra＝メダルの となりに 出す ボタン（島の「📜 はじまり」など） */
+export function Shell({ title, sub, extra, children }: { title: string; sub?: string; extra?: ReactNode; children: ReactNode }) {
   return (
     <div className="mx-auto min-h-full max-w-[480px] px-3 pb-24 pt-3 lg:landscape:max-w-[1200px] lg:landscape:px-5">
       <header className="mb-3 flex items-center gap-2">
@@ -69,6 +70,7 @@ export function Shell({ title, sub, children }: { title: string; sub?: string; c
           <div className="truncate text-[15px] font-black text-white">{title}</div>
           {sub && <div className="truncate text-[11px] font-bold text-indigo-200/70">{sub}</div>}
         </div>
+        {extra}
         <MedalBadge />
       </header>
       <div className="fade-in">{children}</div>

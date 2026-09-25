@@ -177,6 +177,36 @@ const DRAWINGS: Record<string, Draw> = {
     </g>
   ),
 
+  // ── しょくぶつ ずかんの ごほうび ──
+  fn_planter: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="26" ry="5" fill="rgba(0,0,0,0.2)" />
+      <rect x="-26" y="-22" width="52" height="5" rx="2" fill="#a16207" {...S} />
+      <rect x="-22" y="-17" width="4" height="17" fill="#92400e" />
+      <rect x="18" y="-17" width="4" height="17" fill="#92400e" />
+      {[-15, 0, 15].map((x, i) => (
+        <g key={x} transform={`translate(${x} -22)`}>
+          <path d="M-7 0 L-5 -12 L5 -12 L7 0 Z" fill="#c2410c" {...S} strokeWidth={1.4} />
+          <path d={i === 1 ? 'M0 -12 L0 -26' : 'M0 -12 L0 -20'} stroke="#15803d" strokeWidth="2.4" />
+          <ellipse cx="-4" cy={i === 1 ? -22 : -18} rx="4" ry="2.4" fill="#22c55e" />
+          <ellipse cx="4" cy={i === 1 ? -24 : -19} rx="4" ry="2.4" fill="#22c55e" />
+          {i === 1 && <circle cx="0" cy="-28" r="3.5" fill="#f472b6" {...S} strokeWidth={1.2} />}
+        </g>
+      ))}
+    </g>
+  ),
+  fn_greenhouse: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="34" ry="6" fill="rgba(0,0,0,0.2)" />
+      <path d="M-32 0 L-32 -30 Q0 -58 32 -30 L32 0 Z" fill="#e0f2fe" fillOpacity="0.8" {...S} />
+      <path d="M-16 0 L-16 -44 M0 0 L0 -48 M16 0 L16 -44 M-32 -18 L32 -18" stroke="#94a3b8" strokeWidth="1.6" fill="none" />
+      <path d="M-26 -4 q2 -12 6 -14 M-8 -4 q-2 -10 2 -16 M10 -4 q3 -10 8 -12" stroke="#16a34a" strokeWidth="3" fill="none" strokeLinecap="round" />
+      <circle cx="-20" cy="-18" r="3" fill="#f43f5e" />
+      <circle cx="18" cy="-16" r="3" fill="#facc15" />
+      <path d="M-24 -34 l10 -8" stroke="#fff" strokeWidth="3" strokeLinecap="round" opacity="0.8" />
+    </g>
+  ),
+
   // ── つりの ずかんの ごほうび ──
   fn_fishsign: () => (
     <g>

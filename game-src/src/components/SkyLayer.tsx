@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { ISLAND_H, ISLAND_W } from '../lib/island';
 import { moonLitPath, type TimeOfDay, type Weather } from '../lib/sky';
+import { altAz, ASTERISMS, SKY_LINES, SKY_STARS, skyDate, STAR_COLOR } from '../lib/starsky';
 
 // 島の上に重ねる「空」：夕方・夜の色、星、その日の本当の形の月、雨・くもり・にじ、流れ星、夜のあかり。
-// タップを拾うのは 月 と 流れ星 だけ（ほかは pointer-events:none で島のタップを邪魔しない）。
+// タップを拾うのは 月・流れ星・明るい星 だけ（ほかは pointer-events:none で島のタップを邪魔しない）。
+// 星は ほんもの：いまの日時に 南の空（東が左・西が右）に 見える星を lib/starsky で 計算して かく。
 
 export const MOON_POS = { x: 0.6, y: 0.085 };   // 割合
 
@@ -14,12 +16,36 @@ interface Props {
   glows: { x: number; y: number; r: number }[];   // 夜に光るところ（窓・ランプ）。割合
   onMoon(): void;
   onStar(): void;
+  skyTime: number;                 // 1分ごとに かわる（星を うごかす）
+  onStarTap(id: string): void;
 }
 
-const STARS = Array.from({ length: 34 }, (_, i) => [((i * 283) % 1000), 8 + ((i * 97) % 150), 1 + (i % 3)]);
+// 暗い かざりの 星（明るい星の あいだを うめる）
+const DIM = Array.from({ length: 16 }, (_, i) => [((i * 283 + 71) % 1000), 12 + ((i * 97) % 210)]);
 
-function SkyLayerBase({ tod, weather, moonAge, glows, onMoon, onStar }: Props) {
+// 南の空の 帯：方位 70°〜290°（東が左・西が右）を よこ、高度 3°〜80° を たて に
+const AZ0 = 70, AZ1 = 290, ALT0 = 3, ALT1 = 80;
+function toStrip(alt: number, az: number): { x: number; y: number } | null {
+  if (alt < ALT0 || az < AZ0 || az > AZ1) return null;
+  return { x: ((az - AZ0) / (AZ1 - AZ0)) * ISLAND_W, y: 235 - (Math.min(alt, ALT1) - ALT0) / (ALT1 - ALT0) * 225 };
+}
+export function starRadius(mag: number): number {
+  return Math.max(1.2, 3.8 - mag * 0.9);
+}
+
+function SkyLayerBase({ tod, weather, moonAge, glows, onMoon, onStar, skyTime, onStarTap }: Props) {
   const night = tod === 'night';
+  const pos = useMemo(() => {
+    const d = skyDate();
+    const out: Record<string, { x: number; y: number }> = {};
+    for (const st of SKY_STARS) {
+      const { alt, az } = altAz(st.ra, st.dec, d);
+      const p = toStrip(alt, az);
+      if (p) out[st.id] = p;
+    }
+    return out;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [skyTime]);
   // 流れ星：夜に 20〜40秒おきに1回
   const [star, setStar] = useState<{ key: number; x: number } | null>(null);
   useEffect(() => {
@@ -56,9 +82,39 @@ function SkyLayerBase({ tod, weather, moonAge, glows, onMoon, onStar }: Props) {
       )}
 
       {/* 夜の星 */}
-      {night && weather !== 'rain' && STARS.map(([x, y, r], i) => (
-        <circle key={i} cx={x} cy={y} r={r} fill="#fef9c3" className="twinkle" style={{ animationDelay: `${(i % 7) * 0.4}s` }} pointerEvents="none" />
-      ))}
+      {night && weather !== 'rain' && (
+        <g>
+          {DIM.map(([x, y], i) => <circle key={'d' + i} cx={x} cy={y} r="0.9" fill="#e0e7ff" opacity="0.5" pointerEvents="none" />)}
+          {/* 星座の 線（うすく）と 大三角など（うすい 点線） */}
+          <g pointerEvents="none" stroke="#a5b4fc" strokeWidth="1" opacity="0.3">
+            {SKY_LINES.map(([a, b], i) => pos[a] && pos[b] && <line key={'l' + i} x1={pos[a].x} y1={pos[a].y} x2={pos[b].x} y2={pos[b].y} />)}
+          </g>
+          <g pointerEvents="none" strokeWidth="1.2" strokeDasharray="4 5" opacity="0.4" fill="none">
+            {ASTERISMS.filter((a) => a.closed).map((a) => {
+              const pts = a.stars.map((id) => pos[id]);
+              if (pts.some((p) => !p)) return null;
+              return <polygon key={a.name} points={pts.map((p) => `${p!.x},${p!.y}`).join(' ')} stroke={a.color} />;
+            })}
+          </g>
+          {SKY_STARS.map((st, i) => {
+            const p = pos[st.id];
+            if (!p) return null;
+            const r = starRadius(st.mag);
+            const fill = STAR_COLOR[st.color].fill;
+            const tappable = st.mag < 2.3;
+            return (
+              <g key={st.id} transform={`translate(${p.x} ${p.y})`}
+                pointerEvents={tappable ? undefined : 'none'}
+                style={tappable ? { cursor: 'pointer' } : undefined}
+                onPointerDown={tappable ? (e) => { e.stopPropagation(); onStarTap(st.id); } : undefined}>
+                {tappable && <circle r="16" fill="transparent" />}
+                {st.mag < 1.5 && <circle r={r * 2.4} fill={fill} opacity="0.18" />}
+                <circle r={r} fill={fill} className="twinkle" style={{ animationDelay: `${(i % 7) * 0.4}s` }} />
+              </g>
+            );
+          })}
+        </g>
+      )}
 
       {/* 夜のあかり（窓・ランプ）。暗い膜の上に あたたかい光を重ねる */}
       {night && glows.map((g, i) => (

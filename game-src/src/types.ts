@@ -86,10 +86,11 @@ export interface SaveV1 {
   area: Area;                                 // いま いる場所（pos はこの場所での立ち位置）
   room: { wall: string; floor: string };      // おうちの かべがみ・ゆか
   fish: FishLog;                              // つりの きろく
-  farm: { plots: (FarmPlot | null)[] };       // はたけ 3まい
+  farm: { plots: (FarmPlot | null)[]; dex: string[]; flowers: string[] };  // はたけ 3まい・しゅうかくした たね・はなを しらべた たね
   treats: { day: string; got: string[] };     // ハロウィンで おかしを くれた子（その日）
   stars: { dex: string[] };                   // てんもんだいで みつけた星座ID
   moon: { lastOffer: string };                // おだんごを おそなえした日（YYYY-M-D）
+  openingSeen: boolean;                       // はじまりの ものがたり（オープニング）を 見た
 }
 
 export interface FishLog {
@@ -103,12 +104,16 @@ export interface FarmPlot {
   seed: string;     // たねの ID
   at: string;       // うえた日（YYYY-M-D）
   watered: string;  // さいごに みずをあげた日
+  wetAt?: string;   // はじめて みずをあげた日（はつがは ここから数える）
+  wetDays?: number; // みずを あげた日の数
+  fert?: ('n' | 'p' | 'k')[]; // あげた ひりょう
+  box?: boolean;    // はこを かぶせて 日光を さえぎる じっけん
 }
 
 export type ItemKind =
   | 'food' | 'snack' | 'gun' | 'shield' | 'costume' | 'hat' | 'furniture'
   | 'building' | 'gift' | 'fwear'
-  | 'indoor' | 'wall' | 'floor' | 'seed';
+  | 'indoor' | 'wall' | 'floor' | 'seed' | 'fert';
 
 export interface Item {
   id: string;

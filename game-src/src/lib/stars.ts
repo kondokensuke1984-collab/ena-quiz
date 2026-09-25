@@ -129,5 +129,5 @@ export function tonightConstellation(dayKey: string, month: number): Constellati
   let h = 11;
   for (const ch of dayKey) h = (h * 131 + ch.charCodeAt(0)) >>> 0;
   h ^= h >>> 13; h = Math.imul(h, 0x5bd1e995) >>> 0; h ^= h >>> 15;
-  return pool[h % pool.length];
+  return pool[(h >>> 0) % pool.length];   // ^= で マイナスに なることが あるので 0以上に もどす
 }

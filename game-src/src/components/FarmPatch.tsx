@@ -1,10 +1,12 @@
 import React from 'react';
 import { ISLAND_H, ISLAND_W } from '../lib/island';
-import { FARM_POS, GROW_DAYS, PLOT_DX } from '../lib/farm';
+import { FARM_POS, GROW_DAYS, healthOf, isRipe, plantOf, PLOT_DX } from '../lib/farm';
+import { hourNow } from '../lib/sky';
+import { PlantSVG } from './PlantSVG';
 import { ITEM_BY_ID } from '../lib/items';
 import type { FarmPlot } from '../types';
 
-// はたけ（3つの うね）。地面の上・キャラの下に かく。stage＝そだった日数（0..GROW_DAYS）
+// はたけ（3つの うね）。地面の上・キャラの下に かく。stage＝lib/farm の stageOf（むかしの たねは 0..GROW_DAYS）
 const S = { stroke: '#4c1d95', strokeWidth: 2.2 };
 
 function Sprout({ stage, seed }: { stage: number; seed: string }) {
@@ -43,6 +45,7 @@ function Sprout({ stage, seed }: { stage: number; seed: string }) {
 function FarmPatchBase({ plots, stages, today }: { plots: (FarmPlot | null)[]; stages: number[]; today: string }) {
   const cx = FARM_POS.x * ISLAND_W;
   const cy = FARM_POS.y * ISLAND_H;
+  const hour = hourNow();
   return (
     <g style={{ pointerEvents: 'none' }}>
       {/* さく */}
@@ -50,12 +53,24 @@ function FarmPatchBase({ plots, stages, today }: { plots: (FarmPlot | null)[]; s
       {plots.map((p, i) => {
         const x = cx + (i - 1) * PLOT_DX * ISLAND_W;
         const wet = p && p.watered === today;
+        const plant = plantOf(p);
         return (
           <g key={i} transform={`translate(${x} ${cy})`}>
             <ellipse cx="0" cy="0" rx="32" ry="13" fill={wet ? '#57300f' : '#92400e'} {...S} />
-            <path d="M-22 -2 q22 -8 44 0" stroke="#78350f" strokeWidth="2" fill="none" opacity="0.6" />
-            {p && <Sprout stage={stages[i]} seed={p.seed} />}
-            {wet && stages[i] < GROW_DAYS && <text x="22" y="-16" fontSize="14">💧</text>}
+            {plant?.paddy ? (
+              <ellipse cx="0" cy="-1" rx="27" ry="9" fill="#7dd3fc" opacity="0.85" />
+            ) : (
+              <path d="M-22 -2 q22 -8 44 0" stroke="#78350f" strokeWidth="2" fill="none" opacity="0.6" />
+            )}
+            {p && plant && <PlantSVG p={plant} stage={stages[i]} health={stages[i] >= 1 ? healthOf(p) : { sun: true, fert: true, water: true }} hour={hour} boxed={p.box} />}
+            {p && !plant && <Sprout stage={stages[i]} seed={p.seed} />}
+            {p?.box && (
+              <g>
+                <rect x="-22" y="-82" width="44" height="80" rx="3" fill="#a16207" fillOpacity="0.6" {...S} />
+                <text x="0" y="-36" fontSize="16" textAnchor="middle">📦</text>
+              </g>
+            )}
+            {wet && !isRipe(p, stages[i]) && !plant?.paddy && <text x="22" y="-16" fontSize="14">💧</text>}
           </g>
         );
       })}
