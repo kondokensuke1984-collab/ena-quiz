@@ -288,6 +288,12 @@ function bossDownNow() {
   return !!((save.bossMonths || {})[MEDAL_MONTH] || (save.bossDown && MEDAL_MONTH === '202609'));
 }
 const MEDAL_STAGE_CLEAR = 3, MEDAL_BOSS_CLEAR = 10;
+// 🪙×2：過去問演習（単元の「_kakomon」）の問題・ステージは メダルが 2ばい
+const KAKOMON_X = 2;
+function isKakomon(subj) {
+  return /_kakomon$/.test(subj || '') || ((typeof SUBJECTS === 'object' && SUBJECTS[subj]) || {}).label === '過去問演習';
+}
+function medalX(subj) { return isKakomon(subj) ? KAKOMON_X : 1; }
 function loadMedalLedger() {
   try {
     const d = JSON.parse(localStorage.getItem(MEDAL_KEY) || '{}');
@@ -306,9 +312,10 @@ function medalFirstCorrect(q) {
   if (led.first[q.id]) return 0;
   led.first[q.id] = 1;
   const key = (q.month || MEDAL_MONTH) + '|first:' + (q.subject || '');
-  led.units[key] = (led.units[key] || 0) + 1;
+  const n = medalX(q.subject);
+  led.units[key] = (led.units[key] || 0) + n;
   saveMedalLedger(led);
-  return 1;
+  return n;
 }
 function medalQuestClear(stageKey, count) {
   const led = loadMedalLedger();
@@ -615,7 +622,7 @@ function showMap() {
       (used ? ' opacity:.55;' : on ? ' background:#fde68a; border-color:#f59e0b;' : ' background:#fff;') + '">' + label + '</button>';
   html += '<div class="panel" style="margin-bottom:11px; background:linear-gradient(135deg,#fef3c7,#fde68a);">' +
             '<div style="font-weight:800; font-size:15px;">⏱️ きょうの タイムトライアル</div>' +
-            '<div style="font-size:11.5px; color:#78350f; margin:3px 0 9px; line-height:1.6;">じかん内に せいかいすると 🪙2まい（まえに といた もんだいでも OK）。1にち 1かいずつ</div>' +
+            '<div style="font-size:11.5px; color:#78350f; margin:3px 0 9px; line-height:1.6;">じかん内に せいかいすると 🪙2まい（かこもんは 🪙4まい。まえに といた もんだいでも OK）。1にち 1かいずつ</div>' +
             '<div style="display:flex; gap:8px;">' +
               ttBtn(u30, ttPick, u30 ? '✅ 30びょう<br><small>もう やったよ</small>' : ttPick ? '✕ やめる' : '⏱️ 30びょう<br><small>ステージを えらぶ</small>', 'startTT30()') +
               ttBtn(uR, false, uR ? '✅ 3ぷん<br><small>もう やったよ</small>' : '⏱️ 3ぷん<br><small>ランダム もんだい</small>', 'startRush()') +
@@ -640,6 +647,7 @@ function showMap() {
               '<span style="flex:0 0 42px;' + (clear ? '' : ' opacity:.85;') + '">' +
                 CHARS[s.char](6, 100, 42, { silhouette: !clear }) + '</span>' +
               '<span style="flex:1;">' + s.label +
+                (isKakomon(s.key) ? ' <span style="display:inline-block; font-size:11px; font-weight:800; color:#b45309; background:#fef3c7; border:1px solid #f59e0b; border-radius:999px; padding:0 6px; vertical-align:middle;">🪙×2</span>' : '') +
                 '<span style="display:block; font-size:11px; color:#64748b; font-weight:400;">' +
                   (clear ? CHAR_NAME[s.char] + '　なかま' : 'かげの' + CHAR_NAME[s.char]) +
                   '　全' + s.total + '問</span></span>' +
@@ -1064,16 +1072,16 @@ function resolveTurn(ok, q, timeout) {
     if (sprite) { sprite.classList.remove('shake'); void sprite.offsetWidth; sprite.classList.add('shake'); }
     const gotMedal = medalFirstCorrect(q);
     let got = gotMedal;
-    if (inTime) {   // ⏱️ 時間内の正解は どの問題でも 🪙2
-      medalTT(2 - gotMedal);
-      got = 2;
-      bt.ttMedals = (bt.ttMedals || 0) + 2;
+    if (inTime) {   // ⏱️ 時間内の正解は どの問題でも 🪙2（過去問演習は 🪙4）
+      got = 2 * medalX(q.subject);
+      medalTT(got - gotMedal);
+      bt.ttMedals = (bt.ttMedals || 0) + got;
       bt.ttIn = (bt.ttIn || 0) + 1;
     }
     bt.medals += got;
     setMsg(inTime
-      ? (rush ? 'せいかい！' : (bt.streak >= 2 ? 'かいしん！ ' : 'せいかい！ ') + dmg + 'ダメージ！') + '　⏱️ じかん内！ 🪙+2'
-      : (bt.streak >= 2 ? 'かいしんの一撃！ ' + dmg + 'ダメージ！' : 'せいかい！ ' + dmg + 'ダメージ！') + (gotMedal ? '　🪙 メダル +1' : ''));
+      ? (rush ? 'せいかい！' : (bt.streak >= 2 ? 'かいしん！ ' : 'せいかい！ ') + dmg + 'ダメージ！') + '　⏱️ じかん内！ 🪙+' + got
+      : (bt.streak >= 2 ? 'かいしんの一撃！ ' + dmg + 'ダメージ！' : 'せいかい！ ' + dmg + 'ダメージ！') + (gotMedal ? '　🪙 メダル +' + gotMedal + (gotMedal > 1 ? '（かこもん 2ばい！）' : '') : ''));
   } else {
     bt.streak = 0;
     sfx(false);
@@ -1154,7 +1162,7 @@ function endBattle(win) {
     save.wins++;
     if (bt.boss) { save.bossDown = true; save.bossMonths[MEDAL_MONTH] = true; }
     else { save.cleared[bt.key] = true; save.seen[bt.char] = true; }
-    bt.clearBonus = medalQuestClear(bt.boss ? 'boss' : bt.key, bt.boss ? MEDAL_BOSS_CLEAR : MEDAL_STAGE_CLEAR);
+    bt.clearBonus = medalQuestClear(bt.boss ? 'boss' : bt.key, bt.boss ? MEDAL_BOSS_CLEAR : MEDAL_STAGE_CLEAR * medalX(bt.key));
     bt.medals += bt.clearBonus;
   }
   while (save.exp >= needExp()) {

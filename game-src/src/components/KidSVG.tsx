@@ -1,7 +1,7 @@
 import React from 'react';
 import type { PlayerKey } from '../types';
 
-// 主人公「あんり」「りの」。リポジトリに人物の絵がないので新規に描いたもの。
+// 主人公「あんり」「りの」「みつき」「けんすけ」。リポジトリに人物の絵がないので新規に描いたもの。
 // js/chars.js と同じ丸っこい絵柄（太い線・#3d2b5e の目・頬の赤み）に寄せている。
 //
 // 正面向き1ポーズだけを用意し、歩きは「上下のぴょこぴょこ＋左右反転」で表現する。
@@ -19,6 +19,8 @@ export interface Palette {
 export const PALETTES: Record<PlayerKey, Palette> = {
   anri: { hair: '#8b5a3c', hairDark: '#6b4430', cloth: '#f9a8d4', clothDark: '#f472b6', accent: '#fb7185', name: 'あんり' },
   rino: { hair: '#c4b5fd', hairDark: '#a78bfa', cloth: '#a5b4fc', clothDark: '#818cf8', accent: '#67e8f9', name: 'りの' },
+  mitsuki: { hair: '#6b3f2a', hairDark: '#4a2a1c', cloth: '#fcd34d', clothDark: '#f59e0b', accent: '#fde047', name: 'みつき' },
+  kensuke: { hair: '#2e2a3a', hairDark: '#15121d', cloth: '#7dd3fc', clothDark: '#0284c7', accent: '#1e3a8a', name: 'けんすけ' },
 };
 
 const SKIN = '#ffe8d6';
@@ -36,7 +38,6 @@ interface Props {
 
 function KidSVGBase({ who, size = 110, walking = false, flip = false, hat = null, ribbon = false }: Props) {
   const p = PALETTES[who];
-  const isRino = who === 'rino';
 
   return (
     <svg
@@ -64,11 +65,26 @@ function KidSVGBase({ who, size = 110, walking = false, flip = false, hat = null
           strokeWidth="2.4"
           strokeLinejoin="round"
         />
-        {isRino ? (
+        {who === 'rino' ? (
           /* りの：パーカーのひも */
           <>
             <path d="M44 66 L43 78" stroke="#fff" strokeWidth="2.6" strokeLinecap="round" />
             <path d="M56 66 L57 78" stroke="#fff" strokeWidth="2.6" strokeLinecap="round" />
+          </>
+        ) : who === 'mitsuki' ? (
+          /* みつき：しろい えりと こしの リボン */
+          <>
+            <path d="M42 64 Q50 71 58 64 Q56 69 50 71 Q44 69 42 64 Z" fill="#fff" stroke={p.clothDark} strokeWidth="1.4" strokeLinejoin="round" />
+            <path d="M33 84 Q50 88 67 84" stroke="#fff" strokeWidth="3" fill="none" strokeLinecap="round" />
+            <circle cx="50" cy="86.5" r="2.4" fill={p.accent} stroke={p.clothDark} strokeWidth="1.2" />
+          </>
+        ) : who === 'kensuke' ? (
+          /* けんすけ：Tシャツの ボールもよう＋こんの はんズボン */
+          <>
+            <path d="M31 88 C30 93 31 98 34 99 L66 99 C69 98 70 93 69 88 Z" fill={p.accent} stroke="#172554" strokeWidth="2" strokeLinejoin="round" />
+            <path d="M50 89 L50 99" stroke="#172554" strokeWidth="1.6" />
+            <circle cx="50" cy="76" r="5.5" fill="#fff" stroke="#172554" strokeWidth="1.4" />
+            <path d="M50 72.5 l2.8 2 -1 3.3 h-3.6 l-1-3.3 z" fill="#172554" />
           </>
         ) : (
           /* あんり：エプロンのポケット */
@@ -87,7 +103,32 @@ function KidSVGBase({ who, size = 110, walking = false, flip = false, hat = null
         {/* あたま */}
         <circle cx="50" cy="42" r="25" fill={SKIN} stroke={SKIN_LINE} strokeWidth="2" />
 
-        {isRino ? (
+        {who === 'mitsuki' ? (
+          /* みつき：ポニーテール＋ほしの ヘアピン */
+          <>
+            <path d="M72 30 C88 30 92 48 86 64 C84 70 78 72 76 66 C82 54 80 40 70 36 Z" fill={p.hair} stroke={p.hairDark} strokeWidth="2.2" strokeLinejoin="round" />
+            <circle cx="73" cy="33" r="3.6" fill="#f472b6" stroke="#db2777" strokeWidth="1.3" />
+            <path
+              d="M24 46 C22 26 34 15 50 15 C66 15 78 26 76 46 C73 35 64 29 52 31 C44 32 38 29 34 26 C30 32 26 38 24 46 Z"
+              fill={p.hair}
+              stroke={p.hairDark}
+              strokeWidth="2.2"
+              strokeLinejoin="round"
+            />
+            <path d="M31 22 l1.6 3.4 3.7 .5 -2.7 2.6 .7 3.7 -3.3 -1.8 -3.3 1.8 .7 -3.7 -2.7 -2.6 3.7 -.5 z" fill={p.accent} stroke="#ca8a04" strokeWidth="1.1" strokeLinejoin="round" />
+          </>
+        ) : who === 'kensuke' ? (
+          /* けんすけ：みじかい ツンツンあたま */
+          <>
+            <path
+              d="M25 44 C23 30 30 22 34 20 L36 10 L42 18 L48 7 L54 17 L61 9 L64 20 C71 24 77 32 75 44 C72 35 64 31 50 31 C36 31 28 35 25 44 Z"
+              fill={p.hair}
+              stroke={p.hairDark}
+              strokeWidth="2.2"
+              strokeLinejoin="round"
+            />
+          </>
+        ) : who === 'rino' ? (
           /* りの：うさ耳フード */
           <>
             <ellipse cx="33" cy="12" rx="7" ry="16" fill={p.hair} stroke={p.hairDark} strokeWidth="2.2" transform="rotate(-12 33 12)" />
@@ -131,6 +172,12 @@ function KidSVGBase({ who, size = 110, walking = false, flip = false, hat = null
         <circle cx="60.3" cy="43.2" r="1.4" fill="#fff" />
         <ellipse cx="33" cy="52" rx="4.2" ry="2.6" fill="#fda4af" opacity="0.75" />
         <ellipse cx="67" cy="52" rx="4.2" ry="2.6" fill="#fda4af" opacity="0.75" />
+        {who === 'kensuke' && (
+          <g transform="rotate(-20 67 51)">
+            <rect x="61" y="48.5" width="12" height="5" rx="2.5" fill="#fcd9b6" stroke="#d6a77a" strokeWidth="1" />
+            <rect x="65" y="48.5" width="4" height="5" fill="#f5c79e" />
+          </g>
+        )}
         <path
           d={walking ? 'M44.5 53 Q50 60.5 55.5 53' : 'M45 53 Q50 58.5 55 53'}
           stroke={INK}

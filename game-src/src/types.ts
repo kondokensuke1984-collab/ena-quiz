@@ -1,6 +1,6 @@
 import type { CharKey } from './lib/chars';
 
-export type PlayerKey = 'anri' | 'rino';
+export type PlayerKey = 'anri' | 'rino' | 'mitsuki' | 'kensuke';
 export type Stage = 'egg' | 'baby' | 'teen' | 'adult';
 export type Slot = 'weapon' | 'shield' | 'costume' | 'hat';
 export type Mood = 'egg' | 'happy' | 'hungry' | 'down';

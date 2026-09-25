@@ -6,7 +6,11 @@ import type { PlayerKey } from '../types';
 const CHOICES: { key: PlayerKey; emoji: string; copy: string }[] = [
   { key: 'anri', emoji: '🌸', copy: 'げんきいっぱい。はなの かみかざりが おきにいり' },
   { key: 'rino', emoji: '🐰', copy: 'マイペース。うさみみフードを いつも きている' },
+  { key: 'mitsuki', emoji: '🌙', copy: 'ほしを みるのが すき。ポニーテールが トレードマーク' },
+  { key: 'kensuke', emoji: '⚽', copy: 'かけっこが とくい。いつも げんきな わんぱく' },
 ];
+
+export const PLAYER_CHOICES = CHOICES;
 
 export function PickPlayerScreen() {
   const { pickPlayer } = useGame();
@@ -40,7 +44,7 @@ export function PickPlayerScreen() {
       </div>
 
       <button className="btn-main mt-5" disabled={!picked} onClick={() => picked && pickPlayer(picked)}>
-        {picked ? `${PALETTES[picked].name}で はじめる` : 'どちらか えらんでね'}
+        {picked ? `${PALETTES[picked].name}で はじめる` : 'だれか えらんでね'}
       </button>
 
       <p className="mt-4 text-center text-[11px] font-bold leading-relaxed text-indigo-200/60">

@@ -1,7 +1,9 @@
 // ゲームのセーブデータ。rpg.html:237-250 と同じ「版で弾く」方式に、入れ子のマージを足したもの。
 
 import { readJSON, writeJSON } from './storage';
-import type { SaveV1 } from '../types';
+import type { PlayerKey, SaveV1 } from '../types';
+
+const PLAYERS: PlayerKey[] = ['anri', 'rino', 'mitsuki', 'kensuke'];
 
 const SAVE_KEY = 'ena_island_save_v1';
 
@@ -66,6 +68,7 @@ export function loadSave(): SaveV1 {
     ...f,
     ...s,
     v: 1,
+    player: s.player && PLAYERS.includes(s.player) ? s.player : null,
     pos: { ...f.pos, ...obj(s.pos, {}) },
     monster: {
       ...f.monster,

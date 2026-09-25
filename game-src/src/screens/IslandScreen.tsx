@@ -3,6 +3,7 @@ import { Shell, HpBar } from '../components/Shell';
 import { DPad, type Axis } from '../components/DPad';
 import { IslandGround, FOREST_ISLET } from '../components/IslandStage';
 import { KidSVG, PALETTES } from '../components/KidSVG';
+import { PLAYER_CHOICES } from './PickPlayerScreen';
 import { CharSVG } from '../components/CharSVG';
 import { EggSVG } from '../components/EggSVG';
 import { FurnitureSVG } from '../components/FurnitureSVG';
@@ -1081,6 +1082,28 @@ export function IslandScreen() {
           )}
         </div>
       </div>
+
+      {/* ── おうちの中：しゅじんこうを かえる（いえを たてたら）── */}
+      {area === 'house' && (
+        <div className="panel mt-3 !py-3 lg:landscape:col-start-2">
+          <div className="mb-2 text-[12px] font-black text-ink">👤 しゅじんこうを かえる</div>
+          <div className="grid grid-cols-4 gap-1.5">
+            {PLAYER_CHOICES.map((c) => {
+              const now = save.player === c.key;
+              return (
+                <button
+                  key={c.key}
+                  onClick={() => { if (!now) { g.pickPlayer(c.key); g.showToast(`${c.emoji} ${PALETTES[c.key].name}に なったよ！`); } }}
+                  className={`flex flex-col items-center rounded-xl px-1 py-1.5 active:scale-95 ${now ? 'bg-amber-100 ring-2 ring-amber-400' : 'bg-indigo-50'}`}
+                >
+                  <KidSVG who={c.key} size={44} />
+                  <span className="mt-0.5 text-[11px] font-black text-ink">{now ? '✓ ' : ''}{PALETTES[c.key].name}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* ── 置ける家具のトレイ ── */}
       {unplaced.length > 0 && (
