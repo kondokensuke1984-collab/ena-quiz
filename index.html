@@ -2099,6 +2099,16 @@ body {
   </div>
 </div>
 
+<!-- 本人への アドバイス（保護者に成績を送ったあとに出る） -->
+<div class="msg-modal-overlay" id="kid-advice-overlay" onclick="if(event.target===this)closeKidAdvice()">
+  <div class="msg-modal" style="max-width:calc(100vw - 32px);box-sizing:border-box;">
+    <div class="msg-modal-title">🌙 きょうの アドバイス</div>
+    <div class="msg-modal-sub">おうちの人にも とどいたよ</div>
+    <div class="msg-choice-list" id="kid-advice-list"></div>
+    <button class="msg-send-btn" onclick="closeKidAdvice()">わかった！</button>
+  </div>
+</div>
+
 <div class="date-modal-overlay" id="date-modal-overlay">
   <div class="date-modal">
     <div class="date-modal-title" id="date-modal-title"></div>
@@ -2129,6 +2139,7 @@ body {
     <a class="island-btn" href="/game/"><span class="island-btn-emoji">🏝</span><span class="island-btn-text">島へいく</span></a>
   </div>
   <div class="subject-grid" id="subject-grid"></div>
+  <button class="share-btn" id="kid-advice-card" onclick="showKidAdvice()" style="display:none;background:linear-gradient(135deg,#fde68a,#fbbf24);color:#78350f;"></button>
   <div id="home-main-actions">
   <button class="tendency-btn" id="gouhan-exam-btn" onclick="startGouhanExam()" style="display:none;background:linear-gradient(135deg,#e11d48,#9f1239);color:#fff;font-weight:800;">📝 合格判定模試（苦手20問）</button>
   <button class="all-card" onclick="startQuiz('all')">🌟 全問題にチャレンジ！</button>
@@ -13403,6 +13414,7 @@ function initHome() {
   const superWrongBtn = document.getElementById('super-wrong-btn');
   superWrongBtn.textContent = `🔥 超苦手 ${superWrong.size}問`;
   superWrongBtn.disabled = superWrong.size === 0;
+  renderKidAdviceCard();
 
   // 正答率グラフ（カテゴリ単位で集計）
   renderStatsBar();
@@ -18542,6 +18554,96 @@ ${rows ? `<table style="width:100%;border-collapse:collapse;background:white;bor
 ${wrongList}${week}</div>`;
 }
 
+// ── 💡 本人への アドバイス（2026-09-26）──
+//   「📤 保護者に成績を送る」が 成功したら、成績から 決まった文で「つぎに なにをするか」を作って 画面に出す。
+//   同じ文を 保護者の メールにも のせる。AI は つかわない。いちばん大事な順に 3つまで。
+//   ena_kid_advice = { date:'YYYY-M-D', month, items:[{icon,text,act}] }（その日だけ ホームに カードを出す）
+const KID_ADVICE_KEY = 'ena_kid_advice';
+const KID_ADVICE_ACTS = {
+  review:     { label: '⚠️ 苦手問題を やる',  fn: () => startReview() },
+  superWrong: { label: '🔥 超苦手を やる',    fn: () => startSuperWrongQuiz() },
+};
+function kidAdviceDate() { return new Date().toLocaleDateString('ja-JP'); }
+function buildKidAdvice() {
+  const out = [];
+  const daily = loadDaily();
+  const answered = daily.answered || 0;
+  const pct = answered > 0 ? Math.round((daily.correct || 0) / answered * 100) : 0;
+  const qs = monthQuestions();
+  const inMonth = new Set(qs.map(q => q.id));
+  const mastered = loadMasteredSet();
+  const superWrong = [...loadSuperWrongSet()].filter(id => inMonth.has(id) && !mastered.has(id));
+  const review = loadWrongSet().size > 0 ? 'review' : undefined;   // 苦手が 0もんなら ボタンは 出さない
+
+  if (answered === 0) out.push({ icon: '📚', text: 'きょうは まだ クイズを といて いないよ。まず 5もん やってみよう！' });
+
+  // きょう いちばん むずかしかった 単元（3もん いじょう といて 70% みまん）
+  const hard = Object.entries(daily.bySubject || {})
+    .filter(([k, d]) => SUBJECTS[k] && d.answered >= 3)
+    .map(([k, d]) => ({ k, p: Math.round(d.correct / d.answered * 100) }))
+    .filter(x => x.p < 70).sort((a, b) => a.p - b.p)[0];
+  if (hard) {
+    const t = subjectTopic(hard.k);
+    out.push({ icon: '⚠️', text: `「${t.icon} ${t.label}」が むずかしかったね（${hard.p}%）。苦手問題で もういちど やってみよう。`, act: review });
+  }
+
+  if (superWrong.length) out.push({ icon: '🔥', text: `超苦手が ${superWrong.length}もん あるよ。1日1もんずつ やっつけよう！`, act: 'superWrong' });
+
+  const qd = loadQuestLog().days[kidAdviceDate()];
+  const qWrong = qd && Array.isArray(qd.wrong) ? qd.wrong.length : 0;
+  if (qWrong) out.push({ icon: '⚔️', text: `クエストで まちがえた ${qWrong}もんは 苦手問題に 入れたよ。クイズでも ためしてみよう。`, act: review });
+
+  // まえの日に せいかいしていて、まだ ⭐ じゃない もんだい（きょう せいかいすれば ⭐ に できる）
+  const days = loadCorrectDays();
+  const t = todayStr();
+  const nearMaster = Object.entries(days)
+    .filter(([id, list]) => inMonth.has(id) && !mastered.has(id) && Array.isArray(list) && list.some(d => d !== t) && !list.includes(t)).length;
+  if (nearMaster) out.push({ icon: '⭐', text: `まえに せいかいした もんだいが ${nearMaster}もん あるよ。きょうも せいかいすれば「もう完璧」に できるよ！` });
+
+  if (answered > 0 && pct >= 80) out.push({ icon: '🎉', text: `きょうは ${answered}もん といて ${pct}% せいかい！ すごいね！` });
+
+  if (!out.length) out.push({ icon: '🌟', text: 'この ちょうしで つづけよう！ まいにち すこしずつが いちばん つよいよ。' });
+  return out.slice(0, 3);
+}
+function loadKidAdvice() {
+  try {
+    const a = JSON.parse(localStorage.getItem(KID_ADVICE_KEY) || 'null');
+    return a && a.date === kidAdviceDate() && Array.isArray(a.items) ? a : null;
+  } catch (e) { return null; }
+}
+function saveKidAdvice(items) {
+  try { localStorage.setItem(KID_ADVICE_KEY, JSON.stringify({ date: kidAdviceDate(), month: state.selectedMonth, items })); } catch (e) {}
+}
+function kidAdviceMailHtml(items) {
+  return `<div style="background:#fffbeb;border:1px solid #fde68a;border-radius:16px;padding:14px 16px;margin-bottom:18px;">
+<h2 style="font-size:14px;color:#78350f;margin:0 0 8px;">💡 本人へのアドバイス（アプリに表示しました）</h2>
+<ul style="margin:0;padding-left:4px;list-style:none;">${items.map(it => `<li style="font-size:13px;line-height:1.6;margin:5px 0;">${it.icon} ${escHtml(it.text)}</li>`).join('')}</ul></div>`;
+}
+function showKidAdvice() {
+  const a = loadKidAdvice();
+  if (!a) return;
+  const used = new Set();   // おなじ ボタンは 1つめだけ
+  document.getElementById('kid-advice-list').innerHTML = a.items.map(it => {
+    const act = used.has(it.act) ? null : KID_ADVICE_ACTS[it.act];
+    used.add(it.act);
+    return `<div class="msg-choice-btn" style="cursor:default;">
+      <div>${it.icon} ${escHtml(it.text)}</div>
+      ${act ? `<button class="msg-send-btn" style="margin:8px 0 0;padding:8px;font-size:13px;" onclick="kidAdviceGo('${it.act}')">${act.label}</button>` : ''}
+    </div>`;
+  }).join('');
+  document.getElementById('kid-advice-overlay').classList.add('open');
+}
+function closeKidAdvice() { document.getElementById('kid-advice-overlay').classList.remove('open'); }
+function kidAdviceGo(act) { closeKidAdvice(); const a = KID_ADVICE_ACTS[act]; if (a) a.fn(); }
+function renderKidAdviceCard() {
+  const card = document.getElementById('kid-advice-card');
+  if (!card) return;
+  const a = loadKidAdvice();
+  const show = !!(a && a.month === state.selectedMonth);
+  card.style.display = show ? '' : 'none';
+  if (show) card.textContent = `💡 きょうの アドバイス（${a.items.length}こ）`;
+}
+
 async function sendReportEmail(userMessage, senderName) {
   const btn = document.querySelector('.share-btn');
   btn.textContent = '📤 送信中...';
@@ -18553,6 +18655,7 @@ async function sendReportEmail(userMessage, senderName) {
     const mastered  = loadMasteredSet();
     const daily     = loadDaily();
     const qs        = monthQuestions();
+    const advice    = buildKidAdvice();
 
     // 累計の総合正答率
     let totalCorrect = 0, totalDone = 0;
@@ -18636,6 +18739,8 @@ ${todayAnswered === 0
 
 ${questReportHtml()}
 
+${kidAdviceMailHtml(advice)}
+
 <h2 style="font-size:14px;color:#3d2b5e;margin:0 0 10px;">🎯 現在の状態</h2>
 <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:18px;">
   <div style="background:#f3f4f6;border-radius:10px;padding:10px;text-align:center;"><div style="font-size:22px;font-weight:900;color:#6b7280;">${qs.length}</div><div style="font-size:10px;color:#9ca3af;margin-top:2px;">全問題</div></div>
@@ -18673,6 +18778,9 @@ ${superWrong.size > 0
     if (!res.ok) throw new Error((await res.json()).error || res.statusText);
 
     btn.textContent = '✅ 送信しました！';
+    saveKidAdvice(advice);
+    renderKidAdviceCard();
+    showKidAdvice();
     setTimeout(() => { btn.textContent = '📤 保護者に成績を送る'; btn.disabled = false; }, 3000);
   } catch(err) {
     console.error('Send error:', err);
