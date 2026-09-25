@@ -24,9 +24,10 @@ export interface Suspect {
 }
 
 /** ○×表の パズル。assign/rank は 行ごとに ○が1つ（answer[行]＝○の 列）。league は かち まけ */
+// chars：行（league は チーム）が ようぎしゃの ときの キャラ（ボードに かおを 出す）
 export type Puzzle =
-  | { kind: 'assign' | 'rank'; title: string; rule: string; clues: string[]; rows: string[]; cols: string[]; answer: number[]; done: string }
-  | { kind: 'league'; title: string; rule: string; clues: string[]; teams: string[]; wins: [number, number][]; done: string };
+  | { kind: 'assign' | 'rank'; title: string; rule: string; clues: string[]; rows: string[]; cols: string[]; answer: number[]; done: string; chars?: CharKey[] }
+  | { kind: 'league'; title: string; rule: string; clues: string[]; teams: string[]; wins: [number, number][]; done: string; chars?: CharKey[] };
 
 export interface Case {
   no: number;
@@ -38,10 +39,11 @@ export interface Case {
   evidence: Evidence[];
   suspects: Suspect[];
   puzzles: Puzzle[];
+  rule: string;             // 🎯 はんにんの てがかり（さいしょから 見せる。ボードの こたえと くらべて はんにんを きめる）
+  badges: Partial<Record<CharKey, string>>;  // ボードの こたえ（ようぎしゃ ごと）。はんにん画面に 出す
   deduce: string;           // パズルの 答えから はんにんに つながる 一言
   question: string;
   culprit: CharKey;
-  wrong: string;
   confession: Line[];
   hints: string[];
 }
@@ -61,27 +63,32 @@ export const CASES: Case[] = [
     intro: [
       { who: 'narr', text: 'ある あさ。さんばしの そばで、ルナが こまった かおを していた。' },
       { who: 'luna', text: 'たいへん！ みんなで うめた たからばこの あんごうが、かわってるの！' },
-      { who: 'luna', text: 'あんごうは 5けた。まわりに メモが おちてるみたい…。めいたんてい、しらべて！' },
+      { who: 'luna', text: 'なかに いれてた「せいざの ちず」も なくなってる！ ふたの うえに「ちずは 5ばんの いえに あります」って かいてあるの。' },
+      { who: 'luna', text: 'あんごうは 5ひきの いえの ばんごうで できてるみたい。まわりに メモが おちてるよ…。めいたんてい、しらべて！' },
     ],
+    rule: 'せいざの ちずは 5ばんの いえに ある',
+    badges: { tanuki: 'いえ 2ばん', rabbit: 'いえ 4ばん', parrot: 'いえ 3ばん', squirrel: 'いえ 1ばん', owl: 'いえ 5ばん' },
     evidence: [
       { id: 'e1', x: 22, y: 72, icon: '🗒️', name: 'すなの うえの メモ', text: 'A × A ＝ B' },
       { id: 'e2', x: 78, y: 40, icon: '🗒️', name: 'やしの きの メモ', text: 'C × D ＝ C' },
       { id: 'e3', x: 55, y: 62, icon: '🗒️', name: 'はこの うらの メモ', text: 'A ＋ D ＝ C' },
     ],
     suspects: [
-      { char: 'tanuki', says: 'ぼくは あさから はたけに いたよ。いえは 1ばん！' },
-      { char: 'parrot', says: 'ピコは うたの れんしゅう！ いえは 3ばん！' },
-      { char: 'owl', says: 'ほ、ほう…わたしは ずっと ねていましたよ。いえは 5ばんです…', nervous: true },
-      { char: 'rabbit', says: 'ミミは がっこうに いたよ。いえは 2ばん。' },
+      { char: 'tanuki', says: 'ぼくは あさから はたけに いたよ。' },
+      { char: 'rabbit', says: 'ミミは がっこうに いたよ。' },
+      { char: 'parrot', says: 'ピコは うたの れんしゅう！' },
+      { char: 'squirrel', says: 'ぼくは どんぐり ひろいを してたよ！' },
+      { char: 'owl', says: 'ほ、ほう…わたしは ずっと ねていましたよ…', nervous: true },
     ],
     puzzles: [{
-      kind: 'assign', title: 'あんごうを とけ！', rule: 'A〜E には 1〜5の ちがう かずが 1つずつ はいる',
+      kind: 'assign', title: 'あんごうを とけ！（いえの ばんごう）', rule: 'A〜E は 5ひきの いえの ばんごう。1〜5の ちがう かずが 1つずつ',
       clues: ['① A × A ＝ B', '② C × D ＝ C', '③ A ＋ D ＝ C'],
-      rows: AE, cols: N5, answer: [1, 3, 2, 0, 4], done: 'あんごうは 2・4・3・1・5！ カチッ…はこが あいた！',
+      rows: ['A ぽんた', 'B ミミ', 'C ピコ', 'D リスまる', 'E ホウ'], chars: ['tanuki', 'rabbit', 'parrot', 'squirrel', 'owl'],
+      cols: N5, answer: [1, 3, 2, 0, 4], done: 'あんごうは 2・4・3・1・5！ カチッ…はこが あいた！ でも ちずは ない…',
     }],
-    deduce: 'はこの なかに メモ…「せいざの ちず、Eばんの いえで かりてるね」。Eは 5！',
+    deduce: 'ちずは 5ばんの いえに ある。5ばんの いえに すんでいるのは…？',
     question: 'せいざの ちずを もっていったのは だれ？',
-    culprit: 'owl', wrong: 'その子の いえは Eばん じゃないよ。Eは いくつだった？',
+    culprit: 'owl',
     confession: [
       { who: 'owl', text: 'ご、ごめんなさい…。よるに ほしを みたくて、ちずを かりたんです。' },
       { who: 'owl', text: 'あんごうは わすれないように メモに かいて…かえって バレちゃいましたね。' },
@@ -96,6 +103,8 @@ export const CASES: Case[] = [
       { who: 'luna', text: 'ゴールテープが ないの！ いちばんで ゴールした子に まきついたまま、どこかへ いっちゃったのかも。' },
       { who: 'luna', text: 'でも だれが なんいだったか、みんな おぼえてないんだって…。' },
     ],
+    rule: 'ゴールテープを もっていったのは 1いで ゴールした子',
+    badges: { tanuki: '4い', parrot: '2い', rabbit: '3い', bear: '1い' },
     evidence: [
       { id: 'e1', x: 30, y: 35, icon: '📷', name: 'ゴールの しゃしん', text: 'ピコは 2いで ゴールした' },
       { id: 'e2', x: 70, y: 70, icon: '📝', name: 'きろくカードの きれはし', text: 'ミミは 1いでも 4いでもない' },
@@ -110,12 +119,12 @@ export const CASES: Case[] = [
     puzzles: [{
       kind: 'rank', title: 'じゅんいを きめろ！', rule: '4ひきの じゅんいは みんな ちがう',
       clues: ['① ピコは 2い', '② ミミは 1いでも 4いでもない', '③ ツキミは 3いでも 4いでもない', '④ ぽんたは 1いでも 2いでもない'],
-      rows: ['ぽんた', 'ピコ', 'ミミ', 'ツキミ'], cols: ['1い', '2い', '3い', '4い'], answer: [3, 1, 2, 0],
+      rows: ['ぽんた', 'ピコ', 'ミミ', 'ツキミ'], chars: ['tanuki', 'parrot', 'rabbit', 'bear'], cols: ['1い', '2い', '3い', '4い'], answer: [3, 1, 2, 0],
       done: '1い ツキミ・2い ピコ・3い ミミ・4い ぽんた！',
     }],
     deduce: 'ゴールテープを きったのは 1いの子。つまり…！',
     question: 'ゴールテープを もっていったのは だれ？',
-    culprit: 'bear', wrong: 'その子は 1いじゃ なかったよ。表を もういちど みてみよう。',
+    culprit: 'bear',
     confession: [
       { who: 'bear', text: 'ごめーん！ テープが からだに まきついて、そのまま おひるね しちゃったの…。' },
       { who: 'luna', text: 'ゆうしょう おめでとう！ テープは かえしてね。' },
@@ -129,6 +138,8 @@ export const CASES: Case[] = [
       { who: 'luna', text: 'ひょうしょうしきの まえに、トロフィーが きえちゃった！' },
       { who: 'luna', text: 'しあいの けっかが わかれば、はんにんも わかるかも！' },
     ],
+    rule: 'トロフィーを もっていったのは、ツキミチームに かった チームの 子（ホウは ずっと トロフィーを みがいていた）',
+    badges: { owl: 'ツキミに かった（でも ずっと みがいてた）', tanuki: 'ツキミに まけた', rabbit: 'ツキミに かった', bear: 'ツキミ チーム' },
     evidence: [
       { id: 'e1', x: 25, y: 45, icon: '📋', name: 'スコアボードの きれはし', text: 'ミミチームは ツキミチームに かった' },
       { id: 'e2', x: 75, y: 30, icon: '📰', name: 'しまの しんぶん', text: 'ホウチームは 3しょう0はいで ゆうしょう' },
@@ -143,12 +154,12 @@ export const CASES: Case[] = [
     puzzles: [{
       kind: 'league', title: 'しあいの けっかを かんせいさせろ！', rule: 'かちは ○、まけは ×（○を いれると あいての ところに ×が はいる）',
       clues: ['① ミミは ツキミに かった', '② ホウは 3しょう0はい', '③ のこりの 3チームは 1しょう2はい'],
-      teams: ['ぽんた', 'ホウ', 'ミミ', 'ツキミ'], wins: [[1, 0], [1, 2], [1, 3], [2, 3], [3, 0], [0, 2]],
+      teams: ['ぽんた', 'ホウ', 'ミミ', 'ツキミ'], chars: ['tanuki', 'owl', 'rabbit', 'bear'], wins: [[1, 0], [1, 2], [1, 3], [2, 3], [3, 0], [0, 2]],
       done: 'ホウ3しょう。ミミ→ツキミ→ぽんた→ミミ と ぐるっと 1しょうずつ！',
     }],
     deduce: 'ツキミチームに かったのは ホウと ミミ。でも ホウは ずっと トロフィーを みがいていた…',
     question: 'トロフィーを もっていったのは だれ？',
-    culprit: 'rabbit', wrong: 'その子は ツキミチームに かって いないよ。',
+    culprit: 'rabbit',
     confession: [
       { who: 'rabbit', text: 'ごめんね…。ミミ、トロフィーを もったこと なかったから、ちょっとだけ しゃしんを とりたかったの。' },
       { who: 'owl', text: 'ほう、それなら いっしょに とりましょう！' },
@@ -162,6 +173,8 @@ export const CASES: Case[] = [
       { who: 'luna', text: 'みんなが もってる ふくろ A〜E には、1〜5こ ずつ ちがう かずの どんぐりが はいってるんだって。' },
       { who: 'luna', text: '5こ入りの ふくろを もってる子が あやしい！' },
     ],
+    rule: 'リスまるの ふくろは 5こ入り。5こ入りの ふくろを もっている子が はんにん',
+    badges: { tanuki: 'A 2こ', parrot: 'B 1こ', cow: 'C 5こ', bear: 'D 3こ', rabbit: 'E 4こ' },
     evidence: [
       { id: 'e1', x: 20, y: 60, icon: '⚖️', name: 'はかりの メモ', text: 'Aと Bの ちがいは 1こ' },
       { id: 'e2', x: 62, y: 30, icon: '🍂', name: 'おちばの したの メモ', text: 'Cは Dより 2こ おおい' },
@@ -175,13 +188,13 @@ export const CASES: Case[] = [
       { char: 'rabbit', says: 'ミミは Eの ふくろ！' },
     ],
     puzzles: [{
-      kind: 'assign', title: 'どんぐりの かずを しらべろ！', rule: 'A〜E には 1〜5こ の ちがう かずが 1つずつ',
+      kind: 'assign', title: 'どんぐりの かずを しらべろ！', rule: 'ふくろ A〜E には 1〜5こ の ちがう かずが 1つずつ',
       clues: ['① Aと Bの ちがいは 1こ', '② Cは Dより 2こ おおい', '③ Eは Bより 3こ おおい'],
-      rows: AE, cols: N5, answer: [1, 0, 4, 2, 3], done: 'A2・B1・C5・D3・E4 こ！ 5こ入りは Cの ふくろ！',
+      rows: ['A ぽんた', 'B ピコ', 'C モモ', 'D ツキミ', 'E ミミ'], chars: ['tanuki', 'parrot', 'cow', 'bear', 'rabbit'], cols: N5, answer: [1, 0, 4, 2, 3], done: 'A2・B1・C5・D3・E4 こ！ 5こ入りは Cの ふくろ！',
     }],
     deduce: '5こ入りの ふくろは C。Cの ふくろを もっているのは…！',
     question: 'リスまるの ふくろを もっていったのは だれ？',
-    culprit: 'cow', wrong: 'その子の ふくろは 5こ入りじゃ なかったよ。',
+    culprit: 'cow',
     confession: [
       { who: 'cow', text: 'モォ〜、ごめんね。ぴかぴかの どんぐり、ほしく なっちゃって…。' },
       { who: 'squirrel', text: 'いいよ！ いっこ あげるね！' },
@@ -195,6 +208,8 @@ export const CASES: Case[] = [
       { who: 'luna', text: 'たいかいの あと、ボールが なくなっちゃった！' },
       { who: 'luna', text: 'くやしくて ボールを もって はしって かえった子が いるって うわさ…。' },
     ],
+    rule: 'ボールを もって かえったのは、モモチームに まけた チームの 子（ぽんたは さいごまで かたづけ していた）',
+    badges: { tanuki: 'モモに まけた（でも さいごまで かたづけ）', parrot: 'モモに まけた', owl: 'モモに かった', cow: 'モモ チーム' },
     evidence: [
       { id: 'e1', x: 18, y: 40, icon: '📋', name: 'けっかひょうの きれはし', text: 'ぽんたチームは 1かいも かてなかった' },
       { id: 'e2', x: 70, y: 28, icon: '🏅', name: 'メダルの うら', text: 'モモチームは 2しょう1はい' },
@@ -209,12 +224,12 @@ export const CASES: Case[] = [
     puzzles: [{
       kind: 'league', title: 'しあいの けっかを かんせいさせろ！', rule: 'かちは ○、まけは ×',
       clues: ['① ぽんたは 1かいも かてなかった', '② ピコは 1しょう2はい', '③ ホウは ピコに かった', '④ モモは 2しょう1はい'],
-      teams: ['ぽんた', 'ピコ', 'ホウ', 'モモ'], wins: [[1, 0], [2, 0], [3, 0], [2, 1], [3, 1], [2, 3]],
+      teams: ['ぽんた', 'ピコ', 'ホウ', 'モモ'], chars: ['tanuki', 'parrot', 'owl', 'cow'], wins: [[1, 0], [2, 0], [3, 0], [2, 1], [3, 1], [2, 3]],
       done: 'ホウ3しょう・モモ2しょう・ピコ1しょう・ぽんた0しょう！',
     }],
     deduce: 'モモチームに まけたのは ぽんたと ピコ。でも ぽんたは さいごまで かたづけ してた…',
     question: 'ボールを もって かえったのは だれ？',
-    culprit: 'parrot', wrong: 'その子は モモチームに まけて いないか、アリバイが あるよ。',
+    culprit: 'parrot',
     confession: [
       { who: 'parrot', text: 'ピコ、くやしくて こっそり れんしゅう してたの！ ボール かえすね！' },
       { who: 'cow', text: 'こんどは いっしょに れんしゅう しよ〜！' },
@@ -227,6 +242,8 @@ export const CASES: Case[] = [
       { who: 'narr', text: 'まいあさ、いちばん おそく おきた子が ラジオを ならす やくそく。' },
       { who: 'luna', text: 'でも けさは ラジオが ならなかったの！ だれが いちばん おそく おきたのかな？' },
     ],
+    rule: 'ラジオとうばんは いちばん おそく（5ばんめに）おきた子',
+    badges: { tanuki: '1ばんめ', bear: '2ばんめ', rabbit: '3ばんめ', parrot: '4ばんめ', owl: '5ばんめ' },
     evidence: [
       { id: 'e1', x: 25, y: 35, icon: '⏰', name: 'めざましどけいの メモ', text: 'ホウは 1ばんめでも 2ばんめでもない・ミミは 3ばんめ' },
       { id: 'e2', x: 72, y: 45, icon: '🪟', name: 'まどの ひかりの きろく', text: 'ぽんたは ホウより はやく おきた・ぽんたは ツキミより はやく おきた' },
@@ -242,12 +259,12 @@ export const CASES: Case[] = [
     puzzles: [{
       kind: 'rank', title: 'おきた じゅんばんを きめろ！', rule: '5ひきが おきた じゅんばんは みんな ちがう',
       clues: ['① ホウは 1ばんめでも 2ばんめでもない', '② ミミは 3ばんめ', '③ ぽんたは ホウより はやい', '④ ぽんたは ツキミより はやい', '⑤ ツキミは ピコより はやい', '⑥ ピコは 5ばんめではない'],
-      rows: ['ぽんた', 'ピコ', 'ホウ', 'ミミ', 'ツキミ'], cols: ['1', '2', '3', '4', '5'], answer: [0, 3, 4, 2, 1],
+      rows: ['ぽんた', 'ピコ', 'ホウ', 'ミミ', 'ツキミ'], chars: ['tanuki', 'parrot', 'owl', 'rabbit', 'bear'], cols: ['1', '2', '3', '4', '5'], answer: [0, 3, 4, 2, 1],
       done: 'ぽんた→ツキミ→ミミ→ピコ→ホウ の じゅん！',
     }],
     deduce: 'いちばん おそく おきたのは 5ばんめの子…！',
     question: 'ねぼうして ラジオを ならさなかったのは だれ？',
-    culprit: 'owl', wrong: 'その子は 5ばんめじゃ ないよ。',
+    culprit: 'owl',
     confession: [
       { who: 'owl', text: 'ほう…ふくろうは よるが とくいで…あさは にがてなんです…。' },
       { who: 'luna', text: 'こんどから めざましを 3こ おこうね！' },
@@ -262,6 +279,8 @@ export const CASES: Case[] = [
       { who: 'luna', text: 'おさらは A〜E の 5まい。1〜5こ ずつ ちがう かずを のせてたの。' },
       { who: 'luna', text: 'みんなは きた じゅんに すわった。1ばんめの子が A、2ばんめが B…の まえに すわったよ。' },
     ],
+    rule: 'からっぽの おさら（いちばん たくさん のせた おさら）の まえに すわった子（1ばんめに きた子が A、2ばんめが B…）',
+    badges: { bear: '1ばんめ → Aの まえ', rabbit: '2ばんめ → Bの まえ', tanuki: '3ばんめ → Cの まえ', cow: '4ばんめ → Dの まえ' },
     evidence: [
       { id: 'e1', x: 30, y: 62, icon: '🍡', name: 'おさらの ラベル', text: 'Bの おさらは 2こ・Aと Bを あわせると C' },
       { id: 'e2', x: 75, y: 70, icon: '🌾', name: 'すすきの かげの メモ', text: 'Dは Eより 3こ おおい' },
@@ -282,13 +301,13 @@ export const CASES: Case[] = [
       {
         kind: 'rank', title: 'だい2のなぞ：きた じゅんばん', rule: '4ひきが きた じゅんばんは みんな ちがう',
         clues: ['① モモは 4ばんめ', '② ぽんたは 1ばんめでも 2ばんめでもない', '③ ミミは 1ばんめではない'],
-        rows: ['ぽんた', 'ミミ', 'ツキミ', 'モモ'], cols: ['1', '2', '3', '4'], answer: [2, 1, 0, 3],
+        rows: ['ぽんた', 'ミミ', 'ツキミ', 'モモ'], chars: ['tanuki', 'rabbit', 'bear', 'cow'], cols: ['1', '2', '3', '4'], answer: [2, 1, 0, 3],
         done: 'ツキミ→ミミ→ぽんた→モモ！ Cの まえに すわったのは 3ばんめの子！',
       },
     ],
     deduce: 'からっぽに なったのは Cの おさら。Cの まえに すわったのは 3ばんめに きた子…！',
     question: 'おつきみだんごを たべちゃったのは だれ？',
-    culprit: 'tanuki', wrong: 'その子は Cの おさらの まえに すわって いないよ。',
+    culprit: 'tanuki',
     confession: [
       { who: 'tanuki', text: 'ぽ、ぽん…。おだんご だいすきで…つい ぜんぶ たべちゃった…。ごめんなさい！' },
       { who: 'luna', text: 'しょうじきに いえて えらい！ みんなで もういちど つくろう！' },

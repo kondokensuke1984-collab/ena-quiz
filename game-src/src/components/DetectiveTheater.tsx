@@ -169,7 +169,7 @@ function Theater({ c, onBack }: { c: Case; onBack(): void }) {
   const accuse = (who: CharKey, el: HTMLElement) => {
     if (who !== c.culprit) {
       sfx('ng');
-      setWrong(`「${CHAR_NAMES[who]}」…？ ${c.wrong}`);
+      setWrong(`「${CHAR_NAMES[who]}」は ${c.badges[who] ?? '…'}。🎯てがかりと くらべてみよう！`);
       return;
     }
     const box = lineupRef.current?.getBoundingClientRect();
@@ -275,6 +275,7 @@ function Theater({ c, onBack }: { c: Case; onBack(): void }) {
       {/* ③ ききこみ */}
       {act === 'talk' && (
         <div>
+          <RuleBanner c={c} />
           <div className="mb-3 text-[14px] font-black text-amber-200">🗣️ ききこみ　ようぎしゃ {c.suspects.length}にん</div>
           <div className="flex flex-col gap-3">
             {c.suspects.slice(0, talkN).map((s) => (
@@ -299,6 +300,7 @@ function Theater({ c, onBack }: { c: Case; onBack(): void }) {
       {/* ④ すいり ボード */}
       {act === 'board' && puzzle && (
         <div>
+          <RuleBanner c={c} />
           {c.puzzles.length > 1 && <div className="mb-1 text-[11px] font-black text-indigo-200">なぞ {pIdx + 1} / {c.puzzles.length}</div>}
           {!pDone ? (
             <DetectiveBoard key={pIdx} puzzle={puzzle} onSolved={() => { sfx('clue'); setPDone(true); }} />
@@ -306,6 +308,12 @@ function Theater({ c, onBack }: { c: Case; onBack(): void }) {
             <div className="dt-zoom rounded-2xl bg-amber-100 px-4 py-4 text-center">
               <div className="text-3xl">💡</div>
               <div className="mt-1 text-[16px] font-black leading-snug text-amber-900">{puzzle.done}</div>
+              {puzzle.chars && (
+                <>
+                  <Answers c={c} chars={puzzle.chars} />
+                  <div className="mt-2 text-[12.5px] font-black text-amber-800">🎯 てがかりと くらべてみよう！</div>
+                </>
+              )}
               <button
                 className="btn-main mt-3"
                 onClick={() => {
@@ -333,6 +341,7 @@ function Theater({ c, onBack }: { c: Case; onBack(): void }) {
       {/* ⑤ はんにんは きみだ！ */}
       {act === 'accuse' && (
         <div>
+          <RuleBanner c={c} />
           <div className="rounded-2xl bg-black/40 px-4 py-3 text-[14px] font-bold leading-relaxed text-indigo-100">{c.deduce}</div>
           <div className="mt-3 text-center text-[16px] font-black text-amber-200">☝️ {c.question}</div>
           <div ref={lineupRef} className="relative mt-3 grid grid-cols-3 gap-2 rounded-2xl bg-white/5 p-2 sm:grid-cols-5">
@@ -345,6 +354,7 @@ function Theater({ c, onBack }: { c: Case; onBack(): void }) {
               >
                 <Portrait who={s.char} size={58} />
                 <span className="mt-0.5 text-[12px] font-black text-white">{CHAR_NAMES[s.char]}</span>
+                {c.badges[s.char] && <span className="mt-0.5 rounded-full bg-amber-300 px-1.5 text-[10.5px] font-black leading-snug text-amber-950">{c.badges[s.char]}</span>}
               </button>
             ))}
             {reveal && (
@@ -390,6 +400,32 @@ function Theater({ c, onBack }: { c: Case; onBack(): void }) {
           <button className="btn-main mt-5" onClick={onBack}>📁 じけんぼに もどる</button>
         </div>
       )}
+    </div>
+  );
+}
+
+function RuleBanner({ c }: { c: Case }) {
+  return (
+    <div className="mb-3 rounded-2xl border-2 border-amber-300 bg-amber-50 px-3 py-2">
+      <div className="text-[11px] font-black text-amber-700">🎯 はんにんの てがかり</div>
+      <div className="text-[13.5px] font-black leading-snug text-ink">{c.rule}</div>
+    </div>
+  );
+}
+
+/** といた ボードの こたえを、ようぎしゃ ごとに ならべる */
+function Answers({ c, chars }: { c: Case; chars: CharKey[] }) {
+  return (
+    <div className="mt-3 grid grid-cols-2 gap-1.5 sm:grid-cols-3">
+      {chars.map((k) => (
+        <div key={k} className="flex items-center gap-1.5 rounded-xl bg-white px-2 py-1.5 text-left">
+          <span className="inline-block h-[34px] w-[34px] shrink-0 overflow-hidden rounded-full"><Portrait who={k} size={34} /></span>
+          <span className="min-w-0">
+            <span className="block text-[11px] font-black text-violet-600">{CHAR_NAMES[k]}</span>
+            <span className="block text-[12.5px] font-black leading-tight text-ink">{c.badges[k]}</span>
+          </span>
+        </div>
+      ))}
     </div>
   );
 }

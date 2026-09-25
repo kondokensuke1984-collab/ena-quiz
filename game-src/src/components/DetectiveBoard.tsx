@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { checkPuzzle, type Puzzle } from '../lib/detective';
 import { sfx } from '../lib/sound';
+import { CHAR_NAMES } from '../lib/chars';
+import { CharSVG } from './CharSVG';
 
 // すいりボード：テキストと おなじ ○×表。タップで 空 → ○ → × → 空。
 // assign / rank：○を いれた 行と 列の ほかの マスに、うすい × を ほじょで 見せる（こたえには かぞえない）。
@@ -68,7 +70,16 @@ export function DetectiveBoard({ puzzle, onSolved }: { puzzle: Puzzle; onSolved(
           <tbody>
             {rowLabels.map((rl, r) => (
               <tr key={rl}>
-                <th className="whitespace-nowrap px-1.5 text-right text-[12px] font-black text-amber-100">{rl}</th>
+                <th className="whitespace-nowrap px-1.5 text-right text-[12px] font-black text-amber-100">
+                  <span className="inline-flex items-center justify-end gap-1">
+                    {puzzle.chars?.[r] && (
+                      <span className="inline-block h-[30px] w-[30px] overflow-hidden rounded-full bg-white/10">
+                        <CharSVG charKey={puzzle.chars[r]} level={6} fillPct={100} size={30} label={CHAR_NAMES[puzzle.chars[r]]} />
+                      </span>
+                    )}
+                    {rl}
+                  </span>
+                </th>
                 {colLabels.map((_, c) => {
                   const v = cells[r][c];
                   const diag = puzzle.kind === 'league' && r === c;
