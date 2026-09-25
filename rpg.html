@@ -513,6 +513,57 @@ function stageLabel() {
   const st = STAGES.find(s => s.key === bt.key);
   return st ? st.groupLabel + '・' + st.label : bt.key;
 }
+// ── クイズの「⚠️ 苦手」「🔥 超苦手」「⭐ もう完璧」と つなぐ（2026-09-26）──
+//   クエストの問題は クイズから作ったので ID と q.month が クイズと同じ。クイズ（index.html）と 同じキー・同じ形で書く。
+//   ・まちがい（時間切れも）→ 苦手に入れる、3回で 超苦手。正解 → 苦手から外す・正解した日を記録。
+//   ・ちがう日に2回 正解したら「⭐ もう完璧にする」ボタン。単元コンプリートの メダルと キャラの成長は
+//     クイズを ひらいたときの medalSyncAll()・publishIslandFriends() が まとめて反映する（ここでは配らない）。
+//   ・名探偵（det_）など クイズに ない問題は 書かない。
+function qlLinked(q) { return !!(q && q.id && q.month && !String(q.id).startsWith('det_')); }
+function qlGet(key, fb) { try { const v = JSON.parse(localStorage.getItem(key) || 'null'); return v == null ? fb : v; } catch (e) { return fb; } }
+function qlSet(key, v) { try { localStorage.setItem(key, JSON.stringify(v)); } catch (e) {} }
+function qlToday() {
+  const d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+}
+function qlSetEdit(key, fn) { const a = qlGet(key, []); const set = new Set(Array.isArray(a) ? a : []); fn(set); qlSet(key, [...set]); }
+function qlMastered(q) { const a = qlGet('ena_mastered_' + q.month, []); return Array.isArray(a) && a.includes(q.id); }
+function qlCanMaster(q) {
+  const list = (qlGet('ena_correct_days_' + q.month, {})[q.id]) || [], t = qlToday();
+  return list.includes(t) && list.some(d => d !== t);
+}
+function quizLinkRecord(ok, q) {
+  if (!qlLinked(q)) return;
+  try {
+    const m = q.month;
+    if (ok) {
+      qlSetEdit('ena_wrong_' + m, s => s.delete(q.id));
+      const c = qlGet('ena_correct_count_' + m, {}); c[q.id] = (c[q.id] || 0) + 1; qlSet('ena_correct_count_' + m, c);
+      const days = qlGet('ena_correct_days_' + m, {}), t = qlToday();
+      const list = days[q.id] || [];
+      if (!list.includes(t)) { list.push(t); days[q.id] = list; qlSet('ena_correct_days_' + m, days); }
+    } else {
+      qlSetEdit('ena_wrong_' + m, s => s.add(q.id));
+      const w = qlGet('ena_wrong_count_' + m, {}); w[q.id] = (w[q.id] || 0) + 1; qlSet('ena_wrong_count_' + m, w);
+      if (w[q.id] >= 3) qlSetEdit('ena_super_wrong_' + m, s => s.add(q.id));
+    }
+  } catch (e) { /* きろくに失敗しても クエストは止めない */ }
+}
+function quizLinkMasterBtn(ok, q) {
+  if (!ok || !qlLinked(q) || qlMastered(q) || !qlCanMaster(q)) return '';
+  const n = ((qlGet('ena_correct_days_' + q.month, {})[q.id]) || []).length;
+  return '<button class="btn" id="ql-master" style="margin-top:10px; text-align:center; background:#fef9c3; border-color:#eab308; font-weight:800;" onclick="quizLinkMaster()">⭐ もう完璧にする（' + n + '日 正解ずみ）</button>';
+}
+function quizLinkMaster() {
+  const q = bt && bt.queue[bt.idx];
+  if (!qlLinked(q) || !qlCanMaster(q)) return;
+  const m = q.month;
+  qlSetEdit('ena_mastered_' + m, s => s.add(q.id));
+  qlSetEdit('ena_wrong_' + m, s => s.delete(q.id));
+  const c = qlGet('ena_correct_count_' + m, {}); c[q.id] = Math.max(c[q.id] || 0, 3); qlSet('ena_correct_count_' + m, c);
+  const b = document.getElementById('ql-master');
+  if (b) { b.disabled = true; b.textContent = '⭐ もう完璧！（メダルと キャラは クイズを ひらくと ふえるよ）'; }
+}
 function logAnswer(ok, q) {
   questLogDay(d => {
     d.answered++;
@@ -1060,6 +1111,7 @@ function sfx(ok, crit) {
 function resolveTurn(ok, q, timeout) {
   const sprite = document.getElementById('enemy-sprite');
   logAnswer(ok, q);
+  quizLinkRecord(ok, q);
   if (bt.qElapsed == null) bt.qElapsed = Date.now() - bt.qStart;
   const rush = bt.tt === 'rush';
   const inTime = bt.tt === 'rush' ? Date.now() < bt.endsAt : bt.tt === 'q30' ? bt.qElapsed <= TT_Q_SEC * 1000 : false;
@@ -1104,6 +1156,7 @@ function resolveTurn(ok, q, timeout) {
       '; border-radius:12px; padding:12px; font-size:13.5px; line-height:1.8;">' +
       '<b>' + (ok ? '⭕ せいかい' : '❌ ざんねん') + '</b><br>' + qHTML(q.explanation || '') +
     '</div>' +
+    (rush ? '' : quizLinkMasterBtn(ok, q)) +
     '<button class="btn-main" style="margin-top:10px;" onclick="nextTurn()">つぎへ →</button>';
   persist();
   // 3分トライアルは 正解なら すぐ つぎへ（時間を むだにしない）
