@@ -19,6 +19,19 @@ export const ROOM_ITEMS: Item[] = [
 ];
 
 
+/** 月の きねんしゃしん（主役の月が おわると もらえる。'fn_photo_202609' など）。2026年9月〜2028年3月ぶん */
+export const PHOTO_PREFIX = 'fn_photo_';
+export function photoMonthOf(id: string): string | null {
+  return id.startsWith(PHOTO_PREFIX) ? id.slice(PHOTO_PREFIX.length) : null;
+}
+const PHOTO_ITEMS: Item[] = [];
+for (let y = 2026, m = 9; y * 100 + m <= 202803; m === 12 ? (y++, m = 1) : m++) {
+  PHOTO_ITEMS.push({
+    id: `${PHOTO_PREFIX}${y}${String(m).padStart(2, '0')}`, kind: 'furniture', name: `${m}月の きねんしゃしん`, emoji: '🖼️',
+    price: 0, desc: `${m}月の しゅやくと とった しゃしん`, once: true, reward: true, anywhere: true,
+  });
+}
+
 export const ITEMS: Item[] = [
   // ── エサ・おやつ（満腹度と進化）──
   { id: 'fd_rice',   kind: 'food',  name: 'おにぎり',     emoji: '🍙', price: 3,  desc: 'まんぷく +30',            fullness: 30, exp: 10 },
@@ -74,6 +87,9 @@ export const ITEMS: Item[] = [
   // 10月：月の位置と見え方
   { id: 'bd_observ', kind: 'building', name: 'てんもんだい',       emoji: '🔭', price: 300, desc: 'よるに なると 月が みえる',  once: true },
   { id: 'bd_moon',   kind: 'building', name: 'おつきみだい',       emoji: '🎑', price: 400, desc: 'おだんごと すすきで お月見',  once: true },
+  // 11月（となりの しまに たつ。単元が きまったら 名前・絵を さしかえる）
+  { id: 'bd_imo',    kind: 'building', name: 'やきいも やたい',     emoji: '🍠', price: 500, desc: 'となりの しまに たつ。よるは あかりが つく', once: true },
+  { id: 'bd_arbor',  kind: 'building', name: 'もみじの あずまや',   emoji: '🍁', price: 600, desc: 'となりの しまに たつ。みんなで ひとやすみ', once: true },
 
   // ── 季節の品（その月のあいだだけ 並ぶ。かったものは ずっと つかえる）──
   { id: 'gf_pumpkin', kind: 'gift',  name: 'かぼちゃだんご', emoji: '🎃', price: 4, desc: '10月だけ・なかよし +3', love: 3, season: 10 },
@@ -85,6 +101,19 @@ export const ITEMS: Item[] = [
   { id: 'fn_trophy',   kind: 'furniture', name: 'がんばりトロフィー', emoji: '🏆', price: 0, desc: 'スタンプ7日の ごほうび',  once: true, reward: true, anywhere: true },
   { id: 'fw_gold',     kind: 'fwear',     name: 'きんの かんむり',    emoji: '👑', price: 0, desc: 'スタンプ14日の ごほうび', once: true, reward: true },
   { id: 'fn_fountain', kind: 'furniture', name: 'ふんすい',           emoji: '⛲', price: 0, desc: 'スタンプ20日の ごほうび', once: true, reward: true },
+  // 10月の スタンプ（かかし＝社会の 農業にちなんで）
+  { id: 'fn_lantern',  kind: 'furniture', name: 'かぼちゃの ランタン', emoji: '🎃', price: 0, desc: '10月の スタンプ7日の ごほうび',  once: true, reward: true, anywhere: true },
+  { id: 'fw_moon',     kind: 'fwear',     name: 'おつきさまの かんむり', emoji: '🌕', price: 0, desc: '10月の スタンプ14日の ごほうび', once: true, reward: true },
+  { id: 'fn_scarecrow', kind: 'furniture', name: 'かかし',            emoji: '🌾', price: 0, desc: '10月の スタンプ20日の ごほうび', once: true, reward: true },
+  // 11月の スタンプ
+  { id: 'fn_maple',    kind: 'furniture', name: 'もみじの き',        emoji: '🍁', price: 0, desc: '11月の スタンプ7日の ごほうび',  once: true, reward: true },
+  { id: 'fw_acorn',    kind: 'fwear',     name: 'どんぐり ぼうし',    emoji: '🌰', price: 0, desc: '11月の スタンプ14日の ごほうび', once: true, reward: true },
+  { id: 'fn_mushroom', kind: 'furniture', name: 'きのこの いす',      emoji: '🍄', price: 0, desc: '11月の スタンプ20日の ごほうび', once: true, reward: true, anywhere: true },
+  // 12月の スタンプ
+  { id: 'fn_snowman',  kind: 'furniture', name: 'ゆきだるま',         emoji: '⛄', price: 0, desc: '12月の スタンプ7日の ごほうび',  once: true, reward: true },
+  { id: 'fw_santa',    kind: 'fwear',     name: 'サンタの ぼうし',    emoji: '🎅', price: 0, desc: '12月の スタンプ14日の ごほうび', once: true, reward: true },
+  { id: 'fn_xtree',    kind: 'furniture', name: 'クリスマスツリー',   emoji: '🎄', price: 0, desc: '12月の スタンプ20日の ごほうび', once: true, reward: true, anywhere: true },
+  ...PHOTO_ITEMS,
   // ── ハロウィンの おかし・つりの ずかんの ごほうび（ショップでは売らない）──
   { id: 'gf_candy',    kind: 'gift',      name: 'ハロウィンの おかし', emoji: '🍬', price: 0, desc: 'ハロウィンの よるに もらえる・なかよし +2', love: 2, reward: true },
   { id: 'fn_fishsign', kind: 'furniture', name: 'さかなの かんばん',   emoji: '🐟', price: 0, desc: 'さかなを 5しゅるい つった ごほうび',  once: true, reward: true },
@@ -111,12 +140,26 @@ export function placeableIn(item: Item | undefined, area: 'main' | 'east' | 'hou
 }
 
 /** まいにちスタンプの ごほうび（その月の日数）。item がないものは プレゼント3つ */
-export const STAMP_REWARDS: { days: number; item?: string; label: string }[] = [
-  { days: 3,  label: '🎁 プレゼント 3つ' },
-  { days: 7,  item: 'fn_trophy',   label: '🏆 がんばりトロフィー' },
-  { days: 14, item: 'fw_gold',     label: '👑 きんの かんむり' },
-  { days: 20, item: 'fn_fountain', label: '⛲ ふんすい' },
-];
+export interface StampReward { days: number; item?: string; label: string }
+/** 月（1..12）ごとの 7・14・20日の品。表にない月は 9月と同じ（🏆👑⛲）。持っている品は プレゼント3つに かわる */
+const STAMP_ITEMS_BY_MONTH: Record<number, [string, string, string]> = {
+  9: ['fn_trophy', 'fw_gold', 'fn_fountain'],
+  10: ['fn_lantern', 'fw_moon', 'fn_scarecrow'],
+  11: ['fn_maple', 'fw_acorn', 'fn_mushroom'],
+  12: ['fn_snowman', 'fw_santa', 'fn_xtree'],
+};
+export function stampRewardsFor(month: number): StampReward[] {
+  const ids = STAMP_ITEMS_BY_MONTH[month] ?? STAMP_ITEMS_BY_MONTH[9];
+  const lbl = (id: string) => `${ITEM_BY_ID[id].emoji} ${ITEM_BY_ID[id].name}`;
+  return [
+    { days: 3, label: '🎁 プレゼント 3つ' },
+    { days: 7, item: ids[0], label: lbl(ids[0]) },
+    { days: 14, item: ids[1], label: lbl(ids[1]) },
+    { days: 20, item: ids[2], label: lbl(ids[2]) },
+  ];
+}
+/** スタンプの月として 表があるか（点検スクリプト用に export） */
+export const STAMP_MONTHS = Object.keys(STAMP_ITEMS_BY_MONTH).map(Number);
 /** たからばこ・スタンプで もらえる プレゼント（季節の品は入れない） */
 export const EVERYDAY_GIFTS = ['gf_cookie', 'gf_flower', 'gf_berry', 'gf_apple', 'gf_book', 'gf_dango'];
 
@@ -132,7 +175,7 @@ export function onSale(item: Item, ownedIds: string[]): boolean {
 }
 
 /** 建てる順番。前のを建てると次が出る */
-export const BUILD_ORDER = ['bd_house', 'bd_pier', 'bd_light', 'bd_school', 'bd_bridge', 'bd_wheel', 'bd_observ', 'bd_moon'];
+export const BUILD_ORDER = ['bd_house', 'bd_pier', 'bd_light', 'bd_school', 'bd_bridge', 'bd_wheel', 'bd_observ', 'bd_moon', 'bd_imo', 'bd_arbor'];
 /** つぎに建てるもの＝BUILD_ORDER の順で まだ建てていない最初の1つ（途中に足しても 今のセーブが こわれない） */
 export function nextBuildId(buildings: string[]): string | undefined {
   return BUILD_ORDER.find((id) => !buildings.includes(id));

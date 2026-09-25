@@ -256,6 +256,81 @@ const DRAWINGS: Record<string, Draw> = {
       </g>
     </g>
   ),
+
+  // ── 月ごとの スタンプの ごほうび（10〜12月）──
+  fn_lantern: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="16" ry="5" fill="rgba(0,0,0,0.2)" />
+      <ellipse cx="0" cy="-13" rx="17" ry="14" fill="#fb923c" {...S} />
+      <path d="M-6 -26 Q0 -30 6 -26 M-9 -24 Q-10 -13 -8 -1 M9 -24 Q10 -13 8 -1" fill="none" stroke="#c2410c" strokeWidth="1.6" />
+      <rect x="-2" y="-33" width="4" height="7" rx="1.5" fill="#65a30d" {...S} />
+      <path d="M-9 -17 l4 -5 4 5 z M1 -17 l4 -5 4 5 z" fill="#fde047" />
+      <path d="M-9 -9 Q0 -3 9 -9 L6 -7 L3 -9 L0 -6 L-3 -9 L-6 -7 Z" fill="#fde047" />
+    </g>
+  ),
+  fn_scarecrow: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="12" ry="4" fill="rgba(0,0,0,0.2)" />
+      <rect x="-2" y="-50" width="4" height="52" fill="#a16207" {...S} />
+      <rect x="-22" y="-36" width="44" height="4" rx="2" fill="#a16207" {...S} />
+      <path d="M-12 -34 L12 -34 L9 -14 L-9 -14 Z" fill="#60a5fa" {...S} />
+      <path d="M-22 -34 l-4 5 M-22 -34 l-5 0 M22 -34 l4 5 M22 -34 l5 0" stroke="#eab308" strokeWidth="2" />
+      <circle cx="0" cy="-44" r="8" fill="#fef3c7" {...S} />
+      <path d="M-13 -48 L13 -48 L7 -52 Q0 -60 -7 -52 Z" fill="#fbbf24" {...S} />
+      <circle cx="-3" cy="-44" r="1.3" fill="#1e1b4b" />
+      <circle cx="3" cy="-44" r="1.3" fill="#1e1b4b" />
+      <path d="M-3 -40 Q0 -38 3 -40" fill="none" stroke="#1e1b4b" strokeWidth="1.2" />
+    </g>
+  ),
+  fn_maple: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="18" ry="6" fill="rgba(0,0,0,0.2)" />
+      <path d="M-4 0 L-3 -30 L3 -30 L4 0 Z" fill="#92400e" {...S} />
+      <g {...S}>
+        <circle cx="0" cy="-44" r="18" fill="#ef4444" />
+        <circle cx="-15" cy="-34" r="12" fill="#f97316" />
+        <circle cx="15" cy="-34" r="12" fill="#dc2626" />
+        <circle cx="0" cy="-58" r="10" fill="#f59e0b" />
+      </g>
+      <path d="M-24 -4 l3 -3 1 4 z M20 -2 l3 -3 1 4 z" fill="#ef4444" />
+    </g>
+  ),
+  fn_mushroom: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="16" ry="5" fill="rgba(0,0,0,0.2)" />
+      <path d="M-7 0 Q-8 -12 -6 -18 L6 -18 Q8 -12 7 0 Z" fill="#fef3c7" {...S} />
+      <path d="M-20 -17 Q-18 -38 0 -38 Q18 -38 20 -17 Z" fill="#ef4444" {...S} />
+      <circle cx="-9" cy="-27" r="3.5" fill="#fff" />
+      <circle cx="6" cy="-31" r="3" fill="#fff" />
+      <circle cx="11" cy="-22" r="2.5" fill="#fff" />
+    </g>
+  ),
+  fn_snowman: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="16" ry="5" fill="rgba(0,0,0,0.2)" />
+      <circle cx="0" cy="-12" r="14" fill="#f8fafc" {...S} />
+      <circle cx="0" cy="-34" r="10" fill="#f8fafc" {...S} />
+      <path d="M-9 -41 L9 -41 L6 -52 L-6 -52 Z" fill="#dc2626" {...S} />
+      <circle cx="-3.5" cy="-36" r="1.4" fill="#1e1b4b" />
+      <circle cx="3.5" cy="-36" r="1.4" fill="#1e1b4b" />
+      <path d="M0 -33 l6 1.5 -6 1.5 z" fill="#fb923c" />
+      <path d="M-10 -26 Q0 -21 10 -26" fill="none" stroke="#16a34a" strokeWidth="4" strokeLinecap="round" />
+      <circle cx="0" cy="-15" r="1.6" fill="#1e1b4b" />
+      <circle cx="0" cy="-8" r="1.6" fill="#1e1b4b" />
+    </g>
+  ),
+  fn_xtree: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="18" ry="6" fill="rgba(0,0,0,0.2)" />
+      <rect x="-4" y="-8" width="8" height="9" fill="#92400e" {...S} />
+      <path d="M0 -62 L20 -8 L-20 -8 Z" fill="#16a34a" {...S} />
+      <path d="M-11 -30 Q0 -24 11 -32 M-15 -18 Q0 -12 16 -20" fill="none" stroke="#fde047" strokeWidth="2" />
+      <circle cx="-6" cy="-40" r="2.4" fill="#ef4444" />
+      <circle cx="7" cy="-24" r="2.4" fill="#60a5fa" />
+      <circle cx="-9" cy="-14" r="2.4" fill="#f472b6" />
+      <path d="M0 -70 l2 5 5 0 -4 3 2 5 -5 -3 -5 3 2 -5 -4 -3 5 0 z" fill="#fbbf24" stroke="#b45309" strokeWidth="1" />
+    </g>
+  ),
 };
 
 function FurnitureSVGBase({ id, scale = 1 }: { id: string; scale?: number }) {

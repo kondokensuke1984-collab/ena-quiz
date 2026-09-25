@@ -9,7 +9,7 @@ import { isSpentKey, loadSpent, spend, type SpendLedger, type SpendResult } from
 import { feed } from '../lib/monster';
 import {
   isConsumable, ITEM_BY_ID, WHEEL_TITLE,
-  FAVORITE, GIFTS_PER_DAY, heartsOf, STAMP_REWARDS, EVERYDAY_GIFTS, nextBuildId,
+  FAVORITE, GIFTS_PER_DAY, heartsOf, stampRewardsFor, EVERYDAY_GIFTS, nextBuildId,
 } from '../lib/items';
 import { FISH_PER_DAY, FISH_REWARDS, FISH_STUDY_BONUS } from '../lib/fish';
 import { CROP_COUNT, GROW_DAYS, grownDays } from '../lib/farm';
@@ -131,7 +131,8 @@ export interface GameApi {
   claimStamp(ym: string, days: number): string | null;
   /** たからばこを あける（その日1回）。出たプレゼントのID */
   openChest(day: string): string | null;
-  deliverLetters(letters: Letter[], marks: LetterMarks): void;
+  /** gifts＝いっしょに とどく 家具（月の きねんしゃしん など） */
+  deliverLetters(letters: Letter[], marks: LetterMarks, gifts?: string[]): void;
   readLetter(id: string): void;
   /** きょう あと何回 つれるか（studied＝きょう クイズを5もん やった） */
   fishLeft(studied: boolean): number;
@@ -412,7 +413,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       }),
 
     claimStamp: (ym, days) => {
-      const r = STAMP_REWARDS.find((x) => x.days === days);
+      const r = stampRewardsFor(Number(ym.split('-')[1])).find((x) => x.days === days);
       const key = `${ym}:${days}`;
       const cur = saveRef.current;
       if (!r || cur.stampClaims.includes(key)) return null;
@@ -447,8 +448,13 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       return id;
     },
 
-    deliverLetters: (letters, marks) => {
-      setSave((s) => ({ ...s, letters: [...letters, ...s.letters].slice(0, 30), letterMarks: marks }));
+    deliverLetters: (letters, marks, gifts = []) => {
+      setSave((s) => ({
+        ...s,
+        letters: [...letters, ...s.letters].slice(0, 30),
+        letterMarks: marks,
+        owned: [...s.owned, ...gifts.filter((id) => !s.owned.includes(id))],
+      }));
       if (letters.length) sfx('letter');
     },
 

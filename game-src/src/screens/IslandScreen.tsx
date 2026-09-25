@@ -6,7 +6,8 @@ import { KidSVG, PALETTES } from '../components/KidSVG';
 import { CharSVG } from '../components/CharSVG';
 import { EggSVG } from '../components/EggSVG';
 import { FurnitureSVG } from '../components/FurnitureSVG';
-import { BuildingSVG, BUILDING_SPOTS, SCHOOL_FRONT } from '../components/BuildingSVG';
+import { PhotoFrame } from '../components/PhotoFrame';
+import { BuildingSVG, BUILDING_SPOTS, SCHOOL_FRONT, spotInArea } from '../components/BuildingSVG';
 import { useGame } from '../state/useGame';
 import { CHAR_NAMES } from '../lib/chars';
 import {
@@ -23,7 +24,7 @@ import { moonAge as calcMoonAge, moonName, timeOfDay, weatherFor } from '../lib/
 import { cycleSoundMode, setBgmNight, sfx, soundMode, voice, type SoundMode } from '../lib/sound';
 import { answeredByDate, daysThisWeek, stampDays, studiedToday } from '../lib/study';
 import { buildLetters } from '../lib/letters';
-import { STAMP_REWARDS } from '../lib/items';
+import { photoMonthOf, stampRewardsFor } from '../lib/items';
 import type { Area, Letter, Pos } from '../types';
 import { EastGround, RoomGround } from '../components/AreaStages';
 import { FishingModal } from '../components/FishingModal';
@@ -53,6 +54,10 @@ const WEAR_POS: Record<string, { y: number; size: number }> = {
   fw_scarf: { y: -4, size: 28 },
   fw_pumpkin: { y: -44, size: 30 },
   fw_leaf: { y: -40, size: 24 },
+  fw_gold: { y: -44, size: 30 },
+  fw_moon: { y: -46, size: 28 },
+  fw_acorn: { y: -42, size: 26 },
+  fw_santa: { y: -44, size: 32 },
 };
 
 const GREET = [
@@ -145,7 +150,7 @@ export function IslandScreen() {
   const expansion = expansionOf(save.buildings);
   setArea(area, expansion);
   const hasBridge = save.buildings.includes('bd_bridge');
-  const builtSpots = area === 'main' ? save.buildings.filter((id) => BUILDING_SPOTS[id]) : [];
+  const builtSpots = area === 'house' ? [] : save.buildings.filter((id) => spotInArea(id, area));
   const nextBuild = ITEM_BY_ID[nextBuildId(save.buildings) ?? ''];
   const [fade, setFade] = useState(false);
   const [sleeping, setSleeping] = useState(false);
@@ -235,10 +240,11 @@ export function IslandScreen() {
   const saveRef2 = useRef(save);
   saveRef2.current = save;
   const lastMarks = useRef<unknown>(null);
+  const [monthBanner, setMonthBanner] = useState<string | null>(null);
   useEffect(() => {
     const cur = saveRef2.current;
     // 同じ記録から2回 手紙を作らない（開発中の二重実行・すばやい再描画でも1回だけ）
-    const sig = JSON.stringify([cur.letterMarks, snap.friends.map((f) => [f.id, f.level, f.n]), stamps.length, ym]);
+    const sig = JSON.stringify([cur.letterMarks, snap.currentMonth, snap.friends.map((f) => [f.id, f.level, f.n]), stamps.length, ym]);
     if (lastMarks.current === sig) return;
     lastMarks.current = sig;
     const r = buildLetters(cur.letterMarks, {
@@ -248,9 +254,12 @@ export function IslandScreen() {
       ym,
       weekDays: daysThisWeek(new Date(), byDate),
       halloween: isHalloween(),
+      currentMonth: snap.currentMonth,
+      stampDaysOf: (m) => stampDays(Number(m.slice(0, 4)), Number(m.slice(4)), byDate).length,
     });
+    if (r.newMonth) setMonthBanner(r.newMonth);
     if (r.letters.length || JSON.stringify(r.marks) !== JSON.stringify(cur.letterMarks)) {
-      gRef.current.deliverLetters(r.letters, r.marks);
+      gRef.current.deliverLetters(r.letters, r.marks, r.gifts);
       if (r.letters.length) gRef.current.showToast(`💌 おてがみが ${r.letters.length}つう とどいたよ！`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -638,7 +647,9 @@ export function IslandScreen() {
       y: p.y,
       node: (
         <g key={p.uid} transform={`translate(${p.x * ISLAND_W} ${p.y * ISLAND_H})`}>
-          <FurnitureSVG id={p.id} scale={1.9} />
+          {photoMonthOf(p.id)
+            ? <PhotoFrame month={photoMonthOf(p.id)!} friends={snap.friends} />
+            : <FurnitureSVG id={p.id} scale={1.9} />}
         </g>
       ),
     }));
@@ -821,7 +832,7 @@ export function IslandScreen() {
     return list.sort((a, b) => a.y - b.y).map((e) => e.node);
     // order が変わったときに並べ直す
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [order, placedHere, area, save.player, save.equipped, save.titles.length, monster.charKey, level, fullness, mo, monsterName, walking, friends, save.buildings, save.friendsPlay, bubble, jump, unread, showChest, hwNight]);
+  }, [order, placedHere, area, save.player, save.equipped, save.titles.length, monster.charKey, level, fullness, mo, monsterName, walking, friends, save.buildings, save.friendsPlay, bubble, jump, unread, showChest, hwNight, snap.friends]);
 
   const friendPanel = (f: Friend) => (
             <div className="flex max-w-[230px] flex-col items-end gap-2">
@@ -953,6 +964,10 @@ export function IslandScreen() {
               ...(area === 'main' && save.buildings.includes('bd_school') ? [{ x: 0.64, y: 0.31, r: 80 }] : []),
               ...(area === 'main' && save.buildings.includes('bd_light') ? [{ x: 0.87, y: 0.23, r: 70 }] : []),
               ...(area === 'main' && save.buildings.includes('bd_observ') ? [{ x: 0.44, y: 0.27, r: 55 }] : []),
+              ...builtSpots.filter((id) => BUILDING_SPOTS[id].area && BUILDING_SPOTS[id].glow).map((id) => {
+                const b = BUILDING_SPOTS[id];
+                return { x: b.x, y: b.y + b.glow!.dy, r: b.glow!.r };
+              }),
               ...placedHere.filter((p) => p.id === 'fn_lamp' || p.id === 'fn_fire').map((p) => ({ x: p.x, y: p.y - 0.07, r: 55 })),
               ...(area === 'main' && hw && seasonNow() === 10 ? LANTERNS.map(([x, y]) => ({ x: x / ISLAND_W, y: (y - 14) / ISLAND_H, r: 45 })) : []),
           ].map((gl, i) => (
@@ -1183,6 +1198,28 @@ export function IslandScreen() {
         </div>
       )}
 
+      {/* ── 月がわり：あたらしい しゅやくが きた（1回だけ）── */}
+      {monthBanner && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4" onClick={() => setMonthBanner(null)}>
+          <div className="panel w-full max-w-[400px] text-center" onClick={(e) => e.stopPropagation()}>
+            <div className="text-[18px] font-black text-ink">🎉 {Number(monthBanner.slice(4))}がつの なかまが やってきた！</div>
+            <div className="my-3 flex flex-wrap items-end justify-center gap-2">
+              {snap.friends.filter((f) => f.month === monthBanner).map((f) => (
+                <div key={f.id} className="flex flex-col items-center">
+                  <CharSVG charKey={f.char} level={f.level} fillPct={f.fill} size={72} stars={f.stars} label={f.name} />
+                  <span className="text-[12px] font-black text-ink">{f.name}</span>
+                  <span className="text-[10px] font-bold text-indigo-900/55">{f.catLabel}</span>
+                </div>
+              ))}
+            </div>
+            <p className="text-[12px] font-bold leading-relaxed text-indigo-900/70">
+              きょうから この しまの しゅやくだよ。<br />まえの なかまも あそびに くるよ。<br />📮 おてがみも みてね。
+            </p>
+            <button className="btn-main mt-3" onClick={() => setMonthBanner(null)}>よろしくね！</button>
+          </div>
+        </div>
+      )}
+
       {/* ── まいにちスタンプ ── */}
       {stampOpen && (
         <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/60 p-3" onClick={() => setStampOpen(false)}>
@@ -1206,7 +1243,7 @@ export function IslandScreen() {
             </div>
             <div className="mb-1.5 text-[12px] font-black text-ink">🎁 ごほうび（こんげつ {stamps.length}にち）</div>
             <div className="flex flex-col gap-1.5">
-              {STAMP_REWARDS.map((rw) => {
+              {stampRewardsFor(nowD.getMonth() + 1).map((rw) => {
                 const key = `${ym}:${rw.days}`;
                 const claimed = save.stampClaims.includes(key);
                 const can = stamps.length >= rw.days && !claimed;

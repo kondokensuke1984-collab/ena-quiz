@@ -46,7 +46,10 @@ export function readFriends(): FriendsSnapshot {
   const list = r.friends;
   // 9月だけだったころの書き出し（month が上に1つだけ）も読めるようにしておく
   const legacyMonth = typeof r.month === 'string' ? r.month : '';
-  const currentMonth = typeof r.currentMonth === 'string' ? r.currentMonth : legacyMonth;
+  // 確認用：localhost だけ ?month=202610 で「いまの しゅやくの 月」を上書き（月がわりを島だけで試せる）
+  const devMonth = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) ? new URLSearchParams(location.search).get('month') : null;
+  const currentMonth = devMonth && /^\d{6}$/.test(devMonth) ? devMonth
+    : typeof r.currentMonth === 'string' ? r.currentMonth : legacyMonth;
   if (!Array.isArray(list)) return { currentMonth, friends: [] };
   const out: Friend[] = [];
   for (const f of list) {

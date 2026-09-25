@@ -121,7 +121,48 @@ function MoonStand() {
   );
 }
 
+// ── 11月（となりの しまに たつ。単元が きまったら 名前と絵を さしかえる）──
+function ImoCart() {
+  return (
+    <g>
+      {shadow(48)}
+      <rect x="-40" y="-40" width="80" height="34" rx="4" fill="#b45309" {...S} />
+      <circle cx="-24" cy="-4" r="10" fill="#78350f" {...S} />
+      <circle cx="24" cy="-4" r="10" fill="#78350f" {...S} />
+      <rect x="-34" y="-52" width="68" height="14" rx="3" fill="#57534e" {...S} />
+      {[-20, -4, 12].map((x) => <ellipse key={x} cx={x} cy="-54" rx="7" ry="4" fill="#9f1239" {...S} strokeWidth={1.6} />)}
+      <path d="M-44 -66 L44 -66 L38 -86 L-38 -86 Z" fill="#f97316" {...S} />
+      <path d="M-30 -86 L-30 -66 M-10 -86 L-10 -66 M10 -86 L10 -66 M30 -86 L30 -66" stroke="#fff7ed" strokeWidth="5" />
+      <path d="M-34 -66 L-34 -40 M34 -66 L34 -40" stroke="#4c1d95" strokeWidth="3" />
+      <circle cx="40" cy="-58" r="7" fill="#fde047" {...S} strokeWidth={1.6} />
+      <text x="0" y="-18" fontSize="14" fontWeight="900" textAnchor="middle" fill="#fff7ed">やきいも</text>
+      <path d="M-6 -66 q-4 -10 2 -18 M6 -66 q4 -12 -2 -20" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="2.4" strokeLinecap="round" />
+    </g>
+  );
+}
+
+function Arbor() {
+  return (
+    <g>
+      {shadow(60)}
+      <rect x="-46" y="-14" width="92" height="12" rx="3" fill="#d6d3d1" {...S} />
+      <path d="M-38 -14 L-38 -70 M38 -14 L38 -70" stroke="#92400e" strokeWidth="7" strokeLinecap="round" />
+      <path d="M-30 -30 L30 -30" stroke="#92400e" strokeWidth="6" strokeLinecap="round" />
+      <path d="M-62 -68 L0 -108 L62 -68 Z" fill="#b91c1c" {...S} />
+      <path d="M-62 -68 Q0 -60 62 -68" fill="none" {...S} />
+      {[[-66, -100, '#ef4444'], [66, -94, '#f97316'], [-54, -40, '#f59e0b'], [58, -36, '#dc2626']].map(([x, y, c], i) => (
+        <g key={i} transform={`translate(${x} ${y})`}>
+          <circle r="16" fill={c as string} {...S} strokeWidth={1.8} />
+          <circle cx="-8" cy="6" r="10" fill={c as string} />
+        </g>
+      ))}
+    </g>
+  );
+}
+
 const DRAW: Record<string, () => React.ReactNode> = {
+  bd_imo: ImoCart,
+  bd_arbor: Arbor,
   bd_house: House,
   bd_light: Lighthouse,
   bd_school: School,
@@ -131,14 +172,24 @@ const DRAW: Record<string, () => React.ReactNode> = {
 };
 
 /** 建物の置き場所（割合）。さんばしは地面の絵として IslandStage で描く */
-export const BUILDING_SPOTS: Record<string, { x: number; y: number }> = {
+/** area＝建つ場所（なし＝main）。glow＝夜に光る ところ（足もとから dy、半径 r） */
+export interface BuildingSpot { x: number; y: number; area?: 'main' | 'east'; glow?: { dy: number; r: number } }
+export const BUILDING_SPOTS: Record<string, BuildingSpot> = {
   bd_house: { x: 0.2, y: 0.42 },
   bd_light: { x: 0.87, y: 0.43 },
   bd_school: { x: 0.64, y: 0.36 },
   bd_wheel: { x: 0.12, y: 0.66 },
   bd_observ: { x: 0.44, y: 0.32 },
   bd_moon: { x: 0.80, y: 0.80 },
+  // となりの しま（east）。池（0.70,0.75）と 左の はしを よける
+  bd_imo: { x: 0.36, y: 0.46, area: 'east', glow: { dy: -0.08, r: 55 } },
+  bd_arbor: { x: 0.64, y: 0.42, area: 'east' },
 };
+/** その場所に建つ 建物か */
+export function spotInArea(id: string, area: string): boolean {
+  const b = BUILDING_SPOTS[id];
+  return !!b && (b.area ?? 'main') === area;
+}
 
 /** がっこうの前（教科キャラが集まる場所） */
 export const SCHOOL_FRONT = { x: 0.64, y: 0.44 };

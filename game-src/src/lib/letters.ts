@@ -18,10 +18,25 @@ export interface LetterInput {
   ym: string;               // 'YYYY-M'
   weekDays: number;         // 今週 勉強した日数
   halloween?: boolean;      // ハロウィンの きかん
+  currentMonth?: string;    // いまの しゅやくの 月（YYYYMM）
+  /** その月（YYYYMM）の スタンプの日数。きねんしゃしんを わたすか決める */
+  stampDaysOf?: (month: string) => number;
   now?: Date;
 }
 
-export function buildLetters(marks: LetterMarks, x: LetterInput): { letters: Letter[]; marks: LetterMarks } {
+/** きねんしゃしんを もらえる スタンプの日数（その月に これだけ クイズを がんばったら） */
+export const PHOTO_STAMP_DAYS = 3;
+
+export interface LetterResult {
+  letters: Letter[];
+  marks: LetterMarks;
+  gifts: string[];          // いっしょに とどく 家具
+  newMonth?: string;        // 月が かわった（バナーを出す）ときの 新しい月
+}
+
+const monthNum = (ym: string) => Number(ym.slice(4));
+
+export function buildLetters(marks: LetterMarks, x: LetterInput): LetterResult {
   const now = x.now ?? new Date();
   const to = x.playerName ? `${x.playerName}へ\n` : '';
   const next: LetterMarks = {
@@ -31,8 +46,11 @@ export function buildLetters(marks: LetterMarks, x: LetterInput): { letters: Let
     stamp: [...marks.stamp],
     weekly: marks.weekly,
     halloween: marks.halloween,
+    month: marks.month,
   };
   const out: Letter[] = [];
+  const gifts: string[] = [];
+  let newMonth: string | undefined;
 
   // はじめて：いまの様子を覚えるだけ（前からの成長で手紙がどっと届かないように）。ようこその1通だけ
   if (!marks.init) {
@@ -42,9 +60,53 @@ export function buildLetters(marks: LetterMarks, x: LetterInput): { letters: Let
     });
     [3, 7, 14, 20].forEach((d) => { if (x.stampCount >= d) next.stamp.push(`${x.ym}:${d}`); });
     next.weekly = dateKey(now);
+    if (x.currentMonth) next.month = x.currentMonth;
     out.push(mk(LUNA.from, LUNA.fromName, 'しまへ ようこそ！',
       `${to}しまの ポストだよ。\nクイズを がんばると、しまの なかまから おてがみが とどくよ。\nたのしみに まっててね！\nルナより`));
-    return { letters: out, marks: next };
+    return { letters: out, marks: next, gifts };
+  }
+
+  // ── 月がわり：しゅやくが かわったら、あたらしい子と まえの子から 1つうずつ ──
+  if (x.currentMonth && !marks.month) {
+    next.month = x.currentMonth;   // この しくみが できる前からの セーブは 覚えるだけ
+  } else if (x.currentMonth && marks.month && x.currentMonth > marks.month) {
+    const prev = marks.month;
+    const cur = x.currentMonth;
+    next.month = cur;
+    newMonth = cur;
+    const news = x.friends.filter((f) => f.month === cur);
+    const olds = x.friends.filter((f) => f.month === prev);
+    const names = (fs: Friend[]) => fs.map((f) => f.name).join('と ');
+    if (news.length) {
+      const f = news[0];
+      out.push(mk(f.char, f.name, `🎉 ${monthNum(cur)}月の なかまが きたよ！`,
+        `${to}きょうから この しまで くらす ${names(news)}だよ。
+` +
+        `${f.monthLabel || `${monthNum(cur)}月`}の クイズを とくと、ぼくたちが そだつよ。
+` +
+        `いっしょに がんばろうね！
+${f.name}より`));
+    }
+    if (olds.length) {
+      const f = olds[0];
+      out.push(mk(f.char, f.name, `${monthNum(prev)}月は ありがとう`,
+        `${to}${monthNum(prev)}月は いっしょに がんばってくれて ありがとう！
+` +
+        `これからは ${names(olds)}も しまの じゅうにんだよ。
+` +
+        `ときどき あそびに いくから、みつけたら こえを かけてね。
+${f.name}より`));
+    }
+    const photo = `fn_photo_${prev}`;
+    if (olds.length && (x.stampDaysOf?.(prev) ?? 0) >= PHOTO_STAMP_DAYS) {
+      gifts.push(photo);
+      out.push(mk(LUNA.from, LUNA.fromName, `🖼️ ${monthNum(prev)}月の きねんしゃしん`,
+        `${to}${monthNum(prev)}月も よく がんばったね！
+${names(olds)}と とった しゃしんを おくるよ。
+` +
+        `「かぐ」から しまにも おうちにも かざれるよ。
+ルナより`));
+    }
   }
 
   for (const f of x.friends) {
@@ -95,5 +157,5 @@ export function buildLetters(marks: LetterMarks, x: LetterInput): { letters: Let
     next.weekly = today;
   }
 
-  return { letters: out, marks: next };
+  return { letters: out, marks: next, gifts, newMonth };
 }
