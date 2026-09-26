@@ -1523,7 +1523,7 @@ export function IslandScreen() {
           <div className="panel max-h-[80vh] w-full max-w-[440px] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             <div className="mb-2 flex items-center text-[14px] font-black text-ink">
               <span className="flex-1">📖 しまの なかま</span>
-              {area === 'school' && <button aria-label="ピン" className="px-1 text-[13px] opacity-30" onClick={() => setSecretOpen((v) => !v)}>📌</button>}
+              {area === 'school' && <button aria-label="ピン" className="-my-1 rounded-full px-2 py-1 text-[22px] leading-none opacity-70 active:scale-90" onClick={() => setSecretOpen((v) => !v)}>📌</button>}
             </div>
             {secretOpen && area === 'school' && (
               <form className="mb-3 flex gap-2" onSubmit={(e) => { e.preventDefault(); void submitSecret(); }}>
