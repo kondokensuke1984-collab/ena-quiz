@@ -4,7 +4,7 @@
 //   ・十字キー／矢印キーで1マスずつ。ときどき モンスター（クエストの月の問題 2〜3問）
 //   ・B3 に いずみ（HP ぜんかいふく）。B5 の奥に もりのぬし（8問）
 //   ・メダル：問題はクエストと同じ（はじめて正解した問題は🪙1）。
-//     ぬし：その日はじめて たおすと🪙5（<月>|forest:日付）、はじめて たおしたときだけ🪙10（<月>|forest:first）
+//     ぬし：その日はじめて たおすと🪙5（<月>|forest:日付）、その月 はじめて たおしたときだけ🪙10（<月>|forest:first）
 //     ＋島に「もりの トロフィー」（ena_forest_trophy を書くだけ。島が開いたときに読んで家具にする）
 //   rpg.html の bt / save / CHARS / QUESTIONS / renderBattle などを そのまま使う。
 // ============================================================
@@ -297,10 +297,12 @@ function forestEndBattle(win) {
     if (boss && f.bossDay !== todayKey()) {
       bonus += medalForest('forest:' + todayKey(), FOREST_BOSS_DAILY);
       f.bossDay = todayKey();
-      if (!f.bossEver) {
+      // はじめての ぬしボーナスは 月ごと（台帳の <月>|forest:first が なければ）
+      const monthFirst = !loadMedalLedger().units[MEDAL_MONTH + '|forest:first'];
+      if (monthFirst) {
         bonus += medalForest('forest:first', FOREST_BOSS_FIRST);
+        first = !f.bossEver;   // トロフィーの おしらせは 一生に1回
         f.bossEver = true;
-        first = true;
         try { localStorage.setItem('ena_forest_trophy', '1'); } catch (e) {}
       }
       bt.medals += bonus;

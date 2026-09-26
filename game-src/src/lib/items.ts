@@ -16,6 +16,12 @@ export const ROOM_ITEMS: Item[] = [
   { id: 'fl_wood',   kind: 'floor', name: 'もくめの ゆか',     emoji: '🟫', price: 0,  desc: 'はじめの ゆか', once: true, builtin: true },
   { id: 'fl_check',  kind: 'floor', name: 'チェックの ゆか',   emoji: '🏁', price: 8,  desc: 'しろと みずいろ', once: true },
   { id: 'fl_grass',  kind: 'floor', name: 'くさはらの ゆか',   emoji: '🌿', price: 8,  desc: 'へやの なかに くさはら', once: true },
+  // ── がっこうの きょうしつ（🏫がっこうを たてると かえる）──
+  { id: 'sc_globe',  kind: 'classroom', name: 'ちきゅうぎ',   emoji: '🌏', price: 10, desc: 'くるくる まわる ちきゅう', once: true },
+  { id: 'sc_micro',  kind: 'classroom', name: 'けんびきょう', emoji: '🔬', price: 12, desc: 'ちいさな ものが おおきく みえる', once: true },
+  { id: 'sc_tank',   kind: 'classroom', name: 'すいそう',     emoji: '🐠', price: 12, desc: 'メダカが およいでいる', once: true },
+  { id: 'sc_organ',  kind: 'classroom', name: 'オルガン',     emoji: '🎹', price: 15, desc: 'おんがくの じかんに', once: true },
+  { id: 'sc_map',    kind: 'classroom', name: 'にほんちず',   emoji: '🗾', price: 10, desc: 'かべに はる にほんの ちず', once: true },
 ];
 
 
@@ -161,9 +167,10 @@ export const ITEMS: Item[] = [
 ];
 
 /** その場所に置ける家具か */
-export function placeableIn(item: Item | undefined, area: 'main' | 'east' | 'house'): boolean {
+export function placeableIn(item: Item | undefined, area: 'main' | 'east' | 'house' | 'school'): boolean {
   if (!item) return false;
   if (item.anywhere) return item.kind === 'furniture' || item.kind === 'indoor';
+  if (area === 'school') return item.kind === 'classroom';
   return area === 'house' ? item.kind === 'indoor' : item.kind === 'furniture';
 }
 
@@ -237,7 +244,7 @@ export const KIND_TABS: { key: 'eat' | 'gear' | 'gift' | 'seed' | 'dress' | 'roo
   // 'gear'（じゅう・たて）はミニバトル用だったので、バトル廃止とともに売り場から外した
   { key: 'dress', label: '🎀 きせかえ',     kinds: ['costume', 'hat', 'fwear'] },
   { key: 'room',  label: '🌴 かぐ',         kinds: ['furniture'] },
-  { key: 'home',  label: '🛋️ へや',         kinds: ['indoor', 'wall', 'floor'] },
+  { key: 'home',  label: '🛋️ へや',         kinds: ['indoor', 'wall', 'floor', 'classroom'] },
   { key: 'build', label: '🏗️ けんせつ',     kinds: ['building'] },
 ];
 

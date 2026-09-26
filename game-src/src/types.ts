@@ -23,8 +23,8 @@ export interface MonsterState {
   wander: Pos;             // うろうろ移動の目的地
 }
 
-/** 島の場所。main＝いまの島、east＝となりの島、house＝おうちの中 */
-export type Area = 'main' | 'east' | 'house';
+/** 島の場所。main＝いまの島、east＝となりの島、house＝おうちの中、school＝がっこうの きょうしつ */
+export type Area = 'main' | 'east' | 'house' | 'school';
 
 export interface PlacedFurniture {
   uid: string;
@@ -116,7 +116,7 @@ export interface FarmPlot {
 export type ItemKind =
   | 'food' | 'snack' | 'gun' | 'shield' | 'costume' | 'hat' | 'furniture'
   | 'building' | 'gift' | 'fwear'
-  | 'indoor' | 'wall' | 'floor' | 'seed' | 'fert';
+  | 'indoor' | 'wall' | 'floor' | 'seed' | 'fert' | 'classroom';
 
 export interface Item {
   id: string;

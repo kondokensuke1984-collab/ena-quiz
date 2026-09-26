@@ -288,6 +288,8 @@ function bossDownNow() {
   return !!((save.bossMonths || {})[MEDAL_MONTH] || (save.bossDown && MEDAL_MONTH === '202609'));
 }
 const MEDAL_STAGE_CLEAR = 3, MEDAL_BOSS_CLEAR = 10;
+// 🪙 クリアずみの ステージを ぜんもん せいかいで たおすと 🪙1（過去問は2）。1ステージ1日1回、1日の上限あり
+const MEDAL_REPLAY = 1, MEDAL_REPLAY_DAY_CAP = 5;
 // 🪙×2：過去問演習（単元の「_kakomon」）の問題・ステージは メダルが 2ばい
 const KAKOMON_X = 2;
 function isKakomon(subj) {
@@ -324,6 +326,27 @@ function medalQuestClear(stageKey, count) {
   led.units[key] = count;
   saveMedalLedger(led);
   return count;
+}
+function replayPrefix() { return MEDAL_MONTH + '|replay:' + todayKey() + '|'; }
+function replayTodayTotal(led) {
+  const u = (led || loadMedalLedger()).units, pre = replayPrefix();
+  return Object.keys(u).reduce((a, k) => a + (k.indexOf(pre) === 0 ? (Number(u[k]) || 0) : 0), 0);
+}
+// 'ok'＝まだ もらえる／'got'＝きょう この ステージは もらった／'cap'＝きょうの上限
+function replayState(stageKey) {
+  const led = loadMedalLedger();
+  if (led.units[replayPrefix() + stageKey]) return 'got';
+  return replayTodayTotal(led) >= MEDAL_REPLAY_DAY_CAP ? 'cap' : 'ok';
+}
+function medalReplay(stageKey, n) {
+  const led = loadMedalLedger();
+  const key = replayPrefix() + stageKey;
+  if (led.units[key]) return 0;
+  const give = Math.min(n, MEDAL_REPLAY_DAY_CAP - replayTodayTotal(led));
+  if (!(give > 0)) return 0;
+  led.units[key] = give;
+  saveMedalLedger(led);
+  return give;
 }
 
 // ── ⏱️ タイムトライアル（1日1回ずつ）──────────────────────────────
@@ -686,6 +709,10 @@ function showMap() {
   if (typeof detectiveMapPanel === 'function') html += detectiveMapPanel();
   if (typeof forestMapPanel === 'function') html += forestMapPanel();
   let lastGroup = null;
+  // クリアずみで、きょう まだ リプレイの 🪙が もらえる ステージに 🪙 バッジ
+  const ledNow = loadMedalLedger();
+  const replayOpen = replayTodayTotal(ledNow) < MEDAL_REPLAY_DAY_CAP;
+  const canReplay = k => replayOpen && !!ledNow.units[MEDAL_MONTH + '|quest:' + k] && !ledNow.units[replayPrefix() + k];
   STAGES.forEach(s => {
     if (s.group !== lastGroup) {
       if (lastGroup !== null) html += '</div>';
@@ -702,6 +729,7 @@ function showMap() {
                 CHARS[s.char](6, 100, 42, { silhouette: !clear }) + '</span>' +
               '<span style="flex:1;">' + s.label +
                 (isKakomon(s.key) ? ' <span style="display:inline-block; font-size:11px; font-weight:800; color:#b45309; background:#fef3c7; border:1px solid #f59e0b; border-radius:999px; padding:0 6px; vertical-align:middle;">🪙×2</span>' : '') +
+                (!ttPick && canReplay(s.key) ? ' <span style="display:inline-block; font-size:11px; font-weight:800; color:#b45309; background:#fffbeb; border:1px dashed #f59e0b; border-radius:999px; padding:0 6px; vertical-align:middle;" title="ぜんもん せいかいで 🪙">🪙</span>' : '') +
                 '<span style="display:block; font-size:11px; color:#64748b; font-weight:400;">' +
                   (clear ? CHAR_NAME[s.char] + '　なかま' : 'かげの' + CHAR_NAME[s.char]) +
                   '　全' + s.total + '問</span></span>' +
@@ -718,7 +746,7 @@ function showMap() {
               ? '<button class="btn" onclick="pickStage(\'__boss__\')" style="display:flex; align-items:center; gap:11px;' +
                 (bossDownNow() ? 'background:#f0fdf4; border-color:#86efac;' : '') + '">' +
                   '<span style="flex:0 0 42px;">' + CHARS[BOSS_KEY](6, 100, 42, { silhouette: !bossDownNow() }) + '</span>' +
-                  '<span style="flex:1;">つきのぬし<span style="display:block; font-size:11px; color:#64748b; font-weight:400;">' + questMonthLabel(MEDAL_MONTH) + 'ぜんぶから出題・全12問</span></span>' +
+                  '<span style="flex:1;">つきのぬし' + (!ttPick && canReplay('boss') ? ' <span style="display:inline-block; font-size:11px; font-weight:800; color:#b45309; background:#fffbeb; border:1px dashed #f59e0b; border-radius:999px; padding:0 6px; vertical-align:middle;" title="ぜんもん せいかいで 🪙">🪙</span>' : '') + '<span style="display:block; font-size:11px; color:#64748b; font-weight:400;">' + questMonthLabel(MEDAL_MONTH) + 'ぜんぶから出題・全12問</span></span>' +
                   '<span style="font-size:17px;">' + (ttPick ? '⏱️' : bossDownNow() ? '👑' : '⚔️') + '</span>' +
                 '</button>'
               : '<div style="font-size:12.5px; color:#64748b;">なかまを' + STAGES.length + '体あつめると あらわれる。</div>') +
@@ -1140,6 +1168,7 @@ function resolveTurn(ok, q, timeout) {
       : (bt.streak >= 2 ? 'かいしんの一撃！ ' + dmg + 'ダメージ！' : 'せいかい！ ' + dmg + 'ダメージ！') + (gotMedal ? '　🪙 メダル +' + gotMedal + (gotMedal > 1 ? '（かこもん 2ばい！）' : '') : ''));
   } else {
     bt.streak = 0;
+    bt.miss = (bt.miss || 0) + 1;   // リプレイ🪙の「ぜんもん せいかい」は まちがいの数で みる
     sfx(false);
     if (!rush) save.hp -= DMG_TAKE;
     setMsg(rush ? 'ざんねん… つぎ いこう！'
@@ -1223,6 +1252,18 @@ function endBattle(win) {
       ? medalQuestClear('detective', DETECTIVE_CLEAR)
       : medalQuestClear(bt.boss ? 'boss' : bt.key, bt.boss ? MEDAL_BOSS_CLEAR : MEDAL_STAGE_CLEAR * medalX(bt.key));
     bt.medals += bt.clearBonus;
+    // もう クリアずみ（ボーナスが0）なら、ぜんもん せいかいの ときだけ リプレイの 🪙
+    bt.replayBonus = 0; bt.replayWhy = '';
+    const isDet = typeof DETECTIVE_KEY !== 'undefined' && bt.key === DETECTIVE_KEY;
+    if (!bt.clearBonus && !isDet) {
+      const sk = bt.boss ? 'boss' : bt.key;
+      if (bt.miss) bt.replayWhy = 'miss';
+      else {
+        bt.replayBonus = medalReplay(sk, MEDAL_REPLAY * (bt.boss ? 1 : medalX(bt.key)));
+        if (!bt.replayBonus) bt.replayWhy = replayState(sk);
+        bt.medals += bt.replayBonus;
+      }
+    }
   }
   while (save.exp >= needExp()) {
     save.exp -= needExp();
@@ -1241,10 +1282,17 @@ function endBattle(win) {
       : '<div style="font-size:21px; font-weight:800; color:#b45309;">にげかえった…</div>' +
         '<div style="margin:12px 0; opacity:.75; display:flex; justify-content:center;">' + CHARS[bt.char](6, 100, 150, { silhouette: true }) + '</div>' +
         '<div style="font-size:13px; color:#64748b;">HPを半分まで回復した。もう一度いどめるよ。</div>') +
-    '<div style="margin-top:10px; font-size:14px;">せいかい ' + bt.correct + ' / ' + bt.queue.length +
+    '<div style="margin-top:10px; font-size:14px;">せいかい ' + bt.correct + ' / ' + (bt.correct + (bt.miss || 0)) +
       '　けいけんち +' + (bt.correct * EXP_HIT + (win ? EXP_WIN : 0)) + '</div>' +
     '<div style="margin-top:8px; font-size:15px; font-weight:800; color:#b45309;">🪙 アンリノメダル +' + bt.medals + ' 枚' +
       (bt.clearBonus ? '<span style="font-size:12px; font-weight:700;">（はじめて たおした ボーナス ' + bt.clearBonus + '枚 ふくむ）</span>' : '') +
+      (win && bt.replayBonus ? '<span style="font-size:12px; font-weight:700;">（ぜんもん せいかい ボーナス ' + bt.replayBonus + '枚 ふくむ）</span>' : '') +
+      (win && !bt.medals && bt.replayWhy
+        ? '<div style="font-size:12.5px; color:#b45309; font-weight:700; margin-top:4px;">' +
+            (bt.replayWhy === 'miss' ? 'ぜんもん せいかいで たおすと 🪙が もらえるよ！'
+              : bt.replayWhy === 'got' ? 'この ステージの きょうの 🪙は もう もらったよ。ほかの ステージや ⏱️タイムトライアルも ためしてね'
+              : 'きょうの ボーナス 🪙は ぜんぶ もらったよ。⏱️タイムトライアル・🌲もりも ためしてね') + '</div>'
+        : '') +
       '<div style="font-size:11.5px; color:#94a3b8; font-weight:700; margin-top:3px;">もっているメダル ' + medalTotal() + ' 枚（しまの ショップで つかえるよ）</div>' +
     '</div>' +
     (bt.tt === 'q30'

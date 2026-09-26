@@ -17664,10 +17664,16 @@ function closeAiModal(e) {
 //   新しい動画を出したら、ここに1行足す（subject＝ボタンを出す単元のキー）
 // ============================================================
 const CHANNEL_VIDEOS = [
+  { id:'znF5RIi8Kb8', title:'【小4算数】小数と分数のまざった計算｜まちがえない3つのコツ',
+    subject:'shobun9', month:'202609' },
+  { id:'r3ypCJngMkQ', title:'【小4理科】月の出のグラフ｜満月の日はどこ？ 線が交わる点を読もう（浅野中 過去問）',
+    subject:'tsuki2', month:'202609' },
   { id:'qpiZ2zWmDUw', title:'【小4理科】月の形と時こく・方角｜18時に見える月、ぜんぶ見える？',
     subject:'tsukimie', month:'202610' },
   { id:'v_NnBMUGWtE', title:'【小4理科】月の満ち欠け｜満月まであと何日？三日月・上弦の月から数えよう',
     subject:'tsuki1', month:'202609' },
+  { id:'FyD_qTPZfxc', title:'【小4国語】物語の読み取り｜気持ちはどこに書いてある？ 4つのコツ',
+    subject:'meishi9', month:'202609' },
 ];
 function channelVideo(id) { return CHANNEL_VIDEOS.find(v => v.id === id) || null; }
 function channelVideosFor(subjectKey) { return CHANNEL_VIDEOS.filter(v => v.subject === subjectKey); }
@@ -18436,7 +18442,20 @@ window.onload = () => {
   updateMascotQuote();
   // すでにコンプリートしてある単元のアンリノメダルを取り込む（演出は出さない）
   medalSyncAll();
+  // 島の がっこうの 📺テレビから：?videos=1 で ずんだもん動画の一覧、?video=<id> で その動画（許可リストの ものだけ）
+  if (params.get('videos') === '1' || params.get('video')) openVideosFromIsland(params.get('video'));
 };
+
+function openVideosFromIsland(id) {
+  selectSchool('ena');
+  showVideoList();
+  const back = document.querySelector('#video-list .back-to-month');
+  if (back) {
+    back.textContent = '🏝 しまに もどる';
+    back.onclick = () => { location.href = '/game/#island'; };
+  }
+  if (id) openChannelVideo(id);   // CHANNEL_VIDEOS に ない id は openChannelVideo が なにもしない
+}
 
 const MSG_CHOICES = [
   '今日もがんばったよ！みてね！🌟',

@@ -8,7 +8,9 @@ export function ShopScreen() {
   const g = useGame();
   const [tab, setTab] = useState(KIND_TABS[0].key);
   const active = KIND_TABS.find((t) => t.key === tab)!;
-  const list = ITEMS.filter((i) => active.kinds.includes(i.kind) && onSale(i, g.save.owned));
+  // がっこうの かぐは 🏫がっこうを たててから
+  const hasSchool = g.save.buildings.includes('bd_school');
+  const list = ITEMS.filter((i) => active.kinds.includes(i.kind) && onSale(i, g.save.owned) && (i.kind !== 'classroom' || hasSchool));
 
   const owned = (it: Item) => !!it.builtin || (!!it.once && g.save.owned.includes(it.id));
   const stock = (it: Item) => g.save.inventory[it.id] ?? 0;
@@ -151,6 +153,7 @@ export function ShopScreen() {
         <p className="mt-3 rounded-2xl bg-white/10 px-4 py-3 text-[11px] font-bold leading-relaxed text-indigo-100/75">
           へやの かぐは、🏠おうちの なかで「おける かぐ」から えらんで おこう。<br />
           おうちは 🏗️けんせつ の「みんなの おうち」を たてると はいれるよ。
+          {hasSchool ? <><br />🏫 がっこうの かぐ（ちきゅうぎ など）は、がっこうの きょうしつに おけるよ。</> : null}
         </p>
       )}
 

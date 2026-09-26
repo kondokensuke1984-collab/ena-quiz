@@ -134,3 +134,98 @@ function RoomGroundBase({ wall, floor, tod, moonAge, sleeping }: {
   );
 }
 export const RoomGround = React.memo(RoomGroundBase);
+
+// ── 🏫 がっこうの きょうしつ ──
+/** つくえ（2れつ × 3）。キャラは その うしろに すわる */
+export const SCHOOL_DESKS = [
+  { x: 0.3, y: 0.7 }, { x: 0.5, y: 0.7 }, { x: 0.7, y: 0.7 },
+  { x: 0.3, y: 0.87 }, { x: 0.5, y: 0.87 }, { x: 0.7, y: 0.87 },
+];
+/** タップで ひらくもの（割合の四角） */
+export const SCHOOL_HITS = {
+  board: { x0: 0.26, x1: 0.6, y0: 0.1, y1: 0.37 },
+  tv: { x0: 0.62, x1: 0.78, y0: 0.18, y1: 0.4 },
+  notice: { x0: 0.03, x1: 0.21, y0: 0.28, y1: 0.52 },
+};
+
+function SchoolGroundBase({ tod, moonAge, medals, stamps, friends, today }: {
+  tod: TimeOfDay; moonAge: number; medals: number; stamps: number; friends: number; today: number;
+}) {
+  return (
+    <>
+      <rect x="0" y="0" width={ISLAND_W} height="400" fill="#e0f2fe" />
+      <rect x="0" y="300" width={ISLAND_W} height="100" fill="#bae6fd" />
+      <rect x="0" y="400" width={ISLAND_W} height="350" fill="#e7c28f" />
+      {Array.from({ length: 7 }, (_, i) => <line key={i} x1="0" x2={ISLAND_W} y1={440 + i * 48} y2={440 + i * 48} stroke="#c9a06a" strokeWidth="3" />)}
+      <rect x="0" y="392" width={ISLAND_W} height="12" fill="#92400e" />
+      {/* まど：外は本当の時間の空 */}
+      <g transform="translate(30 50)">
+        <rect x="0" y="0" width="175" height="130" rx="6" fill={WINDOW_SKY[tod]} stroke="#78350f" strokeWidth="8" />
+        {tod === 'night' && [[25, 25], [70, 50], [140, 30], [110, 95]].map(([x, y], i) => <circle key={i} cx={x} cy={y} r="2.5" fill="#fef9c3" className="twinkle" />)}
+        {tod !== 'day' && (
+          <g transform="translate(125 45)">
+            <circle r="18" fill="rgba(30,41,59,0.5)" />
+            <path d={moonLitPath(moonAge, 18)} fill="#fef08a" />
+          </g>
+        )}
+        {tod === 'day' && <circle cx="135" cy="40" r="20" fill="#fde047" />}
+        <path d="M87 0 L87 130" stroke="#78350f" strokeWidth="6" />
+      </g>
+      {/* けいじばん（あつめた もの） */}
+      <g transform="translate(30 215)">
+        <rect x="0" y="0" width="175" height="165" rx="6" fill="#fcd9a8" stroke="#92400e" strokeWidth="6" />
+        <text x="87" y="26" fontSize="19" fontWeight="900" textAnchor="middle" fill="#7c2d12">けいじばん</text>
+        {[['🪙', `${medals}まい`], ['🗓️', `${stamps}にち`], ['🐾', `${friends}たい`]].map(([e, t], i) => (
+          <g key={i} transform={`translate(${i % 2 ? 92 : 10} ${40 + i * 38})`}>
+            <rect width="75" height="32" rx="4" fill={['#fef9c3', '#dcfce7', '#fce7f3'][i]} stroke="#4c1d95" strokeWidth="1.5" transform={`rotate(${i % 2 ? 3 : -3} 37 16)`} />
+            <text x="37" y="22" fontSize="15" fontWeight="900" textAnchor="middle" fill="#1e1b4b">{e}{t}</text>
+          </g>
+        ))}
+        {[[12, 8], [160, 8], [12, 152], [160, 152]].map(([x, y], i) => <circle key={i} cx={x} cy={y} r="4" fill="#ef4444" />)}
+      </g>
+      {/* こくばん */}
+      <g transform="translate(265 80)">
+        <rect x="0" y="0" width="330" height="190" rx="6" fill="#166534" stroke="#78350f" strokeWidth="10" />
+        <rect x="10" y="190" width="310" height="10" fill="#a16207" />
+        <rect x="40" y="184" width="22" height="6" fill="#fff" />
+        <rect x="70" y="184" width="16" height="6" fill="#fde047" />
+        <text x="165" y="50" fontSize="26" fontWeight="900" textAnchor="middle" fill="#f0fdf4">きょうの べんきょう</text>
+        <text x="165" y="100" fontSize="34" fontWeight="900" textAnchor="middle" fill="#fef08a">{today}もん</text>
+        <text x="165" y="145" fontSize="17" fontWeight="800" textAnchor="middle" fill="#bbf7d0">タップして みてね</text>
+      </g>
+      {/* 📺 テレビ（ずんだもん どうが） */}
+      <g transform="translate(628 150)">
+        <rect x="46" y="112" width="44" height="12" fill="#475569" />
+        <rect x="20" y="124" width="96" height="10" rx="3" fill="#334155" />
+        <rect x="0" y="0" width="140" height="112" rx="10" fill="#1e293b" stroke="#0f172a" strokeWidth="4" />
+        <rect x="10" y="10" width="120" height="84" rx="4" fill="#84cc16" />
+        <circle cx="70" cy="52" r="24" fill="#fff" opacity="0.9" />
+        <path d="M62 38 L86 52 L62 66 Z" fill="#16a34a" />
+        <text x="70" y="108" fontSize="11" fontWeight="900" textAnchor="middle" fill="#e2e8f0">ずんだもん どうが</text>
+      </g>
+      {/* ドア（ここから そとへ） */}
+      <g transform="translate(805 170)">
+        <rect x="0" y="0" width="120" height="232" rx="10" fill="#b45309" stroke="#4c1d95" strokeWidth="4" />
+        <rect x="14" y="16" width="92" height="90" rx="6" fill="#bae6fd" stroke="#78350f" strokeWidth="3" />
+        <circle cx="22" cy="130" r="7" fill="#fde047" stroke="#4c1d95" strokeWidth="2" />
+        <text x="60" y="-12" fontSize="26" textAnchor="middle">🚪</text>
+      </g>
+      {/* きょうたく */}
+      <g transform="translate(430 420)">
+        <ellipse cx="0" cy="36" rx="60" ry="8" fill="rgba(0,0,0,0.15)" />
+        <rect x="-55" y="-10" width="110" height="46" rx="4" fill="#a16207" stroke="#4c1d95" strokeWidth="3" />
+        <rect x="-60" y="-16" width="120" height="10" rx="3" fill="#ca8a04" stroke="#4c1d95" strokeWidth="3" />
+      </g>
+      {/* つくえ */}
+      {SCHOOL_DESKS.map((d, i) => (
+        <g key={i} transform={`translate(${d.x * ISLAND_W} ${d.y * ISLAND_H + 18})`}>
+          <ellipse cx="0" cy="26" rx="48" ry="8" fill="rgba(0,0,0,0.15)" />
+          <path d="M-38 6 L-38 26 M38 6 L38 26" stroke="#4c1d95" strokeWidth="4" strokeLinecap="round" />
+          <rect x="-44" y="-4" width="88" height="12" rx="3" fill="#fbbf24" stroke="#4c1d95" strokeWidth="2.5" />
+        </g>
+      ))}
+      {tod === 'night' && <rect x="0" y="0" width={ISLAND_W} height={ISLAND_H} fill="rgba(15,23,72,0.18)" pointerEvents="none" />}
+    </>
+  );
+}
+export const SchoolGround = React.memo(SchoolGroundBase);

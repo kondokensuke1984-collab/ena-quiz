@@ -25,11 +25,13 @@ import { SkyLayer } from '../components/SkyLayer';
 import { starInfo } from '../lib/starsky';
 import { moonAge as calcMoonAge, moonName, timeOfDay, weatherFor } from '../lib/sky';
 import { cycleSoundMode, setBgmNight, sfx, soundMode, voice, type SoundMode } from '../lib/sound';
-import { answeredByDate, daysThisWeek, stampDays, studiedToday } from '../lib/study';
+import { answeredByDate, daysThisWeek, stampDays, studiedToday, todayUnits, UNLOCK_CATS } from '../lib/study';
+import { earnedTotal } from '../lib/medals';
+import { pickLesson, type Lesson } from '../lib/lesson';
 import { buildLetters } from '../lib/letters';
 import { photoMonthOf, stampRewardsFor } from '../lib/items';
 import type { Area, Letter, Pos } from '../types';
-import { EastGround, RoomGround } from '../components/AreaStages';
+import { EastGround, RoomGround, SchoolGround, SCHOOL_DESKS, SCHOOL_HITS } from '../components/AreaStages';
 import { FishingModal } from '../components/FishingModal';
 import { FarmPatch } from '../components/FarmPatch';
 import { FarmModal } from '../components/FarmModal';
@@ -90,7 +92,7 @@ const SOUND_LABEL: Record<SoundMode, string> = { sfx: '🔊 こうかおん', al
 const MAX_ON_ISLAND = 7;
 // おうちの中に ついてきた子の 立ち位置
 const HOUSE_SPAWNS: Pos[] = [{ x: 0.32, y: 0.72 }, { x: 0.42, y: 0.8 }, { x: 0.3, y: 0.86 }, { x: 0.5, y: 0.74 }];
-const AREA_TITLE: Record<Area, string> = { main: '🏝 アンリノ島', east: '🌸 はなばたけの しま', house: '🏠 おうちの なか' };   // 教科キャラを一度に出す数のめやす（主役＋あそびに来る住人）
+const AREA_TITLE: Record<Area, string> = { main: '🏝 アンリノ島', east: '🌸 はなばたけの しま', house: '🏠 おうちの なか', school: '🏫 しまの がっこう' };   // 教科キャラを一度に出す数のめやす（主役＋あそびに来る住人）
 
 /** カメラ（main だけ）：主人公を まんなかに、世界の はしで とめる。px */
 function camTarget(p: Pos): Pos {
@@ -159,15 +161,21 @@ export function IslandScreen() {
 
   // いる場所（main／east／house）と、建てたもので島が広がる。clampToIsland などが見る BOUNDS をここで切りかえる
   const area: Area = save.area === 'house' && !save.buildings.includes('bd_house') ? 'main'
+    : save.area === 'school' && !save.buildings.includes('bd_school') ? 'main'
     : save.area === 'east' && !save.buildings.includes('bd_bridge') ? 'main' : save.area;
+  const indoor = area === 'house' || area === 'school';
   const expansion = expansionOf(save.buildings);
   setArea(area, expansion);
   const hasBridge = save.buildings.includes('bd_bridge');
-  const builtSpots = area === 'house' ? [] : save.buildings.filter((id) => spotInArea(id, area));
+  const builtSpots = indoor ? [] : save.buildings.filter((id) => spotInArea(id, area));
   const nextBuild = ITEM_BY_ID[nextBuildId(save.buildings) ?? ''];
   const [fade, setFade] = useState(false);
   const [sleeping, setSleeping] = useState(false);
   const [deskOpen, setDeskOpen] = useState(false);
+  // 🏫 がっこう：こくばん・じゅぎょう・テレビ
+  const [boardOpen, setBoardOpen] = useState(false);
+  const [tvAsk, setTvAsk] = useState(false);
+  const [lesson, setLesson] = useState<{ f: Friend; l: (Lesson & { id: string }) | null; show: boolean; loading: boolean } | null>(null);
 
   // ── クイズで育てている教科キャラ（その月の主役と前の月の住人）。クイズ側の書き出しを読むだけ ──
   const [snap, setSnap] = useState(() => readFriends());
@@ -184,6 +192,8 @@ export function IslandScreen() {
         f.level > 1 && heartsOf(save.friendsPlay[f.char]?.pts ?? 0) >= FOLLOW_HEARTS && !save.friendsPlay[f.char]?.followOff);
     }
     if (area === 'east') return vis;
+    // がっこう：主役と きょう あそびに来た子が つくえに すわる（たまごは こない）
+    if (area === 'school') return [...cur, ...vis].filter((f) => f.level > 1).slice(0, SCHOOL_DESKS.length);
     return hasBridge ? cur : [...cur, ...vis];
   }, [snap, day, area, hasBridge, save.friendsPlay]);
   const isCurrent = (f: Friend) => f.month === snap.currentMonth;
@@ -207,7 +217,7 @@ export function IslandScreen() {
   const camNow = cam.current;
   friends.forEach((f, i) => {
     if (!friendPos.current[f.id]) {
-      const spawns = area === 'house' ? HOUSE_SPAWNS : FRIEND_SPAWNS;
+      const spawns = area === 'house' ? HOUSE_SPAWNS : area === 'school' ? SCHOOL_DESKS : FRIEND_SPAWNS;
       const p = spawns[i % spawns.length];
       friendPos.current[f.id] = p;
       friendTarget.current[f.id] = wanderTarget(p);
@@ -317,11 +327,11 @@ export function IslandScreen() {
   gRef.current = g;
   const stageRefState = useRef({
     eggStage: monster.stage === 'egg', placed: placedHere, play: save.friendsPlay,
-    school: area === 'main' && save.buildings.includes('bd_school'), built: builtSpots,
+    school: area === 'main' && save.buildings.includes('bd_school'), built: builtSpots, inSchool: area === 'school',
   });
   stageRefState.current = {
     eggStage: monster.stage === 'egg', placed: placedHere, play: save.friendsPlay,
-    school: area === 'main' && save.buildings.includes('bd_school'), built: builtSpots,
+    school: area === 'main' && save.buildings.includes('bd_school'), built: builtSpots, inSchool: area === 'school',
   };
   const committed = useRef<{ p: Pos; m: Pos } | null>(null);
 
@@ -385,7 +395,7 @@ export function IslandScreen() {
       friendsRef.current.forEach((f, i) => {
         const cur = friendPos.current[f.id];
         if (!cur) return;
-        if (f.level > 1) {
+        if (f.level > 1 && !stageRefState.current.inSchool) {   // がっこうでは つくえに すわったまま
           const hearts = heartsOf(stageRefState.current.play[f.char]?.pts ?? 0);
           const pp = playerPos.current;
           if (hearts >= FOLLOW_HEARTS && !stageRefState.current.play[f.char]?.followOff && dist(cur, pp) < FOLLOW_RANGE) {
@@ -510,10 +520,17 @@ export function IslandScreen() {
       if (hit?.id === 'in_desk') { setDeskOpen(true); return; }
       if (hit?.id === 'in_bed') { goToBed(); return; }
     }
+    if (area === 'school') {
+      const inBox = (b: { x0: number; x1: number; y0: number; y1: number }) => raw.x >= b.x0 && raw.x <= b.x1 && raw.y >= b.y0 && raw.y <= b.y1;
+      if (inBox(SCHOOL_HITS.board)) { sfx('letter'); setBoardOpen(true); return; }
+      if (inBox(SCHOOL_HITS.tv)) { sfx('letter'); setTvAsk(true); return; }
+      if (inBox(SCHOOL_HITS.notice)) { sfx('letter'); setRosterOpen(true); return; }
+    }
     for (const f of friends) {
       const fp = friendPos.current[f.id];
       if (fp && dist(raw, { x: fp.x, y: fp.y - 0.07 }) < 0.065) {
         tapFriend(f);
+        if (area === 'school') openLesson(f);
         return;
       }
     }
@@ -542,6 +559,14 @@ export function IslandScreen() {
     }
     const lines = weather === 'rain' ? [...TAP_LINES, 'あめだね〜', 'かさ もってる？'] : TAP_LINES;
     setBubble({ char: f.char, text: f.level > 1 ? lines[Math.floor(Math.random() * lines.length)] : '…コトコト', heart: false, key: Date.now() });
+  };
+
+  // 🏫 じゅぎょう：その子の 月・教科の もんだいを 1もん
+  const openLesson = (f: Friend, notId?: string) => {
+    setLesson({ f, l: null, show: false, loading: true });
+    pickLesson(f.month, f.cat, notId).then((l) => {
+      setLesson((cur) => (cur && cur.f.id === f.id ? { f, l, show: false, loading: false } : cur));
+    });
   };
 
   // 場所を移る：ふわっと暗くしてから切りかえる
@@ -582,6 +607,8 @@ export function IslandScreen() {
   const pp = playerPos.current;
   const nearDoorIn = area === 'main' && save.buildings.includes('bd_house') && dist(pp, DOORS.mainToHouse) <= 0.09;
   const nearDoorOut = area === 'house' && dist(pp, DOORS.houseToMain) <= 0.12;
+  const nearSchoolIn = area === 'main' && save.buildings.includes('bd_school') && dist(pp, DOORS.mainToSchool) <= 0.09;
+  const nearSchoolOut = area === 'school' && dist(pp, DOORS.schoolToMain) <= 0.12;
   const nearBridgeGo = area === 'main' && hasBridge && dist(pp, DOORS.mainToEast) <= 0.1;
   const nearBridgeBack = area === 'east' && dist(pp, DOORS.eastToMain) <= 0.1;
   const heartsFor = (f: Friend) => heartsOf(save.friendsPlay[f.char]?.pts ?? 0);
@@ -960,6 +987,9 @@ export function IslandScreen() {
           )}
           {area === 'main' && <FarmPatch plots={save.farm.plots} stages={farmStages} today={day} />}
           {area === 'east' && <EastGround tod={tod} />}
+          {area === 'school' && (
+            <SchoolGround tod={tod} moonAge={moonAge} medals={earnedTotal()} stamps={stamps.length} friends={snap.friends.length} today={byDate[day] || 0} />
+          )}
           {area === 'house' && (
             <RoomGround wall={save.room.wall} floor={save.room.floor} tod={tod} moonAge={moonAge} sleeping={sleeping} />
           )}
@@ -986,7 +1016,7 @@ export function IslandScreen() {
           {entities}
           {/* 空（画面に くっつける）。夜のあかりは 下で 島の上に かく */}
           <g ref={skyRef} transform={`translate(${camNow.x} ${camNow.y})`}>
-            {area !== 'house' && <SkyLayer
+            {!indoor && <SkyLayer
               tod={tod}
               weather={weather}
               moonAge={moonAge}
@@ -996,7 +1026,7 @@ export function IslandScreen() {
               skyTime={skyMin}
               onStarTap={(id) => g.showToast(starInfo(id))}
             />}
-            {hwNight && area !== 'house' && [[120, 90], [520, 60], [760, 130]].map(([x, y], i) => (
+            {hwNight && !indoor && [[120, 90], [520, 60], [760, 130]].map(([x, y], i) => (
               <g key={'bat' + i} transform={`translate(${x} ${y})`} style={{ pointerEvents: 'none' }}>
                 <g className="bat-fly" style={{ animationDelay: `${-i * 2.3}s` }}>
                   <text fontSize="30" textAnchor="middle">🦇</text>
@@ -1005,7 +1035,7 @@ export function IslandScreen() {
             ))}
           </g>
           {/* 夜の あかり（窓・ランプ・ランタン）。島の位置に かく */}
-          {area !== 'house' && tod === 'night' && [
+          {!indoor && tod === 'night' && [
 
               ...(area === 'main' && save.buildings.includes('bd_house') ? [{ x: 0.2, y: 0.36, r: 60 }] : []),
               ...(area === 'main' && save.buildings.includes('bd_school') ? [{ x: 0.64, y: 0.31, r: 80 }] : []),
@@ -1049,6 +1079,10 @@ export function IslandScreen() {
             </button>
           ) : nearDoorIn ? (
             <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => travel('house', ENTRY.house)}>🏠 おうちに はいる</button>
+          ) : nearSchoolIn ? (
+            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => travel('school', ENTRY.school)}>🏫 がっこうに はいる</button>
+          ) : nearSchoolOut ? (
+            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => travel('main', ENTRY.mainFromSchool)}>🚪 そとに でる</button>
           ) : nearDoorOut ? (
             <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => travel('main', ENTRY.mainFromHouse)}>🚪 そとに でる</button>
           ) : nearBridgeGo ? (
@@ -1096,6 +1130,8 @@ export function IslandScreen() {
             <div className="max-w-[190px] rounded-2xl bg-white/10 px-3 py-2 text-right text-[11px] font-bold leading-snug text-indigo-100/70">
               {area === 'house'
                 ? 'へやの かぐを おいて かざろう。ドアの まえで そとに でられるよ'
+                : area === 'school'
+                ? 'こくばん・テレビ・けいじばん・おともだちを タップしてみよう'
                 : area === 'east'
                 ? 'はなばたけの しまだよ。ひだりの はしで もとの しまに もどれるよ'
                 : monster.stage === 'egg'
@@ -1131,7 +1167,7 @@ export function IslandScreen() {
       {/* ── 置ける家具のトレイ ── */}
       {unplaced.length > 0 && (
         <div className="panel mt-3 !py-3 lg:landscape:col-start-2">
-          <div className="mb-2 text-[12px] font-black text-ink">{area === 'house' ? '🛋️ へやに おける かぐ' : '🌴 しまに おける かぐ'}</div>
+          <div className="mb-2 text-[12px] font-black text-ink">{area === 'house' ? '🛋️ へやに おける かぐ' : area === 'school' ? '🏫 きょうしつに おける かぐ' : '🌴 しまに おける かぐ'}</div>
           <div className="flex flex-wrap gap-2">
             {unplaced.map((id) => {
               const it = ITEM_BY_ID[id];
@@ -1248,6 +1284,88 @@ export function IslandScreen() {
             </div>
             <a className="btn-main mt-3 block text-center no-underline" href="/rpg.html#forest">🌲 いく</a>
             <button className="btn mt-2" onClick={() => setForestAsk(false)}>やめる</button>
+          </div>
+        </div>
+      )}
+
+      {/* ── 🏫 こくばん：きょうの べんきょう ── */}
+      {boardOpen && (() => {
+        const tu = todayUnits();
+        return (
+          <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/60 p-3" onClick={() => setBoardOpen(false)}>
+            <div className="panel w-full max-w-[440px]" onClick={(e) => e.stopPropagation()}>
+              <div className="mb-2 text-[14px] font-black text-ink">🏫 こくばん：きょうの べんきょう</div>
+              <div className="rounded-2xl bg-emerald-800 px-4 py-3 text-[13px] font-bold leading-relaxed text-emerald-50">
+                きょうは <b className="text-[18px] text-yellow-200">{byDate[day] || 0}もん</b> といたよ。<br />
+                {(byDate[day] || 0) >= 5 ? '🗓️ きょうの スタンプ ゲット！' : `🗓️ あと ${5 - (byDate[day] || 0)}もんで きょうの スタンプ`}<br />
+                🔑 さいごまで といた きょうか <b className="text-[16px] text-yellow-200">{Math.min(tu.cats.length, UNLOCK_CATS)} / {UNLOCK_CATS}</b>
+                {tu.cats.length >= UNLOCK_CATS ? '　しまの かぎ OK！' : ''}<br />
+                こんげつの スタンプは <b className="text-[16px] text-yellow-200">{stamps.length}にち</b>
+              </div>
+              <div className="mt-3 grid grid-cols-2 gap-2">
+                <a className="btn-main block text-center no-underline" href="/">📚 クイズへ</a>
+                <a className="btn-main block text-center no-underline" href="/rpg.html">⚔️ クエストへ</a>
+              </div>
+              <button className="btn mt-2" onClick={() => setBoardOpen(false)}>とじる</button>
+            </div>
+          </div>
+        );
+      })()}
+
+      {/* ── 🏫 じゅぎょう：キャラが もんだいを だす（メダルは でない）── */}
+      {lesson && (
+        <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/60 p-3" onClick={() => setLesson(null)}>
+          <div className="panel max-h-[85vh] w-full max-w-[440px] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center gap-2">
+              <CharSVG charKey={lesson.f.char} level={lesson.f.level} fillPct={lesson.f.fill} size={56} stars={lesson.f.stars} label={lesson.f.name} />
+              <div className="min-w-0">
+                <div className="text-[14px] font-black text-ink">{lesson.f.name}せんせいの じゅぎょう</div>
+                <div className="text-[11px] font-bold text-indigo-900/55">{lesson.f.monthLabel}・{lesson.f.catLabel}</div>
+              </div>
+            </div>
+            {lesson.loading ? (
+              <div className="mt-3 rounded-2xl bg-indigo-50 px-4 py-3 text-[13px] font-bold text-ink">もんだいを えらんでいるよ…</div>
+            ) : !lesson.l ? (
+              <div className="mt-3 rounded-2xl bg-indigo-50 px-4 py-3 text-[13px] font-bold text-ink">
+                きょうは おやすみ だよ。クイズで いっしょに べんきょうしよう！
+              </div>
+            ) : (
+              <>
+                <div className="mt-3 whitespace-pre-line rounded-2xl bg-emerald-800 px-4 py-3 text-[14px] font-bold leading-relaxed text-emerald-50">
+                  {lesson.l.q}
+                  {lesson.l.options.length > 0 && (
+                    <div className="mt-2 text-[13px] text-emerald-100">{lesson.l.options.map((o) => <div key={o}>{o}</div>)}</div>
+                  )}
+                </div>
+                {lesson.show ? (
+                  <div className="mt-2 whitespace-pre-line rounded-2xl bg-amber-50 px-4 py-3 text-[13px] font-bold leading-relaxed text-ink">
+                    <div className="text-[14px] font-black text-rose-600">こたえ：{lesson.l.answer}</div>
+                    {lesson.l.explanation && <div className="mt-1 text-indigo-900/75">{lesson.l.explanation}</div>}
+                  </div>
+                ) : (
+                  <button className="btn-main mt-3" onClick={() => { sfx('letter'); setLesson({ ...lesson, show: true }); }}>💡 こたえを みる</button>
+                )}
+                {lesson.show && (
+                  <button className="btn-main mt-2" onClick={() => openLesson(lesson.f, lesson.l?.id)}>✏️ もう1もん</button>
+                )}
+              </>
+            )}
+            <button className="btn mt-2" onClick={() => setLesson(null)}>とじる</button>
+          </div>
+        </div>
+      )}
+
+      {/* ── 📺 ずんだもん どうが（クイズの 安全プレーヤーで みる）── */}
+      {tvAsk && (
+        <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/60 p-3" onClick={() => setTvAsk(false)}>
+          <div className="panel w-full max-w-[440px] text-center" onClick={(e) => e.stopPropagation()}>
+            <div className="text-5xl">📺</div>
+            <div className="mt-1 text-[16px] font-black text-ink">ずんだもん どうがを みる？</div>
+            <div className="mt-1 text-[12px] font-bold leading-relaxed text-indigo-900/60">
+              「ずんだもんと まなぶ ちゅうがくじゅけん」の どうがだよ。<br />みおわったら「🏝 しまに もどる」で がっこうに もどれるよ。
+            </div>
+            <a className="btn-main mt-3 block text-center no-underline" href="/?videos=1">📺 みる</a>
+            <button className="btn mt-2" onClick={() => setTvAsk(false)}>やめる</button>
           </div>
         </div>
       )}

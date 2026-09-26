@@ -99,7 +99,7 @@ export function loadSave(): SaveV1 {
       found: obj(s.detective?.found, {}),
       hint: obj(s.detective?.hint, {}),
     },
-    area: s.area === 'east' || s.area === 'house' ? s.area : 'main',
+    area: s.area === 'east' || s.area === 'house' || s.area === 'school' ? s.area : 'main',
     room: { ...f.room, ...obj(s.room, {}) },
     fish: {
       ...f.fish,

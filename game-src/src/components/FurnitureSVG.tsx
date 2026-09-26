@@ -364,6 +364,50 @@ const DRAWINGS: Record<string, Draw> = {
       <circle cx="0" cy="-8" r="1.6" fill="#1e1b4b" />
     </g>
   ),
+  sc_globe: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="14" ry="4" fill="rgba(0,0,0,0.18)" />
+      <path d="M-10 0 L10 0 M0 0 L0 -12" stroke="#4c1d95" strokeWidth="3.5" strokeLinecap="round" />
+      <path d="M-16 -30 A18 18 0 0 0 12 -14" fill="none" stroke="#a16207" strokeWidth="3" />
+      <circle cx="0" cy="-30" r="15" fill="#38bdf8" {...S} />
+      <path d="M-8 -38 q6 -2 8 4 q-2 5 -8 3 z M3 -28 q7 -2 8 4 q-4 6 -9 2 z" fill="#4ade80" />
+    </g>
+  ),
+  sc_micro: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="14" ry="4" fill="rgba(0,0,0,0.18)" />
+      <rect x="-13" y="-6" width="26" height="6" rx="2" fill="#475569" {...S} />
+      <path d="M8 -6 Q14 -24 2 -34" fill="none" stroke="#475569" strokeWidth="5" strokeLinecap="round" />
+      <rect x="-9" y="-16" width="16" height="4" rx="1" fill="#94a3b8" {...S} />
+      <rect x="-6" y="-44" width="9" height="24" rx="3" fill="#e2e8f0" transform="rotate(-18 -2 -32)" {...S} />
+    </g>
+  ),
+  sc_tank: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="24" ry="5" fill="rgba(0,0,0,0.18)" />
+      <rect x="-20" y="-12" width="40" height="12" fill="#a16207" {...S} />
+      <rect x="-22" y="-40" width="44" height="28" rx="3" fill="#bae6fd" fillOpacity="0.85" {...S} />
+      <path d="M-14 -14 q2 -10 0 -18 M14 -14 q-3 -8 0 -14" stroke="#16a34a" strokeWidth="2.5" fill="none" />
+      <path d="M-4 -28 q5 -4 9 0 q-4 4 -9 0 z l-3 -3 0 6 z" fill="#fb923c" />
+    </g>
+  ),
+  sc_organ: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="26" ry="5" fill="rgba(0,0,0,0.18)" />
+      <rect x="-26" y="-44" width="52" height="44" rx="4" fill="#7c2d12" {...S} />
+      <rect x="-22" y="-26" width="44" height="9" fill="#fff" {...S} />
+      {[-16, -10, -2, 4, 12].map((x) => <rect key={x} x={x} y="-26" width="3.5" height="5.5" fill="#1e1b4b" />)}
+      <path d="M-12 -38 l0 -4 6 -1 0 4 M-12 -34 a2 2 0 1 1 0 -0.1 M-6 -35 a2 2 0 1 1 0 -0.1" stroke="#fde047" strokeWidth="1.6" fill="none" />
+    </g>
+  ),
+  sc_map: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="10" ry="3" fill="rgba(0,0,0,0.18)" />
+      <path d="M0 0 L0 -18" stroke="#4c1d95" strokeWidth="3" />
+      <rect x="-26" y="-56" width="52" height="40" rx="3" fill="#fef9c3" {...S} />
+      <path d="M12 -50 q4 4 -2 8 q-6 6 -10 10 q-8 6 -14 6 q-4 -2 0 -4 q8 -2 12 -8 q6 -6 10 -10 z" fill="#4ade80" stroke="#15803d" strokeWidth="1.2" />
+    </g>
+  ),
   fn_xtree: () => (
     <g>
       <ellipse cx="0" cy="2" rx="18" ry="6" fill="rgba(0,0,0,0.2)" />
