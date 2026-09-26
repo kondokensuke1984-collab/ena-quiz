@@ -8,6 +8,7 @@ export interface SecretBonus { id: string; month: string; n: number; label: stri
 
 const SECRETS: Record<string, SecretBonus> = {
   '2d35a5a9753e27d92d5916a0392282a91b24594a1bc62dd2823e8cefbbc66794': { id: '202609-kenken89', month: '202609', n: 80, label: 'けんけん もし 89％ ボーナス' },
+  '64603700ef03c66783e638ddedb4cb9172f68f3342612712254289590ca50d9e': { id: '202609-moshi80', month: '202609', n: 80, label: 'もし 80％ たっせい ボーナス' },
 };
 
 export function normalizeSecret(s: string): string {
