@@ -4,7 +4,8 @@ import React, {
 import type { Area, Item, Letter, LetterMarks, PlayerKey, Pos, SaveV1, Screen, Slot } from '../types';
 import { sfx, unlockAudio } from '../lib/sound';
 import { freshSave, isSaveKey, lastRestored, loadSave, persist, storedRev } from '../lib/save';
-import { earnedTotal, isMedalKey } from '../lib/medals';
+import { earnedTotal, grantBonus, isMedalKey } from '../lib/medals';
+import { findSecret } from '../lib/secret';
 import { isSpentKey, loadSpent, spend, type SpendLedger, type SpendResult } from '../lib/spend';
 import { feed } from '../lib/monster';
 import {
@@ -135,6 +136,8 @@ export interface GameApi {
   solveCase(no: number): { gift: string; reward: string | null; title: string | null } | null;
   /** まいにちスタンプの ごほうびを うけとる。うけとったものの説明を返す */
   claimStamp(ym: string, days: number): string | null;
+  /** がっこうの けいじばんの ひみつの あいことば。ok＝もらえた（n枚）／already＝もう もらった／ng＝ちがう */
+  claimSecret(input: string): Promise<{ r: 'ok' | 'already' | 'ng'; n: number }>;
   /** たからばこを あける（その日1回）。出たプレゼントのID */
   openChest(day: string): string | null;
   /** gifts＝いっしょに とどく 家具（月の きねんしゃしん など） */
@@ -490,6 +493,14 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         const prev = s.friendsPlay[charKey] ?? { pts: 0, day: '', today: 0, wear: null };
         return { ...s, friendsPlay: { ...s.friendsPlay, [charKey]: { ...prev, followOff: !prev.followOff } } };
       }),
+
+    claimSecret: async (input) => {
+      const b = await findSecret(input);
+      if (!b) return { r: 'ng', n: 0 };
+      const r = grantBonus(b.id, b.month, b.n);
+      dispatch({ type: 'REFRESH_MEDALS' });
+      return { r: r === 'ok' ? 'ok' : r === 'already' ? 'already' : 'ng', n: b.n };
+    },
 
     claimStamp: (ym, days) => {
       const r = stampRewardsFor(Number(ym.split('-')[1])).find((x) => x.days === days);

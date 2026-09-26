@@ -137,6 +137,17 @@ export function IslandScreen() {
   const [wearFor, setWearFor] = useState<Friend | null>(null);
   const [bubble, setBubble] = useState<Bubble | null>(null);
   const [rosterOpen, setRosterOpen] = useState(false);
+  // 🤫 けいじばんの すみの 📌 → ひみつの あいことば（lib/secret.ts）
+  const [secretOpen, setSecretOpen] = useState(false);
+  const [secretText, setSecretText] = useState('');
+  const submitSecret = async () => {
+    const r = await g.claimSecret(secretText);
+    if (r.r === 'ok') { sfx('chest'); g.showToast(`🤫 ひみつの メダル 🪙${r.n}まい ゲット！`); }
+    else if (r.r === 'already') { sfx('ng'); g.showToast('この ひみつは もう つかったよ', 'ng'); }
+    else { sfx('ng'); g.showToast('あれ？ なにも おきなかった…', 'ng'); }
+    setSecretText('');
+    setSecretOpen(false);
+  };
   const [jump, setJump] = useState<{ id: string; key: number } | null>(null);
   const [stampOpen, setStampOpen] = useState(false);
   const [mailOpen, setMailOpen] = useState(false);
@@ -1508,9 +1519,25 @@ export function IslandScreen() {
 
       {/* ── なかま いちらん（おうちで見られる）── */}
       {rosterOpen && (
-        <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/60 p-3" onClick={() => setRosterOpen(false)}>
+        <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/60 p-3" onClick={() => { setRosterOpen(false); setSecretOpen(false); }}>
           <div className="panel max-h-[80vh] w-full max-w-[440px] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-            <div className="mb-2 text-[14px] font-black text-ink">📖 しまの なかま</div>
+            <div className="mb-2 flex items-center text-[14px] font-black text-ink">
+              <span className="flex-1">📖 しまの なかま</span>
+              {area === 'school' && <button aria-label="ピン" className="px-1 text-[13px] opacity-30" onClick={() => setSecretOpen((v) => !v)}>📌</button>}
+            </div>
+            {secretOpen && area === 'school' && (
+              <form className="mb-3 flex gap-2" onSubmit={(e) => { e.preventDefault(); void submitSecret(); }}>
+                <input
+                  className="min-w-0 flex-1 rounded-xl border-2 border-amber-300 bg-amber-50 px-3 py-2 text-[14px] font-bold text-ink"
+                  placeholder="ひみつの ことば"
+                  value={secretText}
+                  onChange={(e) => setSecretText(e.target.value)}
+                  autoFocus
+                  autoComplete="off"
+                />
+                <button type="submit" className="btn !w-auto !py-2 text-[13px]" disabled={!secretText.trim()}>OK</button>
+              </form>
+            )}
             {[...new Set(snap.friends.map((f) => f.month))].sort().reverse().map((m) => (
               <div key={m} className="mb-3">
                 <div className="mb-1.5 text-[12px] font-black text-indigo-700">
@@ -1533,7 +1560,7 @@ export function IslandScreen() {
                 </div>
               </div>
             ))}
-            <button className="btn-main mt-1" onClick={() => setRosterOpen(false)}>とじる</button>
+            <button className="btn-main mt-1" onClick={() => { setRosterOpen(false); setSecretOpen(false); }}>とじる</button>
           </div>
         </div>
       )}

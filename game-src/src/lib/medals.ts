@@ -4,11 +4,13 @@
 // ★このファイルは読み取り専用。書き込み関数を作ってはいけない。
 //   キー文字列 'ena_anrino_medals' もこのファイルの外に出さない。
 //   誤って書き込むと、クイズ側の獲得実績（減らない台帳）が壊れる。
+//   【例外（2026-09-26 ユーザー了承）】grantBonus だけは書く：'<月>|bonus:<id>' のキーを
+//   「まだ ないときに 新しく足す」だけ。いまある キー・first には さわらない。
 //
 // 台帳の形： { "units": { "<月>|<単元キー>": 枚数 } }   例) {"units":{"202609|nougyou2_kakomon":3}}
 // index.html:15596-15616 の loadMedalLedger / medalTotal と同じ読み方をしている。
 
-import { readJSON } from './storage';
+import { readJSON, writeJSON } from './storage';
 
 const MEDAL_KEY = 'ena_anrino_medals';
 
@@ -50,4 +52,21 @@ export function earnedByMonth(month: string): number {
 /** storage イベントの購読側で「メダルが増えたか」を判定するのに使う */
 export function isMedalKey(key: string | null): boolean {
   return key === MEDAL_KEY;
+}
+
+/**
+ * ひみつの ボーナス（がっこうの けいじばん）。'<月>|bonus:<id>' が まだ なければ n 枚 足す。
+ * 台帳は そのほかの中身（first など）を そのまま のこして 書きもどす。
+ */
+export function grantBonus(id: string, month: string, n: number): 'ok' | 'already' | 'failed' {
+  const raw = readJSON<unknown>(MEDAL_KEY, null);
+  const led: Record<string, unknown> =
+    raw && typeof raw === 'object' && !Array.isArray(raw) ? { ...(raw as Record<string, unknown>) } : {};
+  const u = led.units;
+  const units: Record<string, number> = u && typeof u === 'object' && !Array.isArray(u) ? { ...(u as Record<string, number>) } : {};
+  const key = `${month}|bonus:${id}`;
+  if (units[key]) return 'already';
+  units[key] = n;
+  led.units = units;
+  return writeJSON(MEDAL_KEY, led) ? 'ok' : 'failed';
 }
