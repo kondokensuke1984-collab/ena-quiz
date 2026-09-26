@@ -6,6 +6,7 @@ import { ShopScreen } from './screens/ShopScreen';
 import { BattleScreen } from './screens/BattleScreen';
 import { LockScreen } from './screens/LockScreen';
 import { OpeningScreen } from './screens/OpeningScreen';
+import { DrillScreen } from './screens/DrillScreen';
 import { useEffect, useState } from 'react';
 import { todayUnits } from './lib/study';
 
@@ -15,6 +16,9 @@ function Router() {
   const [devOpening, setDevOpening] = useState(
     () => /^(localhost|127\.0\.0\.1)$/.test(location.hostname) && new URLSearchParams(location.search).get('opening') === '1',
   );
+
+  // ずんだもんの あんきクイズ：ページを ひらくたび（＝島に 入るたび）1回
+  const [drillDone, setDrillDone] = useState(false);
 
   // 島の入口：今日 2教科で 単元を1つずつ といたら ひらく。クイズから もどったときに 読みなおす
   const [gate, setGate] = useState(() => todayUnits());
@@ -38,6 +42,8 @@ function Router() {
 
   // 主人公を選ぶまでは、ほかの画面に入れない
   if (!save.player) return <PickPlayerScreen />;
+
+  if (!drillDone) return <DrillScreen onDone={() => setDrillDone(true)} />;
 
   if (screen === 'shop') return <ShopScreen />;
   if (screen === 'battle') return <BattleScreen />;
