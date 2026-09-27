@@ -1,147 +1,125 @@
 {
-  "_note": "島に入るたびの あんきクイズ（DrillScreen.tsx）。声 audio/drill/ は tools/make_drill_voice.py で作る。中身を変えたら声も作りなおす。dq=小数の問い fa=分数の答え fq=分数の問い da=小数の答え（番号は 01〜）",
+  "_note": "島に入るたびに見せる あんき表（DrillScreen.tsx）。group ごとに見出しを出す。star＝よく出る数",
   "title": "しょうすう ⇔ ぶんすう",
-  "perVisit": 5,
-  "intro": "しまに 入る まえに、あんきクイズなのだ！",
-  "outro": "よくできたのだ！ しまへ いくのだ！",
   "items": [
     {
+      "group": "2・4・5分の□",
       "dec": "0.5",
-      "den": 2,
       "num": 1,
-      "decYomi": "レイテンゴ",
-      "fracYomi": "ニブンノイチ",
+      "den": 2,
       "star": true
     },
     {
+      "group": "2・4・5分の□",
       "dec": "0.25",
-      "den": 4,
       "num": 1,
-      "decYomi": "レイテンニーゴ",
-      "fracYomi": "ヨンブンノイチ",
+      "den": 4,
       "star": true
     },
     {
+      "group": "2・4・5分の□",
       "dec": "0.75",
-      "den": 4,
       "num": 3,
-      "decYomi": "レイテンナナゴ",
-      "fracYomi": "ヨンブンノサン",
+      "den": 4,
       "star": true
     },
     {
+      "group": "2・4・5分の□",
       "dec": "0.2",
-      "den": 5,
       "num": 1,
-      "decYomi": "レイテンニ",
-      "fracYomi": "ゴブンノイチ",
+      "den": 5,
       "star": true
     },
     {
+      "group": "2・4・5分の□",
       "dec": "0.4",
-      "den": 5,
       "num": 2,
-      "decYomi": "レイテンヨン",
-      "fracYomi": "ゴブンノニ"
+      "den": 5
     },
     {
+      "group": "2・4・5分の□",
       "dec": "0.6",
-      "den": 5,
       "num": 3,
-      "decYomi": "レイテンロク",
-      "fracYomi": "ゴブンノサン"
+      "den": 5
     },
     {
+      "group": "2・4・5分の□",
       "dec": "0.8",
-      "den": 5,
       "num": 4,
-      "decYomi": "レイテンハチ",
-      "fracYomi": "ゴブンノヨン"
+      "den": 5
     },
     {
+      "group": "8分の□",
       "dec": "0.125",
-      "den": 8,
       "num": 1,
-      "decYomi": "レイテンイチニーゴ",
-      "fracYomi": "ハチブンノイチ",
+      "den": 8,
       "star": true
     },
     {
+      "group": "8分の□",
       "dec": "0.375",
-      "den": 8,
       "num": 3,
-      "decYomi": "レイテンサンナナゴ",
-      "fracYomi": "ハチブンノサン"
+      "den": 8
     },
     {
+      "group": "8分の□",
       "dec": "0.625",
-      "den": 8,
       "num": 5,
-      "decYomi": "レイテンロクニーゴ",
-      "fracYomi": "ハチブンノゴ"
+      "den": 8
     },
     {
+      "group": "8分の□",
       "dec": "0.875",
-      "den": 8,
       "num": 7,
-      "decYomi": "レイテンハチナナゴ",
-      "fracYomi": "ハチブンノナナ"
+      "den": 8
     },
     {
+      "group": "整数がつく形",
       "dec": "1.25",
-      "den": 4,
       "num": 5,
-      "decYomi": "イッテンニーゴ",
-      "fracYomi": "ヨンブンノゴ"
+      "den": 4
     },
     {
+      "group": "整数がつく形",
       "dec": "1.5",
-      "den": 2,
       "num": 3,
-      "decYomi": "イッテンゴ",
-      "fracYomi": "ニブンノサン"
+      "den": 2
     },
     {
+      "group": "整数がつく形",
       "dec": "1.75",
-      "den": 4,
       "num": 7,
-      "decYomi": "イッテンナナゴ",
-      "fracYomi": "ヨンブンノナナ"
+      "den": 4
     },
     {
+      "group": "整数がつく形",
       "dec": "2.5",
-      "den": 2,
       "num": 5,
-      "decYomi": "ニテンゴ",
-      "fracYomi": "ニブンノゴ"
+      "den": 2
     },
     {
+      "group": "小さい数",
       "dec": "0.05",
-      "den": 20,
       "num": 1,
-      "decYomi": "レイテンレイゴ",
-      "fracYomi": "ニジュウブンノイチ"
+      "den": 20
     },
     {
+      "group": "小さい数",
       "dec": "0.04",
-      "den": 25,
       "num": 1,
-      "decYomi": "レイテンレイヨン",
-      "fracYomi": "ニジュウゴブンノイチ"
+      "den": 25
     },
     {
+      "group": "小さい数",
       "dec": "0.025",
-      "den": 40,
       "num": 1,
-      "decYomi": "レイテンレイニーゴ",
-      "fracYomi": "ヨンジュウブンノイチ"
+      "den": 40
     },
     {
+      "group": "小さい数",
       "dec": "0.0625",
-      "den": 16,
       "num": 1,
-      "decYomi": "レイテンレイロクニーゴ",
-      "fracYomi": "ジュウロクブンノイチ"
+      "den": 16
     }
   ]
 }
