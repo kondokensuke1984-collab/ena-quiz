@@ -34,6 +34,41 @@
 "month": "202610",
 "parent": "tsukimie"
 },
+"tsukimie2": {
+"label": "月の形と時こく・方角2",
+"icon": "🌒",
+"tag": "tag-tsukimie2",
+"category": "rika",
+"month": "202610",
+"isGroup": true,
+"ref": "/tsukimie2.html",
+"refLabel": "カラーページ（要点まとめ）",
+"refSub": "日食と月食・月のうら側・月から見た地球・南半球の月・太陽系の衛星"
+},
+"tsukimie2_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-tsukimie2",
+"category": "rika",
+"month": "202610",
+"parent": "tsukimie2"
+},
+"tsukimie2_renshu": {
+"label": "練習問題",
+"icon": "✏️",
+"tag": "tag-tsukimie2",
+"category": "rika",
+"month": "202610",
+"parent": "tsukimie2"
+},
+"tsukimie2_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-tsukimie2",
+"category": "rika",
+"month": "202610",
+"parent": "tsukimie2"
+},
 "nougyou3": {
 "label": "日本の農業３",
 "icon": "🍎",
@@ -97,5 +132,101 @@
 "category": "shakai",
 "month": "202610",
 "parent": "nougyou4"
+},
+"nougyou5": {
+"label": "日本の農業５",
+"icon": "🚜",
+"tag": "tag-nougyou5",
+"category": "shakai",
+"month": "202610",
+"isGroup": true
+},
+"nougyou5_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-nougyou5",
+"category": "shakai",
+"month": "202610",
+"parent": "nougyou5"
+},
+"nougyou5_renshu": {
+"label": "練習問題",
+"icon": "✏️",
+"tag": "tag-nougyou5",
+"category": "shakai",
+"month": "202610",
+"parent": "nougyou5"
+},
+"nougyou5_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-nougyou5",
+"category": "shakai",
+"month": "202610",
+"parent": "nougyou5"
+},
+"menseki10": {
+"label": "面積",
+"icon": "🟦",
+"tag": "tag-menseki",
+"category": "sansu",
+"month": "202610",
+"isGroup": true
+},
+"menseki10_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-menseki",
+"category": "sansu",
+"month": "202610",
+"parent": "menseki10"
+},
+"menseki10_renshu": {
+"label": "練習問題",
+"icon": "✏️",
+"tag": "tag-menseki",
+"category": "sansu",
+"month": "202610",
+"parent": "menseki10"
+},
+"menseki10_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-menseki",
+"category": "sansu",
+"month": "202610",
+"parent": "menseki10"
+},
+"tekisei1": {
+"label": "適性検査Ⅰ",
+"icon": "🏯",
+"tag": "tag-tekisei1",
+"category": "kokugo",
+"month": "202610",
+"isGroup": true
+},
+"tekisei1_q": {
+"label": "読解・作文",
+"icon": "✍️",
+"tag": "tag-tekisei1",
+"category": "kokugo",
+"month": "202610",
+"parent": "tekisei1"
+},
+"tekisei2": {
+"label": "適性検査Ⅱ",
+"icon": "🧩",
+"tag": "tag-tekisei2",
+"category": "sansu",
+"month": "202610",
+"isGroup": true
+},
+"tekisei2_q": {
+"label": "思考力",
+"icon": "🧠",
+"tag": "tag-tekisei2",
+"category": "sansu",
+"month": "202610",
+"parent": "tekisei2"
 }
 }

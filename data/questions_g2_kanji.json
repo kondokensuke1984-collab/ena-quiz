@@ -1,0 +1,1582 @@
+[
+{
+"id": "g2kj_001",
+"subject": "g2kanji_shizen",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nそらに 白い 【雲】が うかぶ。",
+"answer": "くも",
+"explanation": "【雲】は「くも」と 読むよ。\n「雲」の 読みかた：くも／ウン\nほかの ことば：雨雲（あまぐも）"
+},
+{
+"id": "g2kj_002",
+"subject": "g2kanji_shizen",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【雪】が つもって まっ白に なった。",
+"answer": "ゆき",
+"explanation": "【雪】は「ゆき」と 読むよ。\n「雪」の 読みかた：ゆき／セツ\nほかの ことば：大雪（おおゆき）・雪だるま（ゆきだるま）"
+},
+{
+"id": "g2kj_003",
+"subject": "g2kanji_shizen",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nあしたは 【晴れる】と いいな。",
+"answer": "はれる",
+"explanation": "【晴れる】は「はれる」と 読むよ。\n「晴」の 読みかた：は（れる）／セイ\nほかの ことば：晴天（せいてん）"
+},
+{
+"id": "g2kj_004",
+"subject": "g2kanji_shizen",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nつよい 【風】が ふく。",
+"answer": "かぜ",
+"explanation": "【風】は「かぜ」と 読むよ。\n「風」の 読みかた：かぜ・かざ／フウ\nほかの ことば：風車（かざぐるま）・風船（ふうせん）"
+},
+{
+"id": "g2kj_005",
+"subject": "g2kanji_shizen",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nよぞらに 【星】が 光る。",
+"answer": "ほし",
+"explanation": "【星】は「ほし」と 読むよ。\n「星」の 読みかた：ほし／セイ\nほかの ことば：星空（ほしぞら）"
+},
+{
+"id": "g2kj_006",
+"subject": "g2kanji_shizen",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n山みちに 大きな 【岩】が ある。",
+"answer": "いわ",
+"explanation": "【岩】は「いわ」と 読むよ。\n「岩」の 読みかた：いわ／ガン\nほかの ことば：岩山（いわやま）"
+},
+{
+"id": "g2kj_007",
+"subject": "g2kanji_shizen",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n山と 山の あいだの 【谷】を 川が ながれる。",
+"answer": "たに",
+"explanation": "【谷】は「たに」と 読むよ。\n「谷」の 読みかた：たに／コク\nほかの ことば：谷川（たにがわ）"
+},
+{
+"id": "g2kj_008",
+"subject": "g2kanji_shizen",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【原っぱ】で ボールあそびを する。",
+"answer": "はらっぱ",
+"explanation": "【原っぱ】は「はらっぱ」と 読むよ。\n「原」の 読みかた：はら／ゲン\nほかの ことば：野原（のはら）・草原（そうげん）"
+},
+{
+"id": "g2kj_009",
+"subject": "g2kanji_shizen",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【野山】を 歩く。",
+"answer": "のやま",
+"explanation": "【野山】は「のやま」と 読むよ。\n「野」の 読みかた：の／ヤ\nほかの ことば：野原（のはら）・野さい（やさい）"
+},
+{
+"id": "g2kj_010",
+"subject": "g2kanji_shizen",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n夏休みに 【海】で およいだ。",
+"answer": "うみ",
+"explanation": "【海】は「うみ」と 読むよ。\n「海」の 読みかた：うみ／カイ\nほかの ことば：海水（かいすい）"
+},
+{
+"id": "g2kj_011",
+"subject": "g2kanji_shizen2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【池】に こいが いる。",
+"answer": "いけ",
+"explanation": "【池】は「いけ」と 読むよ。\n「池」の 読みかた：いけ／チ\nほかの ことば：電池（でんち）"
+},
+{
+"id": "g2kj_012",
+"subject": "g2kanji_shizen2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n鳥が 【羽】を ひろげる。",
+"answer": "はね",
+"explanation": "【羽】は「はね」と 読むよ。\n「羽」の 読みかた：はね・は／ウ\nほかの ことば：一羽（いちわ）"
+},
+{
+"id": "g2kj_013",
+"subject": "g2kanji_shizen2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n木の 上で 【小鳥】が なく。",
+"answer": "ことり",
+"explanation": "【小鳥】は「ことり」と 読むよ。\n「鳥」の 読みかた：とり／チョウ\nほかの ことば：白鳥（はくちょう）"
+},
+{
+"id": "g2kj_014",
+"subject": "g2kanji_shizen2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【馬】に のって 走る。",
+"answer": "うま",
+"explanation": "【馬】は「うま」と 読むよ。\n「馬」の 読みかた：うま／バ\nほかの ことば：木馬（もくば）"
+},
+{
+"id": "g2kj_015",
+"subject": "g2kanji_shizen2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【牛】が 草を たべる。",
+"answer": "うし",
+"explanation": "【牛】は「うし」と 読むよ。\n「牛」の 読みかた：うし／ギュウ\nほかの ことば：牛にゅう（ぎゅうにゅう）"
+},
+{
+"id": "g2kj_016",
+"subject": "g2kanji_shizen2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n川で 【魚】を つる。",
+"answer": "さかな",
+"explanation": "【魚】は「さかな」と 読むよ。\n「魚」の 読みかた：さかな・うお／ギョ\nほかの ことば：金魚（きんぎょ）"
+},
+{
+"id": "g2kj_017",
+"subject": "g2kanji_shizen2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【麦】ばたけが 金色に 光る。",
+"answer": "むぎ",
+"explanation": "【麦】は「むぎ」と 読むよ。\n「麦」の 読みかた：むぎ／バク\nほかの ことば：小麦（こむぎ）"
+},
+{
+"id": "g2kj_018",
+"subject": "g2kanji_shizen2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nごはんに する 【米】を あらう。",
+"answer": "こめ",
+"explanation": "【米】は「こめ」と 読むよ。\n「米」の 読みかた：こめ／ベイ・マイ\nほかの ことば：新米（しんまい）・白米（はくまい）"
+},
+{
+"id": "g2kj_019",
+"subject": "g2kanji_shizen2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nお日さまの 【光】が まぶしい。",
+"answer": "ひかり",
+"explanation": "【光】は「ひかり」と 読むよ。\n「光」の 読みかた：ひかり・ひか（る）／コウ\nほかの ことば：日光（にっこう）"
+},
+{
+"id": "g2kj_020",
+"subject": "g2kanji_shizen2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【地下】てつに のる。",
+"answer": "ちか",
+"explanation": "【地下】は「ちか」と 読むよ。\n「地」の 読みかた：チ・ジ\nほかの ことば：地図（ちず）・地しん（じしん）"
+},
+{
+"id": "g2kj_021",
+"subject": "g2kanji_jikan",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【春】に さくらが さく。",
+"answer": "はる",
+"explanation": "【春】は「はる」と 読むよ。\n「春」の 読みかた：はる／シュン\nほかの ことば：春休み（はるやすみ）"
+},
+{
+"id": "g2kj_022",
+"subject": "g2kanji_jikan",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【夏】は あつい。",
+"answer": "なつ",
+"explanation": "【夏】は「なつ」と 読むよ。\n「夏」の 読みかた：なつ／カ\nほかの ことば：夏休み（なつやすみ）"
+},
+{
+"id": "g2kj_023",
+"subject": "g2kanji_jikan",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【秋】に なると 木の はが 赤く なる。",
+"answer": "あき",
+"explanation": "【秋】は「あき」と 読むよ。\n「秋」の 読みかた：あき／シュウ\nほかの ことば：秋かぜ（あきかぜ）"
+},
+{
+"id": "g2kj_024",
+"subject": "g2kanji_jikan",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【冬】は 雪が ふる。",
+"answer": "ふゆ",
+"explanation": "【冬】は「ふゆ」と 読むよ。\n「冬」の 読みかた：ふゆ／トウ\nほかの ことば：冬休み（ふゆやすみ）"
+},
+{
+"id": "g2kj_025",
+"subject": "g2kanji_jikan",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【朝】ごはんを たべる。",
+"answer": "あさ",
+"explanation": "【朝】は「あさ」と 読むよ。\n「朝」の 読みかた：あさ／チョウ\nほかの ことば：朝食（ちょうしょく）"
+},
+{
+"id": "g2kj_026",
+"subject": "g2kanji_jikan",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【昼】ごはんの 時間だ。",
+"answer": "ひる",
+"explanation": "【昼】は「ひる」と 読むよ。\n「昼」の 読みかた：ひる／チュウ\nほかの ことば：昼休み（ひるやすみ）"
+},
+{
+"id": "g2kj_027",
+"subject": "g2kanji_jikan",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【夜】に なると 星が 見える。",
+"answer": "よる",
+"explanation": "【夜】は「よる」と 読むよ。\n「夜」の 読みかた：よる・よ／ヤ\nほかの ことば：夜空（よぞら）"
+},
+{
+"id": "g2kj_028",
+"subject": "g2kanji_jikan",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【午前】中に しゅくだいを する。",
+"answer": "ごぜん",
+"explanation": "【午前】は「ごぜん」と 読むよ。\n「午」の 読みかた：ゴ\nほかの ことば：午後（ごご）・正午（しょうご）"
+},
+{
+"id": "g2kj_029",
+"subject": "g2kanji_jikan",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n家の 【前】で 友だちを まつ。",
+"answer": "まえ",
+"explanation": "【前】は「まえ」と 読むよ。\n「前」の 読みかた：まえ／ゼン\nほかの ことば：午前（ごぜん）"
+},
+{
+"id": "g2kj_030",
+"subject": "g2kanji_jikan",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nよばれて 【後ろ】を ふりかえる。",
+"answer": "うしろ",
+"explanation": "【後ろ】は「うしろ」と 読むよ。\n「後」の 読みかた：うし（ろ）・あと・のち／ゴ・コウ\nほかの ことば：午後（ごご）"
+},
+{
+"id": "g2kj_031",
+"subject": "g2kanji_jikan2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【今】 なん時ですか。",
+"answer": "いま",
+"explanation": "【今】は「いま」と 読むよ。\n「今」の 読みかた：いま／コン\nほかの ことば：今月（こんげつ）"
+},
+{
+"id": "g2kj_032",
+"subject": "g2kanji_jikan2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【時間】に おくれない ように する。",
+"answer": "じかん",
+"explanation": "【時間】は「じかん」と 読むよ。\n「時」の 読みかた：とき／ジ\nほかの ことば：一時（いちじ）・時々（ときどき）"
+},
+{
+"id": "g2kj_033",
+"subject": "g2kanji_jikan2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n木と 木の 【間】を とおる。",
+"answer": "あいだ",
+"explanation": "【間】は「あいだ」と 読むよ。\n「間」の 読みかた：あいだ・ま／カン・ケン\nほかの ことば：時間（じかん）・人間（にんげん）"
+},
+{
+"id": "g2kj_034",
+"subject": "g2kanji_jikan2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【週】に 一回 ピアノを ならう。",
+"answer": "しゅう",
+"explanation": "【週】は「しゅう」と 読むよ。\n「週」の 読みかた：シュウ\nほかの ことば：今週（こんしゅう）・毎週（まいしゅう）"
+},
+{
+"id": "g2kj_035",
+"subject": "g2kanji_jikan2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【毎日】 なわとびを する。",
+"answer": "まいにち",
+"explanation": "【毎日】は「まいにち」と 読むよ。\n「毎」の 読みかた：マイ\nほかの ことば：毎朝（まいあさ）・毎年（まいとし）"
+},
+{
+"id": "g2kj_036",
+"subject": "g2kanji_jikan2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【日曜日】に 公園へ 行く。",
+"answer": "にちようび",
+"explanation": "【日曜日】は「にちようび」と 読むよ。\n「曜」の 読みかた：ヨウ\nほかの ことば：月曜日（げつようび）"
+},
+{
+"id": "g2kj_037",
+"subject": "g2kanji_jikan2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nケーキを 【半分】に 切る。",
+"answer": "はんぶん",
+"explanation": "【半分】は「はんぶん」と 読むよ。\n「半」の 読みかた：なか（ば）／ハン\nほかの ことば：三時半（さんじはん）"
+},
+{
+"id": "g2kj_038",
+"subject": "g2kanji_jikan2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nおかしを 友だちと 【分ける】。",
+"answer": "わける",
+"explanation": "【分ける】は「わける」と 読むよ。\n「分」の 読みかた：わ（ける）／ブン・フン・ブ\nほかの ことば：半分（はんぶん）・五分（ごふん）"
+},
+{
+"id": "g2kj_039",
+"subject": "g2kanji_jikan2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nこまが くるくる 【回る】。",
+"answer": "まわる",
+"explanation": "【回る】は「まわる」と 読むよ。\n「回」の 読みかた：まわ（る）／カイ\nほかの ことば：一回（いっかい）"
+},
+{
+"id": "g2kj_040",
+"subject": "g2kanji_jikan2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nかけっこで 【一番】に なった。",
+"answer": "いちばん",
+"explanation": "【一番】は「いちばん」と 読むよ。\n「番」の 読みかた：バン\nほかの ことば：当番（とうばん）・門番（もんばん）"
+},
+{
+"id": "g2kj_041",
+"subject": "g2kanji_hito",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【父】と つりに 行く。",
+"answer": "ちち",
+"explanation": "【父】は「ちち」と 読むよ。\n「父」の 読みかた：ちち／フ\nほかの ことば：お父さん（おとうさん）・父母（ふぼ）"
+},
+{
+"id": "g2kj_042",
+"subject": "g2kanji_hito",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【母】が りょうりを する。",
+"answer": "はは",
+"explanation": "【母】は「はは」と 読むよ。\n「母」の 読みかた：はは／ボ\nほかの ことば：お母さん（おかあさん）"
+},
+{
+"id": "g2kj_043",
+"subject": "g2kanji_hito",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【兄】は 四年生です。",
+"answer": "あに",
+"explanation": "【兄】は「あに」と 読むよ。\n「兄」の 読みかた：あに／ケイ・キョウ\nほかの ことば：お兄さん（おにいさん）・兄弟（きょうだい）"
+},
+{
+"id": "g2kj_044",
+"subject": "g2kanji_hito",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【弟】と いっしょに あそぶ。",
+"answer": "おとうと",
+"explanation": "【弟】は「おとうと」と 読むよ。\n「弟」の 読みかた：おとうと／テイ・ダイ\nほかの ことば：兄弟（きょうだい）"
+},
+{
+"id": "g2kj_045",
+"subject": "g2kanji_hito",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【姉】に 本を 読んで もらう。",
+"answer": "あね",
+"explanation": "【姉】は「あね」と 読むよ。\n「姉」の 読みかた：あね／シ\nほかの ことば：お姉さん（おねえさん）"
+},
+{
+"id": "g2kj_046",
+"subject": "g2kanji_hito",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【妹】は 一年生です。",
+"answer": "いもうと",
+"explanation": "【妹】は「いもうと」と 読むよ。\n「妹」の 読みかた：いもうと／マイ\nほかの ことば：姉妹（しまい）"
+},
+{
+"id": "g2kj_047",
+"subject": "g2kanji_hito",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【親子】で 山に のぼる。",
+"answer": "おやこ",
+"explanation": "【親子】は「おやこ」と 読むよ。\n「親」の 読みかた：おや・した（しい）／シン\nほかの ことば：親友（しんゆう）"
+},
+{
+"id": "g2kj_048",
+"subject": "g2kanji_hito",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【友だち】と 公園で あそぶ。",
+"answer": "ともだち",
+"explanation": "【友だち】は「ともだち」と 読むよ。\n「友」の 読みかた：とも／ユウ\nほかの ことば：親友（しんゆう）"
+},
+{
+"id": "g2kj_049",
+"subject": "g2kanji_hito",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【自分】で やって みる。",
+"answer": "じぶん",
+"explanation": "【自分】は「じぶん」と 読むよ。\n「自」の 読みかた：みずか（ら）／ジ・シ\nほかの ことば：自ら（みずから）"
+},
+{
+"id": "g2kj_050",
+"subject": "g2kanji_hito",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nぼうしを 【頭】に かぶる。",
+"answer": "あたま",
+"explanation": "【頭】は「あたま」と 読むよ。\n「頭」の 読みかた：あたま・かしら／トウ・ズ\nほかの ことば：先頭（せんとう）"
+},
+{
+"id": "g2kj_051",
+"subject": "g2kanji_hito2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nつめたい 水で 【顔】を あらう。",
+"answer": "かお",
+"explanation": "【顔】は「かお」と 読むよ。\n「顔」の 読みかた：かお／ガン\nほかの ことば：わらい顔（わらいがお）"
+},
+{
+"id": "g2kj_052",
+"subject": "g2kanji_hito2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nきりんは 【首】が 長い。",
+"answer": "くび",
+"explanation": "【首】は「くび」と 読むよ。\n「首」の 読みかた：くび／シュ\nほかの ことば：手首（てくび）"
+},
+{
+"id": "g2kj_053",
+"subject": "g2kanji_hito2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n犬の 【毛】は ふわふわだ。",
+"answer": "け",
+"explanation": "【毛】は「け」と 読むよ。\n「毛」の 読みかた：け／モウ\nほかの ことば：毛糸（けいと）"
+},
+{
+"id": "g2kj_054",
+"subject": "g2kanji_hito2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【心】を こめて 手紙を 書く。",
+"answer": "こころ",
+"explanation": "【心】は「こころ」と 読むよ。\n「心」の 読みかた：こころ／シン\nほかの ことば：中心（ちゅうしん）"
+},
+{
+"id": "g2kj_055",
+"subject": "g2kanji_hito2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n大きな 【声】で 歌う。",
+"answer": "こえ",
+"explanation": "【声】は「こえ」と 読むよ。\n「声」の 読みかた：こえ／セイ\nほかの ことば：音声（おんせい）"
+},
+{
+"id": "g2kj_056",
+"subject": "g2kanji_hito2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nたいそうで 【体】を うごかす。",
+"answer": "からだ",
+"explanation": "【体】は「からだ」と 読むよ。\n「体」の 読みかた：からだ／タイ\nほかの ことば：体力（たいりょく）"
+},
+{
+"id": "g2kj_057",
+"subject": "g2kanji_hito2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【肉】を やいて たべる。",
+"answer": "にく",
+"explanation": "【肉】は「にく」と 読むよ。\n「肉」の 読みかた：ニク\nほかの ことば：牛肉（ぎゅうにく）"
+},
+{
+"id": "g2kj_058",
+"subject": "g2kanji_hito2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nぼくは 八【才】です。",
+"answer": "さい",
+"explanation": "【才】は「さい」と 読むよ。\n「才」の 読みかた：サイ\nほかの ことば：天才（てんさい）"
+},
+{
+"id": "g2kj_059",
+"subject": "g2kanji_hito2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【何】を して あそぼうか。",
+"answer": "なに",
+"explanation": "【何】は「なに」と 読むよ。\n「何」の 読みかた：なに・なん／カ\nほかの ことば：何人（なんにん）"
+},
+{
+"id": "g2kj_060",
+"subject": "g2kanji_hito2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nかぜが なおって 【元気】に なった。",
+"answer": "げんき",
+"explanation": "【元気】は「げんき」と 読むよ。\n「元」の 読みかた：もと／ゲン・ガン\nほかの ことば：元日（がんじつ）"
+},
+{
+"id": "g2kj_061",
+"subject": "g2kanji_machi",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n大工さんが 【家】を たてる。",
+"answer": "いえ",
+"explanation": "【家】は「いえ」と 読むよ。\n「家」の 読みかた：いえ・や／カ・ケ\nほかの ことば：家来（けらい）・家ちん（やちん）"
+},
+{
+"id": "g2kj_062",
+"subject": "g2kanji_machi",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【教室】を そうじする。",
+"answer": "きょうしつ",
+"explanation": "【教室】は「きょうしつ」と 読むよ。\n「室」の 読みかた：シツ\nほかの ことば：図書室（としょしつ）"
+},
+{
+"id": "g2kj_063",
+"subject": "g2kanji_machi",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nまどの 【戸】を しめる。",
+"answer": "と",
+"explanation": "【戸】は「と」と 読むよ。\n「戸」の 読みかた：と／コ\nほかの ことば：戸口（とぐち）"
+},
+{
+"id": "g2kj_064",
+"subject": "g2kanji_machi",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n学校の 【門】を くぐる。",
+"answer": "もん",
+"explanation": "【門】は「もん」と 読むよ。\n「門」の 読みかた：モン\nほかの ことば：校門（こうもん）"
+},
+{
+"id": "g2kj_065",
+"subject": "g2kanji_machi",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n古い お【寺】に 行く。",
+"answer": "てら",
+"explanation": "【寺】は「てら」と 読むよ。\n「寺」の 読みかた：てら／ジ\nほかの ことば：山寺（やまでら）"
+},
+{
+"id": "g2kj_066",
+"subject": "g2kanji_machi",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【どうぶつ園】で ぞうを 見た。",
+"answer": "どうぶつえん",
+"explanation": "【どうぶつ園】は「どうぶつえん」と 読むよ。\n「園」の 読みかた：その／エン\nほかの ことば：花園（はなぞの）・公園（こうえん）"
+},
+{
+"id": "g2kj_067",
+"subject": "g2kanji_machi",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【公園】の すべり台で あそぶ。",
+"answer": "こうえん",
+"explanation": "【公園】は「こうえん」と 読むよ。\n「公」の 読みかた：おおやけ／コウ\nほかの ことば：公立（こうりつ）"
+},
+{
+"id": "g2kj_068",
+"subject": "g2kanji_machi",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n父は 【会社】に つとめて いる。",
+"answer": "かいしゃ",
+"explanation": "【会社】は「かいしゃ」と 読むよ。\n「社」の 読みかた：やしろ／シャ\nほかの ことば：じん社（じんじゃ）"
+},
+{
+"id": "g2kj_069",
+"subject": "g2kanji_machi",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nパンを 【店】で 買う。",
+"answer": "みせ",
+"explanation": "【店】は「みせ」と 読むよ。\n「店」の 読みかた：みせ／テン\nほかの ことば：売店（ばいてん）"
+},
+{
+"id": "g2kj_070",
+"subject": "g2kanji_machi",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nあさ【市】で やさいを 買う。",
+"answer": "いち",
+"explanation": "【市】は「いち」と 読むよ。\n「市」の 読みかた：いち／シ\nほかの ことば：市場（いちば）・市長（しちょう）"
+},
+{
+"id": "g2kj_071",
+"subject": "g2kanji_machi2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【東京】は 日本の しゅとだ。",
+"answer": "とうきょう",
+"explanation": "【東京】は「とうきょう」と 読むよ。\n「京」の 読みかた：キョウ・ケイ\nほかの ことば：上京（じょうきょう）"
+},
+{
+"id": "g2kj_072",
+"subject": "g2kanji_machi2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nせかいには たくさんの 【国】が ある。",
+"answer": "くに",
+"explanation": "【国】は「くに」と 読むよ。\n「国」の 読みかた：くに／コク\nほかの ことば：外国（がいこく）"
+},
+{
+"id": "g2kj_073",
+"subject": "g2kanji_machi2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【道】を まっすぐ 歩く。",
+"answer": "みち",
+"explanation": "【道】は「みち」と 読むよ。\n「道」の 読みかた：みち／ドウ\nほかの ことば：歩道（ほどう）"
+},
+{
+"id": "g2kj_074",
+"subject": "g2kanji_machi2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n大きな 【船】が 海を すすむ。",
+"answer": "ふね",
+"explanation": "【船】は「ふね」と 読むよ。\n「船」の 読みかた：ふね・ふな／セン\nほかの ことば：風船（ふうせん）"
+},
+{
+"id": "g2kj_075",
+"subject": "g2kanji_machi2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【汽車】が 走る。",
+"answer": "きしゃ",
+"explanation": "【汽車】は「きしゃ」と 読むよ。\n「汽」の 読みかた：キ\nほかの ことば：汽てき（きてき）"
+},
+{
+"id": "g2kj_076",
+"subject": "g2kanji_machi2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【電車】に のる。",
+"answer": "でんしゃ",
+"explanation": "【電車】は「でんしゃ」と 読むよ。\n「電」の 読みかた：デン\nほかの ことば：電話（でんわ）"
+},
+{
+"id": "g2kj_077",
+"subject": "g2kanji_machi2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【工場】で 車を 作る。",
+"answer": "こうじょう",
+"explanation": "【工場】は「こうじょう」と 読むよ。\n「場」の 読みかた：ば／ジョウ\nほかの ことば：広場（ひろば）"
+},
+{
+"id": "g2kj_078",
+"subject": "g2kanji_machi2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【工作】で はこを 作る。",
+"answer": "こうさく",
+"explanation": "【工作】は「こうさく」と 読むよ。\n「工」の 読みかた：コウ・ク\nほかの ことば：大工（だいく）"
+},
+{
+"id": "g2kj_079",
+"subject": "g2kanji_machi2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【台】の 上に 花びんを おく。",
+"answer": "だい",
+"explanation": "【台】は「だい」と 読むよ。\n「台」の 読みかた：ダイ・タイ\nほかの ことば：台風（たいふう）"
+},
+{
+"id": "g2kj_080",
+"subject": "g2kanji_machi2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nふる【里】に かえる。",
+"answer": "さと",
+"explanation": "【里】は「さと」と 読むよ。\n「里」の 読みかた：さと／リ\nほかの ことば：里山（さとやま）"
+},
+{
+"id": "g2kj_081",
+"subject": "g2kanji_gakkou",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n先生が 字を 【教える】。",
+"answer": "おしえる",
+"explanation": "【教える】は「おしえる」と 読むよ。\n「教」の 読みかた：おし（える）／キョウ\nほかの ことば：教室（きょうしつ）"
+},
+{
+"id": "g2kj_082",
+"subject": "g2kanji_gakkou",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【教科書】を ひらく。",
+"answer": "きょうかしょ",
+"explanation": "【教科書】は「きょうかしょ」と 読むよ。\n「科」の 読みかた：カ\nほかの ことば：理科（りか）・科学（かがく）"
+},
+{
+"id": "g2kj_083",
+"subject": "g2kanji_gakkou",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【算数】の しゅくだいを する。",
+"answer": "さんすう",
+"explanation": "【算数】は「さんすう」と 読むよ。\n「算」の 読みかた：サン\nほかの ことば：計算（けいさん）"
+},
+{
+"id": "g2kj_084",
+"subject": "g2kanji_gakkou",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nりんごの 【数】を かぞえる。",
+"answer": "かず",
+"explanation": "【数】は「かず」と 読むよ。\n「数」の 読みかた：かず・かぞ（える）／スウ\nほかの ことば：算数（さんすう）"
+},
+{
+"id": "g2kj_085",
+"subject": "g2kanji_gakkou",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【図書】室で 本を かりる。",
+"answer": "としょ",
+"explanation": "【図書】は「としょ」と 読むよ。\n「図」の 読みかた：はか（る）／ズ・ト\nほかの ことば：地図（ちず）"
+},
+{
+"id": "g2kj_086",
+"subject": "g2kanji_gakkou",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【画用紙】に 絵を かく。",
+"answer": "がようし",
+"explanation": "【画用紙】は「がようし」と 読むよ。\n「画」の 読みかた：ガ・カク\nほかの ことば：計画（けいかく）"
+},
+{
+"id": "g2kj_087",
+"subject": "g2kanji_gakkou",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【絵】の ぐで 色を ぬる。",
+"answer": "え",
+"explanation": "【絵】は「え」と 読むよ。\n「絵」の 読みかた：エ・カイ\nほかの ことば：絵本（えほん）"
+},
+{
+"id": "g2kj_088",
+"subject": "g2kanji_gakkou",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nみんなで 【歌】を うたう。",
+"answer": "うた",
+"explanation": "【歌】は「うた」と 読むよ。\n「歌」の 読みかた：うた・うた（う）／カ\nほかの ことば：校歌（こうか）"
+},
+{
+"id": "g2kj_089",
+"subject": "g2kanji_gakkou",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【国語】の 時間に 本を 読む。",
+"answer": "こくご",
+"explanation": "【国語】は「こくご」と 読むよ。\n「語」の 読みかた：かた（る）／ゴ\nほかの ことば：日本語（にほんご）"
+},
+{
+"id": "g2kj_090",
+"subject": "g2kanji_gakkou",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nノートに 字を 【書く】。",
+"answer": "かく",
+"explanation": "【書く】は「かく」と 読むよ。\n「書」の 読みかた：か（く）／ショ\nほかの ことば：図書（としょ）"
+},
+{
+"id": "g2kj_091",
+"subject": "g2kanji_gakkou2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nねる前に 本を 【読む】。",
+"answer": "よむ",
+"explanation": "【読む】は「よむ」と 読むよ。\n「読」の 読みかた：よ（む）／ドク・トク\nほかの ことば：読書（どくしょ）"
+},
+{
+"id": "g2kj_092",
+"subject": "g2kanji_gakkou2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nねる前に 【日記】を 書く。",
+"answer": "にっき",
+"explanation": "【日記】は「にっき」と 読むよ。\n「記」の 読みかた：しる（す）／キ\nほかの ことば：記ごう（きごう）"
+},
+{
+"id": "g2kj_093",
+"subject": "g2kanji_gakkou2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【紙】ひこうきを とばす。",
+"answer": "かみ",
+"explanation": "【紙】は「かみ」と 読むよ。\n「紙」の 読みかた：かみ／シ\nほかの ことば：手紙（てがみ）"
+},
+{
+"id": "g2kj_094",
+"subject": "g2kanji_gakkou2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nたし算の 【計算】を する。",
+"answer": "けいさん",
+"explanation": "【計算】は「けいさん」と 読むよ。\n「計」の 読みかた：はか（る）／ケイ\nほかの ことば：合計（ごうけい）"
+},
+{
+"id": "g2kj_095",
+"subject": "g2kanji_gakkou2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nもんだいに 【答える】。",
+"answer": "こたえる",
+"explanation": "【答える】は「こたえる」と 読むよ。\n「答」の 読みかた：こた（える）／トウ\nほかの ことば：回答（かいとう）"
+},
+{
+"id": "g2kj_096",
+"subject": "g2kanji_gakkou2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nどう すれば いいか よく 【考える】。",
+"answer": "かんがえる",
+"explanation": "【考える】は「かんがえる」と 読むよ。\n「考」の 読みかた：かんが（える）／コウ\nほかの ことば：考え（かんがえ）"
+},
+{
+"id": "g2kj_097",
+"subject": "g2kanji_gakkou2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nその 答えを 【知って】いる。",
+"answer": "しって",
+"explanation": "【知って】は「しって」と 読むよ。\n「知」の 読みかた：し（る）／チ\nほかの ことば：知人（ちじん）"
+},
+{
+"id": "g2kj_098",
+"subject": "g2kanji_gakkou2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【理科】の じっけんを する。",
+"answer": "りか",
+"explanation": "【理科】は「りか」と 読むよ。\n「理」の 読みかた：リ\nほかの ことば：理ゆう（りゆう）"
+},
+{
+"id": "g2kj_099",
+"subject": "g2kanji_gakkou2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nものさしで まっすぐな 【線】を ひく。",
+"answer": "せん",
+"explanation": "【線】は「せん」と 読むよ。\n「線」の 読みかた：セン\nほかの ことば：直線（ちょくせん）"
+},
+{
+"id": "g2kj_100",
+"subject": "g2kanji_gakkou2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nテストで 百【点】を とった。",
+"answer": "てん",
+"explanation": "【点】は「てん」と 読むよ。\n「点」の 読みかた：テン\nほかの ことば：点数（てんすう）"
+},
+{
+"id": "g2kj_101",
+"subject": "g2kanji_ugoki",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n毎朝 学校へ 【行く】。",
+"answer": "いく",
+"explanation": "【行く】は「いく」と 読むよ。\n「行」の 読みかた：い（く）・ゆ（く）・おこな（う）／コウ・ギョウ\nほかの ことば：一行（いちぎょう）"
+},
+{
+"id": "g2kj_102",
+"subject": "g2kanji_ugoki",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n友だちが 家に 【来る】。",
+"answer": "くる",
+"explanation": "【来る】は「くる」と 読むよ。\n「来」の 読みかた：く（る）／ライ\nほかの ことば：来年（らいねん）"
+},
+{
+"id": "g2kj_103",
+"subject": "g2kanji_ugoki",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n五時に 家へ 【帰る】。",
+"answer": "かえる",
+"explanation": "【帰る】は「かえる」と 読むよ。\n「帰」の 読みかた：かえ（る）／キ\nほかの ことば：帰国（きこく）"
+},
+{
+"id": "g2kj_104",
+"subject": "g2kanji_ugoki",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nうんどうかいで 【走る】。",
+"answer": "はしる",
+"explanation": "【走る】は「はしる」と 読むよ。\n「走」の 読みかた：はし（る）／ソウ\nほかの ことば：力走（りきそう）"
+},
+{
+"id": "g2kj_105",
+"subject": "g2kanji_ugoki",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nゆっくり 【歩く】。",
+"answer": "あるく",
+"explanation": "【歩く】は「あるく」と 読むよ。\n「歩」の 読みかた：ある（く）・あゆ（む）／ホ・ブ\nほかの ことば：歩道（ほどう）"
+},
+{
+"id": "g2kj_106",
+"subject": "g2kanji_ugoki",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n赤しんごうで 【止まる】。",
+"answer": "とまる",
+"explanation": "【止まる】は「とまる」と 読むよ。\n「止」の 読みかた：と（まる）／シ\nほかの ことば：中止（ちゅうし）"
+},
+{
+"id": "g2kj_107",
+"subject": "g2kanji_ugoki",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nこの 道を 【通って】 学校へ 行く。",
+"answer": "とおって",
+"explanation": "【通って】は「とおって」と 読むよ。\n「通」の 読みかた：とお（る）・かよ（う）／ツウ\nほかの ことば：交通（こうつう）"
+},
+{
+"id": "g2kj_108",
+"subject": "g2kanji_ugoki",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nはさみで 紙を 【切る】。",
+"answer": "きる",
+"explanation": "【切る】は「きる」と 読むよ。\n「切」の 読みかた：き（る）／セツ\nほかの ことば：大切（たいせつ）"
+},
+{
+"id": "g2kj_109",
+"subject": "g2kanji_ugoki",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n先生の 話を 【聞く】。",
+"answer": "きく",
+"explanation": "【聞く】は「きく」と 読むよ。\n「聞」の 読みかた：き（く）／ブン・モン\nほかの ことば：新聞（しんぶん）"
+},
+{
+"id": "g2kj_110",
+"subject": "g2kanji_ugoki",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n「ありがとう」と 【言う】。",
+"answer": "いう",
+"explanation": "【言う】は「いう」と 読むよ。\n「言」の 読みかた：い（う）・こと／ゲン・ゴン\nほかの ことば：ひとり言（ひとりごと）"
+},
+{
+"id": "g2kj_111",
+"subject": "g2kanji_ugoki2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nおばあちゃんと 【話す】。",
+"answer": "はなす",
+"explanation": "【話す】は「はなす」と 読むよ。\n「話」の 読みかた：はな（す）・はなし／ワ\nほかの ことば：電話（でんわ）"
+},
+{
+"id": "g2kj_112",
+"subject": "g2kanji_ugoki2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nチャイムが 【鳴る】。",
+"answer": "なる",
+"explanation": "【鳴る】は「なる」と 読むよ。\n「鳴」の 読みかた：な（る）・な（く）／メイ\nほかの ことば：鳴き声（なきごえ）"
+},
+{
+"id": "g2kj_113",
+"subject": "g2kanji_ugoki2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nやおやさんが やさいを 【売る】。",
+"answer": "うる",
+"explanation": "【売る】は「うる」と 読むよ。\n「売」の 読みかた：う（る）／バイ\nほかの ことば：売店（ばいてん）"
+},
+{
+"id": "g2kj_114",
+"subject": "g2kanji_ugoki2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nノートを 【買う】。",
+"answer": "かう",
+"explanation": "【買う】は「かう」と 読むよ。\n「買」の 読みかた：か（う）／バイ\nほかの ことば：売買（ばいばい）"
+},
+{
+"id": "g2kj_115",
+"subject": "g2kanji_ugoki2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nすなで おしろを 【作る】。",
+"answer": "つくる",
+"explanation": "【作る】は「つくる」と 読むよ。\n「作」の 読みかた：つく（る）／サク・サ\nほかの ことば：作文（さくぶん）"
+},
+{
+"id": "g2kj_116",
+"subject": "g2kanji_ugoki2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nりんごを 【食べる】。",
+"answer": "たべる",
+"explanation": "【食べる】は「たべる」と 読むよ。\n「食」の 読みかた：た（べる）・く（う）／ショク\nほかの ことば：食じ（しょくじ）"
+},
+{
+"id": "g2kj_117",
+"subject": "g2kanji_ugoki2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nたのしかったと 【思う】。",
+"answer": "おもう",
+"explanation": "【思う】は「おもう」と 読むよ。\n「思」の 読みかた：おも（う）／シ\nほかの ことば：思い出（おもいで）"
+},
+{
+"id": "g2kj_118",
+"subject": "g2kanji_ugoki2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nえきで 友だちに 【会う】。",
+"answer": "あう",
+"explanation": "【会う】は「あう」と 読むよ。\n「会」の 読みかた：あ（う）／カイ・エ\nほかの ことば：会話（かいわ）"
+},
+{
+"id": "g2kj_119",
+"subject": "g2kanji_ugoki2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nたのしい 学校【生活】。",
+"answer": "せいかつ",
+"explanation": "【生活】は「せいかつ」と 読むよ。\n「活」の 読みかた：カツ\nほかの ことば：活どう（かつどう）"
+},
+{
+"id": "g2kj_120",
+"subject": "g2kanji_ugoki2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nつなを 【引く】。",
+"answer": "ひく",
+"explanation": "【引く】は「ひく」と 読むよ。\n「引」の 読みかた：ひ（く）／イン\nほかの ことば：引力（いんりょく）"
+},
+{
+"id": "g2kj_121",
+"subject": "g2kanji_katachi",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nお日さまは 【東】から のぼる。",
+"answer": "ひがし",
+"explanation": "【東】は「ひがし」と 読むよ。\n「東」の 読みかた：ひがし／トウ\nほかの ことば：東京（とうきょう）"
+},
+{
+"id": "g2kj_122",
+"subject": "g2kanji_katachi",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nお日さまは 【西】に しずむ。",
+"answer": "にし",
+"explanation": "【西】は「にし」と 読むよ。\n「西」の 読みかた：にし／セイ・サイ\nほかの ことば：東西（とうざい）"
+},
+{
+"id": "g2kj_123",
+"subject": "g2kanji_katachi",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nあたたかい 【南】の しま。",
+"answer": "みなみ",
+"explanation": "【南】は「みなみ」と 読むよ。\n「南」の 読みかた：みなみ／ナン\nほかの ことば：南きょく（なんきょく）"
+},
+{
+"id": "g2kj_124",
+"subject": "g2kanji_katachi",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nさむい 【北】の 国。",
+"answer": "きた",
+"explanation": "【北】は「きた」と 読むよ。\n「北」の 読みかた：きた／ホク\nほかの ことば：北海道（ほっかいどう）"
+},
+{
+"id": "g2kj_125",
+"subject": "g2kanji_katachi",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nはこの 【内がわ】に 色を ぬる。",
+"answer": "うちがわ",
+"explanation": "【内がわ】は「うちがわ」と 読むよ。\n「内」の 読みかた：うち／ナイ\nほかの ことば：校内（こうない）"
+},
+{
+"id": "g2kj_126",
+"subject": "g2kanji_katachi",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n休み時間に 【外】で あそぶ。",
+"answer": "そと",
+"explanation": "【外】は「そと」と 読むよ。\n「外」の 読みかた：そと・ほか・はず（す）／ガイ・ゲ\nほかの ことば：外国（がいこく）"
+},
+{
+"id": "g2kj_127",
+"subject": "g2kanji_katachi",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n字の 書き【方】を ならう。",
+"answer": "かた",
+"explanation": "【方】は「かた」と 読むよ。\n「方」の 読みかた：かた／ホウ\nほかの ことば：方角（ほうがく）"
+},
+{
+"id": "g2kj_128",
+"subject": "g2kanji_katachi",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nつくえの 【角】に 足を ぶつけた。",
+"answer": "かど",
+"explanation": "【角】は「かど」と 読むよ。\n「角」の 読みかた：かど・つの／カク\nほかの ことば：三角（さんかく）"
+},
+{
+"id": "g2kj_129",
+"subject": "g2kanji_katachi",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n学校は 家から 【近い】。",
+"answer": "ちかい",
+"explanation": "【近い】は「ちかい」と 読むよ。\n「近」の 読みかた：ちか（い）／キン\nほかの ことば：近道（ちかみち）"
+},
+{
+"id": "g2kj_130",
+"subject": "g2kanji_katachi",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nえきまでは 【遠い】。",
+"answer": "とおい",
+"explanation": "【遠い】は「とおい」と 読むよ。\n「遠」の 読みかた：とお（い）／エン\nほかの ことば：遠足（えんそく）"
+},
+{
+"id": "g2kj_131",
+"subject": "g2kanji_katachi2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【黄色】い 花が さく。",
+"answer": "きいろ",
+"explanation": "【黄色】は「きいろ」と 読むよ。\n「黄」の 読みかた：き・こ／コウ・オウ\nほかの ことば：黄金（おうごん）"
+},
+{
+"id": "g2kj_132",
+"subject": "g2kanji_katachi2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【黒】い ねこが いる。",
+"answer": "くろ",
+"explanation": "【黒】は「くろ」と 読むよ。\n「黒」の 読みかた：くろ／コク\nほかの ことば：黒ばん（こくばん）"
+},
+{
+"id": "g2kj_133",
+"subject": "g2kanji_katachi2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nすきな 【色】は 青です。",
+"answer": "いろ",
+"explanation": "【色】は「いろ」と 読むよ。\n「色」の 読みかた：いろ／ショク・シキ\nほかの ことば：金色（きんいろ）"
+},
+{
+"id": "g2kj_134",
+"subject": "g2kanji_katachi2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【丸い】 おさらに のせる。",
+"answer": "まるい",
+"explanation": "【丸い】は「まるい」と 読むよ。\n「丸」の 読みかた：まる・まる（い）／ガン\nほかの ことば：日の丸（ひのまる）"
+},
+{
+"id": "g2kj_135",
+"subject": "g2kanji_katachi2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nほしの 【形】に 紙を 切る。",
+"answer": "かたち",
+"explanation": "【形】は「かたち」と 読むよ。\n「形」の 読みかた：かたち・かた／ケイ・ギョウ\nほかの ことば：人形（にんぎょう）"
+},
+{
+"id": "g2kj_136",
+"subject": "g2kanji_katachi2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【高い】 山に のぼる。",
+"answer": "たかい",
+"explanation": "【高い】は「たかい」と 読むよ。\n「高」の 読みかた：たか（い）／コウ\nほかの ことば：高校（こうこう）"
+},
+{
+"id": "g2kj_137",
+"subject": "g2kanji_katachi2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nぞうの はなは 【長い】。",
+"answer": "ながい",
+"explanation": "【長い】は「ながい」と 読むよ。\n「長」の 読みかた：なが（い）／チョウ\nほかの ことば：校長（こうちょう）"
+},
+{
+"id": "g2kj_138",
+"subject": "g2kanji_katachi2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nこの 木は みきが 【太い】。",
+"answer": "ふとい",
+"explanation": "【太い】は「ふとい」と 読むよ。\n「太」の 読みかた：ふと（い）／タイ・タ\nほかの ことば：太よう（たいよう）"
+},
+{
+"id": "g2kj_139",
+"subject": "g2kanji_katachi2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【細い】 糸で ぬう。",
+"answer": "ほそい",
+"explanation": "【細い】は「ほそい」と 読むよ。\n「細」の 読みかた：ほそ（い）・こま（かい）／サイ\nほかの ことば：細かい（こまかい）"
+},
+{
+"id": "g2kj_140",
+"subject": "g2kanji_katachi2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n日曜日の 公園は 人が 【多い】。",
+"answer": "おおい",
+"explanation": "【多い】は「おおい」と 読むよ。\n「多」の 読みかた：おお（い）／タ\nほかの ことば：多数（たすう）"
+},
+{
+"id": "g2kj_141",
+"subject": "g2kanji_iroiro",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nジュースは のこり 【少し】だけだ。",
+"answer": "すこし",
+"explanation": "【少し】は「すこし」と 読むよ。\n「少」の 読みかた：すこ（し）・すく（ない）／ショウ\nほかの ことば：少年（しょうねん）"
+},
+{
+"id": "g2kj_142",
+"subject": "g2kanji_iroiro",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【強い】 風が ふく。",
+"answer": "つよい",
+"explanation": "【強い】は「つよい」と 読むよ。\n「強」の 読みかた：つよ（い）／キョウ・ゴウ\nほかの ことば：強力（きょうりょく）"
+},
+{
+"id": "g2kj_143",
+"subject": "g2kanji_iroiro",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n雨が 【弱く】 なった。",
+"answer": "よわく",
+"explanation": "【弱く】は「よわく」と 読むよ。\n「弱」の 読みかた：よわ（い）／ジャク\nほかの ことば：強弱（きょうじゃく）"
+},
+{
+"id": "g2kj_144",
+"subject": "g2kanji_iroiro",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【新しい】 くつを はく。",
+"answer": "あたらしい",
+"explanation": "【新しい】は「あたらしい」と 読むよ。\n「新」の 読みかた：あたら（しい）／シン\nほかの ことば：新聞（しんぶん）"
+},
+{
+"id": "g2kj_145",
+"subject": "g2kanji_iroiro",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【古い】 本を 読む。",
+"answer": "ふるい",
+"explanation": "【古い】は「ふるい」と 読むよ。\n「古」の 読みかた：ふる（い）／コ\nほかの ことば：中古（ちゅうこ）"
+},
+{
+"id": "g2kj_146",
+"subject": "g2kanji_iroiro",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nでんきを つけると へやが 【明るい】。",
+"answer": "あかるい",
+"explanation": "【明るい】は「あかるい」と 読むよ。\n「明」の 読みかた：あか（るい）・あ（ける）／メイ・ミョウ\nほかの ことば：明月（めいげつ）"
+},
+{
+"id": "g2kj_147",
+"subject": "g2kanji_iroiro",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nぼくと 【同じ】 本だ。",
+"answer": "おなじ",
+"explanation": "【同じ】は「おなじ」と 読むよ。\n「同」の 読みかた：おな（じ）／ドウ\nほかの ことば：同時（どうじ）"
+},
+{
+"id": "g2kj_148",
+"subject": "g2kanji_iroiro",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nこわれた おもちゃを 【直す】。",
+"answer": "なおす",
+"explanation": "【直す】は「なおす」と 読むよ。\n「直」の 読みかた：なお（す）・ただ（ちに）／チョク・ジキ\nほかの ことば：直線（ちょくせん）"
+},
+{
+"id": "g2kj_149",
+"subject": "g2kanji_iroiro",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nボールが まとに 【当たる】。",
+"answer": "あたる",
+"explanation": "【当たる】は「あたる」と 読むよ。\n「当」の 読みかた：あ（たる）／トウ\nほかの ことば：本当（ほんとう）"
+},
+{
+"id": "g2kj_150",
+"subject": "g2kanji_iroiro",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nみんなで 声を 【合わせる】。",
+"answer": "あわせる",
+"explanation": "【合わせる】は「あわせる」と 読むよ。\n「合」の 読みかた：あ（う）・あ（わせる）／ゴウ・ガッ\nほかの ことば：合計（ごうけい）"
+},
+{
+"id": "g2kj_151",
+"subject": "g2kanji_iroiro2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nえきの 前に 【交番】が ある。",
+"answer": "こうばん",
+"explanation": "【交番】は「こうばん」と 読むよ。\n「交」の 読みかた：まじ（わる）・ま（ぜる）／コウ\nほかの ことば：交通（こうつう）"
+},
+{
+"id": "g2kj_152",
+"subject": "g2kanji_iroiro2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n一【万】円さつ。",
+"answer": "まん",
+"explanation": "【万】は「まん」と 読むよ。\n「万」の 読みかた：マン・バン\nほかの ことば：万歩計（まんぽけい）"
+},
+{
+"id": "g2kj_153",
+"subject": "g2kanji_iroiro2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nさむらいが 【刀】を もつ。",
+"answer": "かたな",
+"explanation": "【刀】は「かたな」と 読むよ。\n「刀」の 読みかた：かたな／トウ\nほかの ことば：木刀（ぼくとう）"
+},
+{
+"id": "g2kj_154",
+"subject": "g2kanji_iroiro2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【弓】で 矢を いる。",
+"answer": "ゆみ",
+"explanation": "【弓】は「ゆみ」と 読むよ。\n「弓」の 読みかた：ゆみ／キュウ\nほかの ことば：弓矢（ゆみや）"
+},
+{
+"id": "g2kj_155",
+"subject": "g2kanji_iroiro2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【矢】が まとに 当たる。",
+"answer": "や",
+"explanation": "【矢】は「や」と 読むよ。\n「矢」の 読みかた：や／シ\nほかの ことば：弓矢（ゆみや）"
+},
+{
+"id": "g2kj_156",
+"subject": "g2kanji_iroiro2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nあたたかい お【茶】を のむ。",
+"answer": "ちゃ",
+"explanation": "【茶】は「ちゃ」と 読むよ。\n「茶」の 読みかた：チャ・サ\nほかの ことば：茶色（ちゃいろ）"
+},
+{
+"id": "g2kj_157",
+"subject": "g2kanji_iroiro2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nおばさんに 【用】が ある。",
+"answer": "よう",
+"explanation": "【用】は「よう」と 読むよ。\n「用」の 読みかた：もち（いる）／ヨウ\nほかの ことば：用紙（ようし）"
+},
+{
+"id": "g2kj_158",
+"subject": "g2kanji_iroiro2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nぼくは 二年一【組】です。",
+"answer": "くみ",
+"explanation": "【組】は「くみ」と 読むよ。\n「組」の 読みかた：くみ・く（む）／ソ\nほかの ことば：組み立て（くみたて）"
+},
+{
+"id": "g2kj_159",
+"subject": "g2kanji_iroiro2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\nえんそくは 【楽しい】。",
+"answer": "たのしい",
+"explanation": "【楽しい】は「たのしい」と 読むよ。\n「楽」の 読みかた：たの（しい）／ガク・ラク\nほかの ことば：音楽（おんがく）"
+},
+{
+"id": "g2kj_160",
+"subject": "g2kanji_iroiro2",
+"month": "g2_kanji",
+"type": "input",
+"q": "【　】の かん字の 読みを ひらがなで 書こう。\n【広い】 のはらで あそぶ。",
+"answer": "ひろい",
+"explanation": "【広い】は「ひろい」と 読むよ。\n「広」の 読みかた：ひろ（い）／コウ\nほかの ことば：広場（ひろば）"
+},
+{
+"id": "g2kw_001",
+"subject": "g2kaki_hiro3",
+"month": "g2_kanji",
+"type": "selfjudge",
+"handwrite": true,
+"q": "【　】の ことばを かん字で 書こう。\nやさしい 【おや】。",
+"answer": "親",
+"explanation": "【おや】→「親」\n「立」「木」「見」の 3つが 合わさった 字だよ。\n「木の 上に 立って 見まもる」のが 親、と おぼえよう。\n読みかた：おや／シン（親友・しんゆう）"
+},
+{
+"id": "g2kw_002",
+"subject": "g2kaki_hiro3",
+"month": "g2_kanji",
+"type": "selfjudge",
+"handwrite": true,
+"q": "【　】の ことばを かん字で 書こう。\n【ちち】や 【はは】と すごす。",
+"answer": "父・母",
+"explanation": "【ちち】→「父」、【はは】→「母」\n「母」の 中の 点は 2つ。わすれずに 書こう。\n読みかた：父＝ちち／フ　母＝はは／ボ（父母・ふぼ）"
+},
+{
+"id": "g2kw_003",
+"subject": "g2kaki_hiro3",
+"month": "g2_kanji",
+"type": "selfjudge",
+"handwrite": true,
+"q": "【　】の ことばを かん字で 書こう。\n【あに】と 【おとうと】。",
+"answer": "兄・弟",
+"explanation": "【あに】→「兄」、【おとうと】→「弟」\n「兄」の 下は「儿（ひとあし）」。「弟」は 1字で「おとうと」と 読むよ（「お」を 書きたさない）。\nなかまの ことば：兄・弟・姉（あね）・妹（いもうと）"
+},
+{
+"id": "g2kw_004",
+"subject": "g2kaki_hiro3",
+"month": "g2_kanji",
+"type": "selfjudge",
+"handwrite": true,
+"q": "【　】の ことばを かん字で 書こう。\n【ごぜん】と 【ごご】。",
+"answer": "午前・午後",
+"explanation": "【ごぜん】→「午前」、【ごご】→「午後」\n「午」は 上に つき出ない。つき出すと「牛（うし）」に なっちゃうよ。\n「後」の へんは「彳（ぎょうにんべん）」。\n昼の 12時（正午）より 前が 午前、後が 午後。"
+},
+{
+"id": "g2kw_005",
+"subject": "g2kaki_hiro3",
+"month": "g2_kanji",
+"type": "selfjudge",
+"handwrite": true,
+"q": "【　】の ことばを かん字で 書こう。\n【いちまんえん】さつで はらう。",
+"answer": "一万円",
+"explanation": "【いちまんえん】→「一万円」\n「万」は 3画。「方（ほう）」と まちがえないでね（点が ない）。\n「円」は 4画。"
+},
+{
+"id": "g2kw_006",
+"subject": "g2kaki_hiro3",
+"month": "g2_kanji",
+"type": "selfjudge",
+"handwrite": true,
+"q": "【　】の ことばを かん字で 書こう。\nしずかな 【よる】。",
+"answer": "夜",
+"explanation": "【よる】→「夜」\n「亠（なべぶた）」の 下に「イ」と「夕」の ような 形。\nはんたいの ことば：昼（ひる）\n読みかた：よる・よ／ヤ（今夜・こんや）"
+},
+{
+"id": "g2kw_007",
+"subject": "g2kaki_hiro3",
+"month": "g2_kanji",
+"type": "selfjudge",
+"handwrite": true,
+"q": "【　】の ことばを かん字で 書こう。\nすきな 【きょうか】。",
+"answer": "教科",
+"explanation": "【きょうか】→「教科」\n「教」の 右は「攵（のぶん）」。「科」の 左は「禾（のぎへん）」。\n国語・算数・生活・音楽・図工・体育は ぜんぶ「教科」の なかまだよ。"
+},
+{
+"id": "g2kw_008",
+"subject": "g2kaki_hiro3",
+"month": "g2_kanji",
+"type": "selfjudge",
+"handwrite": true,
+"q": "【　】の ことばを かん字で 書こう。\n【こくご】で ならう。",
+"answer": "国語",
+"explanation": "【こくご】→「国語」\n「国」は かこみの 中に「玉」。点を わすれずに。\n「語」の へんは「言（ごんべん）」。"
+},
+{
+"id": "g2kw_009",
+"subject": "g2kaki_hiro3",
+"month": "g2_kanji",
+"type": "selfjudge",
+"handwrite": true,
+"q": "【　】の ことばを かん字で 書こう。\n【さんすう】の もんだい。",
+"answer": "算数",
+"explanation": "【さんすう】→「算数」\n「算」の 上は「竹（たけかんむり）」。\n「数」の 右は「攵（のぶん）」。読みかた：かず／スウ"
+},
+{
+"id": "g2kw_010",
+"subject": "g2kaki_hiro3",
+"month": "g2_kanji",
+"type": "selfjudge",
+"handwrite": true,
+"q": "【　】の ことばを かん字で 書こう。\n【せいかつ】を おくる。",
+"answer": "生活",
+"explanation": "【せいかつ】→「生活」\n「活」は「氵（さんずい）」に「舌（した）」。\n教科の「生活科」の「生活」だよ。"
+},
+{
+"id": "g2kw_011",
+"subject": "g2kaki_hiro3",
+"month": "g2_kanji",
+"type": "selfjudge",
+"handwrite": true,
+"q": "【　】の ことばを かん字で 書こう。\n【おんがく】と 【ずこう】。",
+"answer": "音楽・図工",
+"explanation": "【おんがく】→「音楽」、【ずこう】→「図工」\n「楽」は 白の 左右に 点が 2つずつ、下は「木」。\n「図」は かこみの 中が「ツ」と「メ」の ような 形。\n「楽」は「たの(しい)」とも 読むよ。"
+},
+{
+"id": "g2kw_012",
+"subject": "g2kaki_hiro3",
+"month": "g2_kanji",
+"type": "selfjudge",
+"handwrite": true,
+"q": "【　】の ことばを かん字で 書こう。\n【たいいく】の じゅんび。",
+"answer": "体育",
+"explanation": "【たいいく】→「体育」\n「体」は「イ（にんべん）」に「本」。\n「育」の 下は「月（にくづき）」。読みかた：そだ(つ)／イク"
+},
+{
+"id": "g2kw_013",
+"subject": "g2kaki_hiro3",
+"month": "g2_kanji",
+"type": "selfjudge",
+"handwrite": true,
+"q": "【　】の ことばを かん字で 書こう。\n【あさ】から 【ゆき】が ふる。",
+"answer": "朝・雪",
+"explanation": "【あさ】→「朝」、【ゆき】→「雪」\n「朝」の 右は「月」。はんたいの ことば：夕方（ゆうがた）\n「雪」の 上は「雨（あめかんむり）」。雨かんむりの 中の 点は 4つ。"
+},
+{
+"id": "g2kw_014",
+"subject": "g2kaki_hiro3",
+"month": "g2_kanji",
+"type": "selfjudge",
+"handwrite": true,
+"q": "【　】の ことばを かん字で 書こう。\n【しょうがっこう】の 【ちかく】。（おくりがなも 書こう）",
+"answer": "小学校・近く",
+"explanation": "【しょうがっこう】→「小学校」、【ちかく】→「近く」\n「近く」は「く」を おくりがなで 書くよ。\n「近」は「辶（しんにょう）」。しんにょうは 最後に 書く。\nはんたいの ことば：遠く（とおく）"
+}
+]

@@ -107,7 +107,7 @@ export const PLANTS: PlantDef[] = [
   },
   {
     seed: 'sd_imo', name: 'サツマイモ', emoji: '🍠', type: 'tuber', cotyledons: 0, epigeal: false, rootFirst: false, endosperm: null,
-    temp: [20, 30], nutrient: 'でんぷん', starch: 2, pollen: 'insect', flower: '#f9a8d4', crop: 'gf_imo', grows: 'つる（なえ）',
+    temp: [20, 30], nutrient: 'でんぷん', starch: 2, pollen: 'insect', flower: '#f9a8d4', crop: 'gf_rawimo', grows: 'つる（なえ）',
     facts: ['いもは 根が へんかした もの', '葉と くきの ついた つる（なえ）を うえて ふやす', 'うえた つるの ふしから 新しい 根が でる'],
     quiz: [
       { q: 'サツマイモの いもは なにが へんかした もの？', options: ['根', 'くき', '葉'], answer: 0, why: 'サツマイモは 根、ジャガイモは くきが へんかした いもだよ。' },

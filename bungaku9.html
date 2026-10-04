@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>本文を読む</title>
+<script src="/js/passage.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#fdf2f4; --card:#ffffff; --ink:#3b2530; --accent:#c8284a; --muted:#8a6b76; --line:#f3c9d3; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:'Zen Maru Gothic', sans-serif; }
+  header { position:sticky; top:0; z-index:5; background:var(--bg); padding:12px 16px 8px; border-bottom:1px solid var(--line); }
+  .top { display:flex; align-items:center; gap:10px; }
+  .back { color:var(--accent); text-decoration:none; font-weight:700; font-size:15px; white-space:nowrap; }
+  h1 { font-size:17px; margin:0; font-weight:900; }
+  .tabs { display:flex; gap:8px; margin-top:10px; }
+  .tab { flex:1; border:2px solid var(--accent); background:#fff; color:var(--accent); border-radius:12px; padding:8px 4px; font:inherit; font-weight:700; font-size:14px; cursor:pointer; }
+  .tab[aria-selected="true"] { background:var(--accent); color:#fff; }
+  main { max-width:760px; margin:0 auto; padding:12px 16px 40px; }
+  .src { font-size:13px; color:var(--muted); margin:4px 0 10px; }
+  .hint { background:#fff; border:1px dashed var(--line); border-radius:12px; padding:10px 12px; font-size:13px; line-height:1.7; margin-bottom:12px; }
+  .page { background:var(--card); border-radius:12px; padding:8px; margin-bottom:10px; box-shadow:0 1px 4px rgba(0,0,0,.06); text-align:center; }
+  .page img { max-width:100%; height:auto; display:inline-block; }
+  .no { font-size:12px; color:var(--muted); text-align:left; margin:0 0 4px 2px; }
+  [hidden] { display:none !important; }
+</style>
+</head>
+<body>
+<header>
+  <div class="top">
+    <a class="back" href="/">← もどる</a>
+    <h1 id="page-title">本文を読む</h1>
+  </div>
+  <div class="tabs" role="tablist" id="tabs"></div>
+</header>
+<main>
+  <div class="hint">縦書きの文章を、<b>読む順（上から1枚ずつ）</b>に分けてあります。1枚の中は<b>右の行から左へ</b>読みます。字が小さいときは指で広げて拡大してね。</div>
+  <div id="sections"></div>
+</main>
+<script>
+  // ?p=キー,キー で どの本文を出すか決める（データは js/passage.js の PASSAGES）
+  // ?t=キー で 最初に開くタブ。むかしの ?t=kihon / ?t=kako も 文学的文章(1) として読める
+  const params = new URLSearchParams(location.search);
+  const keys = (params.get('p') || 'bungaku9_kihon,bungaku9_kako').split(',').filter(k => PASSAGES[k]);
+  const TITLES = { bungaku9: '文学的文章(1) 本文を読む', setumei9: '説明的文章(1) 本文を読む' };
+  const pre = (keys[0] || '').split('_')[0];
+  document.getElementById('page-title').textContent = TITLES[pre] || '本文を読む';
+  document.title = (TITLES[pre] || '本文を読む').replace(' 本文を読む', ' 本文');
+  document.getElementById('tabs').innerHTML = keys.map(k =>
+    `<button class="tab" role="tab" data-t="${k}">${PASSAGES[k].tab || PASSAGES[k].title}</button>`).join('');
+  document.getElementById('sections').innerHTML = keys.map(k => {
+    const P = PASSAGES[k], maxW = Math.max(...P.w);
+    return `<section id="sec-${k}" hidden><p class="src">${P.src}</p>` + P.w.map((w, i) =>
+      `<div class="page"><p class="no">${i + 1} / ${P.w.length}</p><img src="/images/${P.img}_${i + 1}.jpg" style="width:${(w / maxW * 100).toFixed(1)}%" alt="本文 ${i + 1}枚目" loading="lazy"></div>`
+    ).join('') + '</section>';
+  }).join('');
+  const store = 'passage_tab_' + pre;
+  function show(t) {
+    document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-selected', b.dataset.t === t));
+    keys.forEach(k => { document.getElementById('sec-' + k).hidden = k !== t; });
+    window.scrollTo(0, 0);
+    try { localStorage.setItem(store, t); } catch (e) {}
+  }
+  document.querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => show(b.dataset.t)));
+  let want = params.get('t');
+  if (want === 'kihon' || want === 'kako') want = pre + '_' + want;
+  let saved = null; try { saved = localStorage.getItem(store); } catch (e) {}
+  if (keys.length) show(keys.includes(want) ? want : (keys.includes(saved) ? saved : keys[0]));
+</script>
+</body>
+</html>

@@ -9,6 +9,8 @@ import { OpeningScreen } from './screens/OpeningScreen';
 import { DrillScreen } from './screens/DrillScreen';
 import { useEffect, useState } from 'react';
 import { todayUnits } from './lib/study';
+import { useTestLock } from './lib/testlock';
+import { TestLockScreen } from './screens/TestLockScreen';
 
 function Router() {
   const { save, screen, markOpeningSeen } = useGame();
@@ -33,7 +35,10 @@ function Router() {
       document.removeEventListener('visibilitychange', re);
     };
   }, []);
+  // テストまえの とくべつルール（アンリの あいだ・lib/testlock.ts）
+  const testLock = useTestLock(save.player);
   if (!gate.unlocked) return <LockScreen cats={gate.cats} />;
+  if (testLock.locked) return <TestLockScreen lock={testLock} />;
 
   // はじまりの ものがたり（はじめて 島を ひらいたとき 1回）
   if (!save.openingSeen || devOpening) {

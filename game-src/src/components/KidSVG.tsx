@@ -1,7 +1,7 @@
 import React from 'react';
 import type { PlayerKey } from '../types';
 
-// 主人公「あんり」「りの」「みつき」「けんすけ」。リポジトリに人物の絵がないので新規に描いたもの。
+// 主人公「あんり」「りの」「みつき」「けんすけ」「ゆうせい」。リポジトリに人物の絵がないので新規に描いたもの。
 // js/chars.js と同じ丸っこい絵柄（太い線・#3d2b5e の目・頬の赤み）に寄せている。
 //
 // 正面向き1ポーズだけを用意し、歩きは「上下のぴょこぴょこ＋左右反転」で表現する。
@@ -21,6 +21,7 @@ export const PALETTES: Record<PlayerKey, Palette> = {
   rino: { hair: '#c4b5fd', hairDark: '#a78bfa', cloth: '#a5b4fc', clothDark: '#818cf8', accent: '#67e8f9', name: 'りの' },
   mitsuki: { hair: '#6b3f2a', hairDark: '#4a2a1c', cloth: '#fcd34d', clothDark: '#f59e0b', accent: '#fde047', name: 'みつき' },
   kensuke: { hair: '#2e2a3a', hairDark: '#15121d', cloth: '#7dd3fc', clothDark: '#0284c7', accent: '#1e3a8a', name: 'けんすけ' },
+  yusei: { hair: '#3b2a20', hairDark: '#241810', cloth: '#86efac', clothDark: '#16a34a', accent: '#15803d', name: 'ゆうせい' },
 };
 
 const SKIN = '#ffe8d6';
@@ -87,6 +88,15 @@ function KidSVGBase({ who, size = 110, walking = false, flip = false, hat = null
             <circle cx="50" cy="76" r="5.5" fill="#fff" stroke="#172554" strokeWidth="1.4" />
             <path d="M50 72.5 l2.8 2 -1 3.3 h-3.6 l-1-3.3 z" fill="#172554" />
           </>
+        ) : who === 'yusei' ? (
+          /* ゆうせい：ランドセルの かたひも＋ベージュの はんズボン */
+          <>
+            <path d="M31 88 C30 93 31 98 34 99 L66 99 C69 98 70 93 69 88 Z" fill="#e7d3a8" stroke="#a8875a" strokeWidth="2" strokeLinejoin="round" />
+            <path d="M50 89 L50 99" stroke="#a8875a" strokeWidth="1.6" />
+            <path d="M39 64 C37 72 36 80 35 88" stroke="#b91c1c" strokeWidth="4" strokeLinecap="round" fill="none" />
+            <path d="M61 64 C63 72 64 80 65 88" stroke="#b91c1c" strokeWidth="4" strokeLinecap="round" fill="none" />
+            <path d="M44 65 L50 70 L56 65" stroke={p.clothDark} strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+          </>
         ) : (
           /* あんり：エプロンのポケット */
           <>
@@ -128,6 +138,18 @@ function KidSVGBase({ who, size = 110, walking = false, flip = false, hat = null
               strokeWidth="2.2"
               strokeLinejoin="round"
             />
+          </>
+        ) : who === 'yusei' ? (
+          /* ゆうせい：7:3 わけの さらっとした みじかい かみ（まえがみは みぎへ ながれる） */
+          <>
+            <path
+              d="M25 45 C22 28 33 16 50 16 C67 16 78 27 75 45 C73 38 69 33 63 31 C58 36 48 36 40 32 C44 30 46 28 46 25 C40 29 32 34 25 45 Z"
+              fill={p.hair}
+              stroke={p.hairDark}
+              strokeWidth="2.2"
+              strokeLinejoin="round"
+            />
+            <path d="M46 25 C52 22 60 22 66 26" stroke={p.hairDark} strokeWidth="1.4" fill="none" strokeLinecap="round" opacity="0.6" />
           </>
         ) : who === 'rino' ? (
           /* りの：うさ耳フード */
@@ -177,6 +199,15 @@ function KidSVGBase({ who, size = 110, walking = false, flip = false, hat = null
           <g transform="rotate(-20 67 51)">
             <rect x="61" y="48.5" width="12" height="5" rx="2.5" fill="#fcd9b6" stroke="#d6a77a" strokeWidth="1" />
             <rect x="65" y="48.5" width="4" height="5" fill="#f5c79e" />
+          </g>
+        )}
+        {who === 'yusei' && (
+          /* ゆうせい：はじめから かけている まるい メガネ */
+          <g>
+            <path d="M33.5 44 L26 42.5 M66.5 44 L74 42.5" stroke="#1e3a8a" strokeWidth="1.8" strokeLinecap="round" />
+            <path d="M48 44.5 Q50 42.5 52 44.5" stroke="#1e3a8a" strokeWidth="1.8" fill="none" strokeLinecap="round" />
+            <circle cx="41" cy="45" r="7.3" fill="#fff" fillOpacity="0.25" stroke="#1e3a8a" strokeWidth="2" />
+            <circle cx="59" cy="45" r="7.3" fill="#fff" fillOpacity="0.25" stroke="#1e3a8a" strokeWidth="2" />
           </g>
         )}
         <path

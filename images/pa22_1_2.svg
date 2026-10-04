@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 590 481" width="590" height="481" font-family="sans-serif">
+<rect width="100%" height="100%" fill="#fff"/>
+<polygon points="95.0,385.9 387.0,385.9 495.0,95.0 203.0,95.0" fill="#fff" stroke="#111" stroke-width="2.5"/>
+<line x1="203.0" y1="95.0" x2="459.6" y2="190.3" stroke="#111" stroke-width="2" stroke-dasharray="6,5"/>
+<polyline points="454.8,203.4 441.6,198.5 446.5,185.4" fill="none" stroke="#111" stroke-width="1.8"/>
+<path d="M95.0,385.9 Q241.0,421.9 387.0,385.9" fill="none" stroke="#555" stroke-width="1.5"/>
+<text x="241.0" y="439.9" font-size="24" text-anchor="middle" fill="#111" paint-order="stroke" stroke="#fff" stroke-width="6">16cm</text>
+<path d="M387.0,385.9 Q474.8,253.0 495.0,95.0" fill="none" stroke="#555" stroke-width="1.5"/>
+<text x="484.1" y="264.5" font-size="24" text-anchor="middle" fill="#111" paint-order="stroke" stroke="#fff" stroke-width="6">17cm</text>
+<path d="M203.0,95.0 Q318.8,176.4 459.6,190.3" fill="none" stroke="#555" stroke-width="1.5"/>
+<text x="315.3" y="193.8" font-size="24" text-anchor="middle" fill="#111" paint-order="stroke" stroke="#fff" stroke-width="6">15cm</text>
+</svg>

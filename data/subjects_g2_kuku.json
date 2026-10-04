@@ -1,0 +1,82 @@
+{
+"kuku": {
+"label": "九九",
+"icon": "✖️",
+"tag": "tag-kuku",
+"category": "sansu",
+"month": "g2_kuku",
+"isGroup": true
+},
+"kuku_1": {
+"label": "1のだん",
+"icon": "1️⃣",
+"tag": "tag-kuku",
+"category": "sansu",
+"month": "g2_kuku",
+"parent": "kuku"
+},
+"kuku_2": {
+"label": "2のだん",
+"icon": "2️⃣",
+"tag": "tag-kuku",
+"category": "sansu",
+"month": "g2_kuku",
+"parent": "kuku"
+},
+"kuku_3": {
+"label": "3のだん",
+"icon": "3️⃣",
+"tag": "tag-kuku",
+"category": "sansu",
+"month": "g2_kuku",
+"parent": "kuku"
+},
+"kuku_4": {
+"label": "4のだん",
+"icon": "4️⃣",
+"tag": "tag-kuku",
+"category": "sansu",
+"month": "g2_kuku",
+"parent": "kuku"
+},
+"kuku_5": {
+"label": "5のだん",
+"icon": "5️⃣",
+"tag": "tag-kuku",
+"category": "sansu",
+"month": "g2_kuku",
+"parent": "kuku"
+},
+"kuku_6": {
+"label": "6のだん",
+"icon": "6️⃣",
+"tag": "tag-kuku",
+"category": "sansu",
+"month": "g2_kuku",
+"parent": "kuku"
+},
+"kuku_7": {
+"label": "7のだん",
+"icon": "7️⃣",
+"tag": "tag-kuku",
+"category": "sansu",
+"month": "g2_kuku",
+"parent": "kuku"
+},
+"kuku_8": {
+"label": "8のだん",
+"icon": "8️⃣",
+"tag": "tag-kuku",
+"category": "sansu",
+"month": "g2_kuku",
+"parent": "kuku"
+},
+"kuku_9": {
+"label": "9のだん",
+"icon": "9️⃣",
+"tag": "tag-kuku",
+"category": "sansu",
+"month": "g2_kuku",
+"parent": "kuku"
+}
+}

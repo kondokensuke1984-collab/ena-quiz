@@ -1,0 +1,1668 @@
+[
+{
+"id": "et10_01",
+"subject": "eigo",
+"month": "eikoh_term10",
+"q": "8-④ 1\n\"violin\" の意味はどれですか？",
+"options": [
+"ピアノ",
+"ギター",
+"ヴァイオリン",
+"ドラム"
+],
+"answer": 2,
+"explanation": "violin ＝ ヴァイオリン。\n楽器：piano（ピアノ）／guitar（ギター）／violin（ヴァイオリン）\n「楽器をひく」は play the violin のように the をつけます。"
+},
+{
+"id": "et10_02",
+"subject": "eigo",
+"month": "eikoh_term10",
+"q": "8-④ 2\n\"bicycle\" の意味はどれですか？",
+"options": [
+"自動車",
+"自転車",
+"バス",
+"電車"
+],
+"answer": 1,
+"explanation": "bicycle ＝ 自転車（bike ともいいます）。\nつづりは bi・cy・cle。y と c の順番に注意しましょう。"
+},
+{
+"id": "et10_03",
+"subject": "eigo",
+"month": "eikoh_term10",
+"type": "input",
+"q": "8-④ 3\n「ピアノ」を英語で書きなさい。",
+"answer": "piano",
+"explanation": "ピアノ ＝ piano\n「ピアノをひく」は play the piano です。"
+},
+{
+"id": "et10_04",
+"subject": "eigo",
+"month": "eikoh_term10",
+"type": "input",
+"q": "8-④ 4\n（　）に英語を入れて日本語の意味になるように英文を完成させなさい。\nぼくはギターをひくことができます。\n(　　)(　　) play the guitar.\n※2つの（　）に入る語を順に書きなさい（文のはじめは大文字）。",
+"answer": "I can",
+"explanation": "答え：( I ) ( can ) play the guitar.\n「〜することができる」は can ＋ 動詞 で表します。\nI can play 〜. ＝ わたしは〜をひく（する）ことができます。"
+},
+{
+"id": "et10_05",
+"subject": "eigo",
+"month": "eikoh_term10",
+"type": "selfjudge",
+"q": "8-④ 5\n（　）の英語を並べかえて日本語の意味になるように英文を完成させなさい。ただし、使わない英語が1つあります。\nわたしはサッカーができません。（することができません）\n( don't / I / soccer / . / play / can't )",
+"answer": "I can't play soccer.",
+"explanation": "「〜することができない」は can't（cannot）＋ 動詞。\nI can't play soccer. が正解で、don't は使いません。\ndon't は「〜しない」（I don't play soccer. ＝ サッカーをしません）なので、「できない」とは意味がちがいます。\n文のはじめの I は大文字、さいごにピリオド（.）が書けていれば正解。"
+},
+{
+"id": "et10_06",
+"subject": "eigo",
+"month": "eikoh_term10",
+"q": "9-① 1\n\"juice\" の意味はどれですか？",
+"options": [
+"牛乳",
+"ジュース",
+"お茶",
+"水"
+],
+"answer": 1,
+"explanation": "juice ＝ ジュース。\n飲み物：juice（ジュース）／milk（牛乳）／tea（お茶）／water（水）"
+},
+{
+"id": "et10_07",
+"subject": "eigo",
+"month": "eikoh_term10",
+"q": "9-① 2\n\"sandwich\" の意味はどれですか？",
+"options": [
+"ハンバーガー",
+"ピザ",
+"サンドイッチ",
+"パン"
+],
+"answer": 2,
+"explanation": "sandwich ＝ サンドイッチ。\nつづりは sand ＋ wich。"
+},
+{
+"id": "et10_08",
+"subject": "eigo",
+"month": "eikoh_term10",
+"type": "input",
+"q": "9-① 3\n「牛乳」を英語で書きなさい。",
+"answer": "milk",
+"explanation": "牛乳 ＝ milk"
+},
+{
+"id": "et10_09",
+"subject": "eigo",
+"month": "eikoh_term10",
+"type": "input",
+"q": "9-① 4\n（　）に英語を入れて日本語の意味になるように英文を完成させなさい。\n今日は何曜日ですか。\n(　　)(　　) is it today?\n※2つの（　）に入る語を順に書きなさい（文のはじめは大文字）。",
+"answer": "What day",
+"explanation": "答え：( What ) ( day ) is it today?\n「何曜日」＝ what day。\n答えるときは It's Monday. のように言います。"
+},
+{
+"id": "et10_10",
+"subject": "eigo",
+"month": "eikoh_term10",
+"type": "selfjudge",
+"q": "9-① 5\n（　）の英語を並べかえて日本語の意味になるように英文を完成させなさい。文のはじめの文字を大文字に変えて書きます。\nあなたは何色が好きですか。\n( like / you / color / ? / do / what )",
+"answer": "What color do you like?",
+"explanation": "「何色」＝ what color をひとかたまりで文のはじめに置き、そのあとに do you like? を続けます。\nWhat の W が大文字、さいごに ? が書けていれば正解。"
+},
+{
+"id": "et10_11",
+"subject": "eigo",
+"month": "eikoh_term10",
+"type": "selfjudge",
+"q": "9-① 6\n（　）の英語を並べかえて日本語の意味になるように英文を完成させなさい。文のはじめの文字を大文字に変えて書きます。\nあなたは金曜日に何を勉強しますか。\n( study / Fridays / you / ? / on / do / what )",
+"answer": "What do you study on Fridays?",
+"explanation": "What（何を）＋ do you study（あなたは勉強しますか）＋ on Fridays（金曜日に）。\n曜日の前は on。曜日は大文字で始めます（Fridays の s は「毎週金曜日」の意味）。\nWhat の W が大文字、さいごに ? が書けていれば正解。"
+},
+{
+"id": "et10_12",
+"subject": "eigo",
+"month": "eikoh_term10",
+"type": "input",
+"q": "9-② 1\n「日本」を英語で書きなさい。",
+"answer": "Japan",
+"explanation": "日本 ＝ Japan\n国の名前は、文のどこにあっても大文字で始めます（japan は×）。"
+},
+{
+"id": "et10_13",
+"subject": "eigo",
+"month": "eikoh_term10",
+"q": "9-② 2\n\"the U.S.A.\" の意味はどれですか？",
+"options": [
+"イギリス",
+"オーストラリア",
+"アメリカ",
+"カナダ"
+],
+"answer": 2,
+"explanation": "the U.S.A. ＝ アメリカ（アメリカ合衆国）。\nイギリス ＝ the U.K.／オーストラリア ＝ Australia／カナダ ＝ Canada"
+},
+{
+"id": "et10_14",
+"subject": "eigo",
+"month": "eikoh_term10",
+"q": "9-② 3\n\"I want to go to Australia.\" の意味はどれですか？",
+"options": [
+"わたしはオーストラリアに行きたいです。",
+"わたしはオーストラリアに行きました。",
+"あなたはオーストラリアに行きたいですか。",
+"わたしはオーストラリアが好きです。"
+],
+"answer": 0,
+"explanation": "want to 〜 ＝ 〜したい。go to 〜 ＝ 〜に行く。\nI want to go to Australia. ＝ わたしはオーストラリアに行きたいです。\nテストでは日本語で書けるようにしておきましょう。"
+},
+{
+"id": "et10_15",
+"subject": "eigo",
+"month": "eikoh_term10",
+"type": "input",
+"q": "9-② 4\n（　）に英語を入れて日本語の意味になるように英文を完成させなさい。\nきみは自転車を持っていますか。\n(　　)(　　) have a bicycle?\n※2つの（　）に入る語を順に書きなさい（文のはじめは大文字）。",
+"answer": "Do you",
+"explanation": "答え：( Do ) ( you ) have a bicycle?\n「あなたは〜を持っていますか」は Do you have 〜? 。\n答えるときは Yes, I do. ／ No, I don't. です。"
+},
+{
+"id": "et10_16",
+"subject": "eigo",
+"month": "eikoh_term10",
+"type": "selfjudge",
+"q": "9-② 5\n（　）に英語を入れて日本語の意味になるように英文を完成させなさい。\n月曜日に何を勉強しますか。\n(　　) do you (　　) on Mondays?",
+"answer": "What ／ study",
+"explanation": "答え：( What ) do you ( study ) on Mondays?\n「何を」＝ What を文のはじめに、「勉強する」＝ study。\nWhat の W が大文字で書けていれば正解。"
+},
+{
+"id": "et10_17",
+"subject": "eigo",
+"month": "eikoh_term10",
+"type": "selfjudge",
+"q": "9-② 6\n（　）の英語を並べかえて日本語の意味になるように英文を完成させなさい。文のはじめの文字を大文字に変えて書きます。\nあなたはどこに行きたいですか。\n( go / where / you / ? / want to / do )",
+"answer": "Where do you want to go?",
+"explanation": "Where（どこに）＋ do you want to go?（あなたは行きたいですか）。\nWhere の W が大文字、さいごに ? が書けていれば正解。\n答えるときは I want to go to 〜. です。"
+},
+{
+"id": "et10_18",
+"subject": "eigo",
+"month": "eikoh_term10",
+"q": "9-③ 1\n\"temple\" の意味はどれですか？",
+"options": [
+"神社",
+"寺",
+"城",
+"公園"
+],
+"answer": 1,
+"explanation": "temple ＝ 寺。\n神社は shrine、城は castle、公園は park です。"
+},
+{
+"id": "et10_19",
+"subject": "eigo",
+"month": "eikoh_term10",
+"q": "9-③ 2\n\"soccer game\" の意味はどれですか？",
+"options": [
+"サッカー選手",
+"サッカーボール",
+"サッカーの試合",
+"サッカー部"
+],
+"answer": 2,
+"explanation": "game ＝ 試合。soccer game ＝ サッカーの試合。\nサッカー選手は soccer player です。"
+},
+{
+"id": "et10_20",
+"subject": "eigo",
+"month": "eikoh_term10",
+"q": "9-③ 3\n\"pizza\" の意味はどれですか？",
+"options": [
+"パスタ",
+"ピザ",
+"パン",
+"ケーキ"
+],
+"answer": 1,
+"explanation": "pizza ＝ ピザ。z が2つ続くつづりに注意しましょう。"
+},
+{
+"id": "et10_21",
+"subject": "eigo",
+"month": "eikoh_term10",
+"q": "9-③ 4\n\"I want to go to the museum.\" の意味はどれですか？",
+"options": [
+"わたしは美術館（博物館）に行きたいです。",
+"わたしは美術館（博物館）に行きました。",
+"わたしは図書館に行きたいです。",
+"あなたは美術館（博物館）に行きたいですか。"
+],
+"answer": 0,
+"explanation": "museum ＝ 美術館・博物館。\nwant to go to 〜 ＝ 〜に行きたい。\n図書館は library です。テストでは日本語で書けるようにしておきましょう。"
+},
+{
+"id": "et10_22",
+"subject": "eigo",
+"month": "eikoh_term10",
+"type": "input",
+"q": "9-③ 5\n（　）に英語を入れて日本語の意味になるように英文を完成させなさい。\nぼくはコアラが見たいです。\nI want to (　　) koalas.",
+"answer": "see",
+"explanation": "答え：I want to ( see ) koalas.\nsee ＝ 見る。want to see 〜 ＝ 〜を見たい。"
+},
+{
+"id": "et10_23",
+"subject": "eigo",
+"month": "eikoh_term10",
+"type": "selfjudge",
+"q": "9-③ 6\n（　）の英語を並べかえて日本語の意味になるように英文を完成させなさい。※ただし使わない英語が1つあります。\nあなたは月曜日に何の授業がありますか。\n( Mondays / like / have / you / ? / on / do / what )",
+"answer": "What do you have on Mondays?",
+"explanation": "What（何を）＋ do you have（あなたはありますか）＋ on Mondays（月曜日に）。\n「授業がある」は have を使うので、like（好き）は使いません。\nWhat の W が大文字、さいごに ? が書けていれば正解。"
+},
+{
+"id": "hk10_01",
+"subject": "heikin_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 1-(1)\n次の量の平均を求めなさい。\n2m, 5m, 4m, 9m",
+"answer": "5m",
+"explanation": "平均 ＝ 合計 ÷ 個数\n合計：2＋5＋4＋9＝20(m)\n個数：4つ\n20÷4＝5(m)"
+},
+{
+"id": "hk10_02",
+"subject": "heikin_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 1-(2)\n次の量の平均を求めなさい。\n102円, 150円, 213円, 95円",
+"answer": "140円",
+"explanation": "合計：102＋150＋213＋95＝560(円)\n個数：4つ\n560÷4＝140(円)\n※たし算のまちがいが多いところ。102＋150＝252、252＋213＝465、465＋95＝560 と1つずつ確かめよう。"
+},
+{
+"id": "hk10_03",
+"subject": "heikin_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 1-(3)\n次の量の平均を求めなさい。\n18.5L, 16.2L, 17.4L, 19.1L, 17.8L",
+"answer": "17.8L",
+"explanation": "合計：18.5＋16.2＋17.4＋19.1＋17.8＝89(L)\n個数：5つ\n89÷5＝17.8(L)"
+},
+{
+"id": "hk10_04",
+"subject": "heikin_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 2\nある映画館の5日間の入館者数の合計は、2618人でした。この映画館の1日の平均入館者数は、何人ですか。",
+"answer": "523.6人",
+"explanation": "2618÷5＝523.6(人)\n人数は本当は小数になりませんが、平均は「ならした数」なので 523.6人 のように小数で答えてよい。"
+},
+{
+"id": "hk10_05",
+"subject": "heikin_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 3-(1)\nはやとさんのクラスで、今週、図書館から借りた本のさっ数別に人数をまとめると、次のようになりました。\n【0さつ：5人／1さつ：14人／2さつ：11人／3さつ：6人】\nクラス全員を合わせると、今週、何さつの本を図書館から借りましたか。",
+"answer": "54さつ",
+"explanation": "（さっ数）×（人数）をたす。\n0×5＝0\n1×14＝14\n2×11＝22\n3×6＝18\n0＋14＋22＋18＝54(さつ)"
+},
+{
+"id": "hk10_06",
+"subject": "heikin_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 3-(2)\nはやとさんのクラスで、今週、図書館から借りた本のさっ数別に人数をまとめると、次のようになりました。\n【0さつ：5人／1さつ：14人／2さつ：11人／3さつ：6人】\nはやとさんのクラスでは、今週、1人平均何さつの本を図書館から借りましたか。",
+"answer": "1.5さつ",
+"explanation": "合計のさっ数：0×5＋1×14＋2×11＋3×6＝54(さつ)\nクラスの人数：5＋14＋11＋6＝36(人)\n54÷36＝1.5(さつ)\n※0さつの5人も人数に入れるのがポイント。"
+},
+{
+"id": "hk10_07",
+"subject": "heikin_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 4-(1)\nはるかさんは、自分の歩はばを求めるために10歩歩いた長さを3回はかりました。\n【1回目：7.25m／2回目：7.18m／3回目：7.17m】\n10歩歩いた長さの平均は何mですか。",
+"answer": "7.2m",
+"explanation": "7.25＋7.18＋7.17＝21.6(m)\n21.6÷3＝7.2(m)"
+},
+{
+"id": "hk10_08",
+"subject": "heikin_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 4-(2)\nはるかさんは、自分の歩はばを求めるために10歩歩いた長さを3回はかりました。\n【1回目：7.25m／2回目：7.18m／3回目：7.17m】\n1歩の歩はばの平均は何mですか。",
+"answer": "0.72m",
+"explanation": "10歩の平均：(7.25＋7.18＋7.17)÷3＝7.2(m)\n1歩分は10でわる：7.2÷10＝0.72(m)"
+},
+{
+"id": "hk10_09",
+"subject": "heikin_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 4-(3)\nはるかさんは、自分の歩はばを求めるために10歩歩いた長さを3回はかりました。\n【1回目：7.25m／2回目：7.18m／3回目：7.17m】\nはるかさんが家から学校までの歩数を数えると、860歩でした。家から学校までの道のりは約何mですか。四捨五入して、上から2けたのがい数で求めなさい。（数だけ入力）",
+"answer": "620m",
+"explanation": "1歩の歩はば：(7.25＋7.18＋7.17)÷3÷10＝0.72(m)\n道のり：0.72×860＝619.2(m)\n上から2けた → 3けた目の「9」を四捨五入して切り上げ → 約620m"
+},
+{
+"id": "hk10_10",
+"subject": "heikin_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 5-(1)\nまりさんの家では、1日に平均0.8Lの牛にゅうを飲みます。1週間では何Lの牛にゅうを飲むことになりますか。",
+"answer": "5.6L",
+"explanation": "合計 ＝ 平均 × 個数\n1週間＝7日\n0.8×7＝5.6(L)"
+},
+{
+"id": "hk10_11",
+"subject": "heikin_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 5-(2)\nなつみさんは、182ページの本を読みました。1日に読んだページ数の平均は、14ページだったそうです。この本を読むのに何日かかりましたか。",
+"answer": "13日",
+"explanation": "個数（日数） ＝ 合計 ÷ 平均\n182÷14＝13(日)"
+},
+{
+"id": "tr10_01",
+"subject": "tanryo_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 1-(1) 1組\n1組の花だんは15m²で、18本の花のなえが植えてあります。また、2組の花だんは20m²で、30本の花のなえが植えてあります。\n1組の花だんには、1m²あたり何本の花のなえが植えてありますか。",
+"answer": "1.2本",
+"explanation": "1m²あたり ＝ 本数 ÷ 面積\n18÷15＝1.2(本)"
+},
+{
+"id": "tr10_02",
+"subject": "tanryo_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 1-(1) 2組\n1組の花だんは15m²で、18本の花のなえが植えてあります。また、2組の花だんは20m²で、30本の花のなえが植えてあります。\n2組の花だんには、1m²あたり何本の花のなえが植えてありますか。",
+"answer": "1.5本",
+"explanation": "1m²あたり ＝ 本数 ÷ 面積\n30÷20＝1.5(本)"
+},
+{
+"id": "tr10_03",
+"subject": "tanryo_renA",
+"month": "eikoh_term10",
+"q": "練習問題A 1-(2)\n1組の花だんは15m²で、18本の花のなえが植えてあります。また、2組の花だんは20m²で、30本の花のなえが植えてあります。\n1組、2組の花だんはどちらが混んでいるといえますか。",
+"options": [
+"1組",
+"2組"
+],
+"answer": 1,
+"explanation": "1m²あたりの本数でくらべる。\n1組：18÷15＝1.2(本)\n2組：30÷20＝1.5(本)\n1m²あたりの本数が多い2組の方が混んでいる。"
+},
+{
+"id": "tr10_04",
+"subject": "tanryo_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 2-(1)\n60m²の教室に、36人の生徒がいます。1m²あたり何人の生徒がいますか。",
+"answer": "0.6人",
+"explanation": "1m²あたり ＝ 人数 ÷ 面積\n36÷60＝0.6(人)\n※わられる数(36)の方が小さいので、答えは1より小さくなる。"
+},
+{
+"id": "tr10_05",
+"subject": "tanryo_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 2-(2)\n7.5mで3900円の布があります。この布1mあたりのねだんは何円ですか。",
+"answer": "520円",
+"explanation": "1mあたり ＝ ねだん ÷ 長さ\n3900÷7.5＝520(円)\n※わる数の小数点を1つ右へ → 39000÷75 として計算する。"
+},
+{
+"id": "tr10_06",
+"subject": "tanryo_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 2-(3)\n15Lのガソリンで165km走る自動車があります。この自動車は、ガソリン1Lあたり何km走りますか。",
+"answer": "11km",
+"explanation": "1Lあたり ＝ 道のり ÷ ガソリンの量\n165÷15＝11(km)"
+},
+{
+"id": "tr10_07",
+"subject": "tanryo_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 2-(4)\n600m²の畑で、1500kgのじゃがいもがとれました。この畑1m²あたり何kgのじゃがいもがとれましたか。",
+"answer": "2.5kg",
+"explanation": "1m²あたり ＝ とれた量 ÷ 面積\n1500÷600＝2.5(kg)"
+},
+{
+"id": "tr10_08",
+"subject": "tanryo_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 3 A県\n2つの県のおよその面積と人口は次のとおりです。\n【A県：面積78000km²・人口5700000人／B県：面積3800km²・人口6800000人】\nA県の人口密度は約何人ですか。四捨五入して、上から2けたのがい数で求めなさい。（数だけ入力）",
+"answer": "73人",
+"explanation": "人口密度 ＝ 人口 ÷ 面積（1km²あたりの人数）\n5700000÷78000＝73.07…(人)\n上から2けた → 3けた目の「0」を四捨五入して切り捨て → 約73人"
+},
+{
+"id": "tr10_09",
+"subject": "tanryo_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 3 B県\n2つの県のおよその面積と人口は次のとおりです。\n【A県：面積78000km²・人口5700000人／B県：面積3800km²・人口6800000人】\nB県の人口密度は約何人ですか。四捨五入して、上から2けたのがい数で求めなさい。（数だけ入力）",
+"answer": "1800人",
+"explanation": "人口密度 ＝ 人口 ÷ 面積（1km²あたりの人数）\n6800000÷3800＝1789.4…(人)\n上から2けた → 3けた目の「8」を四捨五入して切り上げ → 約1800人\n※0を同じ数ずつ消して 68000÷38 にすると計算が楽。"
+},
+{
+"id": "tr10_10",
+"subject": "tanryo_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 4-(1)\nさくらさんの家では、畑1m²あたりに1.2kgの肥料をまきます。\n180m²の畑では、肥料は何kg必要ですか。",
+"answer": "216kg",
+"explanation": "全体の量 ＝ 1m²あたりの量 × 面積\n1.2×180＝216(kg)"
+},
+{
+"id": "tr10_11",
+"subject": "tanryo_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 4-(2)\nさくらさんの家では、畑1m²あたりに1.2kgの肥料をまきます。\n60kgの肥料では、何m²の畑にまくことができますか。",
+"answer": "50m²",
+"explanation": "面積 ＝ 全体の量 ÷ 1m²あたりの量\n60÷1.2＝50(m²)\n※わる数の小数点を1つ右へ → 600÷12 として計算する。"
+},
+{
+"id": "tr10_12",
+"subject": "tanryo_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 5-(1)\n1mの重さが18gの針金があります。\nこの針金2.5mの重さは何gですか。",
+"answer": "45g",
+"explanation": "重さ ＝ 1mあたりの重さ × 長さ\n18×2.5＝45(g)"
+},
+{
+"id": "tr10_13",
+"subject": "tanryo_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 5-(2)\n1mの重さが18gの針金があります。\nこの針金270gの長さは何mですか。",
+"answer": "15m",
+"explanation": "長さ ＝ 重さ ÷ 1mあたりの重さ\n270÷18＝15(m)"
+},
+{
+"id": "hy10_01",
+"subject": "hayasa1_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 1-(1)\n85kmの道のりを、2時間で走る自動車の速さは、時速何kmですか。",
+"answer": "42.5km",
+"explanation": "速さ ＝ 道のり ÷ 時間\n85÷2＝42.5(km)\n→ 時速42.5km"
+},
+{
+"id": "hy10_02",
+"subject": "hayasa1_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 1-(2)\n168kmの道のりを、4時間で走るトラックの速さは、時速何kmですか。",
+"answer": "42km",
+"explanation": "速さ ＝ 道のり ÷ 時間\n168÷4＝42(km)\n→ 時速42km"
+},
+{
+"id": "hy10_03",
+"subject": "hayasa1_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 1-(3)\n800mの道のりを、10分で歩く人の速さは、分速何mですか。",
+"answer": "80m",
+"explanation": "速さ ＝ 道のり ÷ 時間\n800÷10＝80(m)\n→ 分速80m"
+},
+{
+"id": "hy10_04",
+"subject": "hayasa1_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 1-(4)\n3kmの道のりを、4分で走るオートバイの速さは、分速何mですか。",
+"answer": "750m",
+"explanation": "答えは「m」なので、先に km を m になおす。\n3km＝3000m\n3000÷4＝750(m)\n→ 分速750m"
+},
+{
+"id": "hy10_05",
+"subject": "hayasa1_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 1-(5)\n100mの道のりを、20秒で走る人の速さは、秒速何mですか。",
+"answer": "5m",
+"explanation": "速さ ＝ 道のり ÷ 時間\n100÷20＝5(m)\n→ 秒速5m"
+},
+{
+"id": "hy10_06",
+"subject": "hayasa1_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 1-(6)\n1.2kmの道のりを、50秒で走る列車の速さは、秒速何mですか。",
+"answer": "24m",
+"explanation": "答えは「m」なので、先に km を m になおす。\n1.2km＝1200m\n1200÷50＝24(m)\n→ 秒速24m"
+},
+{
+"id": "hy10_07",
+"subject": "hayasa1_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 2-(1) 電車\n3時間で240km進む電車と、4時間で300km進む自動車があります。\nこの電車の速さは、時速何kmですか。",
+"answer": "80km",
+"explanation": "240÷3＝80(km)\n→ 時速80km"
+},
+{
+"id": "hy10_08",
+"subject": "hayasa1_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 2-(1) 自動車\n3時間で240km進む電車と、4時間で300km進む自動車があります。\nこの自動車の速さは、時速何kmですか。",
+"answer": "75km",
+"explanation": "300÷4＝75(km)\n→ 時速75km"
+},
+{
+"id": "hy10_09",
+"subject": "hayasa1_renA",
+"month": "eikoh_term10",
+"q": "練習問題A 2-(2)\n3時間で240km進む電車と、4時間で300km進む自動車があります。\n電車と自動車では、どちらが速いですか。",
+"options": [
+"電車",
+"自動車"
+],
+"answer": 0,
+"explanation": "1時間あたりに進む道のり（時速）でくらべる。\n電車：240÷3＝時速80km\n自動車：300÷4＝時速75km\n時速が大きい電車の方が速い。\n※進んだ道のり（300kmと240km）だけでくらべないこと。"
+},
+{
+"id": "hy10_10",
+"subject": "hayasa1_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 3-①\n乗り物の速さの表で、①に入る数を求めなさい。\n【バス：秒速①m・分速②m・時速36km／自動車：秒速③m・分速750m・時速④km／電車：秒速25m・分速⑤m・時速⑥km】",
+"answer": "10",
+"explanation": "時速36km＝時速36000m\n分速：36000÷60＝600(m)\n秒速：600÷60＝10(m)\n→ ①は10"
+},
+{
+"id": "hy10_11",
+"subject": "hayasa1_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 3-②\n乗り物の速さの表で、②に入る数を求めなさい。\n【バス：秒速①m・分速②m・時速36km／自動車：秒速③m・分速750m・時速④km／電車：秒速25m・分速⑤m・時速⑥km】",
+"answer": "600",
+"explanation": "時速36km＝時速36000m\n分速は1時間(60分)の道のりを60でわる：36000÷60＝600(m)\n→ ②は600"
+},
+{
+"id": "hy10_12",
+"subject": "hayasa1_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 3-③\n乗り物の速さの表で、③に入る数を求めなさい。\n【バス：秒速①m・分速②m・時速36km／自動車：秒速③m・分速750m・時速④km／電車：秒速25m・分速⑤m・時速⑥km】",
+"answer": "12.5",
+"explanation": "秒速は1分(60秒)の道のりを60でわる。\n750÷60＝12.5(m)\n→ ③は12.5"
+},
+{
+"id": "hy10_13",
+"subject": "hayasa1_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 3-④\n乗り物の速さの表で、④に入る数を求めなさい。\n【バス：秒速①m・分速②m・時速36km／自動車：秒速③m・分速750m・時速④km／電車：秒速25m・分速⑤m・時速⑥km】",
+"answer": "45",
+"explanation": "時速は分速の60倍。\n750×60＝45000(m)\n45000m＝45km\n→ ④は45"
+},
+{
+"id": "hy10_14",
+"subject": "hayasa1_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 3-⑤\n乗り物の速さの表で、⑤に入る数を求めなさい。\n【バス：秒速①m・分速②m・時速36km／自動車：秒速③m・分速750m・時速④km／電車：秒速25m・分速⑤m・時速⑥km】",
+"answer": "1500",
+"explanation": "分速は秒速の60倍。\n25×60＝1500(m)\n→ ⑤は1500"
+},
+{
+"id": "hy10_15",
+"subject": "hayasa1_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 3-⑥\n乗り物の速さの表で、⑥に入る数を求めなさい。\n【バス：秒速①m・分速②m・時速36km／自動車：秒速③m・分速750m・時速④km／電車：秒速25m・分速⑤m・時速⑥km】",
+"answer": "90",
+"explanation": "分速：25×60＝1500(m)\n時速：1500×60＝90000(m)\n90000m＝90km\n→ ⑥は90"
+},
+{
+"id": "hy10_16",
+"subject": "hayasa1_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 4-(1)\n2430kmを3時間で飛ぶ飛行機があります。\nこの飛行機は、時速何kmで飛びますか。",
+"answer": "810km",
+"explanation": "2430÷3＝810(km)\n→ 時速810km"
+},
+{
+"id": "hy10_17",
+"subject": "hayasa1_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 4-(2)\n2430kmを3時間で飛ぶ飛行機があります。\nこの飛行機は、分速何kmで飛びますか。",
+"answer": "13.5km",
+"explanation": "時速：2430÷3＝810(km)\n分速は時速を60でわる：810÷60＝13.5(km)\n→ 分速13.5km"
+},
+{
+"id": "hy10_18",
+"subject": "hayasa1_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 4-(3)\n2430kmを3時間で飛ぶ飛行機があります。\nこの飛行機は、秒速何mで飛びますか。",
+"answer": "225m",
+"explanation": "時速：2430÷3＝810(km)\n分速：810÷60＝13.5(km)＝13500(m)\n秒速：13500÷60＝225(m)\n→ 秒速225m"
+},
+{
+"id": "hy10_19",
+"subject": "hayasa1_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 5-(1)\n秒速17.5mで走っている自動車があります。\nこの自動車は、分速何mで走っていますか。",
+"answer": "1050m",
+"explanation": "分速は秒速の60倍。\n17.5×60＝1050(m)\n→ 分速1050m"
+},
+{
+"id": "hy10_20",
+"subject": "hayasa1_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 5-(2)\n秒速17.5mで走っている自動車があります。\nこの自動車は、時速何kmで走っていますか。",
+"answer": "63km",
+"explanation": "分速：17.5×60＝1050(m)\n時速：1050×60＝63000(m)\n63000m＝63km\n→ 時速63km"
+},
+{
+"id": "hzk10_01",
+"subject": "hayasa2_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"q": "確認問題1-(1)\n次の道のりを、（ ）の中の単位で求めなさい。\n時速70kmの電車が2時間走ったときに進む道のり（km）",
+"answer": "140km",
+"explanation": "道のり ＝ 速さ × 時間\n70×2＝140(km)"
+},
+{
+"id": "hzk10_02",
+"subject": "hayasa2_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"q": "確認問題1-(2)\n次の道のりを、（ ）の中の単位で求めなさい。\n分速85mで30分歩いたときに進む道のり（m）",
+"answer": "2550m",
+"explanation": "道のり ＝ 速さ × 時間\n85×30＝2550(m)"
+},
+{
+"id": "hzk10_03",
+"subject": "hayasa2_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"q": "確認問題1-(3)\n次の道のりを、（ ）の中の単位で求めなさい。\n秒速5.5mで20秒走ったときに進む道のり（m）",
+"answer": "110m",
+"explanation": "道のり ＝ 速さ × 時間\n5.5×20＝110(m)"
+},
+{
+"id": "hzk10_04",
+"subject": "hayasa2_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"q": "確認問題2\n時速45kmで走る自動車があります。この自動車が1時間24分で進む道のりは、何kmですか。",
+"answer": "63km",
+"explanation": "時速なので、時間を「時間」の単位になおす。\n24分＝24/60時間＝0.4時間 → 1時間24分＝1.4時間\n45×1.4＝63(km)\n※1.24時間としないこと。"
+},
+{
+"id": "hzk10_05",
+"subject": "hayasa2_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"q": "確認問題3-(1)\n次の時間を、（ ）の中の単位で求めなさい。\n180kmの道のりを、時速45kmの自動車で進むのにかかる時間（時間）",
+"answer": "4時間",
+"explanation": "時間 ＝ 道のり ÷ 速さ\n180÷45＝4(時間)"
+},
+{
+"id": "hzk10_06",
+"subject": "hayasa2_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"q": "確認問題3-(2)\n次の時間を、（ ）の中の単位で求めなさい。\n400mの道のりを、分速80mで歩くのにかかる時間（分）",
+"answer": "5分",
+"explanation": "時間 ＝ 道のり ÷ 速さ\n400÷80＝5(分)"
+},
+{
+"id": "hzk10_07",
+"subject": "hayasa2_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"q": "確認問題3-(3)\n次の時間を、（ ）の中の単位で求めなさい。\n秒速4.5mの自転車で、90m進むのにかかる時間（秒）",
+"answer": "20秒",
+"explanation": "時間 ＝ 道のり ÷ 速さ\n90÷4.5＝20(秒)\n※わる数の小数点を1つ右へ → 900÷45 として計算する。"
+},
+{
+"id": "hzk10_08",
+"subject": "hayasa2_kakunin",
+"month": "eikoh_term10",
+"type": "selfjudge",
+"q": "確認問題4\nA町からB町までの道のりは21kmです。さおりさんは、A町を出発して、B町まで時速12kmの自転車で進みました。さおりさんはA町からB町まで行くのに何時間何分かかりましたか。",
+"answer": "1時間45分",
+"explanation": "21÷12＝1.75(時間)\n0.75時間を分になおす：60×0.75＝45(分)\n→ 1時間45分\n※1.75時間を「1時間75分」としないこと。"
+},
+{
+"id": "hzk10_09",
+"subject": "hayasa2_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"q": "確認問題5-(1) Aさん\nAさんは2時間で150個の折りづるを作り、Bさんは3時間で210個の折りづるを作ります。\nAさんが1時間あたりに作る折りづるは何個ですか。",
+"answer": "75個",
+"explanation": "1時間あたり ＝ 個数 ÷ 時間\n150÷2＝75(個)"
+},
+{
+"id": "hzk10_10",
+"subject": "hayasa2_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"q": "確認問題5-(1) Bさん\nAさんは2時間で150個の折りづるを作り、Bさんは3時間で210個の折りづるを作ります。\nBさんが1時間あたりに作る折りづるは何個ですか。",
+"answer": "70個",
+"explanation": "1時間あたり ＝ 個数 ÷ 時間\n210÷3＝70(個)"
+},
+{
+"id": "hzk10_11",
+"subject": "hayasa2_kakunin",
+"month": "eikoh_term10",
+"q": "確認問題5-(2)\nAさんは2時間で150個の折りづるを作り、Bさんは3時間で210個の折りづるを作ります。\nAさんとBさん、どちらの方が、速く折りづるを作ることができるといえますか。",
+"options": [
+"Aさん",
+"Bさん"
+],
+"answer": 0,
+"explanation": "1時間あたりに作る個数（仕事の速さ）でくらべる。\nA：150÷2＝75(個)\nB：210÷3＝70(個)\n1時間に多く作れるAさんの方が速い。\n※作った個数（210個）だけでくらべないこと。"
+},
+{
+"id": "pa22_01",
+"subject": "heikou_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/pa22_1_1.svg",
+"q": "確認問題1-(1)\n図のような平行四辺形の面積を求めなさい。",
+"answer": "96cm²",
+"explanation": "平行四辺形の面積 ＝ 底辺 × 高さ\n底辺12cmに垂直なのは8cm（高さ）。\n12×8＝96(cm²)\n※9cmはななめの辺なので使わない。"
+},
+{
+"id": "pa22_02",
+"subject": "heikou_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/pa22_1_2.svg",
+"q": "確認問題1-(2)\n図のような平行四辺形の面積を求めなさい。",
+"answer": "255cm²",
+"explanation": "15cmの点線は、17cmの辺に垂直（直角の印がある方）。\nだから 17cmを底辺、15cmを高さ と見る。\n17×15＝255(cm²)\n※16×15としないこと。底辺と高さは必ず垂直の組を使う。"
+},
+{
+"id": "pa22_03",
+"subject": "heikou_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/pa22_1_3.svg",
+"q": "確認問題1-(3)\n図のような平行四辺形の面積を求めなさい。",
+"answer": "480cm²",
+"explanation": "高さは平行四辺形の外にあってもよい。\n底辺20cm、高さ24cm（底辺をのばした線に垂直）。\n20×24＝480(cm²)\n※26cmはななめの辺なので使わない。"
+},
+{
+"id": "pa22_04",
+"subject": "heikou_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"q": "確認問題2-(1)\n面積が69cm²の平行四辺形があります。この平行四辺形の底辺の長さが11.5cmのとき、高さは何cmですか。",
+"answer": "6cm",
+"explanation": "高さ ＝ 面積 ÷ 底辺\n69÷11.5＝6(cm)\n※わる数の小数点を1つ右へ → 690÷115 として計算する。"
+},
+{
+"id": "pa22_05",
+"subject": "heikou_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"q": "確認問題2-(2)\n高さが17.5cmの平行四辺形があります。この平行四辺形の面積が315cm²のとき、底辺の長さは何cmですか。",
+"answer": "18cm",
+"explanation": "底辺 ＝ 面積 ÷ 高さ\n315÷17.5＝18(cm)\n※3150÷175 として計算する。"
+},
+{
+"id": "pa22_06",
+"subject": "heikou_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/pa22_3_1.svg",
+"q": "確認問題3-(1)\n図の平行四辺形で、□にあてはまる数を求めなさい。",
+"answer": "34.5",
+"explanation": "高さは20cm（直角の印がある点線）。23cmはななめの辺。\n底辺 ＝ 面積 ÷ 高さ\n690÷20＝34.5(cm)"
+},
+{
+"id": "pa22_07",
+"subject": "heikou_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/pa22_3_2.svg",
+"q": "確認問題3-(2)\n図の平行四辺形で、□にあてはまる数を求めなさい。",
+"answer": "21",
+"explanation": "□cmの点線は右の辺に垂直。右の辺は向かいの24cmの辺と同じ長さ。\nだから 24cmを底辺、□cmを高さ と見る。\n高さ ＝ 面積 ÷ 底辺\n504÷24＝21(cm)\n※22.5cmでわらないこと。"
+},
+{
+"id": "pa22_08",
+"subject": "heikou_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/pa22_3_3.svg",
+"q": "確認問題3-(3)\n図の平行四辺形で、□にあてはまる数を求めなさい。",
+"answer": "25",
+"explanation": "底辺は15cm（20cmは底辺をのばした点線の部分で、底辺ではない）。\n高さ ＝ 面積 ÷ 底辺\n375÷15＝25(cm)"
+},
+{
+"id": "pa22_09",
+"subject": "heikou_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/pa22_3_4.svg",
+"q": "確認問題3-(4)\n図の平行四辺形で、□にあてはまる数を求めなさい。",
+"answer": "26",
+"explanation": "高さは24cm（直角の印がある点線）。26cmはななめの辺。\n底辺（上の辺□） ＝ 面積 ÷ 高さ\n624÷24＝26(cm)\n※ななめの辺も26cmだが、たまたま同じ数になっただけ。"
+},
+{
+"id": "pa22r_01",
+"subject": "heikou_renA",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/pa22r_1_1.svg",
+"q": "練習問題A 1-(1)\n図のような平行四辺形の面積を求めなさい。",
+"answer": "15.36cm²",
+"explanation": "4.8cmの点線は、左の辺に垂直（直角の印）。左の辺は向かいの3.2cmの辺と同じ長さ。\nだから 3.2cmを底辺、4.8cmを高さ と見る。\n3.2×4.8＝15.36(cm²)\n※5×4.8としないこと。"
+},
+{
+"id": "pa22r_02",
+"subject": "heikou_renA",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/pa22r_1_2.svg",
+"q": "練習問題A 1-(2)\n図のような平行四辺形の面積を求めなさい。",
+"answer": "243cm²",
+"explanation": "高さは平行四辺形の外にある18cm（上の辺をのばした線に垂直）。\n底辺13.5cm×高さ18cm\n13.5×18＝243(cm²)\n※22.5cmはななめの辺なので使わない。"
+},
+{
+"id": "pa22r_03",
+"subject": "heikou_renA",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/pa22r_1_3.svg",
+"q": "練習問題A 1-(3)\n図のような平行四辺形の面積を求めなさい。",
+"answer": "648cm²",
+"explanation": "27cmの点線は、24cmの辺に垂直（直角の印）。\n24×27＝648(cm²)\n※36cmはななめの辺なので使わない。"
+},
+{
+"id": "pa22r_04",
+"subject": "heikou_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 2-(1)\n底辺の長さが18cm、高さが12cmの平行四辺形があります。\nこの平行四辺形の面積を求めなさい。",
+"answer": "216cm²",
+"explanation": "18×12＝216(cm²)"
+},
+{
+"id": "pa22r_05",
+"subject": "heikou_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 2-(2)\n底辺の長さが18cm、高さが12cmの平行四辺形があります。\n底辺の長さはそのままで、高さを36cmに変えると、面積は何倍になりますか。",
+"answer": "3倍",
+"explanation": "底辺が同じなら、面積は高さに比例する。\n高さ：36÷12＝3(倍) → 面積も3倍\n（たしかめ：18×36＝648、648÷216＝3）"
+},
+{
+"id": "pa22r_06",
+"subject": "heikou_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 2-(3)\n底辺の長さが18cm、高さが12cmの平行四辺形があります。\n高さはそのままで、底辺の長さを27cmに変えると、面積は何倍になりますか。",
+"answer": "1.5倍",
+"explanation": "高さが同じなら、面積は底辺に比例する。\n底辺：27÷18＝1.5(倍) → 面積も1.5倍\n（たしかめ：27×12＝324、324÷216＝1.5）"
+},
+{
+"id": "pa22r_07",
+"subject": "heikou_renA",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/pa22r_3_1.svg",
+"q": "練習問題A 3-(1) ア\n図で、平行四辺形ABCDの面積は108cm²です。アの長さは何cmですか。",
+"answer": "12cm",
+"explanation": "アは辺BC。BCに垂直な高さは9cm。\n底辺 ＝ 面積 ÷ 高さ\n108÷9＝12(cm)"
+},
+{
+"id": "pa22r_08",
+"subject": "heikou_renA",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/pa22r_3_1.svg",
+"q": "練習問題A 3-(1) イ\n図で、平行四辺形ABCDの面積は108cm²です。イの長さは何cmですか。",
+"answer": "10.8cm",
+"explanation": "イは辺CD。CDに垂直な高さは10cm（Aからひいた点線）。\n底辺 ＝ 面積 ÷ 高さ\n108÷10＝10.8(cm)"
+},
+{
+"id": "pa22r_09",
+"subject": "heikou_renA",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/pa22r_3_2.svg",
+"q": "練習問題A 3-(2) ア\n図で、平行四辺形ABCDの面積は600cm²です。アの長さは何cmですか。",
+"answer": "25cm",
+"explanation": "アはDから辺ABにひいた垂直な線＝ABを底辺としたときの高さ。\n高さ ＝ 面積 ÷ 底辺\n600÷24＝25(cm)"
+},
+{
+"id": "pa22r_10",
+"subject": "heikou_renA",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/pa22r_3_2.svg",
+"q": "練習問題A 3-(2) イ\n図で、平行四辺形ABCDの面積は600cm²です。イの長さは何cmですか。",
+"answer": "20cm",
+"explanation": "イはDから辺BCにひいた垂直な線＝BCを底辺としたときの高さ。\nBCは向かいのAD（30cm）と同じ長さ。\n600÷30＝20(cm)"
+},
+{
+"id": "pa22r_11",
+"subject": "heikou_renA",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/pa22r_4.svg",
+"q": "練習問題A 4-(1)\n図の平行四辺形ABCDの面積を求めなさい。",
+"answer": "315cm²",
+"explanation": "底辺BC21cm、高さ15cm（ADをのばした線に垂直）。\n21×15＝315(cm²)"
+},
+{
+"id": "pa22r_12",
+"subject": "heikou_renA",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/pa22r_4.svg",
+"q": "練習問題A 4-(2)\n図の平行四辺形ABCDで、辺ABの長さは何cmですか。",
+"answer": "18cm",
+"explanation": "面積は 21×15＝315(cm²)\n17.5cmの点線は辺CDに垂直なので、CDを底辺とすると高さ17.5cm。\nCD ＝ 315÷17.5＝18(cm)\nABはCDと向かい合う辺なので同じ長さ → 18cm"
+},
+{
+"id": "tr23_01",
+"subject": "sankaku_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/tr23_1.svg",
+"q": "確認問題1 ア\n図の2本の直線は平行です。アの三角形の面積は何cm²ですか。",
+"answer": "45cm²",
+"explanation": "三角形の面積 ＝ 底辺 × 高さ ÷ 2\n高さは平行な2本の直線のはば＝9cm\n10×9÷2＝45(cm²)"
+},
+{
+"id": "tr23_02",
+"subject": "sankaku_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/tr23_1.svg",
+"q": "確認問題1 イ\n図の2本の直線は平行です。イの三角形の面積は何cm²ですか。",
+"answer": "36cm²",
+"explanation": "ちょう点が底辺の真上になくても、高さは平行な直線のはば＝9cm のまま。\n8×9÷2＝36(cm²)"
+},
+{
+"id": "tr23_03",
+"subject": "sankaku_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/tr23_1.svg",
+"q": "確認問題1 ウ\n図の2本の直線は平行です。ウの三角形の面積は何cm²ですか。",
+"answer": "54cm²",
+"explanation": "高さは平行な直線のはば＝9cm\n12×9÷2＝54(cm²)"
+},
+{
+"id": "tr23_04",
+"subject": "sankaku_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/tr23_2_1.svg",
+"q": "確認問題2-(1)\n図のような三角形の面積を求めなさい。",
+"answer": "52cm²",
+"explanation": "13×8÷2＝52(cm²)\n※÷2をわすれないこと（わすれると平行四辺形の面積になる）。"
+},
+{
+"id": "tr23_05",
+"subject": "sankaku_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/tr23_2_2.svg",
+"q": "確認問題2-(2)\n図のような三角形の面積を求めなさい。",
+"answer": "66cm²",
+"explanation": "高さは三角形の外にある11cm（底辺をのばした線に垂直）。\n底辺は12cm（点線の部分は入れない）。\n12×11÷2＝66(cm²)"
+},
+{
+"id": "tr23_06",
+"subject": "sankaku_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/tr23_2_3.svg",
+"q": "確認問題2-(3)\n図のような三角形の面積を求めなさい。",
+"answer": "105cm²",
+"explanation": "14cmの点線は15cmの辺に垂直（直角の印）。\nだから 15cmを底辺、14cmを高さ と見る。\n15×14÷2＝105(cm²)\n※16×14÷2としないこと。"
+},
+{
+"id": "tr23_07",
+"subject": "sankaku_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"q": "確認問題3-(1)\n面積が148cm²の三角形があります。この三角形の底辺の長さが18.5cmのとき、高さは何cmですか。",
+"answer": "16cm",
+"explanation": "高さ ＝ 面積 × 2 ÷ 底辺\n148×2＝296\n296÷18.5＝16(cm)\n※×2をわすれないこと。"
+},
+{
+"id": "tr23_08",
+"subject": "sankaku_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"q": "確認問題3-(2)\n高さが20.5cmの三角形があります。この三角形の面積が328cm²のとき、底辺の長さは何cmですか。",
+"answer": "32cm",
+"explanation": "底辺 ＝ 面積 × 2 ÷ 高さ\n328×2＝656\n656÷20.5＝32(cm)"
+},
+{
+"id": "tr23_09",
+"subject": "sankaku_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/tr23_4_1.svg",
+"q": "確認問題4-(1)\n図の三角形で、□にあてはまる数を求めなさい。",
+"answer": "14",
+"explanation": "底辺□に垂直な高さは8cm。12cmはななめの辺なので使わない。\n底辺 ＝ 面積 × 2 ÷ 高さ\n56×2÷8＝14(cm)"
+},
+{
+"id": "tr23_10",
+"subject": "sankaku_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/tr23_4_2.svg",
+"q": "確認問題4-(2)\n図の三角形で、□にあてはまる数を求めなさい。",
+"answer": "26",
+"explanation": "□cmの点線は21cmの辺に垂直。\nだから 21cmを底辺、□cmを高さ と見る。\n高さ ＝ 面積 × 2 ÷ 底辺\n273×2÷21＝26(cm)\n※29cmでわらないこと。"
+},
+{
+"id": "tr23_11",
+"subject": "sankaku_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/tr23_4_3.svg",
+"q": "確認問題4-(3)\n図の三角形で、□にあてはまる数を求めなさい。",
+"answer": "19.5",
+"explanation": "高さは三角形の外にある24cm。26cmはななめの辺。\n底辺 ＝ 面積 × 2 ÷ 高さ\n234×2÷24＝19.5(cm)"
+},
+{
+"id": "tr23_12",
+"subject": "sankaku_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/tr23_4_4.svg",
+"q": "確認問題4-(4)\n図の三角形で、□にあてはまる数を求めなさい。",
+"answer": "14.4",
+"explanation": "□cmは30cmの底辺に垂直な高さ。18cm・24cmはななめの辺。\n高さ ＝ 面積 × 2 ÷ 底辺\n216×2÷30＝14.4(cm)"
+},
+{
+"id": "tr23r_01",
+"subject": "sankaku_renA",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/tr23r_1.svg",
+"q": "練習問題A 1 ア\n図で、方眼の1目もりは1cmです。アの三角形の面積は何cm²ですか。",
+"answer": "15cm²",
+"explanation": "目もりを数える。\n底辺（横）6cm、高さ（たて）5cm\n6×5÷2＝15(cm²)"
+},
+{
+"id": "tr23r_02",
+"subject": "sankaku_renA",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/tr23r_1.svg",
+"q": "練習問題A 1 イ\n図で、方眼の1目もりは1cmです。イの三角形の面積は何cm²ですか。",
+"answer": "10.5cm²",
+"explanation": "たての辺（3cm）を底辺と見る。\n高さはそこから右のちょう点までの横のきょり＝7cm\n3×7÷2＝10.5(cm²)\n※三角形をたおして見ると、底辺と高さが見つけやすい。"
+},
+{
+"id": "tr23r_03",
+"subject": "sankaku_renA",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/tr23r_1.svg",
+"q": "練習問題A 1 ウ\n図で、方眼の1目もりは1cmです。ウの三角形の面積は何cm²ですか。",
+"answer": "22.5cm²",
+"explanation": "上の横の辺（9cm）を底辺と見る。\n高さはそこから下のちょう点までのたてのきょり＝5cm\n9×5÷2＝22.5(cm²)"
+},
+{
+"id": "tr23r_04",
+"subject": "sankaku_renA",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/tr23r_2_1.svg",
+"q": "練習問題A 2-(1)\n図のような三角形の面積を求めなさい。",
+"answer": "96cm²",
+"explanation": "12cmの辺と16cmの辺は直角に交わっている（直角の印）。\nだから 一方を底辺、もう一方を高さ と見る。\n12×16÷2＝96(cm²)\n※20cmの辺は使わない。"
+},
+{
+"id": "tr23r_05",
+"subject": "sankaku_renA",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/tr23r_2_2.svg",
+"q": "練習問題A 2-(2)\n図のような三角形の面積を求めなさい。",
+"answer": "196cm²",
+"explanation": "14cmの辺を底辺と見ると、高さはその辺をのばした線までの28cm（直角の印）。\n14×28÷2＝196(cm²)\n※38cmはななめの辺なので使わない。"
+},
+{
+"id": "tr23r_06",
+"subject": "sankaku_renA",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/tr23r_2_3.svg",
+"q": "練習問題A 2-(3)\n図のような三角形の面積を求めなさい。",
+"answer": "73.5cm²",
+"explanation": "7cmの点線は21cmの辺に垂直。\n21×7÷2＝73.5(cm²)\n※12cmはななめの辺なので使わない。"
+},
+{
+"id": "tr23r_07",
+"subject": "sankaku_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 3-(1)\n底辺の長さが15cm、高さが8cmの三角形があります。\nこの三角形の底辺の長さはそのままで、高さを20cmにすると、面積は何倍になりますか。",
+"answer": "2.5倍",
+"explanation": "底辺が同じなら、面積は高さに比例する。\n20÷8＝2.5(倍)\n（たしかめ：15×8÷2＝60、15×20÷2＝150、150÷60＝2.5）"
+},
+{
+"id": "tr23r_08",
+"subject": "sankaku_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 3-(2)\n底辺の長さが15cm、高さが8cmの三角形があります。\nこの三角形の高さはそのままで、底辺の長さを24cmにすると、面積は何倍になりますか。",
+"answer": "1.6倍",
+"explanation": "高さが同じなら、面積は底辺に比例する。\n24÷15＝1.6(倍)\n（たしかめ：24×8÷2＝96、96÷60＝1.6）"
+},
+{
+"id": "tr23r_09",
+"subject": "sankaku_renA",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/tr23r_4.svg",
+"q": "練習問題A 4-(1)\n図で、三角形ABCの面積は75cm²です。辺ACの長さは何cmですか。",
+"answer": "15cm",
+"explanation": "10cmの点線は辺ACに垂直 → ACを底辺とすると高さ10cm。\n底辺 ＝ 面積 × 2 ÷ 高さ\n75×2÷10＝15(cm)"
+},
+{
+"id": "tr23r_10",
+"subject": "sankaku_renA",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/tr23r_4.svg",
+"q": "練習問題A 4-(2)\n図で、三角形ABCの面積は75cm²です。辺BCを底辺としたときの高さは何cmですか。",
+"answer": "12cm",
+"explanation": "高さ ＝ 面積 × 2 ÷ 底辺\n75×2÷12.5＝12(cm)\n※150÷12.5 は 1500÷125 として計算する。"
+},
+{
+"id": "tr23r_11",
+"subject": "sankaku_renA",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/tr23r_5.svg",
+"q": "練習問題A 5-(1)\n図の三角形ABCの面積は何cm²ですか。",
+"answer": "81cm²",
+"explanation": "底辺BC18cm、高さ9cm（BCをのばした線に垂直）。\n18×9÷2＝81(cm²)"
+},
+{
+"id": "tr23r_12",
+"subject": "sankaku_renA",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/tr23r_5.svg",
+"q": "練習問題A 5-(2)\n図の三角形ABCで、辺ACを底辺としたときの高さは何cmですか。",
+"answer": "7.2cm",
+"explanation": "面積は 18×9÷2＝81(cm²)\n高さ ＝ 面積 × 2 ÷ 底辺\n81×2÷22.5＝7.2(cm)\n※162÷22.5 は 1620÷225 として計算する。"
+},
+{
+"id": "dk24k_01",
+"subject": "daikei_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/dk24k_1_1.svg",
+"q": "確認問題1-(1)\n図のような台形の面積を求めなさい。",
+"answer": "72cm²",
+"explanation": "台形の面積 ＝（上底＋下底）× 高さ ÷ 2\n(6＋12)×8÷2＝72(cm²)"
+},
+{
+"id": "dk24k_02",
+"subject": "daikei_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/dk24k_1_2.svg",
+"q": "確認問題1-(2)\n図のような台形の面積を求めなさい。",
+"answer": "114cm²",
+"explanation": "平行なのはたての7cmと12cmの辺。この2つが上底・下底。\n高さはその間のはば＝下の12cm（直角の印）。\n(7＋12)×12÷2＝114(cm²)\n※13cmはななめの辺なので使わない。"
+},
+{
+"id": "dk24k_03",
+"subject": "daikei_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"q": "確認問題2-(1)\n下底が8cm、高さが7cm、面積が49cm²の台形があります。この台形の上底は何cmですか。",
+"answer": "6cm",
+"explanation": "上底 ＝ 面積 × 2 ÷ 高さ － 下底\n49×2÷7＝14（上底＋下底）\n14－8＝6(cm)"
+},
+{
+"id": "dk24k_04",
+"subject": "daikei_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"q": "確認問題2-(2)\n上底が4.5cm、下底が8.5cm、面積が182cm²の台形があります。この台形の高さは何cmですか。",
+"answer": "28cm",
+"explanation": "高さ ＝ 面積 × 2 ÷（上底＋下底）\n182×2＝364\n364÷(4.5＋8.5)＝364÷13＝28(cm)"
+},
+{
+"id": "dk24k_05",
+"subject": "daikei_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/dk24k_3_1.svg",
+"q": "確認問題3-(1)\n図の台形で、□にあてはまる数を求めなさい。",
+"answer": "22",
+"explanation": "下底 ＝ 面積 × 2 ÷ 高さ － 上底\n204×2÷12＝34（上底＋下底）\n34－12＝22(cm)"
+},
+{
+"id": "dk24k_06",
+"subject": "daikei_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/dk24k_3_2.svg",
+"q": "確認問題3-(2)\n図の台形で、□にあてはまる数を求めなさい。",
+"answer": "14",
+"explanation": "平行なのはたての6cmと9cmの辺（上底・下底）。\n□cmはその間のはば＝高さ（両はしに直角の印）。\n高さ ＝ 面積 × 2 ÷（上底＋下底）\n105×2÷(6＋9)＝210÷15＝14(cm)"
+},
+{
+"id": "dk24r_01",
+"subject": "daikei_renA",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/dk24r_1_1.svg",
+"q": "練習問題A 1-(1)\n図のような台形の面積を求めなさい。",
+"answer": "296cm²",
+"explanation": "高さは台形の外にある16cm（下底をのばした線に垂直）。\n(14＋23)×16÷2＝296(cm²)"
+},
+{
+"id": "dk24r_02",
+"subject": "daikei_renA",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/dk24r_1_2.svg",
+"q": "練習問題A 1-(2)\n図のような台形の面積を求めなさい。",
+"answer": "195cm²",
+"explanation": "上底18cm、下底12cm、高さ13cm（外にある点線）。\n(18＋12)×13÷2＝195(cm²)"
+},
+{
+"id": "dk24r_03",
+"subject": "daikei_renA",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/dk24r_1_3.svg",
+"q": "練習問題A 1-(3)\n図のような台形の面積を求めなさい。",
+"answer": "456cm²",
+"explanation": "平行なのはたての21cmと17cmの辺（上底・下底）。\n高さはその間のはば＝24cm（点線・直角の印）。\n(21＋17)×24÷2＝456(cm²)\n※台形は横向き・たて向きでも、平行な2辺が上底と下底。"
+},
+{
+"id": "dk24r_04",
+"subject": "daikei_renA",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/dk24r_1_4.svg",
+"q": "練習問題A 1-(4)\n図のような台形の面積を求めなさい。",
+"answer": "460cm²",
+"explanation": "(19＋27)×20÷2＝460(cm²)\n※23cmはななめの辺なので使わない。"
+},
+{
+"id": "dk24r_05",
+"subject": "daikei_renA",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/dk24r_1_5.svg",
+"q": "練習問題A 1-(5)\n図のような台形の面積を求めなさい。",
+"answer": "480cm²",
+"explanation": "24cmの辺の両はしに直角の印 → 25cmの辺と15cmの辺はどちらも24cmの辺に垂直なので、平行。\nだから 上底・下底は25cmと15cm、高さは24cm。\n(25＋15)×24÷2＝480(cm²)\n※26cmの辺は使わない。"
+},
+{
+"id": "dk24r_06",
+"subject": "daikei_renA",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/dk24r_1_6.svg",
+"q": "練習問題A 1-(6)\n図のような台形の面積を求めなさい。",
+"answer": "77.44cm²",
+"explanation": "8.8cmの点線は、6.8cmの辺にも10.8cmの辺にも垂直（両はしに直角の印）→ この2辺が平行。\n上底・下底は6.8cmと10.8cm、高さ8.8cm。\n(6.8＋10.8)×8.8÷2＝17.6×8.8÷2＝77.44(cm²)\n※11.2cmの辺は使わない。"
+},
+{
+"id": "dk24r_07",
+"subject": "daikei_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 2-(1)\n上底が7cm、高さが6cm、面積が48cm²の台形があります。この台形の下底は何cmですか。",
+"answer": "9cm",
+"explanation": "下底 ＝ 面積 × 2 ÷ 高さ － 上底\n48×2÷6＝16（上底＋下底）\n16－7＝9(cm)"
+},
+{
+"id": "dk24r_08",
+"subject": "daikei_renA",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/dk24r_2_2.svg",
+"q": "練習問題A 2-(2)\n図のような台形ABCDの面積が96cm²のとき、□にあてはまる数を求めなさい。",
+"answer": "8",
+"explanation": "高さ ＝ 面積 × 2 ÷（上底＋下底）\n96×2÷(9＋15)＝192÷24＝8(cm)"
+},
+{
+"id": "dk24r_09",
+"subject": "daikei_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 2-(3)\n下底が8cm、高さが7.5cm、面積が45cm²の台形があります。この台形の上底は何cmですか。",
+"answer": "4cm",
+"explanation": "上底 ＝ 面積 × 2 ÷ 高さ － 下底\n45×2÷7.5＝90÷7.5＝12（上底＋下底）\n12－8＝4(cm)"
+},
+{
+"id": "dk24r_10",
+"subject": "daikei_renA",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/dk24r_3_1.svg",
+"q": "練習問題A 3-(1)\n図で、かげのついた部分の面積を求めなさい。",
+"answer": "384cm²",
+"explanation": "全体の台形から、白い2つの直角三角形をひく。\n台形：(24＋18)×(16＋20)÷2＝42×36÷2＝756(cm²)\n左の三角形：16×24÷2＝192(cm²)\n右の三角形：20×18÷2＝180(cm²)\n756－192－180＝384(cm²)"
+},
+{
+"id": "dk24r_11",
+"subject": "daikei_renA",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/dk24r_3_2.svg",
+"q": "練習問題A 3-(2)\n図で、かげのついた部分の面積を求めなさい。",
+"answer": "422cm²",
+"explanation": "全体の台形から、白い上下2つの三角形をひく。\n台形の高さ：12＋14＝26(cm)\n台形：(38＋26)×26÷2＝832(cm²)\n上の三角形：38×12÷2＝228(cm²)\n下の三角形：26×14÷2＝182(cm²)\n832－228－182＝422(cm²)"
+},
+{
+"id": "ir25k_01",
+"subject": "iroiro25_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/ir25k_1_1.svg",
+"q": "確認問題1-(1)\n図の正方形の面積を求めなさい。（対角線の長さは5cm）",
+"answer": "12.5cm²",
+"explanation": "正方形はひし形のなかま。面積 ＝ 対角線 × 対角線 ÷ 2\n5×5÷2＝12.5(cm²)\n※5×5＝25としないこと。5cmは辺ではなく対角線。"
+},
+{
+"id": "ir25k_02",
+"subject": "iroiro25_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/ir25k_1_2.svg",
+"q": "確認問題1-(2)\n図のひし形の面積を求めなさい。",
+"answer": "180cm²",
+"explanation": "ひし形の面積 ＝ 対角線 × 対角線 ÷ 2\n24×15÷2＝180(cm²)"
+},
+{
+"id": "ir25k_03",
+"subject": "iroiro25_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/ir25k_2_1.svg",
+"q": "確認問題2-(1)\n方眼の1目もりは1cmです。かげのついた部分の面積は何cm²ですか。",
+"answer": "40cm²",
+"explanation": "対角線を目もりで数える。横10cm、たて8cm。\n対角線が垂直に交わる四角形なので、対角線×対角線÷2\n10×8÷2＝40(cm²)"
+},
+{
+"id": "ir25k_04",
+"subject": "iroiro25_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/ir25k_2_2.svg",
+"q": "確認問題2-(2)\n方眼の1目もりは1cmです。かげのついた部分の面積は何cm²ですか。",
+"answer": "36cm²",
+"explanation": "対角線を目もりで数える。横9cm、たて8cm。\n（ひし形ではないが、対角線が垂直に交わっているので同じ式が使える）\n9×8÷2＝36(cm²)"
+},
+{
+"id": "ir25k_05",
+"subject": "iroiro25_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/ir25k_3_1.svg",
+"q": "確認問題3-(1)\n図で、四角形ABCDは平行四辺形です。かげのついた部分の面積は何cm²ですか。",
+"answer": "48cm²",
+"explanation": "2つの三角形の底辺はどちらもBCの上にあり、合わせるとBC＝12cm。\n高さはどちらも平行四辺形の高さ8cm。\nだから かげの部分 ＝ 12×8÷2＝48(cm²)\n（平行四辺形のちょうど半分）"
+},
+{
+"id": "ir25k_06",
+"subject": "iroiro25_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/ir25k_3_2.svg",
+"q": "確認問題3-(2)\n図で、四角形ABCDは平行四辺形です。かげのついた部分の面積は何cm²ですか。",
+"answer": "93.5cm²",
+"explanation": "上の三角形（底辺AD）と下の三角形（底辺BC）は、底辺がどちらも17cm。\n高さを合わせると、平行四辺形の高さ11cmになる。\nだから かげの部分 ＝ 17×11÷2＝93.5(cm²)\n（平行四辺形のちょうど半分）"
+},
+{
+"id": "ir25k_07",
+"subject": "iroiro25_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/ir25k_3_3.svg",
+"q": "確認問題3-(3)\n図で、四角形ABCDは平行四辺形です。ABとEFは平行です。かげのついた部分の面積は何cm²ですか。",
+"answer": "45cm²",
+"explanation": "EFを底辺と考える。\nABとEFは平行なので、三角形AEF＝三角形BEF（底辺も高さも同じ）。\nDCとEFも平行なので、三角形DEF＝三角形CEF。\nだから かげの部分 ＝ 三角形BEC\n15×6÷2＝45(cm²)"
+},
+{
+"id": "ir25k_08",
+"subject": "iroiro25_kakunin",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/ir25k_3_4.svg",
+"q": "確認問題3-(4)\n図で、四角形ABCDは平行四辺形です。ABとFEは平行です。かげのついた部分の面積は何cm²ですか。",
+"answer": "108cm²",
+"explanation": "FEを底辺と考える。\nABとFEは平行なので、三角形FBE＝三角形FAE。\nDCとFEも平行なので、三角形FCE＝三角形FDE。\nだから かげの部分 ＝ 三角形AED（底辺AD＝24cm、高さ9cm）\n24×9÷2＝108(cm²)"
+},
+{
+"id": "ir25r_01",
+"subject": "iroiro25_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 1-(1)\n対角線の長さが13cmの正方形の面積は何cm²ですか。",
+"answer": "84.5cm²",
+"explanation": "正方形の面積 ＝ 対角線 × 対角線 ÷ 2\n13×13÷2＝169÷2＝84.5(cm²)"
+},
+{
+"id": "ir25r_02",
+"subject": "iroiro25_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 1-(2)\n対角線の長さが12.5cmと16cmのひし形の面積は何cm²ですか。",
+"answer": "100cm²",
+"explanation": "ひし形の面積 ＝ 対角線 × 対角線 ÷ 2\n12.5×16÷2＝200÷2＝100(cm²)"
+},
+{
+"id": "ir25r_03",
+"subject": "iroiro25_renA",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/ir25r_2_1.svg",
+"q": "練習問題A 2-(1)\n図の図形の面積を求めなさい。",
+"answer": "252cm²",
+"explanation": "対角線が垂直に交わる四角形は、ひし形と同じ式が使える。\n21×24÷2＝252(cm²)"
+},
+{
+"id": "ir25r_04",
+"subject": "iroiro25_renA",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/ir25r_2_2.svg",
+"q": "練習問題A 2-(2)\n図の図形の面積を求めなさい。",
+"answer": "212.5cm²",
+"explanation": "対角線が垂直に交わる四角形なので、対角線×対角線÷2\n17×25÷2＝425÷2＝212.5(cm²)"
+},
+{
+"id": "ir25r_05",
+"subject": "iroiro25_renA",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/ir25r_3_1.svg",
+"q": "練習問題A 3-(1)\n図で、四角形ABCDは平行四辺形です。かげのついた部分の面積を求めなさい。",
+"answer": "216cm²",
+"explanation": "上の三角形（底辺AD）と下の三角形（底辺BC）は底辺が同じ27cm、高さを合わせると16cm。\nかげの部分 ＝ 平行四辺形の半分\n27×16÷2＝216(cm²)"
+},
+{
+"id": "ir25r_06",
+"subject": "iroiro25_renA",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/ir25r_3_2.svg",
+"q": "練習問題A 3-(2)\n図で、四角形ABCDは平行四辺形です。かげのついた部分の面積を求めなさい。",
+"answer": "234cm²",
+"explanation": "上下の白い三角形（底辺AD・BC）の高さを合わせると平行四辺形の高さ → 白い部分は平行四辺形の半分。\nだから かげの部分も半分。\n26×18÷2＝234(cm²)"
+},
+{
+"id": "ir25r_07",
+"subject": "iroiro25_renA",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/ir25r_3_3.svg",
+"q": "練習問題A 3-(3)\n図の図形のかげのついた部分の面積を求めなさい。",
+"answer": "245cm²",
+"explanation": "たての14cmの線を底辺と考える。\n左の三角形と右の三角形の高さ（横のきょり）を合わせると35cm。\n14×35÷2＝245(cm²)"
+},
+{
+"id": "ir25r_08",
+"subject": "iroiro25_renA",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/ir25r_3_4.svg",
+"q": "練習問題A 3-(4)\n図の図形のかげのついた部分の面積を求めなさい。",
+"answer": "287.5cm²",
+"explanation": "横の23cmの線を底辺と考える。\n上の三角形と下の三角形の高さ（たてのきょり）を合わせると25cm。\n23×25÷2＝287.5(cm²)"
+},
+{
+"id": "ir25r_09",
+"subject": "iroiro25_renA",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/ir25r_4_1.svg",
+"q": "練習問題A 4-(1)\n図で、四角形ABCDは平行四辺形です。かげのついた部分の面積は何cm²ですか。",
+"answer": "210cm²",
+"explanation": "かげの3つの三角形は、底辺がすべてBCの上にあり、合わせるとBC＝28cm。\n高さはどれも15cm。\n28×15÷2＝210(cm²)"
+},
+{
+"id": "ir25r_10",
+"subject": "iroiro25_renA",
+"month": "eikoh_term10",
+"type": "input",
+"qImage": "/images/ir25r_4_2.svg",
+"q": "練習問題A 4-(2)\n図で、四角形ABCDは平行四辺形です。かげのついた部分の面積は何cm²ですか。",
+"answer": "135cm²",
+"explanation": "上の辺と下の辺のまん中どうしを結ぶと、平行四辺形が左右2つに分かれる。\nかげの部分は、それぞれの平行四辺形の半分ずつ（底辺と高さが同じ三角形）。\nだから かげの部分 ＝ ABCDの半分\n18×15÷2＝135(cm²)"
+},
+{
+"id": "hz10_01",
+"subject": "hayasa2_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 1-(1)\n次の道のりを、（ ）の中の単位で求めなさい。\n時速30kmで走る自動車が3時間に進む道のり（km）",
+"answer": "90km",
+"explanation": "道のり ＝ 速さ × 時間\n30×3＝90(km)"
+},
+{
+"id": "hz10_02",
+"subject": "hayasa2_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 1-(2)\n次の道のりを、（ ）の中の単位で求めなさい。\n分速160mで走る人が15分間に進む道のり（m）",
+"answer": "2400m",
+"explanation": "道のり ＝ 速さ × 時間\n160×15＝2400(m)"
+},
+{
+"id": "hz10_03",
+"subject": "hayasa2_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 1-(3)\n次の道のりを、（ ）の中の単位で求めなさい。\n秒速350mのジェット機が1分間に飛ぶきょり（km）",
+"answer": "21km",
+"explanation": "1分＝60秒\n350×60＝21000(m)\n答えは km なので 21000m＝21km"
+},
+{
+"id": "hz10_04",
+"subject": "hayasa2_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 2-(1)\n次の時間を、（ ）の中の単位で求めなさい。\n180kmの道のりを時速60kmの電車で進んだときにかかる時間（時間）",
+"answer": "3時間",
+"explanation": "時間 ＝ 道のり ÷ 速さ\n180÷60＝3(時間)"
+},
+{
+"id": "hz10_05",
+"subject": "hayasa2_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 2-(2)\n次の時間を、（ ）の中の単位で求めなさい。\n840mの道のりを分速70mで歩いたときにかかる時間（分）",
+"answer": "12分",
+"explanation": "時間 ＝ 道のり ÷ 速さ\n840÷70＝12(分)"
+},
+{
+"id": "hz10_06",
+"subject": "hayasa2_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 2-(3)\n次の時間を、（ ）の中の単位で求めなさい。\n7.2kmの道のりを秒速8mのオートバイで走ったときにかかる時間（分）",
+"answer": "15分",
+"explanation": "単位をmにそろえる：7.2km＝7200m\n7200÷8＝900(秒)\n答えは「分」なので 900÷60＝15(分)\n※秒速でわると答えは「秒」になる。900分としないこと。"
+},
+{
+"id": "hz10_07",
+"subject": "hayasa2_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 3-(1)\n時速50kmで走っている自動車があります。\nこの自動車が3時間30分で進む道のりを求めなさい。",
+"answer": "175km",
+"explanation": "30分＝30/60時間＝0.5時間 なので 3時間30分＝3.5時間\n50×3.5＝175(km)\n※3.30時間としないこと。"
+},
+{
+"id": "hz10_08",
+"subject": "hayasa2_renA",
+"month": "eikoh_term10",
+"type": "selfjudge",
+"q": "練習問題A 3-(2)\n時速50kmで走っている自動車があります。\nこの自動車が80kmの道のりを進むのに何時間何分かかりますか。",
+"answer": "1時間36分",
+"explanation": "80÷50＝1.6(時間)\n0.6時間を分になおす：60×0.6＝36(分)\n→ 1時間36分\n※1.6時間を「1時間6分」としないこと。"
+},
+{
+"id": "hz10_09",
+"subject": "hayasa2_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 4-(1)\nたかしさんの家から学校まで行くのに、分速75mで歩くと、12分かかります。\nたかしさんの家から学校までの道のりを求めなさい。",
+"answer": "900m",
+"explanation": "道のり ＝ 速さ × 時間\n75×12＝900(m)"
+},
+{
+"id": "hz10_10",
+"subject": "hayasa2_renA",
+"month": "eikoh_term10",
+"type": "selfjudge",
+"q": "練習問題A 4-(2)\nたかしさんの家から学校まで行くのに、分速75mで歩くと、12分かかります。\nたかしさんの家から学校まで、分速600mの自動車で行くと、何分何秒かかりますか。",
+"answer": "1分30秒",
+"explanation": "道のり：75×12＝900(m)\n時間：900÷600＝1.5(分)\n0.5分を秒になおす：60×0.5＝30(秒)\n→ 1分30秒\n※1.5分を「1分5秒」としないこと。"
+},
+{
+"id": "hz10_11",
+"subject": "hayasa2_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 5-(1) プリンターA\nプリンターAは16分間で120まいのポスターを印刷することができます。また、プリンターBは25分間で180まいのポスターを印刷することができます。\nプリンターAが1分間あたりに印刷するポスターは何まいですか。",
+"answer": "7.5まい",
+"explanation": "1分間あたり ＝ まい数 ÷ 時間\n120÷16＝7.5(まい)"
+},
+{
+"id": "hz10_12",
+"subject": "hayasa2_renA",
+"month": "eikoh_term10",
+"type": "input",
+"q": "練習問題A 5-(1) プリンターB\nプリンターAは16分間で120まいのポスターを印刷することができます。また、プリンターBは25分間で180まいのポスターを印刷することができます。\nプリンターBが1分間あたりに印刷するポスターは何まいですか。",
+"answer": "7.2まい",
+"explanation": "1分間あたり ＝ まい数 ÷ 時間\n180÷25＝7.2(まい)"
+},
+{
+"id": "hz10_13",
+"subject": "hayasa2_renA",
+"month": "eikoh_term10",
+"q": "練習問題A 5-(2)\nプリンターAは16分間で120まいのポスターを印刷することができます。また、プリンターBは25分間で180まいのポスターを印刷することができます。\nプリンターAとプリンターBでは、どちらが速くポスターを印刷することができるといえますか。",
+"options": [
+"プリンターA",
+"プリンターB"
+],
+"answer": 0,
+"explanation": "1分間あたりのまい数（仕事の速さ）でくらべる。\nA：120÷16＝7.5(まい)\nB：180÷25＝7.2(まい)\n1分間に多く印刷できるAの方が速い。\n※印刷したまい数（180まい）だけでくらべないこと。"
+}
+]

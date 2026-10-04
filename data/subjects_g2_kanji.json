@@ -1,0 +1,163 @@
+{
+"g2kanji": {
+"label": "かん字の読み",
+"icon": "🖍️",
+"tag": "tag-kanji",
+"category": "kokugo",
+"month": "g2_kanji",
+"isGroup": true
+},
+"g2kanji_shizen": {
+"label": "しぜん①",
+"icon": "🌳",
+"tag": "tag-kanji",
+"category": "kokugo",
+"month": "g2_kanji",
+"parent": "g2kanji"
+},
+"g2kanji_shizen2": {
+"label": "しぜん②",
+"icon": "🌳",
+"tag": "tag-kanji",
+"category": "kokugo",
+"month": "g2_kanji",
+"parent": "g2kanji"
+},
+"g2kanji_jikan": {
+"label": "じかん①",
+"icon": "⏰",
+"tag": "tag-kanji",
+"category": "kokugo",
+"month": "g2_kanji",
+"parent": "g2kanji"
+},
+"g2kanji_jikan2": {
+"label": "じかん②",
+"icon": "⏰",
+"tag": "tag-kanji",
+"category": "kokugo",
+"month": "g2_kanji",
+"parent": "g2kanji"
+},
+"g2kanji_hito": {
+"label": "人・からだ①",
+"icon": "🧒",
+"tag": "tag-kanji",
+"category": "kokugo",
+"month": "g2_kanji",
+"parent": "g2kanji"
+},
+"g2kanji_hito2": {
+"label": "人・からだ②",
+"icon": "🧒",
+"tag": "tag-kanji",
+"category": "kokugo",
+"month": "g2_kanji",
+"parent": "g2kanji"
+},
+"g2kanji_machi": {
+"label": "いえ・まち①",
+"icon": "🏠",
+"tag": "tag-kanji",
+"category": "kokugo",
+"month": "g2_kanji",
+"parent": "g2kanji"
+},
+"g2kanji_machi2": {
+"label": "いえ・まち②",
+"icon": "🏠",
+"tag": "tag-kanji",
+"category": "kokugo",
+"month": "g2_kanji",
+"parent": "g2kanji"
+},
+"g2kanji_gakkou": {
+"label": "がっこう①",
+"icon": "🏫",
+"tag": "tag-kanji",
+"category": "kokugo",
+"month": "g2_kanji",
+"parent": "g2kanji"
+},
+"g2kanji_gakkou2": {
+"label": "がっこう②",
+"icon": "🏫",
+"tag": "tag-kanji",
+"category": "kokugo",
+"month": "g2_kanji",
+"parent": "g2kanji"
+},
+"g2kanji_ugoki": {
+"label": "うごき①",
+"icon": "🏃",
+"tag": "tag-kanji",
+"category": "kokugo",
+"month": "g2_kanji",
+"parent": "g2kanji"
+},
+"g2kanji_ugoki2": {
+"label": "うごき②",
+"icon": "🏃",
+"tag": "tag-kanji",
+"category": "kokugo",
+"month": "g2_kanji",
+"parent": "g2kanji"
+},
+"g2kanji_katachi": {
+"label": "かたち①",
+"icon": "🔺",
+"tag": "tag-kanji",
+"category": "kokugo",
+"month": "g2_kanji",
+"parent": "g2kanji"
+},
+"g2kanji_katachi2": {
+"label": "かたち②",
+"icon": "🔺",
+"tag": "tag-kanji",
+"category": "kokugo",
+"month": "g2_kanji",
+"parent": "g2kanji"
+},
+"g2kanji_iroiro": {
+"label": "いろいろ①",
+"icon": "🎲",
+"tag": "tag-kanji",
+"category": "kokugo",
+"month": "g2_kanji",
+"parent": "g2kanji"
+},
+"g2kanji_iroiro2": {
+"label": "いろいろ②",
+"icon": "🎲",
+"tag": "tag-kanji",
+"category": "kokugo",
+"month": "g2_kanji",
+"parent": "g2kanji"
+},
+"g2kaki": {
+"label": "かん字の書き",
+"icon": "✏️",
+"tag": "tag-kanji",
+"category": "kokugo",
+"month": "g2_kanji",
+"isGroup": true
+},
+"g2kaki_hiro3": {
+"label": "ひろば③",
+"icon": "👪",
+"tag": "tag-kanji",
+"category": "kokugo",
+"month": "g2_kanji",
+"parent": "g2kaki"
+},
+"g2kaki_hiro3_test": {
+"label": "テスト",
+"icon": "📝",
+"tag": "tag-kanji",
+"category": "kokugo",
+"month": "g2_kanji",
+"parent": "g2kaki",
+"testOf": "g2kaki_hiro3"
+}
+}

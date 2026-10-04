@@ -1,0 +1,731 @@
+[
+{
+"id": "g2kk_11",
+"subject": "kuku_1",
+"month": "g2_kuku",
+"type": "input",
+"q": "1 × 1 ＝ ？",
+"answer": "1",
+"explanation": "1 × 1 ＝ 1\n「いん いち が いち」\n1 が 1こ分 だから、1 × 1 は 1 のまま。"
+},
+{
+"id": "g2kk_12",
+"subject": "kuku_1",
+"month": "g2_kuku",
+"type": "input",
+"q": "1 × 2 ＝ ？",
+"answer": "2",
+"explanation": "1 × 2 ＝ 2\n「いん に が に」\n1 × 1 ＝ 1 より 1 ふえて 2。\n2 × 1 も 2（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_13",
+"subject": "kuku_1",
+"month": "g2_kuku",
+"type": "input",
+"q": "1 × 3 ＝ ？",
+"answer": "3",
+"explanation": "1 × 3 ＝ 3\n「いん さん が さん」\n1 × 2 ＝ 2 より 1 ふえて 3。\n3 × 1 も 3（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_14",
+"subject": "kuku_1",
+"month": "g2_kuku",
+"type": "input",
+"q": "1 × 4 ＝ ？",
+"answer": "4",
+"explanation": "1 × 4 ＝ 4\n「いん し が し」\n1 × 3 ＝ 3 より 1 ふえて 4。\n4 × 1 も 4（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_15",
+"subject": "kuku_1",
+"month": "g2_kuku",
+"type": "input",
+"q": "1 × 5 ＝ ？",
+"answer": "5",
+"explanation": "1 × 5 ＝ 5\n「いん ご が ご」\n1 × 4 ＝ 4 より 1 ふえて 5。\n5 × 1 も 5（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_16",
+"subject": "kuku_1",
+"month": "g2_kuku",
+"type": "input",
+"q": "1 × 6 ＝ ？",
+"answer": "6",
+"explanation": "1 × 6 ＝ 6\n「いん ろく が ろく」\n1 × 5 ＝ 5 より 1 ふえて 6。\n6 × 1 も 6（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_17",
+"subject": "kuku_1",
+"month": "g2_kuku",
+"type": "input",
+"q": "1 × 7 ＝ ？",
+"answer": "7",
+"explanation": "1 × 7 ＝ 7\n「いん しち が しち」\n1 × 6 ＝ 6 より 1 ふえて 7。\n7 × 1 も 7（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_18",
+"subject": "kuku_1",
+"month": "g2_kuku",
+"type": "input",
+"q": "1 × 8 ＝ ？",
+"answer": "8",
+"explanation": "1 × 8 ＝ 8\n「いん はち が はち」\n1 × 7 ＝ 7 より 1 ふえて 8。\n8 × 1 も 8（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_19",
+"subject": "kuku_1",
+"month": "g2_kuku",
+"type": "input",
+"q": "1 × 9 ＝ ？",
+"answer": "9",
+"explanation": "1 × 9 ＝ 9\n「いん く が く」\n1 × 8 ＝ 8 より 1 ふえて 9。\n9 × 1 も 9（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_21",
+"subject": "kuku_2",
+"month": "g2_kuku",
+"type": "input",
+"q": "2 × 1 ＝ ？",
+"answer": "2",
+"explanation": "2 × 1 ＝ 2\n「に いち が に」\n2 が 1こ分 だから、2 × 1 は 2 のまま。\n1 × 2 も 2（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_22",
+"subject": "kuku_2",
+"month": "g2_kuku",
+"type": "input",
+"q": "2 × 2 ＝ ？",
+"answer": "4",
+"explanation": "2 × 2 ＝ 4\n「に にん が し」\n2 × 1 ＝ 2 より 2 ふえて 4。"
+},
+{
+"id": "g2kk_23",
+"subject": "kuku_2",
+"month": "g2_kuku",
+"type": "input",
+"q": "2 × 3 ＝ ？",
+"answer": "6",
+"explanation": "2 × 3 ＝ 6\n「に さん が ろく」\n2 × 2 ＝ 4 より 2 ふえて 6。\n3 × 2 も 6（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_24",
+"subject": "kuku_2",
+"month": "g2_kuku",
+"type": "input",
+"q": "2 × 4 ＝ ？",
+"answer": "8",
+"explanation": "2 × 4 ＝ 8\n「に し が はち」\n2 × 3 ＝ 6 より 2 ふえて 8。\n4 × 2 も 8（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_25",
+"subject": "kuku_2",
+"month": "g2_kuku",
+"type": "input",
+"q": "2 × 5 ＝ ？",
+"answer": "10",
+"explanation": "2 × 5 ＝ 10\n「に ご じゅう」\n2 × 4 ＝ 8 より 2 ふえて 10。\n5 × 2 も 10（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_26",
+"subject": "kuku_2",
+"month": "g2_kuku",
+"type": "input",
+"q": "2 × 6 ＝ ？",
+"answer": "12",
+"explanation": "2 × 6 ＝ 12\n「に ろく じゅうに」\n2 × 5 ＝ 10 より 2 ふえて 12。\n6 × 2 も 12（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_27",
+"subject": "kuku_2",
+"month": "g2_kuku",
+"type": "input",
+"q": "2 × 7 ＝ ？",
+"answer": "14",
+"explanation": "2 × 7 ＝ 14\n「に しち じゅうし」\n2 × 6 ＝ 12 より 2 ふえて 14。\n7 × 2 も 14（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_28",
+"subject": "kuku_2",
+"month": "g2_kuku",
+"type": "input",
+"q": "2 × 8 ＝ ？",
+"answer": "16",
+"explanation": "2 × 8 ＝ 16\n「に はち じゅうろく」\n2 × 7 ＝ 14 より 2 ふえて 16。\n8 × 2 も 16（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_29",
+"subject": "kuku_2",
+"month": "g2_kuku",
+"type": "input",
+"q": "2 × 9 ＝ ？",
+"answer": "18",
+"explanation": "2 × 9 ＝ 18\n「に く じゅうはち」\n2 × 8 ＝ 16 より 2 ふえて 18。\n9 × 2 も 18（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_31",
+"subject": "kuku_3",
+"month": "g2_kuku",
+"type": "input",
+"q": "3 × 1 ＝ ？",
+"answer": "3",
+"explanation": "3 × 1 ＝ 3\n「さん いち が さん」\n3 が 1こ分 だから、3 × 1 は 3 のまま。\n1 × 3 も 3（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_32",
+"subject": "kuku_3",
+"month": "g2_kuku",
+"type": "input",
+"q": "3 × 2 ＝ ？",
+"answer": "6",
+"explanation": "3 × 2 ＝ 6\n「さん に が ろく」\n3 × 1 ＝ 3 より 3 ふえて 6。\n2 × 3 も 6（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_33",
+"subject": "kuku_3",
+"month": "g2_kuku",
+"type": "input",
+"q": "3 × 3 ＝ ？",
+"answer": "9",
+"explanation": "3 × 3 ＝ 9\n「さ ざん が く」\n3 × 2 ＝ 6 より 3 ふえて 9。"
+},
+{
+"id": "g2kk_34",
+"subject": "kuku_3",
+"month": "g2_kuku",
+"type": "input",
+"q": "3 × 4 ＝ ？",
+"answer": "12",
+"explanation": "3 × 4 ＝ 12\n「さん し じゅうに」\n3 × 3 ＝ 9 より 3 ふえて 12。\n4 × 3 も 12（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_35",
+"subject": "kuku_3",
+"month": "g2_kuku",
+"type": "input",
+"q": "3 × 5 ＝ ？",
+"answer": "15",
+"explanation": "3 × 5 ＝ 15\n「さん ご じゅうご」\n3 × 4 ＝ 12 より 3 ふえて 15。\n5 × 3 も 15（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_36",
+"subject": "kuku_3",
+"month": "g2_kuku",
+"type": "input",
+"q": "3 × 6 ＝ ？",
+"answer": "18",
+"explanation": "3 × 6 ＝ 18\n「さ ぶろく じゅうはち」\n3 × 5 ＝ 15 より 3 ふえて 18。\n6 × 3 も 18（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_37",
+"subject": "kuku_3",
+"month": "g2_kuku",
+"type": "input",
+"q": "3 × 7 ＝ ？",
+"answer": "21",
+"explanation": "3 × 7 ＝ 21\n「さん しち にじゅういち」\n3 × 6 ＝ 18 より 3 ふえて 21。\n7 × 3 も 21（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_38",
+"subject": "kuku_3",
+"month": "g2_kuku",
+"type": "input",
+"q": "3 × 8 ＝ ？",
+"answer": "24",
+"explanation": "3 × 8 ＝ 24\n「さん ぱ にじゅうし」\n3 × 7 ＝ 21 より 3 ふえて 24。\n8 × 3 も 24（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_39",
+"subject": "kuku_3",
+"month": "g2_kuku",
+"type": "input",
+"q": "3 × 9 ＝ ？",
+"answer": "27",
+"explanation": "3 × 9 ＝ 27\n「さん く にじゅうしち」\n3 × 8 ＝ 24 より 3 ふえて 27。\n9 × 3 も 27（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_41",
+"subject": "kuku_4",
+"month": "g2_kuku",
+"type": "input",
+"q": "4 × 1 ＝ ？",
+"answer": "4",
+"explanation": "4 × 1 ＝ 4\n「し いち が し」\n4 が 1こ分 だから、4 × 1 は 4 のまま。\n1 × 4 も 4（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_42",
+"subject": "kuku_4",
+"month": "g2_kuku",
+"type": "input",
+"q": "4 × 2 ＝ ？",
+"answer": "8",
+"explanation": "4 × 2 ＝ 8\n「し に が はち」\n4 × 1 ＝ 4 より 4 ふえて 8。\n2 × 4 も 8（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_43",
+"subject": "kuku_4",
+"month": "g2_kuku",
+"type": "input",
+"q": "4 × 3 ＝ ？",
+"answer": "12",
+"explanation": "4 × 3 ＝ 12\n「し さん じゅうに」\n4 × 2 ＝ 8 より 4 ふえて 12。\n3 × 4 も 12（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_44",
+"subject": "kuku_4",
+"month": "g2_kuku",
+"type": "input",
+"q": "4 × 4 ＝ ？",
+"answer": "16",
+"explanation": "4 × 4 ＝ 16\n「し し じゅうろく」\n4 × 3 ＝ 12 より 4 ふえて 16。"
+},
+{
+"id": "g2kk_45",
+"subject": "kuku_4",
+"month": "g2_kuku",
+"type": "input",
+"q": "4 × 5 ＝ ？",
+"answer": "20",
+"explanation": "4 × 5 ＝ 20\n「し ご にじゅう」\n4 × 4 ＝ 16 より 4 ふえて 20。\n5 × 4 も 20（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_46",
+"subject": "kuku_4",
+"month": "g2_kuku",
+"type": "input",
+"q": "4 × 6 ＝ ？",
+"answer": "24",
+"explanation": "4 × 6 ＝ 24\n「し ろく にじゅうし」\n4 × 5 ＝ 20 より 4 ふえて 24。\n6 × 4 も 24（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_47",
+"subject": "kuku_4",
+"month": "g2_kuku",
+"type": "input",
+"q": "4 × 7 ＝ ？",
+"answer": "28",
+"explanation": "4 × 7 ＝ 28\n「し しち にじゅうはち」\n4 × 6 ＝ 24 より 4 ふえて 28。\n7 × 4 も 28（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_48",
+"subject": "kuku_4",
+"month": "g2_kuku",
+"type": "input",
+"q": "4 × 8 ＝ ？",
+"answer": "32",
+"explanation": "4 × 8 ＝ 32\n「し は さんじゅうに」\n4 × 7 ＝ 28 より 4 ふえて 32。\n8 × 4 も 32（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_49",
+"subject": "kuku_4",
+"month": "g2_kuku",
+"type": "input",
+"q": "4 × 9 ＝ ？",
+"answer": "36",
+"explanation": "4 × 9 ＝ 36\n「し く さんじゅうろく」\n4 × 8 ＝ 32 より 4 ふえて 36。\n9 × 4 も 36（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_51",
+"subject": "kuku_5",
+"month": "g2_kuku",
+"type": "input",
+"q": "5 × 1 ＝ ？",
+"answer": "5",
+"explanation": "5 × 1 ＝ 5\n「ご いち が ご」\n5 が 1こ分 だから、5 × 1 は 5 のまま。\n1 × 5 も 5（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_52",
+"subject": "kuku_5",
+"month": "g2_kuku",
+"type": "input",
+"q": "5 × 2 ＝ ？",
+"answer": "10",
+"explanation": "5 × 2 ＝ 10\n「ご に じゅう」\n5 × 1 ＝ 5 より 5 ふえて 10。\n2 × 5 も 10（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_53",
+"subject": "kuku_5",
+"month": "g2_kuku",
+"type": "input",
+"q": "5 × 3 ＝ ？",
+"answer": "15",
+"explanation": "5 × 3 ＝ 15\n「ご さん じゅうご」\n5 × 2 ＝ 10 より 5 ふえて 15。\n3 × 5 も 15（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_54",
+"subject": "kuku_5",
+"month": "g2_kuku",
+"type": "input",
+"q": "5 × 4 ＝ ？",
+"answer": "20",
+"explanation": "5 × 4 ＝ 20\n「ご し にじゅう」\n5 × 3 ＝ 15 より 5 ふえて 20。\n4 × 5 も 20（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_55",
+"subject": "kuku_5",
+"month": "g2_kuku",
+"type": "input",
+"q": "5 × 5 ＝ ？",
+"answer": "25",
+"explanation": "5 × 5 ＝ 25\n「ご ご にじゅうご」\n5 × 4 ＝ 20 より 5 ふえて 25。"
+},
+{
+"id": "g2kk_56",
+"subject": "kuku_5",
+"month": "g2_kuku",
+"type": "input",
+"q": "5 × 6 ＝ ？",
+"answer": "30",
+"explanation": "5 × 6 ＝ 30\n「ご ろく さんじゅう」\n5 × 5 ＝ 25 より 5 ふえて 30。\n6 × 5 も 30（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_57",
+"subject": "kuku_5",
+"month": "g2_kuku",
+"type": "input",
+"q": "5 × 7 ＝ ？",
+"answer": "35",
+"explanation": "5 × 7 ＝ 35\n「ご しち さんじゅうご」\n5 × 6 ＝ 30 より 5 ふえて 35。\n7 × 5 も 35（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_58",
+"subject": "kuku_5",
+"month": "g2_kuku",
+"type": "input",
+"q": "5 × 8 ＝ ？",
+"answer": "40",
+"explanation": "5 × 8 ＝ 40\n「ご は しじゅう」\n5 × 7 ＝ 35 より 5 ふえて 40。\n8 × 5 も 40（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_59",
+"subject": "kuku_5",
+"month": "g2_kuku",
+"type": "input",
+"q": "5 × 9 ＝ ？",
+"answer": "45",
+"explanation": "5 × 9 ＝ 45\n「ごっ く しじゅうご」\n5 × 8 ＝ 40 より 5 ふえて 45。\n9 × 5 も 45（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_61",
+"subject": "kuku_6",
+"month": "g2_kuku",
+"type": "input",
+"q": "6 × 1 ＝ ？",
+"answer": "6",
+"explanation": "6 × 1 ＝ 6\n「ろく いち が ろく」\n6 が 1こ分 だから、6 × 1 は 6 のまま。\n1 × 6 も 6（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_62",
+"subject": "kuku_6",
+"month": "g2_kuku",
+"type": "input",
+"q": "6 × 2 ＝ ？",
+"answer": "12",
+"explanation": "6 × 2 ＝ 12\n「ろく に じゅうに」\n6 × 1 ＝ 6 より 6 ふえて 12。\n2 × 6 も 12（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_63",
+"subject": "kuku_6",
+"month": "g2_kuku",
+"type": "input",
+"q": "6 × 3 ＝ ？",
+"answer": "18",
+"explanation": "6 × 3 ＝ 18\n「ろく さん じゅうはち」\n6 × 2 ＝ 12 より 6 ふえて 18。\n3 × 6 も 18（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_64",
+"subject": "kuku_6",
+"month": "g2_kuku",
+"type": "input",
+"q": "6 × 4 ＝ ？",
+"answer": "24",
+"explanation": "6 × 4 ＝ 24\n「ろく し にじゅうし」\n6 × 3 ＝ 18 より 6 ふえて 24。\n4 × 6 も 24（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_65",
+"subject": "kuku_6",
+"month": "g2_kuku",
+"type": "input",
+"q": "6 × 5 ＝ ？",
+"answer": "30",
+"explanation": "6 × 5 ＝ 30\n「ろく ご さんじゅう」\n6 × 4 ＝ 24 より 6 ふえて 30。\n5 × 6 も 30（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_66",
+"subject": "kuku_6",
+"month": "g2_kuku",
+"type": "input",
+"q": "6 × 6 ＝ ？",
+"answer": "36",
+"explanation": "6 × 6 ＝ 36\n「ろく ろく さんじゅうろく」\n6 × 5 ＝ 30 より 6 ふえて 36。"
+},
+{
+"id": "g2kk_67",
+"subject": "kuku_6",
+"month": "g2_kuku",
+"type": "input",
+"q": "6 × 7 ＝ ？",
+"answer": "42",
+"explanation": "6 × 7 ＝ 42\n「ろく しち しじゅうに」\n6 × 6 ＝ 36 より 6 ふえて 42。\n7 × 6 も 42（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_68",
+"subject": "kuku_6",
+"month": "g2_kuku",
+"type": "input",
+"q": "6 × 8 ＝ ？",
+"answer": "48",
+"explanation": "6 × 8 ＝ 48\n「ろく は しじゅうはち」\n6 × 7 ＝ 42 より 6 ふえて 48。\n8 × 6 も 48（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_69",
+"subject": "kuku_6",
+"month": "g2_kuku",
+"type": "input",
+"q": "6 × 9 ＝ ？",
+"answer": "54",
+"explanation": "6 × 9 ＝ 54\n「ろっ く ごじゅうし」\n6 × 8 ＝ 48 より 6 ふえて 54。\n9 × 6 も 54（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_71",
+"subject": "kuku_7",
+"month": "g2_kuku",
+"type": "input",
+"q": "7 × 1 ＝ ？",
+"answer": "7",
+"explanation": "7 × 1 ＝ 7\n「しち いち が しち」\n7 が 1こ分 だから、7 × 1 は 7 のまま。\n1 × 7 も 7（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_72",
+"subject": "kuku_7",
+"month": "g2_kuku",
+"type": "input",
+"q": "7 × 2 ＝ ？",
+"answer": "14",
+"explanation": "7 × 2 ＝ 14\n「しち に じゅうし」\n7 × 1 ＝ 7 より 7 ふえて 14。\n2 × 7 も 14（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_73",
+"subject": "kuku_7",
+"month": "g2_kuku",
+"type": "input",
+"q": "7 × 3 ＝ ？",
+"answer": "21",
+"explanation": "7 × 3 ＝ 21\n「しち さん にじゅういち」\n7 × 2 ＝ 14 より 7 ふえて 21。\n3 × 7 も 21（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_74",
+"subject": "kuku_7",
+"month": "g2_kuku",
+"type": "input",
+"q": "7 × 4 ＝ ？",
+"answer": "28",
+"explanation": "7 × 4 ＝ 28\n「しち し にじゅうはち」\n7 × 3 ＝ 21 より 7 ふえて 28。\n4 × 7 も 28（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_75",
+"subject": "kuku_7",
+"month": "g2_kuku",
+"type": "input",
+"q": "7 × 5 ＝ ？",
+"answer": "35",
+"explanation": "7 × 5 ＝ 35\n「しち ご さんじゅうご」\n7 × 4 ＝ 28 より 7 ふえて 35。\n5 × 7 も 35（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_76",
+"subject": "kuku_7",
+"month": "g2_kuku",
+"type": "input",
+"q": "7 × 6 ＝ ？",
+"answer": "42",
+"explanation": "7 × 6 ＝ 42\n「しち ろく しじゅうに」\n7 × 5 ＝ 35 より 7 ふえて 42。\n6 × 7 も 42（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_77",
+"subject": "kuku_7",
+"month": "g2_kuku",
+"type": "input",
+"q": "7 × 7 ＝ ？",
+"answer": "49",
+"explanation": "7 × 7 ＝ 49\n「しち しち しじゅうく」\n7 × 6 ＝ 42 より 7 ふえて 49。"
+},
+{
+"id": "g2kk_78",
+"subject": "kuku_7",
+"month": "g2_kuku",
+"type": "input",
+"q": "7 × 8 ＝ ？",
+"answer": "56",
+"explanation": "7 × 8 ＝ 56\n「しち は ごじゅうろく」\n7 × 7 ＝ 49 より 7 ふえて 56。\n8 × 7 も 56（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_79",
+"subject": "kuku_7",
+"month": "g2_kuku",
+"type": "input",
+"q": "7 × 9 ＝ ？",
+"answer": "63",
+"explanation": "7 × 9 ＝ 63\n「しち く ろくじゅうさん」\n7 × 8 ＝ 56 より 7 ふえて 63。\n9 × 7 も 63（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_81",
+"subject": "kuku_8",
+"month": "g2_kuku",
+"type": "input",
+"q": "8 × 1 ＝ ？",
+"answer": "8",
+"explanation": "8 × 1 ＝ 8\n「はち いち が はち」\n8 が 1こ分 だから、8 × 1 は 8 のまま。\n1 × 8 も 8（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_82",
+"subject": "kuku_8",
+"month": "g2_kuku",
+"type": "input",
+"q": "8 × 2 ＝ ？",
+"answer": "16",
+"explanation": "8 × 2 ＝ 16\n「はち に じゅうろく」\n8 × 1 ＝ 8 より 8 ふえて 16。\n2 × 8 も 16（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_83",
+"subject": "kuku_8",
+"month": "g2_kuku",
+"type": "input",
+"q": "8 × 3 ＝ ？",
+"answer": "24",
+"explanation": "8 × 3 ＝ 24\n「はち さん にじゅうし」\n8 × 2 ＝ 16 より 8 ふえて 24。\n3 × 8 も 24（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_84",
+"subject": "kuku_8",
+"month": "g2_kuku",
+"type": "input",
+"q": "8 × 4 ＝ ？",
+"answer": "32",
+"explanation": "8 × 4 ＝ 32\n「はち し さんじゅうに」\n8 × 3 ＝ 24 より 8 ふえて 32。\n4 × 8 も 32（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_85",
+"subject": "kuku_8",
+"month": "g2_kuku",
+"type": "input",
+"q": "8 × 5 ＝ ？",
+"answer": "40",
+"explanation": "8 × 5 ＝ 40\n「はち ご しじゅう」\n8 × 4 ＝ 32 より 8 ふえて 40。\n5 × 8 も 40（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_86",
+"subject": "kuku_8",
+"month": "g2_kuku",
+"type": "input",
+"q": "8 × 6 ＝ ？",
+"answer": "48",
+"explanation": "8 × 6 ＝ 48\n「はち ろく しじゅうはち」\n8 × 5 ＝ 40 より 8 ふえて 48。\n6 × 8 も 48（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_87",
+"subject": "kuku_8",
+"month": "g2_kuku",
+"type": "input",
+"q": "8 × 7 ＝ ？",
+"answer": "56",
+"explanation": "8 × 7 ＝ 56\n「はち しち ごじゅうろく」\n8 × 6 ＝ 48 より 8 ふえて 56。\n7 × 8 も 56（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_88",
+"subject": "kuku_8",
+"month": "g2_kuku",
+"type": "input",
+"q": "8 × 8 ＝ ？",
+"answer": "64",
+"explanation": "8 × 8 ＝ 64\n「はっ ぱ ろくじゅうし」\n8 × 7 ＝ 56 より 8 ふえて 64。"
+},
+{
+"id": "g2kk_89",
+"subject": "kuku_8",
+"month": "g2_kuku",
+"type": "input",
+"q": "8 × 9 ＝ ？",
+"answer": "72",
+"explanation": "8 × 9 ＝ 72\n「はっ く しちじゅうに」\n8 × 8 ＝ 64 より 8 ふえて 72。\n9 × 8 も 72（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_91",
+"subject": "kuku_9",
+"month": "g2_kuku",
+"type": "input",
+"q": "9 × 1 ＝ ？",
+"answer": "9",
+"explanation": "9 × 1 ＝ 9\n「く いち が く」\n9 が 1こ分 だから、9 × 1 は 9 のまま。\n1 × 9 も 9（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_92",
+"subject": "kuku_9",
+"month": "g2_kuku",
+"type": "input",
+"q": "9 × 2 ＝ ？",
+"answer": "18",
+"explanation": "9 × 2 ＝ 18\n「く に じゅうはち」\n9 × 1 ＝ 9 より 9 ふえて 18。\n2 × 9 も 18（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_93",
+"subject": "kuku_9",
+"month": "g2_kuku",
+"type": "input",
+"q": "9 × 3 ＝ ？",
+"answer": "27",
+"explanation": "9 × 3 ＝ 27\n「く さん にじゅうしち」\n9 × 2 ＝ 18 より 9 ふえて 27。\n3 × 9 も 27（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_94",
+"subject": "kuku_9",
+"month": "g2_kuku",
+"type": "input",
+"q": "9 × 4 ＝ ？",
+"answer": "36",
+"explanation": "9 × 4 ＝ 36\n「く し さんじゅうろく」\n9 × 3 ＝ 27 より 9 ふえて 36。\n4 × 9 も 36（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_95",
+"subject": "kuku_9",
+"month": "g2_kuku",
+"type": "input",
+"q": "9 × 5 ＝ ？",
+"answer": "45",
+"explanation": "9 × 5 ＝ 45\n「く ご しじゅうご」\n9 × 4 ＝ 36 より 9 ふえて 45。\n5 × 9 も 45（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_96",
+"subject": "kuku_9",
+"month": "g2_kuku",
+"type": "input",
+"q": "9 × 6 ＝ ？",
+"answer": "54",
+"explanation": "9 × 6 ＝ 54\n「く ろく ごじゅうし」\n9 × 5 ＝ 45 より 9 ふえて 54。\n6 × 9 も 54（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_97",
+"subject": "kuku_9",
+"month": "g2_kuku",
+"type": "input",
+"q": "9 × 7 ＝ ？",
+"answer": "63",
+"explanation": "9 × 7 ＝ 63\n「く しち ろくじゅうさん」\n9 × 6 ＝ 54 より 9 ふえて 63。\n7 × 9 も 63（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_98",
+"subject": "kuku_9",
+"month": "g2_kuku",
+"type": "input",
+"q": "9 × 8 ＝ ？",
+"answer": "72",
+"explanation": "9 × 8 ＝ 72\n「く は しちじゅうに」\n9 × 7 ＝ 63 より 9 ふえて 72。\n8 × 9 も 72（かける じゅんばんを かえても こたえは おなじ）。"
+},
+{
+"id": "g2kk_99",
+"subject": "kuku_9",
+"month": "g2_kuku",
+"type": "input",
+"q": "9 × 9 ＝ ？",
+"answer": "81",
+"explanation": "9 × 9 ＝ 81\n「く く はちじゅういち」\n9 × 8 ＝ 72 より 9 ふえて 81。"
+}
+]

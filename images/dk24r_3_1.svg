@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 590 457" width="590" height="457" font-family="sans-serif">
+<rect width="100%" height="100%" fill="#fff"/>
+<polygon points="95.0,361.7 495.0,361.7 495.0,161.7 95.0,95.0" fill="#fff" stroke="#111" stroke-width="2.5"/>
+<polygon points="95.0,95.0 495.0,161.7 272.8,361.7" fill="#cbd5e1" stroke="#111" stroke-width="2"/>
+<polyline points="109.0,361.7 109.0,347.7 95.0,347.7" fill="none" stroke="#111" stroke-width="1.8"/>
+<polyline points="481.0,361.7 481.0,347.7 495.0,347.7" fill="none" stroke="#111" stroke-width="1.8"/>
+<path d="M95.0,361.7 Q59.0,228.3 95.0,95.0" fill="none" stroke="#555" stroke-width="1.5"/>
+<text x="49.0" y="236.3" font-size="24" text-anchor="middle" fill="#111" paint-order="stroke" stroke="#fff" stroke-width="6">24cm</text>
+<path d="M495.0,361.7 Q531.0,261.7 495.0,161.7" fill="none" stroke="#555" stroke-width="1.5"/>
+<text x="541.0" y="269.7" font-size="24" text-anchor="middle" fill="#111" paint-order="stroke" stroke="#fff" stroke-width="6">18cm</text>
+<path d="M95.0,361.7 Q183.9,397.7 272.8,361.7" fill="none" stroke="#555" stroke-width="1.5"/>
+<text x="183.9" y="415.7" font-size="24" text-anchor="middle" fill="#111" paint-order="stroke" stroke="#fff" stroke-width="6">16cm</text>
+<path d="M272.8,361.7 Q383.9,397.7 495.0,361.7" fill="none" stroke="#555" stroke-width="1.5"/>
+<text x="383.9" y="415.7" font-size="24" text-anchor="middle" fill="#111" paint-order="stroke" stroke="#fff" stroke-width="6">20cm</text>
+</svg>

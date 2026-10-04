@@ -16,6 +16,7 @@ let mode: SoundMode = (() => {
 let bgmTimer: number | null = null;
 let bgmNight = false;
 let bgmStep = 0;
+let bgmPaused = false;
 
 export function soundMode(): SoundMode { return mode; }
 
@@ -56,7 +57,7 @@ export function unlockAudio(): void {
   } catch { /* 音が出なくても遊べるようにする */ }
 }
 
-function tone(freq: number, at: number, dur: number, type: OscillatorType = 'sine', vol = 0.16, slideTo?: number): void {
+function tone(freq: number, at: number, dur: number, type: OscillatorType = 'sine', vol = 0.16, slideTo?: number, dest?: AudioNode): void {
   if (!ctx || !master) return;
   const o = ctx.createOscillator();
   const g = ctx.createGain();
@@ -66,7 +67,7 @@ function tone(freq: number, at: number, dur: number, type: OscillatorType = 'sin
   g.gain.setValueAtTime(0.0001, at);
   g.gain.exponentialRampToValueAtTime(vol, at + 0.012);
   g.gain.exponentialRampToValueAtTime(0.0001, at + dur);
-  o.connect(g); g.connect(master);
+  o.connect(g); g.connect(dest ?? master);
   o.start(at); o.stop(at + dur + 0.02);
 }
 
@@ -111,11 +112,13 @@ const NIGHT = [392, 440, 523, 587, 659, 784];
 const MELODY = [0, 2, 4, 2, 3, 1, 0, -1, 2, 4, 5, 4, 3, 2, 1, -1];
 
 export function setBgmNight(night: boolean): void { bgmNight = night; }
+/** オルガンを ひいている あいだは BGM を やすむ */
+export function setBgmPaused(p: boolean): void { bgmPaused = p; }
 
 function startBgm(): void {
   if (!ctx || bgmTimer !== null) return;
   bgmTimer = window.setInterval(() => {
-    if (!ctx || mode !== 'all' || document.hidden) return;
+    if (!ctx || mode !== 'all' || document.hidden || bgmPaused) return;
     const i = MELODY[bgmStep % MELODY.length];
     bgmStep++;
     if (bgmNight && bgmStep % 2) return;          // 夜は音を間引いて ゆったり
@@ -129,4 +132,35 @@ function startBgm(): void {
 
 function stopBgm(): void {
   if (bgmTimer !== null) { window.clearInterval(bgmTimer); bgmTimer = null; }
+}
+
+// ── オルガン ──
+/** やわらかい オルガンの音（sine ＋ 1オクターブ上の triangle を すこし）。at は ctx の時刻（省略＝いま） */
+export function organNote(freq: number, dur = 0.45, at?: number, dest?: AudioNode): void {
+  if (mode === 'off' || !ctx) return;
+  const t = at ?? ctx.currentTime + 0.005;
+  tone(freq, t, dur, 'sine', 0.17, undefined, dest);
+  tone(freq * 2, t, dur * 0.8, 'triangle', 0.035, undefined, dest);
+}
+
+/** 曲を ながす。onStep(i) は i ばんめの音が なった とき（さいごに -1）。戻り値＝とめる */
+export function playSong(notes: { freq: number; beats: number }[], bpm: number, onStep: (i: number) => void): () => void {
+  const timers: number[] = [];
+  if (!ctx || !master) { onStep(-1); return () => {}; }
+  // 曲ごとの 出口。とめるときは ここを きれば 予約ずみの音も きえる
+  const bus = ctx.createGain();
+  bus.connect(master);
+  const beat = 60 / bpm;
+  const start = ctx.currentTime + 0.08;
+  let at = 0;
+  notes.forEach((n, i) => {
+    organNote(n.freq, Math.max(0.2, n.beats * beat * 0.92), start + at, bus);
+    timers.push(window.setTimeout(() => onStep(i), (0.08 + at) * 1000));
+    at += n.beats * beat;
+  });
+  timers.push(window.setTimeout(() => { bus.disconnect(); onStep(-1); }, (0.08 + at + 0.4) * 1000));
+  return () => {
+    timers.forEach((id) => window.clearTimeout(id));
+    try { bus.disconnect(); } catch { /* もう きれている */ }
+  };
 }

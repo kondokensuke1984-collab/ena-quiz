@@ -144,7 +144,10 @@
 "tag": "tag-meishi",
 "category": "kokugo",
 "month": "202609",
-"isGroup": true
+"isGroup": true,
+"ref": "/bungaku9.html?p=bungaku9_kihon,bungaku9_kako",
+"refLabel": "本文を読む",
+"refSub": "文学的文章(1)：子供のいる駅／ぼくらのスクープ"
 },
 "meishi9_kihon": {
 "label": "基本問題",
@@ -162,13 +165,40 @@
 "month": "202609",
 "parent": "meishi9"
 },
+"meishi9_dokkai": {
+"label": "文章読解",
+"icon": "📖",
+"tag": "tag-meishi",
+"category": "kokugo",
+"month": "202609",
+"parent": "meishi9"
+},
+"meishi9_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-meishi",
+"category": "kokugo",
+"month": "202609",
+"parent": "meishi9"
+},
+"meishi9_tokikata": {
+"label": "解き方",
+"icon": "💡",
+"tag": "tag-meishi",
+"category": "kokugo",
+"month": "202609",
+"parent": "meishi9"
+},
 "doushi9": {
 "label": "動詞",
 "icon": "🏃",
 "tag": "tag-doushi",
 "category": "kokugo",
 "month": "202609",
-"isGroup": true
+"isGroup": true,
+"ref": "/bungaku9.html?p=setumei9_kihon,setumei9_kako",
+"refLabel": "本文を読む",
+"refSub": "説明的文章(1)：牧野富太郎の植物学／インフルエンザのひみつ"
 },
 "doushi9_kihon": {
 "label": "基本問題",
@@ -185,6 +215,54 @@
 "category": "kokugo",
 "month": "202609",
 "parent": "doushi9"
+},
+"doushi9_dokkai": {
+"label": "文章読解",
+"icon": "📖",
+"tag": "tag-doushi",
+"category": "kokugo",
+"month": "202609",
+"parent": "doushi9"
+},
+"doushi9_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-doushi",
+"category": "kokugo",
+"month": "202609",
+"parent": "doushi9"
+},
+"doushi9_tokikata": {
+"label": "解き方",
+"icon": "💡",
+"tag": "tag-doushi",
+"category": "kokugo",
+"month": "202609",
+"parent": "doushi9"
+},
+"kanji9": {
+"label": "漢字7級",
+"icon": "🖋️",
+"tag": "tag-kanji",
+"category": "kokugo",
+"month": "202609",
+"isGroup": true
+},
+"kanji9_yomi": {
+"label": "読み取り",
+"icon": "👀",
+"tag": "tag-kanji",
+"category": "kokugo",
+"month": "202609",
+"parent": "kanji9"
+},
+"kanji9_kaki": {
+"label": "書き取り",
+"icon": "✏️",
+"tag": "tag-kanji",
+"category": "kokugo",
+"month": "202609",
+"parent": "kanji9"
 },
 "yakusu9": {
 "label": "約数と公約数",
@@ -205,6 +283,14 @@
 "yakusu9_renshu": {
 "label": "練習問題",
 "icon": "✏️",
+"tag": "tag-yakusu",
+"category": "sansu",
+"month": "202609",
+"parent": "yakusu9"
+},
+"yakusu9_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
 "tag": "tag-yakusu",
 "category": "sansu",
 "month": "202609",
@@ -234,6 +320,14 @@
 "month": "202609",
 "parent": "baisu9"
 },
+"baisu9_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-baisu",
+"category": "sansu",
+"month": "202609",
+"parent": "baisu9"
+},
 "shobun9": {
 "label": "小数と分数",
 "icon": "🥧",
@@ -257,5 +351,92 @@
 "category": "sansu",
 "month": "202609",
 "parent": "shobun9"
+},
+"shobun9_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-shobun",
+"category": "sansu",
+"month": "202609",
+"parent": "shobun9"
+},
+"sansu9moshi": {
+"label": "9月 算数もし（約数と倍数）",
+"icon": "🎯",
+"tag": "tag-shobun",
+"category": "sansu",
+"month": "202609"
+},
+"hibi9": {
+"label": "日々の学習9月",
+"icon": "📅",
+"tag": "tag-hibi9",
+"category": "sansu",
+"month": "202609",
+"isGroup": true
+},
+"hibi9_01": {
+"label": "No.1",
+"icon": "1️⃣",
+"tag": "tag-hibi9",
+"category": "sansu",
+"month": "202609",
+"parent": "hibi9"
+},
+"hibi9_02": {
+"label": "No.2",
+"icon": "2️⃣",
+"tag": "tag-hibi9",
+"category": "sansu",
+"month": "202609",
+"parent": "hibi9"
+},
+"hibi9_03": {
+"label": "No.3",
+"icon": "3️⃣",
+"tag": "tag-hibi9",
+"category": "sansu",
+"month": "202609",
+"parent": "hibi9"
+},
+"hibi9_04": {
+"label": "No.4",
+"icon": "4️⃣",
+"tag": "tag-hibi9",
+"category": "sansu",
+"month": "202609",
+"parent": "hibi9"
+},
+"hibi9_05": {
+"label": "No.5",
+"icon": "5️⃣",
+"tag": "tag-hibi9",
+"category": "sansu",
+"month": "202609",
+"parent": "hibi9"
+},
+"hibi9_06": {
+"label": "No.6",
+"icon": "6️⃣",
+"tag": "tag-hibi9",
+"category": "sansu",
+"month": "202609",
+"parent": "hibi9"
+},
+"hibi9_07": {
+"label": "No.7",
+"icon": "7️⃣",
+"tag": "tag-hibi9",
+"category": "sansu",
+"month": "202609",
+"parent": "hibi9"
+},
+"hibi9_08": {
+"label": "No.8",
+"icon": "8️⃣",
+"tag": "tag-hibi9",
+"category": "sansu",
+"month": "202609",
+"parent": "hibi9"
 }
 }

@@ -4,8 +4,10 @@ import { readJSON, writeJSON } from './storage';
 import { loadSpent } from './spend';
 import { BUILD_ORDER, ITEM_BY_ID, isConsumable, WHEEL_TITLE } from './items';
 import type { PlayerKey, SaveV1 } from '../types';
+import { FARM_PLOTS } from './farm';
+import { isSchool, resolveSchool } from './school';
 
-const PLAYERS: PlayerKey[] = ['anri', 'rino', 'mitsuki', 'kensuke'];
+const PLAYERS: PlayerKey[] = ['anri', 'rino', 'mitsuki', 'kensuke', 'yusei'];
 
 const SAVE_KEY = 'ena_island_save_v1';
 
@@ -15,6 +17,7 @@ export function freshSave(now = Date.now()): SaveV1 {
     rev: 0,
     createdAt: now,
     player: null,
+    school: null,
     pos: { x: 0.5, y: 0.62 },
     monster: {
       charKey: null,
@@ -41,12 +44,15 @@ export function freshSave(now = Date.now()): SaveV1 {
     area: 'main',
     room: { wall: 'wl_beige', floor: 'fl_wood' },
     fish: { day: '', today: 0, caught: {}, big: {} },
-    farm: { plots: [null, null, null], dex: [], flowers: [] },
+    farm: { plots: Array.from({ length: FARM_PLOTS }, () => null), dex: [], flowers: [] },
     treats: { day: '', got: [] },
     stars: { dex: [] },
     moon: { lastOffer: '' },
     openingSeen: false,
     detective: { solved: [], found: {}, hint: {} },
+    organ: { played: [] },
+    micro: { dex: [], day: '', today: 0, ready: false },
+    imo: { dex: [], day: '', served: 0 },
   };
 }
 
@@ -74,6 +80,7 @@ export function loadSave(): SaveV1 {
     v: 1,
     rev: typeof s.rev === 'number' && Number.isFinite(s.rev) ? s.rev : 0,
     player: s.player && PLAYERS.includes(s.player) ? s.player : null,
+    school: resolveSchool(s.player && PLAYERS.includes(s.player) ? s.player : null, isSchool(s.school) ? s.school : null),
     pos: { ...f.pos, ...obj(s.pos, {}) },
     monster: {
       ...f.monster,
@@ -99,6 +106,13 @@ export function loadSave(): SaveV1 {
       found: obj(s.detective?.found, {}),
       hint: obj(s.detective?.hint, {}),
     },
+    organ: { played: Array.isArray(s.organ?.played) ? s.organ!.played.filter((x) => typeof x === 'string') : [] },
+    micro: {
+      dex: Array.isArray(s.micro?.dex) ? s.micro!.dex.filter((x) => typeof x === 'string') : [],
+      day: typeof s.micro?.day === 'string' ? s.micro!.day : '',
+      today: typeof s.micro?.today === 'number' ? s.micro!.today : 0,
+      ready: s.micro?.ready === true,
+    },
     area: s.area === 'east' || s.area === 'house' || s.area === 'school' ? s.area : 'main',
     room: { ...f.room, ...obj(s.room, {}) },
     fish: {
@@ -108,7 +122,7 @@ export function loadSave(): SaveV1 {
       big: obj(s.fish?.big, {}),
     },
     farm: {
-      plots: [0, 1, 2].map((i) => {
+      plots: Array.from({ length: FARM_PLOTS }, (_, i) => {
         const p = Array.isArray(s.farm?.plots) ? s.farm!.plots[i] : null;
         return p && typeof p === 'object' && typeof p.seed === 'string' ? p : null;
       }),
@@ -118,6 +132,11 @@ export function loadSave(): SaveV1 {
     treats: { ...f.treats, ...obj(s.treats, {}), got: Array.isArray(s.treats?.got) ? s.treats!.got : [] },
     stars: { ...f.stars, ...obj(s.stars, {}), dex: Array.isArray(s.stars?.dex) ? s.stars!.dex : [] },
     moon: { ...f.moon, ...obj(s.moon, {}) },
+    imo: {
+      dex: Array.isArray(s.imo?.dex) ? s.imo!.dex.filter((x) => typeof x === 'string') : [],
+      day: typeof s.imo?.day === 'string' ? s.imo!.day : '',
+      served: typeof s.imo?.served === 'number' ? s.imo!.served : 0,
+    },
   });
 }
 

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 590 440" width="590" height="440" font-family="sans-serif">
+<rect width="100%" height="100%" fill="#fff"/>
+<polygon points="95.0,345.0 395.0,345.0 495.0,95.0 195.0,95.0" fill="#fff" stroke="#111" stroke-width="2.5"/>
+<polygon points="345.0,95.0 155.0,195.0 245.0,345.0 435.0,245.0" fill="#cbd5e1" stroke="#111" stroke-width="2"/>
+<line x1="495.0" y1="95.0" x2="495.0" y2="345.0" stroke="#111" stroke-width="2" stroke-dasharray="6,5"/>
+<line x1="395.0" y1="345.0" x2="495.0" y2="345.0" stroke="#111" stroke-width="2" stroke-dasharray="2,4"/>
+<polyline points="481.0,345.0 481.0,331.0 495.0,331.0" fill="none" stroke="#111" stroke-width="1.8"/>
+<path d="M195.0,95.0 Q270.0,59.0 345.0,95.0" fill="none" stroke="#555" stroke-width="1.5"/>
+<text x="270.0" y="57.0" font-size="24" text-anchor="middle" fill="#111" paint-order="stroke" stroke="#fff" stroke-width="6">9cm</text>
+<path d="M345.0,95.0 Q420.0,59.0 495.0,95.0" fill="none" stroke="#555" stroke-width="1.5"/>
+<text x="420.0" y="57.0" font-size="24" text-anchor="middle" fill="#111" paint-order="stroke" stroke="#fff" stroke-width="6">9cm</text>
+<path d="M95.0,345.0 Q170.0,381.0 245.0,345.0" fill="none" stroke="#555" stroke-width="1.5"/>
+<text x="170.0" y="399.0" font-size="24" text-anchor="middle" fill="#111" paint-order="stroke" stroke="#fff" stroke-width="6">9cm</text>
+<path d="M245.0,345.0 Q320.0,381.0 395.0,345.0" fill="none" stroke="#555" stroke-width="1.5"/>
+<text x="320.0" y="399.0" font-size="24" text-anchor="middle" fill="#111" paint-order="stroke" stroke="#fff" stroke-width="6">9cm</text>
+<path d="M495.0,345.0 Q531.0,220.0 495.0,95.0" fill="none" stroke="#555" stroke-width="1.5"/>
+<text x="541.0" y="228.0" font-size="24" text-anchor="middle" fill="#111" paint-order="stroke" stroke="#fff" stroke-width="6">15cm</text>
+<text x="181.0" y="93.0" font-size="24" text-anchor="middle" fill="#111">A</text>
+<text x="79.0" y="371.0" font-size="24" text-anchor="middle" fill="#111">B</text>
+<text x="399.0" y="381.0" font-size="24" text-anchor="middle" fill="#111">C</text>
+<text x="509.0" y="89.0" font-size="24" text-anchor="middle" fill="#111">D</text>
+</svg>

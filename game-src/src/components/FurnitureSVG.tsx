@@ -245,6 +245,21 @@ const DRAWINGS: Record<string, Draw> = {
     </g>
   ),
 
+  // ── けんびきょうの プランクトンずかんの ごほうび ──
+  fn_medaka: () => (
+    <g>
+      <ellipse cx="0" cy="-6" rx="34" ry="14" fill="#a8a29e" {...S} />
+      <ellipse cx="0" cy="-7" rx="28" ry="10" fill="#38bdf8" />
+      <ellipse cx="-8" cy="-10" rx="10" ry="3" fill="#bae6fd" opacity="0.7" />
+      <g className="crop-bob">
+        <path d="M-10 -6 q5 -4 10 0 q-5 4 -10 0 z l-4 -3 0 6 z" fill="#fb923c" />
+        <path d="M8 -9 q4 -3 8 0 q-4 3 -8 0 z l-3 -2 0 4 z" fill="#fdba74" />
+      </g>
+      <path d="M22 -12 q2 -16 -2 -24 M26 -10 q4 -12 2 -18" stroke="#16a34a" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+      <circle cx="-20" cy="-4" r="4" fill="#4ade80" {...S} strokeWidth="1.2" />
+    </g>
+  ),
+
   // ── 星座ずかん・おだんごお供えの ごほうび ──
   fn_starsign: () => (
     <g>
@@ -311,6 +326,28 @@ const DRAWINGS: Record<string, Draw> = {
       <rect x="-2" y="-33" width="4" height="7" rx="1.5" fill="#65a30d" {...S} />
       <path d="M-9 -17 l4 -5 4 5 z M1 -17 l4 -5 4 5 z" fill="#fde047" />
       <path d="M-9 -9 Q0 -3 9 -9 L6 -7 L3 -9 L0 -6 L-3 -9 L-6 -7 Z" fill="#fde047" />
+    </g>
+  ),
+  fn_imosign: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="14" ry="4" fill="rgba(0,0,0,0.2)" />
+      <rect x="-2" y="-30" width="4" height="32" fill="#92400e" {...S} />
+      <rect x="-20" y="-52" width="40" height="26" rx="4" fill="#fff7ed" {...S} />
+      <ellipse cx="-8" cy="-39" rx="7" ry="4.5" fill="#be185d" {...S} strokeWidth={1.4} transform="rotate(-20 -8 -39)" />
+      <text x="7" y="-35" fontSize="10" fontWeight="900" textAnchor="middle" fill="#c2410c">いも</text>
+      <path d="M-12 -54 q-3 -6 1 -10 M-4 -54 q3 -7 -1 -12" fill="none" stroke="#a8a29e" strokeWidth="1.6" strokeLinecap="round" />
+    </g>
+  ),
+  fn_imokama: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="20" ry="5" fill="rgba(0,0,0,0.2)" />
+      <path d="M-20 0 L-20 -22 Q0 -36 20 -22 L20 0 Z" fill="#a8a29e" {...S} />
+      <path d="M-10 0 L-10 -10 Q0 -18 10 -10 L10 0 Z" fill="#1c1917" {...S} strokeWidth={1.6} />
+      <path d="M-6 0 Q-4 -8 0 -12 Q4 -8 6 0 Z" fill="#f97316" />
+      <path d="M-3 0 Q0 -6 3 0 Z" fill="#fde047" />
+      {[[-14, -18], [-4, -27], [8, -26], [15, -16]].map(([x, y], i) => <circle key={i} cx={x} cy={y} r="3" fill="#78716c" />)}
+      <rect x="6" y="-44" width="7" height="14" fill="#78716c" {...S} />
+      <path d="M9 -46 q-4 -7 1 -12" fill="none" stroke="#d6d3d1" strokeWidth="2" strokeLinecap="round" />
     </g>
   ),
   fn_scarecrow: () => (

@@ -1,7 +1,8 @@
 import React, {
   createContext, useCallback, useEffect, useMemo, useReducer, useRef, useState,
 } from 'react';
-import type { Area, Item, Letter, LetterMarks, PlayerKey, Pos, SaveV1, Screen, Slot } from '../types';
+import type { Area, Item, Letter, LetterMarks, PlayerKey, Pos, SaveV1, School, Screen, Slot } from '../types';
+import { publishSchool, resolveSchool } from '../lib/school';
 import { sfx, unlockAudio } from '../lib/sound';
 import { freshSave, isSaveKey, lastRestored, loadSave, persist, storedRev } from '../lib/save';
 import { earnedTotal, grantBonus, isMedalKey } from '../lib/medals';
@@ -21,6 +22,9 @@ import { isNearFull, moonAge, moonName } from '../lib/sky';
 import { LUNA, mk as mkLetter } from '../lib/letters';
 import { CASES, DETECTIVE_REWARDS, DETECTIVE_TITLE } from '../lib/detective';
 import { seasonNow } from '../lib/items';
+import { ORGAN_TITLE, SONGS } from '../lib/songs';
+import { IMO_BY_ID, IMO_PER_DAY, IMO_REWARDS } from '../lib/yakiimo';
+import { MICRO_TITLE, PLANKTON, PLANKTON_PER_DAY, PLANKTON_REWARDS, PLANKTON_STUDY_BONUS } from '../lib/plankton';
 
 /** プレゼントの結果。IslandScreen がハートとふきだしを出すのに使う */
 export interface GiftResult {
@@ -105,7 +109,9 @@ export interface GameApi {
   now: number;
   toast: Toast | null;
   go(screen: Screen): void;
-  pickPlayer(player: PlayerKey): void;
+  /** school はけんすけ・みつきのときだけ使う（ほかはキャラで きまる） */
+  pickPlayer(player: PlayerKey, school?: School): void;
+  setSchool(school: School): void;
   setPos(pos: Pos): void;
   setMonsterPos(pos: Pos, wander?: Pos): void;
   buy(item: Item): void;
@@ -134,6 +140,14 @@ export interface GameApi {
   detectiveHint(no: number): void;
   /** 名探偵あんり：じけん かいけつ。もらえた プレゼント・ごほうび・しょうごう */
   solveCase(no: number): { gift: string; reward: string | null; title: string | null } | null;
+  /** オルガンの れんしゅうで 1きょく ひけた。はじめての曲なら true、ぜんぶ そろったら title も */
+  markSongPlayed(id: string): { first: boolean; title: string | null };
+  /** けんびきょう：きょう あと何回 ずかんに のせられるか */
+  microLeft(studied: boolean): number;
+  /** けんびきょう：プランクトンを ずかんに のせる（はじめての ものだけ 回数を つかう）。null＝きょうは もう のせられない */
+  markPlankton(id: string, studied: boolean): { isNew: boolean; reward: string | null; title: string | null } | null;
+  /** けんびきょう：じゅんびの てじゅんを 1回 できた */
+  setMicroReady(): void;
   /** まいにちスタンプの ごほうびを うけとる。うけとったものの説明を返す */
   claimStamp(ym: string, days: number): string | null;
   /** がっこうの けいじばんの ひみつの あいことば。ok＝もらえた（n枚）／already＝もう もらった／ng＝ちがう */
@@ -164,6 +178,12 @@ export interface GameApi {
   viewStars(): { constellation: Constellation; isNew: boolean; reward: string | null } | null;
   /** おつきみだいで おだんごを おそなえする（その日1回） */
   offerDango(): { age: number; name: string; isFull: boolean; got: string[]; reward: string | null } | null;
+  /** やきいも やたい：なまの サツマイモを 1こ やく。gradeId＝できあがり（lib/yakiimo.ts） */
+  bakeImo(gradeId: string): { count: number; isNew: boolean; reward: string | null } | null;
+  /** やきいも やたい：きょう あと なん人 おきゃくさんが くるか */
+  imoCustomersLeft(): number;
+  /** やきいも やたい：おきゃくさんに やきいもを n こ わたす（なかよし +3・おれいの品 1つ） */
+  serveImo(charKey: string, n: number): { thanks: string; heartsBefore: number; heartsAfter: number } | null;
 }
 
 function pick<T>(list: T[]): T {
@@ -200,6 +220,11 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     const rev = baseRev.current + 1;
     if (persist({ ...state.save, rev })) baseRev.current = rev;
   }, [state.save, booted, reloadSave]);
+
+  // クイズアプリが がっこう選びを とばせるように、しゅじんこうの がっこうを 共有キーへ写す
+  useEffect(() => {
+    publishSchool(state.save.player, state.save.school);
+  }, [state.save.player, state.save.school]);
 
   // メダルの記録から もどした品が あれば しらせる（はじめの1回）
   useEffect(() => {
@@ -307,7 +332,9 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 
     go: (screen) => dispatch({ type: 'GO', screen }),
 
-    pickPlayer: (player) => setSave((s) => ({ ...s, player })),
+    pickPlayer: (player, school) => setSave((s) => ({ ...s, player, school: resolveSchool(player, school ?? s.school ?? 'ena') })),
+
+    setSchool: (school) => setSave((s) => ({ ...s, school: resolveSchool(s.player, school) })),
 
     setPos: (pos) => setSave((s) => ({ ...s, pos })),
 
@@ -487,6 +514,53 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       sfx('reveal');
       return { gift, reward, title };
     },
+
+    markSongPlayed: (id) => {
+      const cur = saveRef.current;
+      if (cur.organ.played.includes(id)) return { first: false, title: null };
+      const all = SONGS.every((x) => x.id === id || cur.organ.played.includes(x.id));
+      const title = all && !cur.titles.includes(ORGAN_TITLE) ? ORGAN_TITLE : null;
+      setSave((s) => {
+        if (s.organ.played.includes(id)) return s;
+        return {
+          ...s,
+          organ: { played: [...s.organ.played, id] },
+          titles: title && !s.titles.includes(title) ? [...s.titles, title] : s.titles,
+        };
+      });
+      return { first: true, title };
+    },
+
+    microLeft: (studied) => {
+      const m = saveRef.current.micro;
+      const max = PLANKTON_PER_DAY + (studied ? PLANKTON_STUDY_BONUS : 0);
+      return Math.max(0, max - (m.day === dateKey() ? m.today : 0));
+    },
+
+    markPlankton: (id, studied) => {
+      const cur = saveRef.current;
+      if (cur.micro.dex.includes(id)) return { isNew: false, reward: null, title: null };
+      const day = dateKey();
+      const used = cur.micro.day === day ? cur.micro.today : 0;
+      if (used >= PLANKTON_PER_DAY + (studied ? PLANKTON_STUDY_BONUS : 0)) return null;
+      const kinds = cur.micro.dex.length + 1;
+      const reward = PLANKTON_REWARDS.find((r) => r.kinds <= kinds && !cur.owned.includes(r.item))?.item ?? null;
+      const title = kinds >= PLANKTON.length && !cur.titles.includes(MICRO_TITLE) ? MICRO_TITLE : null;
+      setSave((s) => {
+        if (s.micro.dex.includes(id)) return s;
+        const today = s.micro.day === day ? s.micro.today : 0;
+        return {
+          ...s,
+          micro: { ...s.micro, dex: [...s.micro.dex, id], day, today: today + 1 },
+          owned: reward && !s.owned.includes(reward) ? [...s.owned, reward] : s.owned,
+          titles: title && !s.titles.includes(title) ? [...s.titles, title] : s.titles,
+        };
+      });
+      sfx('catch');
+      return { isNew: true, reward, title };
+    },
+
+    setMicroReady: () => setSave((s) => (s.micro.ready ? s : { ...s, micro: { ...s.micro, ready: true } })),
 
     toggleFollow: (charKey) =>
       setSave((s) => {
@@ -740,6 +814,67 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       });
       sfx('gift');
       return { age, name: moonName(age), isFull, got, reward };
+    },
+
+    bakeImo: (gradeId) => {
+      const cur = saveRef.current;
+      const grade = IMO_BY_ID[gradeId];
+      if (!grade) return null;
+      if ((cur.inventory.gf_rawimo ?? 0) <= 0) { showToast('なまの サツマイモが ないよ', 'ng'); return null; }
+      const isNew = !cur.imo.dex.includes(gradeId);
+      const kinds = cur.imo.dex.length + (isNew ? 1 : 0);
+      const reward = IMO_REWARDS.find((r) => r.kinds <= kinds && !cur.owned.includes(r.item))?.item ?? null;
+      setSave((s) => {
+        const inventory = { ...s.inventory };
+        const left = (inventory.gf_rawimo ?? 0) - 1;
+        if (left > 0) inventory.gf_rawimo = left; else delete inventory.gf_rawimo;
+        if (grade.count > 0) inventory.gf_imo = (inventory.gf_imo ?? 0) + grade.count;
+        const all = reward === 'fn_imokama';
+        return {
+          ...s,
+          inventory,
+          imo: { ...s.imo, dex: s.imo.dex.includes(gradeId) ? s.imo.dex : [...s.imo.dex, gradeId] },
+          owned: reward && !s.owned.includes(reward) ? [...s.owned, reward] : s.owned,
+          letters: all
+            ? [mkLetter(LUNA.from, LUNA.fromName, '🍠 やきいも めいじん', 'やきいもを 5しゅるい ぜんぶ やけたね！\nこげいもも、きんいろも、ぜんぶ たいせつな きろくだよ。\nいしやきがまを とどけたから、しまに おいてね。\n\nルナより'), ...s.letters].slice(0, 30)
+            : s.letters,
+        };
+      });
+      sfx(grade.count > 0 ? (isNew ? 'star' : 'gift') : 'ng');
+      return { count: grade.count, isNew, reward };
+    },
+
+    imoCustomersLeft: () => {
+      const m = saveRef.current.imo;
+      return Math.max(0, IMO_PER_DAY - (m.day === dateKey() ? m.served : 0));
+    },
+
+    serveImo: (charKey, n) => {
+      const cur = saveRef.current;
+      const day = dateKey();
+      const served = cur.imo.day === day ? cur.imo.served : 0;
+      if (served >= IMO_PER_DAY) { showToast('きょうの おみせは おしまい', 'ng'); return null; }
+      if ((cur.inventory.gf_imo ?? 0) < n) { showToast('やきいもが たりないよ', 'ng'); return null; }
+      const thanks = pick(EVERYDAY_GIFTS);
+      const prev = cur.friendsPlay[charKey] ?? { pts: 0, day: todayStr(), today: 0, wear: null };
+      const pts = prev.pts + 3;
+      setSave((s) => {
+        const inventory = { ...s.inventory };
+        const left = (inventory.gf_imo ?? 0) - n;
+        if (left > 0) inventory.gf_imo = left; else delete inventory.gf_imo;
+        inventory[thanks] = (inventory[thanks] ?? 0) + 1;
+        const fp = s.friendsPlay[charKey] ?? prev;
+        return {
+          ...s,
+          inventory,
+          imo: { ...s.imo, day, served: (s.imo.day === day ? s.imo.served : 0) + 1 },
+          friendsPlay: { ...s.friendsPlay, [charKey]: { ...fp, pts: fp.pts + 3 } },
+        };
+      });
+      const heartsBefore = heartsOf(prev.pts);
+      const heartsAfter = heartsOf(pts);
+      sfx(heartsAfter > heartsBefore ? 'heart' : 'gift');
+      return { thanks, heartsBefore, heartsAfter };
     },
   }), [state, setSave, showToast]);
 

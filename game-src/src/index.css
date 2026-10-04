@@ -124,6 +124,8 @@ body {
 .fish-shadow { animation: fish-shadow 1.4s ease-in-out infinite; }
 @keyframes crop-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
 .crop-bob { animation: crop-bob 1.6s ease-in-out infinite; }
+@keyframes imo-smoke { 0% { transform: translateY(8px); opacity: 0; } 40% { opacity: 0.8; } 100% { transform: translateY(-14px); opacity: 0; } }
+.imo-smoke { animation: imo-smoke 1.4s ease-out infinite; }
 @keyframes bat-fly { 0% { transform: translate(0, 0); } 25% { transform: translate(60px, -20px); } 50% { transform: translate(120px, 5px); } 75% { transform: translate(60px, 20px); } 100% { transform: translate(0, 0); } }
 .bat-fly { animation: bat-fly 7s ease-in-out infinite; }
 @keyframes lantern-flicker { 0%, 100% { opacity: 1; } 45% { opacity: 0.75; } 55% { opacity: 0.95; } }
@@ -132,6 +134,9 @@ body {
 /* ── オープニング「ゆめの とびら」── */
 @keyframes dream-mist { 0%, 100% { transform: translateX(-10px); opacity: 0.7; } 50% { transform: translateX(10px); opacity: 1; } }
 .dream-mist { animation: dream-mist 7s ease-in-out infinite; }
+/* 📝 もしの しま：ゆっくり うかぶ */
+@keyframes moshi-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+.moshi-float { animation: moshi-float 3.2s ease-in-out infinite; }
 @keyframes op-wave { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(-24px); } }
 .op-wave { animation: op-wave 5s ease-in-out infinite; }
 @keyframes op-glow { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }

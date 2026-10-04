@@ -6,8 +6,10 @@ import { MAIN_GROUND, WORLD } from '../lib/island';
 // 季節の飾り（今月＝実際の日付の月）。建物とぶつからない芝のふちに置く
 /** 左上の海の「もりの こじま」（タップで クエストの まよいの森へ）。割合 */
 export const FOREST_ISLET = { x: -0.15, y: -0.227 };
+/** 左下の海の「もしの しま」（テストの 3日まえ〜当日だけ。タップで /rpg.html#moshi）。割合 */
+export const MOSHI_ISLET = { x: -0.15, y: 1.32 };
 
-export const SEASON_SPOTS: [number, number][] = [[330, 575], [905, 560], [250, 690], [640, 705], [520, 725], [760, 690]];
+export const SEASON_SPOTS: [number, number][] = [[330, 575], [905, 560], [250, 690], [680, 735], [300, 790], [760, 690]];  // はたけ（x 340〜600・y 600〜790）を よける
 
 function SeasonDeco({ season, halloween = false }: { season: number; halloween?: boolean }) {
   if (season === 10) {
@@ -157,7 +159,7 @@ function OuterDeco() {
   );
 }
 
-function IslandGroundBase({ expansion = 0, pier = false, season = 0, bridge = false, halloween = false }: { expansion?: number; pier?: boolean; season?: number; bridge?: boolean; halloween?: boolean }) {
+function IslandGroundBase({ expansion = 0, pier = false, season = 0, bridge = false, halloween = false, moshi = false }: { expansion?: number; pier?: boolean; season?: number; bridge?: boolean; halloween?: boolean; moshi?: boolean }) {
   const G = MAIN_GROUND;
   // さんばしの ねもと（x=360 の 砂浜の上のはし）
   const sandTop = Math.round(G.cy - G.sandRy * Math.sqrt(1 - ((360 - G.cx) / G.sandRx) ** 2));
@@ -214,6 +216,30 @@ function IslandGroundBase({ expansion = 0, pier = false, season = 0, bridge = fa
         </g>
         <text x="40" y="44" fontSize="20" className="twinkle">✨</text>
       </g>
+
+      {/* 📝 左下の海の もしの しま（テストの 3日まえ〜当日だけ うかぶ） */}
+      {moshi && (
+        <g transform="translate(-150 990)">
+          <g className="moshi-float">
+            <ellipse cx="0" cy="8" rx="96" ry="30" fill="url(#sand)" />
+            <ellipse cx="0" cy="2" rx="70" ry="19" fill="url(#grass)" />
+            {/* つくえ と こくばん */}
+            <rect x="-44" y="-44" width="58" height="38" rx="4" fill="#065f46" stroke="#4c1d95" strokeWidth="2.4" />
+            <text x="-15" y="-19" fontSize="15" fontWeight="900" textAnchor="middle" fill="#ecfdf5">80%</text>
+            <rect x="-40" y="-6" width="4" height="12" fill="#78350f" />
+            <rect x="6" y="-6" width="4" height="12" fill="#78350f" />
+            {/* はた */}
+            <line x1="38" y1="4" x2="38" y2="-58" stroke="#78350f" strokeWidth="4" strokeLinecap="round" />
+            <path d="M40 -58 L76 -48 L40 -38 Z" fill="#f43f5e" stroke="#4c1d95" strokeWidth="2" />
+            <text x="52" y="-44" fontSize="11" textAnchor="middle">📝</text>
+          </g>
+          <g transform="translate(0 44)">
+            <rect x="-48" y="-12" width="96" height="22" rx="6" fill="#fef3c7" stroke="#4c1d95" strokeWidth="2" />
+            <text x="0" y="4" fontSize="13" fontWeight="900" textAnchor="middle" fill="#7c2d12">もしの しま</text>
+          </g>
+          <text x="-70" y="-40" fontSize="20" className="twinkle">✨</text>
+        </g>
+      )}
 
       {/* 右上の海の 小島と はし（がっこうを建てると できる） */}
       {expansion >= 2 && (

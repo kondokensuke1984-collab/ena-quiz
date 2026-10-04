@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 457" width="780" height="457" font-family="sans-serif">
+<rect width="100%" height="100%" fill="#fff"/>
+<polygon points="206.1,361.7 495.0,361.7 383.9,95.0 95.0,95.0" fill="#fff" stroke="#111" stroke-width="2.5"/>
+<line x1="95.0" y1="95.0" x2="95.0" y2="361.7" stroke="#111" stroke-width="2" stroke-dasharray="6,5"/>
+<line x1="95.0" y1="361.7" x2="206.1" y2="361.7" stroke="#111" stroke-width="2" stroke-dasharray="2,4"/>
+<polyline points="109.0,361.7 109.0,347.7 95.0,347.7" fill="none" stroke="#111" stroke-width="1.8"/>
+<path d="M95.0,95.0 Q239.4,59.0 383.9,95.0" fill="none" stroke="#555" stroke-width="1.5"/>
+<rect x="209.4" y="38.0" width="22" height="22" fill="#fff" stroke="#111" stroke-width="2"/>
+<text x="235.4" y="57.0" font-size="24" fill="#111" paint-order="stroke" stroke="#fff" stroke-width="6">cm</text>
+<path d="M95.0,361.7 Q59.0,228.3 95.0,95.0" fill="none" stroke="#555" stroke-width="1.5"/>
+<text x="49.0" y="236.3" font-size="24" text-anchor="middle" fill="#111" paint-order="stroke" stroke="#fff" stroke-width="6">24cm</text>
+<path d="M495.0,361.7 Q472.7,214.5 383.9,95.0" fill="none" stroke="#555" stroke-width="1.5"/>
+<text x="481.9" y="218.6" font-size="24" text-anchor="middle" fill="#111" paint-order="stroke" stroke="#fff" stroke-width="6">26cm</text>
+<text x="630" y="222" font-size="24" fill="#111">面積</text>
+<text x="630" y="250" font-size="24" fill="#111">624cm²</text>
+</svg>

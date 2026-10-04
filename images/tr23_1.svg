@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 690 292" width="690" height="292" font-family="sans-serif">
+<rect width="100%" height="100%" fill="#fff"/>
+<polygon points="163.2,197.3 276.8,197.3 220.0,95.0" fill="#fff" stroke="#111" stroke-width="2.5"/>
+<polygon points="299.5,197.3 390.5,197.3 413.2,95.0" fill="#fff" stroke="#111" stroke-width="2.5"/>
+<polygon points="424.5,197.3 560.9,197.3 447.3,95.0" fill="#fff" stroke="#111" stroke-width="2.5"/>
+<line x1="95.0" y1="197.3" x2="595.0" y2="197.3" stroke="#111" stroke-width="2"/>
+<line x1="95.0" y1="95.0" x2="595.0" y2="95.0" stroke="#111" stroke-width="2"/>
+<circle cx="220.0" cy="163.2" r="16" fill="#fff" stroke="#111" stroke-width="2"/>
+<text x="220.0" y="171.2" font-size="22" text-anchor="middle" fill="#111">ア</text>
+<circle cx="367.7" cy="163.2" r="16" fill="#fff" stroke="#111" stroke-width="2"/>
+<text x="367.7" y="171.2" font-size="22" text-anchor="middle" fill="#111">イ</text>
+<circle cx="478.0" cy="163.2" r="16" fill="#fff" stroke="#111" stroke-width="2"/>
+<text x="478.0" y="171.2" font-size="22" text-anchor="middle" fill="#111">ウ</text>
+<line x1="117.7" y1="197.3" x2="117.7" y2="95.0" stroke="#111" stroke-width="2" stroke-dasharray="6,5"/>
+<polyline points="131.7,197.3 131.7,183.3 117.7,183.3" fill="none" stroke="#111" stroke-width="1.8"/>
+<polyline points="131.7,95.0 131.7,109.0 117.7,109.0" fill="none" stroke="#111" stroke-width="1.8"/>
+<path d="M163.2,197.3 Q220.0,233.3 276.8,197.3" fill="none" stroke="#555" stroke-width="1.5"/>
+<text x="220.0" y="251.3" font-size="24" text-anchor="middle" fill="#111" paint-order="stroke" stroke="#fff" stroke-width="6">10cm</text>
+<path d="M299.5,197.3 Q345.0,233.3 390.5,197.3" fill="none" stroke="#555" stroke-width="1.5"/>
+<text x="345.0" y="251.3" font-size="24" text-anchor="middle" fill="#111" paint-order="stroke" stroke="#fff" stroke-width="6">8cm</text>
+<path d="M424.5,197.3 Q492.7,233.3 560.9,197.3" fill="none" stroke="#555" stroke-width="1.5"/>
+<text x="492.7" y="251.3" font-size="24" text-anchor="middle" fill="#111" paint-order="stroke" stroke="#fff" stroke-width="6">12cm</text>
+<path d="M117.7,197.3 Q81.7,146.1 117.7,95.0" fill="none" stroke="#555" stroke-width="1.5"/>
+<text x="71.7" y="154.1" font-size="24" text-anchor="middle" fill="#111" paint-order="stroke" stroke="#fff" stroke-width="6">9cm</text>
+</svg>

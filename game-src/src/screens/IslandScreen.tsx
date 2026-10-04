@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Shell, HpBar } from '../components/Shell';
 import { DPad, type Axis } from '../components/DPad';
-import { IslandGround, FOREST_ISLET } from '../components/IslandStage';
+import { IslandGround, FOREST_ISLET, MOSHI_ISLET } from '../components/IslandStage';
+import { useMoshis, moshiRewards } from '../lib/moshi';
 import { KidSVG, PALETTES } from '../components/KidSVG';
+import { FIXED_SCHOOL, SCHOOLS, SCHOOL_LABEL } from '../lib/school';
 import { PLAYER_CHOICES } from './PickPlayerScreen';
 import { CharSVG } from '../components/CharSVG';
 import { EggSVG } from '../components/EggSVG';
@@ -39,8 +41,13 @@ import { StarsModal } from '../components/StarsModal';
 import { DetectiveScreen } from '../components/DetectiveTheater';
 import { caseOpen, CASES, eventActive } from '../lib/detective';
 import { MoonViewModal } from '../components/MoonViewModal';
+import { YakiimoModal } from '../components/YakiimoModal';
+import { OrganModal } from '../components/OrganModal';
+import { MicroscopeModal } from '../components/MicroscopeModal';
 import { costumeOf, halloweenNight, isHalloween } from '../lib/events';
-import { FARM_POS, isRipe, stageOf } from '../lib/farm';
+import { FARM_BOX, isRipe, stageOf } from '../lib/farm';
+
+const IMO_SPOT = BUILDING_SPOTS.bd_imo;
 
 const SAVE_DEBOUNCE = 600;
 const MAX_DT = 0.05; // タブ復帰で瞬間移動しないように、1フレームの進みを上限で止める
@@ -160,6 +167,7 @@ export function IslandScreen() {
   const [detectiveOpen, setDetectiveOpen] = useState(false);
   const detectiveNew = eventActive() && CASES.some((c) => caseOpen(c) && !save.detective.solved.includes(c.no));
   const [moonViewOpen, setMoonViewOpen] = useState(false);
+  const [imoOpen, setImoOpen] = useState(false);
   // 夜空の 星を うごかす（1分ごと）
   const [skyMin, setSkyMin] = useState(0);
   useEffect(() => {
@@ -169,6 +177,9 @@ export function IslandScreen() {
   // タップで えらんだ子（ついてくる子が そばに いても、ほかの子を えらべるように）
   const [picked, setPicked] = useState<string | null>(null);
   const [forestAsk, setForestAsk] = useState(false);
+  const [moshiAsk, setMoshiAsk] = useState(false);
+  const moshis = useMoshis();
+  const moshi = moshis[0] ?? null;
 
   // いる場所（main／east／house）と、建てたもので島が広がる。clampToIsland などが見る BOUNDS をここで切りかえる
   const area: Area = save.area === 'house' && !save.buildings.includes('bd_house') ? 'main'
@@ -183,6 +194,8 @@ export function IslandScreen() {
   const [fade, setFade] = useState(false);
   const [sleeping, setSleeping] = useState(false);
   const [deskOpen, setDeskOpen] = useState(false);
+  const [organOpen, setOrganOpen] = useState(false);
+  const [microOpen, setMicroOpen] = useState(false);
   // 🏫 がっこう：こくばん・じゅぎょう・テレビ
   const [boardOpen, setBoardOpen] = useState(false);
   const [tvAsk, setTvAsk] = useState(false);
@@ -280,7 +293,7 @@ export function IslandScreen() {
     const cur = saveRef2.current;
     // 同じ記録から2回 手紙を作らない（開発中の二重実行・すばやい再描画でも1回だけ）
     const openCases = CASES.filter((c) => caseOpen(c)).map((c) => c.no);
-    const sig = JSON.stringify([cur.letterMarks, snap.currentMonth, snap.friends.map((f) => [f.id, f.level, f.n]), stamps.length, ym, openCases]);
+    const sig = JSON.stringify([cur.letterMarks, snap.currentMonth, snap.friends.map((f) => [f.id, f.level, f.n]), stamps.length, ym, openCases, moshis.map((m) => m.test.key).join(',')]);
     if (lastMarks.current === sig) return;
     lastMarks.current = sig;
     const r = buildLetters(cur.letterMarks, {
@@ -291,6 +304,7 @@ export function IslandScreen() {
       weekDays: daysThisWeek(new Date(), byDate),
       halloween: isHalloween(),
       detectiveOpen: openCases,
+      moshiOpen: moshis.map((m) => ({ key: m.test.key, name: m.test.name, diff: m.diff, extra: !!m.test.extra, rewards: moshiRewards(m.test).map((r) => r.reward) })),
       currentMonth: snap.currentMonth,
       stampDaysOf: (m) => stampDays(Number(m.slice(0, 4)), Number(m.slice(4)), byDate).length,
     });
@@ -300,7 +314,7 @@ export function IslandScreen() {
       if (r.letters.length) gRef.current.showToast(`💌 おてがみが ${r.letters.length}つう とどいたよ！`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [snap, stamps.length, ym]);
+  }, [snap, stamps.length, ym, moshis]);
 
   // 前に島で見たときより育っていたら知らせる（はじめて会ったときは覚えるだけ）
   useEffect(() => {
@@ -531,6 +545,12 @@ export function IslandScreen() {
       if (hit?.id === 'in_desk') { setDeskOpen(true); return; }
       if (hit?.id === 'in_bed') { goToBed(); return; }
     }
+    if (area === 'house' || area === 'school') {
+      const organ = placedHere.find((q) => q.id === 'sc_organ' && dist(raw, { x: q.x, y: q.y - 0.04 }) < 0.08);
+      if (organ) { setOrganOpen(true); return; }
+      const micro = placedHere.find((q) => q.id === 'sc_micro' && dist(raw, { x: q.x, y: q.y - 0.04 }) < 0.08);
+      if (micro) { setMicroOpen(true); return; }
+    }
     if (area === 'school') {
       const inBox = (b: { x0: number; x1: number; y0: number; y1: number }) => raw.x >= b.x0 && raw.x <= b.x1 && raw.y >= b.y0 && raw.y <= b.y1;
       if (inBox(SCHOOL_HITS.board)) { sfx('letter'); setBoardOpen(true); return; }
@@ -551,10 +571,12 @@ export function IslandScreen() {
       return;
     }
     if (area === 'main' && dist(raw, FOREST_ISLET) < 0.11) { setForestAsk(true); return; }
+    if (area === 'main' && moshi && dist(raw, MOSHI_ISLET) < 0.12) { sfx('letter'); setMoshiAsk(true); return; }
     if (area === 'main' && hasPier && Math.abs(raw.x - PIER_POS.x) < 0.04 && raw.y < PIER_POS.y - 0.03) { setFishOpen(true); return; }
-    if (area === 'main' && Math.abs(raw.x - FARM_POS.x) < 0.13 && Math.abs(raw.y - (FARM_POS.y - 0.02)) < 0.05) { setFarmOpen(true); return; }
+    if (area === 'main' && raw.x >= FARM_BOX.x0 && raw.x <= FARM_BOX.x1 && raw.y >= FARM_BOX.y0 && raw.y <= FARM_BOX.y1) { setFarmOpen(true); return; }
     if (area === 'main' && save.buildings.includes('bd_observ') && dist(raw, BUILDING_SPOTS.bd_observ) < 0.09) { openObserv(); return; }
     if (area === 'main' && save.buildings.includes('bd_moon') && dist(raw, BUILDING_SPOTS.bd_moon) < 0.09) { openMoonView(); return; }
+    if (area === 'east' && save.buildings.includes('bd_imo') && dist(raw, { x: IMO_SPOT.x, y: IMO_SPOT.y - 0.06 }) < 0.09) { setImoOpen(true); return; }
     tapTarget.current = p;
   };
 
@@ -642,9 +664,15 @@ export function IslandScreen() {
   const nearChest = area === 'main' && showChest && dist(playerPos.current, CHEST_POS) <= 0.1;
   const nearMail = area === 'main' && dist(playerPos.current, MAIL_POS) <= 0.1;
   const nearPier = area === 'main' && hasPier && dist(playerPos.current, PIER_POS) <= 0.1;
-  const nearFarm = area === 'main' && Math.abs(playerPos.current.x - FARM_POS.x) <= 0.15 && Math.abs(playerPos.current.y - FARM_POS.y) <= 0.08;
+  const nearFarm = area === 'main' && pp.x >= FARM_BOX.x0 - 0.02 && pp.x <= FARM_BOX.x1 + 0.02 && pp.y >= FARM_BOX.y0 - 0.01 && pp.y <= FARM_BOX.y1 + 0.05;
   const nearObserv = area === 'main' && save.buildings.includes('bd_observ') && dist(playerPos.current, BUILDING_SPOTS.bd_observ) <= 0.1;
   const nearMoonPlat = area === 'main' && save.buildings.includes('bd_moon') && dist(playerPos.current, BUILDING_SPOTS.bd_moon) <= 0.1;
+  const nearImo = area === 'east' && save.buildings.includes('bd_imo') && dist(playerPos.current, IMO_SPOT) <= 0.1;
+  // やきいもやさんの おきゃくさん：となりの しまに いる子（いなければ たまごでない なかま）
+  const imoCustomers = useMemo(() => {
+    const here = friends.filter((f) => f.level > 1);
+    return here.length ? here : snap.friends.filter((f) => f.level > 1);
+  }, [friends, snap.friends]);
 
   // 近づいたら ひとこと（なかよし度に合わせたあいさつか、勉強の声かけ）
   const nearChar = nearFriend?.char ?? '';
@@ -994,7 +1022,7 @@ export function IslandScreen() {
           onPointerDown={onStagePointerDown}
         >
           {area === 'main' && (
-            <IslandGround expansion={expansion} pier={hasPier} season={seasonNow()} bridge={hasBridge} halloween={hw} />
+            <IslandGround expansion={expansion} pier={hasPier} season={seasonNow()} bridge={hasBridge} halloween={hw} moshi={!!moshi} />
           )}
           {area === 'main' && <FarmPatch plots={save.farm.plots} stages={farmStages} today={day} />}
           {area === 'east' && <EastGround tod={tod} />}
@@ -1124,10 +1152,18 @@ export function IslandScreen() {
             <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={openObserv}>🔭 星座を みる</button>
           ) : nearMoonPlat ? (
             <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={openMoonView}>🎑 おだんごを おそなえ</button>
+          ) : nearImo && !nearOther ? (
+            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => setImoOpen(true)}>🍠 やきいもやさん</button>
           ) : nearOther ? (
             friendPanel(nearOther)
           ) : nearFurniture ? (
             <div className="flex gap-2">
+              {nearFurniture.id === 'sc_organ' && (
+                <button className="btn-main !w-auto !py-2 text-[12px]" onClick={() => setOrganOpen(true)}>🎹 ひく</button>
+              )}
+              {nearFurniture.id === 'sc_micro' && (
+                <button className="btn-main !w-auto !py-2 text-[12px]" onClick={() => setMicroOpen(true)}>🔬 のぞく</button>
+              )}
               <button className="btn !w-auto !py-2 text-[12px]" onClick={() => setMode({ kind: 'move', uid: nearFurniture.uid })}>
                 ↔️ うごかす
               </button>
@@ -1144,7 +1180,9 @@ export function IslandScreen() {
                 : area === 'school'
                 ? 'こくばん・テレビ・けいじばん・おともだちを タップしてみよう'
                 : area === 'east'
-                ? 'はなばたけの しまだよ。ひだりの はしで もとの しまに もどれるよ'
+                ? save.buildings.includes('bd_imo')
+                  ? 'やきいも やたいを タップすると いもを やけるよ。ひだりの はしで もとの しまに もどれるよ'
+                  : 'はなばたけの しまだよ。ひだりの はしで もとの しまに もどれるよ'
                 : monster.stage === 'egg'
                 ? 'たまごに ちかづいて ごはんを あげよう'
                 : `${monsterName}に ちかづくと なにかできるよ`}
@@ -1157,13 +1195,18 @@ export function IslandScreen() {
       {area === 'house' && (
         <div className="panel mt-3 !py-3 lg:landscape:col-start-2">
           <div className="mb-2 text-[12px] font-black text-ink">👤 しゅじんこうを かえる</div>
-          <div className="grid grid-cols-4 gap-1.5">
+          <div className="grid grid-cols-5 gap-1.5">
             {PLAYER_CHOICES.map((c) => {
               const now = save.player === c.key;
               return (
                 <button
                   key={c.key}
-                  onClick={() => { if (!now) { g.pickPlayer(c.key); g.showToast(`${c.emoji} ${PALETTES[c.key].name}に なったよ！`); } }}
+                  onClick={() => {
+                    if (now) return;
+                    g.pickPlayer(c.key);
+                    const sc = FIXED_SCHOOL[c.key] ?? save.school ?? 'ena';
+                    g.showToast(`${c.emoji} ${PALETTES[c.key].name}に なったよ！（がっこう：${SCHOOL_LABEL[sc]}）`);
+                  }}
                   className={`flex flex-col items-center rounded-xl px-1 py-1.5 active:scale-95 ${now ? 'bg-amber-100 ring-2 ring-amber-400' : 'bg-indigo-50'}`}
                 >
                   <KidSVG who={c.key} size={44} />
@@ -1172,6 +1215,25 @@ export function IslandScreen() {
               );
             })}
           </div>
+          {save.player && !FIXED_SCHOOL[save.player] && (
+            <div className="mt-2.5">
+              <div className="mb-1.5 text-[11px] font-black text-ink">🏫 がっこう（クイズアプリで ひらく がっこう）</div>
+              <div className="grid grid-cols-3 gap-1.5">
+                {SCHOOLS.map((sc) => {
+                  const on = save.school === sc;
+                  return (
+                    <button
+                      key={sc}
+                      onClick={() => { if (!on) { g.setSchool(sc); g.showToast(`🏫 がっこう：${SCHOOL_LABEL[sc]}に したよ`); } }}
+                      className={`rounded-xl px-1 py-1.5 text-[12px] font-black active:scale-95 ${on ? 'bg-amber-100 text-ink ring-2 ring-amber-400' : 'bg-indigo-50 text-indigo-900/70'}`}
+                    >
+                      {on ? '✓ ' : ''}{SCHOOL_LABEL[sc]}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
       )}
 
@@ -1283,6 +1345,7 @@ export function IslandScreen() {
       {starsOpen && <StarsModal onClose={() => setStarsOpen(false)} />}
       {detectiveOpen && <DetectiveScreen onClose={() => setDetectiveOpen(false)} />}
       {moonViewOpen && <MoonViewModal onClose={() => setMoonViewOpen(false)} />}
+      {imoOpen && <YakiimoModal customers={imoCustomers} onClose={() => setImoOpen(false)} />}
 
       {/* ── 🌲 まよいの森へ（クエストの ページに うつる）── */}
       {forestAsk && (
@@ -1295,6 +1358,31 @@ export function IslandScreen() {
             </div>
             <a className="btn-main mt-3 block text-center no-underline" href="/rpg.html#forest">🌲 いく</a>
             <button className="btn mt-2" onClick={() => setForestAsk(false)}>やめる</button>
+          </div>
+        </div>
+      )}
+
+      {/* ── 📝 もしの しまへ（クエストの ページで 模試）── */}
+      {moshiAsk && moshi && (
+        <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/60 p-3" onClick={() => setMoshiAsk(false)}>
+          <div className="panel w-full max-w-[440px] text-center" onClick={(e) => e.stopPropagation()}>
+            <div className="text-5xl">🏝️📝</div>
+            <div className="mt-1 text-[16px] font-black text-ink">もしの しまへ いく？</div>
+            {moshis.map((m) => (
+              <div key={m.test.key} className="mt-2 rounded-2xl bg-violet-50 px-3 py-2 text-[13px] font-black text-violet-800">
+                {m.test.extra ? '🎯 ' : '📝 '}{m.test.name}（{m.date.getMonth() + 1}/{m.date.getDate()}{m.test.extra ? ' まで' : ''}）・
+                {m.test.extra ? `あと ${m.diff}にち` : m.diff === 0 ? '🎯 きょうが テスト！' : `あと ${m.diff}にち`}
+                <div className="text-[11.5px] font-bold text-indigo-900/60">
+                  {moshiRewards(m.test).map((r) => (r.lv === 'kako' ? `🔥 チャレンジ（かこもん いり）🪙${r.reward}` : `📘 ふつう 🪙${r.reward}`)).join('　')}
+                </div>
+              </div>
+            ))}
+            <div className="mt-2 text-[12px] font-bold leading-relaxed text-indigo-900/60">
+              8わり こえるたびに メダル！<br />
+              かいて こたえる もんだいは おうちの ひとが まるつけ するよ。
+            </div>
+            <a className="btn-main mt-3 block text-center no-underline" href="/rpg.html#moshi">📝 いく</a>
+            <button className="btn mt-2" onClick={() => setMoshiAsk(false)}>やめる</button>
           </div>
         </div>
       )}
@@ -1379,6 +1467,16 @@ export function IslandScreen() {
             <button className="btn mt-2" onClick={() => setTvAsk(false)}>やめる</button>
           </div>
         </div>
+      )}
+
+      {microOpen && <MicroscopeModal studied={studied} onClose={() => setMicroOpen(false)} />}
+
+      {/* ── オルガン（ひけたら その場の なかまが じゅんばんに ジャンプ）── */}
+      {organOpen && (
+        <OrganModal
+          onClose={() => setOrganOpen(false)}
+          onClear={() => friends.forEach((f, i) => window.setTimeout(() => { setJump({ id: f.id, key: Date.now() }); voice(f.char); }, 500 + i * 320))}
+        />
       )}
 
       {/* ── べんきょうづくえ ── */}

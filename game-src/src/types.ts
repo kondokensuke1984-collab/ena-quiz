@@ -1,6 +1,8 @@
 import type { CharKey } from './lib/chars';
 
-export type PlayerKey = 'anri' | 'rino' | 'mitsuki' | 'kensuke';
+export type PlayerKey = 'anri' | 'rino' | 'mitsuki' | 'kensuke' | 'yusei';
+/** クイズアプリの がっこう（ena／栄光／2年生） */
+export type School = 'ena' | 'eikoh' | 'g2';
 export type Stage = 'egg' | 'baby' | 'teen' | 'adult';
 export type Slot = 'weapon' | 'shield' | 'costume' | 'hat';
 export type Mood = 'egg' | 'happy' | 'hungry' | 'down';
@@ -64,6 +66,7 @@ export interface LetterMarks {
   halloween?: string;               // ハロウィンの手紙を出した年
   month?: string;                   // 最後に見た「しゅやくの 月」（YYYYMM）。かわったら ひっこしの手紙
   detective?: number[];             // 名探偵あんり：ひらいたと 手紙で しらせた じけん
+  moshi?: string[];                 // もしの しま：うかんだと 手紙で しらせた テスト（TEST_KEYS の key）
 }
 
 export interface SaveV1 {
@@ -71,6 +74,7 @@ export interface SaveV1 {
   rev: number;               // 書いた回数。ほかの画面が あとから書いていたら 上書きしないための しるし
   createdAt: number;
   player: PlayerKey | null;   // null＝まだ主人公を選んでいない
+  school: School | null;   // クイズアプリの がっこう（lib/school.ts）。あんり・りの・ゆうせいは きまり
   pos: Pos;                   // 主人公の立ち位置
   monster: MonsterState;
   inventory: Record<string, number>;  // 消費アイテム（エサ・おやつ）
@@ -88,12 +92,15 @@ export interface SaveV1 {
   area: Area;                                 // いま いる場所（pos はこの場所での立ち位置）
   room: { wall: string; floor: string };      // おうちの かべがみ・ゆか
   fish: FishLog;                              // つりの きろく
-  farm: { plots: (FarmPlot | null)[]; dex: string[]; flowers: string[] };  // はたけ 3まい・しゅうかくした たね・はなを しらべた たね
+  farm: { plots: (FarmPlot | null)[]; dex: string[]; flowers: string[] };  // はたけ 9まい（よこ3×たて3）・しゅうかくした たね・はなを しらべた たね
   treats: { day: string; got: string[] };     // ハロウィンで おかしを くれた子（その日）
   stars: { dex: string[] };                   // てんもんだいで みつけた星座ID
   moon: { lastOffer: string };                // おだんごを おそなえした日（YYYY-M-D）
   openingSeen: boolean;                       // はじまりの ものがたり（オープニング）を 見た
   detective: { solved: number[]; found: Record<string, string[]>; hint: Record<string, number> };  // 名探偵あんり：とけた じけん・みつけた しょうこ・つかった ヒント
+  organ: { played: string[] };                // オルガンの れんしゅうで さいごまで ひけた曲ID
+  micro: { dex: string[]; day: string; today: number; ready: boolean };
+  imo: { dex: string[]; day: string; served: number };  // やきいも やたい：やけた しゅるい・きょう きた おきゃくさんの数  // けんびきょう：みつけた プランクトンID・きょう とうろくした数・じゅんびの てじゅんを 1回 できた
 }
 
 export interface FishLog {
@@ -133,8 +140,10 @@ export interface Item {
   heal?: number;      // 盾：守ったときの追加回復
   love?: number;      // プレゼント：なかよしポイント
   season?: number;    // 季節の品：この月（1..12）のあいだだけ ショップに並ぶ
+  seasonAlso?: number[]; // 季節の品：season のほかにも 並ぶ月（サツマイモの なえは 10月から）
   reward?: boolean;   // スタンプのごほうび（ショップでは売らない）
   anywhere?: boolean; // そとにも おうちの中にも 置ける家具
+  alsoHouse?: boolean; // きょうしつの かぐだけど おうちの中にも 置ける（オルガン）
   builtin?: boolean;  // はじめから もっている（かべがみ・ゆかの さいしょの1つ）
   crop?: string;      // たね：とれる プレゼントの ID（2つ）
 }

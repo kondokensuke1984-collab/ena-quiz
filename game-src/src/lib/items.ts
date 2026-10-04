@@ -18,9 +18,9 @@ export const ROOM_ITEMS: Item[] = [
   { id: 'fl_grass',  kind: 'floor', name: 'くさはらの ゆか',   emoji: '🌿', price: 8,  desc: 'へやの なかに くさはら', once: true },
   // ── がっこうの きょうしつ（🏫がっこうを たてると かえる）──
   { id: 'sc_globe',  kind: 'classroom', name: 'ちきゅうぎ',   emoji: '🌏', price: 10, desc: 'くるくる まわる ちきゅう', once: true },
-  { id: 'sc_micro',  kind: 'classroom', name: 'けんびきょう', emoji: '🔬', price: 12, desc: 'ちいさな ものが おおきく みえる', once: true },
+  { id: 'sc_micro',  kind: 'classroom', name: 'けんびきょう', emoji: '🔬', price: 12, desc: 'タップで プランクトンが みえる（おうちにも おける）', once: true, alsoHouse: true },
   { id: 'sc_tank',   kind: 'classroom', name: 'すいそう',     emoji: '🐠', price: 12, desc: 'メダカが およいでいる', once: true },
-  { id: 'sc_organ',  kind: 'classroom', name: 'オルガン',     emoji: '🎹', price: 15, desc: 'おんがくの じかんに', once: true },
+  { id: 'sc_organ',  kind: 'classroom', name: 'オルガン',     emoji: '🎹', price: 15, desc: 'タップで きょくが ひける（おうちにも おける）', once: true, alsoHouse: true },
   { id: 'sc_map',    kind: 'classroom', name: 'にほんちず',   emoji: '🗾', price: 10, desc: 'かべに はる にほんの ちず', once: true },
 ];
 
@@ -94,7 +94,7 @@ export const ITEMS: Item[] = [
   { id: 'bd_observ', kind: 'building', name: 'てんもんだい',       emoji: '🔭', price: 300, desc: 'よるの ほしぞらを しらべられる',  once: true },
   { id: 'bd_moon',   kind: 'building', name: 'おつきみだい',       emoji: '🎑', price: 400, desc: 'おだんごと すすきで お月見',  once: true },
   // 11月（となりの しまに たつ。単元が きまったら 名前・絵を さしかえる）
-  { id: 'bd_imo',    kind: 'building', name: 'やきいも やたい',     emoji: '🍠', price: 500, desc: 'となりの しまに たつ。よるは あかりが つく', once: true },
+  { id: 'bd_imo',    kind: 'building', name: 'やきいも やたい',     emoji: '🍠', price: 500, desc: 'となりの しまに たつ。サツマイモを やいて おみせやさん', once: true },
   { id: 'bd_arbor',  kind: 'building', name: 'もみじの あずまや',   emoji: '🍁', price: 600, desc: 'となりの しまに たつ。みんなで ひとやすみ', once: true },
 
   // ── 季節の品（その月のあいだだけ 並ぶ。かったものは ずっと つかえる）──
@@ -102,6 +102,11 @@ export const ITEMS: Item[] = [
   { id: 'fw_pumpkin', kind: 'fwear', name: 'かぼちゃの ぼうし', emoji: '🎃', price: 12, desc: '10月だけの きせかえ', once: true, season: 10 },
   { id: 'gf_imo',     kind: 'gift',  name: 'やきいも',       emoji: '🍠', price: 4, desc: '11月だけ・なかよし +3', love: 3, season: 11 },
   { id: 'fw_leaf',    kind: 'fwear', name: 'もみじの かみかざり', emoji: '🍁', price: 12, desc: '11月だけの きせかえ', once: true, season: 11 },
+
+  // ── やきいも やたい（はたけの サツマイモを やく。ショップでは売らない）──
+  { id: 'gf_rawimo',  kind: 'gift',      name: 'なまの サツマイモ', emoji: '🍠', price: 0, desc: 'やきいも やたいで やくと やきいもに なる・なかよし +1', love: 1, reward: true },
+  { id: 'fn_imosign', kind: 'furniture', name: 'やきいもの かんばん', emoji: '🪧', price: 0, desc: 'やきいもを 3しゅるい やいた ごほうび', once: true, reward: true },
+  { id: 'fn_imokama', kind: 'furniture', name: 'いしやきがま',     emoji: '🔥', price: 0, desc: 'やきいもを 5しゅるい ぜんぶ やいた ごほうび', once: true, reward: true },
 
   // ── まいにちスタンプの ごほうび（ショップでは売らない）──
   { id: 'fn_trophy',   kind: 'furniture', name: 'がんばりトロフィー', emoji: '🏆', price: 0, desc: 'スタンプ7日の ごほうび',  once: true, reward: true, anywhere: true },
@@ -125,6 +130,8 @@ export const ITEMS: Item[] = [
   { id: 'fn_fishsign', kind: 'furniture', name: 'さかなの かんばん',   emoji: '🐟', price: 0, desc: 'さかなを 5しゅるい つった ごほうび',  once: true, reward: true },
   { id: 'fn_forest',   kind: 'furniture', name: 'もりの トロフィー',   emoji: '🌲', price: 0, desc: 'クエストの まよいの森で もりのぬしを たおした ごほうび', once: true, reward: true, anywhere: true },
   { id: 'fn_aquarium', kind: 'furniture', name: 'すいそう',           emoji: '🐠', price: 0, desc: 'さかなを 10しゅるい つった ごほうび', once: true, reward: true, anywhere: true },
+  // ── けんびきょうの プランクトンずかんの ごほうび（ショップでは売らない）──
+  { id: 'fn_medaka',   kind: 'furniture', name: 'メダカの いけ',       emoji: '🐟', price: 0, desc: 'プランクトンを 4しゅるい みつけた ごほうび', once: true, reward: true },
   // ── 星座ずかん・おだんごお供えの ごほうび（ショップでは売らない）──
   { id: 'fn_starsign',   kind: 'furniture', name: 'ほしざの かんばん',     emoji: '🌟', price: 0, desc: '星座を 5しゅるい みつけた ごほうび',  once: true, reward: true },
   { id: 'fn_stardome',   kind: 'furniture', name: 'プラネタリウムドーム', emoji: '🪐', price: 0, desc: '星座を 10しゅるい みつけた ごほうび', once: true, reward: true, anywhere: true },
@@ -139,7 +146,7 @@ export const ITEMS: Item[] = [
   { id: 'sd_berry',    kind: 'seed', name: 'イチゴの たね',       emoji: '🍓', price: 3, desc: 'はつがに 光が いる', crop: 'gf_berry' },
   { id: 'sd_potato',   kind: 'seed', name: 'ジャガイモの たねいも', emoji: '🥔', price: 4, desc: 'いもは くきが へんかした もの', crop: 'gf_potato' },
   { id: 'sd_soramame', kind: 'seed', name: 'ソラマメの たね',     emoji: '🫛', price: 4, desc: '10月だけ・子葉が 地上に でない', crop: 'gf_soramame', season: 10 },
-  { id: 'sd_imo',      kind: 'seed', name: 'サツマイモの なえ',   emoji: '🍠', price: 4, desc: '11月だけ・いもは 根が へんかした もの', crop: 'gf_imo', season: 11 },
+  { id: 'sd_imo',      kind: 'seed', name: 'サツマイモの なえ',   emoji: '🍠', price: 4, desc: '10〜11月・いもは 根が へんかした もの', crop: 'gf_rawimo', season: 11, seasonAlso: [10] },
   { id: 'sd_tulip',    kind: 'seed', name: 'チューリップの きゅうこん', emoji: '🌷', price: 4, desc: '12月だけ・きゅうこんは 葉が へんかした もの', crop: 'gf_tulip', season: 12 },
   // むかしの たね（もう うっていない。もっている分・うえた分は そのまま そだつ）
   { id: 'sd_flower',  kind: 'seed', name: 'おはなの たね',     emoji: '🌸', price: 3, desc: 'おはなが 2つ さく',     crop: 'gf_flower', reward: true },
@@ -171,6 +178,7 @@ export function placeableIn(item: Item | undefined, area: 'main' | 'east' | 'hou
   if (!item) return false;
   if (item.anywhere) return item.kind === 'furniture' || item.kind === 'indoor';
   if (area === 'school') return item.kind === 'classroom';
+  if (area === 'house' && item.alsoHouse) return true;
   return area === 'house' ? item.kind === 'indoor' : item.kind === 'furniture';
 }
 
@@ -207,7 +215,7 @@ export function seasonNow(): number {
 export function onSale(item: Item, ownedIds: string[]): boolean {
   // ごほうびの ぼうし・きせかえは、もっていれば「きせかえ」に でる（そうびする ため）
   if (item.reward) return (item.kind === 'hat' || item.kind === 'costume') && ownedIds.includes(item.id);
-  return !item.season || item.season === seasonNow() || ownedIds.includes(item.id);
+  return !item.season || item.season === seasonNow() || !!item.seasonAlso?.includes(seasonNow()) || ownedIds.includes(item.id);
 }
 
 /** 建てる順番。前のを建てると次が出る */
@@ -225,7 +233,7 @@ export function expansionOf(buildings: string[]): number {
 
 /** 教科キャラの だいすきなもの（ポイント2倍） */
 export const FAVORITE: Record<string, string> = {
-  tanuki: 'gf_dango', owl: 'gf_book', parrot: 'gf_berry', rabbit: 'gf_flower', bear: 'gf_cookie', cow: 'gf_apple',
+  tanuki: 'gf_dango', owl: 'gf_book', parrot: 'gf_berry', rabbit: 'gf_flower', bear: 'gf_cookie', cow: 'gf_apple', koala: 'gf_flower',
 };
 export const GIFTS_PER_DAY = 3;
 /** ♥が1つ増える なかよしポイント */

@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 908 248" width="908" height="248" font-family="Hiragino Sans, Hiragino Kaku Gothic ProN, sans-serif">
+<rect width="100%" height="100%" fill="#fff"/>
+<text x="454.0" y="36" font-size="24" text-anchor="middle" font-weight="bold" fill="#111">好きな給食アンケート（1人1つ）</text>
+<rect x="20" y="60" width="124" height="56" fill="#eef2ff" stroke="#111" stroke-width="2"/>
+<text x="82.0" y="96" font-size="21" text-anchor="middle" font-weight="bold" fill="#111"></text>
+<rect x="144" y="60" width="124" height="56" fill="#eef2ff" stroke="#111" stroke-width="2"/>
+<text x="206.0" y="96" font-size="21" text-anchor="middle" font-weight="bold" fill="#111">カレー</text>
+<rect x="268" y="60" width="124" height="56" fill="#eef2ff" stroke="#111" stroke-width="2"/>
+<text x="330.0" y="96" font-size="21" text-anchor="middle" font-weight="bold" fill="#111">あげパン</text>
+<rect x="392" y="60" width="124" height="56" fill="#eef2ff" stroke="#111" stroke-width="2"/>
+<text x="454.0" y="96" font-size="21" text-anchor="middle" font-weight="bold" fill="#111">ラーメン</text>
+<rect x="516" y="60" width="124" height="56" fill="#eef2ff" stroke="#111" stroke-width="2"/>
+<text x="578.0" y="96" font-size="21" text-anchor="middle" font-weight="bold" fill="#111">ハンバーグ</text>
+<rect x="640" y="60" width="124" height="56" fill="#eef2ff" stroke="#111" stroke-width="2"/>
+<text x="702.0" y="96" font-size="21" text-anchor="middle" font-weight="bold" fill="#111">その他</text>
+<rect x="764" y="60" width="124" height="56" fill="#eef2ff" stroke="#111" stroke-width="2"/>
+<text x="826.0" y="96" font-size="21" text-anchor="middle" font-weight="bold" fill="#111">合計</text>
+<rect x="20" y="116" width="124" height="56" fill="#eef2ff" stroke="#111" stroke-width="2"/>
+<text x="82.0" y="153" font-size="22" text-anchor="middle" font-weight="bold" fill="#111">1組</text>
+<rect x="144" y="116" width="124" height="56" fill="#fff" stroke="#111" stroke-width="2"/>
+<text x="206.0" y="153" font-size="22" text-anchor="middle" font-weight="normal" fill="#111">11人</text>
+<rect x="268" y="116" width="124" height="56" fill="#fff" stroke="#111" stroke-width="2"/>
+<text x="330.0" y="153" font-size="22" text-anchor="middle" font-weight="normal" fill="#111">8人</text>
+<rect x="392" y="116" width="124" height="56" fill="#fff" stroke="#111" stroke-width="2"/>
+<text x="454.0" y="153" font-size="22" text-anchor="middle" font-weight="normal" fill="#111">7人</text>
+<rect x="516" y="116" width="124" height="56" fill="#fff" stroke="#111" stroke-width="2"/>
+<text x="578.0" y="153" font-size="22" text-anchor="middle" font-weight="normal" fill="#111">4人</text>
+<rect x="640" y="116" width="124" height="56" fill="#fff" stroke="#111" stroke-width="2"/>
+<text x="702.0" y="153" font-size="22" text-anchor="middle" font-weight="normal" fill="#111">2人</text>
+<rect x="764" y="116" width="124" height="56" fill="#fff" stroke="#111" stroke-width="2"/>
+<text x="826.0" y="153" font-size="22" text-anchor="middle" font-weight="normal" fill="#111">32人</text>
+<rect x="20" y="172" width="124" height="56" fill="#eef2ff" stroke="#111" stroke-width="2"/>
+<text x="82.0" y="209" font-size="22" text-anchor="middle" font-weight="bold" fill="#111">2組</text>
+<rect x="144" y="172" width="124" height="56" fill="#fff" stroke="#111" stroke-width="2"/>
+<text x="206.0" y="209" font-size="22" text-anchor="middle" font-weight="normal" fill="#111">9人</text>
+<rect x="268" y="172" width="124" height="56" fill="#fff" stroke="#111" stroke-width="2"/>
+<text x="330.0" y="209" font-size="22" text-anchor="middle" font-weight="normal" fill="#111">10人</text>
+<rect x="392" y="172" width="124" height="56" fill="#fff" stroke="#111" stroke-width="2"/>
+<text x="454.0" y="209" font-size="22" text-anchor="middle" font-weight="normal" fill="#111">5人</text>
+<rect x="516" y="172" width="124" height="56" fill="#fff" stroke="#111" stroke-width="2"/>
+<text x="578.0" y="209" font-size="22" text-anchor="middle" font-weight="normal" fill="#111">5人</text>
+<rect x="640" y="172" width="124" height="56" fill="#fff" stroke="#111" stroke-width="2"/>
+<text x="702.0" y="209" font-size="22" text-anchor="middle" font-weight="normal" fill="#111">1人</text>
+<rect x="764" y="172" width="124" height="56" fill="#fff" stroke="#111" stroke-width="2"/>
+<text x="826.0" y="209" font-size="22" text-anchor="middle" font-weight="normal" fill="#111">30人</text>
+</svg>

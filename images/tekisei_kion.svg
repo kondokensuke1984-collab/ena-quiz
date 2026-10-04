@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 460" width="900" height="460" font-family="Hiragino Sans, Hiragino Kaku Gothic ProN, sans-serif">
+<rect width="100%" height="100%" fill="#fff"/>
+<text x="450.0" y="32" font-size="24" text-anchor="middle" font-weight="bold" fill="#111">ある町の月ごとの平均気温</text>
+<line x1="90" y1="390.0" x2="860" y2="390.0" stroke="#111" stroke-width="1"/>
+<text x="78" y="397.0" font-size="20" text-anchor="end" font-weight="normal" fill="#111">0</text>
+<line x1="90" y1="333.33333333333337" x2="860" y2="333.33333333333337" stroke="#bbb" stroke-width="1"/>
+<text x="78" y="340.33333333333337" font-size="20" text-anchor="end" font-weight="normal" fill="#111">5</text>
+<line x1="90" y1="276.6666666666667" x2="860" y2="276.6666666666667" stroke="#bbb" stroke-width="1"/>
+<text x="78" y="283.6666666666667" font-size="20" text-anchor="end" font-weight="normal" fill="#111">10</text>
+<line x1="90" y1="220.0" x2="860" y2="220.0" stroke="#bbb" stroke-width="1"/>
+<text x="78" y="227.0" font-size="20" text-anchor="end" font-weight="normal" fill="#111">15</text>
+<line x1="90" y1="163.33333333333334" x2="860" y2="163.33333333333334" stroke="#bbb" stroke-width="1"/>
+<text x="78" y="170.33333333333334" font-size="20" text-anchor="end" font-weight="normal" fill="#111">20</text>
+<line x1="90" y1="106.66666666666666" x2="860" y2="106.66666666666666" stroke="#bbb" stroke-width="1"/>
+<text x="78" y="113.66666666666666" font-size="20" text-anchor="end" font-weight="normal" fill="#111">25</text>
+<line x1="90" y1="50.0" x2="860" y2="50.0" stroke="#bbb" stroke-width="1"/>
+<text x="78" y="57.0" font-size="20" text-anchor="end" font-weight="normal" fill="#111">30</text>
+<text x="40" y="36" font-size="18" text-anchor="middle" font-weight="normal" fill="#111">（度）</text>
+<line x1="90" y1="50" x2="90" y2="390" stroke="#111" stroke-width="2"/>
+<text x="122.08333333333334" y="420" font-size="19" text-anchor="middle" font-weight="normal" fill="#111">1月</text>
+<text x="186.25" y="420" font-size="19" text-anchor="middle" font-weight="normal" fill="#111">2月</text>
+<text x="250.41666666666666" y="420" font-size="19" text-anchor="middle" font-weight="normal" fill="#111">3月</text>
+<text x="314.58333333333337" y="420" font-size="19" text-anchor="middle" font-weight="normal" fill="#111">4月</text>
+<text x="378.75" y="420" font-size="19" text-anchor="middle" font-weight="normal" fill="#111">5月</text>
+<text x="442.9166666666667" y="420" font-size="19" text-anchor="middle" font-weight="normal" fill="#111">6月</text>
+<text x="507.0833333333333" y="420" font-size="19" text-anchor="middle" font-weight="normal" fill="#111">7月</text>
+<text x="571.25" y="420" font-size="19" text-anchor="middle" font-weight="normal" fill="#111">8月</text>
+<text x="635.4166666666666" y="420" font-size="19" text-anchor="middle" font-weight="normal" fill="#111">9月</text>
+<text x="699.5833333333334" y="420" font-size="19" text-anchor="middle" font-weight="normal" fill="#111">10月</text>
+<text x="763.75" y="420" font-size="19" text-anchor="middle" font-weight="normal" fill="#111">11月</text>
+<text x="827.9166666666666" y="420" font-size="19" text-anchor="middle" font-weight="normal" fill="#111">12月</text>
+<polyline points="122.1,333.3 186.2,322.0 250.4,288.0 314.6,220.0 378.8,174.7 442.9,140.7 507.1,95.3 571.2,84.0 635.4,129.3 699.6,186.0 763.8,254.0 827.9,310.7" fill="none" stroke="#dc2626" stroke-width="3.5"/>
+<circle cx="122.1" cy="333.3" r="6" fill="#dc2626"/>
+<text x="122.08333333333334" y="319.33333333333337" font-size="18" text-anchor="middle" font-weight="normal" fill="#991b1b">5</text>
+<circle cx="186.2" cy="322.0" r="6" fill="#dc2626"/>
+<text x="186.25" y="308.0" font-size="18" text-anchor="middle" font-weight="normal" fill="#991b1b">6</text>
+<circle cx="250.4" cy="288.0" r="6" fill="#dc2626"/>
+<text x="250.41666666666666" y="274.0" font-size="18" text-anchor="middle" font-weight="normal" fill="#991b1b">9</text>
+<circle cx="314.6" cy="220.0" r="6" fill="#dc2626"/>
+<text x="314.58333333333337" y="206.0" font-size="18" text-anchor="middle" font-weight="normal" fill="#991b1b">15</text>
+<circle cx="378.8" cy="174.7" r="6" fill="#dc2626"/>
+<text x="378.75" y="160.66666666666669" font-size="18" text-anchor="middle" font-weight="normal" fill="#991b1b">19</text>
+<circle cx="442.9" cy="140.7" r="6" fill="#dc2626"/>
+<text x="442.9166666666667" y="126.66666666666669" font-size="18" text-anchor="middle" font-weight="normal" fill="#991b1b">22</text>
+<circle cx="507.1" cy="95.3" r="6" fill="#dc2626"/>
+<text x="507.0833333333333" y="81.33333333333331" font-size="18" text-anchor="middle" font-weight="normal" fill="#991b1b">26</text>
+<circle cx="571.2" cy="84.0" r="6" fill="#dc2626"/>
+<text x="571.25" y="70.0" font-size="18" text-anchor="middle" font-weight="normal" fill="#991b1b">27</text>
+<circle cx="635.4" cy="129.3" r="6" fill="#dc2626"/>
+<text x="635.4166666666666" y="115.33333333333331" font-size="18" text-anchor="middle" font-weight="normal" fill="#991b1b">23</text>
+<circle cx="699.6" cy="186.0" r="6" fill="#dc2626"/>
+<text x="699.5833333333334" y="172.0" font-size="18" text-anchor="middle" font-weight="normal" fill="#991b1b">18</text>
+<circle cx="763.8" cy="254.0" r="6" fill="#dc2626"/>
+<text x="763.75" y="240.0" font-size="18" text-anchor="middle" font-weight="normal" fill="#991b1b">12</text>
+<circle cx="827.9" cy="310.7" r="6" fill="#dc2626"/>
+<text x="827.9166666666666" y="296.66666666666663" font-size="18" text-anchor="middle" font-weight="normal" fill="#991b1b">7</text>
+</svg>

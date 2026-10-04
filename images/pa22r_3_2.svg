@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 375" width="780" height="375" font-family="sans-serif">
+<rect width="100%" height="100%" fill="#fff"/>
+<polygon points="217.6,279.9 495.0,279.9 372.4,95.0 95.0,95.0" fill="#fff" stroke="#111" stroke-width="2.5"/>
+<line x1="372.4" y1="95.0" x2="179.7" y2="222.8" stroke="#111" stroke-width="2" stroke-dasharray="6,5"/>
+<line x1="372.4" y1="95.0" x2="372.4" y2="279.9" stroke="#111" stroke-width="2" stroke-dasharray="6,5"/>
+<polyline points="172.0,211.1 183.7,203.4 191.4,215.0" fill="none" stroke="#111" stroke-width="1.8"/>
+<polyline points="386.4,279.9 386.4,265.9 372.4,265.9" fill="none" stroke="#111" stroke-width="1.8"/>
+<path d="M95.0,95.0 Q233.7,59.0 372.4,95.0" fill="none" stroke="#555" stroke-width="1.5"/>
+<text x="233.7" y="57.0" font-size="24" text-anchor="middle" fill="#111" paint-order="stroke" stroke="#fff" stroke-width="6">30cm</text>
+<path d="M217.6,279.9 Q126.3,207.4 95.0,95.0" fill="none" stroke="#555" stroke-width="1.5"/>
+<text x="118.0" y="220.9" font-size="24" text-anchor="middle" fill="#111" paint-order="stroke" stroke="#fff" stroke-width="6">24cm</text>
+<path d="M179.7,222.8 Q256.1,128.9 372.4,95.0" fill="none" stroke="#555" stroke-width="1.5"/>
+<circle cx="250.6" cy="120.5" r="16" fill="#fff" stroke="#111" stroke-width="2"/>
+<text x="250.6" y="128.5" font-size="22" text-anchor="middle" fill="#111">ア</text>
+<path d="M372.4,279.9 Q408.4,187.5 372.4,95.0" fill="none" stroke="#555" stroke-width="1.5"/>
+<circle cx="418.4" cy="187.5" r="16" fill="#fff" stroke="#111" stroke-width="2"/>
+<text x="418.4" y="195.5" font-size="22" text-anchor="middle" fill="#111">イ</text>
+<text x="77.0" y="95.0" font-size="24" text-anchor="middle" fill="#111">A</text>
+<text x="207.6" y="313.9" font-size="24" text-anchor="middle" fill="#111">B</text>
+<text x="509.0" y="311.9" font-size="24" text-anchor="middle" fill="#111">C</text>
+<text x="388.4" y="91.0" font-size="24" text-anchor="middle" fill="#111">D</text>
+<text x="630" y="181" font-size="24" fill="#111">面積</text>
+<text x="630" y="209" font-size="24" fill="#111">600cm²</text>
+</svg>

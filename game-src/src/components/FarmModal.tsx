@@ -8,7 +8,7 @@ import { FERT_INFO, FERT_OF, MONTH_TEMP, PLANT_BY_SEED, PLANT_REWARDS, PLANTS, P
 import { dateKey } from '../lib/study';
 import { FlowerParts, SeedCut } from './PlantLab';
 
-// はたけ：うね3つ（うえる／みずやり／ひりょう／はこ／しらべる／しゅうかく）と しょくぶつ ずかん
+// はたけ：うね9つ（うえる／みずやり／ひりょう／はこ／しらべる／しゅうかく）と しょくぶつ ずかん
 type View =
   | { kind: 'seed' | 'flower'; plot: number; p: PlantDef }
   | { kind: 'quiz'; plot: number; p: PlantDef; quiz: PlantQuiz; order: number[]; picked?: number; text?: string };
@@ -32,6 +32,7 @@ export function FarmModal({ stages, studied, onClose }: { stages: number[]; stud
     if (!r) return '';
     const it = ITEM_BY_ID[r.crop];
     let msg = `🧺 ${it.emoji} ${it.name} が ${r.count}つ とれた！`;
+    if (r.crop === 'gf_rawimo') msg += ' となりの しまの やきいも やたいで やこう！';
     if (r.seedBack) msg += ` 🌰 たねも 1つ できたよ（つぎの せだいへ）`;
     if (r.reward) msg += ` 🎉 ずかんの ごほうび：${ITEM_BY_ID[r.reward].emoji} ${ITEM_BY_ID[r.reward].name}（「かぐ」から おけるよ）`;
     g.showToast(msg);
@@ -42,6 +43,14 @@ export function FarmModal({ stages, studied, onClose }: { stages: number[]; stud
     const quiz = p.quiz[Math.floor(Math.random() * p.quiz.length)];
     const order = quiz.options.map((_, k) => k).sort(() => Math.random() - 0.5);   // こたえが いつも 同じ ばしょに ならないように
     setView({ kind: 'quiz', plot: i, p, quiz, order });
+  };
+  // あいている うねは 1まいに まとめて出す（うえると いちばん まえの あきに はいる）
+  const emptyIdx = g.save.farm.plots.map((p, i) => (p ? -1 : i)).filter((i) => i >= 0);
+  const thirsty = g.save.farm.plots.map((p, i) => (p && p.watered !== today && !plantOf(p)?.paddy ? i : -1)).filter((i) => i >= 0);
+  const waterAll = () => {
+    let n = 0;
+    thirsty.forEach((i) => { if (g.waterPlot(i)) n++; });
+    if (n) g.showToast(`💧 ${n}この うねに みずを あげたよ。${studied ? 'きょうも そだつよ！' : 'クイズを 5もん やると そだつよ'}`);
   };
   const water = (i: number) => {
     if (g.waterPlot(i)) g.showToast(studied ? '💧 みずを あげたよ。きょうも そだつよ！' : '💧 みずを あげたよ。クイズを 5もん やると そだつよ');
@@ -122,7 +131,7 @@ export function FarmModal({ stages, studied, onClose }: { stages: number[]; stud
                 if (!known) {
                   return (
                     <div key={p.seed} className="rounded-2xl bg-gray-100 px-3 py-2 text-[12px] font-black text-gray-400">
-                      ❓ ？？？{ITEM_BY_ID[p.seed]?.season ? `（${ITEM_BY_ID[p.seed].season}月の たね）` : ''}
+                      ❓ ？？？{ITEM_BY_ID[p.seed]?.season ? `（${[...(ITEM_BY_ID[p.seed].seasonAlso ?? []), ITEM_BY_ID[p.seed].season].join('・')}月の たね）` : ''}
                     </div>
                   );
                 }
@@ -153,8 +162,14 @@ export function FarmModal({ stages, studied, onClose }: { stages: number[]; stud
               {studied ? ' きょうは もう そだったよ！' : ' きょうは まだ クイズを していないよ。'}
               <span className="ml-1">🌡️ いまの きおん やく{MONTH_TEMP[month]}℃</span>
             </div>
+            {thirsty.length > 1 && (
+              <button className="mb-2 w-full rounded-xl bg-sky-500 px-3 py-2 text-[13px] font-black text-white shadow active:scale-95" onClick={waterAll}>
+                💧 ぜんぶに みずやり（{thirsty.length}こ）
+              </button>
+            )}
             <div className="flex flex-col gap-2">
               {g.save.farm.plots.map((plot, i) => {
+                if (!plot) return null;
                 const p = plantOf(plot);
                 const st = plot ? stages[i] : 0;
                 const ripe = isRipe(plot, st);
@@ -168,7 +183,7 @@ export function FarmModal({ stages, studied, onClose }: { stages: number[]; stud
                       <div className="min-w-0 flex-1">
                         <div className="truncate text-[13px] font-black text-ink">
                           {plot
-                            ? `${p ? p.name : ITEM_BY_ID[plot.seed]?.name ?? ''}：${p ? PLANT_STAGE_NAME[Math.min(st, PLANT_DAYS)] : STAGE_NAME[Math.min(st, GROW_DAYS)]}${plot.box ? '（📦はこの中）' : ''}`
+                            ? `${i + 1}. ${p ? p.name : ITEM_BY_ID[plot.seed]?.name ?? ''}：${p ? PLANT_STAGE_NAME[Math.min(st, PLANT_DAYS)] : STAGE_NAME[Math.min(st, GROW_DAYS)]}${plot.box ? '（📦はこの中）' : ''}`
                             : `うね ${i + 1}（あいてるよ）`}
                         </div>
                         {plot && !ripe && (
@@ -251,25 +266,31 @@ export function FarmModal({ stages, studied, onClose }: { stages: number[]; stud
                       </>
                     )}
 
-                    {!plot && (
-                      seeds.length ? (
-                        <div className="mt-2 flex flex-wrap gap-1.5">
-                          {seeds.map((s) => (
-                            <button key={s.id} className="rounded-xl bg-white px-2.5 py-1.5 text-[12px] font-black text-ink shadow active:scale-95" onClick={() => { g.plantSeed(i, s.id); g.showToast(`🌱 ${s.name}を うえたよ！${PLANT_BY_SEED[s.id] && !PLANT_BY_SEED[s.id].paddy ? ' みずを あげてね' : ''}`); }}>
-                              {s.emoji} {s.name} ×{g.save.inventory[s.id]}
-                            </button>
-                          ))}
-                        </div>
-                      ) : (
-                        <button className="mt-2 text-[11px] font-black text-amber-700 underline" onClick={() => { onClose(); g.go('shop'); }}>
-                          🛒 ショップの「🌱 たね」で かおう
-                        </button>
-                      )
-                    )}
                     {plot && !p && ripe && <div className="mt-1 text-[11px] font-bold text-indigo-900/60">{CROP_COUNT}つ とれるよ</div>}
                   </div>
                 );
               })}
+              {emptyIdx.length > 0 && (
+                <div className="rounded-2xl bg-amber-50 px-3 py-2.5">
+                  <div className="flex items-center gap-2">
+                    <div className="text-2xl">🟫</div>
+                    <div className="text-[13px] font-black text-ink">あいている うね {emptyIdx.length}こ（ぜんぶで {g.save.farm.plots.length}こ）</div>
+                  </div>
+                  {seeds.length ? (
+                    <div className="mt-2 flex flex-wrap gap-1.5">
+                      {seeds.map((s) => (
+                        <button key={s.id} className="rounded-xl bg-white px-2.5 py-1.5 text-[12px] font-black text-ink shadow active:scale-95" onClick={() => { g.plantSeed(emptyIdx[0], s.id); g.showToast(`🌱 ${s.name}を うえたよ！${PLANT_BY_SEED[s.id] && !PLANT_BY_SEED[s.id].paddy ? ' みずを あげてね' : ''}`); }}>
+                          {s.emoji} {s.name} ×{g.save.inventory[s.id]}
+                        </button>
+                      ))}
+                    </div>
+                  ) : (
+                    <button className="mt-2 text-[11px] font-black text-amber-700 underline" onClick={() => { onClose(); g.go('shop'); }}>
+                      🛒 ショップの「🌱 たね」で かおう
+                    </button>
+                  )}
+                </div>
+              )}
             </div>
           </>
         )}

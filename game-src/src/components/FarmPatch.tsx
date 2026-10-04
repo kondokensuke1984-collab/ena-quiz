@@ -1,12 +1,12 @@
 import React from 'react';
 import { ISLAND_H, ISLAND_W } from '../lib/island';
-import { FARM_POS, GROW_DAYS, healthOf, isRipe, plantOf, PLOT_DX } from '../lib/farm';
+import { FARM_BOX, FARM_POS, GROW_DAYS, healthOf, isRipe, plantOf, plotPos, PLOT_DX } from '../lib/farm';
 import { hourNow } from '../lib/sky';
 import { PlantSVG } from './PlantSVG';
 import { ITEM_BY_ID } from '../lib/items';
 import type { FarmPlot } from '../types';
 
-// はたけ（3つの うね）。地面の上・キャラの下に かく。stage＝lib/farm の stageOf（むかしの たねは 0..GROW_DAYS）
+// はたけ（よこ3 × たて3 の うね）。おくの れつから かくので、手前の しょくぶつが 上に かさなる。地面の上・キャラの下に かく。stage＝lib/farm の stageOf（むかしの たねは 0..GROW_DAYS）
 const S = { stroke: '#4c1d95', strokeWidth: 2.2 };
 
 function Sprout({ stage, seed }: { stage: number; seed: string }) {
@@ -49,13 +49,15 @@ function FarmPatchBase({ plots, stages, today }: { plots: (FarmPlot | null)[]; s
   return (
     <g style={{ pointerEvents: 'none' }}>
       {/* さく */}
-      <rect x={cx - PLOT_DX * ISLAND_W * 1.75} y={cy - 22} width={PLOT_DX * ISLAND_W * 3.5} height={40} rx="14" fill="#a16207" opacity="0.35" />
+      <rect x={cx - PLOT_DX * ISLAND_W * 1.75} y={cy - 22} width={PLOT_DX * ISLAND_W * 3.5} height={(FARM_BOX.y1 - FARM_POS.y) * ISLAND_H + 18} rx="14" fill="#a16207" opacity="0.35" />
       {plots.map((p, i) => {
-        const x = cx + (i - 1) * PLOT_DX * ISLAND_W;
+        const pos = plotPos(i);
+        const x = pos.x * ISLAND_W;
+        const y = pos.y * ISLAND_H;
         const wet = p && p.watered === today;
         const plant = plantOf(p);
         return (
-          <g key={i} transform={`translate(${x} ${cy})`}>
+          <g key={i} transform={`translate(${x} ${y})`}>
             <ellipse cx="0" cy="0" rx="32" ry="13" fill={wet ? '#57300f' : '#92400e'} {...S} />
             {plant?.paddy ? (
               <ellipse cx="0" cy="-1" rx="27" ry="9" fill="#7dd3fc" opacity="0.85" />

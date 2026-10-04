@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>しょうすうと ぶんすう</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Yusei+Magic&family=Zen+Maru+Gothic:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap">
+<style>
+  :root{
+    --paper:#FFFFFF;
+    --ink:#17232E;
+    --ink-soft:#4E606E;
+    --rule:#E3D6C8;
+
+    --br:#8C5A2E;
+    --br-deep:#633D1C;
+    --br-soft:#F7EEE4;
+    --br-line:#DCC3A8;
+
+    --yellow:#FFD24A;
+    --yellow-soft:#FFF6DC;
+    --red:#B23A2E;
+
+    --backdrop:#DDE3E8;
+    --backdrop-ink:#4E606E;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){ --backdrop:#161C22; --backdrop-ink:#8FA3B2; }
+  }
+  :root[data-theme="dark"]{ --backdrop:#161C22; --backdrop-ink:#8FA3B2; }
+
+  p{ margin:0; }
+  body{
+    background:var(--backdrop); color:var(--ink);
+    font-family:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;
+    display:flex; flex-direction:column; align-items:center;
+    padding:16px 12px 40px;
+  }
+  .hint{
+    color:var(--backdrop-ink); font-size:12px; letter-spacing:.06em;
+    margin:0 0 12px; text-align:center; line-height:1.7;
+  }
+
+  /* ───────── A4 sheet ───────── */
+  .sheet{
+    width:210mm; height:297mm; background:var(--paper);
+    padding:8.5mm 10mm; box-sizing:border-box;
+    display:flex; flex-direction:column; gap:3mm;
+    box-shadow:0 6px 28px rgba(0,0,0,.22);
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+
+  /* ───────── header ───────── */
+  .head{
+    display:flex; align-items:flex-end; justify-content:space-between;
+    gap:6mm; border-bottom:1.2mm solid var(--br); padding-bottom:1.8mm;
+  }
+  .head h1{
+    margin:0; font-family:"Yusei Magic","Zen Maru Gothic",sans-serif;
+    font-size:12.4mm; line-height:1; color:var(--br);
+  }
+  .head h1 .kanji{
+    font-family:"Zen Maru Gothic",sans-serif; font-size:6.4mm;
+    color:var(--ink-soft); padding-left:2.5mm; letter-spacing:.04em;
+  }
+  .head .lede{
+    text-align:right; flex:0 0 auto;
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:700;
+    font-size:3.2mm; line-height:1.5; color:var(--ink-soft);
+  }
+  .head .lede .nums{
+    display:flex; align-items:center; justify-content:flex-end; gap:1.4mm;
+    font-size:6mm; color:var(--ink); font-weight:900;
+  }
+
+  .lead{
+    background:var(--br-soft); border-radius:1.6mm; padding:2.2mm 4mm;
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:4.3mm; line-height:1.5; color:var(--br-deep); text-align:center;
+  }
+  .lead em{ font-style:normal; background:linear-gradient(transparent 58%, var(--yellow) 58%); }
+
+  /* ───────── 分数 ───────── */
+  .f{
+    display:inline-flex; flex-direction:column; align-items:center;
+    vertical-align:middle; font-family:"Zen Maru Gothic",sans-serif;
+    font-weight:900; font-variant-numeric:tabular-nums; line-height:1.05;
+    color:var(--ink);
+  }
+  .f > span{ padding:0 1.2mm; }
+  .f .dn{ border-top:.5mm solid currentColor; padding-top:.6mm; margin-top:.6mm; }
+  .f.lg{ font-size:6.2mm; }
+  .f.md{ font-size:4.8mm; }
+  .f.sm{ font-size:3.6mm; }
+  .f.br{ color:var(--br-deep); }
+  .mix{ display:inline-flex; align-items:center; font-family:"Zen Maru Gothic",sans-serif; font-weight:900; }
+  .mix > .w{ font-size:6.2mm; color:var(--br-deep); }
+  .num{
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-variant-numeric:tabular-nums; font-size:6.2mm; color:var(--ink);
+  }
+  .num.md{ font-size:4.8mm; }
+  .op{
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    color:var(--ink-soft); padding:0 .8mm; font-size:5mm;
+  }
+  .mul{
+    display:inline-flex; flex-direction:column; align-items:center;
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900; font-size:3.3mm;
+    color:var(--br-deep); background:var(--yellow-soft);
+    border:.3mm solid var(--yellow); border-radius:1mm;
+    padding:.6mm 1.6mm; line-height:1.3; margin:0 1mm;
+  }
+
+  /* ───────── sections ───────── */
+  .secs{ display:flex; flex-direction:column; flex:1; min-height:0; justify-content:space-between; }
+  .sec{ display:flex; flex-direction:column; gap:1.9mm; }
+  .sec > header{ display:flex; align-items:center; gap:2.8mm; }
+  .sec .no{
+    flex:0 0 auto; width:9mm; height:9mm; border-radius:50%;
+    background:var(--br); color:#fff;
+    font-family:"Yusei Magic",sans-serif; font-size:5.6mm;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .sec h2{
+    margin:0; font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:6mm; line-height:1.15; color:var(--br-deep);
+  }
+  .sec h2 rt{ font-size:.3em; font-weight:700; letter-spacing:.04em; }
+  .sec h2 small{
+    font-family:"Zen Kaku Gothic New",sans-serif; font-weight:700;
+    font-size:3.5mm; color:var(--ink); padding-left:2mm;
+  }
+  .body{ padding-left:11mm; display:flex; flex-direction:column; gap:2mm; }
+
+  .def{
+    border-left:1.4mm solid var(--br); background:var(--br-soft);
+    border-radius:0 1.4mm 1.4mm 0; padding:1.6mm 3mm;
+    font-size:3.5mm; line-height:1.55; text-wrap:pretty;
+  }
+  .def b{ font-weight:900; color:var(--br-deep); }
+  .note{ font-size:3.2mm; line-height:1.5; color:var(--ink-soft); text-wrap:pretty; }
+  .note b{ color:var(--br-deep); font-weight:900; }
+
+  /* 位の表 */
+  .places{ display:grid; grid-template-columns:repeat(3,1fr); gap:2.4mm; }
+  .place{
+    border:.4mm solid var(--br-line); border-radius:1.6mm; padding:1.6mm 2mm;
+    display:flex; align-items:center; justify-content:center; gap:1mm;
+  }
+  .place .dig{ font-size:3mm; color:var(--ink-soft); font-weight:700; margin-left:1.2mm; }
+
+  .lines{ display:flex; flex-direction:column; gap:1.8mm; }
+  .cline{ display:flex; align-items:center; gap:.6mm; flex-wrap:wrap; }
+  .cline .tail{ margin-left:3mm; }
+
+  /* 数直線 */
+  .nl{ width:100%; height:auto; display:block; }
+  .rulebox{
+    display:flex; align-items:center; gap:3mm; justify-content:center;
+    background:var(--yellow-soft); border:.4mm solid var(--yellow); border-radius:1.6mm;
+    padding:1.6mm 3mm; font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:4.2mm; color:var(--br-deep);
+  }
+
+  /* まちがえやすい */
+  .two{ display:grid; grid-template-columns:1fr 1fr; gap:3mm; }
+  .box{
+    border:.5mm solid var(--rule); border-radius:1.8mm; padding:2mm 2.8mm;
+    display:flex; flex-direction:column; gap:1.5mm;
+  }
+  .box.ng{ border-color:#E8B7B1; background:#FCF1EF; }
+  .box h3{
+    margin:0; font-family:"Zen Maru Gothic",sans-serif; font-weight:900; font-size:4mm;
+    color:var(--br-deep);
+  }
+  .box.ng h3{ color:var(--red); }
+  .x{ color:var(--red); font-weight:900; }
+  .ok{ color:#2F7A3B; font-weight:900; }
+
+  /* ───────── おぼえておく ───────── */
+  .memo{
+    border-top:.8mm solid var(--br); padding-top:2.2mm;
+    display:grid; grid-template-columns:25mm 1fr 1fr; gap:1.8mm 4mm; align-items:start;
+  }
+  .memo .lbl{
+    grid-row:span 2; font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:3.7mm; color:var(--br); line-height:1.25; white-space:nowrap;
+  }
+  .memo p{
+    font-size:3.3mm; line-height:1.45; padding-left:5.2mm;
+    position:relative; text-wrap:pretty;
+  }
+  .memo p::before{
+    content:"\2713"; position:absolute; left:0; top:-.2mm; color:var(--br);
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900; font-size:3.8mm;
+  }
+  .memo b{ font-weight:900; color:var(--br-deep); }
+  .guide{ font-size:3.1mm; color:var(--ink-soft); text-align:right; margin-top:-1mm; }
+
+  /* ───────── print ───────── */
+  @page{ size:210mm 297mm; margin:0; }
+  @media print{
+    html,body{
+      margin:0; padding:0; width:210mm; background:#fff;
+      display:block; -webkit-print-color-adjust:exact; print-color-adjust:exact;
+    }
+    .hint{ display:none; }
+    .sheet{
+      box-shadow:none; margin:0; width:210mm; height:296.8mm;
+      transform:none; overflow:hidden;
+      break-inside:avoid; break-after:avoid; page-break-after:avoid;
+    }
+  }
+  @media screen and (max-width:860px){
+    .sheet{ transform-origin:top center; transform:scale(.46); margin-bottom:-160mm; }
+  }
+</style>
+</head>
+<body>
+
+
+<p class="hint">A4たて・倍率100%（余白「なし」〜「せまい」）で印刷してください。<br>⌘P / Ctrl+P → 用紙 A4 → 背景のグラフィックを印刷 ON</p>
+
+<div class="sheet">
+
+  <header class="head">
+    <h1>しょうすうと ぶんすう<span class="kanji">小数と分数</span></h1>
+    <div class="lede">この1枚は ぜんぶ この数
+      <span class="nums"><span class="num" style="font-size:6mm">0.125</span><span class="op">=</span><span class="f md br"><span>1</span><span class="dn">8</span></span></span>
+    </div>
+  </header>
+
+  <p class="lead">小数は、<em>10・100・1000 を分母にした 分数</em>。<br>計算で まざったら、<em>分数に そろえる</em>。</p>
+
+  <div class="secs">
+
+    <!-- ══ 1 ══ -->
+    <section class="sec">
+      <header>
+        <span class="no">1</span>
+        <h2><ruby>小数<rt>しょうすう</rt></ruby> → <ruby>分数<rt>ぶんすう</rt></ruby><small>小数点の下の けた数 ＝ 分母の 0 の数</small></h2>
+      </header>
+      <div class="body">
+        <div class="places">
+          <p class="place"><span class="num md">0.1</span><span class="op">=</span><span class="f md br"><span>1</span><span class="dn">10</span></span><span class="dig">1けた</span></p>
+          <p class="place"><span class="num md">0.01</span><span class="op">=</span><span class="f md br"><span>1</span><span class="dn">100</span></span><span class="dig">2けた</span></p>
+          <p class="place"><span class="num md">0.001</span><span class="op">=</span><span class="f md br"><span>1</span><span class="dn">1000</span></span><span class="dig">3けた</span></p>
+        </div>
+        <div class="lines">
+          <p class="cline">
+            <span class="num">0.125</span><span class="op">=</span>
+            <span class="f lg br"><span>125</span><span class="dn">1000</span></span><span class="op">=</span>
+            <span class="mul">分母も分子も<span>÷ 125</span></span><span class="op">=</span>
+            <span class="f lg br"><span>1</span><span class="dn">8</span></span>
+            <span class="note tail">3けただから 1000分の125。<br>125 でわると 1回で 約分できる。</span>
+          </p>
+          <p class="cline">
+            <span class="num">4.2</span><span class="op">=</span>
+            <span class="mix"><span class="w">4</span><span class="f lg br"><span>2</span><span class="dn">10</span></span></span><span class="op">=</span>
+            <span class="mul">分母も分子も<span>÷ 2</span></span><span class="op">=</span>
+            <span class="mix"><span class="w">4</span><span class="f lg br"><span>1</span><span class="dn">5</span></span></span>
+            <span class="note tail">整数の 4 は そのまま。<br><b>約分できたら かならず 約分</b>。</span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ 2 ══ -->
+    <section class="sec">
+      <header>
+        <span class="no">2</span>
+        <h2>おぼえる <ruby>数直線<rt>すうちょくせん</rt></ruby><small>0 から 1 を 8つに 分けると…</small></h2>
+      </header>
+      <div class="body">
+        <svg class="nl" viewBox="0 20 1790 300" xmlns="http://www.w3.org/2000/svg" font-family="Zen Maru Gothic, sans-serif" font-weight="900">
+          <!-- 8等分 -->
+          <text x="10" y="112" font-size="34" fill="#4E606E" font-weight="700">小数</text>
+          <text x="10" y="262" font-size="34" fill="#4E606E" font-weight="700">分数</text>
+          <g id="eighths"></g>
+        </svg>
+        <p class="rulebox">8分の□ は <span class="num md" style="color:var(--br-deep)">0.125</span> ずつ ふえる　<span style="font-size:3.4mm;color:var(--ink-soft)">（1/8 × 2 ＝ 1/4 ＝ 0.25、× 4 ＝ 1/2 ＝ 0.5）</span></p>
+        <svg class="nl" viewBox="0 10 1790 218" xmlns="http://www.w3.org/2000/svg" font-family="Zen Maru Gothic, sans-serif" font-weight="900">
+          <text x="10" y="92" font-size="30" fill="#4E606E" font-weight="700">5つに</text>
+          <text x="10" y="130" font-size="30" fill="#4E606E" font-weight="700">分ける</text>
+          <g id="fifths"></g>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ══ 3 ══ -->
+    <section class="sec">
+      <header>
+        <span class="no">3</span>
+        <h2><ruby>分数<rt>ぶんすう</rt></ruby> → <ruby>小数<rt>しょうすう</rt></ruby><small>分母を 10・100・1000 にする</small></h2>
+      </header>
+      <div class="body">
+        <div class="lines">
+          <p class="cline">
+            <span class="f lg br"><span>21</span><span class="dn">50</span></span><span class="op">=</span>
+            <span class="mul">分母も分子も<span>× 2</span></span><span class="op">=</span>
+            <span class="f lg br"><span>42</span><span class="dn">100</span></span><span class="op">=</span><span class="num">0.42</span>
+            <span class="note tail">50 × 2 ＝ 100。<br>25 なら × 4、20 なら × 5。</span>
+          </p>
+          <p class="cline">
+            <span class="mix"><span class="w">1</span><span class="f lg br"><span>3</span><span class="dn">25</span></span></span><span class="op">=</span>
+            <span class="mul">分母も分子も<span>× 4</span></span><span class="op">=</span>
+            <span class="mix"><span class="w">1</span><span class="f lg br"><span>12</span><span class="dn">100</span></span></span><span class="op">=</span><span class="num">1.12</span>
+            <span class="note tail">整数の 1 を<br>わすれない。</span>
+          </p>
+        </div>
+        <div class="two">
+          <div class="box">
+            <h3>100 にできない ときは</h3>
+            <p class="note"><b>分子 ÷ 分母</b> の わり算をする。<br>8分の1 ＝ 1 ÷ 8 ＝ <b>0.125</b></p>
+          </div>
+          <div class="box ng">
+            <h3>ここ、まちがえる！</h3>
+            <p class="note"><span class="x">✕</span> 0.125 ＝ 125/100（けた数は 3 → <span class="ok">1000</span>）<br>
+              <span class="x">✕</span> 5/6 を小数に（0.833… わりきれない）→ <span class="ok">小数のほうを 分数に</span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="memo">
+    <span class="lbl">おぼえておく</span>
+    <p><b>0.5 ＝ 2分の1</b>（半分）</p>
+    <p><b>0.25 ＝ 4分の1</b>、<b>0.75 ＝ 4分の3</b></p>
+    <p><b>0.125 ＝ 8分の1</b>。8分の□は 0.125 ずつ</p>
+    <p><b>0.2 ＝ 5分の1</b>。5分の□は 0.2 ずつ</p>
+  </div>
+  <p class="guide">まざった計算（×÷が先・÷は逆数の×）は ずんだもん動画「小数と分数のまざった計算」へ</p>
+
+</div>
+
+<script>
+(function(){
+  const NS='http://www.w3.org/2000/svg';
+  const BR='#8C5A2E', DEEP='#633D1C', INK='#17232E', Y='#FFD24A', YS='#FFF6DC';
+  function el(tag, a, txt){ const e=document.createElementNS(NS,tag); for(const k in a) e.setAttribute(k,a[k]); if(txt!=null) e.textContent=txt; return e; }
+  function frac(g, x, y, n, d, size, col){
+    g.appendChild(el('text',{x, y:y-size*.18, 'font-size':size, 'text-anchor':'middle', fill:col}, n));
+    g.appendChild(el('line',{x1:x-size*.55, x2:x+size*.55, y1:y+size*.05, y2:y+size*.05, stroke:col, 'stroke-width':size*.08, 'stroke-linecap':'round'}));
+    g.appendChild(el('text',{x, y:y+size*.95, 'font-size':size, 'text-anchor':'middle', fill:col}, d));
+  }
+  function line(g, x0, x1, y, parts, dec, fr, hi, sz){
+    g.appendChild(el('line',{x1:x0, x2:x1, y1:y, y2:y, stroke:INK, 'stroke-width':7, 'stroke-linecap':'round'}));
+    for(let i=0;i<=parts;i++){
+      const x=x0+(x1-x0)*i/parts, end=(i===0||i===parts), h=hi.includes(i);
+      if(h) g.appendChild(el('rect',{x:x-sz*1.05, y:y-sz*2.05, width:sz*2.1, height:sz*1.35, rx:12, fill:YS, stroke:Y, 'stroke-width':4}));
+      g.appendChild(el('line',{x1:x, x2:x, y1:y-(end?30:22), y2:y+(end?30:22), stroke:INK, 'stroke-width':end?7:5}));
+      const dcol = end ? INK : (h ? DEEP : BR);
+      g.appendChild(el('text',{x, y:y-sz*.95, 'font-size':sz*(end?1.2:1), 'text-anchor':'middle', fill:dcol}, dec[i]));
+      if(!end) frac(g, x, y+sz*1.55, fr[i][0], fr[i][1], sz*1.05, h?DEEP:INK);
+    }
+  }
+  line(document.getElementById('eighths'), 160, 1720, 160, 8,
+    ['0','0.125','0.25','0.375','0.5','0.625','0.75','0.875','1'],
+    [null,['1','8'],['1','4'],['3','8'],['1','2'],['5','8'],['3','4'],['7','8']],
+    [2,4,6], 52);
+  line(document.getElementById('fifths'), 160, 1720, 100, 5,
+    ['0','0.2','0.4','0.6','0.8','1'],
+    [null,['1','5'],['2','5'],['3','5'],['4','5']],
+    [], 44);
+})();
+</script>
+
+<style>
+@media screen and (max-width:860px){
+  body{ padding:8px 0 28px; }
+  .sheet{ transform:scale(var(--fit,.46)) !important;
+          margin-bottom:calc(-297mm * (1 - var(--fit,.46))) !important; }
+}
+</style>
+<script>
+(function(){
+  function fit(){
+    var w = Math.min(document.documentElement.clientWidth, 860);
+    document.documentElement.style.setProperty('--fit', Math.min(1,(w-10)/793.7).toFixed(4));
+  }
+  fit(); addEventListener('resize', fit); addEventListener('orientationchange', fit);
+})();
+</script>
+</body>
+</html>

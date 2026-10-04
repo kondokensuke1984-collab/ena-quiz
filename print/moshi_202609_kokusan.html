@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>ena 9月 模試（国語・算数）</title>
+<style>
+  :root{ --cat-shakai:#1d4ed8; --cat-rika:#065f46; --cat-kokugo:#3730a3; --cat-sansu:#be185d; }
+  /* 余白は @page で全ページに付ける（section の padding だと2ページ目以降の上端が0mmになり、印刷で切れる） */
+  @page { size: A4 portrait; margin: 15mm 14mm 14mm; }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  body{
+    font-family:'Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif;
+    color:#111; -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+  section.page{ break-after:page; }
+  section.page:last-child{ break-after:auto; }
+
+  /* 表紙 */
+  .cover{ display:flex; flex-direction:column; align-items:center; padding-top:30mm; }
+  .cover h1{ font-size:28pt; letter-spacing:.05em; margin-bottom:4mm; }
+  .cover .sub{ font-size:11pt; color:#555; margin-bottom:20mm; }
+  .cover table{ border-collapse:collapse; font-size:12pt; margin-bottom:16mm; }
+  .cover td{ border:0.3mm solid #999; padding:3mm 8mm; }
+  .cover td.label{ background:#f2f2f2; font-weight:700; text-align:center; }
+  .cover .note{ font-size:9.5pt; color:#777; border-top:.3mm solid #ccc; padding-top:4mm; margin-top:6mm; width:140mm; text-align:center; }
+
+  /* 大問見出し */
+  .cat-head{ color:#fff; padding:2.5mm 5mm; border-radius:1.5mm; margin-bottom:6mm; }
+  .cat-head h2{ font-size:15pt; }
+
+  .qb{ break-inside:avoid; margin-bottom:4mm; padding-bottom:3mm; border-bottom:.2mm dotted #ccc; }
+  .qb .num{ font-weight:800; font-size:11pt; }
+  .qb .qtext{ font-size:10.5pt; line-height:1.6; white-space:pre-line; margin:1.5mm 0 2.5mm; }
+  .qb .imgs{ display:flex; gap:4mm; justify-content:center; margin:2mm 0; }
+  .qb .imgs img{ max-width:65mm; max-height:55mm; border:.2mm solid #ddd; }
+  .qb .opts{ display:flex; flex-wrap:wrap; gap:2.5mm 6mm; font-size:10pt; margin-bottom:2mm; }
+  .qb .ans-box{ font-size:10pt; color:#333; }
+  .qb .line{ border-bottom:.3mm solid #999; height:7mm; margin-top:1mm; }
+
+  /* 文法：2段組・答えの線1本 */
+  .grid2{ display:grid; grid-template-columns:1fr 1fr; column-gap:7mm; }
+  .grid2 .qb{ margin-bottom:3.5mm; padding-bottom:2.5mm; }
+  .grid2 .qb .qtext{ font-size:10pt; line-height:1.5; margin:1mm 0 1.5mm; }
+
+  /* 読解の本文：高さをそろえて右から左へ並べる */
+  /* 本文は4枚ずつの行に分け、行の途中ではページを切らない（本文全体を1まとまりにすると大きな空白ができる） */
+  .passage{ margin:0 0 4mm; }
+  .passage .ptitle{ break-after:avoid; font-size:10.5pt; font-weight:800; border-left:1.5mm solid #3730a3; padding-left:2mm; margin-bottom:2mm; }
+  .passage .ptitle small{ font-weight:400; color:#555; font-size:8.5pt; margin-left:2mm; }
+  .passage .pimgs{ display:flex; flex-direction:row-reverse; gap:2mm; margin-bottom:2mm; break-inside:avoid; }
+  .passage img{ display:block; border:.2mm solid #ccc; }
+  .passage .pfirst{ break-inside:avoid; }
+  .passage .porder{ font-weight:400; font-size:8.5pt; color:#555; margin-left:1mm; }
+</style>
+</head>
+<body>
+<section class="page cover">
+  <h1>9月 模試（国語・算数）</h1>
+  <div class="sub">ena ANRINO 9月の学習内容から出題</div>
+  <table>
+    <tr><td class="label">名前</td><td style="width:60mm;">&nbsp;</td><td class="label">組</td><td style="width:30mm;">&nbsp;</td></tr>
+    <tr><td class="label">日付</td><td colspan="3">&nbsp;</td></tr>
+  </table>
+  <div class="note">国語25問・算数25問。1問4点、各教科100点満点です。<br>理科・社会は別冊（9月模試）です。英語（えいご）は9月は単元テストの対象外です。</div>
+</section>
+<div id="cats"></div>
+<script>
+const EXAM = {"kokugo": [{"id": "msh_07", "subject": "meishi9_kihon", "month": "202609", "q": "次の文の②「学校」の名詞の種類を選び、記号で答えなさい。\n『三日前、私は②学校でブラジルの文化について調べた。そこは日本とのかかわりが深いとわかり、次に他の国についても調べることにした。』", "options": ["ア 普通名詞", "イ 固有名詞", "ウ 数詞", "エ 代名詞", "オ 形式名詞"], "answer": 0, "explanation": "「学校」は同じ種類のもの全体に使える一般的な名前なので「普通名詞」です。", "compact": true}, {"id": "msh_08", "subject": "meishi9_kihon", "month": "202609", "q": "次の文の③「ブラジル」の名詞の種類を選び、記号で答えなさい。\n『三日前、私は学校で③ブラジルの文化について調べた。そこは日本とのかかわりが深いとわかり、次に他の国についても調べることにした。』", "options": ["ア 普通名詞", "イ 固有名詞", "ウ 数詞", "エ 代名詞", "オ 形式名詞"], "answer": 1, "explanation": "「ブラジル」は国の名前で、ただ一つのものを表すので「固有名詞」です。", "compact": true}, {"id": "msh_h03", "subject": "meishi9_hojuu", "month": "202609", "type": "selfjudge", "q": "次の文の中から名詞をすべてぬき出しなさい。\n『私は、将来、教師になりたいと考えています。』", "answer": "私、将来、教師", "explanation": "「私」は人称代名詞、「将来」「教師」は普通名詞です。「なり（たい）」「考え（て）」は動詞です。", "compact": true}, {"id": "msh_h04", "subject": "meishi9_hojuu", "month": "202609", "type": "selfjudge", "q": "次の文の中から名詞をすべてぬき出しなさい。\n『お母さんが弟に「早く起きなさい」と言った。』", "answer": "お母さん、弟", "explanation": "「早く」は形容詞、「起き（なさい）」「言っ（た）」は動詞です。名詞は「お母さん」「弟」です。", "compact": true}, {"id": "msh_h05", "subject": "meishi9_hojuu", "month": "202609", "type": "selfjudge", "q": "次の文の中から名詞をすべてぬき出しなさい。\n『私はぶどうよりもバナナのほうが好きです。』", "answer": "私、ぶどう、バナナ、ほう", "explanation": "「ほう」は本来の方向の意味がうすれ、くらべる意味で形式的に使われている形式名詞です。形式名詞も名詞です。「好きです」は形容動詞です。", "compact": true}, {"id": "msh_h06", "subject": "meishi9_hojuu", "month": "202609", "type": "selfjudge", "q": "次の文の中から名詞をすべてぬき出しなさい。\n『昨日、家族と浅草へ行った。そこではたくさんの外国人が観光をしていた。』", "answer": "昨日、家族、浅草、そこ、外国人、観光", "explanation": "「昨日」は時を表す名詞、「浅草」は固有名詞、「そこ」は指示代名詞です。「観光（を）」も「〜を」がつくので名詞です。", "compact": true}, {"id": "dsh_05", "subject": "doushi9_kihon", "month": "202609", "type": "selfjudge", "q": "次の文がほとんど同じ意味になるように、［　］の動詞の形を変えなさい。\n『火が［消える］。』→「火を（　　）。」", "answer": "消す", "explanation": "「火が消える」（自動詞）⇔「火を消す」（他動詞）。「〜を」がつくと、人が何かに働きかける動詞になります。", "compact": true}, {"id": "dsh_06", "subject": "doushi9_kihon", "month": "202609", "type": "selfjudge", "q": "次の文がほとんど同じ意味になるように、［　］の動詞の形を変えなさい。\n『目が［覚める］。』→「目を（　　）。」", "answer": "覚ます", "explanation": "「目が覚める」（自動詞）⇔「目を覚ます」（他動詞）です。", "compact": true}, {"id": "dsh_07", "subject": "doushi9_kihon", "month": "202609", "type": "selfjudge", "q": "次の文がほとんど同じ意味になるように、［　］の動詞の形を変えなさい。\n『お金を［ためる］。』→「お金が（　　）。」", "answer": "たまる", "explanation": "「お金をためる」（他動詞）⇔「お金がたまる」（自動詞）です。", "compact": true}, {"id": "dsh_h05", "subject": "doushi9_hojuu", "month": "202609", "type": "selfjudge", "q": "次の文の（　）の言葉を、意味が通るように形を直しなさい。\n『（寄る）ば大樹の陰。』", "answer": "寄ら", "explanation": "ことわざ「寄らば大樹の陰」。昔の言い方で、「寄らば」＝「もし寄るなら」という意味です。", "compact": true}, {"id": "dsh_h06", "subject": "doushi9_hojuu", "month": "202609", "type": "selfjudge", "q": "次の文の（　）の言葉を、意味が通るように形を直しなさい。\n『彼は絶対に（泣く）ない。』", "answer": "泣か", "explanation": "「ない」に続くときは「泣か（ない）」の形（未然形）になります。", "compact": true}, {"id": "dsh_h07", "subject": "doushi9_hojuu", "month": "202609", "type": "selfjudge", "q": "次の文の（　）の言葉を、意味が通るように形を直しなさい。\n『母に早く（ねる）なさいと怒られる。』", "answer": "ね", "explanation": "「なさい」に続くときは「寝（なさい）」＝「ね」の形（連用形）になります。", "compact": true}, {"id": "dsh_h08", "subject": "doushi9_hojuu", "month": "202609", "type": "selfjudge", "q": "次の文の（　）の言葉を、意味が通るように形を直しなさい。\n『兄にそうじを（する）と命令された。』", "answer": "しろ（せよ）", "explanation": "「命令された」とあるので命令の形（命令形）。「する」の命令形は「しろ」または「せよ」です。", "compact": true}, {"id": "dsh_h09", "subject": "doushi9_hojuu", "month": "202609", "type": "selfjudge", "q": "次の文の（　）の言葉を、意味が通るように形を直しなさい。\n『うちに（くる）て、おやつを食べよう。』", "answer": "き", "explanation": "「来る」に「て」がつくと「来（き）て」になります。「来る」は形の変わり方が特別な動詞（カ行変格活用）です。", "compact": true}, {"id": "bng_01", "subject": "meishi9_dokkai", "month": "202609", "passage": "bungaku9_kihon", "type": "selfjudge", "q": "――線①「テルのささやかな一人旅は準備された」とありますが、テルの一人旅が準備されるまでを次のようにまとめました。（①）に入る言葉を、文章中から九字でぬき出しなさい。\n【テルの学校では、半分以上の生徒が（①・九字）であり、テルは友人たちの電車の定期券を（②・六字）思っていた。そんななか、吉田クンから誕生日の会に招かれ、初めて（③・十字以内）チャンスが訪れた。】", "answer": "電車通学やバス通学", "explanation": "（①）は「半分以上の生徒が」に続く言葉。\n文章の1行目に「生徒の半数以上が電車通学やバス通学であった」とある。\n→「電車通学やバス通学」（9字）", "oneLine": true}, {"id": "bng_02", "subject": "meishi9_dokkai", "month": "202609", "passage": "bungaku9_kihon", "type": "selfjudge", "q": "問15と同じまとめの文の、（②）に入る言葉を、文章中から六字でぬき出しなさい。", "answer": "うらやましく", "explanation": "（②）は「友人たちの電車の定期券を」に続く言葉。\n2行目に「テルには薄水色の電車の定期券がなんともうらやましくてならなかった」とある。\n→「うらやましく」（6字）", "oneLine": true}, {"id": "bng_03", "subject": "meishi9_dokkai", "month": "202609", "passage": "bungaku9_kihon", "type": "selfjudge", "q": "問15と同じまとめの文の、（③）に入る言葉を、文章中の言葉を使って十字以内で答えなさい。", "answer": "（例）一人で電車に乗る", "explanation": "（③）は「初めて〜チャンス」なので、テルがまだしたことのないこと。\n10行目あたりに「二年生になっても一人で電車に乗ったことのなかったテルに願ってもないチャンスが訪れた」とある。\n→「一人で電車に乗る」\n「一人で」と「電車に乗る」の両方が入っていれば正解（「一人で電車に乗れる」なども可）。", "oneLine": true}, {"id": "bng_04", "subject": "meishi9_dokkai", "month": "202609", "passage": "bungaku9_kihon", "type": "choice", "keepOrder": true, "q": "――線②「門の前に立った母親が伸び上がっては声をかけ続けた」とありますが、このときの母親の気持ちとして【適切ではないもの】を次から一つ選び、記号で答えなさい。", "options": ["ア　買ったキップを息子がすぐに財布に入れないのではないか、と不安に思っている。", "イ　たった一人で吉田クンの家に息子がたどり着けるのか、と思い悩んでいる。", "ウ　キップを落として息子が駅から出られなくなるのではないか、と恐れている。", "エ　送ってやろうと何度も言ったことに息子が怒っているのではないか、と心配している。"], "answer": 3, "explanation": "母親の直前のセリフや様子から気持ちを読みとる。「母親はまるで息子を外国に手ばなすかのように心配した」とあるので、あとは何を心配しているのかを見る。\nア →「キップはすぐお財布にしまいなさいよ」と言っている。\nイ →外国に手ばなすかのように心配＝一人でたどり着けるか心配している。\nウ →「なくしたら、もう駅から出られなくなるんだからね」と言っている。\nエ →息子が怒っているようすは本文にない。だから適切ではないのはエ。", "oneLine": true}, {"id": "bng_05", "subject": "meishi9_dokkai", "month": "202609", "passage": "bungaku9_kihon", "type": "selfjudge", "q": "――線③「母親に見えないように彼はそろえた二本の指を唇にそっともっていく。すると指の間に透明な煙草が生まれ、テルは電柱のわきを通り過ぎる時に空気の色をした煙をはいてみた」とありますが、これはテルのどのような気持ちの表れなのかを十字以内で考えて書きなさい。", "answer": "（例）大人へのあこがれ", "explanation": "小学二年生のテルが、指を唇にあてて「透明な煙草」を吸う＝煙草を吸う「まね」をしている。\n文章のはじめに「定期券をポケットからひき出し…改札口を通っていく友人たちの姿がひどく大人びて見えた」とあるように、テルは大人にあこがれている。だから大人のすることをまねてみた。\n「大人」と「あこがれ」（大人になりたい・大人のまねをしたい）が書けていれば正解。", "oneLine": true}, {"id": "bng_06", "subject": "meishi9_dokkai", "month": "202609", "passage": "bungaku9_kihon", "type": "choice", "keepOrder": true, "q": "文章中の［ X ］に入れる言葉として最も適切なものを次から選び、記号で答えなさい。", "options": ["ア　不安", "イ　残念", "ウ　恐怖", "エ　嫌悪"], "answer": 1, "explanation": "空らんの直前の「それ」が何を指すかを考える。\n「テルの一人旅は家から駅のプラットホームまでしか続かなかった」ので、一人旅は思っていたものとちがってしまった。\nテルはそれを「残念」に思っている → イ", "oneLine": true}, {"id": "bng_07", "subject": "meishi9_dokkai", "month": "202609", "passage": "bungaku9_kihon", "type": "selfjudge", "q": "――線④「ところが、そうはならなかった」とありますが、どんなことが起こって、どうならなかったのですか。三十五字以上五十字以内で書きなさい。", "answer": "（例）テルがキップをなくしてしまったため、駅から出られず、すぐに家に帰ることができなくなった。", "explanation": "「そう」は直前の「これではあまりにすぐ帰れてしまう」を指す。→ すぐに帰ることに「ならなかった」。\nそのあと、改札口で駅員が何かを要求しているのに、テルのポケットには財布しかなく、財布にはお金しか入っていなかった。→ キップをなくしてしまった。\n①キップをなくした（持っていなかった）、②駅から出られず、すぐに帰れなくなった、の2つが入っていて35〜50字なら正解。"}, {"id": "stm_01", "subject": "doushi9_dokkai", "month": "202609", "passage": "setumei9_kihon", "type": "selfjudge", "q": "――線①「じつは極めて優れた研究材料」とありますが、なぜ極めて優れていると言えるのですか。三十字以上四十字以内で書きなさい。", "answer": "（例）標本からは、野原に生えていたときの情報を、ほぼそのまま得ることができるから。", "explanation": "標本が「極めて優れた研究材料」である理由をまとめる。\n標本は「平面化され、乾燥でパリパリになり台紙に貼り付けられた茶色い植物体」だが、すぐあとに「その植物が緑色をして瑞々しく野原に生えていたときの情報を、ほぼこの標本から得ることができる」とある。その点で極めて優れている。\n「生えていた（生きていた）ときの情報」を「ほぼ得られる」ことが書けていて30〜40字なら正解。\n（別の例：標本になった植物が生育していたときの情報の大半を、得ることができるから。）"}, {"id": "stm_02", "subject": "doushi9_dokkai", "month": "202609", "passage": "setumei9_kihon", "type": "selfjudge", "q": "――線②「使用したその植物が本当にヤマトレンギョウだったのか、学名の文字情報だけでは信じることも、のちに別の研究者が調べることもできない」とありますが、本当にヤマトレンギョウであることを証明するために必要なことは何ですか。本文中から四十字以上四十五字以内で抜き出し、初めと終わりの五字をそれぞれ答えなさい。", "answer": "初め：染色体を観　終わり：存すること", "explanation": "傍線②のあと「再現性がないというのは、科学としては決定的な欠陥である。そこで、」に続けて、必要なことが書かれている。\n「染色体を観察した個体を、あとで第三者が同定できるような状態の標本として保存すること」（41字）が必要になる。\n「そこで」（だから何をするか）のあとに答えがくる、という読み方がコツ。"}, {"id": "stm_03", "subject": "doushi9_dokkai", "month": "202609", "passage": "setumei9_kihon", "type": "choice", "keepOrder": true, "q": "――線③「標本は実験科学でいう『再現性』そのものなのである」とありますが、どういうことですか。最も適切なものを次から選び、記号で答えなさい。", "options": ["ア　標本は、それを標本にした当時の情報が残った状態で保存されていて、いつでも他の研究者が検証をすることができるということ。", "イ　標本は、研究の証拠としてふさわしい形状に変化し続けているので、未来の科学者のためになるものであるということ。", "ウ　標本は、新種の発見をした際に、過去に見つかっている植物が目の前の新種と異なるものであることを証明するものだということ。", "エ　標本は、仮説を立て、その仮説が正しいかを証明するために、実験が必要であることを暗に意味しているということ。"], "answer": 0, "explanation": "「再現性」＝あとで同じことをたしかめ直せること。\n本文には、標本は「永続的に保存され、一世紀後でも後世の研究者によって検証ができる」とある → ア\nイ …「形状に変化し続けている」は、本文の「その形状をいまも変えていない」と反対。\nウ … 新種と過去の植物のちがいを証明する話ではない。\nエ … 仮説と実験の話は本文にない。", "oneLine": true}, {"id": "stm_04", "subject": "doushi9_dokkai", "month": "202609", "passage": "setumei9_kihon", "type": "choice", "keepOrder": true, "q": "本文中で筆者は、「標本」を扱う上で大切なのはどのようなことだと述べていますか。最も適切なものを次から選び、記号で答えなさい。", "options": ["ア　入念に乾燥させ、害虫の被害にあわないようにすること。", "イ　論文を通して、新種の発見を正確に文字情報で伝えること。", "ウ　半永久的に保存できるように、機械ではなく人の手で管理すること。", "エ　適切な管理と保管を行い、遠い将来でも実証ができる状態で残すこと。"], "answer": 3, "explanation": "筆者の考えは、最後の段落にまとめられている。\n「そのように重要な標本は、相応の管理と保管がなされなければならないし、研究者は、五〇年後、一〇〇年後を見越して、実証に十分な形質、データを備えた標本を証拠として残す義務がある」→ エ\nア … 乾燥や害虫の話は、標本の作り方の説明で、筆者の主張ではない。\nイ … 本文は「学名の文字情報だけでは信じることも…できない」と言っている。\nウ … 機械か人の手か、という話は本文にない。", "oneLine": true}], "sansu": [{"id": "yks_06", "subject": "yakusu9_kihon", "month": "202609", "type": "input", "q": "135の約数は全部で何個ありますか。", "answer": "8個", "explanation": "135 = 3×3×3×5\n約数を組にして書き出すと\n1×135、3×45、5×27、9×15\n→ 1、3、5、9、15、27、45、135 の8個。"}, {"id": "yks_07", "subject": "yakusu9_kihon", "month": "202609", "type": "selfjudge", "q": "84を素因数分解しなさい。", "answer": "2×2×3×7", "explanation": "84÷2=42、42÷2=21、21÷3=7\n→ 84 = 2×2×3×7\n（素数を小さい順にかけ算で書けていれば正解）"}, {"id": "yks_08", "subject": "yakusu9_kihon", "month": "202609", "type": "selfjudge", "q": "60を割って4あまる整数をすべて求めなさい。", "answer": "7、8、14、28、56", "explanation": "60-4=56 は割り切れる数なので、答えは56の約数。\n56の約数：1、2、4、7、8、14、28、56\nあまりが4なので、割る数は4より大きい数だけ。\n→ 1、2、4 をのぞいて 7、8、14、28、56\n（4で割るとあまりは0になるので、4も入りません）"}, {"id": "yks_r06", "subject": "yakusu9_renshu", "month": "202609", "type": "selfjudge", "q": "ある2つの2けたの整数の和は40で、最大公約数は8です。この2つの整数を求めなさい。", "answer": "16、24", "explanation": "最大公約数が8なので、2つの数は 8×□ と 8×△ と表せます（□と△は1以外に公約数をもたない数）。\n8×(□+△)=40 → □+△=5\n組み合わせは (1,4) と (2,3)。\n(1,4) → 8と32 … 8が1けたなのでだめ\n(2,3) → 16と24 ✓"}, {"id": "yks_r09", "subject": "yakusu9_renshu", "month": "202609", "type": "selfjudge", "q": "ボールペンが36本、えんぴつが90本あります。何人かの子どもに同じ数ずつ分けたいと思います。どちらもあまりなく分けられるのは、子どもの人数が何人のときですか。考えられる人数をすべて求めなさい。ただし、子どもの人数は3人以上とします。", "answer": "3人、6人、9人、18人", "explanation": "どちらもあまりなく分けられる人数＝36と90の公約数。\n最大公約数は18（36=18×2、90=18×5）。\n18の約数：1、2、3、6、9、18\n「3人以上」なので3人はふくむ → 3人、6人、9人、18人\n（「より多い」は その数をふくまない、「以上」は ふくむ）"}, {"id": "yks_r10", "subject": "yakusu9_renshu", "month": "202609", "type": "input", "q": "たて75cm、横120cmの長方形の紙があります。なるべく大きな正方形に切り分けるとき、切り分けられた正方形の1辺の長さは何cmですか。", "answer": "15cm", "explanation": "正方形の1辺は「たてと横の両方を割り切れる長さ」＝公約数。いちばん大きい正方形なので最大公約数です。\n75と120の最大公約数は15（75=15×5、120=15×8）→ 15cm"}, {"id": "yks_k01", "subject": "yakusu9_kakomon", "month": "202609", "type": "input", "q": "84と126の最大公約数はいくつですか。\n（2016 國學院久我山中）", "answer": "42", "explanation": "両方を同じ数で割っていきます（連除法）。\n84と126を2で割る → 42と63\n42と63を3で割る → 14と21\n14と21を7で割る → 2と3（もう共通で割れない）\n最大公約数＝割った数をかける → 2×3×7=42"}, {"id": "yks_k02", "subject": "yakusu9_kakomon", "month": "202609", "type": "input", "q": "2つの数360、756の最大公約数は□である。\n（2019 慶應義塾湘南藤沢中等部）", "answer": "36", "explanation": "素数のかけ算に分けます（素因数分解）。\n360=2×2×2×3×3×5\n756=2×2×3×3×3×7\n共通する部分は 2×2×3×3\n最大公約数＝2×2×3×3=36\n（たしかめ：360÷36=10、756÷36=21。10と21は1以外に公約数がない）"}, {"id": "bss_05", "subject": "baisu9_kihon", "month": "202609", "type": "input", "q": "20、40、50の公倍数のうち、最も小さい公倍数はいくつですか。", "answer": "200", "explanation": "3つの数の最小公倍数を求めます。\n20=2×2×5、40=2×2×2×5、50=2×5×5\nそれぞれに出てくる素数を、いちばん多い個数ずつかけて 2×2×2×5×5=200\n（40の倍数 40、80、120、160、200 … のうち、はじめて50でも割り切れるのが200、と調べてもOK）"}, {"id": "bss_08", "subject": "baisu9_kihon", "month": "202609", "type": "input", "q": "4と9の公倍数のうち、小さい方から3番目の数を求めなさい。", "answer": "108", "explanation": "4と9は1以外に公約数がないので、最小公倍数は 4×9=36。\n36、72、108 → 3番目は 36×3=108"}, {"id": "bss_09", "subject": "baisu9_kihon", "month": "202609", "type": "selfjudge", "q": "12と15の公倍数のうち、200以下のものをすべて求めなさい。", "answer": "60、120、180", "explanation": "12=2×2×3、15=3×5 → 最小公倍数は 2×2×3×5=60（12×15=180ではないので注意）。\n60の倍数で200以下：60、120、180"}, {"id": "bss_r05", "subject": "baisu9_renshu", "month": "202609", "type": "input", "q": "50以上100以下の整数について、8でも10でも割り切れない数は何個ありますか。", "answer": "40個", "explanation": "全部の個数から「8か10で割り切れる数」を引きます。\n50〜100の整数：100-50+1=51個\n8の倍数：6個（1-3-(1)と同じ）\n10の倍数：100÷10=10、49÷10=4 → 10-4=6個\n8でも10でも割り切れる数（40の倍数）：80の1個 … 両方で数えているので1回引く\n8か10で割り切れる数：6+6-1=11個\n割り切れない数：51-11=40個"}, {"id": "bss_r06", "subject": "baisu9_renshu", "month": "202609", "type": "input", "q": "たて15cm、横25cmの長方形の紙があります。この長方形の紙を何個かならべて、なるべく小さな1つの正方形を作ります。このとき、正方形の1辺の長さは何cmですか。", "answer": "75cm", "explanation": "正方形の1辺は、15cmでも25cmでも割り切れる長さ＝15と25の公倍数。いちばん小さい正方形なので最小公倍数です。\n15=3×5、25=5×5 → 最小公倍数は 3×5×5=75 → 75cm\n（約数の「大きな正方形に切り分ける」は最大公約数、倍数の「小さな正方形を作る」は最小公倍数）"}, {"id": "bss_r08", "subject": "baisu9_renshu", "month": "202609", "type": "input", "q": "1×2×3×4×5＝120、1×2×・・・×10＝3628800です。1から25までのかけ算を行ったとき、末尾に「0」は何個ならびますか。", "answer": "6個", "explanation": "末尾の0は「×10」でできます。10=2×5 なので、かけた数の中に2と5の組がいくつあるかを数えます。\n2は偶数ごとに出てきてたくさんあるので、少ない5の個数を数えればOK。\n5の倍数：25÷5=5個（5、10、15、20、25）\n25=5×5 は5を2個ふくむので、25の倍数の分をもう1個：25÷25=1個\n5+1=6個"}, {"id": "bss_k01", "subject": "baisu9_kakomon", "month": "202609", "type": "selfjudge", "q": "6、16、24の最小公倍数と最大公約数を求めなさい。\n（2018 横浜隼人中）", "answer": "最小公倍数48、最大公約数2", "explanation": "素数のかけ算に分けます。\n6=2×3\n16=2×2×2×2\n24=2×2×2×3\n最大公約数＝3つ全部に共通する部分 → 2\n最小公倍数＝どれかに出てくる素数を、いちばん多い個数ずつかける → 2×2×2×2×3=48\n（たしかめ：48÷6=8、48÷16=3、48÷24=2）\n2つとも書けていれば正解"}, {"id": "bss_k02", "subject": "baisu9_kakomon", "month": "202609", "type": "input", "q": "2つの数12と㋐があります。最大公約数が6で、最小公倍数が84であるとき、㋐にあてはまる数を求めなさい。\n（2018 埼玉栄中）", "answer": "42", "explanation": "最大公約数が6なので、12=6×2、㋐=6×a とおけます（2とaは1以外に公約数をもたない）。\n最小公倍数＝6×2×a=84 → a=84÷12=7\n㋐=6×7=42\n（べつの考え方：2つの数の積＝最大公約数×最小公倍数 → 12×㋐=6×84=504 → ㋐=42）"}, {"id": "sbn_05", "subject": "shobun9_kihon", "month": "202609", "type": "input", "mustReduce": true, "q": "次の小数を分数になおしなさい。ただし、約分できる分数は約分しなさい。\n0.49", "answer": "49/100", "explanation": "0.49 = 49/100\n49=7×7、100=2×2×5×5 で共通の約数がないので約分できない"}, {"id": "sbn_13", "subject": "shobun9_kihon", "month": "202609", "type": "input", "q": "次の分数を小数になおしなさい。\n1と2/5", "answer": "1.4", "explanation": "帯分数は整数部分と分数部分に分けて考える。\n2/5 = 2÷5 = 0.4 → 1 + 0.4 = 1.4"}, {"id": "sbn_18", "subject": "shobun9_kihon", "month": "202609", "type": "input", "mustReduce": true, "q": "次の計算をしなさい。\n0.25×2/3", "answer": "1/6", "explanation": "0.25 = 1/4\n1/4 × 2/3 = 2/12 = 1/6（とちゅうで約分すると 1/2 × 1/3 = 1/6）"}, {"id": "sbn_r04", "subject": "shobun9_renshu", "month": "202609", "type": "input", "mustReduce": true, "q": "次の小数を分数になおしなさい（約分できる分数は約分すること）。\n1.18", "answer": "1 9/50", "explanation": "1.18 = 1 + 0.18\n0.18 = 18/100 = 9/50（2で約分）→ 1と9/50（59/50 でもOK）"}, {"id": "sbn_r06", "subject": "shobun9_renshu", "month": "202609", "type": "input", "q": "次の分数を小数になおしなさい。\n3と7/20", "answer": "3.35", "explanation": "7/20 は分母を100にそろえると 35/100 = 0.35（7÷20 でもよい）\n→ 3 + 0.35 = 3.35"}, {"id": "sbn_r12", "subject": "shobun9_renshu", "month": "202609", "type": "input", "mustReduce": true, "q": "次の計算をしなさい。\n2/3 + 10/9 × 0.4", "answer": "1 1/9", "explanation": "かけ算を先に計算する。\n0.4 = 2/5 → 10/9 × 2/5 = 4/9（10と5を約分）\n2/3 + 4/9 = 6/9 + 4/9 = 10/9 = 1と1/9（10/9 でもOK）"}, {"id": "sbn_r16", "subject": "shobun9_renshu", "month": "202609", "type": "input", "mustReduce": true, "q": "次の計算をしなさい。\n2.3 - 1と2/3 × 0.75", "answer": "1 1/20", "explanation": "かけ算を先に計算する。\n1と2/3 = 5/3、0.75 = 3/4 → 5/3 × 3/4 = 5/4\n2.3 − 5/4 = 2.3 − 1.25 = 1.05 = 1と1/20（21/20 でもOK）\n（分数で 23/10 − 5/4 = 46/20 − 25/20 = 21/20 としてもよい）"}, {"id": "sbn_k01", "subject": "shobun9_kakomon", "month": "202609", "type": "input", "mustReduce": true, "q": "次の□にあてはまる数を求めなさい。\n( 2と2/3 + 5/6 × 0.16 ) ÷ 14/15 − 7/10 = □\n（2021 攻玉社中）", "answer": "2 3/10", "explanation": "小数を分数に、帯分数を仮分数になおす。\n2と2/3 = 8/3、0.16 = 4/25\n（ ）の中のかけ算を先に：5/6 × 4/25 = 2/15\n8/3 + 2/15 = 40/15 + 2/15 = 42/15\n42/15 ÷ 14/15 = 42/15 × 15/14 = 3\n3 − 7/10 = 30/10 − 7/10 = 23/10 = 2と3/10（23/10 でもOK）"}, {"id": "sbn_k02", "subject": "shobun9_kakomon", "month": "202609", "type": "input", "mustReduce": true, "q": "次の□にあてはまる数を書きましょう。\n2 − 1.95 × ( 3 − 1と37/91 ) ÷ 2と16/21 = □\n（2022 雙葉中）", "answer": "7/8", "explanation": "小数を分数に、帯分数を仮分数になおす。\n1.95 = 39/20、1と37/91 = 128/91、2と16/21 = 58/21\n（ ）の中：3 − 128/91 = 273/91 − 128/91 = 145/91\n39/20 × 145/91 × 21/58\n約分：39と91 → 3と7、145と58 → 5と2、21と7 → 3と1\n= 3/20 × 5/2 × 3/1 = 45/40 = 9/8\n2 − 9/8 = 16/8 − 9/8 = 7/8"}]};
+const CAT_LABEL = {"shakai": "社会", "rika": "理科", "kokugo": "国語", "sansu": "算数"};
+const CAT_COLOR = {"shakai": "#1d4ed8", "rika": "#065f46", "kokugo": "#3730a3", "sansu": "#be185d"};
+const CAT_ORDER = ["kokugo", "sansu"];
+const PASSAGES = {"bungaku9_kihon": {"src": "黒井千次「子供のいる駅」より", "order": "（右上から左へ読む）", "rows": [[["bungaku9_kihon_1.png", 72], ["bungaku9_kihon_2.png", 72], ["bungaku9_kihon_3.png", 72], ["bungaku9_kihon_4.png", 72]], [["bungaku9_kihon_5.png", 72], ["bungaku9_kihon_6.png", 72]]]}, "setumei9_kihon": {"src": "田中伸幸『牧野富太郎の植物学』より", "order": "（上の段から下の段へ読む）", "rows": [[["setumei9_kihon_1.png", 92]], [["setumei9_kihon_2.png", 92], ["setumei9_kihon_chu_5.png", 50], ["setumei9_kihon_chu_6.png", 50]]]}};
+
+function renderPassage(key) {
+  const ps = PASSAGES[key];
+  const d = document.createElement('div');
+  d.className = 'passage';
+  // 見出しと本文の1行目はページをまたがないよう1まとまりにする
+  const rowHtml = row => '<div class="pimgs">' + row.map(([name, h]) => `<img src="passage/${name}" style="height:${h}mm">`).join('') + '</div>';
+  const rows = '<div class="pfirst"><div class="ptitle"></div>' + rowHtml(ps.rows[0]) + '</div>' + ps.rows.slice(1).map(rowHtml).join('');
+  d.innerHTML = rows;
+  d.querySelector('.ptitle').innerHTML = '次の文章を読んで、あとの問いに答えなさい。<span class="porder"></span>';
+  d.querySelector('.porder').textContent = ps.order;
+  const sm = document.createElement('small');
+  sm.textContent = ps.src;
+  d.querySelector('.ptitle').appendChild(sm);
+  return d;
+}
+
+function renderQ(q, n) {
+  const d = document.createElement('div');
+  d.className = 'qb';
+  let html = `<div class="num">問${n}</div><div class="qtext"></div>`;
+  if (q.qImage || q.qImage2) {
+    html += '<div class="imgs">';
+    if (q.qImage) html += `<img src="${q.qImage}">`;
+    if (q.qImage2) html += `<img src="${q.qImage2}">`;
+    html += '</div>';
+  }
+  const type = q.type || 'choice';
+  if (type === 'choice') {
+    html += '<div class="opts">' + q.options.map(o => `<span>${o}</span>`).join('') + '</div>';
+    html += '<div class="ans-box">答え（　　　　）</div>';
+  } else if (type === 'selfjudge' && !q.compact && !q.oneLine) {
+    html += '<div class="line"></div><div class="line"></div>';
+  } else {
+    html += '<div class="line"></div>';
+  }
+  d.innerHTML = html;
+  d.querySelector('.qtext').textContent = q.q;
+  return d;
+}
+
+let daimon = 0;
+for (const cat of CAT_ORDER) {
+  daimon++;
+  const page = document.createElement('section');
+  page.className = 'page';
+  const head = document.createElement('div');
+  head.className = 'cat-head';
+  head.style.background = CAT_COLOR[cat];
+  head.innerHTML = `<h2>大問${daimon}　${CAT_LABEL[cat]}</h2>`;
+  page.appendChild(head);
+  let grid = null, lastPassage = null;
+  EXAM[cat].forEach((q, i) => {
+    if (q.passage && q.passage !== lastPassage) page.appendChild(renderPassage(q.passage));
+    lastPassage = q.passage || null;
+    if (q.compact) {
+      if (!grid) { grid = document.createElement('div'); grid.className = 'grid2'; page.appendChild(grid); }
+      grid.appendChild(renderQ(q, i + 1));
+    } else {
+      grid = null;
+      page.appendChild(renderQ(q, i + 1));
+    }
+  });
+  document.getElementById('cats').appendChild(page);
+}
+</script>
+</body>
+</html>

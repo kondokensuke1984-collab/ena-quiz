@@ -20,6 +20,7 @@ export interface LetterInput {
   weekDays: number;         // 今週 勉強した日数
   halloween?: boolean;      // ハロウィンの きかん
   detectiveOpen?: number[]; // 名探偵あんり：いま ひらいている じけん
+  moshiOpen?: { key: string; name: string; diff: number; extra?: boolean; rewards?: number[] }[]; // もしの しま：いま うかんでいる もし（近い順）
   currentMonth?: string;    // いまの しゅやくの 月（YYYYMM）
   /** その月（YYYYMM）の スタンプの日数。きねんしゃしんを わたすか決める */
   stampDaysOf?: (month: string) => number;
@@ -50,6 +51,7 @@ export function buildLetters(marks: LetterMarks, x: LetterInput): LetterResult {
     halloween: marks.halloween,
     month: marks.month,
     detective: marks.detective,
+    moshi: marks.moshi,
   };
   const out: Letter[] = [];
   const gifts: string[] = [];
@@ -161,6 +163,22 @@ ${names(olds)}と とった しゃしんを おくるよ。
 ルナより`));
     }
     next.detective = [...told, ...fresh];
+  }
+
+  // もしの しま：テストの 3日まえに うかんだら（1テスト 1かい）
+  for (const mo of x.moshiOpen ?? []) {
+    if ((next.moshi ?? []).includes(mo.key)) continue;
+    out.push(mk(LUNA.from, LUNA.fromName, mo.extra ? `🎯 もしの しまに「${mo.name}」が とどいたよ！` : '📝 もしの しまが うかんできたよ！',
+      mo.extra
+        ? `${to}まちがえやすい ところを あつめた とくべつな もしだよ。
+しまの 左下の うみの「もしの しま」で ちょうせんできるよ（あと ${mo.diff}にち）。
+8わり こえるたびに 🪙${mo.rewards?.[0] ?? 40}まい！ にがてを やっつけよう。
+ルナより`
+        : `${to}${mo.name}まで ${mo.diff === 0 ? 'きょうが ほんばん' : `あと ${mo.diff}にち`}！
+しまの 左下の うみに「もしの しま」が うかんだよ。
+テストの はんいの もんだいに ちょうせんして、8わり こえるたびに メダル！\nふつうは 🪙80まい、かこもん いりの チャレンジは 🪙120まい だよ。
+ルナより`));
+    next.moshi = [...(next.moshi ?? []), mo.key].slice(-12);
   }
 
   // 日曜日：その週の まとめ（1週間に1回）

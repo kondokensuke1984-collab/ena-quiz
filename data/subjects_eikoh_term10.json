@@ -1,0 +1,177 @@
+{
+"eigo": {
+"label": "英語",
+"icon": "🔤",
+"tag": "tag-eigo",
+"category": "eigo",
+"ref": "/eigo.html"
+},
+"heikin": {
+"label": "平均",
+"icon": "⚖️",
+"tag": "tag-heikin",
+"category": "sansu",
+"month": "eikoh_term10",
+"isGroup": true
+},
+"heikin_renA": {
+"label": "練習問題A",
+"icon": "✏️",
+"tag": "tag-heikin",
+"category": "sansu",
+"month": "eikoh_term10",
+"parent": "heikin"
+},
+"tanryo": {
+"label": "単位量あたり",
+"icon": "🧮",
+"tag": "tag-tanryo",
+"category": "sansu",
+"month": "eikoh_term10",
+"isGroup": true
+},
+"tanryo_renA": {
+"label": "練習問題A",
+"icon": "✏️",
+"tag": "tag-tanryo",
+"category": "sansu",
+"month": "eikoh_term10",
+"parent": "tanryo"
+},
+"hayasa1": {
+"label": "速さ⑴",
+"icon": "🚗",
+"tag": "tag-hayasa1",
+"category": "sansu",
+"month": "eikoh_term10",
+"isGroup": true
+},
+"hayasa1_renA": {
+"label": "練習問題A",
+"icon": "✏️",
+"tag": "tag-hayasa1",
+"category": "sansu",
+"month": "eikoh_term10",
+"parent": "hayasa1"
+},
+"hayasa2": {
+"label": "速さ⑵",
+"icon": "✈️",
+"tag": "tag-hayasa2",
+"category": "sansu",
+"month": "eikoh_term10",
+"isGroup": true
+},
+"hayasa2_kakunin": {
+"label": "確認問題",
+"icon": "📝",
+"tag": "tag-hayasa2",
+"category": "sansu",
+"month": "eikoh_term10",
+"parent": "hayasa2"
+},
+"hayasa2_renA": {
+"label": "練習問題A",
+"icon": "✏️",
+"tag": "tag-hayasa2",
+"category": "sansu",
+"month": "eikoh_term10",
+"parent": "hayasa2"
+},
+"heikou": {
+"label": "平行四辺形",
+"icon": "🔶",
+"tag": "tag-heikou",
+"category": "sansu",
+"month": "eikoh_term10",
+"isGroup": true
+},
+"heikou_kakunin": {
+"label": "確認問題",
+"icon": "📝",
+"tag": "tag-heikou",
+"category": "sansu",
+"month": "eikoh_term10",
+"parent": "heikou"
+},
+"heikou_renA": {
+"label": "練習問題A",
+"icon": "✏️",
+"tag": "tag-heikou",
+"category": "sansu",
+"month": "eikoh_term10",
+"parent": "heikou"
+},
+"sankaku": {
+"label": "三角形",
+"icon": "🔺",
+"tag": "tag-sankaku",
+"category": "sansu",
+"month": "eikoh_term10",
+"isGroup": true
+},
+"sankaku_kakunin": {
+"label": "確認問題",
+"icon": "📝",
+"tag": "tag-sankaku",
+"category": "sansu",
+"month": "eikoh_term10",
+"parent": "sankaku"
+},
+"sankaku_renA": {
+"label": "練習問題A",
+"icon": "✏️",
+"tag": "tag-sankaku",
+"category": "sansu",
+"month": "eikoh_term10",
+"parent": "sankaku"
+},
+"daikei": {
+"label": "台形",
+"icon": "🟧",
+"tag": "tag-daikei",
+"category": "sansu",
+"month": "eikoh_term10",
+"isGroup": true
+},
+"daikei_kakunin": {
+"label": "確認問題",
+"icon": "📝",
+"tag": "tag-daikei",
+"category": "sansu",
+"month": "eikoh_term10",
+"parent": "daikei"
+},
+"daikei_renA": {
+"label": "練習問題A",
+"icon": "✏️",
+"tag": "tag-daikei",
+"category": "sansu",
+"month": "eikoh_term10",
+"parent": "daikei"
+},
+"iroiro25": {
+"label": "いろいろな形",
+"icon": "🔷",
+"tag": "tag-iroiro25",
+"category": "sansu",
+"month": "eikoh_term10",
+"isGroup": true
+},
+"iroiro25_kakunin": {
+"label": "確認問題",
+"icon": "📝",
+"tag": "tag-iroiro25",
+"category": "sansu",
+"month": "eikoh_term10",
+"parent": "iroiro25"
+},
+"iroiro25_renA": {
+"label": "練習問題A",
+"icon": "✏️",
+"tag": "tag-iroiro25",
+"category": "sansu",
+"month": "eikoh_term10",
+"parent": "iroiro25"
+}
+}

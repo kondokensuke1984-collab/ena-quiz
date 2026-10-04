@@ -29,9 +29,25 @@
   .fz-pad button{ border:0; border-radius:14px; background:rgba(255,255,255,.9); font-size:20px; font-weight:800; color:#14532d; box-shadow:0 3px 0 rgba(0,0,0,.25); touch-action:manipulation; }
   .fz-pad button:active{ transform:translateY(2px); box-shadow:none; }
   .fz-mapwrap{ position:fixed; inset:0; background:rgba(0,0,0,.6); display:flex; align-items:center; justify-content:center; padding:16px; z-index:50; }
-  .rpgmemo-wrap{ position:fixed; inset:0; background:rgba(0,0,0,.6); display:flex; align-items:center; justify-content:center; padding:16px; z-index:55; }
+  /* にげる：まちがえて おさないよう 上のすみに 小さく（押すと たしかめ＝askFlee） */
+  .flee-btn{ font-size:11px; font-weight:800; color:#64748b; background:#f1f5f9; border:1px solid #cbd5e1; border-radius:999px; padding:3px 10px; cursor:pointer; white-space:nowrap; }
+  /* 計算メモ：暗い背景のモーダルをやめて、問題といっしょに見える「下シート／右パネル」に */
+  .rpgmemo-wrap{ position:fixed; left:0; right:0; bottom:0; height:50vh; padding:0 8px 8px; display:flex; z-index:55; pointer-events:none; }
+  .rpgmemo-wrap.big{ height:65vh; }
+  .rpgmemo-panel{ pointer-events:auto; flex:1; min-width:0; min-height:0; display:flex; flex-direction:column; padding:10px 12px 12px; box-shadow:0 -6px 24px rgba(0,0,0,.35); }
   .rpgmemo-header{ display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
-  #rpgmemo-canvas{ display:block; width:100%; touch-action:none; background:#fff; border:2px solid var(--line); border-radius:12px; cursor:crosshair; }
+  .rpgmemo-header > div{ display:flex; align-items:center; gap:4px; }
+  .rpgmemo-header button:not(.btn-main){ background:none; border:0; font-size:20px; padding:4px 8px; cursor:pointer; }
+  .rpgmemo-cwrap{ flex:1; min-height:0; position:relative; }
+  #rpgmemo-canvas{ position:absolute; inset:0; width:100%; height:100%; touch-action:none; background:#fff; border:2px solid var(--line); border-radius:12px; cursor:crosshair; box-sizing:border-box; }
+  body.memo-open #app{ padding-bottom:calc(50vh + 16px); }
+  body.memo-open.memo-big #app{ padding-bottom:calc(65vh + 16px); }
+  @media (min-width:900px) and (orientation:landscape){
+    .rpgmemo-wrap, .rpgmemo-wrap.big{ left:auto; right:12px; top:12px; bottom:12px; height:auto; width:calc(100vw - 540px); min-width:360px; padding:0; }
+    .rpgmemo-panel{ box-shadow:0 8px 24px rgba(0,0,0,.28); }
+    #rpgmemo-size{ display:none; }
+    body.memo-open #app, body.memo-open.memo-big #app{ margin-left:12px; margin-right:auto; padding-bottom:40px; }
+  }
   .fz-mini{ display:grid; gap:1px; width:min(78vw,320px); margin:10px auto 6px; background:#0f172a; padding:2px; border-radius:8px; }
   .fz-mini i{ aspect-ratio:1; display:block; }
   @keyframes fade{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;} }
@@ -117,7 +133,10 @@
     <div class="panel" style="position:relative; overflow:hidden; padding-bottom:12px;">
       <div style="display:flex; justify-content:space-between; align-items:baseline;">
         <b id="enemy-name" style="font-size:16px;"></b>
-        <span id="enemy-hp-text" style="font-size:12px; color:#64748b;"></span>
+        <span style="display:flex; align-items:center; gap:8px; flex-shrink:0;">
+          <span id="enemy-hp-text" style="font-size:12px; color:#64748b;"></span>
+          <button class="flee-btn" onclick="askFlee()">🏃 にげる</button>
+        </span>
       </div>
       <div class="hpbar" style="margin:6px 0 4px;"><i id="enemy-hp" style="width:100%; background:linear-gradient(90deg,#f43f5e,#fb7185);"></i></div>
       <div id="enemy-art" style="text-align:center; min-height:190px; position:relative;"></div>
@@ -139,12 +158,13 @@
       <div class="hpbar" style="margin-top:6px;"><i id="my-hp" style="width:100%; background:linear-gradient(90deg,#22c55e,#4ade80);"></i></div>
       <div class="hpbar" style="height:6px; margin-top:5px;"><i id="my-exp" style="width:0; background:linear-gradient(90deg,#facc15,#fde047);"></i></div>
     </div>
-
-    <button class="btn-main" style="margin-top:12px; background:rgba(255,255,255,.16); box-shadow:none;" onclick="fleeBattle()">にげる</button>
   </section>
 
   <!-- ══ 🌲 まよいの森（js/forest.js が かく）══ -->
   <section id="scr-forest" class="scr"><div id="forest-root"></div></section>
+
+  <!-- ══ 📝 もしの しま（js/moshi.js が かく）══ -->
+  <section id="scr-moshi" class="scr"><div id="moshi-root"></div></section>
 
   <!-- ══ 結果 ══ -->
   <section id="scr-result" class="scr">
@@ -178,21 +198,23 @@
   </div>
 </div>
 
-<div class="rpgmemo-wrap" id="rpgmemo-wrap" style="display:none" onclick="toggleRpgMemo()">
-  <div class="panel" style="width:100%; max-width:420px;" onclick="event.stopPropagation()">
+<div class="rpgmemo-wrap" id="rpgmemo-wrap" style="display:none">
+  <div class="panel rpgmemo-panel">
     <div class="rpgmemo-header">
       <b>✏️ 計算メモ</b>
       <div>
+        <button id="rpgmemo-size" onclick="toggleRpgMemoSize()" title="大きさ">⬍</button>
         <button onclick="clearRpgMemo()" title="消す">🗑️</button>
-        <button class="btn-main" style="margin-left:6px;" onclick="toggleRpgMemo()">とじる</button>
+        <button class="btn-main" style="width:auto; margin:0 0 0 6px; padding:8px 16px; font-size:14px;" onclick="toggleRpgMemo()">とじる</button>
       </div>
     </div>
-    <canvas id="rpgmemo-canvas" height="260"></canvas>
+    <div class="rpgmemo-cwrap"><canvas id="rpgmemo-canvas"></canvas></div>
   </div>
 </div>
 
 <script src="js/chars.js"></script>
 <script src="js/util.js"></script>
+<script src="js/passage.js"></script>
 <script>
 // ════════════════════════════════════════════════════════════
 //  ANRINO クエスト — 月ごとのミニRPG（毎月6日に新しい月へ切りかえ）
@@ -282,7 +304,12 @@ function pickQuestMonth(months) {
   const ok = months.filter(m => m <= target).sort();
   return ok.length ? ok[ok.length - 1] : '202609';
 }
-function questMonthLabel(m) { return Number(String(m).slice(4, 6)) + '月'; }
+function questMonthLabel(m) { return SCHOOL_QUEST ? SCHOOL_QUEST.label : Number(String(m).slice(4, 6)) + '月'; }
+// 島の しゅじんこうで きまった がっこう（ena_school_v1。りの＝栄光・ゆうせい＝2年生）。ena・きまっていない ときは null
+function questSchool() {
+  try { const s = (JSON.parse(localStorage.getItem('ena_school_v1') || 'null') || {}).school; return s === 'eikoh' || s === 'g2' ? s : null; } catch (e) { return null; }
+}
+let SCHOOL_QUEST = null;   // 栄光・2年生の子の クエスト { label, months }（data/quest_schools.json）。null＝ena の月
 // つきのぬしは月ごと（前は bossDown:true だけ＝9月ぶん）
 function bossDownNow() {
   return !!((save.bossMonths || {})[MEDAL_MONTH] || (save.bossDown && MEDAL_MONTH === '202609'));
@@ -463,7 +490,7 @@ function toHalf(s) {
   return String(s).replace(/[０-９．／]/g, c => String.fromCharCode(c.charCodeAt(0) - 0xFEE0)).replace(/　/g, ' ');
 }
 function parseAnsVal(s) {
-  s = toHalf(s).trim().replace(/と/g, ' ').replace(/\s+/g, ' ');
+  s = toHalf(s).trim().replace(/\s*\.\s*/g, '.').replace(/と/g, ' ').replace(/\s+/g, ' ');   // 「1 .87」の すきまも OK
   let m = s.match(/^(-?\d+) (\d+)\/(\d+)$/);
   if (m) return +m[1] + +m[2] / +m[3];
   m = s.match(/^(-?\d+)\/(\d+)$/);
@@ -614,18 +641,33 @@ function showScreen(id) {
 
 // ── 起動 ────────────────────────────────────────────────────
 async function boot() {
-  try {
-    const man = await fetch('data/quest_months.json', { cache: 'no-cache' }).then(r => r.json());
-    MEDAL_MONTH = pickQuestMonth((man.months || []).map(x => x.month));
-  } catch (e) { MEDAL_MONTH = '202609'; }
+  // 栄光・2年生の子は、その学校の月を まとめて クエストにする（メダルの台帳は 学校ごとの キー）
+  const school = questSchool();
+  if (school) {
+    try {
+      const sq = (await fetch('data/quest_schools.json', { cache: 'no-cache' }).then(r => r.json()))[school];
+      if (sq && Array.isArray(sq.months) && sq.months.length) SCHOOL_QUEST = sq;
+    } catch (e) {}
+  }
+  let questMonths;
+  if (SCHOOL_QUEST) {
+    MEDAL_MONTH = school === 'g2' ? 'g2' : SCHOOL_QUEST.months[0];
+    questMonths = SCHOOL_QUEST.months;
+  } else {
+    try {
+      const man = await fetch('data/quest_months.json', { cache: 'no-cache' }).then(r => r.json());
+      MEDAL_MONTH = pickQuestMonth((man.months || []).map(x => x.month));
+    } catch (e) { MEDAL_MONTH = '202609'; }
+    questMonths = [MEDAL_MONTH];
+  }
   document.querySelectorAll('.q-month').forEach(el => { el.textContent = questMonthLabel(MEDAL_MONTH); });
   document.title = 'ANRINO クエスト ｜ ' + questMonthLabel(MEDAL_MONTH) + 'のかげモンスター';
-  const [qs, su] = await Promise.all([
-    fetch('data/questions_' + MEDAL_MONTH + '.json').then(r => r.json()),
-    fetch('data/subjects_' + MEDAL_MONTH + '.json').then(r => r.json())
-  ]);
-  QUESTIONS = qs;
-  SUBJECTS  = su;
+  const loaded = await Promise.all(questMonths.map(m => Promise.all([
+    fetch('data/questions_' + m + '.json').then(r => r.json()),
+    fetch('data/subjects_' + m + '.json').then(r => r.json())
+  ])));
+  QUESTIONS = [].concat(...loaded.map(x => x[0]));
+  SUBJECTS  = Object.assign({}, ...loaded.map(x => x[1]));
   if (typeof loadDetective === 'function') await loadDetective();
   buildStages();
   save = loadSave();
@@ -642,6 +684,13 @@ async function boot() {
     history.replaceState(null, '', location.pathname);
     startGame();
     enterForest();
+  }
+  // 島の「もしの しま」から来たときは、そのまま 模試へ（js/moshi.js）
+  if (location.hash === '#moshi' && typeof enterMoshi === 'function') {
+    moshiFromIsland = true;
+    history.replaceState(null, '', location.pathname + location.search);
+    startGame();
+    enterMoshi();
   }
 }
 
@@ -670,6 +719,16 @@ function buildStages() {
       i++;
     });
   });
+  // 学校べつ（栄光・2年生）のときは、グループに入っていない単元（栄光の「英語」など）も そのまま 1ステージにする
+  if (SCHOOL_QUEST) {
+    Object.keys(SUBJECTS).forEach(k => {
+      const su = SUBJECTS[k];
+      if (su.isGroup || su.parent || !counts[k]) return;
+      STAGES.push({ key: k, group: k, label: su.label, groupLabel: su.label, groupIcon: su.icon, category: su.category,
+                    total: counts[k], char: MONSTER_POOL[i % MONSTER_POOL.length] });
+      i++;
+    });
+  }
 }
 
 function startGame()    { save = loadSave() || freshSave(); persist(); showMap(); }
@@ -832,6 +891,8 @@ function renderQuestion() {
     '<div style="font-weight:700; line-height:1.8; font-size:15px;">' + qHTML(q.q) + '</div>' +
     (q.qImage  ? '<img class="qimg" src="' + q.qImage  + '" alt="図">' : '') +
     (q.qImage2 ? '<img class="qimg" src="' + q.qImage2 + '" alt="図2">' : '');
+  const battle = document.getElementById('scr-battle');
+  updatePassagePanel(q, battle, battle);   // 📖 読解は本文を下に出す（js/passage.js）
 
   const a = document.getElementById('a-area');
   if (q.type === 'input') {
@@ -852,7 +913,7 @@ function renderQuestion() {
         'style="width:100%; border:2px solid var(--line); border-radius:12px; padding:11px; font-size:15px;"></textarea>' +
       '<button class="btn-main" style="margin-top:8px;" onclick="revealSelfJudge()">こたえを見る 👀</button>';
   } else {
-    q._order = q._order || shuffle(q.options.map((_, i) => i));
+    q._order = q._order || (q.keepOrder ? q.options.map((_, i) => i) : shuffle(q.options.map((_, i) => i)));
     a.innerHTML = q._order.map((orig, i) =>
       '<button class="btn" data-i="' + i + '" onclick="answerChoice(' + orig + ',' + i + ')">' +
         qHTML(q.options[orig]) + '</button>').join('');
@@ -860,27 +921,44 @@ function renderQuestion() {
 }
 
 // ── 計算メモ（手書き。算数の「入力して答える」問題だけ）──────────
-let _rmCtx = null, _rmDrawing = false, _rmLastX = 0, _rmLastY = 0;
+let _rmCtx = null, _rmDrawing = false, _rmLastX = 0, _rmLastY = 0, _rmDpr = 1, _rmBound = false;
 
-function initRpgMemo() {
+// canvas を いまの表示サイズ（×画面の密度）に合わせる。書いた線は左上そろえで のこす
+function sizeRpgMemo() {
   const canvas = document.getElementById('rpgmemo-canvas');
   if (!canvas) return;
-  const w = canvas.offsetWidth || canvas.parentElement.clientWidth || 360;
-  canvas.width = w;
+  const r = canvas.getBoundingClientRect();
+  if (r.width < 10 || r.height < 10) return;
+  _rmDpr = Math.min(window.devicePixelRatio || 1, 3);
+  const w = Math.round(r.width * _rmDpr), h = Math.round(r.height * _rmDpr);
+  if (canvas.width === w && canvas.height === h && _rmCtx) return;
+  let snap = null;
+  if (_rmCtx && canvas.width > 10) { snap = document.createElement('canvas'); snap.width = canvas.width; snap.height = canvas.height; snap.getContext('2d').drawImage(canvas, 0, 0); }
+  canvas.width = w; canvas.height = h;
   _rmCtx = canvas.getContext('2d');
   _rmCtx.lineCap = 'round';
   _rmCtx.lineJoin = 'round';
   _rmCtx.strokeStyle = '#3d2b5e';
-  _rmCtx.lineWidth = 2.5;
+  _rmCtx.lineWidth = 2.5 * _rmDpr;
+  if (snap) _rmCtx.drawImage(snap, 0, 0);
+}
 
+function initRpgMemo() {
+  const canvas = document.getElementById('rpgmemo-canvas');
+  if (!canvas) return;
+  sizeRpgMemo();
+  if (_rmBound) return;
+  _rmBound = true;
+  const pt = e => {
+    const r = canvas.getBoundingClientRect();
+    return [(e.clientX - r.left) * canvas.width / r.width, (e.clientY - r.top) * canvas.height / r.height];
+  };
   canvas.addEventListener('pointerdown', e => {
     e.preventDefault();
+    if (!_rmCtx) return;
     _rmDrawing = true;
-    const r = canvas.getBoundingClientRect();
-    const scale = canvas.width / r.width;
-    _rmLastX = (e.clientX - r.left) * scale;
-    _rmLastY = (e.clientY - r.top) * scale;
-    _rmCtx.lineWidth = e.pointerType === 'pen' ? Math.max(1, e.pressure * 5) : 2.5;
+    [_rmLastX, _rmLastY] = pt(e);
+    _rmCtx.lineWidth = (e.pointerType === 'pen' ? Math.max(1, e.pressure * 5) : 2.5) * _rmDpr;
     _rmCtx.beginPath();
     _rmCtx.arc(_rmLastX, _rmLastY, _rmCtx.lineWidth / 2, 0, Math.PI * 2);
     _rmCtx.fillStyle = '#3d2b5e';
@@ -889,11 +967,8 @@ function initRpgMemo() {
   canvas.addEventListener('pointermove', e => {
     if (!_rmDrawing) return;
     e.preventDefault();
-    const r = canvas.getBoundingClientRect();
-    const scale = canvas.width / r.width;
-    const x = (e.clientX - r.left) * scale;
-    const y = (e.clientY - r.top) * scale;
-    if (e.pointerType === 'pen') _rmCtx.lineWidth = Math.max(1, e.pressure * 5);
+    const [x, y] = pt(e);
+    if (e.pointerType === 'pen') _rmCtx.lineWidth = Math.max(1, e.pressure * 5) * _rmDpr;
     _rmCtx.beginPath();
     _rmCtx.moveTo(_rmLastX, _rmLastY);
     _rmCtx.lineTo(x, y);
@@ -904,6 +979,10 @@ function initRpgMemo() {
   canvas.addEventListener('pointerup', stopDraw);
   canvas.addEventListener('pointerleave', stopDraw);
   canvas.addEventListener('pointercancel', stopDraw);
+  window.addEventListener('resize', () => {
+    const wrap = document.getElementById('rpgmemo-wrap');
+    if (wrap && wrap.style.display !== 'none') sizeRpgMemo();
+  });
 }
 
 function clearRpgMemo() {
@@ -916,17 +995,31 @@ function toggleRpgMemo() {
   if (!wrap) return;
   const show = wrap.style.display === 'none';
   wrap.style.display = show ? 'flex' : 'none';
+  document.body.classList.toggle('memo-open', show);
   if (show) {
     setTimeout(() => {
-      const canvas = document.getElementById('rpgmemo-canvas');
-      if (!_rmCtx || (canvas && canvas.width < 10)) initRpgMemo();
+      initRpgMemo();
+      const q = document.getElementById('q-area');
+      if (q) { q.style.scrollMarginTop = '16px'; q.scrollIntoView({ block: 'start' }); }   // 問題と入力欄が メモの上に見えるように
     }, 50);
+  } else {
+    clearRpgMemo();
   }
+}
+
+// たてむき・スマホ：メモの高さを 50vh ↔ 65vh
+function toggleRpgMemoSize() {
+  const wrap = document.getElementById('rpgmemo-wrap');
+  if (!wrap) return;
+  const big = wrap.classList.toggle('big');
+  document.body.classList.toggle('memo-big', big);
+  setTimeout(sizeRpgMemo, 30);
 }
 
 function hideRpgMemo() {
   const wrap = document.getElementById('rpgmemo-wrap');
   if (wrap) wrap.style.display = 'none';
+  document.body.classList.remove('memo-open');
   clearRpgMemo();
 }
 
@@ -1228,7 +1321,26 @@ function resultBack() {
   (f || showMap)();
 }
 
+// にげる まえに たしかめる（まちがえて おしたときの ため）
+function askFlee() {
+  closeFleeAsk();
+  const why = bt && bt.forest ? 'もりの なかに もどるよ' : bt && bt.tt === 'rush' ? 'ここで おしまいに なるよ' : 'マップに もどるよ';
+  const w = document.createElement('div');
+  w.id = 'flee-ask'; w.className = 'fz-mapwrap';
+  w.onclick = e => { if (e.target === w) closeFleeAsk(); };
+  w.innerHTML = '<div class="panel" style="max-width:320px; width:100%; text-align:center;">' +
+    '<div style="font-size:40px; line-height:1;">🏃</div>' +
+    '<div style="font-size:18px; font-weight:800; margin-top:6px; color:#1e1b4b;">ほんとうに にげる？</div>' +
+    '<div style="font-size:13px; color:#64748b; margin-top:4px;">' + why + '</div>' +
+    '<button class="btn-main" style="margin-top:14px;" onclick="closeFleeAsk()">⚔️ たたかう</button>' +
+    '<button class="btn-main" style="margin-top:18px; font-size:13px; padding:9px; background:#e2e8f0; color:#475569; box-shadow:none;" onclick="fleeBattle()">🏃 にげる</button>' +
+    '</div>';
+  document.body.appendChild(w);
+}
+function closeFleeAsk() { const w = document.getElementById('flee-ask'); if (w) w.remove(); }
+
 function fleeBattle() {
+  closeFleeAsk();
   if (bt && bt.forest) return forestFlee();       // 森の戦いは 森に もどる
   if (bt && bt.tt === 'rush') return endRush();   // 3分トライアルは そこで おしまい（結果を出す）
   ttStop();
@@ -1238,6 +1350,7 @@ function fleeBattle() {
 }
 
 function endBattle(win) {
+  closeFleeAsk();
   if (bt && bt.forest) return forestEndBattle(win);   // 🌲 森の戦い（js/forest.js）
   ttStop();
   logTT();
@@ -1334,6 +1447,7 @@ function showDex() {
 boot();
 </script>
 <script src="js/forest.js"></script>
+<script src="js/moshi.js"></script>
 <script src="js/detective.js"></script>
 </body>
 </html>

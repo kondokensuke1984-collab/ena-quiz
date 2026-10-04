@@ -1387,6 +1387,68 @@ function renderCowSVG(level, fillPct, size, opts) {
   return petWrapSVG(L, size, bg, deco, body);
 }
 
+function renderKoalaSVG(level, fillPct, size, opts) {
+  opts = opts || {};
+  const sil = !!opts.silhouette, L = Math.max(1, level | 0);
+  const pal = { fur:'#9ca3af', belly:'#f3f4f6', ear:'#d1d5db', earIn:'#fbcfe8', line:'#4b5563', eye:'#2a1d3d',
+                nose:'#374151', blush:'#fda4af', leaf:'#22c55e', leafLine:'#166534',
+                ruler:'#fde047', rulerLine:'#a16207', paper:'#ffffff', grid:'#93c5fd', cell:'#60a5fa',
+                tri:'#a7f3d0', triLine:'#047857', crown:'#fbbf24', star:'#fde68a',
+                egg:'#f3f4f6', spot:'#d1d5db' };
+  const c = sil ? petSilPalette(pal) : pal;
+  const bg = petRingBG(fillPct, '#86efac', sil);
+  const deco = petCommonDeco(L, opts.stars, c.star, sil);
+  let body;
+  if (L === 1) {
+    body = petEggBody(c, `
+      <circle cx="82" cy="80" r="10" fill="${c.ear}" stroke="${c.line}" stroke-width="2"/>
+      <circle cx="118" cy="80" r="10" fill="${c.ear}" stroke="${c.line}" stroke-width="2"/>`);
+  } else {
+    // Lv2〜：ユーカリの葉っぱ
+    const leaf = L >= 2 ? `<g>
+        <path d="M44 138 q4 -16 12 -28" stroke="${c.leafLine}" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+        <ellipse cx="50" cy="126" rx="10" ry="4.6" fill="${c.leaf}" stroke="${c.leafLine}" stroke-width="1.5" transform="rotate(-55 50 126)"/>
+        <ellipse cx="57" cy="114" rx="10" ry="4.6" fill="${c.leaf}" stroke="${c.leafLine}" stroke-width="1.5" transform="rotate(-25 57 114)"/>
+        <ellipse cx="43" cy="136" rx="9" ry="4.2" fill="${c.leaf}" stroke="${c.leafLine}" stroke-width="1.5" transform="rotate(-100 43 136)"/>
+      </g>` : '';
+    // Lv3〜：ものさし
+    const ruler = L >= 3 ? `<g transform="rotate(8 173 150)">
+        <rect x="167" y="120" width="12" height="58" rx="2" fill="${c.ruler}" stroke="${c.rulerLine}" stroke-width="1.8"/>
+        <path d="M167 128 h6 M167 136 h4 M167 144 h6 M167 152 h4 M167 160 h6 M167 168 h4" stroke="${c.rulerLine}" stroke-width="1.2"/>
+      </g>` : '';
+    // Lv4〜：ほうがんノート（マスを色でぬって面積をかぞえる）
+    const grid = L >= 4 ? `<g transform="rotate(-6 146 160)">
+        <rect x="126" y="142" width="40" height="36" rx="2" fill="${c.paper}" stroke="${c.line}" stroke-width="1.8"/>
+        <path d="M136 142 v36 M146 142 v36 M156 142 v36 M126 151 h40 M126 160 h40 M126 169 h40" stroke="${c.grid}" stroke-width="1"/>
+        <rect x="136" y="151" width="20" height="18" fill="${c.cell}" opacity="0.65"/>
+      </g>` : '';
+    // Lv5〜：三角じょうぎ
+    const tri = L >= 5 ? `<g>
+        <path d="M26 182 L62 182 L26 150 Z" fill="${c.tri}" stroke="${c.triLine}" stroke-width="2" stroke-linejoin="round"/>
+        <path d="M33 175 L50 175 L33 160 Z" fill="${c.paper}" stroke="${c.triLine}" stroke-width="1.2" stroke-linejoin="round"/>
+      </g>` : '';
+    const crown = L >= 6 ? `<path d="M84 82 L88 66 L96 76 L100 62 L104 76 L112 66 L116 82 Z" fill="${c.crown}" stroke="${c.line}" stroke-width="1.6" stroke-linejoin="round"/>` : '';
+    body = `
+      <circle cx="72" cy="96" r="16" fill="${c.fur}" stroke="${c.line}" stroke-width="2.4"/>
+      <circle cx="72" cy="96" r="9" fill="${c.earIn}"/>
+      <circle cx="128" cy="96" r="16" fill="${c.fur}" stroke="${c.line}" stroke-width="2.4"/>
+      <circle cx="128" cy="96" r="9" fill="${c.earIn}"/>
+      <ellipse cx="100" cy="146" rx="34" ry="31" fill="${c.fur}" stroke="${c.line}" stroke-width="3"/>
+      <ellipse cx="100" cy="154" rx="20" ry="19" fill="${c.belly}"/>
+      <ellipse cx="84" cy="174" rx="10" ry="5" fill="${c.fur}" stroke="${c.line}" stroke-width="1.8"/>
+      <ellipse cx="116" cy="174" rx="10" ry="5" fill="${c.fur}" stroke="${c.line}" stroke-width="1.8"/>
+      <circle cx="100" cy="114" r="27" fill="${c.fur}" stroke="${c.line}" stroke-width="2.5"/>
+      <ellipse cx="80" cy="123" rx="5.5" ry="3.5" fill="${c.blush}" opacity="0.75"/>
+      <ellipse cx="120" cy="123" rx="5.5" ry="3.5" fill="${c.blush}" opacity="0.75"/>
+      ${petEyes(c, sil, 88, 112, 109, 3.6)}
+      <ellipse cx="100" cy="120" rx="7.5" ry="10" fill="${c.nose}" stroke="${c.line}" stroke-width="1"/>
+      <ellipse cx="97" cy="116" rx="2" ry="3" fill="#ffffff" opacity="0.35"/>
+      <path d="M100 130 q-4 5 -8 1 M100 130 q4 5 8 1" stroke="${c.eye}" stroke-width="2" fill="none" stroke-linecap="round"/>
+      ${leaf}${crown}${ruler}${grid}${tri}`;
+  }
+  return petWrapSVG(L, size, bg, deco, body);
+}
+
 // ============================================================
 // ホームの育成カード
 // ============================================================
@@ -1414,4 +1476,5 @@ window.CHARS = {
   rabbit: renderRabbitSVG,
   bear: renderBearSVG,
   cow: renderCowSVG,
+  koala: renderKoalaSVG,
 };

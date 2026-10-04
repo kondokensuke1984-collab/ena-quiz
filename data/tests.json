@@ -1,0 +1,176 @@
+{
+ "tests": [
+  {
+   "key": "gakuryoku9",
+   "name": "学力判定テスト",
+   "month": "202609",
+   "date": "2026-09-30",
+   "covers": [
+    "yakusu9",
+    "baisu9",
+    "shobun9",
+    "hibi9",
+    "tsuki1",
+    "tsuki2",
+    "meishi9",
+    "doushi9",
+    "nougyou1",
+    "nougyou2",
+    "kanji9"
+   ]
+  },
+  {
+   "key": "4ka_1005",
+   "name": "4科演習（10/5）",
+   "month": "202609",
+   "date": "2026-10-05",
+   "covers": [
+    "yakusu9",
+    "baisu9",
+    "tsuki1",
+    "tsuki2",
+    "meishi9",
+    "doushi9",
+    "nougyou1",
+    "nougyou2"
+   ]
+  },
+  {
+   "key": "toritsu1024",
+   "name": "都立中チャレンジ（10/24）",
+   "month": "202610",
+   "date": "2026-10-24",
+   "covers": [
+    "tekisei1",
+    "tekisei2"
+   ]
+  },
+  {
+   "key": "4ka_1026",
+   "name": "4科演習（10/26）",
+   "month": "202610",
+   "date": "2026-10-26",
+   "covers": [
+    "nougyou3",
+    "nougyou4"
+   ]
+  },
+  {
+   "key": "gakuryoku10",
+   "name": "学力判定テスト",
+   "month": "202610",
+   "date": "2026-10-30",
+   "covers": [
+    "tsukimie",
+    "tsukimie2",
+    "nougyou3",
+    "nougyou4"
+   ]
+  },
+  {
+   "extra": true,
+   "key": "sansu9moshi",
+   "name": "算数9月もし",
+   "month": "202609",
+   "from": "2026-09-28",
+   "date": "2026-10-05",
+   "covers": [
+    "sansu9moshi"
+   ],
+   "reward": 40,
+   "levels": [
+    "normal"
+   ],
+   "perCat": 25
+  },
+  {
+   "extra": true,
+   "key": "rikashakai9moshi",
+   "name": "理科・社会9月もし",
+   "month": "202609",
+   "from": "2026-09-29",
+   "date": "2026-10-05",
+   "covers": [
+    "tsuki1",
+    "tsuki2",
+    "nougyou1",
+    "nougyou2"
+   ],
+   "levels": [
+    "normal",
+    "kako"
+   ],
+   "perCat": 25
+  },
+  {
+   "extra": true,
+   "key": "sansu9moshi2",
+   "name": "算数9月もし②（約数と倍数）",
+   "month": "202609",
+   "from": "2026-10-03",
+   "date": "2026-10-05",
+   "covers": [
+    "yakusu9",
+    "baisu9"
+   ],
+   "reward": 120,
+   "pass": 70,
+   "levels": [
+    "kako"
+   ],
+   "perCat": 25,
+   "kakoMax": 3,
+   "balance": true,
+   "limitMin": 40,
+   "note": "約数・倍数から まんべんなく・過去問 3もん いり"
+  },
+  {
+   "extra": true,
+   "key": "4ka1005_kokusan",
+   "name": "4科演習 たいさく（国語・算数）",
+   "month": "202609",
+   "from": "2026-10-04",
+   "date": "2026-10-05",
+   "covers": [
+    "yakusu9",
+    "baisu9",
+    "meishi9",
+    "doushi9"
+   ],
+   "levels": [
+    "normal",
+    "kako"
+   ],
+   "perCat": 20,
+   "limitMin": 50,
+   "kakoMax": 3,
+   "icon": "🏆",
+   "bg": "linear-gradient(135deg,#f97316,#dc2626)",
+   "note": "10/5の 4科演習の はんい"
+  },
+  {
+   "extra": true,
+   "key": "4ka1005_rikasha",
+   "name": "4科演習 たいさく（理科・社会）",
+   "month": "202609",
+   "from": "2026-10-04",
+   "date": "2026-10-05",
+   "covers": [
+    "tsuki1",
+    "tsuki2",
+    "nougyou1",
+    "nougyou2"
+   ],
+   "levels": [
+    "normal",
+    "kako"
+   ],
+   "perCat": 20,
+   "limitMin": 40,
+   "kakoMax": 3,
+   "icon": "🏆",
+   "bg": "linear-gradient(135deg,#f97316,#dc2626)",
+   "note": "10/5の 4科演習の はんい"
+  }
+ ]
+}

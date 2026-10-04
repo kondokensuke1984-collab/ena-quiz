@@ -10,7 +10,7 @@ export function ShopScreen() {
   const active = KIND_TABS.find((t) => t.key === tab)!;
   // がっこうの かぐは 🏫がっこうを たててから
   const hasSchool = g.save.buildings.includes('bd_school');
-  const list = ITEMS.filter((i) => active.kinds.includes(i.kind) && onSale(i, g.save.owned) && (i.kind !== 'classroom' || hasSchool));
+  const list = ITEMS.filter((i) => active.kinds.includes(i.kind) && onSale(i, g.save.owned) && (i.kind !== 'classroom' || hasSchool || i.alsoHouse));
 
   const owned = (it: Item) => !!it.builtin || (!!it.once && g.save.owned.includes(it.id));
   const stock = (it: Item) => g.save.inventory[it.id] ?? 0;

@@ -13,7 +13,16 @@ export const GROW_DAYS = 3;       // むかしの たね（おはな・かぼち
 export const PLANT_DAYS = 4;      // たね → はつが → ほんば → はな → み
 export const CROP_COUNT = 2;
 export const FARM_POS = { x: 0.47, y: 0.84 };   // はたけの まんなか（割合）
-export const PLOT_DX = 0.075;                   // うね どうしの 間
+export const PLOT_DX = 0.075;                   // うね どうしの 間（よこ）
+export const PLOT_DY = 0.08;                    // うね どうしの 間（たて）
+export const FARM_COLS = 3;
+export const FARM_PLOTS = 9;                    // よこ3 × たて3（2026-10-03 に 3→9）
+/** うね i の 位置（割合）。0〜2 が いちばん おく（むかしからの 3つ）、下へ 1れつずつ */
+export function plotPos(i: number): { x: number; y: number } {
+  return { x: FARM_POS.x + ((i % FARM_COLS) - 1) * PLOT_DX, y: FARM_POS.y + Math.floor(i / FARM_COLS) * PLOT_DY };
+}
+/** はたけの はんい（割合）。タップと「そば」の はんていに つかう */
+export const FARM_BOX = { x0: FARM_POS.x - 0.13, x1: FARM_POS.x + 0.13, y0: FARM_POS.y - 0.07, y1: FARM_POS.y + (Math.ceil(FARM_PLOTS / FARM_COLS) - 1) * PLOT_DY + 0.03 };
 
 function parse(key: string): Date | null {
   const m = /^(\d{4})-(\d{1,2})-(\d{1,2})$/.exec(key);
