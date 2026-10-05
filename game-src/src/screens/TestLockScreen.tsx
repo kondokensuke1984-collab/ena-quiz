@@ -1,7 +1,9 @@
 import { TEST_LOCK, type TestLock } from '../lib/testlock';
+import { useGame } from '../state/useGame';
 
 // テストまえの とくべつルール（lib/testlock.ts）。毎日の入口（LockScreen）は もう とおっている
 export function TestLockScreen({ lock }: { lock: TestLock }) {
+  const { clearPlayer } = useGame();
   const [, m, d] = TEST_LOCK.until.split('-').map(Number);
   if (lock.loading) {
     return (
@@ -43,6 +45,13 @@ export function TestLockScreen({ lock }: { lock: TestLock }) {
         )}
         <a className="btn-main mt-3 block w-full text-center no-underline" href="/">⚠️ にがてを ふくしゅうする</a>
       </div>
+
+      <button
+        className="mt-6 text-[11px] font-bold text-white/50 underline"
+        onClick={() => { if (window.confirm('しゅじんこうを えらびなおす？\n（おうちの ひとと いっしょに えらんでね。メダルや たてものは そのままだよ）')) clearPlayer(); }}
+      >
+        🔁 まちがえて あんりを えらんだ とき
+      </button>
     </div>
   );
 }
