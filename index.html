@@ -16764,11 +16764,15 @@ function unitCatsToday() {
   }
   return [...cats];
 }
-function islandUnlockedToday() { return unitCatsToday().length >= ISLAND_UNLOCK_CATS; }
+// 一級建築士アプリで メダルをうけとった日も、その日の 島の入口がひらく（ena_kenchiku_day = 今日の日付）
+function kenchikuUnlockedToday() {
+  return localStorage.getItem('ena_kenchiku_day') === new Date().toLocaleDateString('ja-JP').replace(/\//g,'-');
+}
+function islandUnlockedToday() { return kenchikuUnlockedToday() || unitCatsToday().length >= ISLAND_UNLOCK_CATS; }
 function renderIslandBtn() {
   const el = document.querySelector('.island-btn .island-btn-text');
   if (!el) return;
-  const left = ISLAND_UNLOCK_CATS - unitCatsToday().length;
+  const left = kenchikuUnlockedToday() ? 0 : ISLAND_UNLOCK_CATS - unitCatsToday().length;
   el.textContent = left > 0 ? `🔒 あと${left}教科` : '島へいく';
 }
 
@@ -21205,8 +21209,8 @@ function medalSyncAll() {
 //   ・1問につき一生に1枚（台帳 first に "kc:R08-001" を残す。何度よみこんでも ふえない）
 //   ・月にひもづかないので、台帳のキーは 'kenchiku|first:kenchiku'（島は月もキーも見ずに合計する）
 // ============================================================
-function medalFromKenchiku(raw) {
-  let gained = 0;
+function medalFromKenchiku(raw, toIsland) {
+  let gained = 0, valid = 0;
   try {
     const led = loadMedalLedger();
     led.first = (led.first && typeof led.first === 'object') ? led.first : {};
@@ -21221,6 +21225,7 @@ function medalFromKenchiku(raw) {
           const n = j * 8 + k + 1;
           if (!(b >> k & 1) || n > 200) continue;
           const id = 'kc:' + m[1] + '-' + String(n).padStart(3, '0');
+          valid++;
           if (led.first[id]) continue;
           led.first[id] = 1;
           gained++;
@@ -21231,7 +21236,11 @@ function medalFromKenchiku(raw) {
       led.units['kenchiku|first:kenchiku'] = (led.units['kenchiku|first:kenchiku'] || 0) + gained;
       saveMedalLedger(led);
     }
+    // 正解ずみの問題が1問でもあれば、きょうの 島の入口がひらく
+    if (valid) localStorage.setItem('ena_kenchiku_day', new Date().toLocaleDateString('ja-JP').replace(/\//g, '-'));
   } catch (e) { gained = 0; }
+  // 島ボタンから来たときは、そのまま島へ（演出は出さない）
+  if (toIsland && valid) { location.replace('/game/#island'); return gained; }
   // もどってきたあとに URL に残らないように、パラメータを消す
   try { history.replaceState(null, '', location.pathname); } catch (e) {}
   if (gained) showMedalGet([{ count: gained, label: '🏗️ 建築で 正解した問題の ぶんだよ！' }]);
@@ -22697,7 +22706,7 @@ window.onload = () => {
   // すでにコンプリートしてある単元のアンリノメダルを取り込む（演出は出さない）
   medalSyncAll();
   // 一級建築士アプリから もどってきたとき（?kenchiku=）：正解ずみの問題ぶんのメダルを台帳に入れる
-  if (params.get('kenchiku')) medalFromKenchiku(params.get('kenchiku'));
+  if (params.get('kenchiku')) medalFromKenchiku(params.get('kenchiku'), params.get('to') === 'island');
   // 島の がっこうの 📺テレビから：?videos=1 で ずんだもん動画の一覧、?video=<id> で その動画（許可リストの ものだけ）
   if (params.get('videos') === '1' || params.get('video')) openVideosFromIsland(params.get('video'));
   else autoVideoShow();

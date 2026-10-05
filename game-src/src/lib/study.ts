@@ -69,5 +69,8 @@ export function todayUnits(now = new Date()): { cats: string[]; unlocked: boolea
   } catch { /* 読めなければ 0 教科 */ }
   // 確認用：localhost だけ ?unlock=1 で ひらく
   const dev = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) && new URLSearchParams(location.search).get('unlock') === '1';
-  return { cats: [...cats], unlocked: dev || cats.size >= UNLOCK_CATS };
+  // 一級建築士アプリで メダルを うけとった日も ひらく（クイズが ena_kenchiku_day に 今日の日付を書く）
+  let kenchiku = false;
+  try { kenchiku = localStorage.getItem('ena_kenchiku_day') === day; } catch { /* 読めなければ とじたまま */ }
+  return { cats: [...cats], unlocked: dev || kenchiku || cats.size >= UNLOCK_CATS };
 }
