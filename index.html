@@ -21198,6 +21198,46 @@ function medalSyncAll() {
   Object.keys(MONTHS).forEach(m => { try { medalAward(m); } catch(e) {} });
 }
 
+// ============================================================
+// 一級建築士アプリ（architect-exam）の「メダルをうけとる」ボタンから届く ?kenchiku=
+//   形式：「年度.ビットマップ」をカンマでつなぐ（例：R08.AQID,R07.AAE）
+//   ビットマップ＝base64url。バイトj のビットk（0=いちばん下）が 問題番号 j*8+k+1 の正解ずみ
+//   ・1問につき一生に1枚（台帳 first に "kc:R08-001" を残す。何度よみこんでも ふえない）
+//   ・月にひもづかないので、台帳のキーは 'kenchiku|first:kenchiku'（島は月もキーも見ずに合計する）
+// ============================================================
+function medalFromKenchiku(raw) {
+  let gained = 0;
+  try {
+    const led = loadMedalLedger();
+    led.first = (led.first && typeof led.first === 'object') ? led.first : {};
+    String(raw).split(',').slice(0, 12).forEach(part => {
+      const m = /^([HR]\d{2})\.([A-Za-z0-9_-]{1,40})$/.exec(part);
+      if (!m) return;
+      let bin;
+      try { bin = atob(m[2].replace(/-/g, '+').replace(/_/g, '/')); } catch (e) { return; }
+      for (let j = 0; j < bin.length; j++) {
+        const b = bin.charCodeAt(j);
+        for (let k = 0; k < 8; k++) {
+          const n = j * 8 + k + 1;
+          if (!(b >> k & 1) || n > 200) continue;
+          const id = 'kc:' + m[1] + '-' + String(n).padStart(3, '0');
+          if (led.first[id]) continue;
+          led.first[id] = 1;
+          gained++;
+        }
+      }
+    });
+    if (gained) {
+      led.units['kenchiku|first:kenchiku'] = (led.units['kenchiku|first:kenchiku'] || 0) + gained;
+      saveMedalLedger(led);
+    }
+  } catch (e) { gained = 0; }
+  // もどってきたあとに URL に残らないように、パラメータを消す
+  try { history.replaceState(null, '', location.pathname); } catch (e) {}
+  if (gained) showMedalGet([{ count: gained, label: '🏗️ 建築で 正解した問題の ぶんだよ！' }]);
+  return gained;
+}
+
 function medalUnitLabel(sub) {
   const v = SUBJECTS[sub] || {};
   const p = v.parent ? SUBJECTS[v.parent] : null;
@@ -21230,7 +21270,7 @@ function playMedalPopup() {
   const ov = document.getElementById('medal-overlay');
   if (!g || !ov) { if (ov) ov.classList.remove('show'); return; }
   document.getElementById('medal-coin-num').textContent   = `+${g.count}枚`;
-  document.getElementById('medal-unit-label').textContent  = `${medalUnitLabel(g.sub)} をぜんぶ⭐にしたよ！`;
+  document.getElementById('medal-unit-label').textContent  = g.label || `${medalUnitLabel(g.sub)} をぜんぶ⭐にしたよ！`;
   document.getElementById('medal-total-label').textContent = `ぜんぶで 🪙${medalTotal()}枚`;
   ov.classList.add('show');
 }
@@ -22656,6 +22696,8 @@ window.onload = () => {
   if (islandSchool && !params.get('videos') && !params.get('video')) selectSchool(islandSchool);
   // すでにコンプリートしてある単元のアンリノメダルを取り込む（演出は出さない）
   medalSyncAll();
+  // 一級建築士アプリから もどってきたとき（?kenchiku=）：正解ずみの問題ぶんのメダルを台帳に入れる
+  if (params.get('kenchiku')) medalFromKenchiku(params.get('kenchiku'));
   // 島の がっこうの 📺テレビから：?videos=1 で ずんだもん動画の一覧、?video=<id> で その動画（許可リストの ものだけ）
   if (params.get('videos') === '1' || params.get('video')) openVideosFromIsland(params.get('video'));
   else autoVideoShow();
