@@ -53,6 +53,7 @@ export function freshSave(now = Date.now()): SaveV1 {
     organ: { played: [] },
     micro: { dex: [], day: '', today: 0, ready: false },
     imo: { dex: [], day: '', served: 0 },
+    space: { dex: [], day: '', trips: 0 },
   };
 }
 
@@ -136,6 +137,11 @@ export function loadSave(): SaveV1 {
       dex: Array.isArray(s.imo?.dex) ? s.imo!.dex.filter((x) => typeof x === 'string') : [],
       day: typeof s.imo?.day === 'string' ? s.imo!.day : '',
       served: typeof s.imo?.served === 'number' ? s.imo!.served : 0,
+    },
+    space: {
+      dex: Array.isArray(s.space?.dex) ? s.space!.dex.filter((x) => typeof x === 'string') : [],
+      day: typeof s.space?.day === 'string' ? s.space!.day : '',
+      trips: typeof s.space?.trips === 'number' ? s.space!.trips : 0,
     },
   });
 }

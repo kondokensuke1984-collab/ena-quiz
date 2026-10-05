@@ -292,6 +292,26 @@ const DRAWINGS: Record<string, Draw> = {
       <ellipse cx="0" cy="-13" rx="2" ry="1.3" fill="#f9a8d4" />
     </g>
   ),
+  // ── うちゅうりょこうの ごほうび ──
+  fn_moonrock: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="20" ry="5" fill="rgba(0,0,0,0.2)" />
+      <rect x="-18" y="-8" width="36" height="8" rx="2" fill="#475569" {...S} />
+      <path d="M-14 -8 Q-16 -22 -4 -26 Q10 -30 14 -18 Q17 -10 12 -8 Z" fill="#9ca3af" {...S} />
+      <circle cx="-4" cy="-17" r="3" fill="#6b7280" />
+      <circle cx="6" cy="-20" r="2" fill="#6b7280" />
+      <circle cx="4" cy="-12" r="1.6" fill="#6b7280" />
+    </g>
+  ),
+  fn_rocketmini: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="16" ry="5" fill="rgba(0,0,0,0.2)" />
+      <path d="M-12 0 L-6 -14 L-6 0 Z M12 0 L6 -14 L6 0 Z" fill="#ef4444" {...S} />
+      <path d="M-7 -2 L-7 -36 Q0 -52 7 -36 L7 -2 Z" fill="#f8fafc" {...S} />
+      <path d="M-6 -38 Q0 -52 6 -38 Z" fill="#ef4444" {...S} strokeWidth={1.6} />
+      <circle cx="0" cy="-24" r="3.6" fill="#7dd3fc" {...S} strokeWidth={1.6} />
+    </g>
+  ),
 
   // ── まいにちスタンプの ごほうび ──
   fn_trophy: () => (

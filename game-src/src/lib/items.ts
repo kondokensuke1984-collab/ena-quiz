@@ -96,6 +96,10 @@ export const ITEMS: Item[] = [
   // 11月（となりの しまに たつ。単元が きまったら 名前・絵を さしかえる）
   { id: 'bd_imo',    kind: 'building', name: 'やきいも やたい',     emoji: '🍠', price: 500, desc: 'となりの しまに たつ。サツマイモを やいて おみせやさん', once: true },
   { id: 'bd_arbor',  kind: 'building', name: 'もみじの あずまや',   emoji: '🍁', price: 600, desc: 'となりの しまに たつ。みんなで ひとやすみ', once: true },
+  // うちゅうセット（となりの しまに たつ。10月 理科「月の位置と見え方」の つづき）
+  { id: 'bd_base',   kind: 'building', name: 'うちゅうきち',       emoji: '🛰️', price: 700,  desc: 'となりの しまに たつ。うちゅうずかんが みられる', once: true },
+  { id: 'bd_planet', kind: 'building', name: 'プラネタリウム',     emoji: '🪐', price: 800,  desc: 'となりの しまに たつ。ひるでも ほしぞらが みられる', once: true },
+  { id: 'bd_rocket', kind: 'building', name: 'ロケット',           emoji: '🚀', price: 1000, desc: 'となりの しまに たつ。つきや わくせいへ うちゅうりょこう！', once: true },
 
   // ── 季節の品（その月のあいだだけ 並ぶ。かったものは ずっと つかえる）──
   { id: 'gf_pumpkin', kind: 'gift',  name: 'かぼちゃだんご', emoji: '🎃', price: 4, desc: '10月だけ・なかよし +3', love: 3, season: 10 },
@@ -107,6 +111,12 @@ export const ITEMS: Item[] = [
   { id: 'gf_rawimo',  kind: 'gift',      name: 'なまの サツマイモ', emoji: '🍠', price: 0, desc: 'やきいも やたいで やくと やきいもに なる・なかよし +1', love: 1, reward: true },
   { id: 'fn_imosign', kind: 'furniture', name: 'やきいもの かんばん', emoji: '🪧', price: 0, desc: 'やきいもを 3しゅるい やいた ごほうび', once: true, reward: true },
   { id: 'fn_imokama', kind: 'furniture', name: 'いしやきがま',     emoji: '🔥', price: 0, desc: 'やきいもを 5しゅるい ぜんぶ やいた ごほうび', once: true, reward: true },
+
+  // ── うちゅうりょこうの おみやげ・ずかんの ごほうび（ショップでは売らない。lib/space.ts）──
+  { id: 'gf_spacefood',  kind: 'gift',      name: 'うちゅうしょく',       emoji: '🥫', price: 0, desc: 'うちゅうりょこうの おみやげ・なかよし +2', love: 2, reward: true },
+  { id: 'fn_moonrock',   kind: 'furniture', name: 'つきの いし',          emoji: '🌑', price: 0, desc: 'うちゅうの 3かしょに いった ごほうび', once: true, reward: true, anywhere: true },
+  { id: 'fw_saturn',     kind: 'fwear',     name: 'どせいの かみかざり', emoji: '🪐', price: 0, desc: 'うちゅうの 5かしょに いった ごほうび', once: true, reward: true },
+  { id: 'fn_rocketmini', kind: 'furniture', name: 'ミニロケット',         emoji: '🚀', price: 0, desc: 'うちゅうの 6かしょ ぜんぶに いった ごほうび', once: true, reward: true, anywhere: true },
 
   // ── まいにちスタンプの ごほうび（ショップでは売らない）──
   { id: 'fn_trophy',   kind: 'furniture', name: 'がんばりトロフィー', emoji: '🏆', price: 0, desc: 'スタンプ7日の ごほうび',  once: true, reward: true, anywhere: true },
@@ -219,7 +229,7 @@ export function onSale(item: Item, ownedIds: string[]): boolean {
 }
 
 /** 建てる順番。前のを建てると次が出る */
-export const BUILD_ORDER = ['bd_house', 'bd_pier', 'bd_light', 'bd_school', 'bd_bridge', 'bd_wheel', 'bd_observ', 'bd_moon', 'bd_imo', 'bd_arbor'];
+export const BUILD_ORDER = ['bd_house', 'bd_pier', 'bd_light', 'bd_school', 'bd_bridge', 'bd_wheel', 'bd_observ', 'bd_moon', 'bd_imo', 'bd_arbor', 'bd_base', 'bd_planet', 'bd_rocket'];
 /** つぎに建てるもの＝BUILD_ORDER の順で まだ建てていない最初の1つ（途中に足しても 今のセーブが こわれない） */
 export function nextBuildId(buildings: string[]): string | undefined {
   return BUILD_ORDER.find((id) => !buildings.includes(id));

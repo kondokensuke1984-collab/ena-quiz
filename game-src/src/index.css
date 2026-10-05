@@ -184,3 +184,16 @@ body {
 .dt-confetti { position: absolute; top: 0; width: 9px; height: 14px; border-radius: 2px; animation: dt-confetti 2.6s linear both; }
 @keyframes dt-new { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-8deg); } 75% { transform: rotate(8deg); } }
 .dt-new { animation: dt-new 0.6s ease-in-out infinite; }
+/* 🚀 うちゅうりょこう（SpaceTripModal） */
+.space-streak { top: -60px; animation: space-streak 0.7s linear infinite; }
+@keyframes space-streak { from { transform: translateY(0); } to { transform: translateY(340px); } }
+.rocket-shake { animation: rocket-shake 0.12s linear infinite; }
+@keyframes rocket-shake { 0%, 100% { margin-left: -1.5px; } 50% { margin-left: 1.5px; } }
+/* 月の ジャンプ（じゅうりょく 6ぶんの1 なので たかく ゆっくり） */
+.moon-jump { animation: moon-jump 2.4s cubic-bezier(0.3, 0.6, 0.5, 1); }
+@keyframes moon-jump {
+  0% { transform: translateY(0); }
+  10% { transform: translateY(0) scale(1.08, 0.9); }
+  50% { transform: translateY(-120px); }
+  100% { transform: translateY(0); }
+}

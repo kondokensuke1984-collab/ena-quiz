@@ -71,7 +71,7 @@ function tone(freq: number, at: number, dur: number, type: OscillatorType = 'sin
   o.start(at); o.stop(at + dur + 0.02);
 }
 
-export type Sfx = 'coin' | 'build' | 'gift' | 'heart' | 'stamp' | 'letter' | 'chest' | 'star' | 'ng' | 'splash' | 'catch' | 'water' | 'siren' | 'clue' | 'reveal';
+export type Sfx = 'coin' | 'build' | 'gift' | 'heart' | 'stamp' | 'letter' | 'chest' | 'star' | 'ng' | 'splash' | 'catch' | 'water' | 'siren' | 'clue' | 'reveal' | 'launch';
 
 export function sfx(name: Sfx): void {
   if (mode === 'off' || !ctx) return;
@@ -91,6 +91,7 @@ export function sfx(name: Sfx): void {
     case 'ng': tone(196, t, 0.18, 'square', 0.08, 147); break;
     case 'siren': [0, 1, 2].forEach((i) => { tone(880, t + i * 0.5, 0.25, 'triangle', 0.07, 660); tone(660, t + i * 0.5 + 0.25, 0.25, 'triangle', 0.07, 880); }); break;
     case 'clue': [1319, 1760, 2349].forEach((f, i) => tone(f, t + i * 0.06, 0.2, 'sine', 0.08)); break;
+    case 'launch': tone(70, t, 2.4, 'sawtooth', 0.07, 520); tone(140, t + 0.2, 2.2, 'triangle', 0.06, 1040); [784, 988, 1319].forEach((f, i) => tone(f, t + 2.2 + i * 0.1, 0.3, 'sine', 0.08)); break;
     case 'reveal': [392, 523, 659, 784].forEach((f, i) => tone(f, t + i * 0.12, 0.3, 'square', 0.07)); tone(1047, t + 0.5, 0.8, 'triangle', 0.12); break;
   }
 }

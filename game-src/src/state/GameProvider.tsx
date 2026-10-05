@@ -24,6 +24,7 @@ import { CASES, DETECTIVE_REWARDS, DETECTIVE_TITLE } from '../lib/detective';
 import { seasonNow } from '../lib/items';
 import { ORGAN_TITLE, SONGS } from '../lib/songs';
 import { IMO_BY_ID, IMO_PER_DAY, IMO_REWARDS } from '../lib/yakiimo';
+import { DEST_BY_ID, DESTS, SPACE_REWARDS, SPACE_TITLE, TRIPS_PER_DAY, TRIPS_STUDY_BONUS, openDests } from '../lib/space';
 import { MICRO_TITLE, PLANKTON, PLANKTON_PER_DAY, PLANKTON_REWARDS, PLANKTON_STUDY_BONUS } from '../lib/plankton';
 
 /** プレゼントの結果。IslandScreen がハートとふきだしを出すのに使う */
@@ -184,6 +185,12 @@ export interface GameApi {
   imoCustomersLeft(): number;
   /** やきいも やたい：おきゃくさんに やきいもを n こ わたす（なかよし +3・おれいの品 1つ） */
   serveImo(charKey: string, n: number): { thanks: string; heartsBefore: number; heartsAfter: number } | null;
+  /** うちゅうりょこう：きょう あと なんかい とべるか（studied＝クイズ5もんの日） */
+  spaceTripsLeft(studied: boolean): number;
+  /** うちゅうりょこう：とんだ（かいすうを つかう）。とべないときは null */
+  spaceLaunch(destId: string, studied: boolean): { isNew: boolean } | null;
+  /** うちゅうりょこう：クイズの あと おみやげを もらう（correct＝せいかいで +1、isNew＝はじめての いきさき） */
+  spaceReturn(destId: string, correct: boolean, isNew: boolean): { got: number; reward: string | null; title: string | null };
 }
 
 function pick<T>(list: T[]): T {
@@ -875,6 +882,49 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       const heartsAfter = heartsOf(pts);
       sfx(heartsAfter > heartsBefore ? 'heart' : 'gift');
       return { thanks, heartsBefore, heartsAfter };
+    },
+
+    spaceTripsLeft: (studied) => {
+      const m = saveRef.current.space;
+      return Math.max(0, TRIPS_PER_DAY + (studied ? TRIPS_STUDY_BONUS : 0) - (m.day === dateKey() ? m.trips : 0));
+    },
+
+    spaceLaunch: (destId, studied) => {
+      const cur = saveRef.current;
+      if (!cur.buildings.includes('bd_rocket') || !openDests(cur.space.dex).some((d) => d.id === destId)) return null;
+      const day = dateKey();
+      const used = cur.space.day === day ? cur.space.trips : 0;
+      if (used >= TRIPS_PER_DAY + (studied ? TRIPS_STUDY_BONUS : 0)) { showToast('きょうの うちゅうりょこうは おしまい', 'ng'); return null; }
+      const isNew = !cur.space.dex.includes(destId);
+      setSave((s) => ({
+        ...s,
+        space: {
+          dex: s.space.dex.includes(destId) ? s.space.dex : [...s.space.dex, destId],
+          day,
+          trips: (s.space.day === day ? s.space.trips : 0) + 1,
+        },
+      }));
+      return { isNew };
+    },
+
+    spaceReturn: (destId, correct, isNew) => {
+      const cur = saveRef.current;
+      const got = correct ? 2 : 1;
+      const kinds = cur.space.dex.length;
+      const reward = SPACE_REWARDS.find((r) => r.kinds <= kinds && !cur.owned.includes(r.item))?.item ?? null;
+      const title = kinds >= DESTS.length && !cur.titles.includes(SPACE_TITLE) ? SPACE_TITLE : null;
+      const first = isNew && kinds === 1;
+      setSave((s) => ({
+        ...s,
+        inventory: { ...s.inventory, gf_spacefood: (s.inventory.gf_spacefood ?? 0) + got },
+        owned: reward && !s.owned.includes(reward) ? [...s.owned, reward] : s.owned,
+        titles: title && !s.titles.includes(title) ? [...s.titles, title] : s.titles,
+        letters: first
+          ? [mkLetter(LUNA.from, LUNA.fromName, '🚀 はじめての うちゅうりょこう', `${DEST_BY_ID[destId].name}まで いってきたんだね！\nそらに うかぶ 月を みあげたら、こんどは あそこに たって いたんだって おもいだしてね。\nつぎは どの ほしへ いこうか。\n\nルナより`), ...s.letters].slice(0, 30)
+          : s.letters,
+      }));
+      sfx(reward || title ? 'star' : 'gift');
+      return { got, reward, title };
     },
   }), [state, setSave, showToast]);
 

@@ -42,6 +42,7 @@ import { DetectiveScreen } from '../components/DetectiveTheater';
 import { caseOpen, CASES, eventActive } from '../lib/detective';
 import { MoonViewModal } from '../components/MoonViewModal';
 import { YakiimoModal } from '../components/YakiimoModal';
+import { SpaceTripModal } from '../components/SpaceTripModal';
 import { OrganModal } from '../components/OrganModal';
 import { MicroscopeModal } from '../components/MicroscopeModal';
 import { costumeOf, halloweenNight, isHalloween } from '../lib/events';
@@ -72,6 +73,7 @@ const WEAR_POS: Record<string, { y: number; size: number }> = {
   fw_moon: { y: -46, size: 28 },
   fw_acorn: { y: -42, size: 26 },
   fw_santa: { y: -44, size: 32 },
+  fw_saturn: { y: -44, size: 28 },
 };
 
 const GREET = [
@@ -168,6 +170,7 @@ export function IslandScreen() {
   const detectiveNew = eventActive() && CASES.some((c) => caseOpen(c) && !save.detective.solved.includes(c.no));
   const [moonViewOpen, setMoonViewOpen] = useState(false);
   const [imoOpen, setImoOpen] = useState(false);
+  const [spaceOpen, setSpaceOpen] = useState<'go' | 'dex' | null>(null);
   // 夜空の 星を うごかす（1分ごと）
   const [skyMin, setSkyMin] = useState(0);
   useEffect(() => {
@@ -577,6 +580,9 @@ export function IslandScreen() {
     if (area === 'main' && save.buildings.includes('bd_observ') && dist(raw, BUILDING_SPOTS.bd_observ) < 0.09) { openObserv(); return; }
     if (area === 'main' && save.buildings.includes('bd_moon') && dist(raw, BUILDING_SPOTS.bd_moon) < 0.09) { openMoonView(); return; }
     if (area === 'east' && save.buildings.includes('bd_imo') && dist(raw, { x: IMO_SPOT.x, y: IMO_SPOT.y - 0.06 }) < 0.09) { setImoOpen(true); return; }
+    if (area === 'east' && save.buildings.includes('bd_rocket') && dist(raw, { x: BUILDING_SPOTS.bd_rocket.x, y: BUILDING_SPOTS.bd_rocket.y - 0.1 }) < 0.09) { setSpaceOpen('go'); return; }
+    if (area === 'east' && save.buildings.includes('bd_base') && dist(raw, { x: BUILDING_SPOTS.bd_base.x, y: BUILDING_SPOTS.bd_base.y - 0.05 }) < 0.08) { setSpaceOpen('dex'); return; }
+    if (area === 'east' && save.buildings.includes('bd_planet') && dist(raw, { x: BUILDING_SPOTS.bd_planet.x, y: BUILDING_SPOTS.bd_planet.y - 0.05 }) < 0.08) { setStarsOpen(true); return; }
     tapTarget.current = p;
   };
 
@@ -668,6 +674,10 @@ export function IslandScreen() {
   const nearObserv = area === 'main' && save.buildings.includes('bd_observ') && dist(playerPos.current, BUILDING_SPOTS.bd_observ) <= 0.1;
   const nearMoonPlat = area === 'main' && save.buildings.includes('bd_moon') && dist(playerPos.current, BUILDING_SPOTS.bd_moon) <= 0.1;
   const nearImo = area === 'east' && save.buildings.includes('bd_imo') && dist(playerPos.current, IMO_SPOT) <= 0.1;
+  const nearEastBd = (id: string) => area === 'east' && save.buildings.includes(id) && dist(playerPos.current, BUILDING_SPOTS[id]) <= 0.1;
+  const nearRocket = nearEastBd('bd_rocket');
+  const nearBase = nearEastBd('bd_base');
+  const nearPlanet = nearEastBd('bd_planet');
   // やきいもやさんの おきゃくさん：となりの しまに いる子（いなければ たまごでない なかま）
   const imoCustomers = useMemo(() => {
     const here = friends.filter((f) => f.level > 1);
@@ -1154,6 +1164,12 @@ export function IslandScreen() {
             <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={openMoonView}>🎑 おだんごを おそなえ</button>
           ) : nearImo && !nearOther ? (
             <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => setImoOpen(true)}>🍠 やきいもやさん</button>
+          ) : nearRocket && !nearOther ? (
+            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => setSpaceOpen('go')}>🚀 うちゅうへ いく</button>
+          ) : nearBase && !nearOther ? (
+            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => setSpaceOpen('dex')}>🛰️ うちゅうずかん</button>
+          ) : nearPlanet && !nearOther ? (
+            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => setStarsOpen(true)}>🪐 ほしぞらを みる</button>
           ) : nearOther ? (
             friendPanel(nearOther)
           ) : nearFurniture ? (
@@ -1180,7 +1196,9 @@ export function IslandScreen() {
                 : area === 'school'
                 ? 'こくばん・テレビ・けいじばん・おともだちを タップしてみよう'
                 : area === 'east'
-                ? save.buildings.includes('bd_imo')
+                ? save.buildings.includes('bd_rocket')
+                  ? 'ロケットを タップすると うちゅうりょこうに いけるよ。ひだりの はしで もとの しまに もどれるよ'
+                  : save.buildings.includes('bd_imo')
                   ? 'やきいも やたいを タップすると いもを やけるよ。ひだりの はしで もとの しまに もどれるよ'
                   : 'はなばたけの しまだよ。ひだりの はしで もとの しまに もどれるよ'
                 : monster.stage === 'egg'
@@ -1346,6 +1364,7 @@ export function IslandScreen() {
       {detectiveOpen && <DetectiveScreen onClose={() => setDetectiveOpen(false)} />}
       {moonViewOpen && <MoonViewModal onClose={() => setMoonViewOpen(false)} />}
       {imoOpen && <YakiimoModal customers={imoCustomers} onClose={() => setImoOpen(false)} />}
+      {spaceOpen && <SpaceTripModal tab={spaceOpen} studied={studied} crew={imoCustomers} onClose={() => setSpaceOpen(null)} />}
 
       {/* ── 🌲 まよいの森へ（クエストの ページに うつる）── */}
       {forestAsk && (

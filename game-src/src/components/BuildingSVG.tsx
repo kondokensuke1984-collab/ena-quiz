@@ -160,7 +160,74 @@ function Arbor() {
   );
 }
 
+function SpaceBase() {
+  return (
+    <g>
+      {shadow(64)}
+      <rect x="-56" y="-46" width="76" height="46" rx="4" fill="#e2e8f0" {...S} />
+      <path d="M-56 -46 a38 30 0 0 1 76 0 Z" fill="#cbd5e1" {...S} />
+      <rect x="-44" y="-30" width="18" height="14" rx="2" fill="#7dd3fc" {...S} />
+      <rect x="-18" y="-30" width="18" height="14" rx="2" fill="#7dd3fc" {...S} />
+      <rect x="-30" y="-14" width="16" height="14" rx="2" fill="#475569" {...S} />
+      <text x="-18" y="-54" fontSize="13" fontWeight="900" textAnchor="middle" fill="#4c1d95">うちゅうきち</text>
+      {/* パラボラアンテナ */}
+      <path d="M40 0 L40 -40" stroke="#475569" strokeWidth="5" strokeLinecap="round" />
+      <g transform="translate(40 -46) rotate(-30)">
+        <path d="M-22 0 Q0 22 22 0 Z" fill="#f8fafc" {...S} />
+        <path d="M0 6 L0 -14" stroke="#4c1d95" strokeWidth="2.4" />
+        <circle cx="0" cy="-16" r="3.5" fill="#ef4444" {...S} strokeWidth={1.6} />
+      </g>
+    </g>
+  );
+}
+
+function Planetarium() {
+  return (
+    <g>
+      {shadow(62)}
+      <rect x="-56" y="-30" width="112" height="30" rx="4" fill="#ede9fe" {...S} />
+      <path d="M-50 -30 a50 46 0 0 1 100 0 Z" fill="#f8fafc" {...S} />
+      <path d="M-34 -62 Q0 -50 34 -62" fill="none" stroke="#c4b5fd" strokeWidth="2" />
+      <rect x="-12" y="-24" width="24" height="24" rx="3" fill="#4338ca" {...S} />
+      {[[-38, -18], [30, -18]].map(([x, y], i) => <rect key={i} x={x} y={y} width="10" height="10" rx="2" fill="#a5b4fc" {...S} strokeWidth={1.8} />)}
+      {/* どせいの かんばん */}
+      <g transform="translate(0 -88)">
+        <circle r="13" fill="#fde68a" {...S} />
+        <ellipse rx="24" ry="6" fill="none" stroke="#f59e0b" strokeWidth="3.4" transform="rotate(-18)" />
+      </g>
+      <circle cx="-30" cy="-58" r="2" fill="#fde047" className="twinkle" />
+      <circle cx="34" cy="-50" r="2" fill="#fde047" className="twinkle" style={{ animationDelay: '-0.8s' }} />
+    </g>
+  );
+}
+
+function Rocket() {
+  return (
+    <g>
+      {shadow(52)}
+      {/* はっしゃだい */}
+      <rect x="-44" y="-10" width="88" height="10" rx="2" fill="#64748b" {...S} />
+      <path d="M30 -10 L30 -150 M44 -10 L44 -150" stroke="#f59e0b" strokeWidth="4" />
+      {[0, 1, 2, 3, 4, 5].map((i) => <path key={i} d={`M30 ${-20 - i * 22} L44 ${-34 - i * 22}`} stroke="#f59e0b" strokeWidth="3" />)}
+      <path d="M44 -120 L18 -120" stroke="#f59e0b" strokeWidth="4" />
+      {/* はね */}
+      <path d="M-14 -20 L-34 -4 L-34 -34 L-14 -56 Z" fill="#ef4444" {...S} />
+      <path d="M14 -20 L34 -4 L34 -34 L14 -56 Z" fill="#ef4444" {...S} />
+      {/* どう */}
+      <path d="M-16 -14 L-16 -120 Q0 -176 16 -120 L16 -14 Z" fill="#f8fafc" {...S} />
+      <path d="M-15 -128 Q0 -176 15 -128 Z" fill="#ef4444" {...S} />
+      <circle cx="0" cy="-96" r="9" fill="#7dd3fc" {...S} />
+      <circle cx="-3" cy="-99" r="3" fill="#e0f2fe" />
+      <rect x="-16" y="-58" width="32" height="8" fill="#1d4ed8" />
+      <path d="M-10 -14 L-12 -4 L12 -4 L10 -14 Z" fill="#475569" {...S} />
+    </g>
+  );
+}
+
 const DRAW: Record<string, () => React.ReactNode> = {
+  bd_base: SpaceBase,
+  bd_planet: Planetarium,
+  bd_rocket: Rocket,
   bd_imo: ImoCart,
   bd_arbor: Arbor,
   bd_house: House,
@@ -184,6 +251,10 @@ export const BUILDING_SPOTS: Record<string, BuildingSpot> = {
   // となりの しま（east）。池（0.70,0.75）と 左の はしを よける
   bd_imo: { x: 0.36, y: 0.46, area: 'east', glow: { dy: -0.08, r: 55 } },
   bd_arbor: { x: 0.64, y: 0.42, area: 'east' },
+  // うちゅうセット（east の した半分と みぎ。池・はしを よける）
+  bd_base: { x: 0.26, y: 0.74, area: 'east', glow: { dy: -0.04, r: 50 } },
+  bd_planet: { x: 0.48, y: 0.8, area: 'east', glow: { dy: -0.03, r: 55 } },
+  bd_rocket: { x: 0.85, y: 0.5, area: 'east', glow: { dy: -0.13, r: 40 } },
 };
 /** その場所に建つ 建物か */
 export function spotInArea(id: string, area: string): boolean {
