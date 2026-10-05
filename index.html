@@ -21209,33 +21209,39 @@ function medalSyncAll() {
 //   ・1問につき一生に1枚（台帳 first に "kc:R08-001" を残す。何度よみこんでも ふえない）
 //   ・月にひもづかないので、台帳のキーは 'kenchiku|first:kenchiku'（島は月もキーも見ずに合計する）
 // ============================================================
-function medalFromKenchiku(raw, toIsland) {
+function medalFromKenchiku(raw, toIsland, raw1) {
   let gained = 0, valid = 0;
   try {
     const led = loadMedalLedger();
     led.first = (led.first && typeof led.first === 'object') ? led.first : {};
-    String(raw).split(',').slice(0, 12).forEach(part => {
-      const m = /^([HR]\d{2})\.([A-Za-z0-9_-]{1,40})$/.exec(part);
+    // 4択の問題（kenchiku）と、一問一答の記述（kenchiku1：ビット＝(番号-1)*4+肢）。どちらも 1つにつき一生に1枚
+    const feed = (txt, oneq) => String(txt || '').split(',').slice(0, 12).forEach(part => {
+      const m = /^([HR]\d{2})\.([A-Za-z0-9_-]{1,120})$/.exec(part);
       if (!m) return;
       let bin;
       try { bin = atob(m[2].replace(/-/g, '+').replace(/_/g, '/')); } catch (e) { return; }
       for (let j = 0; j < bin.length; j++) {
         const b = bin.charCodeAt(j);
         for (let k = 0; k < 8; k++) {
-          const n = j * 8 + k + 1;
-          if (!(b >> k & 1) || n > 200) continue;
-          const id = 'kc:' + m[1] + '-' + String(n).padStart(3, '0');
+          if (!(b >> k & 1)) continue;
+          const bit = j * 8 + k;
+          const n = oneq ? (bit >> 2) + 1 : bit + 1;
+          if (n > 200) continue;
+          const id = 'kc:' + m[1] + '-' + String(n).padStart(3, '0') + (oneq ? '#' + (bit & 3) : '');
           valid++;
           if (led.first[id]) continue;
           led.first[id] = 1;
-          gained++;
+          if (oneq) got1++; else got4++;
         }
       }
     });
-    if (gained) {
-      led.units['kenchiku|first:kenchiku'] = (led.units['kenchiku|first:kenchiku'] || 0) + gained;
-      saveMedalLedger(led);
-    }
+    let got4 = 0, got1 = 0;
+    feed(raw, false);
+    feed(raw1, true);
+    gained = got4 + got1;
+    if (got4) led.units['kenchiku|first:kenchiku'] = (led.units['kenchiku|first:kenchiku'] || 0) + got4;
+    if (got1) led.units['kenchiku|first:oneq'] = (led.units['kenchiku|first:oneq'] || 0) + got1;
+    if (gained) saveMedalLedger(led);
     // 正解ずみの問題が1問でもあれば、きょうの 島の入口がひらく
     if (valid) localStorage.setItem('ena_kenchiku_day', new Date().toLocaleDateString('ja-JP').replace(/\//g, '-'));
   } catch (e) { gained = 0; }
@@ -21243,7 +21249,7 @@ function medalFromKenchiku(raw, toIsland) {
   if (toIsland && valid) { location.replace('/game/#island'); return gained; }
   // もどってきたあとに URL に残らないように、パラメータを消す
   try { history.replaceState(null, '', location.pathname); } catch (e) {}
-  if (gained) showMedalGet([{ count: gained, label: '🏗️ 建築で 正解した問題の ぶんだよ！' }]);
+  if (gained) showMedalGet([{ count: gained, label: '🏗️ 建築で 正解した ぶんだよ！' }]);
   return gained;
 }
 
@@ -22706,7 +22712,7 @@ window.onload = () => {
   // すでにコンプリートしてある単元のアンリノメダルを取り込む（演出は出さない）
   medalSyncAll();
   // 一級建築士アプリから もどってきたとき（?kenchiku=）：正解ずみの問題ぶんのメダルを台帳に入れる
-  if (params.get('kenchiku')) medalFromKenchiku(params.get('kenchiku'), params.get('to') === 'island');
+  if (params.get('kenchiku') || params.get('kenchiku1')) medalFromKenchiku(params.get('kenchiku'), params.get('to') === 'island', params.get('kenchiku1'));
   // 島の がっこうの 📺テレビから：?videos=1 で ずんだもん動画の一覧、?video=<id> で その動画（許可リストの ものだけ）
   if (params.get('videos') === '1' || params.get('video')) openVideosFromIsland(params.get('video'));
   else autoVideoShow();
