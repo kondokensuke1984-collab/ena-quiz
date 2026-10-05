@@ -30,7 +30,7 @@ import { cycleSoundMode, setBgmNight, sfx, soundMode, voice, type SoundMode } fr
 import { answeredByDate, daysThisWeek, stampDays, studiedToday, todayUnits, UNLOCK_CATS } from '../lib/study';
 import { earnedTotal } from '../lib/medals';
 import { pickLesson, type Lesson } from '../lib/lesson';
-import { buildLetters } from '../lib/letters';
+import { addressToNow, buildLetters } from '../lib/letters';
 import { photoMonthOf, stampRewardsFor } from '../lib/items';
 import type { Area, Letter, Pos } from '../types';
 import { EastGround, RoomGround, SchoolGround, SCHOOL_DESKS, SCHOOL_HITS } from '../components/AreaStages';
@@ -1601,7 +1601,7 @@ export function IslandScreen() {
                   <CharSVG charKey={reading.from as never} level={6} fillPct={1} size={56} label={reading.fromName} />
                   <div className="text-[14px] font-black text-ink">{reading.title}</div>
                 </div>
-                <div className="whitespace-pre-line rounded-2xl bg-amber-50 px-4 py-3 text-[13px] font-bold leading-relaxed text-ink">{reading.body}</div>
+                <div className="whitespace-pre-line rounded-2xl bg-amber-50 px-4 py-3 text-[13px] font-bold leading-relaxed text-ink">{addressToNow(reading.body, save.player)}</div>
                 <button className="btn mt-3" onClick={() => setReading(null)}>← てがみばこに もどる</button>
               </div>
             ) : (

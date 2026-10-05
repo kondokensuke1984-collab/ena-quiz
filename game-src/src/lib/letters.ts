@@ -1,12 +1,21 @@
 // キャラからの おてがみ。島を開いたときに「前回からの変化」を見て作る。
 // 文面は子ども向けに ひらがな多め。
 
-import type { Letter, LetterMarks } from '../types';
+import type { Letter, LetterMarks, PlayerKey } from '../types';
+import { PALETTES } from '../components/KidSVG';
 import type { Friend } from './friends';
 import { dateKey } from './study';
 import { CASES } from './detective';
 
 export const LUNA = { from: 'luna', fromName: 'ルナ' };
+
+/** てがみの 1ぎょうめ「○○へ」は とどいた ときの しゅじんこうの なまえ。しゅじんこうを かえても いまの なまえで よめるように、見せるときだけ かきかえる（ほぞんは そのまま） */
+export function addressToNow(body: string, player: PlayerKey | null): string {
+  if (!player) return body;
+  const names = (Object.keys(PALETTES) as PlayerKey[]).map((k) => PALETTES[k].name);
+  const m = /^(.+?)へ\n/.exec(body);
+  return m && names.includes(m[1]) ? `${PALETTES[player].name}へ\n` + body.slice(m[0].length) : body;
+}
 
 export function mk(from: string, fromName: string, title: string, body: string): Letter {
   return { id: `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`, from, fromName, title, body, at: Date.now(), read: false };
