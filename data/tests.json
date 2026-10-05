@@ -126,6 +126,25 @@
   },
   {
    "extra": true,
+   "key": "sansu9final",
+   "name": "当日最終算数もし",
+   "month": "202609",
+   "from": "2026-10-04",
+   "date": "2026-10-05",
+   "covers": [
+    "sansu9final"
+   ],
+   "qfile": "data/moshi_sansu9final.json",
+   "reward": 120,
+   "levels": [
+    "normal"
+   ],
+   "perCat": 25,
+   "limitMin": 40,
+   "note": "約数・倍数の 基本・練習・過去問を 数字を かえて 25もん"
+  },
+  {
+   "extra": true,
    "key": "4ka1005_kokusan",
    "name": "4科演習 たいさく（国語・算数）",
    "month": "202609",

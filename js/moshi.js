@@ -6,6 +6,7 @@
 //     t.kakoMax＝過去問の 上限、t.balance＝単元ごとに じゅんばんに 1問ずつ（過去問も ふつうも）、t.note＝はじめの 画面の せつめい。
 //     t.pass＝メダルの ライン（％・なければ 80）、t.limitMin＝せいげん じかん（分）。やすんでも 時計は すすむ・すぎても おわらせず しらせるだけ（メールに オーバーを かく）。
 //     ひらいている もしが 2つ以上なら えらぶ画面（moshiRenderPick）。
+//     t.qfile＝もし だけの 問題ファイル（例 data/moshi_sansu9final.json）。問題に month を つけない＝クイズの 苦手に 入らない。
 //   ・範囲（covers の単元とその子）から 教科ごとに 20問。算数・理科は えらぶ・入力を先に、足りないぶんだけ 自己採点。
 //     国語・社会（MOSHI_MIX_CATS）は えらぶ問題が 少ないので 区別せずに 全部から ランダム。
 //   ・とちゅうでは ○× を出さない。おわったら 保護者メール（/api/send-report）に
@@ -228,6 +229,14 @@ async function moshiOpenTest(key) {
       fetch('data/subjects_' + t.month + '.json').then(r => r.json()),
     ]);
   } catch (e) {}
+  // t.qfile＝もし だけの 問題ファイル（{ subjects, questions }。クイズ・クエストには 出ない）
+  if (t.qfile) {
+    try {
+      const ex = await fetch(t.qfile).then(r => r.json());
+      qs = qs.concat(ex.questions || []);
+      subs = Object.assign({}, subs, ex.subjects || {});
+    } catch (e) {}
+  }
   const byId = {};
   qs.forEach(q => { byId[q.id] = q; });
   const rec = moshiRec(db, t.key);
@@ -340,7 +349,8 @@ function renderMoshi() {
         '<span style="color:#64748b;">かいて こたえる もんだいは おうちの ひとが まるつけ するよ</span>' +
       '</div>' +
       (mz.msg ? '<div style="color:#dc2626; font-weight:700; margin-top:8px;">' + esc(mz.msg) + '</div>' : '') +
-      (a && !a.finished ? '<button class="btn-main" style="margin-top:14px;" onclick="moshiResume()">▶ つづきから（' + MOSHI_LEVELS[moshiLv(a)].label + '・' + Math.min(a.i + 1, a.ids.length) + '/' + a.ids.length + '）</button>'
+      (a && !a.finished ? '<button class="btn-main" style="margin-top:14px;" onclick="moshiResume()">▶ つづきから（' + MOSHI_LEVELS[moshiLv(a)].label + '・' + Math.min(a.i + 1, a.ids.length) + '/' + a.ids.length + '）</button>' +
+           (mz.open && moshiLevels(t).length > 1 ? '<button class="btn-main" style="margin-top:8px; background:rgba(99,102,241,.12); color:#4c1d95; box-shadow:none;" onclick="moshiDiscard()">🔄 やめて レベルを えらびなおす</button>' : '')
        : a && a.finished ? '<button class="btn-main" style="margin-top:14px;" onclick="moshiResume()">📝 まるつけ まち（' + moshiPending().length + 'もん）</button>'
        : mz.open ? (moshiLevels(t).length > 1 ? '<div style="font-size:13px; font-weight:800; margin-top:12px; color:#4c1d95;">レベルを えらんでね</div>' : '') +
            moshiLevels(t).map(lvCard).join('') : '') +
@@ -549,6 +559,18 @@ function moshiRenderCheck() {
   moshiClockStart();
 }
 function moshiPause() { moshiPersist(); mz.view = 'intro'; renderMoshi(); }
+/** とちゅうの もしを すてて、レベルを えらびなおす（まちがえて ふつうを えらんだ とき用。メダルは 出ない） */
+function moshiDiscard() {
+  const a = mz.att;
+  if (!a || a.finished) return;
+  const n = Object.keys(a.ans || {}).length;
+  if (n && !confirm('いまの とちゅう（' + n + 'もん こたえた）を けして、レベルを えらびなおす？')) return;
+  const db = moshiLoad(), r = moshiRec(db, mz.test.key);
+  r.atts = r.atts.filter(x => x.id !== a.id);
+  moshiSave(db);
+  mz.att = null; mz.msg = ''; mz.view = 'intro';
+  renderMoshi();
+}
 
 // ── おわり・まるつけ ──
 function moshiPending() { const a = mz.att; return a ? a.ids.filter(id => a.ans[id] && a.ans[id].ok == null) : []; }
