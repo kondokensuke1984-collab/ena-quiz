@@ -307,7 +307,7 @@ function pickQuestMonth(months) {
 function questMonthLabel(m) { return SCHOOL_QUEST ? SCHOOL_QUEST.label : Number(String(m).slice(4, 6)) + '月'; }
 // 島の しゅじんこうで きまった がっこう（ena_school_v1。りの＝栄光・ゆうせい＝2年生）。ena・きまっていない ときは null
 function questSchool() {
-  try { const s = (JSON.parse(localStorage.getItem('ena_school_v1') || 'null') || {}).school; return s === 'eikoh' || s === 'g2' ? s : null; } catch (e) { return null; }
+  try { const s = (JSON.parse(localStorage.getItem('ena_school_v1') || 'null') || {}).school; return s === 'eikoh' || s === 'g2' || s === 'kenchiku' ? s : null; } catch (e) { return null; }
 }
 let SCHOOL_QUEST = null;   // 栄光・2年生の子の クエスト { label, months }（data/quest_schools.json）。null＝ena の月
 // つきのぬしは月ごと（前は bossDown:true だけ＝9月ぶん）
@@ -651,7 +651,7 @@ async function boot() {
   }
   let questMonths;
   if (SCHOOL_QUEST) {
-    MEDAL_MONTH = school === 'g2' ? 'g2' : SCHOOL_QUEST.months[0];
+    MEDAL_MONTH = school === 'g2' ? 'g2' : SCHOOL_QUEST.months[0];   // 建築は months[0]＝'kenchiku'
     questMonths = SCHOOL_QUEST.months;
   } else {
     try {

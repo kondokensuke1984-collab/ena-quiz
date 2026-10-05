@@ -18,7 +18,7 @@ export function BattleScreen() {
     let alive = true;
     // 栄光・2年生の子（しゅじんこうで きまる がっこう）は その学校の クエスト（rpg.html も同じ data/quest_schools.json を見る）
     const school = readJSON<{ school?: string } | null>('ena_school_v1', null)?.school;
-    if (school === 'eikoh' || school === 'g2') {
+    if (school === 'eikoh' || school === 'g2' || school === 'kenchiku') {
       fetch('/data/quest_schools.json', { cache: 'no-cache' })
         .then((r) => r.json())
         .then((qs: Record<string, { label?: string }>) => { if (alive && qs[school]?.label) setLabel(qs[school].label + 'の '); })

@@ -2,7 +2,7 @@ import type { CharKey } from './lib/chars';
 
 export type PlayerKey = 'anri' | 'rino' | 'mitsuki' | 'kensuke' | 'yusei';
 /** クイズアプリの がっこう（ena／栄光／2年生） */
-export type School = 'ena' | 'eikoh' | 'g2';
+export type School = 'ena' | 'eikoh' | 'g2' | 'kenchiku';
 export type Stage = 'egg' | 'baby' | 'teen' | 'adult';
 export type Slot = 'weapon' | 'shield' | 'costume' | 'hat';
 export type Mood = 'egg' | 'happy' | 'hungry' | 'down';

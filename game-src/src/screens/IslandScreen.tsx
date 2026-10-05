@@ -1236,7 +1236,7 @@ export function IslandScreen() {
           {save.player && !FIXED_SCHOOL[save.player] && (
             <div className="mt-2.5">
               <div className="mb-1.5 text-[11px] font-black text-ink">🏫 がっこう（クイズアプリで ひらく がっこう）</div>
-              <div className="grid grid-cols-3 gap-1.5">
+              <div className="grid grid-cols-4 gap-1.5">
                 {SCHOOLS.map((sc) => {
                   const on = save.school === sc;
                   return (

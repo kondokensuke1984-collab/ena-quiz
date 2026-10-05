@@ -5,9 +5,9 @@
 import { writeJSON } from './storage';
 import type { PlayerKey, School } from '../types';
 
-export const SCHOOLS: School[] = ['ena', 'eikoh', 'g2'];
+export const SCHOOLS: School[] = ['ena', 'eikoh', 'g2', 'kenchiku'];
 
-export const SCHOOL_LABEL: Record<School, string> = { ena: 'ena', eikoh: '栄光', g2: '2年生' };
+export const SCHOOL_LABEL: Record<School, string> = { ena: 'ena', eikoh: '栄光', g2: '2年生', kenchiku: '建築' };
 
 export const FIXED_SCHOOL: Partial<Record<PlayerKey, School>> = { anri: 'ena', rino: 'eikoh', yusei: 'g2' };
 

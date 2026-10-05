@@ -1,0 +1,626 @@
+{
+ "kc_plan": {
+  "label": "計画",
+  "icon": "📐",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "isGroup": true
+ },
+ "kc_plan_01": {
+  "label": "バリアフリー（建築設計標準）",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_plan"
+ },
+ "kc_plan_02": {
+  "label": "建築史（日本）",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_plan"
+ },
+ "kc_plan_03": {
+  "label": "建築史（西洋・近代）",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_plan"
+ },
+ "kc_plan_04": {
+  "label": "建築作品・設計者",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_plan"
+ },
+ "kc_plan_05": {
+  "label": "保存・再生・長期利用",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_plan"
+ },
+ "kc_plan_06": {
+  "label": "住宅・集合住宅",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_plan"
+ },
+ "kc_plan_07": {
+  "label": "医療・福祉施設",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_plan"
+ },
+ "kc_plan_08": {
+  "label": "教育・文化・公共施設",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_plan"
+ },
+ "kc_plan_09": {
+  "label": "事務所・商業施設",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_plan"
+ },
+ "kc_plan_10": {
+  "label": "設計・監理業務・建築士",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_plan"
+ },
+ "kc_plan_11": {
+  "label": "都市計画・まちづくり",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_plan"
+ },
+ "kc_plan_12": {
+  "label": "防災・防犯計画",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_plan"
+ },
+ "kc_plan_13": {
+  "label": "環境配慮・木材活用",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_plan"
+ },
+ "kc_plan_14": {
+  "label": "積算",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_plan"
+ },
+ "kc_plan_15": {
+  "label": "マネジメント",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_plan"
+ },
+ "kc_plan_16": {
+  "label": "各部計画・寸法・人間工学",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_plan"
+ },
+ "kc_plan_17": {
+  "label": "用語・総合",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_plan"
+ },
+ "kc_env": {
+  "label": "環境・設備",
+  "icon": "🌡️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "isGroup": true
+ },
+ "kc_env_01": {
+  "label": "用語・単位",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_env"
+ },
+ "kc_env_02": {
+  "label": "防火・防災（環境）",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_env"
+ },
+ "kc_env_03": {
+  "label": "消防・防災設備",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_env"
+ },
+ "kc_env_04": {
+  "label": "温熱・湿気・結露",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_env"
+ },
+ "kc_env_05": {
+  "label": "伝熱",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_env"
+ },
+ "kc_env_06": {
+  "label": "日照・日射",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_env"
+ },
+ "kc_env_07": {
+  "label": "採光・照明（光環境）",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_env"
+ },
+ "kc_env_08": {
+  "label": "色彩",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_env"
+ },
+ "kc_env_09": {
+  "label": "音響・遮音",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_env"
+ },
+ "kc_env_10": {
+  "label": "空気調和設備",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_env"
+ },
+ "kc_env_11": {
+  "label": "換気",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_env"
+ },
+ "kc_env_12": {
+  "label": "給排水衛生設備",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_env"
+ },
+ "kc_env_13": {
+  "label": "電気・照明設備・発電",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_env"
+ },
+ "kc_env_14": {
+  "label": "省エネ・ZEB・設備総合",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_env"
+ },
+ "kc_law": {
+  "label": "法規",
+  "icon": "⚖️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "isGroup": true
+ },
+ "kc_law_01": {
+  "label": "建築士法",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_law"
+ },
+ "kc_law_02": {
+  "label": "都市計画法",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_law"
+ },
+ "kc_law_03": {
+  "label": "消防法",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_law"
+ },
+ "kc_law_04": {
+  "label": "バリアフリー法",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_law"
+ },
+ "kc_law_05": {
+  "label": "確認申請・手続き",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_law"
+ },
+ "kc_law_06": {
+  "label": "用語・面積・高さの算定",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_law"
+ },
+ "kc_law_09": {
+  "label": "防火地域・準防火地域",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_law"
+ },
+ "kc_law_10": {
+  "label": "防火・避難・内装制限",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_law"
+ },
+ "kc_law_11": {
+  "label": "建築設備",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_law"
+ },
+ "kc_law_12": {
+  "label": "構造強度",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_law"
+ },
+ "kc_law_13": {
+  "label": "道路",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_law"
+ },
+ "kc_law_14": {
+  "label": "用途制限",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_law"
+ },
+ "kc_law_15": {
+  "label": "一般構造（居室・階段 等）",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_law"
+ },
+ "kc_law_16": {
+  "label": "地区計画・建築協定・総合",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_law"
+ },
+ "kc_law_17": {
+  "label": "その他の関係法令",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_law"
+ },
+ "kc_struct": {
+  "label": "構造",
+  "icon": "🧱",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "isGroup": true
+ },
+ "kc_struct_01": {
+  "label": "荷重・外力",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_struct"
+ },
+ "kc_struct_02": {
+  "label": "木構造",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_struct"
+ },
+ "kc_struct_03": {
+  "label": "材料：木材",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_struct"
+ },
+ "kc_struct_04": {
+  "label": "材料：コンクリート",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_struct"
+ },
+ "kc_struct_05": {
+  "label": "材料：鋼材・その他",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_struct"
+ },
+ "kc_struct_06": {
+  "label": "鉄筋コンクリート構造",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_struct"
+ },
+ "kc_struct_07": {
+  "label": "鉄骨構造",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_struct"
+ },
+ "kc_struct_08": {
+  "label": "地盤・基礎",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_struct"
+ },
+ "kc_struct_09": {
+  "label": "各種構造（壁式・PC・合成）",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_struct"
+ },
+ "kc_struct_10": {
+  "label": "耐震設計・免震・制振・構造計画",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_struct"
+ },
+ "kc_const": {
+  "label": "施工",
+  "icon": "🏗️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "isGroup": true
+ },
+ "kc_const_01": {
+  "label": "改修工事（耐震改修含む）",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_const"
+ },
+ "kc_const_02": {
+  "label": "施工計画・監理・現場管理",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_const"
+ },
+ "kc_const_03": {
+  "label": "地盤調査・仮設工事",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_const"
+ },
+ "kc_const_04": {
+  "label": "土工事・山留め",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_const"
+ },
+ "kc_const_05": {
+  "label": "地業（杭）工事",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_const"
+ },
+ "kc_const_06": {
+  "label": "鉄筋工事",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_const"
+ },
+ "kc_const_07": {
+  "label": "型枠工事",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_const"
+ },
+ "kc_const_08": {
+  "label": "プレキャスト工事",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_const"
+ },
+ "kc_const_09": {
+  "label": "鉄骨工事",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_const"
+ },
+ "kc_const_10": {
+  "label": "コンクリート工事",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_const"
+ },
+ "kc_const_11": {
+  "label": "木工事",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_const"
+ },
+ "kc_const_12": {
+  "label": "防水・屋根工事",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_const"
+ },
+ "kc_const_13": {
+  "label": "左官・タイル・石工事",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_const"
+ },
+ "kc_const_14": {
+  "label": "金属・ガラス工事",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_const"
+ },
+ "kc_const_15": {
+  "label": "内外装工事",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_const"
+ },
+ "kc_const_16": {
+  "label": "設備工事",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_const"
+ },
+ "kc_const_17": {
+  "label": "各種工事・用語・契約",
+  "icon": "✏️",
+  "tag": "tag-kenchiku",
+  "category": "kenchiku",
+  "month": "kenchiku",
+  "parent": "kc_const"
+ }
+}

@@ -57,7 +57,7 @@ export function PickPlayerScreen() {
           ) : (
             <>
               <div className="mb-2 text-[12px] font-black text-ink">🏫 がっこうを えらんでね</div>
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-4 gap-2">
                 {SCHOOLS.map((sc) => (
                   <button
                     key={sc}
