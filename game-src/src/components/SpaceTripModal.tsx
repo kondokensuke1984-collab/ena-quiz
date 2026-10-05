@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useGame } from '../state/useGame';
 import { ITEM_BY_ID } from '../lib/items';
 import type { Friend } from '../lib/friends';
-import { sfx } from '../lib/sound';
+import { setSpaceBgm, sfx } from '../lib/sound';
 import { dateKey } from '../lib/study';
 import { DESTS, SPACE_REWARDS, TRIPS_STUDY_BONUS, openDests, tripContent, type SpaceDest, type SpaceQuiz } from '../lib/space';
 import { CharSVG } from './CharSVG';
@@ -36,9 +36,15 @@ export function SpaceTripModal({ tab: tab0, studied, crew, onClose }: {
   // とちゅうで とじたら、おみやげだけは わたす（かいすうは もう つかっている）
   const pending = useRef<{ dest: string; isNew: boolean } | null>(null);
   useEffect(() => () => {
+    setSpaceBgm(null);
     if (pending.current) g.spaceReturn(pending.current.dest, false, pending.current.isNew);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // BGM：はっしゃまでは わくわく、うちゅうでは ゆったり、かえったら とめる
+  useEffect(() => {
+    setSpaceBgm(phase.kind === 'count' || phase.kind === 'fly' ? 'launch' : phase.kind === 'arrive' || phase.kind === 'quiz' ? 'space' : null);
+  }, [phase.kind]);
 
   // カウントダウン → とぶ → とうちゃく
   useEffect(() => {

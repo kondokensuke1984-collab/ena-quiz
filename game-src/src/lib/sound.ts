@@ -119,7 +119,7 @@ export function setBgmPaused(p: boolean): void { bgmPaused = p; }
 function startBgm(): void {
   if (!ctx || bgmTimer !== null) return;
   bgmTimer = window.setInterval(() => {
-    if (!ctx || mode !== 'all' || document.hidden || bgmPaused) return;
+    if (!ctx || mode !== 'all' || document.hidden || bgmPaused || spaceBgm) return;
     const i = MELODY[bgmStep % MELODY.length];
     bgmStep++;
     if (bgmNight && bgmStep % 2) return;          // 夜は音を間引いて ゆったり
@@ -133,6 +133,40 @@ function startBgm(): void {
 
 function stopBgm(): void {
   if (bgmTimer !== null) { window.clearInterval(bgmTimer); bgmTimer = null; }
+}
+
+// ── うちゅうりょこうの BGM（SpaceTripModal）。🔇 でなければ 効果音だけの設定でも 旅の あいだは ながす ──
+// launch＝はっしゃまで（わくわく 速め）／space＝うちゅう（ふわっと ゆっくり キラキラ）。そのあいだ 島の BGM は やすむ
+export type SpaceBgm = 'launch' | 'space' | null;
+let spaceBgm: SpaceBgm = null;
+let spaceTimer: number | null = null;
+let spaceStep = 0;
+const LAUNCH_ARP = [523, 659, 784, 1047, 784, 659, 587, 784, 523, 659, 784, 1047, 1175, 1047, 784, 988];
+const SPACE_SCALE = [659, 784, 880, 988, 1175, 1319];   // E5〜E6 の ペンタトニック
+const SPACE_MELODY = [0, 2, 4, -1, 3, 1, -1, 2, 5, -1, 4, 2, 1, -1, 0, -1];
+
+export function spaceBgmKind(): SpaceBgm { return spaceBgm; }
+
+export function setSpaceBgm(kind: SpaceBgm): void {
+  if (kind === spaceBgm) return;
+  spaceBgm = kind;
+  if (spaceTimer !== null) { window.clearInterval(spaceTimer); spaceTimer = null; }
+  if (!kind) return;
+  spaceStep = 0;
+  spaceTimer = window.setInterval(() => {
+    if (!ctx || mode === 'off' || document.hidden) return;
+    const t = ctx.currentTime + 0.02;
+    const n = spaceStep++;
+    if (kind === 'launch') {
+      tone(LAUNCH_ARP[n % LAUNCH_ARP.length], t, 0.18, 'triangle', 0.03);
+      if (n % 4 === 0) tone(131, t, 0.35, 'triangle', 0.04);
+    } else {
+      const i = SPACE_MELODY[n % SPACE_MELODY.length];
+      if (i >= 0) tone(SPACE_SCALE[i], t, 1.2, 'sine', 0.028);
+      if (n % 3 === 1) tone(SPACE_SCALE[(n * 7) % SPACE_SCALE.length] * 2, t + 0.15, 0.5, 'sine', 0.01);   // キラキラ
+      if (n % 8 === 0) tone(165, t, 4.4, 'sine', 0.03);
+    }
+  }, kind === 'launch' ? 200 : 600);
 }
 
 // ── オルガン ──
