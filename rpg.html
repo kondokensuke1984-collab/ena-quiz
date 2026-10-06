@@ -346,6 +346,17 @@ function medalFirstCorrect(q) {
   saveMedalLedger(led);
   return n;
 }
+// 🌲 もり：せいかいするたびに 🪙（初回は ふつうの first、2かい目からは forest:q に ためる）
+function medalForestCorrect(q) {
+  const n = medalFirstCorrect(q);
+  if (n || !q || !q.id) return n;
+  const led = loadMedalLedger();
+  const key = (q.month || MEDAL_MONTH) + '|forest:q';
+  const m = medalX(q.subject);
+  led.units[key] = (led.units[key] || 0) + m;
+  saveMedalLedger(led);
+  return m;
+}
 function medalQuestClear(stageKey, count) {
   const led = loadMedalLedger();
   const key = MEDAL_MONTH + '|quest:' + stageKey;
@@ -1247,7 +1258,7 @@ function resolveTurn(ok, q, timeout) {
     save.exp += EXP_HIT;
     if (!rush) popDamage(dmg, bt.streak >= 2);
     if (sprite) { sprite.classList.remove('shake'); void sprite.offsetWidth; sprite.classList.add('shake'); }
-    const gotMedal = medalFirstCorrect(q);
+    const gotMedal = bt.forest ? medalForestCorrect(q) : medalFirstCorrect(q);
     let got = gotMedal;
     if (inTime) {   // ⏱️ 時間内の正解は どの問題でも 🪙2（過去問演習は 🪙4）
       got = 2 * medalX(q.subject);
