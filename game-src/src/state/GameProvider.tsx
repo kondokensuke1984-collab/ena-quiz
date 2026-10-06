@@ -114,8 +114,6 @@ export interface GameApi {
   /** school はけんすけ・みつきのときだけ使う（ほかはキャラで きまる） */
   pickPlayer(player: PlayerKey, school?: School): void;
   setSchool(school: School): void;
-  /** しゅじんこうを えらびなおす（まちがえて えらんだとき。メダルや たてものは そのまま。つぎに PickPlayerScreen が ひらく） */
-  clearPlayer(): void;
   setPos(pos: Pos): void;
   setMonsterPos(pos: Pos, wander?: Pos): void;
   buy(item: Item): void;
@@ -354,7 +352,6 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 
     setSchool: (school) => setSave((s) => ({ ...s, school: resolveSchool(s.player, school) })),
 
-    clearPlayer: () => setSave((s) => ({ ...s, player: null, school: null })),
 
     setPos: (pos) => setSave((s) => ({ ...s, pos })),
 

@@ -5,7 +5,6 @@ import { IslandGround, FOREST_ISLET, MOSHI_ISLET } from '../components/IslandSta
 import { useMoshis, moshiRewards } from '../lib/moshi';
 import { KidSVG, PALETTES } from '../components/KidSVG';
 import { FIXED_SCHOOL, SCHOOLS, SCHOOL_LABEL } from '../lib/school';
-import { PLAYER_CHOICES } from './PickPlayerScreen';
 import { CharSVG } from '../components/CharSVG';
 import { EggSVG } from '../components/EggSVG';
 import { FurnitureSVG } from '../components/FurnitureSVG';
@@ -1221,49 +1220,26 @@ export function IslandScreen() {
         </div>
       </div>
 
-      {/* ── おうちの中：しゅじんこうを かえる（いえを たてたら）── */}
-      {area === 'house' && (
+      {/* ── おうちの中：がっこうを かえる（しゅじんこうは さいしょに えらんだら かえられない）── */}
+      {area === 'house' && save.player && !FIXED_SCHOOL[save.player] && (
         <div className="panel mt-3 !py-3 lg:landscape:col-start-2">
-          <div className="mb-2 text-[12px] font-black text-ink">👤 しゅじんこうを かえる</div>
-          <div className="grid grid-cols-5 gap-1.5">
-            {PLAYER_CHOICES.map((c) => {
-              const now = save.player === c.key;
-              return (
-                <button
-                  key={c.key}
-                  onClick={() => {
-                    if (now) return;
-                    g.pickPlayer(c.key);
-                    const sc = FIXED_SCHOOL[c.key] ?? save.school ?? 'ena';
-                    g.showToast(`${c.emoji} ${PALETTES[c.key].name}に なったよ！（がっこう：${SCHOOL_LABEL[sc]}）`);
-                  }}
-                  className={`flex flex-col items-center rounded-xl px-1 py-1.5 active:scale-95 ${now ? 'bg-amber-100 ring-2 ring-amber-400' : 'bg-indigo-50'}`}
-                >
-                  <KidSVG who={c.key} size={44} />
-                  <span className="mt-0.5 text-[11px] font-black text-ink">{now ? '✓ ' : ''}{PALETTES[c.key].name}</span>
-                </button>
-              );
-            })}
-          </div>
-          {save.player && !FIXED_SCHOOL[save.player] && (
-            <div className="mt-2.5">
-              <div className="mb-1.5 text-[11px] font-black text-ink">🏫 がっこう（クイズアプリで ひらく がっこう）</div>
-              <div className="grid grid-cols-4 gap-1.5">
-                {SCHOOLS.map((sc) => {
-                  const on = save.school === sc;
-                  return (
-                    <button
-                      key={sc}
-                      onClick={() => { if (!on) { g.setSchool(sc); g.showToast(`🏫 がっこう：${SCHOOL_LABEL[sc]}に したよ`); } }}
-                      className={`rounded-xl px-1 py-1.5 text-[12px] font-black active:scale-95 ${on ? 'bg-amber-100 text-ink ring-2 ring-amber-400' : 'bg-indigo-50 text-indigo-900/70'}`}
-                    >
-                      {on ? '✓ ' : ''}{SCHOOL_LABEL[sc]}
-                    </button>
-                  );
-                })}
-              </div>
+          <div>
+            <div className="mb-1.5 text-[11px] font-black text-ink">🏫 がっこう（クイズアプリで ひらく がっこう）</div>
+            <div className="grid grid-cols-4 gap-1.5">
+              {SCHOOLS.map((sc) => {
+                const on = save.school === sc;
+                return (
+                  <button
+                    key={sc}
+                    onClick={() => { if (!on) { g.setSchool(sc); g.showToast(`🏫 がっこう：${SCHOOL_LABEL[sc]}に したよ`); } }}
+                    className={`rounded-xl px-1 py-1.5 text-[12px] font-black active:scale-95 ${on ? 'bg-amber-100 text-ink ring-2 ring-amber-400' : 'bg-indigo-50 text-indigo-900/70'}`}
+                  >
+                    {on ? '✓ ' : ''}{SCHOOL_LABEL[sc]}
+                  </button>
+                );
+              })}
             </div>
-          )}
+          </div>
         </div>
       )}
 
