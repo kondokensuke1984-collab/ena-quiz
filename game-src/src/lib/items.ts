@@ -112,6 +112,10 @@ export const ITEMS: Item[] = [
   { id: 'fn_imosign', kind: 'furniture', name: 'やきいもの かんばん', emoji: '🪧', price: 0, desc: 'やきいもを 3しゅるい やいた ごほうび', once: true, reward: true },
   { id: 'fn_imokama', kind: 'furniture', name: 'いしやきがま',     emoji: '🔥', price: 0, desc: 'やきいもを 5しゅるい ぜんぶ やいた ごほうび', once: true, reward: true },
 
+  // ── もみじの あずまや（おちばひろいの ずかんの ごほうび。ショップでは売らない。lib/arbor.ts）──
+  { id: 'fn_leafpile', kind: 'furniture', name: 'おちばの やま',   emoji: '🍂', price: 0, desc: 'おちばを 3しゅるい あつめた ごほうび', once: true, reward: true, anywhere: true },
+  { id: 'fn_teaset',   kind: 'furniture', name: 'おちゃの セット', emoji: '🍵', price: 0, desc: 'おちばを 6しゅるい ぜんぶ あつめた ごほうび', once: true, reward: true, anywhere: true },
+
   // ── うちゅうりょこうの おみやげ・ずかんの ごほうび（ショップでは売らない。lib/space.ts）──
   { id: 'gf_spacefood',  kind: 'gift',      name: 'うちゅうしょく',       emoji: '🥫', price: 0, desc: 'うちゅうりょこうの おみやげ・なかよし +2', love: 2, reward: true },
   { id: 'fn_moonrock',   kind: 'furniture', name: 'つきの いし',          emoji: '🌑', price: 0, desc: 'うちゅうの 3かしょに いった ごほうび', once: true, reward: true, anywhere: true },

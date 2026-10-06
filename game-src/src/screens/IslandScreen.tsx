@@ -42,6 +42,7 @@ import { DetectiveScreen } from '../components/DetectiveTheater';
 import { caseOpen, CASES, eventActive } from '../lib/detective';
 import { MoonViewModal } from '../components/MoonViewModal';
 import { YakiimoModal } from '../components/YakiimoModal';
+import { ArborModal } from '../components/ArborModal';
 import { SpaceTripModal } from '../components/SpaceTripModal';
 import { OrganModal } from '../components/OrganModal';
 import { MicroscopeModal } from '../components/MicroscopeModal';
@@ -49,6 +50,7 @@ import { costumeOf, halloweenNight, isHalloween } from '../lib/events';
 import { FARM_BOX, isRipe, stageOf } from '../lib/farm';
 
 const IMO_SPOT = BUILDING_SPOTS.bd_imo;
+const ARBOR_SPOT = BUILDING_SPOTS.bd_arbor;
 
 const SAVE_DEBOUNCE = 600;
 const MAX_DT = 0.05; // タブ復帰で瞬間移動しないように、1フレームの進みを上限で止める
@@ -91,7 +93,10 @@ type Bubble = { char: string; text: string; heart: boolean; key: number };
 const CHEST_POS = { x: 0.30, y: 0.86 };
 const MAIL_POS = { x: 0.58, y: 0.72 };
 // さんばしの さき（つりが できる所）
-const PIER_POS = { x: 0.36, y: -0.05 };   // 広げた島の 上の海岸
+const PIER_POS = {   // 広げた島の 上の海岸（歩ける楕円の ふちの すこし 内がわ）
+  x: 0.36,
+  y: MAIN_WALK_ELLIPSE.cy - MAIN_WALK_ELLIPSE.ry * Math.sqrt(1 - ((0.36 - MAIN_WALK_ELLIPSE.cx) / MAIN_WALK_ELLIPSE.rx) ** 2) + 0.014,
+};
 // ハロウィンの ランタン（IslandStage の 10月の かぼちゃと おなじ場所。夜に光らせる）
 const LANTERNS: [number, number][] = [[520, 725], [760, 690], [430, 330], [690, 590], [870, 470]];
 const TAP_LINES = ['なあに？', 'えへへ', 'ぴょん！', 'くすぐったいよ〜', 'いっしょに あそぼ！'];
@@ -170,6 +175,7 @@ export function IslandScreen() {
   const detectiveNew = eventActive() && CASES.some((c) => caseOpen(c) && !save.detective.solved.includes(c.no));
   const [moonViewOpen, setMoonViewOpen] = useState(false);
   const [imoOpen, setImoOpen] = useState(false);
+  const [arborOpen, setArborOpen] = useState(false);
   const [spaceOpen, setSpaceOpen] = useState<'go' | 'dex' | null>(null);
   // 夜空の 星を うごかす（1分ごと）
   const [skyMin, setSkyMin] = useState(0);
@@ -580,6 +586,7 @@ export function IslandScreen() {
     if (area === 'main' && save.buildings.includes('bd_observ') && dist(raw, BUILDING_SPOTS.bd_observ) < 0.09) { openObserv(); return; }
     if (area === 'main' && save.buildings.includes('bd_moon') && dist(raw, BUILDING_SPOTS.bd_moon) < 0.09) { openMoonView(); return; }
     if (area === 'east' && save.buildings.includes('bd_imo') && dist(raw, { x: IMO_SPOT.x, y: IMO_SPOT.y - 0.06 }) < 0.09) { setImoOpen(true); return; }
+    if (area === 'east' && save.buildings.includes('bd_arbor') && dist(raw, { x: ARBOR_SPOT.x, y: ARBOR_SPOT.y - 0.05 }) < 0.09) { setArborOpen(true); return; }
     if (area === 'east' && save.buildings.includes('bd_rocket') && dist(raw, { x: BUILDING_SPOTS.bd_rocket.x, y: BUILDING_SPOTS.bd_rocket.y - 0.1 }) < 0.09) { setSpaceOpen('go'); return; }
     if (area === 'east' && save.buildings.includes('bd_base') && dist(raw, { x: BUILDING_SPOTS.bd_base.x, y: BUILDING_SPOTS.bd_base.y - 0.05 }) < 0.08) { setSpaceOpen('dex'); return; }
     if (area === 'east' && save.buildings.includes('bd_planet') && dist(raw, { x: BUILDING_SPOTS.bd_planet.x, y: BUILDING_SPOTS.bd_planet.y - 0.05 }) < 0.08) { setStarsOpen(true); return; }
@@ -675,6 +682,7 @@ export function IslandScreen() {
   const nearMoonPlat = area === 'main' && save.buildings.includes('bd_moon') && dist(playerPos.current, BUILDING_SPOTS.bd_moon) <= 0.1;
   const nearImo = area === 'east' && save.buildings.includes('bd_imo') && dist(playerPos.current, IMO_SPOT) <= 0.1;
   const nearEastBd = (id: string) => area === 'east' && save.buildings.includes(id) && dist(playerPos.current, BUILDING_SPOTS[id]) <= 0.1;
+  const nearArbor = nearEastBd('bd_arbor');
   const nearRocket = nearEastBd('bd_rocket');
   const nearBase = nearEastBd('bd_base');
   const nearPlanet = nearEastBd('bd_planet');
@@ -1164,6 +1172,8 @@ export function IslandScreen() {
             <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={openMoonView}>🎑 おだんごを おそなえ</button>
           ) : nearImo && !nearOther ? (
             <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => setImoOpen(true)}>🍠 やきいもやさん</button>
+          ) : nearArbor && !nearOther ? (
+            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => setArborOpen(true)}>🍁 あずまやで ひとやすみ</button>
           ) : nearRocket && !nearOther ? (
             <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => setSpaceOpen('go')}>🚀 うちゅうへ いく</button>
           ) : nearBase && !nearOther ? (
@@ -1198,6 +1208,8 @@ export function IslandScreen() {
                 : area === 'east'
                 ? save.buildings.includes('bd_rocket')
                   ? 'ロケットを タップすると うちゅうりょこうに いけるよ。ひだりの はしで もとの しまに もどれるよ'
+                  : save.buildings.includes('bd_arbor')
+                  ? 'あずまやを タップすると ひとやすみ・おちばひろい・おはなしが できるよ。ひだりの はしで もとの しまに もどれるよ'
                   : save.buildings.includes('bd_imo')
                   ? 'やきいも やたいを タップすると いもを やけるよ。ひだりの はしで もとの しまに もどれるよ'
                   : 'はなばたけの しまだよ。ひだりの はしで もとの しまに もどれるよ'
@@ -1364,6 +1376,7 @@ export function IslandScreen() {
       {detectiveOpen && <DetectiveScreen onClose={() => setDetectiveOpen(false)} />}
       {moonViewOpen && <MoonViewModal onClose={() => setMoonViewOpen(false)} />}
       {imoOpen && <YakiimoModal customers={imoCustomers} onClose={() => setImoOpen(false)} />}
+      {arborOpen && <ArborModal friends={imoCustomers} studied={studied} onClose={() => setArborOpen(false)} />}
       {spaceOpen && <SpaceTripModal tab={spaceOpen} studied={studied} crew={imoCustomers} onClose={() => setSpaceOpen(null)} />}
 
       {/* ── 🌲 まよいの森へ（クエストの ページに うつる）── */}

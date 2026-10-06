@@ -5,9 +5,9 @@ import { MAIN_GROUND, WORLD } from '../lib/island';
 // pier＝さんばしとボート（上の海岸）、右上の小島（がっこうで できる）、左上の もりのこじま、右の海岸の はし。
 // 季節の飾り（今月＝実際の日付の月）。建物とぶつからない芝のふちに置く
 /** 左上の海の「もりの こじま」（タップで クエストの まよいの森へ）。割合 */
-export const FOREST_ISLET = { x: -0.15, y: -0.227 };
+export const FOREST_ISLET = { x: -0.33, y: -0.48 };
 /** 左下の海の「もしの しま」（テストの 3日まえ〜当日だけ。タップで /rpg.html#moshi）。割合 */
-export const MOSHI_ISLET = { x: -0.15, y: 1.32 };
+export const MOSHI_ISLET = { x: -0.30, y: 1.587 };
 
 export const SEASON_SPOTS: [number, number][] = [[330, 575], [905, 560], [250, 690], [680, 735], [300, 790], [760, 690]];  // はたけ（x 340〜600・y 600〜790）を よける
 
@@ -95,24 +95,24 @@ function SeasonDeco({ season, halloween = false }: { season: number; halloween?:
 function BridgeRight() {
   return (
     <g>
-      <rect x="1180" y="436" width="130" height="30" fill="#b45309" stroke="#4c1d95" strokeWidth="2.4" />
+      <rect x="1352" y="436" width="130" height="30" fill="#b45309" stroke="#4c1d95" strokeWidth="2.4" />
       {Array.from({ length: 8 }, (_, i) => (
-        <line key={i} x1={1190 + i * 16} x2={1190 + i * 16} y1="436" y2="466" stroke="#78350f" strokeWidth="2" />
+        <line key={i} x1={1362 + i * 16} x2={1362 + i * 16} y1="436" y2="466" stroke="#78350f" strokeWidth="2" />
       ))}
-      <path d="M1180 432 L1300 432 M1180 470 L1300 470" stroke="#92400e" strokeWidth="4" />
-      <text x="1250" y="422" fontSize="22" textAnchor="middle">🌸</text>
+      <path d="M1352 432 L1472 432 M1352 470 L1472 470" stroke="#92400e" strokeWidth="4" />
+      <text x="1422" y="422" fontSize="22" textAnchor="middle">🌸</text>
     </g>
   );
 }
 
 // 広げた土地の 木・しげみ・花・岩（今の島の まわりを ぐるっと）。歩きの じゃまは しない
 const G0 = MAIN_GROUND;
-const OUTER_DECO = Array.from({ length: 16 }, (_, i) => {
-  const a = (i / 16) * Math.PI * 2 + 0.2;
+const OUTER_DECO = Array.from({ length: 22 }, (_, i) => {
+  const a = (i / 22) * Math.PI * 2 + 0.2;
   const k = i % 2 ? 0.86 : 0.78;
   return { x: G0.cx + Math.cos(a) * G0.grassRx * k, y: G0.cy + Math.sin(a) * G0.grassRy * k, kind: i % 4, a };
 }).filter((d) => Math.abs(d.x - 360) > 90 || d.y > 100)          // さんばしの前は あける
-  .filter((d) => !(d.x > 1050 && Math.abs(d.y - 450) < 90));      // はしの前も あける
+  .filter((d) => !(d.x > 1222 && Math.abs(d.y - 450) < 90));      // はしの前も あける
 
 function OuterDeco() {
   return (
@@ -149,7 +149,7 @@ function OuterDeco() {
         </g>
       ))}
       {/* 草のぽつぽつ（外がわ） */}
-      {[[-60, 300], [1040, 250], [60, 780], [940, 800], [250, 950], [760, 960], [500, 1000], [150, 120], [860, 90], [-120, 520], [1120, 620]].map(([x, y]) => (
+      {[[-60, 300], [1040, 250], [60, 780], [940, 800], [250, 950], [760, 960], [500, 1000], [150, 120], [860, 90], [-120, 520], [1120, 620], [300, -200], [750, -230], [-350, 150], [1380, 600], [-380, 640], [600, 1130], [-200, 960], [1150, 1000], [1250, 120], [-300, 320]].map(([x, y]) => (
         <g key={`og${x}-${y}`} opacity="0.55">
           <path d={`M${x} ${y} q -4 -10 -1 -16`} stroke="#16a34a" strokeWidth="3" strokeLinecap="round" fill="none" />
           <path d={`M${x + 4} ${y} q 3 -12 8 -16`} stroke="#16a34a" strokeWidth="3" strokeLinecap="round" fill="none" />
@@ -163,7 +163,7 @@ function IslandGroundBase({ expansion = 0, pier = false, season = 0, bridge = fa
   const G = MAIN_GROUND;
   // さんばしの ねもと（x=360 の 砂浜の上のはし）
   const sandTop = Math.round(G.cy - G.sandRy * Math.sqrt(1 - ((360 - G.cx) / G.sandRx) ** 2));
-  const wave = (y: number) => `M${WORLD.x} ${y}` + ' q 60 -10 120 0'.repeat(1) + ' t 120 0'.repeat(13);
+  const wave = (y: number) => `M${WORLD.x} ${y}` + ' q 60 -10 120 0'.repeat(1) + ' t 120 0'.repeat(18);
   return (
     <>
       <defs>
@@ -185,12 +185,12 @@ function IslandGroundBase({ expansion = 0, pier = false, season = 0, bridge = fa
       <rect x={WORLD.x} y={WORLD.y} width={WORLD.w} height={WORLD.h} fill="url(#sea)" />
 
       {/* 波（上と下の海） */}
-      {[-235, -200, -170, 1050, 1080].map((y, i) => (
+      {[-500, -410, -370, 1230, 1270].map((y, i) => (
         <path key={y} d={wave(y)} fill="none" stroke="rgba(255,255,255,0.35)" strokeWidth={3 - (i % 3) * 0.6} />
       ))}
 
       {/* 🚪 はるか むこうの「ゆめの しま」（オープニングで見た島。うすく 霧の中。タップは しない） */}
-      <g transform="translate(700 -222)" opacity="0.5" pointerEvents="none">
+      <g transform="translate(700 -450)" opacity="0.5" pointerEvents="none">
         <path d="M-80 8 Q-60 -8 -34 -10 Q-20 -34 0 -38 Q20 -34 30 -14 Q58 -12 80 8 Z" fill="#94a3b8" />
         <rect x="-5" y="-30" width="10" height="16" rx="5" fill="#fef9c3" className="twinkle" />
         <g className="dream-mist">
@@ -200,7 +200,7 @@ function IslandGroundBase({ expansion = 0, pier = false, season = 0, bridge = fa
       </g>
 
       {/* 🌲 左上の海の もりの こじま（いつも ある。タップで まよいの森へ） */}
-      <g transform="translate(-300 -277) scale(1.3)">
+      <g transform="translate(-480 -472) scale(1.3)">
         <ellipse cx="115" cy="86" rx="98" ry="36" fill="url(#sand)" />
         <ellipse cx="115" cy="82" rx="78" ry="25" fill="#15803d" />
         {[[62, 88, 0.5], [148, 90, 0.5], [88, 74, 0.62], [128, 72, 0.66], [108, 94, 0.55]].map(([x, y, k], i) => (
@@ -219,7 +219,7 @@ function IslandGroundBase({ expansion = 0, pier = false, season = 0, bridge = fa
 
       {/* 📝 左下の海の もしの しま（テストの 3日まえ〜当日だけ うかぶ） */}
       {moshi && (
-        <g transform="translate(-150 990)">
+        <g transform="translate(-300 1190)">
           <g className="moshi-float">
             <ellipse cx="0" cy="8" rx="96" ry="30" fill="url(#sand)" />
             <ellipse cx="0" cy="2" rx="70" ry="19" fill="url(#grass)" />
@@ -243,7 +243,7 @@ function IslandGroundBase({ expansion = 0, pier = false, season = 0, bridge = fa
 
       {/* 右上の海の 小島と はし（がっこうを建てると できる） */}
       {expansion >= 2 && (
-        <g>
+        <g transform="translate(190 -85)">
           <path d="M1010 20 Q 1060 -60 1100 -128" fill="none" stroke="#92400e" strokeWidth="16" strokeLinecap="round" />
           <path d="M1010 20 Q 1060 -60 1100 -128" fill="none" stroke="#d97706" strokeWidth="10" strokeDasharray="4 7" strokeLinecap="round" />
           <ellipse cx="1150" cy="-165" rx="86" ry="34" fill="url(#sand)" />

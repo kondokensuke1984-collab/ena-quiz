@@ -24,6 +24,7 @@ import { CASES, DETECTIVE_REWARDS, DETECTIVE_TITLE } from '../lib/detective';
 import { seasonNow } from '../lib/items';
 import { ORGAN_TITLE, SONGS } from '../lib/songs';
 import { IMO_BY_ID, IMO_PER_DAY, IMO_REWARDS } from '../lib/yakiimo';
+import { ARBOR_REWARDS, GATHER_PER_DAY, TALK_PER_DAY, arborToday, rollLeaf, type Leaf } from '../lib/arbor';
 import { DEST_BY_ID, DESTS, SPACE_REWARDS, SPACE_TITLE, TRIPS_PER_DAY, TRIPS_STUDY_BONUS, openDests } from '../lib/space';
 import { MICRO_TITLE, PLANKTON, PLANKTON_PER_DAY, PLANKTON_REWARDS, PLANKTON_STUDY_BONUS } from '../lib/plankton';
 
@@ -187,6 +188,14 @@ export interface GameApi {
   imoCustomersLeft(): number;
   /** やきいも やたい：おきゃくさんに やきいもを n こ わたす（なかよし +3・おれいの品 1つ） */
   serveImo(charKey: string, n: number): { thanks: string; heartsBefore: number; heartsAfter: number } | null;
+  /** もみじの あずまや：おちばを 1まい ひろう（1日5まい）。ずかんの ごほうびが あれば その品ID */
+  arborGather(): { leaf: Leaf; isNew: boolean; reward: string | null } | null;
+  /** もみじの あずまや：ひとやすみ（1日1回）。もらった ごほうびの品ID */
+  arborRest(studied: boolean): { gifts: string[] } | null;
+  /** もみじの あずまや：おちゃの おてがみ（1日1回）。charKey の子と なかよし +2 */
+  arborTea(charKey: string, fromName: string, title: string, body: string): boolean;
+  /** もみじの あずまや：かいぎで おはなし（1日3回）。correct＝せいかいで なかよし +2、まちがいは +1 */
+  arborTalk(charKey: string, correct: boolean): { heartsBefore: number; heartsAfter: number } | null;
   /** うちゅうりょこう：きょう あと なんかい とべるか（studied＝クイズ5もんの日） */
   spaceTripsLeft(studied: boolean): number;
   /** うちゅうりょこう：とんだ（かいすうを つかう）。とべないときは null */
@@ -886,6 +895,81 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       const heartsAfter = heartsOf(pts);
       sfx(heartsAfter > heartsBefore ? 'heart' : 'gift');
       return { thanks, heartsBefore, heartsAfter };
+    },
+
+    arborGather: () => {
+      const cur = saveRef.current;
+      const day = dateKey();
+      const t = arborToday(cur.arbor, day);
+      if (t.gathered >= GATHER_PER_DAY) { showToast('きょうの おちばひろいは おしまい', 'ng'); return null; }
+      const leaf = rollLeaf();
+      const isNew = !cur.arbor.dex.includes(leaf.id);
+      const kinds = cur.arbor.dex.length + (isNew ? 1 : 0);
+      const reward = ARBOR_REWARDS.find((r) => r.kinds <= kinds && !cur.owned.includes(r.item))?.item ?? null;
+      setSave((s) => {
+        const a = arborToday(s.arbor, day);
+        return {
+          ...s,
+          arbor: { ...s.arbor, ...a, day, gathered: a.gathered + 1, dex: s.arbor.dex.includes(leaf.id) ? s.arbor.dex : [...s.arbor.dex, leaf.id] },
+          owned: reward && !s.owned.includes(reward) ? [...s.owned, reward] : s.owned,
+        };
+      });
+      sfx(isNew ? 'star' : 'gift');
+      return { leaf, isNew, reward };
+    },
+
+    arborRest: (studied) => {
+      const cur = saveRef.current;
+      const day = dateKey();
+      if (arborToday(cur.arbor, day).rested) { showToast('きょうの ひとやすみは おわったよ', 'ng'); return null; }
+      const gifts = [pick(EVERYDAY_GIFTS), ...(studied ? [pick(EVERYDAY_GIFTS)] : [])];
+      setSave((s) => {
+        const a = arborToday(s.arbor, day);
+        const inventory = { ...s.inventory };
+        for (const gid of gifts) inventory[gid] = (inventory[gid] ?? 0) + 1;
+        return { ...s, inventory, arbor: { ...s.arbor, ...a, day, rested: true } };
+      });
+      sfx('gift');
+      return { gifts };
+    },
+
+    arborTea: (charKey, fromName, title, body) => {
+      const cur = saveRef.current;
+      const day = dateKey();
+      if (arborToday(cur.arbor, day).tea) { showToast('きょうの おちゃかいは おわったよ', 'ng'); return false; }
+      setSave((s) => {
+        const a = arborToday(s.arbor, day);
+        const fp = s.friendsPlay[charKey] ?? { pts: 0, day: todayStr(), today: 0, wear: null };
+        return {
+          ...s,
+          arbor: { ...s.arbor, ...a, day, tea: true },
+          friendsPlay: { ...s.friendsPlay, [charKey]: { ...fp, pts: fp.pts + 2 } },
+          letters: [mkLetter(charKey, fromName, title, body), ...s.letters].slice(0, 30),
+        };
+      });
+      sfx('letter');
+      return true;
+    },
+
+    arborTalk: (charKey, correct) => {
+      const cur = saveRef.current;
+      const day = dateKey();
+      if (arborToday(cur.arbor, day).talked >= TALK_PER_DAY) { showToast('きょうの かいぎは おしまい', 'ng'); return null; }
+      const add = correct ? 2 : 1;
+      const prev = cur.friendsPlay[charKey] ?? { pts: 0, day: todayStr(), today: 0, wear: null };
+      setSave((s) => {
+        const a = arborToday(s.arbor, day);
+        const fp = s.friendsPlay[charKey] ?? prev;
+        return {
+          ...s,
+          arbor: { ...s.arbor, ...a, day, talked: a.talked + 1 },
+          friendsPlay: { ...s.friendsPlay, [charKey]: { ...fp, pts: fp.pts + add } },
+        };
+      });
+      const heartsBefore = heartsOf(prev.pts);
+      const heartsAfter = heartsOf(prev.pts + add);
+      sfx(heartsAfter > heartsBefore ? 'heart' : correct ? 'star' : 'gift');
+      return { heartsBefore, heartsAfter };
     },
 
     spaceTripsLeft: (studied) => {

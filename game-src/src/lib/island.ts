@@ -1,6 +1,6 @@
 // 島の座標系と移動。
 // 位置は 1000 x 750 の枠に対する割合で持つ（セーブもこの単位）。
-// main（アンリノ島）は 2026-09-22 に土地を広げた：割合は 0..1 の外（x −0.3〜1.3、y −0.35〜1.45）まで使う。
+// main（アンリノ島）は 2026-09-22 に土地を広げ、さらに 1.25倍に広げた：割合は 0..1 の外（x −0.5〜1.5、y −0.55〜1.7）まで使う。
 // いまある座標は 1つも動かしていない（今の島が 大きな島の まんなかに そのまま残る）。画面は カメラで スクロールする。
 
 import type { Pos } from '../types';
@@ -10,10 +10,10 @@ export const ISLAND_W = 1000;
 export const ISLAND_H = 750;
 
 /** main の世界の大きさ（px。1000x750 の枠の外まで ある）。カメラは この中だけ動く */
-export const WORLD = { x: -300, y: -260, w: 1600, h: 1360 };
+export const WORLD = { x: -600, y: -520, w: 2200, h: 1880 };
 /** main の島の形（px）。砂浜・芝の楕円と、歩ける楕円 */
-export const MAIN_GROUND = { cx: 500, cy: 430, sandRx: 740, sandRy: 590, grassRx: 690, grassRy: 540 };
-const MAIN_WALK = { cx: 0.5, cy: 430 / 750, rx: 0.64, ry: 490 / 750 };   // 割合
+export const MAIN_GROUND = { cx: 500, cy: 430, sandRx: 925, sandRy: 737, grassRx: 862, grassRy: 675 };
+const MAIN_WALK = { cx: 0.5, cy: 430 / 750, rx: 0.80, ry: 612 / 750 };   // 割合
 let WALK: typeof MAIN_WALK | null = null;
 
 /** 歩ける範囲（割合）。外周は海と砂浜なので少し内側に寄せる。
@@ -52,7 +52,7 @@ export const MAIN_WALK_ELLIPSE = MAIN_WALK;
 export const DOORS = {
   mainToHouse: { x: 0.2, y: 0.45 },      // おうちの 戸口
   houseToMain: { x: 0.14, y: 0.6 },      // 部屋の ドア
-  mainToEast: { x: 1.12, y: 0.6 },       // はしの たもと（main の右の海岸）
+  mainToEast: { x: 1.28, y: 0.6 },       // はしの たもと（main の右の海岸）
   eastToMain: { x: 0.09, y: 0.6 },       // はしの たもと（east の左はし）
   mainToSchool: { x: 0.64, y: 0.39 },    // がっこうの 戸口
   schoolToMain: { x: 0.86, y: 0.62 },    // きょうしつの ドア（右）
@@ -61,7 +61,7 @@ export const ENTRY = {
   house: { x: 0.2, y: 0.68 },
   mainFromHouse: { x: 0.2, y: 0.5 },
   east: { x: 0.14, y: 0.6 },
-  mainFromEast: { x: 1.07, y: 0.6 },
+  mainFromEast: { x: 1.23, y: 0.6 },
   school: { x: 0.8, y: 0.7 },
   mainFromSchool: { x: 0.64, y: 0.44 },
 };

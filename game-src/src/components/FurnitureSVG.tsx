@@ -384,6 +384,27 @@ const DRAWINGS: Record<string, Draw> = {
       <path d="M-3 -40 Q0 -38 3 -40" fill="none" stroke="#1e1b4b" strokeWidth="1.2" />
     </g>
   ),
+  fn_leafpile: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="22" ry="6" fill="rgba(0,0,0,0.2)" />
+      <path d="M-22 0 Q-20 -18 -6 -22 Q0 -30 8 -22 Q22 -18 22 0 Z" fill="#f59e0b" {...S} />
+      {[[-12, -8, '#ef4444'], [2, -14, '#f97316'], [12, -6, '#dc2626'], [-2, -4, '#fbbf24']].map(([x, y, c], i) => (
+        <circle key={i} cx={x as number} cy={y as number} r="5" fill={c as string} stroke="#4c1d95" strokeWidth="1.4" />
+      ))}
+      <path d="M16 -20 l4 -4 1 5 z" fill="#ef4444" />
+    </g>
+  ),
+  fn_teaset: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="24" ry="6" fill="rgba(0,0,0,0.2)" />
+      <rect x="-22" y="-16" width="44" height="4" rx="2" fill="#92400e" {...S} />
+      <rect x="-18" y="-12" width="4" height="12" fill="#92400e" />
+      <rect x="14" y="-12" width="4" height="12" fill="#92400e" />
+      <path d="M-14 -17 Q-14 -30 -2 -30 Q10 -30 10 -17 Z" fill="#fef3c7" {...S} />
+      <path d="M10 -26 q8 0 8 6 q0 5 -8 5" fill="none" stroke="#4c1d95" strokeWidth="2.2" />
+      <path d="M-8 -34 q-3 -6 1 -9 M0 -34 q3 -7 -1 -10" fill="none" stroke="#a8a29e" strokeWidth="1.6" strokeLinecap="round" />
+    </g>
+  ),
   fn_maple: () => (
     <g>
       <ellipse cx="0" cy="2" rx="18" ry="6" fill="rgba(0,0,0,0.2)" />

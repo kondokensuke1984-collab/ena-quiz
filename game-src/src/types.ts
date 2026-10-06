@@ -101,6 +101,7 @@ export interface SaveV1 {
   organ: { played: string[] };                // オルガンの れんしゅうで さいごまで ひけた曲ID
   micro: { dex: string[]; day: string; today: number; ready: boolean };
   imo: { dex: string[]; day: string; served: number };  // やきいも やたい：やけた しゅるい・きょう きた おきゃくさんの数  // けんびきょう：みつけた プランクトンID・きょう とうろくした数・じゅんびの てじゅんを 1回 できた
+  arbor: { dex: string[]; day: string; gathered: number; rested: boolean; tea: boolean; talked: number };  // もみじの あずまや：あつめた おちばID・きょうの おちばひろい／ひとやすみ／おちゃ／かいぎの かいすう
   space: { dex: string[]; day: string; trips: number };  // うちゅうりょこう：いった いきさきID・きょう とんだ かいすう
 }
 

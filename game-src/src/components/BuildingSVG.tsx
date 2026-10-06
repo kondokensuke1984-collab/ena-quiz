@@ -250,7 +250,7 @@ export const BUILDING_SPOTS: Record<string, BuildingSpot> = {
   bd_moon: { x: 0.80, y: 0.80 },
   // となりの しま（east）。池（0.70,0.75）と 左の はしを よける
   bd_imo: { x: 0.36, y: 0.46, area: 'east', glow: { dy: -0.08, r: 55 } },
-  bd_arbor: { x: 0.64, y: 0.42, area: 'east' },
+  bd_arbor: { x: 0.64, y: 0.42, area: 'east', glow: { dy: -0.06, r: 48 } },
   // うちゅうセット（east の した半分と みぎ。池・はしを よける）
   bd_base: { x: 0.26, y: 0.74, area: 'east', glow: { dy: -0.04, r: 50 } },
   bd_planet: { x: 0.48, y: 0.8, area: 'east', glow: { dy: -0.03, r: 55 } },
