@@ -219,6 +219,8 @@ function forestMapPanel() {
     '<button class="btn" onclick="enterForest()" style="text-align:center; background:#fff;">' +
       (f && (f.x !== FOREST_SPOTS.start[0] || f.y !== FOREST_SPOTS.start[1] || f.key) ? '🌲 つづきから' : '🌲 もりに はいる') +
     '</button>' +
+    (typeof FOREST_DEX_ORDER !== 'undefined'
+      ? '<button class="btn" onclick="forestDexOpen()" style="text-align:center; background:#fff; margin-top:8px;">📖 モンスターずかん ' + forestDexCount() + ' / ' + FOREST_DEX_ORDER.length + '</button>' : '') +
     (beat ? '<div style="margin-top:6px; font-size:11.5px; color:#15803d; font-weight:800; text-align:right;">👑 きょうは もりのぬしを たおしたよ！</div>' : '') +
   '</div>';
 }
@@ -250,6 +252,7 @@ function forestShow(msg) {
         '</div>' +
         '<div style="display:flex; flex-direction:column; gap:6px;">' +
           '<button class="fz-btn" onclick="toggleForestMap()">🗺️ ちず</button>' +
+          '<button class="fz-btn" onclick="forestDexOpen()">📖 ずかん</button>' +
           '<button class="fz-btn" id="fz-music" onclick="forestMusicToggle()"></button>' +
           '<button class="fz-btn" id="fz-leave" onclick="leaveForest()"></button>' +
         '</div>' +
@@ -909,6 +912,50 @@ async function forest3DInit() {
   };
 }
 
+// ── 📖 モンスターずかん（save.forestDex：{ モンスターの key: たおした かず }。日を こえても のこる）──
+function forestDex() { if (!save.forestDex || typeof save.forestDex !== 'object') save.forestDex = {}; return save.forestDex; }
+function forestDexCount() { return typeof FOREST_DEX_ORDER === 'undefined' ? 0 : FOREST_DEX_ORDER.filter(([k]) => forestDex()[k]).length; }
+function forestDexOpen(pick) {
+  if (typeof FOREST_DEX_ORDER === 'undefined') return;
+  let w = document.getElementById('fz-dex');
+  if (!w) {
+    w = document.createElement('div');
+    w.id = 'fz-dex'; w.className = 'fz-mapwrap';
+    w.onclick = e => { if (e.target === w) forestDexClose(); };
+    document.body.appendChild(w);
+  }
+  const dex = forestDex(), got = forestDexCount(), all = FOREST_DEX_ORDER.length;
+  let body;
+  if (pick && dex[pick]) {
+    const area = (FOREST_DEX_ORDER.find(([k]) => k === pick) || [])[1] || '';
+    body =
+      '<div style="display:flex; justify-content:center;">' + CHARS[pick](6, 100, 190, {}) + '</div>' +
+      '<div style="font-size:20px; font-weight:800;">' + esc(CHAR_NAME[pick]) + '</div>' +
+      '<div style="font-size:12px; color:#64748b; margin-top:2px;">📍 ' + area + '　⚔️ たおした かず ' + dex[pick] + '</div>' +
+      '<div style="margin-top:10px; background:#f0fdf4; border-radius:12px; padding:10px 12px; font-size:14px; line-height:1.8; text-align:left;">' + esc(FOREST_MONSTER_INFO[pick] || '') + '</div>' +
+      '<button class="btn-main" style="margin-top:12px;" onclick="forestDexOpen()">← ずかんに もどる</button>';
+  } else {
+    let lastArea = '';
+    const cards = FOREST_DEX_ORDER.map(([k, area], i) => {
+      const head = area !== lastArea ? '<div class="fz-dexhead">' + area + '</div>' : '';
+      lastArea = area;
+      const on = !!dex[k];
+      return head + '<button class="fz-dexcard' + (on ? '' : ' off') + '"' + (on ? ' onclick="forestDexOpen(\'' + k + '\')"' : '') + '>' +
+        '<span class="fz-dexno">No.' + String(i + 1).padStart(2, '0') + '</span>' +
+        CHARS[k](6, 100, 74, { silhouette: !on }) +
+        '<span class="fz-dexname">' + (on ? esc(CHAR_NAME[k]) : '？？？') + '</span></button>';
+    }).join('');
+    body =
+      '<div style="font-size:18px; font-weight:800;">📖 モンスターずかん</div>' +
+      '<div style="font-size:13px; color:#64748b; margin:2px 0 8px;">たおした モンスター ' + got + ' / ' + all + (got === all ? '　🎉 コンプリート！' : '') + '</div>' +
+      '<div class="fz-dexbar"><i style="width:' + Math.round(got / all * 100) + '%"></i></div>' +
+      '<div class="fz-dexgrid">' + cards + '</div>' +
+      '<button class="btn-main" style="margin-top:12px;" onclick="forestDexClose()">とじる</button>';
+  }
+  w.innerHTML = '<div class="panel fz-dexpanel" onclick="event.stopPropagation()">' + body + '</div>';
+}
+function forestDexClose() { const w = document.getElementById('fz-dex'); if (w) w.remove(); }
+
 // ── たたかい（rpg.html の戦いを そのまま つかう）──
 // kind：'mob' ふつう／'guard' どうくつの ばんにん／'boss' もりのぬし
 function startForestBattle(kind) {
@@ -953,7 +1000,11 @@ function forestEndBattle(win) {
   const f = save.forest, kind = bt.forest.kind || (bt.forest.boss ? 'boss' : 'mob'), boss = kind === 'boss';
   let lvUps = 0, bonus = 0, first = false, gotKey = false;
   questLogDay(d => { d.battles++; if (win) d.wins++; });
+  let dexNew = false;
   if (win) {
+    const dex = forestDex();
+    dexNew = !dex[bt.char];
+    dex[bt.char] = (dex[bt.char] || 0) + 1;
     save.exp += boss ? EXP_WIN * 2 : kind === 'guard' ? Math.round(EXP_WIN * 1.5) : EXP_WIN;
     save.wins++;
     if (kind === 'guard' && !f.key) { f.key = true; gotKey = true; }
@@ -990,6 +1041,7 @@ function forestEndBattle(win) {
         '<div style="font-size:13px; color:#64748b;">もりの キャンプに もどされた。HP は はんぶん かいふく。</div>'
       : '<div style="font-size:21px; font-weight:800; color:#b45309;">' + bt.name + ' は にげていった…</div>' + art(true)) +
     '<div style="margin-top:10px; font-size:14px;">せいかい ' + bt.correct + ' / ' + bt.queue.length + '</div>' +
+    (dexNew ? '<div style="margin-top:6px; font-size:15px; font-weight:800; color:#7c3aed;">📖 ' + esc(CHAR_NAME[bt.char] || bt.name) + ' が ずかんに のった！（' + forestDexCount() + ' / ' + FOREST_DEX_ORDER.length + '）</div>' : '') +
     (gotKey ? '<div style="margin-top:6px; font-size:15px; font-weight:800; color:#b45309;">🗝 しろの かぎを てに いれた！</div>' : '') +
     (bonus ? '<div style="margin-top:6px; font-size:15px; font-weight:800; color:#15803d;">🌲 もりのぬし ボーナス 🪙+' + bonus + '</div>' : '') +
     (first ? '<div style="margin-top:4px; font-size:13px; font-weight:800; color:#b45309;">🏆 しまに「もりの トロフィー」が とどくよ！</div>' : '') +
