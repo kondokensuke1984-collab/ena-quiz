@@ -33,9 +33,9 @@ import { cycleSoundMode, setBgmNight, sfx, soundMode, voice, type SoundMode } fr
 import { answeredByDate, daysThisWeek, stampDays, studiedToday, todayUnits, UNLOCK_CATS } from '../lib/study';
 import { earnedTotal } from '../lib/medals';
 import { pickLesson, type Lesson } from '../lib/lesson';
-import { addressToNow, buildLetters } from '../lib/letters';
-import { photoMonthOf, stampRewardsFor } from '../lib/items';
-import type { Area, Letter, Pos } from '../types';
+import { buildLetters } from '../lib/letters';
+import { photoMonthOf } from '../lib/items';
+import type { Area, Pos } from '../types';
 import { EastGround, RoomGround, SchoolGround, SCHOOL_DESKS, SCHOOL_HITS } from '../components/AreaStages';
 import { FishingModal } from '../components/FishingModal';
 import { FarmPatch } from '../components/FarmPatch';
@@ -49,6 +49,9 @@ import { ArborModal } from '../components/ArborModal';
 import { SpaceTripModal } from '../components/SpaceTripModal';
 import { OrganModal } from '../components/OrganModal';
 import { MicroscopeModal } from '../components/MicroscopeModal';
+import { TransferModal } from '../components/TransferModal';
+import { StampModal } from './island/StampModal';
+import { MailModal } from './island/MailModal';
 import { costumeOf, halloweenNight, isHalloween } from '../lib/events';
 import { FARM_BOX, isRipe, stageOf } from '../lib/farm';
 
@@ -131,6 +134,10 @@ function todayKey(): string {
   return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
 }
 
+type ModalKind =
+  | 'feed' | 'roster' | 'stamp' | 'mail' | 'fish' | 'farm' | 'stars' | 'detective' | 'moonView'
+  | 'imo' | 'arbor' | 'spaceGo' | 'spaceDex' | 'desk' | 'organ' | 'micro' | 'transfer' | 'board' | 'opening';
+
 type Mode = { kind: 'walk' } | { kind: 'place'; itemId: string } | { kind: 'move'; uid: string };
 
 export function IslandScreen() {
@@ -154,7 +161,8 @@ export function IslandScreen() {
   const dirtyAt = useRef(0);
 
   const [mode, setMode] = useState<Mode>({ kind: 'walk' });
-  const [feedOpen, setFeedOpen] = useState(false);
+  // ひらいている まど（同時に 2つは ひらかない）
+  const [modal, setModal] = useState<ModalKind | null>(null);
   const [order, setOrder] = useState('');
   const [walking, setWalking] = useState(false);
   const [pref3d, setPref3d] = useState(() => { try { return localStorage.getItem(PREF_3D) !== '0'; } catch { return true; } });
@@ -165,7 +173,6 @@ export function IslandScreen() {
   const [giftFor, setGiftFor] = useState<Friend | null>(null);
   const [wearFor, setWearFor] = useState<Friend | null>(null);
   const [bubble, setBubble] = useState<Bubble | null>(null);
-  const [rosterOpen, setRosterOpen] = useState(false);
   // 🤫 けいじばんの すみの 📌 → ひみつの あいことば（lib/secret.ts）
   const [secretOpen, setSecretOpen] = useState(false);
   const [secretText, setSecretText] = useState('');
@@ -178,20 +185,9 @@ export function IslandScreen() {
     setSecretOpen(false);
   };
   const [jump, setJump] = useState<{ id: string; key: number } | null>(null);
-  const [stampOpen, setStampOpen] = useState(false);
-  const [mailOpen, setMailOpen] = useState(false);
-  const [reading, setReading] = useState<Letter | null>(null);
   const [snd, setSnd] = useState<SoundMode>(soundMode());
   const [studyTick, setStudyTick] = useState(0);
-  const [fishOpen, setFishOpen] = useState(false);
-  const [farmOpen, setFarmOpen] = useState(false);
-  const [starsOpen, setStarsOpen] = useState(false);
-  const [detectiveOpen, setDetectiveOpen] = useState(false);
   const detectiveNew = eventActive() && CASES.some((c) => caseOpen(c) && !save.detective.solved.includes(c.no));
-  const [moonViewOpen, setMoonViewOpen] = useState(false);
-  const [imoOpen, setImoOpen] = useState(false);
-  const [arborOpen, setArborOpen] = useState(false);
-  const [spaceOpen, setSpaceOpen] = useState<'go' | 'dex' | null>(null);
   // 夜空の 星を うごかす（1分ごと）
   const [skyMin, setSkyMin] = useState(0);
   useEffect(() => {
@@ -220,11 +216,7 @@ export function IslandScreen() {
   const nextBuild = ITEM_BY_ID[nextBuildId(save.buildings) ?? ''];
   const [fade, setFade] = useState(false);
   const [sleeping, setSleeping] = useState(false);
-  const [deskOpen, setDeskOpen] = useState(false);
-  const [organOpen, setOrganOpen] = useState(false);
-  const [microOpen, setMicroOpen] = useState(false);
   // 🏫 がっこう：こくばん・じゅぎょう・テレビ
-  const [boardOpen, setBoardOpen] = useState(false);
   const [tvAsk, setTvAsk] = useState(false);
   const [lesson, setLesson] = useState<{ f: Friend; l: (Lesson & { id: string }) | null; show: boolean; loading: boolean } | null>(null);
 
@@ -315,7 +307,6 @@ export function IslandScreen() {
   saveRef2.current = save;
   const lastMarks = useRef<unknown>(null);
   const [monthBanner, setMonthBanner] = useState<string | null>(null);
-  const [openingOpen, setOpeningOpen] = useState(false);
   useEffect(() => {
     const cur = saveRef2.current;
     // 同じ記録から2回 手紙を作らない（開発中の二重実行・すばやい再描画でも1回だけ）
@@ -570,23 +561,23 @@ export function IslandScreen() {
     }
     // キャラ・たからばこ・ポストの上を タップしたら、歩かずに反応する
     if (area === 'main' && showChest && dist(raw, { x: CHEST_POS.x, y: CHEST_POS.y - 0.03 }) < 0.06) { openChest(); return; }
-    if (area === 'main' && dist(raw, { x: MAIL_POS.x, y: MAIL_POS.y - 0.05 }) < 0.06) { setMailOpen(true); return; }
+    if (area === 'main' && dist(raw, { x: MAIL_POS.x, y: MAIL_POS.y - 0.05 }) < 0.06) { setModal('mail'); return; }
     if (area === 'house') {
       const hit = placedHere.find((q) => (q.id === 'in_desk' || q.id === 'in_bed') && dist(raw, { x: q.x, y: q.y - 0.04 }) < 0.08);
-      if (hit?.id === 'in_desk') { setDeskOpen(true); return; }
+      if (hit?.id === 'in_desk') { setModal('desk'); return; }
       if (hit?.id === 'in_bed') { goToBed(); return; }
     }
     if (area === 'house' || area === 'school') {
       const organ = placedHere.find((q) => q.id === 'sc_organ' && dist(raw, { x: q.x, y: q.y - 0.04 }) < 0.08);
-      if (organ) { setOrganOpen(true); return; }
+      if (organ) { setModal('organ'); return; }
       const micro = placedHere.find((q) => q.id === 'sc_micro' && dist(raw, { x: q.x, y: q.y - 0.04 }) < 0.08);
-      if (micro) { setMicroOpen(true); return; }
+      if (micro) { setModal('micro'); return; }
     }
     if (area === 'school') {
       const inBox = (b: { x0: number; x1: number; y0: number; y1: number }) => raw.x >= b.x0 && raw.x <= b.x1 && raw.y >= b.y0 && raw.y <= b.y1;
-      if (inBox(SCHOOL_HITS.board)) { sfx('letter'); setBoardOpen(true); return; }
+      if (inBox(SCHOOL_HITS.board)) { sfx('letter'); setModal('board'); return; }
       if (inBox(SCHOOL_HITS.tv)) { sfx('letter'); setTvAsk(true); return; }
-      if (inBox(SCHOOL_HITS.notice)) { sfx('letter'); setRosterOpen(true); return; }
+      if (inBox(SCHOOL_HITS.notice)) { sfx('letter'); setModal('roster'); return; }
     }
     for (const f of friends) {
       const fp = friendPos.current[f.id];
@@ -603,15 +594,15 @@ export function IslandScreen() {
     }
     if (area === 'main' && dist(raw, FOREST_ISLET) < 0.11) { setForestAsk(true); return; }
     if (area === 'main' && moshi && dist(raw, MOSHI_ISLET) < 0.12) { sfx('letter'); setMoshiAsk(true); return; }
-    if (area === 'main' && hasPier && Math.abs(raw.x - PIER_POS.x) < 0.04 && raw.y < PIER_POS.y - 0.03) { setFishOpen(true); return; }
-    if (area === 'main' && raw.x >= FARM_BOX.x0 && raw.x <= FARM_BOX.x1 && raw.y >= FARM_BOX.y0 && raw.y <= FARM_BOX.y1) { setFarmOpen(true); return; }
+    if (area === 'main' && hasPier && Math.abs(raw.x - PIER_POS.x) < 0.04 && raw.y < PIER_POS.y - 0.03) { setModal('fish'); return; }
+    if (area === 'main' && raw.x >= FARM_BOX.x0 && raw.x <= FARM_BOX.x1 && raw.y >= FARM_BOX.y0 && raw.y <= FARM_BOX.y1) { setModal('farm'); return; }
     if (area === 'main' && save.buildings.includes('bd_observ') && dist(raw, BUILDING_SPOTS.bd_observ) < 0.09) { openObserv(); return; }
     if (area === 'main' && save.buildings.includes('bd_moon') && dist(raw, BUILDING_SPOTS.bd_moon) < 0.09) { openMoonView(); return; }
-    if (area === 'east' && save.buildings.includes('bd_imo') && dist(raw, { x: IMO_SPOT.x, y: IMO_SPOT.y - 0.06 }) < 0.09) { setImoOpen(true); return; }
-    if (area === 'east' && save.buildings.includes('bd_arbor') && dist(raw, { x: ARBOR_SPOT.x, y: ARBOR_SPOT.y - 0.05 }) < 0.09) { setArborOpen(true); return; }
-    if (area === 'east' && save.buildings.includes('bd_rocket') && dist(raw, { x: BUILDING_SPOTS.bd_rocket.x, y: BUILDING_SPOTS.bd_rocket.y - 0.1 }) < 0.09) { setSpaceOpen('go'); return; }
-    if (area === 'east' && save.buildings.includes('bd_base') && dist(raw, { x: BUILDING_SPOTS.bd_base.x, y: BUILDING_SPOTS.bd_base.y - 0.05 }) < 0.08) { setSpaceOpen('dex'); return; }
-    if (area === 'east' && save.buildings.includes('bd_planet') && dist(raw, { x: BUILDING_SPOTS.bd_planet.x, y: BUILDING_SPOTS.bd_planet.y - 0.05 }) < 0.08) { setStarsOpen(true); return; }
+    if (area === 'east' && save.buildings.includes('bd_imo') && dist(raw, { x: IMO_SPOT.x, y: IMO_SPOT.y - 0.06 }) < 0.09) { setModal('imo'); return; }
+    if (area === 'east' && save.buildings.includes('bd_arbor') && dist(raw, { x: ARBOR_SPOT.x, y: ARBOR_SPOT.y - 0.05 }) < 0.09) { setModal('arbor'); return; }
+    if (area === 'east' && save.buildings.includes('bd_rocket') && dist(raw, { x: BUILDING_SPOTS.bd_rocket.x, y: BUILDING_SPOTS.bd_rocket.y - 0.1 }) < 0.09) { setModal('spaceGo'); return; }
+    if (area === 'east' && save.buildings.includes('bd_base') && dist(raw, { x: BUILDING_SPOTS.bd_base.x, y: BUILDING_SPOTS.bd_base.y - 0.05 }) < 0.08) { setModal('spaceDex'); return; }
+    if (area === 'east' && save.buildings.includes('bd_planet') && dist(raw, { x: BUILDING_SPOTS.bd_planet.x, y: BUILDING_SPOTS.bd_planet.y - 0.05 }) < 0.08) { setModal('stars'); return; }
     tapTarget.current = p;
   };
 
@@ -699,11 +690,11 @@ export function IslandScreen() {
 
   const openObserv = () => {
     if (tod === 'day') { g.showToast('よるに なったら みえるよ 🔭'); return; }
-    setStarsOpen(true);
+    setModal('stars');
   };
   const openMoonView = () => {
     if (tod === 'day') { g.showToast('よるに なったら おそなえ できるよ 🎑'); return; }
-    setMoonViewOpen(true);
+    setModal('moonView');
   };
 
   const nearMonster = area === 'main' && isNear(playerPos.current, monsterPos.current);
@@ -1115,7 +1106,7 @@ export function IslandScreen() {
       extra={
         <button
           className="shrink-0 rounded-xl border-2 border-indigo-300/40 px-2 py-1.5 text-[11px] font-extrabold text-indigo-100 active:scale-95"
-          onClick={() => setOpeningOpen(true)}
+          onClick={() => setModal('opening')}
           aria-label="はじまりの ものがたり"
         >
           📜<span className="ml-0.5 hidden sm:inline">はじまり</span>
@@ -1153,7 +1144,7 @@ export function IslandScreen() {
       {eventActive() && (
         <button
           className="mb-2.5 flex w-full items-center gap-2 rounded-2xl bg-gradient-to-r from-[#312e81] to-[#7c3aed] px-3 py-2.5 text-left shadow active:scale-[0.98] lg:landscape:col-start-2"
-          onClick={() => setDetectiveOpen(true)}
+          onClick={() => setModal('detective')}
         >
           <span className={`text-2xl ${detectiveNew ? 'dt-new' : ''}`}>🔍</span>
           <span className="min-w-0 flex-1">
@@ -1167,14 +1158,14 @@ export function IslandScreen() {
 
       {/* ── スタンプ・てがみ・おと ── */}
       <div className="mb-2.5 flex gap-1.5 lg:landscape:col-start-2">
-        <button className="flex-1 whitespace-nowrap rounded-2xl bg-white/90 px-2 py-2 text-[12px] font-black text-ink shadow active:scale-95" onClick={() => setStampOpen(true)}>
+        <button className="min-w-0 flex-1 rounded-2xl leading-tight bg-white/90 px-2 py-2 text-[12px] font-black text-ink shadow active:scale-95" onClick={() => setModal('stamp')}>
           🗓️ こんげつ {stamps.length}にち
         </button>
-        <button className="relative flex-1 whitespace-nowrap rounded-2xl bg-white/90 px-2 py-2 text-[12px] font-black text-ink shadow active:scale-95" onClick={() => setMailOpen(true)}>
+        <button className="relative min-w-0 flex-1 rounded-2xl leading-tight bg-white/90 px-2 py-2 text-[12px] font-black text-ink shadow active:scale-95" onClick={() => setModal('mail')}>
           💌 てがみ
           {unread > 0 && <span className="ml-1 rounded-full bg-rose-500 px-1.5 text-[11px] text-white">{unread}</span>}
         </button>
-        <button className="flex-1 whitespace-nowrap rounded-2xl bg-white/20 px-2 py-2 text-[12px] font-black text-white active:scale-95" onClick={() => setSnd(cycleSoundMode())}>
+        <button className="min-w-0 flex-1 rounded-2xl leading-tight bg-white/20 px-2 py-2 text-[12px] font-black text-white active:scale-95" onClick={() => setSnd(cycleSoundMode())}>
           {SOUND_LABEL[snd]}
         </button>
       </div>
@@ -1322,7 +1313,7 @@ export function IslandScreen() {
         <div className="flex min-w-0 flex-1 flex-col items-end gap-2">
           {/* おうちの そばでは いつでも なかま一覧を ひらける */}
           {mode.kind === 'walk' && nearHouse && snap.friends.length > 0 && (
-            <button className="btn !w-auto whitespace-nowrap !py-2 text-[12px]" onClick={() => setRosterOpen(true)}>
+            <button className="btn !w-auto whitespace-nowrap !py-2 text-[12px]" onClick={() => setModal('roster')}>
               📖 なかま いちらん
             </button>
           )}
@@ -1347,7 +1338,7 @@ export function IslandScreen() {
           ) : nearMonster ? (
             <button
               className="flex h-[84px] w-[84px] flex-col items-center justify-center rounded-full bg-gradient-to-br from-amber-400 to-orange-500 text-[12px] font-black text-white shadow-xl active:scale-95"
-              onClick={() => (monster.stage === 'egg' || foods.length ? setFeedOpen(true) : g.showToast('ごはんが ないよ。ショップで かおう', 'ng'))}
+              onClick={() => (monster.stage === 'egg' || foods.length ? setModal('feed') : g.showToast('ごはんが ないよ。ショップで かおう', 'ng'))}
             >
               <span className="text-2xl">🍚</span>
               ごはん
@@ -1355,13 +1346,13 @@ export function IslandScreen() {
           ) : nearChest ? (
             <button className="btn !w-auto whitespace-nowrap !py-2 text-[12px]" onClick={openChest}>🎁 たからばこを あける</button>
           ) : nearMail ? (
-            <button className="btn !w-auto whitespace-nowrap !py-2 text-[12px]" onClick={() => setMailOpen(true)}>
+            <button className="btn !w-auto whitespace-nowrap !py-2 text-[12px]" onClick={() => setModal('mail')}>
               💌 てがみを よむ{unread > 0 ? `（${unread}）` : ''}
             </button>
           ) : nearPier ? (
-            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => setFishOpen(true)}>🎣 つりを する</button>
+            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => setModal('fish')}>🎣 つりを する</button>
           ) : nearFarm && !nearOther ? (
-            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => setFarmOpen(true)}>
+            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => setModal('farm')}>
               🌱 はたけ{farmStages.some((n, i) => isRipe(save.farm.plots[i], n)) ? '（しゅうかく できるよ！）' : ''}
             </button>
           ) : nearObserv ? (
@@ -1369,24 +1360,24 @@ export function IslandScreen() {
           ) : nearMoonPlat ? (
             <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={openMoonView}>🎑 おだんごを おそなえ</button>
           ) : nearImo && !nearOther ? (
-            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => setImoOpen(true)}>🍠 やきいもやさん</button>
+            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => setModal('imo')}>🍠 やきいもやさん</button>
           ) : nearArbor && !nearOther ? (
-            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => setArborOpen(true)}>🍁 あずまやで ひとやすみ</button>
+            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => setModal('arbor')}>🍁 あずまやで ひとやすみ</button>
           ) : nearRocket && !nearOther ? (
-            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => setSpaceOpen('go')}>🚀 うちゅうへ いく</button>
+            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => setModal('spaceGo')}>🚀 うちゅうへ いく</button>
           ) : nearBase && !nearOther ? (
-            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => setSpaceOpen('dex')}>🛰️ うちゅうずかん</button>
+            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => setModal('spaceDex')}>🛰️ うちゅうずかん</button>
           ) : nearPlanet && !nearOther ? (
-            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => setStarsOpen(true)}>🪐 ほしぞらを みる</button>
+            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => setModal('stars')}>🪐 ほしぞらを みる</button>
           ) : nearOther ? (
             friendPanel(nearOther)
           ) : nearFurniture ? (
             <div className="flex gap-2">
               {nearFurniture.id === 'sc_organ' && (
-                <button className="btn-main !w-auto !py-2 text-[12px]" onClick={() => setOrganOpen(true)}>🎹 ひく</button>
+                <button className="btn-main !w-auto !py-2 text-[12px]" onClick={() => setModal('organ')}>🎹 ひく</button>
               )}
               {nearFurniture.id === 'sc_micro' && (
-                <button className="btn-main !w-auto !py-2 text-[12px]" onClick={() => setMicroOpen(true)}>🔬 のぞく</button>
+                <button className="btn-main !w-auto !py-2 text-[12px]" onClick={() => setModal('micro')}>🔬 のぞく</button>
               )}
               <button className="btn !w-auto !py-2 text-[12px]" onClick={() => setMode({ kind: 'move', uid: nearFurniture.uid })}>
                 ↔️ うごかす
@@ -1442,6 +1433,16 @@ export function IslandScreen() {
         </div>
       )}
 
+      {/* ── おうちの中：ひきつぎ（べつの iPad へ きろくを うつす）── */}
+      {area === 'house' && (
+        <div className="mt-3 lg:landscape:col-start-2">
+          <button className="w-full rounded-2xl bg-white/20 px-3 py-2 text-[12px] font-black text-white active:scale-95" onClick={() => setModal('transfer')}>
+            📦 ひきつぎ（べつの iPad へ うつす）
+          </button>
+        </div>
+      )}
+      {modal === 'transfer' && <TransferModal onClose={() => setModal(null)} />}
+
       {/* ── 置ける家具のトレイ ── */}
       {unplaced.length > 0 && (
         <div className="panel mt-3 !py-3 lg:landscape:col-start-2">
@@ -1478,8 +1479,8 @@ export function IslandScreen() {
       </div>
 
       {/* ── ごはんを えらぶ ── */}
-      {feedOpen && (
-        <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/60 p-3" onClick={() => setFeedOpen(false)}>
+      {modal === 'feed' && (
+        <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/60 p-3" onClick={() => setModal(null)}>
           <div className="panel w-full max-w-[440px]" onClick={(e) => e.stopPropagation()}>
             <div className="mb-2 text-[14px] font-black text-ink">🍚 なにを あげる？</div>
             {foods.length === 0 ? (
@@ -1492,7 +1493,7 @@ export function IslandScreen() {
                   <button
                     key={it.id}
                     className="btn flex items-center gap-2"
-                    onClick={() => { g.feedMonster(it.id); setFeedOpen(false); }}
+                    onClick={() => { g.feedMonster(it.id); setModal(null); }}
                   >
                     <span className="text-xl">{it.emoji}</span>
                     <span className="flex-1 text-left">
@@ -1504,7 +1505,7 @@ export function IslandScreen() {
                 ))}
               </div>
             )}
-            <button className="btn-main mt-3" onClick={() => setFeedOpen(false)}>とじる</button>
+            <button className="btn-main mt-3" onClick={() => setModal(null)}>とじる</button>
           </div>
         </div>
       )}
@@ -1543,16 +1544,16 @@ export function IslandScreen() {
         </div>
       )}
 
-      {fishOpen && (
-        <FishingModal ctx={{ tod, weather, month: seasonNow() }} studied={studied} onClose={() => setFishOpen(false)} />
+      {modal === 'fish' && (
+        <FishingModal ctx={{ tod, weather, month: seasonNow() }} studied={studied} onClose={() => setModal(null)} />
       )}
-      {farmOpen && <FarmModal stages={farmStages} studied={studied} onClose={() => setFarmOpen(false)} />}
-      {starsOpen && <StarsModal onClose={() => setStarsOpen(false)} />}
-      {detectiveOpen && <DetectiveScreen onClose={() => setDetectiveOpen(false)} />}
-      {moonViewOpen && <MoonViewModal onClose={() => setMoonViewOpen(false)} />}
-      {imoOpen && <YakiimoModal customers={imoCustomers} onClose={() => setImoOpen(false)} />}
-      {arborOpen && <ArborModal friends={imoCustomers} studied={studied} onClose={() => setArborOpen(false)} />}
-      {spaceOpen && <SpaceTripModal tab={spaceOpen} studied={studied} crew={imoCustomers} onClose={() => setSpaceOpen(null)} />}
+      {modal === 'farm' && <FarmModal stages={farmStages} studied={studied} onClose={() => setModal(null)} />}
+      {modal === 'stars' && <StarsModal onClose={() => setModal(null)} />}
+      {modal === 'detective' && <DetectiveScreen onClose={() => setModal(null)} />}
+      {modal === 'moonView' && <MoonViewModal onClose={() => setModal(null)} />}
+      {modal === 'imo' && <YakiimoModal customers={imoCustomers} onClose={() => setModal(null)} />}
+      {modal === 'arbor' && <ArborModal friends={imoCustomers} studied={studied} onClose={() => setModal(null)} />}
+      {(modal === 'spaceGo' || modal === 'spaceDex') && <SpaceTripModal tab={modal === 'spaceGo' ? 'go' : 'dex'} studied={studied} crew={imoCustomers} onClose={() => setModal(null)} />}
 
       {/* ── 🌲 まよいの森へ（クエストの ページに うつる）── */}
       {forestAsk && (
@@ -1595,10 +1596,10 @@ export function IslandScreen() {
       )}
 
       {/* ── 🏫 こくばん：きょうの べんきょう ── */}
-      {boardOpen && (() => {
+      {modal === 'board' && (() => {
         const tu = todayUnits();
         return (
-          <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/60 p-3" onClick={() => setBoardOpen(false)}>
+          <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/60 p-3" onClick={() => setModal(null)}>
             <div className="panel w-full max-w-[440px]" onClick={(e) => e.stopPropagation()}>
               <div className="mb-2 text-[14px] font-black text-ink">🏫 こくばん：きょうの べんきょう</div>
               <div className="rounded-2xl bg-emerald-800 px-4 py-3 text-[13px] font-bold leading-relaxed text-emerald-50">
@@ -1612,7 +1613,7 @@ export function IslandScreen() {
                 <a className="btn-main block text-center no-underline" href="/">📚 クイズへ</a>
                 <a className="btn-main block text-center no-underline" href="/rpg.html">⚔️ クエストへ</a>
               </div>
-              <button className="btn mt-2" onClick={() => setBoardOpen(false)}>とじる</button>
+              <button className="btn mt-2" onClick={() => setModal(null)}>とじる</button>
             </div>
           </div>
         );
@@ -1676,19 +1677,19 @@ export function IslandScreen() {
         </div>
       )}
 
-      {microOpen && <MicroscopeModal studied={studied} onClose={() => setMicroOpen(false)} />}
+      {modal === 'micro' && <MicroscopeModal studied={studied} onClose={() => setModal(null)} />}
 
       {/* ── オルガン（ひけたら その場の なかまが じゅんばんに ジャンプ）── */}
-      {organOpen && (
+      {modal === 'organ' && (
         <OrganModal
-          onClose={() => setOrganOpen(false)}
+          onClose={() => setModal(null)}
           onClear={() => friends.forEach((f, i) => window.setTimeout(() => { setJump({ id: f.id, key: Date.now() }); voice(f.char); }, 500 + i * 320))}
         />
       )}
 
       {/* ── べんきょうづくえ ── */}
-      {deskOpen && (
-        <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/60 p-3" onClick={() => setDeskOpen(false)}>
+      {modal === 'desk' && (
+        <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/60 p-3" onClick={() => setModal(null)}>
           <div className="panel w-full max-w-[440px]" onClick={(e) => e.stopPropagation()}>
             <div className="mb-2 text-[14px] font-black text-ink">📚 べんきょうづくえ</div>
             <div className="rounded-2xl bg-amber-50 px-4 py-3 text-[13px] font-bold leading-relaxed text-ink">
@@ -1697,13 +1698,13 @@ export function IslandScreen() {
               {(byDate[day] || 0) >= 5 ? 'きょうの スタンプ ゲット！ すごい！' : `あと ${5 - (byDate[day] || 0)}もんで きょうの スタンプだよ`}
             </div>
             <a className="btn-main mt-3 block text-center no-underline" href="/">📚 クイズを する</a>
-            <button className="btn mt-2" onClick={() => setDeskOpen(false)}>とじる</button>
+            <button className="btn mt-2" onClick={() => setModal(null)}>とじる</button>
           </div>
         </div>
       )}
 
       {/* ── はじまりの ものがたり（見なおし）── */}
-      {openingOpen && <OpeningScreen onDone={() => setOpeningOpen(false)} />}
+      {modal === 'opening' && <OpeningScreen onDone={() => setModal(null)} />}
 
       {/* ── 月がわり：あたらしい しゅやくが きた（1回だけ）── */}
       {monthBanner && (
@@ -1727,110 +1728,11 @@ export function IslandScreen() {
         </div>
       )}
 
-      {/* ── まいにちスタンプ ── */}
-      {stampOpen && (
-        <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/60 p-3" onClick={() => setStampOpen(false)}>
-          <div className="panel max-h-[85vh] w-full max-w-[440px] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-            <div className="mb-1 text-[14px] font-black text-ink">🗓️ {nowD.getMonth() + 1}がつの スタンプ</div>
-            <div className="mb-2 text-[11px] font-bold text-indigo-900/55">クイズで 5もん いじょう こたえた日に 🌟が つくよ</div>
-            <div className="mb-3 grid grid-cols-7 gap-1 text-center text-[10px] font-extrabold text-indigo-900/50">
-              {['げつ', 'か', 'すい', 'もく', 'きん', 'ど', 'にち'].map((w) => <div key={w}>{w}</div>)}
-              {Array.from({ length: (new Date(nowD.getFullYear(), nowD.getMonth(), 1).getDay() + 6) % 7 }, (_, i) => <div key={'b' + i} />)}
-              {Array.from({ length: new Date(nowD.getFullYear(), nowD.getMonth() + 1, 0).getDate() }, (_, i) => {
-                const d = i + 1;
-                const got = stamps.includes(d);
-                const isToday = d === nowD.getDate();
-                return (
-                  <div key={d} className={`flex aspect-square flex-col items-center justify-center rounded-lg ${got ? 'bg-amber-100' : 'bg-indigo-50'} ${isToday ? 'ring-2 ring-violet-400' : ''}`}>
-                    <span className="text-[10px] text-indigo-900/60">{d}</span>
-                    <span className="text-[15px] leading-none">{got ? '🌟' : ''}</span>
-                  </div>
-                );
-              })}
-            </div>
-            <div className="mb-1.5 text-[12px] font-black text-ink">🎁 ごほうび（こんげつ {stamps.length}にち）</div>
-            <div className="flex flex-col gap-1.5">
-              {stampRewardsFor(nowD.getMonth() + 1).map((rw) => {
-                const key = `${ym}:${rw.days}`;
-                const claimed = save.stampClaims.includes(key);
-                const can = stamps.length >= rw.days && !claimed;
-                return (
-                  <div key={rw.days} className="flex items-center gap-2 rounded-xl bg-indigo-50 px-3 py-2">
-                    <span className="w-12 shrink-0 text-[12px] font-black text-amber-600">{rw.days}にち</span>
-                    <span className="flex-1 text-[12px] font-extrabold text-ink">{rw.label}</span>
-                    {claimed ? (
-                      <span className="text-[11px] font-extrabold text-emerald-600">✓ もらった</span>
-                    ) : (
-                      <button
-                        className={`rounded-lg px-3 py-1.5 text-[11px] font-black ${can ? 'bg-gradient-to-br from-amber-500 to-amber-400 text-white shadow active:scale-95' : 'bg-gray-100 text-gray-400'}`}
-                        disabled={!can}
-                        onClick={() => { const got = g.claimStamp(ym, rw.days); if (got) g.showToast(`🎉 ${got} を もらった！`); }}
-                      >
-                        {can ? 'うけとる' : `あと${rw.days - stamps.length}にち`}
-                      </button>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-            <p className="mt-2 text-[10.5px] font-bold text-indigo-900/50">かぐは 🏝しまの「しまに おける かぐ」から おけるよ。まいつき また あつめられるよ。</p>
-            <button className="btn-main mt-3" onClick={() => setStampOpen(false)}>とじる</button>
-          </div>
-        </div>
-      )}
+      {modal === 'stamp' && <StampModal nowD={nowD} ym={ym} stamps={stamps} onClose={() => setModal(null)} />}
+      {modal === 'mail' && <MailModal friends={snap.friends} onClose={() => setModal(null)} />}
 
-      {/* ── てがみばこ ── */}
-      {mailOpen && (
-        <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/60 p-3" onClick={() => { setMailOpen(false); setReading(null); }}>
-          <div className="panel max-h-[85vh] w-full max-w-[440px] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-            {reading ? (
-              <div>
-                <div className="mb-2 flex items-center gap-2">
-                  {(() => {
-                    // なかまの てがみは、いまの せいちょうの すがたで 出す（そだちきった かおを 見せない＝ネタバレ しない）。ルナなど なかま以外は そのまま
-                    const fr = snap.friends.find((f) => f.char === reading.from);
-                    return fr
-                      ? <CharSVG charKey={fr.char} level={fr.level} fillPct={fr.fill} size={56} stars={fr.stars} label={fr.name} />
-                      : <CharSVG charKey={reading.from as never} level={6} fillPct={1} size={56} label={reading.fromName} />;
-                  })()}
-                  <div className="text-[14px] font-black text-ink">{reading.title}</div>
-                </div>
-                <div className="whitespace-pre-line rounded-2xl bg-amber-50 px-4 py-3 text-[13px] font-bold leading-relaxed text-ink">{addressToNow(reading.body, save.player)}</div>
-                <button className="btn mt-3" onClick={() => setReading(null)}>← てがみばこに もどる</button>
-              </div>
-            ) : (
-              <div>
-                <div className="mb-2 text-[14px] font-black text-ink">💌 てがみばこ</div>
-                {save.letters.length === 0 ? (
-                  <p className="py-3 text-center text-[12px] font-bold text-indigo-900/60">まだ てがみは ないよ</p>
-                ) : (
-                  <div className="flex flex-col gap-1.5">
-                    {save.letters.map((l) => (
-                      <button
-                        key={l.id}
-                        className={`btn flex items-center gap-2 text-left ${l.read ? 'opacity-70' : ''}`}
-                        onClick={() => { setReading(l); if (!l.read) g.readLetter(l.id); }}
-                      >
-                        <span className="text-lg">{l.read ? '📭' : '💌'}</span>
-                        <span className="min-w-0 flex-1">
-                          <span className="block truncate text-[12.5px] font-black">{l.title}</span>
-                          <span className="block text-[10.5px] font-bold text-indigo-900/50">{l.fromName}より・{new Date(l.at).getMonth() + 1}/{new Date(l.at).getDate()}</span>
-                        </span>
-                        {!l.read && <span className="rounded-full bg-rose-500 px-2 text-[10px] font-black text-white">NEW</span>}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
-            <button className="btn-main mt-3" onClick={() => { setMailOpen(false); setReading(null); }}>とじる</button>
-          </div>
-        </div>
-      )}
-
-      {/* ── なかま いちらん（おうちで見られる）── */}
-      {rosterOpen && (
-        <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/60 p-3" onClick={() => { setRosterOpen(false); setSecretOpen(false); }}>
+      {modal === 'roster' && (
+        <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/60 p-3" onClick={() => { setModal(null); setSecretOpen(false); }}>
           <div className="panel max-h-[80vh] w-full max-w-[440px] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             <div className="mb-2 flex items-center text-[14px] font-black text-ink">
               <span className="flex-1">📖 しまの なかま</span>
@@ -1871,7 +1773,7 @@ export function IslandScreen() {
                 </div>
               </div>
             ))}
-            <button className="btn-main mt-1" onClick={() => { setRosterOpen(false); setSecretOpen(false); }}>とじる</button>
+            <button className="btn-main mt-1" onClick={() => { setModal(null); setSecretOpen(false); }}>とじる</button>
           </div>
         </div>
       )}

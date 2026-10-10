@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { KidSVG, PALETTES } from '../components/KidSVG';
 import { useGame } from '../state/useGame';
+import { TransferLink } from '../components/TransferModal';
 import type { PlayerKey, School } from '../types';
 import { FIXED_SCHOOL, SCHOOLS, SCHOOL_LABEL } from '../lib/school';
 
@@ -81,6 +82,7 @@ export function PickPlayerScreen() {
         クイズアプリで ためた 🪙アンリノメダル を つかって、<br />
         なにもない しまを すこしずつ にぎやかに していこう
       </p>
+      <TransferLink />
     </div>
   );
 }

@@ -1,3 +1,4 @@
+import { TransferLink } from '../components/TransferModal';
 import { UNLOCK_CATS } from '../lib/study';
 
 // 島の入口。その日に UNLOCK_CATS 教科で 単元を1つずつ 最後まで といたら ひらく
@@ -36,6 +37,7 @@ export function LockScreen({ cats }: { cats: string[] }) {
         </div>
       </div>
       <a className="btn-main mt-5 block w-full text-center no-underline" href="/">📚 クイズへ いく</a>
+      <TransferLink />
     </div>
   );
 }

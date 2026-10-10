@@ -4,8 +4,27 @@
     {
       "name": "ena-quiz",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "3939"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "3939"
+      ],
       "port": 3939
+    },
+    {
+      "name": "island",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "game-src",
+        "run",
+        "dev",
+        "--",
+        "--port",
+        "5174",
+        "--strictPort"
+      ],
+      "port": 5174
     }
   ]
 }

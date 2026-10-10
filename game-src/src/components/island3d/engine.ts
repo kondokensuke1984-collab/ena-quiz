@@ -150,6 +150,10 @@ export class IslandEngine {
   private raf = 0;
   private t0 = performance.now();
   private last = performance.now();
+  /** 重い端末で 自動で あらく する（ゆっくりな フレームが つづいたら 一段ずつ 下げる） */
+  private slowT = 0;
+  private sampleT = 0;
+  private pixelRatio = 1;
   private w = 1;
   private h = 1;
   private ro: ResizeObserver;
@@ -171,10 +175,12 @@ export class IslandEngine {
     canvas.className = 'block h-full w-full';
     host.appendChild(canvas);
     this.canvas = canvas;
-    this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
-    // スマホ・iPad は 画面が こまかいので すこし あらく 描いて 軽くする（見た目は ほぼ かわらない）
+    // スマホ・iPad は 電池と 熱を 気にして ふつうの力で 描く
     const touch = window.matchMedia?.('(pointer: coarse)').matches;
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, touch ? 1.5 : 2));
+    this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: touch ? 'default' : 'high-performance' });
+    // スマホ・iPad は 画面が こまかいので すこし あらく 描いて 軽くする（見た目は ほぼ かわらない）
+    this.pixelRatio = Math.min(window.devicePixelRatio || 1, touch ? 1.5 : 2);
+    this.renderer.setPixelRatio(this.pixelRatio);
     this.renderer.setClearColor(0x000000, 0);
     this.scene.fog = new THREE.Fog(0xcfeeff, 120, 260);
     this.sun.position.set(-40, 90, 70);
@@ -977,14 +983,30 @@ export class IslandEngine {
     return null;
   }
 
+  /** 2びょう みて、半分いじょうが 30fps より おそければ 解像度を 一段 下げる（1 まで）。タブ復帰の 大きな あきは 数えない */
+  private adapt(raw: number) {
+    if (raw > 0.5 || this.pixelRatio <= 1) return;
+    this.sampleT += raw;
+    if (raw > 1 / 30) this.slowT += raw;
+    if (this.sampleT < 2) return;
+    if (this.slowT > this.sampleT / 2) {
+      this.pixelRatio = Math.max(1, this.pixelRatio - 0.25);
+      this.renderer.setPixelRatio(this.pixelRatio);
+      this.resize();
+    }
+    this.sampleT = 0; this.slowT = 0;
+  }
+
   private now(): number { return (performance.now() - this.t0) / 1000; }
 
   // ── まいフレーム ──
   private loop = (tm: number) => {
     if (this.disposed) return;
     this.raf = requestAnimationFrame(this.loop);
-    const dt = Math.min(0.05, (tm - this.last) / 1000);
+    const raw = (tm - this.last) / 1000;
+    const dt = Math.min(0.05, raw);
     this.last = tm;
+    this.adapt(raw);
     const t = this.now();
 
     // キャラの 位置

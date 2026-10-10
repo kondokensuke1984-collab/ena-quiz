@@ -26,6 +26,19 @@ function loadLedger(): MedalLedger {
   return { units: units as Record<string, number> };
 }
 
+/** ひきつぎコード（lib/transfer.ts）の 中身 { キー: 文字列 } から、台帳の 合計枚数を 読む（読むだけ） */
+export function medalTotalInDump(keys: Record<string, string>): number {
+  try {
+    const units = JSON.parse(keys[MEDAL_KEY] ?? 'null')?.units;
+    if (!units || typeof units !== 'object') return 0;
+    let sum = 0;
+    for (const n of Object.values(units)) if (Number(n) > 0) sum += Math.floor(Number(n));
+    return sum;
+  } catch {
+    return 0;
+  }
+}
+
 /** 壊れた値（NaN・負数・文字列）は 0 として無視して合計する */
 export function earnedTotal(): number {
   const units = loadLedger().units;
