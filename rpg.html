@@ -30,6 +30,7 @@
   .fz-hud{ position:absolute; top:max(10px,env(safe-area-inset-top)); left:10px; right:10px; display:flex; justify-content:space-between; gap:8px; pointer-events:none; }
   .fz-hud > *{ pointer-events:auto; }
   .fz-hudbox{ background:rgba(10,10,30,.78); color:#fff; border:2px solid #fff; border-radius:12px; padding:7px 11px; font-size:13px; min-width:0; max-width:360px; flex:1; }
+  .fz-goal{ margin-top:5px; font-size:12.5px; font-weight:800; color:#fde68a; line-height:1.45; }
   .fz-hp{ height:8px; background:rgba(255,255,255,.2); border-radius:99px; margin-top:5px; overflow:hidden; }
   .fz-hp i{ display:block; height:100%; background:linear-gradient(90deg,#22c55e,#4ade80); border-radius:99px; transition:width .3s; }
   .fz-btn{ border:2px solid #fff; border-radius:12px; background:rgba(10,10,30,.78); color:#fff; font-weight:800; font-size:13px; padding:8px 12px; white-space:nowrap; }
@@ -40,6 +41,9 @@
   .fz-pad button:active{ transform:translateY(2px); box-shadow:none; }
   .fz-act{ position:absolute; right:16px; bottom:calc(40px + env(safe-area-inset-bottom)); width:92px; height:92px; border-radius:50%; border:3px solid #fff; background:linear-gradient(135deg,#f59e0b,#d97706); color:#fff; font-weight:800; font-size:15px; box-shadow:0 4px 0 rgba(0,0,0,.3); touch-action:manipulation; }
   .fz-act:active{ transform:translateY(2px); box-shadow:none; }
+  #fz-arrow{ position:absolute; left:0; top:0; width:56px; height:56px; display:none; pointer-events:none; }
+  #fz-arrow > div{ width:56px; height:56px; border-radius:50%; background:#facc15; border:4px solid #2a1b3d; color:#dc2626; font-size:28px; font-weight:900; display:flex; align-items:center; justify-content:center; box-shadow:0 3px 0 rgba(0,0,0,.35); animation:fzpulse 1s ease-in-out infinite; }
+  @keyframes fzpulse{ 50%{ box-shadow:0 0 0 8px rgba(250,204,21,.35); } }
   #fz-flash{ position:absolute; inset:0; pointer-events:none; opacity:0; background:#fff; }
   #fz-flash.on{ animation:fzflash .65s steps(1) forwards; }
   @keyframes fzflash{ 0%{opacity:.9} 15%{opacity:0} 30%{opacity:.9} 45%{opacity:0} 60%{opacity:.9} 75%{opacity:0; background:#000} 80%{opacity:1; background:#000} 100%{opacity:1; background:#000} }

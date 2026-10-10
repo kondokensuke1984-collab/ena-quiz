@@ -58,7 +58,7 @@ function forestNoise(rnd, cell) {
 }
 
 // ── ちず ──
-// 記号：# ふかい森（とおれない） ^ 山 ~ 川 X おしろ K しろの もん C どうくつ R ものみのとう W いずみ F テント $ たからばこ
+// 記号：P たてふだ　# ふかい森（とおれない） ^ 山 ~ 川 X おしろ K しろの もん C どうくつ R ものみのとう W いずみ F テント $ たからばこ
 //       . くさはら " くさむら T もり = みち B はし
 function forestRiverX(y) { return 17 + Math.round(1.6 * Math.sin(y * 0.45)); }
 function forestOutside(x, y) {           // ちずの 外（3D の まわりの けしき）
@@ -67,6 +67,7 @@ function forestOutside(x, y) {           // ちずの 外（3D の まわりの 
 }
 const FOREST_SPOTS = {
   start: [5, 22], tent: [4, 22], spring: [6, 17], cave: [2, 6], tower: [24, 19], gate: [28, 4],
+  sign: [11, 13],   // わかれ道の たてふだ（どうくつ／はし・おしろ）
 };
 function forestBuild(day, salt) {
   const W = FOREST_W, H = FOREST_H, S = FOREST_SPOTS;
@@ -123,6 +124,7 @@ function forestBuild(day, salt) {
   set(S.tower[0], S.tower[1], 'R');
   set(S.spring[0], S.spring[1], 'W');
   set(S.tent[0], S.tent[1], 'F');
+  set(S.sign[0], S.sign[1], 'P');
   // たからばこ（毎日 3こ。スタートから すこし はなれた くさはら・もり）
   const chests = [];
   for (let tries = 0; chests.length < 3 && tries < 500; tries++) {
@@ -131,7 +133,7 @@ function forestBuild(day, salt) {
     if (c !== '.' && c !== 'T' && c !== '"') continue;
     if (Math.abs(x - S.start[0]) + Math.abs(y - S.start[1]) < 9) continue;
     let near = false;
-    for (let yy = y - 2; yy <= y + 2; yy++) for (let xx = x - 2; xx <= x + 2; xx++) if ('=BKCRWF$'.includes(get(xx, yy))) near = true;
+    for (let yy = y - 2; yy <= y + 2; yy++) for (let xx = x - 2; xx <= x + 2; xx++) if ('=BKCRWFP$'.includes(get(xx, yy))) near = true;
     if (near) continue;
     set(x, y, '$');
     chests.push([x, y]);
@@ -140,7 +142,7 @@ function forestBuild(day, salt) {
   // ぜんぶの めじるしに いけるか（だめなら べつの salt で つくりなおす）
   const dist = forestDist(map, S.start[0], S.start[1]);
   const reach = ([x, y]) => [[1, 0], [-1, 0], [0, 1], [0, -1]].some(([dx, dy]) => dist[at(x + dx, y + dy)] >= 0);
-  const ok = [S.spring, S.cave, S.tower, S.gate, ...chests].every(reach);
+  const ok = [S.spring, S.cave, S.tower, S.gate, S.sign, ...chests].every(reach);
   if (!ok && (salt || 0) < 8) return forestBuild(day, (salt || 0) + 1);
   return map;
 }
@@ -159,6 +161,13 @@ function forestDist(map, sx, sy) {
     });
   }
   return dist;
+}
+// 🎯 いま めざす ところ（画面の 上の「つぎに やること」と、光る ！の 場所）
+function forestGoal() {
+  const f = save.forest;
+  if (f.bossDay === todayKey()) return { at: null, text: '👑 きょうの もりは クリア！ また あしたの もりで あそぼう' };
+  if (!f.key) return { at: FOREST_SPOTS.cave, h: 2.2, text: '🎯 ひだり うえの どうくつで ばんにんを たおして、しろの かぎを ゲット！' };
+  return { at: FOREST_SPOTS.gate, h: 3.9, text: '🎯 かぎを もって、はしを わたった みぎ うえの おしろへ！' };
 }
 function forestTile(x, y) { return fz ? fz.get(x, y) : '#'; }
 function forestEast(x, y) { return x > forestRiverX(y) + 1; }
@@ -237,6 +246,7 @@ function forestShow(msg) {
           '</div>' +
           '<div class="fz-hp"><i id="fz-hpbar"></i></div>' +
           '<div id="fz-items" style="font-size:12px; margin-top:4px;"></div>' +
+          '<div id="fz-goal" class="fz-goal"></div>' +
         '</div>' +
         '<div style="display:flex; flex-direction:column; gap:6px;">' +
           '<button class="fz-btn" onclick="toggleForestMap()">🗺️ ちず</button>' +
@@ -251,6 +261,7 @@ function forestShow(msg) {
         '<span></span><button data-d="down">▼</button><span></span>' +
       '</div>' +
       '<button class="fz-act" onclick="forestSearch()">しらべる</button>' +
+      '<div id="fz-arrow"><div>➤</div></div>' +
       '<div id="fz-flash"></div>' +
       '<div id="fz-mapbox"></div>';
     root.querySelectorAll('.fz-pad button').forEach(b => {
@@ -289,6 +300,7 @@ function forestHud() {
   document.getElementById('fz-items').textContent =
     (f.key ? '🗝 しろの かぎ　' : '') + (f.tower ? '🗺 ちずが ぜんぶ わかる　' : '') +
     '📦 たからばこ ' + (f.opened || []).length + ' / ' + fz.chests.length;
+  document.getElementById('fz-goal').textContent = forestGoal().text;
 }
 
 let forestSayTimer = 0;
@@ -311,7 +323,7 @@ function forestDrawMap() {
     '<div class="panel" style="text-align:center;" onclick="event.stopPropagation()">' +
       '<b>🗺️ まよいの森の ちず</b>' +
       '<canvas id="fz-mini" class="fz-mini"></canvas>' +
-      '<div style="font-size:11px; color:#64748b;">🔴 ルナ　🏰 おしろ　🕳 どうくつ　⛲ いずみ　🗼 とう　📦 たからばこ</div>' +
+      '<div style="font-size:11px; color:#64748b;">🔴 ルナ　🟡 いま いく ところ　🏰 おしろ　🕳 どうくつ　⛲ いずみ　🗼 とう　🪧 たてふだ　📦 たからばこ</div>' +
       (save.forest.tower ? '' : '<div style="font-size:11px; color:#64748b; margin-top:2px;">ものみのとうに のぼると ちずが ぜんぶ わかるよ</div>') +
       '<button class="btn-main" style="margin-top:10px;" onclick="toggleForestMap()">とじる</button>' +
     '</div>' +
@@ -323,9 +335,9 @@ function forestDrawMap() {
 }
 
 const FOREST_COLOR = { '#': '#14532d', '^': '#8d7b68', '~': '#3b82f6', 'X': '#9ca3af', 'K': '#9ca3af', 'C': '#44403c',
-  'R': '#a8a29e', 'W': '#7dd3fc', 'F': '#fde68a', '$': '#86efac', '.': '#86d36b', '"': '#5fae48', 'T': '#2f8a3a',
+  'R': '#a8a29e', 'W': '#7dd3fc', 'F': '#fde68a', 'P': '#a16207', '$': '#86efac', '.': '#86d36b', '"': '#5fae48', 'T': '#2f8a3a',
   '=': '#e2c58f', 'B': '#a16207' };
-const FOREST_EMOJI = { '#': '🌲', '^': '⛰️', 'T': '🌳', 'X': '', 'K': '🏰', 'C': '🕳️', 'R': '🗼', 'W': '⛲', 'F': '⛺', '$': '📦' };
+const FOREST_EMOJI = { '#': '🌲', '^': '⛰️', 'T': '🌳', 'X': '', 'K': '🏰', 'C': '🕳️', 'R': '🗼', 'W': '⛲', 'F': '⛺', 'P': '🪧', '$': '📦' };
 // ちず（ちいさい）と、WebGL が ない 端末の 画面を 2D で かく
 function forestPaint2D(g, ox, oy, cols, rows, k, mini) {
   const f = save.forest;
@@ -344,6 +356,13 @@ function forestPaint2D(g, ox, oy, cols, rows, k, mini) {
       g.font = Math.round(k * (mini ? 1.25 : 0.8)) + 'px sans-serif';
       g.fillText(e, c * k + k / 2, r * k + k / 2 + 1);
     }
+  }
+  const goal = forestGoal().at;
+  if (goal) {
+    const gx = (goal[0] - ox) * k + k / 2, gy = (goal[1] - oy) * k + k / 2;
+    g.strokeStyle = '#facc15'; g.lineWidth = mini ? 4 : 3;
+    g.beginPath(); g.arc(gx, gy, k * (mini ? 1.5 : 0.7), 0, Math.PI * 2); g.stroke();
+    if (!mini) { g.font = 'bold ' + Math.round(k * 0.8) + 'px sans-serif'; g.fillStyle = '#facc15'; g.fillText('！', gx, gy - k * 0.9); }
   }
   if (mini) {
     g.fillStyle = '#ef4444';
@@ -447,6 +466,7 @@ function forestInteract(x, y, t) {
     persist();
     return forestEncounter(() => startForestBattle('boss'));
   }
+  if (t === 'P') return forestSay('🪧 たてふだ「⬆ どうくつ（ばんにんが かぎを もっている）／➡ はし・おしろ（もりのぬし）／⬇ キャンプ」');
   if (t === 'F') return forestSay('⛺ キャンプの テント。「🏃 でる」で もりを でられるよ。');
   if (t === '^') return forestSay('けわしい 山だ。のぼれない。');
   if (t === '~') return forestSay('ながれが はやくて わたれない。はしを さがそう。');
@@ -524,6 +544,27 @@ function forestLunaCanvas(flip) {
     img.onerror = () => res(null);
     img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
   });
+}
+
+// SVG の 文字列 → canvas（ゴーレムの え など）
+function forestSvgCanvas(svg, size) {
+  return new Promise(res => {
+    const img = new Image();
+    img.onload = () => { const c = document.createElement('canvas'); c.width = c.height = size; c.getContext('2d').drawImage(img, 0, 0, size, size); res(c); };
+    img.onerror = () => res(null);
+    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+  });
+}
+// ひかる「！」（めざす ところの 上に うかべる）
+function forestMarkCanvas() {
+  const c = document.createElement('canvas'); c.width = c.height = 128;
+  const g = c.getContext('2d');
+  g.fillStyle = '#facc15'; g.strokeStyle = '#2a1b3d'; g.lineWidth = 8;
+  g.beginPath(); g.arc(64, 56, 44, 0, Math.PI * 2); g.fill(); g.stroke();
+  g.beginPath(); g.moveTo(50, 96); g.lineTo(64, 122); g.lineTo(78, 96); g.closePath(); g.fill(); g.stroke();
+  g.fillStyle = '#facc15'; g.fillRect(48, 88, 32, 12);
+  g.fillStyle = '#dc2626'; g.font = 'bold 64px sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('！', 64, 58);
+  return c;
 }
 
 // ── 2D（WebGL が ない 端末）──
@@ -615,12 +656,30 @@ async function forest3DInit() {
   scene.add(water);
 
   // ルナ
-  const [lunaR, lunaL] = await Promise.all([forestLunaCanvas(false), forestLunaCanvas(true)]);
+  const [lunaR, lunaL, golemC] = await Promise.all([forestLunaCanvas(false), forestLunaCanvas(true),
+    typeof FOREST_GUARD_KEY !== 'undefined' ? forestSvgCanvas(CHARS[FOREST_GUARD_KEY](6, 100, 256, {}), 256) : null]);
+  // どうくつの まえに たつ ばんにん（たおすまで 見える）
+  let golem = null;
+  if (golemC) {
+    const tex = new THREE.CanvasTexture(golemC); tex.colorSpace = THREE.SRGBColorSpace;
+    // ななめから 見ると 絵の 上が 山に めりこむので、山より 手前に かく（ルナは さらに その 手前）
+    golem = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, alphaTest: 0.1, depthTest: false, depthWrite: false }));
+    golem.renderOrder = 5;
+    golem.center.set(0.5, 0.05); golem.scale.set(1.55, 1.55, 1);
+    golem.position.set(FOREST_SPOTS.cave[0], 0.05, FOREST_SPOTS.cave[1] + 0.35);
+    scene.add(golem);
+  }
+  // めざす ところの 上の「！」
+  const markTex = new THREE.CanvasTexture(forestMarkCanvas()); markTex.colorSpace = THREE.SRGBColorSpace;
+  const mark = new THREE.Sprite(new THREE.SpriteMaterial({ map: markTex, transparent: true, depthTest: false, fog: false }));
+  mark.scale.set(1.1, 1.1, 1); mark.renderOrder = 10;
+  scene.add(mark);
   const texR = lunaR && new THREE.CanvasTexture(lunaR), texL = lunaL && new THREE.CanvasTexture(lunaL);
   [texR, texL].forEach(t => { if (t) t.colorSpace = THREE.SRGBColorSpace; });
   const hero = new THREE.Sprite(new THREE.SpriteMaterial({ map: texR, transparent: true, alphaTest: 0.1 }));
   hero.center.set(0.5, 0.06);
   hero.scale.set(1.6, 1.6, 1);
+  hero.renderOrder = 6;
   const heroShadow = new THREE.Mesh(new THREE.CircleGeometry(0.32, 20), new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.28, depthWrite: false }));
   heroShadow.rotation.x = -Math.PI / 2;
   scene.add(hero, heroShadow);
@@ -641,7 +700,7 @@ async function forest3DInit() {
       const t = forestTile(x, y);
       if (t === '~' || t === 'B') { bed.push([M(x, -0.6, y, 1, 0.3, 1), col('#a8a29e', rnd)]); continue; }
       const gc = { '.': '#7cc75a', '"': '#5fae48', 'T': '#4c9a3c', '#': '#3d7f35', '=': '#dcc08a', '^': '#8f9a5a',
-        'X': '#8f9a5a', 'K': '#8f9a5a', 'C': '#8f9a5a', 'R': '#7cc75a', 'W': '#7cc75a', 'F': '#7cc75a', '$': '#7cc75a' }[t] || '#7cc75a';
+        'X': '#8f9a5a', 'K': '#8f9a5a', 'C': '#8f9a5a', 'R': '#7cc75a', 'W': '#7cc75a', 'F': '#7cc75a', 'P': '#7cc75a', '$': '#7cc75a' }[t] || '#7cc75a';
       ground.push([M(x, -0.15, y, 1, 0.3, 1), col(gc, rnd, t === '=' ? 0.05 : 0.07)]);
       const j = () => (rnd() - 0.5) * 0.5;
       const conifer = (px, pz, s) => {
@@ -666,8 +725,9 @@ async function forest3DInit() {
         if (rnd() < 0.05) rocks.push([M(x + j(), 0.05, y + j(), 0.8 + rnd() * 0.5, 0.6, 0.8 + rnd() * 0.5, rnd() * 3), col('#9ca3af', rnd)]);
       } else if (t === '^' || t === 'C') {
         const h = 1.3 + rnd() * 0.8 + (t === 'C' ? 0.4 : 0);
-        mts.push([M(x, h / 2, y, 1.05, h, 1.05, rnd() * 3), col(['#8d7b68', '#7b6b5a', '#9a8a76'][Math.floor(rnd() * 3)], rnd)]);
-        if (h > 1.65) caps.push([M(x, h - h * 0.17, y, 0.37, h * 0.34, 0.37, rnd() * 3), col('#f8fafc')]);
+        const my = t === 'C' ? y - 0.4 : y;   // どうくつの 山は おくに さげて、まえに ばんにんを たたせる
+        mts.push([M(x, h / 2, my, 1.05, h, 1.05, rnd() * 3), col(['#8d7b68', '#7b6b5a', '#9a8a76'][Math.floor(rnd() * 3)], rnd)]);
+        if (h > 1.65) caps.push([M(x, h - h * 0.17, my, 0.37, h * 0.34, 0.37, rnd() * 3), col('#f8fafc')]);
       }
     }
     inst(new THREE.BoxGeometry(1, 1, 1), mat(), ground);
@@ -716,13 +776,17 @@ async function forest3DInit() {
     // どうくつの いりぐち
     const [cx, cy] = FOREST_SPOTS.cave;
     const hole = new THREE.Mesh(new THREE.CircleGeometry(0.34, 16, 0, Math.PI), new THREE.MeshBasicMaterial({ color: 0x0c0a09 }));
-    hole.position.set(cx, 0.02, cy + 0.47); world.add(hole);
+    hole.position.set(cx, 0.02, cy + 0.12); world.add(hole);
     // いずみ
     const [sx, sy] = FOREST_SPOTS.spring;
     const pond = new THREE.Mesh(new THREE.CylinderGeometry(0.44, 0.44, 0.06, 20), new THREE.MeshLambertMaterial({ color: 0x7dd3fc, emissive: 0x0ea5e9, emissiveIntensity: 0.35 }));
     pond.position.set(sx, 0.03, sy); world.add(pond);
     const ring = new THREE.Mesh(new THREE.TorusGeometry(0.46, 0.07, 6, 20), stone); ring.rotation.x = Math.PI / 2; ring.position.set(sx, 0.06, sy); world.add(ring);
     for (let i = 0; i < 6; i++) { const s = new THREE.Mesh(sparkGeo, sparkMat); s.userData.p = i / 6; s.position.set(sx, 0.3, sy); world.add(s); sparkles.push(s); }
+    // たてふだ
+    const [px0, py0] = FOREST_SPOTS.sign, wood = mat({ color: 0xa16207 });
+    const post = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.75, 0.1), wood); post.position.set(px0, 0.37, py0); post.castShadow = true; world.add(post);
+    const board = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.36, 0.06), mat({ color: 0xd6a35c })); board.position.set(px0, 0.66, py0 + 0.04); board.castShadow = true; world.add(board);
     // テントと たきび
     const [fx0, fy0] = FOREST_SPOTS.tent;
     const tent = new THREE.Mesh(new THREE.ConeGeometry(0.5, 0.75, 4), mat({ color: 0xf59e0b })); tent.position.set(fx0, 0.375, fy0); tent.rotation.y = Math.PI / 4; tent.castShadow = true; world.add(tent);
@@ -814,6 +878,31 @@ async function forest3DInit() {
       if (c && c.userData.flag) c.userData.flag.rotation.y = Math.sin(t * 3) * 0.3;
       Object.values(chestLids).forEach(l => { if (l.userData.open && l.rotation.x > -1.9) l.rotation.x = Math.max(-1.9, l.rotation.x - dt * 6); });
       fxT = Math.max(0, fxT - dt);
+      if (golem) golem.visible = !f.key;
+      const goal = forestGoal().at;
+      mark.visible = !!goal;
+      if (goal) mark.position.set(goal[0], forestGoal().h + Math.abs(Math.sin(t * 3.2)) * 0.35, goal[1]);
+      // めざす ところが 画面の 外なら、はしに やじるしを 出す
+      const arrow = document.getElementById('fz-arrow');
+      if (arrow) {
+        let show = false;
+        if (goal) {
+          toScreen.copy(mark.position).project(camera);
+          const off = toScreen.z > 1 || Math.abs(toScreen.x) > 0.92 || Math.abs(toScreen.y) > 0.92;
+          if (off) {
+            const r = el.getBoundingClientRect();
+            const ang = Math.atan2(goal[1] - py, goal[0] - px);        // ちずの 上での むき（＋z が 画面の 下）
+            // うごける わく：上の じょうほう・下の ボタンに かさならない
+            const x0 = 46, x1 = r.width - 46, y0 = Math.min(r.height / 2 - 40, 170), y1 = Math.max(r.height / 2 + 40, r.height - 250);
+            const cx = (x0 + x1) / 2, cy = (y0 + y1) / 2;
+            const k = Math.min((x1 - cx) / Math.max(1e-3, Math.abs(Math.cos(ang))), (y1 - cy) / Math.max(1e-3, Math.abs(Math.sin(ang))));
+            arrow.style.transform = 'translate(' + (cx + Math.cos(ang) * k - 28) + 'px,' + (cy + Math.sin(ang) * k - 28) + 'px)';
+            arrow.firstChild.style.transform = 'rotate(' + ang + 'rad)';
+            show = true;
+          }
+        }
+        arrow.style.display = show ? 'block' : 'none';
+      }
       hero.material.color.setRGB(1, 1, 1).lerp(new THREE.Color(0xbbf7d0), fxT * 0.6);
       renderer.render(scene, camera);
     },
