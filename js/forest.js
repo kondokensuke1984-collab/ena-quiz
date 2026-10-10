@@ -414,6 +414,7 @@ function forestArrive() {
   const f = save.forest;
   f.x = forestMv.tx; f.y = forestMv.ty;
   forestMv = null;
+  forestStepN++;
   f.since = (f.since || 0) + 1;
   forestReveal();
   const rate = FOREST_ENC[forestTile(f.x, f.y)] || 0;
@@ -530,23 +531,102 @@ function forestPos() {
 function forestFx(kind) { if (forestView && forestView.fx) forestView.fx(kind); }
 function forestChest3D(x, y) { if (forestView && forestView.chest) forestView.chest(x, y); }
 
-// ── ルナの え（SVG → canvas）──
-function forestLunaCanvas(flip) {
-  return new Promise(res => {
-    const size = 256;
-    const svg = CHARS.luna(Math.min(6, save.lv), 100, size, {});
-    const img = new Image();
-    img.onload = () => {
-      const c = document.createElement('canvas');
-      c.width = size; c.height = size;
-      const g = c.getContext('2d');
-      if (flip) { g.translate(size, 0); g.scale(-1, 1); }
-      g.drawImage(img, 0, 0, size, size);
-      res(c);
-    };
-    img.onerror = () => res(null);
-    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
-  });
+// ── ルナの え（フィールド用：まえ・うしろ・よこ × たつ・あるく2コマ）──
+// js/chars.js の renderLunaSVG と おなじ 色・おなじ レベルの かざり（みみ・きね・マント・かんむり）で、むきを かえて かく。
+// うしろの 月は フィールドでは かかない（じめんに うかんで 見えるので）
+function forestLunaSVG(dir, frame) {
+  const L = Math.max(1, Math.min(6, save.lv | 0));
+  const c = { fur: '#fffaf3', ear: '#fbcfe8', line: '#a78bfa', eye: '#3d2b5e', blush: '#fda4af', cape: '#a78bfa', kine: '#deb887', crown: '#fbbf24' };
+  const st = 'stroke="' + c.line + '" stroke-width="3"';
+  // あし：stand＝そろえる、a／b＝こうごに まえへ
+  const fa = frame === 'a' ? 1 : frame === 'b' ? -1 : 0;
+  const bob = fa ? -3 : 0;
+  const side = dir === 'side', back = dir === 'up';
+  let body = '';
+  if (L === 1) {   // たまご：ぴょこぴょこ かたむいて すすむ
+    const tilt = fa * 7;
+    const face = back ? '' : side
+      ? '<path d="M112 116 q6 -7 12 0" stroke="' + c.eye + '" stroke-width="3.5" fill="none" stroke-linecap="round"/><ellipse cx="124" cy="130" rx="6" ry="4" fill="' + c.blush + '" opacity=".75"/>'
+      : '<path d="M78 116 q7 -8 14 0 M108 116 q7 -8 14 0" stroke="' + c.eye + '" stroke-width="3.5" fill="none" stroke-linecap="round"/>' +
+        '<ellipse cx="72" cy="130" rx="7" ry="4.5" fill="' + c.blush + '" opacity=".75"/><ellipse cx="128" cy="130" rx="7" ry="4.5" fill="' + c.blush + '" opacity=".75"/>' +
+        '<path d="M96 130 q4 4 8 0" stroke="' + c.eye + '" stroke-width="2.5" fill="none" stroke-linecap="round"/>';
+    body = '<g transform="rotate(' + tilt + ' 100 166)">' +
+      '<ellipse cx="' + (side ? 92 : 86) + '" cy="76" rx="7" ry="11" fill="' + c.fur + '" ' + st + '/>' +
+      '<ellipse cx="' + (side ? 104 : 114) + '" cy="76" rx="7" ry="11" fill="' + c.fur + '" ' + st + '/>' +
+      '<ellipse cx="100" cy="120" rx="40" ry="46" fill="' + c.fur + '" ' + st + '/>' + face + '</g>';
+  } else {
+    const earLen = L >= 4 ? 26 : 20;
+    const ear = (cx, cy, rot) => '<g transform="rotate(' + rot + ' ' + cx + ' ' + cy + ')">' +
+      '<ellipse cx="' + cx + '" cy="' + (cy - earLen) + '" rx="9" ry="' + earLen + '" fill="' + c.fur + '" ' + st + '/>' +
+      (back ? '' : '<ellipse cx="' + cx + '" cy="' + (cy + 2 - earLen) + '" rx="4" ry="' + (earLen - 8) + '" fill="' + c.ear + '"/>') + '</g>';
+    const foot = (x, y) => '<ellipse cx="' + x + '" cy="' + y + '" rx="13" ry="8" fill="' + c.fur + '" ' + st + '/>';
+    const crown = (x, y) => L >= 5 ? '<path d="M' + (x - 18) + ' ' + y + ' L' + (x - 12) + ' ' + (y - 16) + ' L' + x + ' ' + (y - 6) + ' L' + (x + 12) + ' ' + (y - 16) + ' L' + (x + 18) + ' ' + y + ' Z" fill="' + c.crown + '" ' + st + ' stroke-linejoin="round"/>' : '';
+    const kine = (x, y, rot) => L >= 3 ? '<g transform="rotate(' + rot + ' ' + x + ' ' + y + ')"><rect x="' + (x - 4) + '" y="' + (y - 36) + '" width="8" height="56" rx="4" fill="' + c.kine + '" ' + st + '/>' +
+      '<rect x="' + (x - 18) + '" y="' + (y - 48) + '" width="36" height="17" rx="7" fill="' + c.kine + '" ' + st + '/></g>' : '';
+    if (side) {        // みぎむき（ひだりは かがみで うつす）
+      body =
+        kine(78, 132, -28) +
+        ear(94, 90, -26) + ear(104, 88, -14) +
+        '<circle cx="72" cy="150" r="8" fill="' + c.fur + '" ' + st + '/>' +
+        foot(86 - fa * 8, 168 + (fa > 0 ? -2 : 0)) +
+        (L >= 4 ? '<path d="M92 126 Q70 132 64 172 Q84 166 96 160 Z" fill="' + c.cape + '" opacity=".9"/>' : '') +
+        '<ellipse cx="100" cy="148" rx="27" ry="24" fill="' + c.fur + '" ' + st + '/>' +
+        foot(114 + fa * 8, 168 + (fa < 0 ? -2 : 0)) +
+        '<circle cx="106" cy="112" r="30" fill="' + c.fur + '" ' + st + '/>' + crown(102, 88) +
+        '<ellipse cx="122" cy="109" rx="4.5" ry="5.5" fill="' + c.eye + '"/><circle cx="123.5" cy="107" r="1.6" fill="#fff"/>' +
+        '<ellipse cx="124" cy="121" rx="6" ry="4" fill="' + c.blush + '" opacity=".75"/>' +
+        '<path d="M133 117 l3 3 l-4 2 z" fill="' + c.blush + '"/><path d="M134 123 q-3 4 -7 3" stroke="' + c.eye + '" stroke-width="2.2" fill="none" stroke-linecap="round"/>';
+    } else if (back) { // うしろむき
+      body =
+        kine(138, 128, 22) +
+        ear(88, 84, -11) + ear(112, 84, 11) +
+        foot(84, 168 + fa * 3) + foot(116, 168 - fa * 3) +
+        '<ellipse cx="100" cy="148" rx="30" ry="24" fill="' + c.fur + '" ' + st + '/>' +
+        (L >= 4 ? '<path d="M72 124 Q100 116 128 124 L138 172 Q100 162 62 172 Z" fill="' + c.cape + '" opacity=".9"/>' : '') +
+        '<circle cx="100" cy="' + (L >= 4 ? 166 : 160) + '" r="8" fill="' + c.fur + '" ' + st + '/>' +
+        '<circle cx="100" cy="112" r="31" fill="' + c.fur + '" ' + st + '/>' + crown(100, 90) +
+        '<path d="M92 132 q8 4 16 0" stroke="' + c.line + '" stroke-width="2" fill="none" opacity=".6"/>';
+    } else {           // まえむき
+      body =
+        ear(86, 82, -11) + ear(114, 82, 11) +
+        (L >= 4 ? '<path d="M70 124 Q100 112 130 124 L142 174 Q100 160 58 174 Z" fill="' + c.cape + '" opacity=".85"/>' : '') +
+        '<ellipse cx="100" cy="148" rx="30" ry="24" fill="' + c.fur + '" ' + st + '/>' +
+        foot(82, 166 - fa * 3) + foot(118, 166 + fa * 3) +
+        kine(142, 140, -22) +
+        '<circle cx="100" cy="112" r="31" fill="' + c.fur + '" ' + st + '/>' + crown(100, 94) +
+        '<ellipse cx="89" cy="110" rx="4.5" ry="5.5" fill="' + c.eye + '"/><ellipse cx="111" cy="110" rx="4.5" ry="5.5" fill="' + c.eye + '"/>' +
+        '<circle cx="90.5" cy="108" r="1.6" fill="#fff"/><circle cx="112.5" cy="108" r="1.6" fill="#fff"/>' +
+        '<ellipse cx="76" cy="121" rx="7" ry="4.5" fill="' + c.blush + '" opacity=".75"/><ellipse cx="124" cy="121" rx="7" ry="4.5" fill="' + c.blush + '" opacity=".75"/>' +
+        '<path d="M96 121 l4 4 l4 -4 z" fill="' + c.blush + '"/>' +
+        '<path d="M100 125 q-5 6 -9 2 M100 125 q5 6 9 2" stroke="' + c.eye + '" stroke-width="2.2" fill="none" stroke-linecap="round"/>';
+    }
+  }
+  const scale = L === 1 ? 0.88 : Math.min(1.08, 0.92 + (L - 2) * 0.035);
+  return '<svg viewBox="0 0 200 200" width="256" height="256" xmlns="http://www.w3.org/2000/svg">' +
+    '<g transform="translate(0,' + bob + ') translate(100,106) scale(' + scale.toFixed(3) + ') translate(-100,-106)">' + body + '</g></svg>';
+}
+// むき（down / up / right / left）× コマ（stand / a / b）の canvas を まとめて つくる
+async function forestLunaSet() {
+  const out = {};
+  for (const dir of ['down', 'up', 'side']) for (const fr of ['stand', 'a', 'b']) {
+    const cv = await forestSvgCanvas(forestLunaSVG(dir, fr), 256);
+    if (!cv) continue;
+    if (dir === 'side') {
+      out['right_' + fr] = cv;
+      const m = document.createElement('canvas'); m.width = m.height = 256;
+      const g = m.getContext('2d'); g.translate(256, 0); g.scale(-1, 1); g.drawImage(cv, 0, 0);
+      out['left_' + fr] = m;
+    } else out[dir + '_' + fr] = cv;
+  }
+  return out;
+}
+// いまの コマ（あるいている あいだは 1マスごとに あしを こうたい）
+let forestStepN = 0;
+function forestLunaFrame() {
+  const f = save.forest;
+  const d = FOREST_DIRS[f.dir] ? f.dir : 'down';
+  if (!forestMv) return d + '_stand';
+  return d + '_' + ((forestStepN + (forestMv.t > 0.5 ? 1 : 0)) % 2 ? 'a' : 'b');
 }
 
 // SVG の 文字列 → canvas（ゴーレムの え など）
@@ -575,8 +655,8 @@ function forest2DInit() {
   const stage = document.getElementById('fz-stage');
   stage.innerHTML = '<canvas id="fz-canvas"></canvas>';
   const cv = stage.querySelector('canvas');
-  let luna = null;
-  forestLunaCanvas(false).then(c => { luna = c; });
+  let lunas = {};
+  forestLunaSet().then(o => { lunas = o; });
   return {
     kind: '2d',
     draw() {
@@ -594,6 +674,7 @@ function forest2DInit() {
       g.translate(-((px - cols / 2) - ox) * k, -((py - rows / 2) - oy) * k);
       forestPaint2D(g, ox, oy, cols, rows, k, false);
       g.restore();
+      const luna = lunas[forestLunaFrame()];
       if (luna) g.drawImage(luna, w / 2 - k * 0.6, h / 2 - k * 0.7, k * 1.2, k * 1.2);
     },
   };
@@ -659,7 +740,7 @@ async function forest3DInit() {
   scene.add(water);
 
   // ルナ
-  const [lunaR, lunaL, golemC] = await Promise.all([forestLunaCanvas(false), forestLunaCanvas(true),
+  const [lunaCv, golemC] = await Promise.all([forestLunaSet(),
     typeof FOREST_GUARD_KEY !== 'undefined' ? forestSvgCanvas(CHARS[FOREST_GUARD_KEY](6, 100, 256, {}), 256) : null]);
   // どうくつの まえに たつ ばんにん（たおすまで 見える）
   let golem = null;
@@ -677,10 +758,16 @@ async function forest3DInit() {
   const mark = new THREE.Sprite(new THREE.SpriteMaterial({ map: markTex, transparent: true, depthTest: false, fog: false }));
   mark.scale.set(1.1, 1.1, 1); mark.renderOrder = 10;
   scene.add(mark);
-  const texR = lunaR && new THREE.CanvasTexture(lunaR), texL = lunaL && new THREE.CanvasTexture(lunaL);
-  [texR, texL].forEach(t => { if (t) t.colorSpace = THREE.SRGBColorSpace; });
-  const hero = new THREE.Sprite(new THREE.SpriteMaterial({ map: texR, transparent: true, alphaTest: 0.1 }));
-  hero.center.set(0.5, 0.06);
+  // ルナ（むき×コマの え。レベルが あがったら つくりなおす）
+  let heroTex = {}, heroLv = save.lv;
+  const makeHeroTex = (cvs) => {
+    Object.values(heroTex).forEach(t => t.dispose());
+    heroTex = {};
+    Object.entries(cvs).forEach(([k, cv]) => { const t = new THREE.CanvasTexture(cv); t.colorSpace = THREE.SRGBColorSpace; heroTex[k] = t; });
+  };
+  makeHeroTex(lunaCv);
+  const hero = new THREE.Sprite(new THREE.SpriteMaterial({ map: heroTex.down_stand, transparent: true, alphaTest: 0.1 }));
+  hero.center.set(0.5, 0.11);   // 絵の 下の あき（あしの 下）ぶん さげて、かげに あしを つける
   hero.scale.set(1.6, 1.6, 1);
   hero.renderOrder = 6;
   const heroShadow = new THREE.Mesh(new THREE.CircleGeometry(0.32, 20), new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.28, depthWrite: false }));
@@ -856,8 +943,9 @@ async function forest3DInit() {
       const f = save.forest;
       const walking = !!forestMv;
       hero.position.set(px, walking ? Math.abs(Math.sin(k * Math.PI)) * 0.12 : 0, py);
-      if (f.dir === 'left' && texL) hero.material.map = texL;
-      else if (f.dir === 'right' && texR) hero.material.map = texR;
+      if (heroLv !== save.lv) { heroLv = save.lv; forestLunaSet().then(makeHeroTex); }
+      const ht = heroTex[forestLunaFrame()];
+      if (ht && hero.material.map !== ht) hero.material.map = ht;
       heroShadow.position.set(px, 0.015, py);
       // カメラ：ななめ 上・うしろ（南）から
       look.set(px, 0.3, py - 0.6);
