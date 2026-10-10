@@ -829,11 +829,15 @@ function startForestBattle(kind) {
   if (save.hp <= 0) save.hp = maxHp();
   const east = forestEast(f.x, f.y);
   const n = kind === 'boss' ? 8 : kind === 'guard' ? 4 : 2 + (east || Math.random() < 0.3 ? 1 : 0);
-  const char = kind === 'boss' ? FOREST_BOSS_CHAR : MONSTER_POOL[Math.floor(Math.random() * MONSTER_POOL.length)];
+  // モンスター（js/forest_monsters.js）。川の むこうは 色ちがいの つよい なかま
+  const mobs = typeof FOREST_MOBS !== 'undefined' ? FOREST_MOBS[east ? 'east' : 'west'] : MONSTER_POOL;
+  const char = kind === 'boss' ? (typeof FOREST_NUSHI_KEY !== 'undefined' ? FOREST_NUSHI_KEY : FOREST_BOSS_CHAR)
+    : kind === 'guard' && typeof FOREST_GUARD_KEY !== 'undefined' ? FOREST_GUARD_KEY
+    : mobs[Math.floor(Math.random() * mobs.length)];
   f.since = 0;
   bt = {
     boss: false, key: '__forest__', char,
-    name: kind === 'boss' ? FOREST_BOSS_NAME : kind === 'guard' ? FOREST_GUARD_NAME : (east ? 'かわむこうの' : 'もりの') + CHAR_NAME[char],
+    name: kind === 'boss' ? CHAR_NAME[char] || FOREST_BOSS_NAME : kind === 'guard' ? FOREST_GUARD_NAME : CHAR_NAME[char],
     queue: shuffle(forestPool()).slice(0, n), idx: 0,
     maxHp: n * DMG_HIT, hp: n * DMG_HIT, streak: 0, correct: 0, medals: 0, answered: false,
     tt: null, ttMedals: 0, ttIn: 0, ttAnswered: 0,

@@ -64,6 +64,21 @@
     body.memo-open #app, body.memo-open.memo-big #app{ margin-left:12px; margin-right:auto; padding-bottom:40px; }
   }
   .fz-mini{ display:block; width:min(84vw,520px); height:auto; margin:10px auto 6px; border-radius:8px; image-rendering:pixelated; }
+  /* 🌲 森の たたかい（ドラクエふう） */
+  #scr-battle.dq > .panel:first-child{ background:linear-gradient(180deg,#0b1d3a 0%,#123524 55%,#1e4d2b 100%); border:3px solid #fff; color:#fff; }
+  #scr-battle.dq > .panel:first-child::before{ content:''; position:absolute; left:0; right:0; bottom:0; height:62%; pointer-events:none; opacity:.55;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 120' preserveAspectRatio='none'%3E%3Cpath d='M0 120V70l20-40 20 40 15-55 18 55 22-35 20 35 16-50 18 50 25-30 18 30 14-45 20 45 22-38 18 38 20-52 22 52 18-34 20 34 16-46 20 46 15-30V120Z' fill='%23051a0d'/%3E%3C/svg%3E") bottom/100% 100% no-repeat; }
+  #scr-battle.dq #enemy-name{ color:#fff; text-shadow:0 2px 0 #000; }
+  #scr-battle.dq #enemy-hp-text{ color:#cbd5e1 !important; }
+  #scr-battle.dq #battle-msg{ color:#fde68a !important; position:relative; z-index:1; text-shadow:0 2px 0 #000; }
+  svg.fmon{ margin:0 auto; }
+  #scr-battle.dq #enemy-art{ min-height:210px; position:relative; z-index:1; }
+  #scr-battle.dq #enemy-sprite svg{ animation:dqidle 1.6s ease-in-out infinite; filter:drop-shadow(0 6px 0 rgba(0,0,0,.25)); }
+  #enemy-sprite.dq-in{ animation:dqin .45s ease-out; }
+  #enemy-sprite.dq-hit svg{ animation:dqhit .5s steps(1); }
+  @keyframes dqidle{ 0%,100%{ transform:translateY(0) scale(1,1);} 50%{ transform:translateY(-6px) scale(1.02,.98);} }
+  @keyframes dqin{ from{ opacity:0; transform:translateY(-18px) scale(.85);} to{ opacity:1; transform:none;} }
+  @keyframes dqhit{ 0%{opacity:0} 20%{opacity:1} 40%{opacity:0} 60%{opacity:1} 80%{opacity:0} 100%{opacity:1} }
   @keyframes fade{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;} }
   .panel{ background:var(--card); border-radius:18px; padding:16px; box-shadow:0 8px 24px rgba(0,0,0,.28); }
   .btn{
@@ -881,8 +896,11 @@ function renderBattle() {
   document.getElementById('enemy-name').textContent = bt.name;
   document.getElementById('enemy-hp-text').textContent = enemyHpText();
   document.getElementById('enemy-hp').style.width = (bt.tt === 'rush' ? 100 : pct(bt.hp, bt.maxHp)) + '%';
+  // 🌲 森は ドラクエふう（色つきの モンスター・くらい 森の はいけい）。ほかは かげモンスター
+  document.getElementById('scr-battle').classList.toggle('dq', !!bt.forest);
   document.getElementById('enemy-art').innerHTML =
-    '<div id="enemy-sprite">' + CHARS[bt.char](6, 100, 180, { silhouette: bt.tt !== 'rush' }) + '</div>';
+    '<div id="enemy-sprite"' + (bt.forest ? ' class="dq-in"' : '') + '>' +
+      CHARS[bt.char](6, 100, bt.forest ? (bt.forest.boss ? 230 : 190) : 180, { silhouette: bt.tt !== 'rush' && !bt.forest }) + '</div>';
   renderMyBar();
   renderQuestion();
 }
@@ -1271,7 +1289,7 @@ function resolveTurn(ok, q, timeout) {
     if (!rush) bt.hp -= dmg;
     save.exp += EXP_HIT;
     if (!rush) popDamage(dmg, bt.streak >= 2);
-    if (sprite) { sprite.classList.remove('shake'); void sprite.offsetWidth; sprite.classList.add('shake'); }
+    if (sprite) { const c = bt.forest ? 'dq-hit' : 'shake'; sprite.classList.remove(c, 'dq-in'); void sprite.offsetWidth; sprite.classList.add(c); }
     const gotMedal = bt.forest ? medalForestCorrect(q) : medalFirstCorrect(q);
     let got = gotMedal;
     if (inTime) {   // ⏱️ 時間内の正解は どの問題でも 🪙2（過去問演習は 🪙4）
@@ -1472,6 +1490,7 @@ function showDex() {
 boot();
 </script>
 <script src="js/forest_music.js"></script>
+<script src="js/forest_monsters.js"></script>
 <script src="js/forest.js"></script>
 <script src="js/moshi.js"></script>
 <script src="js/detective.js"></script>
