@@ -27,11 +27,15 @@ export interface LiveRefs {
   flip: { current: boolean };
   walkPhase: { current: number };
   tapTarget: { current: Pos | null };
+  /** しゅじんこうの むきと あし（'side_1' など）。ActorSpec.poses の キー */
+  pose?: { current: string };
 }
 
 export interface ActorSpec {
   id: string;                 // '@player' / '@monster' / なかまの id
   art: ArtSpec | null;
+  /** むき・あしごとの 絵（しゅじんこう）。LiveRefs.pose で えらぶ */
+  poses?: Record<string, ArtSpec>;
   label?: string;
   emote?: string;
   tapDy: number;              // タップしたとき IslandScreen に わたす 位置の ずれ（割合）
@@ -774,6 +778,8 @@ export class IslandEngine {
         this.actors.add(b.group);
       }
       b.setArt(a.art ? { ...a.art, unit: a.art.unit * SPRITE_UNIT } : null);
+      // むきの 絵は さきに つくっておく（あるきだしたとき ちらつかないように）
+      if (a.poses) for (const ps of Object.values(a.poses)) loadArt({ ...ps, unit: ps.unit * SPRITE_UNIT });
       this.actorSpecs.set(a.id, a);
       // 名前
       let el = this.labels.get(a.id);
@@ -1043,7 +1049,10 @@ export class IslandEngine {
           y += Math.abs(Math.sin(ph)) * 0.55;
           sy = 1 + Math.sin(ph * 2) * 0.03;
         } else sy = 1 + Math.sin(t * 2.2) * 0.012;
-        sx = lv.flip.current ? -1 : 1;
+        const pose = lv.pose?.current ?? 'down_0';
+        const ps = this.actorSpecs.get('@player')?.poses?.[pose];
+        if (ps) b.setArt({ ...ps, unit: ps.unit * SPRITE_UNIT });
+        sx = lv.flip.current && pose.startsWith('side') ? -1 : 1;   // まえ・うしろは かがみに しない
       } else {
         sy = 1 + Math.sin(t * 2 + id.length) * 0.015;
       }

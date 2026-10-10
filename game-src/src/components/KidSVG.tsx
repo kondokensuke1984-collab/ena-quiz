@@ -4,8 +4,8 @@ import type { PlayerKey } from '../types';
 // 主人公「あんり」「りの」「みつき」「けんすけ」「ゆうせい」。リポジトリに人物の絵がないので新規に描いたもの。
 // js/chars.js と同じ丸っこい絵柄（太い線・#3d2b5e の目・頬の赤み）に寄せている。
 //
-// 正面向き1ポーズだけを用意し、歩きは「上下のぴょこぴょこ＋左右反転」で表現する。
-// 横向き・後ろ向きの絵は作らない。
+// むき（dir）：down＝まえ、up＝うしろ、side＝みぎむき（ひだりは flip で かがみに）。
+// あし（step）：0＝そろえる、1／2＝こうごに だす（あるく ときに 1→2→1… と かえる）。2026-10-10 に うしろ・よこを 追加。
 
 export interface Palette {
   hair: string;
@@ -36,10 +36,25 @@ interface Props {
   hat?: 'cap' | 'crown' | 'detective' | null;
   ribbon?: boolean;
   magnifier?: boolean;
+  dir?: KidDir;
+  step?: 0 | 1 | 2;
 }
 
-function KidSVGBase({ who, size = 110, walking = false, flip = false, hat = null, ribbon = false, magnifier = false }: Props) {
+export type KidDir = 'down' | 'up' | 'side';
+
+function KidSVGBase(props: Props) {
+  const { who, size = 110, walking = false, flip = false, hat = null, ribbon = false, magnifier = false, dir = 'down', step = 0 } = props;
   const p = PALETTES[who];
+  if (dir === 'up' || dir === 'side') {
+    return (
+      <svg width={size} height={size * 1.2} viewBox="0 0 100 120" style={{ transform: flip ? 'scaleX(-1)' : undefined, overflow: 'visible' }} aria-hidden="true">
+        <ellipse cx="50" cy="114" rx={walking ? 17 : 20} ry={walking ? 4 : 5} fill="rgba(0,0,0,0.22)" />
+        {dir === 'up' ? <KidBack who={who} p={p} hat={hat} ribbon={ribbon} step={step} /> : <KidSide who={who} p={p} hat={hat} ribbon={ribbon} magnifier={magnifier} step={step} />}
+      </svg>
+    );
+  }
+  const up1 = step === 1 ? -3 : 0, up2 = step === 2 ? -3 : 0;   // まえむきで あるく：かたあしずつ あげる
+  const sw = step === 1 ? 10 : step === 2 ? -10 : 0;             // うでを ふる
 
   return (
     <svg
@@ -54,10 +69,10 @@ function KidSVGBase({ who, size = 110, walking = false, flip = false, hat = null
 
       <g>
         {/* あし */}
-        <rect x="38" y="96" width="9" height="14" rx="4.5" fill={SKIN} stroke={SKIN_LINE} strokeWidth="1.4" />
-        <rect x="53" y="96" width="9" height="14" rx="4.5" fill={SKIN} stroke={SKIN_LINE} strokeWidth="1.4" />
-        <ellipse cx="42.5" cy="110" rx="6.5" ry="4" fill="#fff" stroke={p.clothDark} strokeWidth="1.6" />
-        <ellipse cx="57.5" cy="110" rx="6.5" ry="4" fill="#fff" stroke={p.clothDark} strokeWidth="1.6" />
+        <rect x="38" y={96 + up1} width="9" height="14" rx="4.5" fill={SKIN} stroke={SKIN_LINE} strokeWidth="1.4" />
+        <rect x="53" y={96 + up2} width="9" height="14" rx="4.5" fill={SKIN} stroke={SKIN_LINE} strokeWidth="1.4" />
+        <ellipse cx="42.5" cy={110 + up1} rx="6.5" ry="4" fill="#fff" stroke={p.clothDark} strokeWidth="1.6" />
+        <ellipse cx="57.5" cy={110 + up2} rx="6.5" ry="4" fill="#fff" stroke={p.clothDark} strokeWidth="1.6" />
 
         {/* からだ（ワンピース／パーカー） */}
         <path
@@ -106,10 +121,14 @@ function KidSVGBase({ who, size = 110, walking = false, flip = false, hat = null
         )}
 
         {/* うで */}
-        <ellipse cx="27" cy="76" rx="6" ry="8.5" fill={p.cloth} stroke={p.clothDark} strokeWidth="2.2" transform="rotate(-14 27 76)" />
-        <ellipse cx="73" cy="76" rx="6" ry="8.5" fill={p.cloth} stroke={p.clothDark} strokeWidth="2.2" transform="rotate(14 73 76)" />
-        <circle cx="25" cy="85" r="5" fill={SKIN} stroke={SKIN_LINE} strokeWidth="1.4" />
-        <circle cx="75" cy="85" r="5" fill={SKIN} stroke={SKIN_LINE} strokeWidth="1.4" />
+        <g transform={`rotate(${sw} 30 68)`}>
+          <ellipse cx="27" cy="76" rx="6" ry="8.5" fill={p.cloth} stroke={p.clothDark} strokeWidth="2.2" transform="rotate(-14 27 76)" />
+          <circle cx="25" cy="85" r="5" fill={SKIN} stroke={SKIN_LINE} strokeWidth="1.4" />
+        </g>
+        <g transform={`rotate(${sw} 70 68)`}>
+          <ellipse cx="73" cy="76" rx="6" ry="8.5" fill={p.cloth} stroke={p.clothDark} strokeWidth="2.2" transform="rotate(14 73 76)" />
+          <circle cx="75" cy="85" r="5" fill={SKIN} stroke={SKIN_LINE} strokeWidth="1.4" />
+        </g>
 
         {/* あたま */}
         <circle cx="50" cy="42" r="25" fill={SKIN} stroke={SKIN_LINE} strokeWidth="2" />
@@ -258,6 +277,220 @@ function KidSVGBase({ who, size = 110, walking = false, flip = false, hat = null
         )}
       </g>
     </svg>
+  );
+}
+
+// ── うしろむき・よこむき ──
+type PartProps = { who: PlayerKey; p: Palette; hat: Props['hat']; ribbon: boolean; step: 0 | 1 | 2; magnifier?: boolean };
+const HAIR_W = 2.2;
+
+/** うしろむき：かおは かかず、かみで あたまを おおう。ランドセル・リボン・しっぽ（りののフード）など せなかの もの */
+function KidBack({ who, p, hat, ribbon, step }: PartProps) {
+  const up1 = step === 1 ? -3 : 0, up2 = step === 2 ? -3 : 0;
+  const sw = step === 1 ? -10 : step === 2 ? 10 : 0;
+  const lower = who === 'kensuke' ? { fill: p.accent, line: '#172554' } : who === 'yusei' ? { fill: '#e7d3a8', line: '#a8875a' } : null;
+  return (
+    <g>
+      <rect x="38" y={96 + up1} width="9" height="14" rx="4.5" fill={SKIN} stroke={SKIN_LINE} strokeWidth="1.4" />
+      <rect x="53" y={96 + up2} width="9" height="14" rx="4.5" fill={SKIN} stroke={SKIN_LINE} strokeWidth="1.4" />
+      <ellipse cx="42.5" cy={110 + up1} rx="6.5" ry="4" fill="#fff" stroke={p.clothDark} strokeWidth="1.6" />
+      <ellipse cx="57.5" cy={110 + up2} rx="6.5" ry="4" fill="#fff" stroke={p.clothDark} strokeWidth="1.6" />
+      <path d="M50 62 C38 62 32 70 30 84 C29 92 30 98 34 99 L66 99 C70 98 71 92 70 84 C68 70 62 62 50 62 Z" fill={p.cloth} stroke={p.clothDark} strokeWidth="2.4" strokeLinejoin="round" />
+      {lower && (
+        <>
+          <path d="M31 88 C30 93 31 98 34 99 L66 99 C69 98 70 93 69 88 Z" fill={lower.fill} stroke={lower.line} strokeWidth="2" strokeLinejoin="round" />
+          <path d="M50 89 L50 99" stroke={lower.line} strokeWidth="1.6" />
+        </>
+      )}
+      {who === 'anri' && (
+        /* エプロンの うしろの ちょうちょむすび */
+        <g transform="translate(50,84)">
+          <path d="M0 0 L-8 -5 L-8 5 Z M0 0 L8 -5 L8 5 Z" fill="#fff" stroke={p.clothDark} strokeWidth="1.4" strokeLinejoin="round" />
+          <circle r="2.4" fill="#fff" stroke={p.clothDark} strokeWidth="1.2" />
+        </g>
+      )}
+      {who === 'mitsuki' && <path d="M33 84 Q50 88 67 84" stroke="#fff" strokeWidth="3" fill="none" strokeLinecap="round" />}
+      <g transform={`rotate(${sw} 30 68)`}>
+        <ellipse cx="27" cy="76" rx="6" ry="8.5" fill={p.cloth} stroke={p.clothDark} strokeWidth="2.2" transform="rotate(-14 27 76)" />
+        <circle cx="25" cy="85" r="5" fill={SKIN} stroke={SKIN_LINE} strokeWidth="1.4" />
+      </g>
+      <g transform={`rotate(${-sw} 70 68)`}>
+        <ellipse cx="73" cy="76" rx="6" ry="8.5" fill={p.cloth} stroke={p.clothDark} strokeWidth="2.2" transform="rotate(14 73 76)" />
+        <circle cx="75" cy="85" r="5" fill={SKIN} stroke={SKIN_LINE} strokeWidth="1.4" />
+      </g>
+      {who === 'yusei' && (
+        /* ランドセル */
+        <g>
+          <rect x="35" y="64" width="30" height="28" rx="6" fill="#dc2626" stroke="#991b1b" strokeWidth="2" />
+          <path d="M35 74 Q50 80 65 74 L65 70 C65 66 62 64 58 64 L42 64 C38 64 35 66 35 70 Z" fill="#b91c1c" stroke="#991b1b" strokeWidth="1.6" />
+          <rect x="47" y="76" width="6" height="5" rx="1.5" fill="#fbbf24" stroke="#b45309" strokeWidth="1" />
+        </g>
+      )}
+      {/* あたま（うしろは ぜんぶ かみ） */}
+      <circle cx="50" cy="42" r="25" fill={SKIN} stroke={SKIN_LINE} strokeWidth="2" />
+      {who === 'rino' ? (
+        <>
+          <ellipse cx="33" cy="12" rx="7" ry="16" fill={p.hair} stroke={p.hairDark} strokeWidth={HAIR_W} transform="rotate(-12 33 12)" />
+          <ellipse cx="67" cy="12" rx="7" ry="16" fill={p.hair} stroke={p.hairDark} strokeWidth={HAIR_W} transform="rotate(12 67 12)" />
+          <circle cx="50" cy="42" r="26" fill={p.hair} stroke={p.hairDark} strokeWidth={HAIR_W} />
+          <path d="M50 18 L50 66" stroke={p.hairDark} strokeWidth="1.4" opacity="0.5" />
+        </>
+      ) : (
+        <>
+          {who === 'anri' && (
+            <>
+              <circle cx="22" cy="42" r="8.5" fill={p.hair} stroke={p.hairDark} strokeWidth={HAIR_W} />
+              <circle cx="78" cy="42" r="8.5" fill={p.hair} stroke={p.hairDark} strokeWidth={HAIR_W} />
+            </>
+          )}
+          {who === 'kensuke' && (
+            <path d="M30 26 L34 12 L42 20 L48 7 L54 19 L62 10 L68 24 Z" fill={p.hair} stroke={p.hairDark} strokeWidth={HAIR_W} strokeLinejoin="round" />
+          )}
+          <path d="M25 46 C23 26 35 16 50 16 C65 16 77 26 75 46 C74 58 66 66 50 66 C34 66 26 58 25 46 Z" fill={p.hair} stroke={p.hairDark} strokeWidth={HAIR_W} strokeLinejoin="round" />
+          <path d="M38 58 Q50 62 62 58" stroke={p.hairDark} strokeWidth="1.4" fill="none" opacity="0.5" />
+          {who === 'mitsuki' && (
+            /* ポニーテール（まんなかに たれる） */
+            <>
+              <path d="M44 30 C40 44 42 62 48 72 C52 76 58 74 58 68 C60 56 58 42 56 30 Z" fill={p.hair} stroke={p.hairDark} strokeWidth={HAIR_W} strokeLinejoin="round" />
+              <circle cx="50" cy="30" r="4" fill="#f472b6" stroke="#db2777" strokeWidth="1.3" />
+            </>
+          )}
+          {who === 'anri' && (
+            <g transform="translate(30,22)">
+              {[0, 72, 144, 216, 288].map((deg) => (
+                <ellipse key={deg} cx="0" cy="-4.5" rx="3" ry="4.5" fill={p.accent} transform={`rotate(${deg})`} />
+              ))}
+              <circle cx="0" cy="0" r="2.4" fill="#fde68a" />
+            </g>
+          )}
+        </>
+      )}
+      {ribbon && (
+        <g transform="translate(70,20)">
+          <path d="M0 0 L-9 -5 L-9 6 Z" fill="#fb7185" stroke="#e11d48" strokeWidth="1.6" strokeLinejoin="round" />
+          <path d="M0 0 L9 -5 L9 6 Z" fill="#fb7185" stroke="#e11d48" strokeWidth="1.6" strokeLinejoin="round" />
+          <circle cx="0" cy="0.5" r="3" fill="#f43f5e" stroke="#e11d48" strokeWidth="1.4" />
+        </g>
+      )}
+      {hat === 'cap' && <path d="M28 26 C28 13 40 7 50 7 C60 7 72 13 72 26 Z" fill="#38bdf8" stroke="#0284c7" strokeWidth="2.2" strokeLinejoin="round" />}
+      {hat === 'detective' && (
+        <g>
+          <path d="M28 27 C28 12 40 6 50 6 C60 6 72 12 72 27 Z" fill="#b45309" stroke="#78350f" strokeWidth="2.2" strokeLinejoin="round" />
+          <path d="M36 11 L36 27 M50 6 L50 27 M64 11 L64 27 M30 17 H70 M29 22 H71" stroke="#78350f" strokeWidth="1" opacity="0.45" />
+        </g>
+      )}
+      {hat === 'crown' && (
+        <path d="M31 22 L31 8 L40 15 L50 5 L60 15 L69 8 L69 22 Z" fill="#fbbf24" stroke="#d97706" strokeWidth="2.2" strokeLinejoin="round" />
+      )}
+    </g>
+  );
+}
+
+/** みぎむき：かおは みぎがわ。あしと うでを まえうしろに ふる */
+function KidSide({ who, p, hat, ribbon, magnifier, step }: PartProps) {
+  const sw = step === 1 ? 22 : step === 2 ? -22 : 0;   // まえあしの かくど
+  const leg = (rot: number, back: boolean) => (
+    <g transform={`rotate(${rot} 50 96)`}>
+      <rect x="45.5" y="96" width="9" height="14" rx="4.5" fill={back ? '#f6dcc6' : SKIN} stroke={SKIN_LINE} strokeWidth="1.4" />
+      <ellipse cx="52.5" cy="110" rx="7.5" ry="4" fill={back ? '#f1f5f9' : '#fff'} stroke={p.clothDark} strokeWidth="1.6" />
+    </g>
+  );
+  const arm = (rot: number, back: boolean) => (
+    <g transform={`rotate(${rot} 50 68)`}>
+      <ellipse cx="50" cy="77" rx="5.5" ry="9" fill={back ? p.clothDark : p.cloth} stroke={p.clothDark} strokeWidth="2.2" />
+      <circle cx="50" cy="87" r="4.8" fill={SKIN} stroke={SKIN_LINE} strokeWidth="1.4" />
+    </g>
+  );
+  const lower = who === 'kensuke' ? { fill: p.accent, line: '#172554' } : who === 'yusei' ? { fill: '#e7d3a8', line: '#a8875a' } : null;
+  return (
+    <g>
+      {leg(-sw, true)}
+      {arm(sw * 0.9, true)}
+      {who === 'yusei' && <rect x="31" y="64" width="12" height="27" rx="4" fill="#dc2626" stroke="#991b1b" strokeWidth="2" />}
+      <path d="M50 62 C42 62 37 70 36 84 C35 92 36 98 39 99 L62 99 C65 98 66 92 65 84 C63 70 58 62 50 62 Z" fill={p.cloth} stroke={p.clothDark} strokeWidth="2.4" strokeLinejoin="round" />
+      {lower && <path d="M37 88 C36 93 36 98 39 99 L62 99 C65 98 65 93 64 88 Z" fill={lower.fill} stroke={lower.line} strokeWidth="2" strokeLinejoin="round" />}
+      {who === 'anri' && <rect x="52" y="78" width="10" height="11" rx="3" fill="#fff" opacity="0.85" />}
+      {who === 'mitsuki' && <path d="M37 84 Q50 88 64 84" stroke="#fff" strokeWidth="3" fill="none" strokeLinecap="round" />}
+      {who === 'rino' && <path d="M58 66 L59 77" stroke="#fff" strokeWidth="2.6" strokeLinecap="round" />}
+      {leg(sw, false)}
+      {/* あたま */}
+      <circle cx="52" cy="42" r="24.5" fill={SKIN} stroke={SKIN_LINE} strokeWidth="2" />
+      {who === 'rino' ? (
+        <>
+          <ellipse cx="38" cy="14" rx="7" ry="16" fill={p.hair} stroke={p.hairDark} strokeWidth={HAIR_W} transform="rotate(-30 38 14)" />
+          <ellipse cx="38" cy="15" rx="3" ry="10" fill="#fde7f3" transform="rotate(-30 38 15)" />
+          <ellipse cx="48" cy="12" rx="7" ry="16" fill={p.hair} stroke={p.hairDark} strokeWidth={HAIR_W} transform="rotate(-18 48 12)" />
+          <path d="M27 50 C24 28 36 17 52 17 C66 17 76 26 76 40 C70 32 60 30 54 32 C52 42 46 52 40 62 C33 60 28 56 27 50 Z" fill={p.hair} stroke={p.hairDark} strokeWidth={HAIR_W} strokeLinejoin="round" />
+        </>
+      ) : (
+        <>
+          {who === 'mitsuki' && (
+            <path d="M32 28 C18 30 14 48 20 62 C22 68 28 68 28 62 C24 52 26 40 34 34 Z" fill={p.hair} stroke={p.hairDark} strokeWidth={HAIR_W} strokeLinejoin="round" />
+          )}
+          {who === 'anri' && <circle cx="28" cy="40" r="8.5" fill={p.hair} stroke={p.hairDark} strokeWidth={HAIR_W} />}
+          {who === 'kensuke' && (
+            <path d="M28 34 L24 22 L34 24 L34 12 L42 19 L46 8 L52 17 L60 10 L62 20 L72 22 Z" fill={p.hair} stroke={p.hairDark} strokeWidth={HAIR_W} strokeLinejoin="round" />
+          )}
+          <path d="M28 52 C24 30 36 16 52 16 C66 16 77 25 76 38 C70 31 62 29 56 30 C54 36 50 40 46 42 C44 50 40 58 36 62 C31 60 28 56 28 52 Z" fill={p.hair} stroke={p.hairDark} strokeWidth={HAIR_W} strokeLinejoin="round" />
+          {who === 'yusei' && <path d="M56 30 C62 27 70 28 75 33" stroke={p.hairDark} strokeWidth="1.4" fill="none" strokeLinecap="round" opacity="0.6" />}
+          {who === 'mitsuki' && <circle cx="34" cy="28" r="3.6" fill="#f472b6" stroke="#db2777" strokeWidth="1.3" />}
+          {who === 'anri' && (
+            <g transform="translate(58,20)">
+              {[0, 72, 144, 216, 288].map((deg) => (
+                <ellipse key={deg} cx="0" cy="-4.5" rx="3" ry="4.5" fill={p.accent} transform={`rotate(${deg})`} />
+              ))}
+              <circle cx="0" cy="0" r="2.4" fill="#fde68a" />
+            </g>
+          )}
+        </>
+      )}
+      {/* かお（みぎがわ） */}
+      <ellipse cx="64" cy="45" rx="3.4" ry="4.6" fill={INK} />
+      <circle cx="65.3" cy="43.2" r="1.4" fill="#fff" />
+      <ellipse cx="68" cy="52.5" rx="4" ry="2.5" fill="#fda4af" opacity="0.75" />
+      <path d="M64 54.5 Q68 57.5 72 54" stroke={INK} strokeWidth="2" strokeLinecap="round" fill="none" />
+      {who === 'kensuke' && (
+        <g transform="rotate(-20 68 50)">
+          <rect x="63" y="47.5" width="10" height="5" rx="2.5" fill="#fcd9b6" stroke="#d6a77a" strokeWidth="1" />
+        </g>
+      )}
+      {who === 'yusei' && (
+        <g>
+          <path d="M56.5 44 L42 41.5" stroke="#1e3a8a" strokeWidth="1.8" strokeLinecap="round" />
+          <circle cx="64" cy="45" r="7.3" fill="#fff" fillOpacity="0.25" stroke="#1e3a8a" strokeWidth="2" />
+        </g>
+      )}
+      {arm(-sw * 0.9, false)}
+      {magnifier && (
+        <g transform={`rotate(${-sw * 0.9} 50 68)`}>
+          <path d="M52 88 L58 96" stroke="#78350f" strokeWidth="4" strokeLinecap="round" />
+          <circle cx="62" cy="82" r="8" fill="#e0f2fe" fillOpacity="0.75" stroke="#b45309" strokeWidth="3" />
+        </g>
+      )}
+      {ribbon && (
+        <g transform="translate(32,22)">
+          <path d="M0 0 L-9 -5 L-9 6 Z" fill="#fb7185" stroke="#e11d48" strokeWidth="1.6" strokeLinejoin="round" />
+          <path d="M0 0 L9 -5 L9 6 Z" fill="#fb7185" stroke="#e11d48" strokeWidth="1.6" strokeLinejoin="round" />
+          <circle cx="0" cy="0.5" r="3" fill="#f43f5e" stroke="#e11d48" strokeWidth="1.4" />
+        </g>
+      )}
+      {hat === 'cap' && (
+        <g>
+          <path d="M30 26 C30 13 42 7 52 7 C62 7 74 13 74 26 Z" fill="#38bdf8" stroke="#0284c7" strokeWidth="2.2" strokeLinejoin="round" />
+          <path d="M72 26 C84 26 88 29 88 32 L70 32 Z" fill="#0ea5e9" stroke="#0284c7" strokeWidth="2.2" strokeLinejoin="round" />
+        </g>
+      )}
+      {hat === 'detective' && (
+        <g>
+          <path d="M70 22 C76 21 80 23 82 27 L70 27 Z" fill="#92400e" stroke="#78350f" strokeWidth="1.8" strokeLinejoin="round" />
+          <path d="M30 27 C30 12 42 6 52 6 C62 6 74 12 74 27 Z" fill="#b45309" stroke="#78350f" strokeWidth="2.2" strokeLinejoin="round" />
+          <path d="M38 11 L38 27 M52 6 L52 27 M66 11 L66 27 M32 17 H72 M31 22 H73" stroke="#78350f" strokeWidth="1" opacity="0.45" />
+        </g>
+      )}
+      {hat === 'crown' && (
+        <path d="M34 22 L34 8 L43 15 L52 5 L61 15 L70 8 L70 22 Z" fill="#fbbf24" stroke="#d97706" strokeWidth="2.2" strokeLinejoin="round" />
+      )}
+    </g>
   );
 }
 

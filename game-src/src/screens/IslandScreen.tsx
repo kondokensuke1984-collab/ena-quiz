@@ -3,7 +3,7 @@ import { Shell, HpBar } from '../components/Shell';
 import { DPad, type Axis } from '../components/DPad';
 import { IslandGround, FOREST_ISLET, MOSHI_ISLET } from '../components/IslandStage';
 import { useMoshis, moshiRewards } from '../lib/moshi';
-import { KidSVG, PALETTES } from '../components/KidSVG';
+import { KidSVG, PALETTES, type KidDir } from '../components/KidSVG';
 import { FIXED_SCHOOL, SCHOOLS, SCHOOL_LABEL } from '../lib/school';
 import { CharSVG, useChars } from '../components/CharSVG';
 import type { World3DHandle } from '../components/island3d/World3D';
@@ -138,6 +138,19 @@ type ModalKind =
   | 'feed' | 'roster' | 'stamp' | 'mail' | 'fish' | 'farm' | 'stars' | 'detective' | 'moonView'
   | 'imo' | 'arbor' | 'spaceGo' | 'spaceDex' | 'desk' | 'organ' | 'micro' | 'transfer' | 'board' | 'opening';
 
+/** むきと あしだけ かわる しゅじんこう（島の 画面ぜんぶを かきなおさない） */
+function PosedKid({ poseRef, subRef, ...rest }: {
+  poseRef: { current: string }; subRef: { current: ((pose: string) => void) | null };
+} & Omit<React.ComponentProps<typeof KidSVG>, 'dir' | 'step'>) {
+  const [pose, setPose] = useState(poseRef.current);
+  useEffect(() => {
+    subRef.current = setPose;
+    return () => { if (subRef.current === setPose) subRef.current = null; };
+  }, [subRef]);
+  const [d, st] = pose.split('_');
+  return <KidSVG {...rest} dir={d as KidDir} step={Number(st) as 0 | 1 | 2} />;
+}
+
 type Mode = { kind: 'walk' } | { kind: 'place'; itemId: string } | { kind: 'move'; uid: string };
 
 export function IslandScreen() {
@@ -158,6 +171,9 @@ export function IslandScreen() {
   const tapTarget = useRef<Pos | null>(null);
   const flip = useRef(false);
   const walkPhase = useRef(0);
+  // しゅじんこうの むきと あし（'down_0' など。KidSVG の dir_step）。2D は PosedKid だけが よみなおす
+  const kidPose = useRef('down_0');
+  const kidPoseSub = useRef<((pose: string) => void) | null>(null);
   const dirtyAt = useRef(0);
 
   const [mode, setMode] = useState<Mode>({ kind: 'walk' });
@@ -411,17 +427,20 @@ export function IslandScreen() {
       // 主人公
       const a = axis.current;
       let moved = false;
+      let mdx = 0, mdy = 0;   // うごいた むき（がめんの ピクセル）
       if (a.x || a.y) {
         tapTarget.current = null;
         const next = stepByAxis(playerPos.current, a.x, a.y, PLAYER_SPEED, dt);
         moved = next.x !== playerPos.current.x || next.y !== playerPos.current.y;
         if (a.x !== 0) flip.current = a.x < 0;
+        mdx = a.x; mdy = a.y;
         playerPos.current = next;
       } else if (tapTarget.current) {
         const before = playerPos.current;
         const { pos, arrived } = stepToward(before, tapTarget.current, PLAYER_SPEED, dt);
         if (pos.x !== before.x) flip.current = pos.x < before.x;
         moved = pos.x !== before.x || pos.y !== before.y;
+        mdx = (pos.x - before.x) * ISLAND_W; mdy = (pos.y - before.y) * ISLAND_H;
         playerPos.current = pos;
         if (arrived) tapTarget.current = null;
       }
@@ -470,6 +489,14 @@ export function IslandScreen() {
         walkPhase.current += dt * 11;
         dirtyAt.current = t;
       }
+      // むき（よこが つよければ よこ、そうでなければ うえ／した）と あし
+      {
+        const [d0] = kidPose.current.split('_');
+        const dir: KidDir = !moved ? (d0 as KidDir) : Math.abs(mdx) > Math.abs(mdy) ? 'side' : mdy < 0 ? 'up' : 'down';
+        const step = moved ? (Math.floor(walkPhase.current / Math.PI) % 2 ? 1 : 2) : 0;
+        const pose = dir + '_' + step;
+        if (pose !== kidPose.current) { kidPose.current = pose; kidPoseSub.current?.(pose); }
+      }
 
       // カメラ（main）：主人公に ついていく
       if (isWideArea() && cam.current) {
@@ -491,7 +518,7 @@ export function IslandScreen() {
       if (playerNodeRef.current) {
         playerNodeRef.current.setAttribute(
           'transform',
-          `translate(${playerPos.current.x * ISLAND_W} ${playerPos.current.y * ISLAND_H - bob}) scale(${flip.current ? -1 : 1} 1)`,
+          `translate(${playerPos.current.x * ISLAND_W} ${playerPos.current.y * ISLAND_H - bob}) scale(${flip.current && kidPose.current.startsWith('side') ? -1 : 1} 1)`,
         );
       }
       if (monsterNodeRef.current) {
@@ -1028,7 +1055,9 @@ export function IslandScreen() {
           <foreignObject x={-60} y={-132} width={120} height={144} style={{ overflow: 'visible', pointerEvents: 'none' }}>
             <div className="flex h-full w-full items-end justify-center">
               {save.player && (
-                <KidSVG
+                <PosedKid
+                  poseRef={kidPose}
+                  subRef={kidPoseSub}
                   who={save.player}
                   size={104}
                   walking={walking}
@@ -1176,7 +1205,7 @@ export function IslandScreen() {
           <Suspense fallback={null}>
             <World3D
               ref={w3d}
-              live={{ playerPos, monsterPos, friendPos, flip, walkPhase, tapTarget }}
+              live={{ playerPos, monsterPos, friendPos, flip, walkPhase, tapTarget, pose: kidPose }}
               chars={chars}
               built={builtSpots}
               pier={hasPier}

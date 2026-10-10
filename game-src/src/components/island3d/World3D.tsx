@@ -11,7 +11,7 @@ import type { TimeOfDay, Weather } from '../../lib/sky';
 import { hourNow } from '../../lib/sky';
 import { plantOf } from '../../lib/farm';
 import { photoMonthOf, ITEM_BY_ID } from '../../lib/items';
-import { KidSVG } from '../KidSVG';
+import { KidSVG, type KidDir } from '../KidSVG';
 import { EggSVG } from '../EggSVG';
 import { FurnitureSVG } from '../FurnitureSVG';
 import { PhotoFrame } from '../PhotoFrame';
@@ -136,15 +136,14 @@ const World3D = forwardRef<World3DHandle, World3DProps>(function World3D(props, 
   useEffect(() => {
     const list: ActorSpec[] = [];
     if (player.who) {
-      list.push({
-        id: '@player',
-        art: {
-          key: `kid:${player.who}:${player.hat}:${player.ribbon}:${player.magnifier}`,
-          svg: renderToStaticMarkup(<KidSVG who={player.who} size={104} hat={player.hat} ribbon={player.ribbon} magnifier={player.magnifier} />),
-          unit: 104 / 100, anchorX: 50,
-        },
-        tapDy: 0,
+      const kidArt = (dir: KidDir, step: 0 | 1 | 2): ArtSpec => ({
+        key: `kid:${player.who}:${player.hat}:${player.ribbon}:${player.magnifier}:${dir}${step}`,
+        svg: renderToStaticMarkup(<KidSVG who={player.who!} size={104} hat={player.hat} ribbon={player.ribbon} magnifier={player.magnifier} dir={dir} step={step} />),
+        unit: 104 / 100, anchorX: 50,
       });
+      const poses: Record<string, ArtSpec> = {};
+      for (const d of ['down', 'up', 'side'] as KidDir[]) for (const st of [0, 1, 2] as const) poses[d + '_' + st] = kidArt(d, st);
+      list.push({ id: '@player', art: poses.down_0, poses, tapDy: 0 });
     }
     const mArt: ArtSpec | null = monster.charKey
       ? charArt(chars, monster.charKey, monster.level, monster.fill, monster.stars, monster.silhouette, null)
