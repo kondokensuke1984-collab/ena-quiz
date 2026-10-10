@@ -115,13 +115,14 @@ const FM_SONGS = {
       'F5.4 Ab5.4 C6.4 F6.4  D6.4 B5.4 G5.8  Eb6.4 D6.4 C6.4 G5.4  B5.8 D6.8']],
     drums: ['x.hsx.h.x.hsx.h.', 'x.hsx.h.x.hsxrrr'],
   },
-  // 🎺 かちの ファンファーレ（1かいだけ）
+  // 🎺 かちの ファンファーレ「たらら ら・ったっ・たた・たー」（オリジナル。1かいだけ）
   victory: {
-    bpm: 132, loop: false, pad: 0.6, bass: 'march',
-    chords: '| F | Bb C | F |',
-    lead: [['brass', 'C5.2 C5.2 C5.2 F5.10  A5.4 G5.4 Bb5.4 A5.2 G5.2  F5.16'],
-      ['lead', 'A4.2 A4.2 A4.2 C5.10  F5.4 E5.4 G5.4 F5.2 E5.2  C5.16', 0.6]],
-    drums: ['k.k.k.....k...s.', 'k...s...k...rrrr', 'k...............'],
+    bpm: 138, loop: false, pad: 0.7, bass: 'march',
+    chords: '| C | C |',
+    lead: [['brass', 'C5.1 D5.1 E5.1 F5.1  G5.2 r.1 E5.1  G5.2 r.1 A5.1  C6.20'],
+      ['lead', 'A4.1 B4.1 C5.1 D5.1  E5.2 r.1 C5.1  E5.2 r.1 F5.1  G5.20', 0.7],
+      ['horn', 'r.4  C4.3 r.1  C4.3 r.1  E4.20', 0.9]],
+    drums: ['....x...x...rrrr', 'k...............'],
   },
   // ❗ モンスターが でた！
   encounter: { bpm: 200, loop: false, lead: [['brass', 'C5.1 C#5.1 D5.1 D#5.1 E5.1 F5.1 F#5.1 G5.1 G#5.1 A5.1 A#5.1 B5.1 C6.6']], drums: ['............x...'] },

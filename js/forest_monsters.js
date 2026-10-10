@@ -114,6 +114,54 @@ const FMON_DRAW = {
     '<rect x="80" y="56" width="14" height="10" rx="2" fill="' + p[2] + '" stroke="none"/><rect x="108" y="56" width="14" height="10" rx="2" fill="' + p[2] + '" stroke="none"/>' +
     '<path d="M86 74 L116 74" fill="none"/>' +
     '<circle cx="100" cy="122" r="10" fill="' + p[2] + '" stroke-width="3"/>',
+  // 👻 おばけ
+  obake: (p) =>
+    '<path d="M44 176 C40 110 54 50 100 50 C146 50 160 110 156 176 Q146 166 136 178 Q124 166 112 180 Q100 166 88 180 Q76 166 64 178 Q54 166 44 176 Z" fill="' + p[0] + '"/>' +
+    '<path d="M48 120 C30 118 22 104 24 92 C36 98 44 100 52 100 Z M152 120 C170 118 178 104 176 92 C164 98 156 100 148 100 Z" fill="' + p[0] + '"/>' +
+    fmonShine('M66 94 C70 76 80 64 92 60') +
+    fmonEye(82, 104, 12, 1, p[2]) + fmonEye(118, 104, 12, -1, p[2]) +
+    '<path d="M80 132 Q100 148 120 132 Q100 140 80 132 Z" fill="#3b0d2e"/><path d="M96 138 Q100 156 108 150 Q110 142 104 138 Z" fill="' + p[1] + '" stroke-width="3"/>',
+  // 🐍 へび（とぐろ）
+  hebi: (p) =>
+    '<ellipse cx="100" cy="170" rx="56" ry="16" fill="' + p[0] + '"/><ellipse cx="100" cy="152" rx="44" ry="14" fill="' + p[0] + '"/><ellipse cx="100" cy="136" rx="32" ry="12" fill="' + p[0] + '"/>' +
+    '<path d="M70 166 Q100 174 130 166 M76 150 Q100 156 124 150" fill="none" stroke="' + p[1] + '" stroke-width="4"/>' +
+    '<path d="M108 132 C122 108 118 86 104 76" fill="none" stroke-width="26"/><path d="M108 132 C122 108 118 86 104 76" fill="none" stroke="' + p[0] + '" stroke-width="17"/>' +
+    '<path d="M64 70 C64 44 130 40 136 66 C138 84 118 92 100 92 C80 92 64 86 64 70 Z" fill="' + p[0] + '"/>' +
+    fmonShine('M74 62 C78 54 86 50 96 48') +
+    fmonEye(86, 64, 9, 1, '#facc15') + fmonEye(116, 62, 9, -1, '#facc15') +
+    '<path d="M100 90 L100 106 M100 106 L92 114 M100 106 L108 114" fill="none" stroke="#dc2626" stroke-width="4"/>' +
+    '<path d="M88 84 Q100 90 112 84" fill="none"/>',
+  // 🌺 パクパクフラワー
+  hana: (p) =>
+    '<path d="M100 122 L100 184" fill="none" stroke-width="12"/><path d="M100 122 L100 184" fill="none" stroke="#16a34a" stroke-width="6"/>' +
+    '<path d="M100 166 C80 146 56 150 46 164 C64 172 84 172 100 166 Z M100 158 C120 138 144 142 154 156 C136 164 116 164 100 158 Z" fill="#22c55e"/>' +
+    [0, 60, 120, 180, 240, 300].map(a => '<ellipse cx="100" cy="54" rx="22" ry="30" fill="' + p[0] + '" transform="rotate(' + a + ' 100 90)"/>').join('') +
+    '<circle cx="100" cy="90" r="38" fill="' + p[1] + '"/>' +
+    '<path d="M70 96 Q100 132 130 96 Q100 112 70 96 Z" fill="#3b0d2e"/>' +
+    '<path d="M76 100 L82 110 L86 102 M94 104 L100 114 L104 104 M114 102 L118 110 L124 100" fill="#fff" stroke-width="2.5"/>' +
+    fmonEye(86, 78, 9, 1) + fmonEye(114, 78, 9, -1),
+  // 🐛 いもむし
+  imomushi: (p) =>
+    '<circle cx="40" cy="160" r="20" fill="' + p[0] + '"/><circle cx="66" cy="148" r="23" fill="' + p[1] + '"/><circle cx="94" cy="142" r="25" fill="' + p[0] + '"/><circle cx="122" cy="132" r="26" fill="' + p[1] + '"/>' +
+    '<path d="M40 180 L40 188 M66 170 L66 186 M94 166 L94 186 M122 158 L122 186" fill="none" stroke-width="6"/>' +
+    '<circle cx="146" cy="100" r="34" fill="' + p[0] + '"/>' +
+    fmonShine('M126 86 C130 76 138 70 148 68') +
+    '<path d="M134 70 C128 46 116 40 108 40 M160 68 C166 44 178 38 186 40" fill="none"/><circle cx="108" cy="40" r="6" fill="' + p[2] + '"/><circle cx="186" cy="40" r="6" fill="' + p[2] + '"/>' +
+    fmonEye(134, 98, 9, 1) + fmonEye(160, 96, 9, -1) +
+    '<path d="M134 118 Q148 126 162 116" fill="none"/>',
+  // 🐲 ちびドラゴン
+  chibidora: (p) =>
+    '<path d="M136 160 C166 160 182 140 184 118 C172 132 160 138 144 140 Z" fill="' + p[0] + '"/><path d="M184 118 L194 110 L188 126 Z" fill="' + p[2] + '"/>' +
+    '<path d="M60 96 C34 74 16 82 12 100 C26 98 30 108 28 118 C42 110 52 116 56 126 Z" fill="' + p[2] + '"/><path d="M140 96 C166 74 184 82 188 100 C174 98 170 108 172 118 C158 110 148 116 144 126 Z" fill="' + p[2] + '"/>' +
+    '<path d="M76 168 L72 188 L92 188 L92 170 Z M124 168 L128 188 L108 188 L108 170 Z" fill="' + p[0] + '"/>' +
+    '<ellipse cx="100" cy="138" rx="44" ry="44" fill="' + p[0] + '"/><ellipse cx="100" cy="148" rx="26" ry="28" fill="' + p[1] + '"/>' +
+    '<path d="M86 146 L114 146 M88 160 L112 160" fill="none" stroke-width="3" opacity=".4"/>' +
+    '<path d="M72 64 L64 36 L86 56 Z M128 64 L136 36 L114 56 Z" fill="' + p[1] + '"/>' +
+    '<ellipse cx="100" cy="82" rx="40" ry="34" fill="' + p[0] + '"/>' +
+    fmonShine('M72 74 C76 62 86 54 96 52') +
+    fmonEye(86, 80, 10, 1) + fmonEye(114, 80, 10, -1) +
+    '<path d="M86 102 Q100 110 114 102" fill="none"/><circle cx="92" cy="96" r="2" fill="#111" stroke="none"/><circle cx="108" cy="96" r="2" fill="#111" stroke="none"/>' +
+    '<path d="M118 104 C130 98 140 104 146 96 C150 108 140 116 128 112 Z" fill="#fb923c" stroke-width="3"/>',
   // 👑 もりのぬし（つのの ある 大グマ。うでを あげて ほえる）
   nushi: (p) =>
     '<ellipse cx="100" cy="104" rx="96" ry="86" fill="rgba(239,68,68,.22)" stroke="none"/>' +
@@ -144,26 +192,41 @@ const FMON_DRAW = {
 };
 
 // key → [かたち, いろ（[からだ, こい色, アクセント, …]）, なまえ]
+// ※ あおい まるい ゼリーは つくらない（本物の スライムに にてしまうので）
 const FOREST_MONSTERS = {
+  // 川の こちら（よわめ）
   fm_puru:      ['puru', ['#4ade80', '#14532d', '#16a34a'], 'ぷるぷる'],
   fm_kinoko:    ['kinoko', ['#ef4444', '#ffffff'], 'おばけキノコ'],
   fm_koumori:   ['koumori', ['#8b5cf6', '#6d28d9', '#fde047'], 'もりコウモリ'],
   fm_donguri:   ['donguri', ['#b45309', '#78350f'], 'どんぐりへい'],
   fm_hachi:     ['hachi', ['#facc15', '#1f2937'], 'どくバチ'],
-  // 川の むこう（色ちがいで つよい）
+  fm_obake:     ['obake', ['#f8fafc', '#f472b6', '#111'], 'もりおばけ'],
+  fm_hebi:      ['hebi', ['#84cc16', '#3f6212'], 'くさへび'],
+  fm_hana:      ['hana', ['#f472b6', '#fde047'], 'パクパクフラワー'],
+  fm_imomushi:  ['imomushi', ['#a3e635', '#65a30d', '#facc15'], 'もぐもぐムシ'],
+  // 川の むこう（色ちがいで つよい ＋ むこうだけの なかま）
   fm_puru2:     ['puru', ['#f97316', '#7c2d12', '#dc2626'], 'メラぷる'],
+  fm_puru3:     ['puru', ['#c084fc', '#3b0764', '#7e22ce'], 'どくぷる'],
   fm_kinoko2:   ['kinoko', ['#a855f7', '#d9f99d'], 'どくどくキノコ'],
   fm_koumori2:  ['koumori', ['#334155', '#7f1d1d', '#f87171'], 'やみコウモリ'],
+  fm_donguri2:  ['donguri', ['#facc15', '#a16207'], 'どんぐりたいちょう'],
+  fm_hachi2:    ['hachi', ['#f87171', '#450a0a'], 'じょおうバチ'],
+  fm_obake2:    ['obake', ['#a78bfa', '#22d3ee', '#fde047'], 'かげおばけ'],
+  fm_hebi2:     ['hebi', ['#7c3aed', '#2e1065'], 'まどうへび'],
+  fm_hana2:     ['hana', ['#991b1b', '#fb923c'], 'ひとくいフラワー'],
+  fm_imomushi2: ['imomushi', ['#fb923c', '#dc2626', '#fde047'], 'ほのおムシ'],
   fm_ookami:    ['ookami', ['#94a3b8', '#475569', '#e2e8f0'], 'かげオオカミ'],
   fm_woody:     ['woody', ['#92400e', '#e07b2a'], 'あばれウッド'],
   fm_yoroi:     ['yoroi', ['#94a3b8', '#64748b', '#ef4444'], 'ガランドウ'],
+  fm_chibidora: ['chibidora', ['#ef4444', '#fde68a', '#f97316'], 'ちびドラゴン'],
   // どうくつ・ぬし
   fm_golem:     ['golem', ['#a8a29e', '#78716c', '#22d3ee', '#4d7c0f'], 'いわゴーレム'],
   fm_nushi:     ['nushi', ['#5b3a1f', '#c8a27a', '#4d7c0f'], 'もりのぬし グランベア'],
 };
 const FOREST_MOBS = {
-  west: ['fm_puru', 'fm_kinoko', 'fm_koumori', 'fm_donguri', 'fm_hachi'],
-  east: ['fm_puru2', 'fm_kinoko2', 'fm_koumori2', 'fm_ookami', 'fm_woody', 'fm_yoroi'],
+  west: ['fm_puru', 'fm_kinoko', 'fm_koumori', 'fm_donguri', 'fm_hachi', 'fm_obake', 'fm_hebi', 'fm_hana', 'fm_imomushi'],
+  east: ['fm_puru2', 'fm_puru3', 'fm_kinoko2', 'fm_koumori2', 'fm_donguri2', 'fm_hachi2', 'fm_obake2', 'fm_hebi2',
+         'fm_hana2', 'fm_imomushi2', 'fm_ookami', 'fm_woody', 'fm_yoroi', 'fm_chibidora'],
 };
 const FOREST_GUARD_KEY = 'fm_golem', FOREST_NUSHI_KEY = 'fm_nushi';
 Object.entries(FOREST_MONSTERS).forEach(([key, [shape, pal, name]]) => {
