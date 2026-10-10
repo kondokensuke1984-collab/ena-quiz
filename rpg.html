@@ -21,13 +21,28 @@
   #app{ max-width:480px; margin:0 auto; padding:0 12px 40px; }
   .scr{ display:none; }
   .scr.on{ display:block; animation:fade .18s ease-out; }
-  /* 🌲 まよいの森 */
-  .fz-view{ display:grid; grid-template-columns:repeat(9,1fr); gap:2px; margin-top:10px; padding:4px; background:#052e16; border-radius:16px; }
-  .fz-cell{ aspect-ratio:1; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:clamp(14px,5.2vw,26px); overflow:hidden; }
-  .fz-cell svg{ width:92%; height:92%; }
-  .fz-pad{ display:grid; grid-template-columns:repeat(3,52px); grid-template-rows:repeat(3,52px); gap:4px; }
-  .fz-pad button{ border:0; border-radius:14px; background:rgba(255,255,255,.9); font-size:20px; font-weight:800; color:#14532d; box-shadow:0 3px 0 rgba(0,0,0,.25); touch-action:manipulation; }
+  /* 🌲 まよいの森（js/forest.js）：画面いっぱいの 3D フィールド */
+  #scr-forest.on{ position:fixed; inset:0; z-index:40; background:#0b2a14; animation:none; overflow:hidden; }
+  #forest-root{ position:absolute; inset:0; }
+  #fz-stage{ position:absolute; inset:0; }
+  #fz-stage canvas{ display:block; width:100%; height:100%; }
+  .fz-loading{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:#dcfce7; font-weight:800; }
+  .fz-hud{ position:absolute; top:max(10px,env(safe-area-inset-top)); left:10px; right:10px; display:flex; justify-content:space-between; gap:8px; pointer-events:none; }
+  .fz-hud > *{ pointer-events:auto; }
+  .fz-hudbox{ background:rgba(10,10,30,.78); color:#fff; border:2px solid #fff; border-radius:12px; padding:7px 11px; font-size:13px; min-width:0; max-width:360px; flex:1; }
+  .fz-hp{ height:8px; background:rgba(255,255,255,.2); border-radius:99px; margin-top:5px; overflow:hidden; }
+  .fz-hp i{ display:block; height:100%; background:linear-gradient(90deg,#22c55e,#4ade80); border-radius:99px; transition:width .3s; }
+  .fz-btn{ border:2px solid #fff; border-radius:12px; background:rgba(10,10,30,.78); color:#fff; font-weight:800; font-size:13px; padding:8px 12px; white-space:nowrap; }
+  .fz-msg{ position:absolute; left:50%; bottom:calc(178px + env(safe-area-inset-bottom)); transform:translateX(-50%); width:min(92%,560px); background:rgba(10,10,30,.86); color:#fff; border:3px solid #fff; border-radius:12px; padding:11px 15px; font-weight:800; font-size:15px; line-height:1.55; opacity:0; transition:opacity .25s; pointer-events:none; }
+  .fz-msg.on{ opacity:1; }
+  .fz-pad{ position:absolute; left:14px; bottom:calc(14px + env(safe-area-inset-bottom)); display:grid; grid-template-columns:repeat(3,54px); grid-template-rows:repeat(3,54px); gap:4px; }
+  .fz-pad button{ border:0; border-radius:14px; background:rgba(255,255,255,.88); font-size:20px; font-weight:800; color:#14532d; box-shadow:0 3px 0 rgba(0,0,0,.3); touch-action:none; user-select:none; -webkit-user-select:none; }
   .fz-pad button:active{ transform:translateY(2px); box-shadow:none; }
+  .fz-act{ position:absolute; right:16px; bottom:calc(40px + env(safe-area-inset-bottom)); width:92px; height:92px; border-radius:50%; border:3px solid #fff; background:linear-gradient(135deg,#f59e0b,#d97706); color:#fff; font-weight:800; font-size:15px; box-shadow:0 4px 0 rgba(0,0,0,.3); touch-action:manipulation; }
+  .fz-act:active{ transform:translateY(2px); box-shadow:none; }
+  #fz-flash{ position:absolute; inset:0; pointer-events:none; opacity:0; background:#fff; }
+  #fz-flash.on{ animation:fzflash .65s steps(1) forwards; }
+  @keyframes fzflash{ 0%{opacity:.9} 15%{opacity:0} 30%{opacity:.9} 45%{opacity:0} 60%{opacity:.9} 75%{opacity:0; background:#000} 80%{opacity:1; background:#000} 100%{opacity:1; background:#000} }
   .fz-mapwrap{ position:fixed; inset:0; background:rgba(0,0,0,.6); display:flex; align-items:center; justify-content:center; padding:16px; z-index:50; }
   /* にげる：まちがえて おさないよう 上のすみに 小さく（押すと たしかめ＝askFlee） */
   .flee-btn{ font-size:11px; font-weight:800; color:#64748b; background:#f1f5f9; border:1px solid #cbd5e1; border-radius:999px; padding:3px 10px; cursor:pointer; white-space:nowrap; }
@@ -48,8 +63,7 @@
     #rpgmemo-size{ display:none; }
     body.memo-open #app, body.memo-open.memo-big #app{ margin-left:12px; margin-right:auto; padding-bottom:40px; }
   }
-  .fz-mini{ display:grid; gap:1px; width:min(78vw,320px); margin:10px auto 6px; background:#0f172a; padding:2px; border-radius:8px; }
-  .fz-mini i{ aspect-ratio:1; display:block; }
+  .fz-mini{ display:block; width:min(84vw,520px); height:auto; margin:10px auto 6px; border-radius:8px; image-rendering:pixelated; }
   @keyframes fade{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;} }
   .panel{ background:var(--card); border-radius:18px; padding:16px; box-shadow:0 8px 24px rgba(0,0,0,.28); }
   .btn{
@@ -567,7 +581,7 @@ function questLogDay(fn) {
   } catch (e) { /* きろくに失敗しても クエストは止めない */ }
 }
 function stageLabel() {
-  if (bt.forest) return bt.forest.boss ? '🌲 もりのぬし' : '🌲 まよいの森 B' + bt.forest.floor;
+  if (bt.forest) return bt.forest.label || '🌲 まよいの森';
   if (bt.boss) return '👑 つきのぬし';
   if (bt.tt === 'rush') return '⏱️ 3ぷん トライアル';
   if (typeof DETECTIVE_KEY !== 'undefined' && bt.key === DETECTIVE_KEY) return '🔍 名探偵あんりの なぞとき';
