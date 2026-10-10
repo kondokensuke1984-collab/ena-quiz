@@ -226,4 +226,5 @@ body {
   background: #f43f5e; border: calc(var(--k, 0.6) * 3px) solid #fff; color: #fff; text-align: center;
   font-size: calc(var(--k, 0.6) * 18px); font-weight: 900; line-height: calc(var(--k, 0.6) * 28px);
 }
-.i3d-toggle { position: absolute; right: 8px; bottom: 8px; z-index: 3; }
+/* 右上（空の ところ）。下だと はたけの かんばんなど 島の ものに かさなる */
+.i3d-toggle { position: absolute; right: 8px; top: 8px; z-index: 3; }

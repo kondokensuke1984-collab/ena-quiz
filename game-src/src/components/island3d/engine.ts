@@ -1135,11 +1135,29 @@ export class IslandEngine {
       const h = b.height();
       return { x: b.group.position.x, y: b.group.position.y + h, z: b.group.position.z };
     };
+    // なまえ：ちかくの子と かさならないように 上へ ずらし、画面の はしで きれないように よこへ ずらす。
+    // 大きさを ぜんぶ 読んでから 書く（読む・書くを まぜると 毎フレーム レイアウトが はしる）
+    const tags: { el: HTMLDivElement; x: number; y: number; w: number; h: number }[] = [];
     for (const [id, el] of this.labels) {
       const b = this.bills.get(id);
       if (!b || !b.group.visible) { el.style.visibility = 'hidden'; continue; }
       const p = top(b);
-      place(el, p.x, p.y + 0.4, p.z);
+      const s = projectCurved(v.set(p.x, p.y + 0.4, p.z), this.camera, this.w, this.h);
+      if (!(s.z > 0 && s.x > -80 && s.x < this.w + 80 && s.y > -60 && s.y < this.h + 60)) { el.style.visibility = 'hidden'; continue; }
+      tags.push({ el, x: s.x, y: s.y, w: el.offsetWidth, h: el.offsetHeight });
+    }
+    tags.sort((a, b) => b.y - a.y);   // 手前（画面の下）の子から 場所を きめる
+    const done: typeof tags = [];
+    for (const t of tags) {
+      t.x = Math.max(t.w / 2 + 4, Math.min(this.w - t.w / 2 - 4, t.x));
+      for (let n = 0; n < 6; n++) {
+        const hit = done.find((d) => Math.abs(d.x - t.x) < (d.w + t.w) / 2 && Math.abs(d.y - t.y) < (d.h + t.h) / 2);
+        if (!hit) break;
+        t.y = hit.y - hit.h - 1;   // ラベルは 下はしが 基準（translate -100%）
+      }
+      done.push(t);
+      t.el.style.visibility = 'visible';
+      t.el.style.transform = `translate3d(${t.x.toFixed(1)}px, ${t.y.toFixed(1)}px, 0)`;
     }
     for (const [id, el] of this.emoteEls) {
       const b = this.bills.get(id);

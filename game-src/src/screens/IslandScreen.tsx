@@ -75,6 +75,8 @@ const FRIEND_SPAWNS: Pos[] = [
   { x: 0.50, y: 0.74 }, { x: 0.40, y: 0.52 }, { x: 0.60, y: 0.58 },
 ];
 const FRIEND_NEAR = 0.1;
+const LABEL_Y = -116;   // なまえの ラベルの 高さ（キャラの 足もとから）
+const LABEL_H = 34;     // かさなったときに 上へ ずらす はば
 const FOLLOW_RANGE = 0.35;   // ♥3いじょうの子は、この距離より近いと ついてくる
 
 // 教科キャラの きせかえを頭のあたりに重ねる位置（キャラの足もとが原点）
@@ -263,6 +265,9 @@ export function IslandScreen() {
   const friendPos = useRef<Record<string, Pos>>({});
   const friendTarget = useRef<Record<string, Pos>>({});
   const friendNodes = useRef<Record<string, SVGGElement | null>>({});
+  // なまえの ラベル（2D）。かさならない・はしで きれない 位置を ループで きめる。はばは 文字が かわったときだけ はかる
+  const friendLabels = useRef<Record<string, SVGTextElement | null>>({});
+  const labelW = useRef<Record<string, { t: string; w: number }>>({});
   // 場所を移ったら、キャラの立ち位置は その場所で あたらしく決める
   const lastArea = useRef(area);
   if (lastArea.current !== area) {
@@ -414,6 +419,18 @@ export function IslandScreen() {
     gRef.current.setMonsterPos(m, monsterTarget.current);
   }, []);
 
+  // たまごは うごかないので、主人公と かさなっていると ずっと かくれて しまう。ひらいたときに となりへ ずらす
+  useEffect(() => {
+    if (monster.stage !== 'egg' || area !== 'main') return;
+    const p = playerPos.current;
+    if (dist(p, monsterPos.current) >= 0.1) return;
+    const spot = clampToIsland({ x: p.x + (p.x < 0.5 ? 0.13 : -0.13), y: p.y - 0.03 });
+    monsterPos.current = spot;
+    monsterTarget.current = spot;
+    commit();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [area]);
+
   // ── メインループ。座標は ref のまま DOM に直接書くので、毎フレームの再レンダーはしない ──
   useEffect(() => {
     let raf = 0;
@@ -471,7 +488,7 @@ export function IslandScreen() {
             friendPos.current[f.id] = clampToIsland(pos);
             if (arrived && Math.random() < 0.01) {
               friendTarget.current[f.id] = stageRefState.current.school && Math.random() < 0.35
-                ? clampToIsland({ x: SCHOOL_FRONT.x + (i - 1.5) * 0.05, y: SCHOOL_FRONT.y + 0.02 })
+                ? clampToIsland({ x: SCHOOL_FRONT.x + (i - 1.5) * 0.08, y: SCHOOL_FRONT.y + 0.02 + (i % 2) * 0.05 })   // くっつきすぎないように ばらす
                 : wanderTarget(pos);
             }
           }
@@ -480,6 +497,36 @@ export function IslandScreen() {
         const fp = friendPos.current[f.id];
         if (node) node.setAttribute('transform', `translate(${fp.x * ISLAND_W} ${fp.y * ISLAND_H})`);
       });
+
+      // なまえ（2D）：手前の子から 場所を きめ、かさなる子は 上へ。画面の はしでは よこへ ずらす
+      if (!on3dRef.current) {
+        const cx = cam.current?.x ?? 0;
+        const tags: { el: SVGTextElement; ox: number; oy: number; x: number; y: number; w: number }[] = [];
+        for (const f of friendsRef.current) {
+          const el = friendLabels.current[f.id];
+          const fp = friendPos.current[f.id];
+          if (!el || !fp) continue;
+          const txt = el.textContent ?? '';
+          let m = labelW.current[f.id];
+          if (!m || m.t !== txt) { m = { t: txt, w: el.getComputedTextLength() }; labelW.current[f.id] = m; }
+          const ox = fp.x * ISLAND_W, oy = fp.y * ISLAND_H;
+          tags.push({ el, ox, oy, x: ox, y: oy + LABEL_Y, w: m.w });
+        }
+        tags.sort((a, b) => b.y - a.y);
+        const done: typeof tags = [];
+        for (const t of tags) {
+          t.x = Math.max(cx + t.w / 2 + 6, Math.min(cx + ISLAND_W - t.w / 2 - 6, t.x));
+          for (let n = 0; n < 6; n++) {
+            const hit = done.find((d) => Math.abs(d.x - t.x) < (d.w + t.w) / 2 + 4 && Math.abs(d.y - t.y) < LABEL_H);
+            if (!hit) break;
+            t.y = hit.y - LABEL_H;
+          }
+          done.push(t);
+          const lx = String(Math.round(t.x - t.ox)), ly = String(Math.round(t.y - t.oy));
+          if (t.el.getAttribute('x') !== lx) t.el.setAttribute('x', lx);
+          if (t.el.getAttribute('y') !== ly) t.el.setAttribute('y', ly);
+        }
+      }
 
       // 安全網。なにがあっても島の外には出さない
       playerPos.current = clampToIsland(playerPos.current);
@@ -1013,7 +1060,8 @@ export function IslandScreen() {
               ) : null;
             })()}
             <text
-              x="0" y="-116" fontSize="24" fontWeight="900" textAnchor="middle"
+              ref={(el) => { friendLabels.current[f.id] = el; }}
+              x="0" y={LABEL_Y} fontSize="24" fontWeight="900" textAnchor="middle"
               fill="#fff" stroke="rgba(30,27,75,0.85)" strokeWidth="6" paintOrder="stroke"
             >
               {(f.level > 1 ? `${f.name} Lv.${f.level}` : `${f.name}（たまご）`) +
@@ -1187,8 +1235,8 @@ export function IslandScreen() {
 
       {/* ── スタンプ・てがみ・おと ── */}
       <div className="mb-2.5 flex gap-1.5 lg:landscape:col-start-2">
-        <button className="min-w-0 flex-1 rounded-2xl leading-tight bg-white/90 px-2 py-2 text-[12px] font-black text-ink shadow active:scale-95" onClick={() => setModal('stamp')}>
-          🗓️ こんげつ {stamps.length}にち
+        <button className="min-w-0 flex-1 whitespace-nowrap rounded-2xl leading-tight bg-white/90 px-2 py-2 text-[12px] font-black text-ink shadow active:scale-95" onClick={() => setModal('stamp')}>
+          🗓️ <span className="max-[400px]:hidden">こんげつ </span>{stamps.length}にち
         </button>
         <button className="relative min-w-0 flex-1 rounded-2xl leading-tight bg-white/90 px-2 py-2 text-[12px] font-black text-ink shadow active:scale-95" onClick={() => setModal('mail')}>
           💌 てがみ
