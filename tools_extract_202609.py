@@ -89,8 +89,16 @@ for m in school_months:
         json.dump(qs_m, f, ensure_ascii=False, indent=0)
     with open(os.path.join(ROOT, f'data/subjects_{m}.json'), 'w', encoding='utf-8') as f:
         json.dump(su_m, f, ensure_ascii=False, indent=0)
-with open(os.path.join(ROOT, 'data/quest_schools.json'), 'w', encoding='utf-8') as f:
-    json.dump(SCHOOL_QUEST, f, ensure_ascii=False)
+# ここで あつかわない 学校（建築＝tools/make_kenchiku_quest.py が 足す）は けさずに のこす（2026-10-10 に 建築が きえた）
+qs_path = os.path.join(ROOT, 'data/quest_schools.json')
+try:
+    with open(qs_path, encoding='utf-8') as f:
+        qs_all = json.load(f)
+except (OSError, ValueError):
+    qs_all = {}
+qs_all.update(SCHOOL_QUEST)
+with open(qs_path, 'w', encoding='utf-8') as f:
+    json.dump(qs_all, f, ensure_ascii=False)
 
 # ── 1b. テストの日程（TEST_KEYS.ena と DEFAULT_TEST_DATES）→ data/tests.json ──
 #   島の「もしの しま」と rpg.html の 模試（js/moshi.js）が読む。テスト3日前〜当日に ひらく。
