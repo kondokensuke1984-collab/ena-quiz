@@ -226,6 +226,15 @@ export function IslandScreen() {
   const indoor = area === 'house' || area === 'school';
   const want3d = area === 'main' && pref3d && HAS_WEBGL;
   const on3d = want3d && ready3d;
+  // 3D の よみこみ中は 2D を 見せずに 「よみこみちゅう」を かぶせる（2D→3D と きりかわって ちらつかないように）。
+  // 8びょう たっても できなければ 2D の まま あそべるように はずす
+  const [slow3d, setSlow3d] = useState(false);
+  useEffect(() => {
+    if (!want3d || ready3d) return;
+    setSlow3d(false);
+    const t = window.setTimeout(() => setSlow3d(true), 8000);
+    return () => window.clearTimeout(t);
+  }, [want3d, ready3d]);
   on3dRef.current = on3d;
   const expansion = expansionOf(save.buildings);
   setArea(area, expansion);
@@ -423,7 +432,7 @@ export function IslandScreen() {
   useEffect(() => {
     if (monster.stage !== 'egg' || area !== 'main') return;
     const p = playerPos.current;
-    if (dist(p, monsterPos.current) >= 0.1) return;
+    if (dist(p, monsterPos.current) >= 0.05) return;   // ほぼ まうえに いるときだけ（となりで とまっても うごかさない）
     const spot = clampToIsland({ x: p.x + (p.x < 0.5 ? 0.13 : -0.13), y: p.y - 0.03 });
     monsterPos.current = spot;
     monsterTarget.current = spot;
@@ -1151,6 +1160,37 @@ export function IslandScreen() {
     return f ? { id: f.id, text: bubble.text, heart: bubble.heart, key: bubble.key } : null;
   }, [bubble, friends]);
 
+  // ── ちかくで できること（ならべる じゅん＝だいじな じゅん）──
+  type NearAct = { key: string; label: string; onClick: () => void; main?: boolean };
+  const nearActs: NearAct[] = [];
+  const act = (on: boolean, key: string, label: string, onClick: () => void, main = true) => { if (on) nearActs.push({ key, label, onClick, main }); };
+  act(nearDoorIn, 'houseIn', '🏠 おうちに はいる', () => travel('house', ENTRY.house));
+  act(nearSchoolIn, 'schoolIn', '🏫 がっこうに はいる', () => travel('school', ENTRY.school));
+  act(nearSchoolOut, 'schoolOut', '🚪 そとに でる', () => travel('main', ENTRY.mainFromSchool));
+  act(nearDoorOut, 'houseOut', '🚪 そとに でる', () => travel('main', ENTRY.mainFromHouse));
+  act(nearBridgeGo, 'eastGo', '🌉 となりの しまへ', () => travel('east', ENTRY.east));
+  act(nearBridgeBack, 'eastBack', '🌉 もとの しまへ', () => travel('main', ENTRY.mainFromEast));
+  act(nearSoccer, 'soccer', '⚽ サッカーを する', () => { location.href = '/soccer/'; });
+  act(nearMonster, 'feed', '🍚 ごはん', () => (monster.stage === 'egg' || foods.length ? setModal('feed') : g.showToast('ごはんが ないよ。ショップで かおう', 'ng')));
+  act(nearChest, 'chest', '🎁 たからばこを あける', openChest, false);
+  act(nearMail, 'mail', `💌 てがみを よむ${unread > 0 ? `（${unread}）` : ''}`, () => setModal('mail'), false);
+  act(nearPier, 'fish', '🎣 つりを する', () => setModal('fish'));
+  act(nearFarm, 'farm', `🌱 はたけ${farmStages.some((n, i) => isRipe(save.farm.plots[i], n)) ? '（とれるよ！）' : ''}`, () => setModal('farm'));
+  act(nearObserv, 'observ', '🔭 星座を みる', openObserv);
+  act(nearMoonPlat, 'moon', '🎑 おだんごを おそなえ', openMoonView);
+  act(nearImo, 'imo', '🍠 やきいもやさん', () => setModal('imo'));
+  act(nearArbor, 'arbor', '🍁 あずまやで ひとやすみ', () => setModal('arbor'));
+  act(nearRocket, 'rocket', '🚀 うちゅうへ いく', () => setModal('spaceGo'));
+  act(nearBase, 'base', '🛰️ うちゅうずかん', () => setModal('spaceDex'));
+  act(nearPlanet, 'planet', '🪐 ほしぞらを みる', () => setModal('stars'));
+  if (nearFurniture) {
+    const nf = nearFurniture;
+    act(nf.id === 'sc_organ', 'organ', '🎹 ひく', () => setModal('organ'));
+    act(nf.id === 'sc_micro', 'micro', '🔬 のぞく', () => setModal('micro'));
+    act(true, 'fmove', '↔️ うごかす', () => setMode({ kind: 'move', uid: nf.uid }), false);
+    act(true, 'fstore', '📦 しまう', () => { g.storeFurniture(nf.uid); g.showToast('しまったよ'); }, false);
+  }
+
   const friendPanel = (f: Friend) => (
             <div className="flex max-w-[230px] flex-col items-end gap-2">
               <div className="rounded-2xl bg-white/90 px-3 py-2 text-right text-[11px] font-bold leading-snug text-ink shadow-lg">
@@ -1220,13 +1260,12 @@ export function IslandScreen() {
       {/* ── イベント：名探偵あんり ── */}
       {eventActive() && (
         <button
-          className="mb-2.5 flex w-full items-center gap-2 rounded-2xl bg-gradient-to-r from-[#312e81] to-[#7c3aed] px-3 py-2.5 text-left shadow active:scale-[0.98] lg:landscape:col-start-2"
+          className="mb-2.5 flex w-full items-center gap-2 rounded-2xl bg-gradient-to-r from-[#312e81] to-[#7c3aed] px-3 py-2 text-left shadow active:scale-[0.98] lg:landscape:col-start-2"
           onClick={() => setModal('detective')}
         >
-          <span className={`text-2xl ${detectiveNew ? 'dt-new' : ''}`}>🔍</span>
-          <span className="min-w-0 flex-1">
-            <span className="block text-[10.5px] font-black text-amber-300">イベント</span>
-            <span className="block text-[14px] font-black text-white">名探偵あんりの じけんぼ</span>
+          <span className={`text-xl ${detectiveNew ? 'dt-new' : ''}`}>🔍</span>
+          <span className="min-w-0 flex-1 truncate text-[13.5px] font-black text-white">
+            <span className="mr-1.5 text-[10.5px] text-amber-300">イベント</span>名探偵あんりの じけんぼ
           </span>
           <span className="text-[12px] font-black text-indigo-100">{save.detective.solved.length}/{CASES.length}</span>
           {detectiveNew && <span className="rounded-full bg-rose-500 px-2 py-0.5 text-[10px] font-black text-white">NEW</span>}
@@ -1375,6 +1414,12 @@ export function IslandScreen() {
             {pref3d ? '🗺 2Dで みる' : '🧊 3Dで みる'}
           </button>
         )}
+        {want3d && !ready3d && !slow3d && (
+          <div className="absolute inset-0 z-[2] flex flex-col items-center justify-center gap-2 bg-gradient-to-b from-sky-300 to-emerald-300 text-[13px] font-black text-indigo-900">
+            <span className="chest-bob text-4xl">🏝️</span>
+            しまを よみこみちゅう…
+          </div>
+        )}
         <div className={`pointer-events-none absolute inset-0 bg-indigo-950 transition-opacity duration-300 ${fade ? 'opacity-100' : 'opacity-0'}`} />
         {mode.kind !== 'walk' && (
           <div className="pointer-events-none absolute inset-x-0 top-2 text-center text-[12px] font-black text-white drop-shadow">
@@ -1398,74 +1443,10 @@ export function IslandScreen() {
             <button className="btn !w-auto !py-2 text-[12px]" onClick={() => setMode({ kind: 'walk' })}>
               ✕ やめる
             </button>
-          ) : nearDoorIn ? (
-            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => travel('house', ENTRY.house)}>🏠 おうちに はいる</button>
-          ) : nearSchoolIn ? (
-            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => travel('school', ENTRY.school)}>🏫 がっこうに はいる</button>
-          ) : nearSchoolOut ? (
-            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => travel('main', ENTRY.mainFromSchool)}>🚪 そとに でる</button>
-          ) : nearDoorOut ? (
-            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => travel('main', ENTRY.mainFromHouse)}>🚪 そとに でる</button>
-          ) : nearBridgeGo ? (
-            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => travel('east', ENTRY.east)}>🌉 となりの しまへ</button>
-          ) : nearBridgeBack ? (
-            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => travel('main', ENTRY.mainFromEast)}>🌉 もとの しまへ</button>
-          ) : nearSoccer ? (
-            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => { location.href = '/soccer/'; }}>⚽ サッカーを する</button>
-          ) : nearMonster ? (
-            <button
-              className="flex h-[84px] w-[84px] flex-col items-center justify-center rounded-full bg-gradient-to-br from-amber-400 to-orange-500 text-[12px] font-black text-white shadow-xl active:scale-95"
-              onClick={() => (monster.stage === 'egg' || foods.length ? setModal('feed') : g.showToast('ごはんが ないよ。ショップで かおう', 'ng'))}
-            >
-              <span className="text-2xl">🍚</span>
-              ごはん
-            </button>
-          ) : nearChest ? (
-            <button className="btn !w-auto whitespace-nowrap !py-2 text-[12px]" onClick={openChest}>🎁 たからばこを あける</button>
-          ) : nearMail ? (
-            <button className="btn !w-auto whitespace-nowrap !py-2 text-[12px]" onClick={() => setModal('mail')}>
-              💌 てがみを よむ{unread > 0 ? `（${unread}）` : ''}
-            </button>
-          ) : nearPier ? (
-            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => setModal('fish')}>🎣 つりを する</button>
-          ) : nearFarm && !nearOther ? (
-            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => setModal('farm')}>
-              🌱 はたけ{farmStages.some((n, i) => isRipe(save.farm.plots[i], n)) ? '（しゅうかく できるよ！）' : ''}
-            </button>
-          ) : nearObserv ? (
-            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={openObserv}>🔭 星座を みる</button>
-          ) : nearMoonPlat ? (
-            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={openMoonView}>🎑 おだんごを おそなえ</button>
-          ) : nearImo && !nearOther ? (
-            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => setModal('imo')}>🍠 やきいもやさん</button>
-          ) : nearArbor && !nearOther ? (
-            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => setModal('arbor')}>🍁 あずまやで ひとやすみ</button>
-          ) : nearRocket && !nearOther ? (
-            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => setModal('spaceGo')}>🚀 うちゅうへ いく</button>
-          ) : nearBase && !nearOther ? (
-            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => setModal('spaceDex')}>🛰️ うちゅうずかん</button>
-          ) : nearPlanet && !nearOther ? (
-            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => setModal('stars')}>🪐 ほしぞらを みる</button>
-          ) : nearOther ? (
-            friendPanel(nearOther)
-          ) : nearFurniture ? (
-            <div className="flex gap-2">
-              {nearFurniture.id === 'sc_organ' && (
-                <button className="btn-main !w-auto !py-2 text-[12px]" onClick={() => setModal('organ')}>🎹 ひく</button>
-              )}
-              {nearFurniture.id === 'sc_micro' && (
-                <button className="btn-main !w-auto !py-2 text-[12px]" onClick={() => setModal('micro')}>🔬 のぞく</button>
-              )}
-              <button className="btn !w-auto !py-2 text-[12px]" onClick={() => setMode({ kind: 'move', uid: nearFurniture.uid })}>
-                ↔️ うごかす
-              </button>
-              <button className="btn !w-auto !py-2 text-[12px]" onClick={() => { g.storeFurniture(nearFurniture.uid); g.showToast('しまったよ'); }}>
-                📦 しまう
-              </button>
-            </div>
-          ) : nearFollower ? (
-            friendPanel(nearFollower)
-          ) : (
+          ) : (() => {
+            // ちかくで できること（いくつでも ならべる）＋ そばの なかま。ついてくる子は ほかに なにも ないときだけ
+            const friend = nearOther ?? (nearActs.length ? null : nearFollower);
+            if (!nearActs.length && !friend) return (
             <div className="max-w-[190px] rounded-2xl bg-white/10 px-3 py-2 text-right text-[11px] font-bold leading-snug text-indigo-100/70">
               {area === 'house'
                 ? 'へやの かぐを おいて かざろう。ドアの まえで そとに でられるよ'
@@ -1483,7 +1464,36 @@ export function IslandScreen() {
                 ? 'たまごに ちかづいて ごはんを あげよう'
                 : `${monsterName}に ちかづくと なにかできるよ`}
             </div>
-          )}
+            );
+            // たまご・モンスターだけの ときは 大きい まるボタン
+            if (nearActs.length === 1 && nearActs[0].key === 'feed' && !friend) return (
+              <button
+                className="flex h-[84px] w-[84px] flex-col items-center justify-center rounded-full bg-gradient-to-br from-amber-400 to-orange-500 text-[12px] font-black text-white shadow-xl active:scale-95"
+                onClick={nearActs[0].onClick}
+              >
+                <span className="text-2xl">🍚</span>
+                ごはん
+              </button>
+            );
+            return (
+              <>
+                {nearActs.length > 0 && (
+                  <div className="flex flex-wrap justify-end gap-2">
+                    {nearActs.map((a) => (
+                      <button
+                        key={a.key}
+                        className={(a.main ? 'btn-main !px-3.5 text-[13px]' : 'btn !px-3 text-[12px]') + ' !w-auto max-w-full !py-2 leading-tight'}
+                        onClick={a.onClick}
+                      >
+                        {a.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
+                {friend && friendPanel(friend)}
+              </>
+            );
+          })()}
         </div>
       </div>
 
