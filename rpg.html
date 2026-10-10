@@ -1120,7 +1120,7 @@ function sfxOut(ctx) {
   if (!ctx._master) {
     const g = ctx.createGain();
     g.gain.value = 1.7;
-    g.connect(sfxOut(ctx));
+    g.connect(ctx.destination);   // ← もとは sfxOut(ctx) を よんで 無限に くりかえし、音が でていなかった
     ctx._master = g;
   }
   return ctx._master;
@@ -1471,6 +1471,7 @@ function showDex() {
 
 boot();
 </script>
+<script src="js/forest_music.js"></script>
 <script src="js/forest.js"></script>
 <script src="js/moshi.js"></script>
 <script src="js/detective.js"></script>

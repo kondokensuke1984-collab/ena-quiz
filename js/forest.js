@@ -240,6 +240,7 @@ function forestShow(msg) {
         '</div>' +
         '<div style="display:flex; flex-direction:column; gap:6px;">' +
           '<button class="fz-btn" onclick="toggleForestMap()">🗺️ ちず</button>' +
+          '<button class="fz-btn" id="fz-music" onclick="forestMusicToggle()"></button>' +
           '<button class="fz-btn" id="fz-leave" onclick="leaveForest()"></button>' +
         '</div>' +
       '</div>' +
@@ -264,12 +265,19 @@ function forestShow(msg) {
     });
   }
   document.getElementById('fz-leave').textContent = forestFromIsland ? '🏝 しまへ' : '🏃 でる';
+  forestMusicLabel();
   showScreen('forest');
+  if (typeof fmPlay === 'function') fmPlay('field');
   forestSay(msg || '');
   forestHud();
   forestDrawMap();
   forestStart();
 }
+function forestMusicLabel() {
+  const b = document.getElementById('fz-music');
+  if (b) b.textContent = typeof FM !== 'undefined' && FM.on ? '🎵 おんがく' : '🔇 おとなし';
+}
+function forestMusicToggle() { if (typeof fmToggle === 'function') fmToggle(); forestMusicLabel(); }
 function renderForest() { forestHud(); forestDrawMap(); }   // 古い よびだし（rpg.html）のため
 
 function forestHud() {
@@ -346,6 +354,7 @@ function forestPaint2D(g, ox, oy, cols, rows, k, mini) {
 
 function leaveForest() {
   forestHeld.length = 0;
+  if (typeof fmStop === 'function') fmStop();
   persist();
   if (forestFromIsland) { location.href = '/game/#island'; return; }
   showMap();
@@ -405,6 +414,7 @@ function forestInteract(x, y, t) {
   if (t === 'W') {
     save.hp = maxHp(); persist(); forestHud();
     forestFx('heal');
+    if (typeof fmJingle === 'function') fmJingle('heal');
     return forestSay('⛲ いずみの みずを のんだ。HP が ぜんかいふく した！');
   }
   if (t === 'R') {
@@ -423,6 +433,7 @@ function forestInteract(x, y, t) {
     if (up) save.hp = maxHp();
     persist(); forestHud(); forestChest3D(x, y);
     forestFx('heal');
+    if (typeof fmJingle === 'function') fmJingle('chest');
     return forestSay('📦 たからばこを あけた！ やくそうで HP が かいふく、けいけんち +20' + (up ? '。レベルが あがった！' : '。'));
   }
   if (t === 'C') {
@@ -445,6 +456,7 @@ function forestInteract(x, y, t) {
 function forestEncounter(go) {
   forestBusy = true;
   forestHeld.length = 0;
+  if (typeof fmOnce === 'function') fmOnce('encounter', null);
   const fl = document.getElementById('fz-flash');
   if (fl) { fl.classList.remove('on'); void fl.offsetWidth; fl.classList.add('on'); }
   setTimeout(() => { forestBusy = false; if (fl) fl.classList.remove('on'); go(); }, 650);
@@ -828,6 +840,7 @@ function startForestBattle(kind) {
     forest: { kind, boss: kind === 'boss', label: kind === 'boss' ? '🏰 もりのぬし' : kind === 'guard' ? '🕳 どうくつ' : east ? '🌲 まよいの森（かわむこう）' : '🌲 まよいの森' }
   };
   persist();
+  if (typeof fmPlay === 'function') fmPlay(kind === 'boss' ? 'boss' : 'battle');
   renderBattle();
   setMsg(bt.name + ' が あらわれた！');
   showScreen('battle');
@@ -895,6 +908,7 @@ function forestEndBattle(win) {
       : gotKey ? '🗝 しろの かぎを てに いれた！ 川の むこうの おしろへ いこう。'
       : 'モンスターを やっつけた！')
     : wiped ? 'きが ついたら もりの キャンプに いた…' : 'モンスターは にげていった。';
+  if (typeof fmOnce === 'function') { if (win) fmOnce('victory', null); else fmStop(); }
   afterResult = backToForest;
   document.getElementById('result-back').textContent = '🌲 もりへ もどる';
   if (lvUps) showLevelUp(lvUps);
