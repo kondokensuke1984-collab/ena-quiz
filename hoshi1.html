@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>星の動き 1 | 要点まとめ＆インタラクティブ図解</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Noto Sans JP', sans-serif; }
+    .heading-font { font-family: 'M PLUS Rounded 1c', sans-serif; }
+    @media print { .no-print { display: none; } body { background: white; color: black; } }
+    .tabbtn { padding: .35rem .8rem; font-size: .8rem; font-weight: 700; border-radius: .6rem; border: 1px solid #cbd5e1; background: #fff; color: #334155; }
+    .tabbtn.on { background: #4f46e5; color: #fff; border-color: #4f46e5; }
+    input[type=range] { width: 100%; accent-color: #4f46e5; }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 antialiased min-h-screen pb-16">
+
+  <header class="bg-indigo-600 text-white shadow-md sticky top-0 z-30">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <span class="heading-font bg-white text-indigo-700 font-extrabold text-2xl w-10 h-10 rounded-lg flex items-center justify-center shadow-inner">5</span>
+        <h1 class="heading-font text-xl sm:text-2xl font-bold tracking-wide">星の動き 1</h1>
+      </div>
+      <a href="/" class="no-print text-sm bg-indigo-700/60 hover:bg-indigo-700 px-3 py-1.5 rounded-lg">もどる</a>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 mt-6 space-y-8">
+
+    <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-indigo-100 text-indigo-800 rounded-full font-bold text-sm">
+      <span class="w-2.5 h-2.5 rounded-full bg-indigo-500 animate-pulse"></span>
+      要点のまとめ
+    </div>
+
+    <!-- ===== 1 星の明るさと色 ===== -->
+    <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+      <h2 class="heading-font text-lg sm:text-xl font-bold text-indigo-800 flex items-center gap-2 border-b pb-3 mb-4">
+        <span class="w-6 h-6 rounded-full bg-indigo-600 text-white inline-flex items-center justify-center text-sm">1</span>
+        星の明るさと色
+      </h2>
+      <div class="grid sm:grid-cols-2 gap-4 mb-5">
+        <div class="p-4 bg-indigo-50/70 rounded-xl border border-indigo-200 text-sm leading-relaxed">
+          <p class="font-bold text-indigo-800 mb-1">⭐ 明るさ＝等級</p>
+          <p>星の明るさは<strong>等級</strong>で表す。<strong>数が小さいほど明るい。</strong>もっとも明るい星のグループが<strong>1等星</strong>、肉眼でやっと見えるくらい暗い星が<strong>6等星</strong>。</p>
+          <p class="mt-2 bg-white rounded-lg px-3 py-2 border border-indigo-200">1等星は6等星の<strong class="text-rose-600">約100倍</strong>明るい（1等級ちがうと約2.5倍）</p>
+        </div>
+        <div class="p-4 bg-indigo-50/70 rounded-xl border border-indigo-200 text-sm leading-relaxed">
+          <p class="font-bold text-indigo-800 mb-1">🎨 色＝表面温度</p>
+          <p>星の色には、赤・黄・白・青白などがある。この色のちがいは、星の<strong>表面温度</strong>による。</p>
+          <p class="mt-2 bg-white rounded-lg px-3 py-2 border border-indigo-200">温度が高い順に<strong>青白 → 白 → 黄 → オレンジ → 赤</strong></p>
+        </div>
+      </div>
+
+      <p class="text-xs text-slate-500 mb-2">▼ 色をタップすると、その色の星の例が出ます（星の色と表面温度）</p>
+      <div class="flex rounded-xl overflow-hidden border border-slate-300 text-sm font-bold text-center" id="color-bar"></div>
+      <div id="color-info" class="mt-3 p-3 rounded-xl bg-slate-50 border border-slate-200 text-sm"></div>
+      <div class="mt-3 text-xs text-slate-500">★ 太陽は「黄」の星（約6,000℃）／ 全天でもっとも明るい星は<strong>シリウス</strong>（おおいぬ座・白）</div>
+    </section>
+
+    <!-- ===== 2 日周運動 ===== -->
+    <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+      <h2 class="heading-font text-lg sm:text-xl font-bold text-indigo-800 flex items-center gap-2 border-b pb-3 mb-4">
+        <span class="w-6 h-6 rounded-full bg-indigo-600 text-white inline-flex items-center justify-center text-sm">2</span>
+        星の1日の動き（日周運動）
+      </h2>
+      <div class="grid sm:grid-cols-2 gap-4 mb-5 text-sm leading-relaxed">
+        <div class="p-4 bg-indigo-50/70 rounded-xl border border-indigo-200">
+          星が1日に1周するように見える見かけの動きを、星の<strong>日周運動</strong>という。地球が<strong>西から東へ自転</strong>しているため、星は反対に、<strong>東からのぼり、南の空を通って、西へしずむ</strong>ように見える。
+        </div>
+        <div class="p-4 bg-indigo-50/70 rounded-xl border border-indigo-200">
+          天球の北の端にある<strong>北極星</strong>は、<strong>地軸</strong>（地球の自転軸）の延長上にあるため動かない。北の空の星々は、北極星を中心に<strong>反時計回り</strong>に回転して見える。
+        </div>
+      </div>
+
+      <p class="text-xs text-slate-500 mb-2">▼ 方角をえらぶと、星の動き（長時間露出の写真）が見られます</p>
+      <div class="flex flex-wrap gap-2 mb-3" id="dir-tabs">
+        <button class="tabbtn" data-d="N">北の空</button>
+        <button class="tabbtn" data-d="E">東の空</button>
+        <button class="tabbtn" data-d="S">南の空</button>
+        <button class="tabbtn" data-d="W">西の空</button>
+      </div>
+      <div class="grid md:grid-cols-2 gap-4 items-center">
+        <svg id="dir-svg" viewBox="0 0 300 240" class="w-full max-w-[420px] rounded-2xl border border-slate-700 shadow-inner mx-auto" style="background:#1e1b5b"></svg>
+        <div id="dir-info" class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-sm leading-relaxed"></div>
+      </div>
+    </section>
+
+    <!-- ===== 3 速さ ===== -->
+    <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+      <h2 class="heading-font text-lg sm:text-xl font-bold text-indigo-800 flex items-center gap-2 border-b pb-3 mb-4">
+        <span class="w-6 h-6 rounded-full bg-indigo-600 text-white inline-flex items-center justify-center text-sm">3</span>
+        星の動く速さ（日周運動）
+      </h2>
+      <p class="text-sm leading-relaxed mb-4">星は、北極星を中心にして<strong>24時間で1回転（360度）</strong>する。1時間あたりに動く角度は、<strong class="bg-amber-100 px-1 rounded">360（度）÷24（時間）＝15（度）</strong>。すべての星は空を<strong>1時間で15度</strong>、東から西へ動いて見える。</p>
+      <div class="grid md:grid-cols-2 gap-6 items-center">
+        <svg id="spin-svg" viewBox="0 0 300 300" class="w-full max-w-[320px] rounded-2xl border border-slate-700 mx-auto" style="background:#1e1b5b"></svg>
+        <div>
+          <label class="text-sm font-bold text-slate-700">時間：<span id="spin-h" class="text-indigo-700 text-xl">0</span> 時間たった</label>
+          <input id="spin-range" type="range" min="0" max="24" step="1" value="0">
+          <div class="mt-3 p-3 rounded-xl bg-slate-50 border border-slate-200 text-sm">
+            15（度）× <span id="spin-h2">0</span>（時間）＝ <strong id="spin-deg" class="text-rose-600 text-lg">0</strong> 度（反時計回り）
+          </div>
+          <p class="text-xs text-slate-500 mt-2">★ 北の空：北極星（中心）のまわりを反時計回り。1か月（30日）では、同じ時刻の星は約30度西へずれる（1日に約1度）。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 4 年周運動 ===== -->
+    <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+      <h2 class="heading-font text-lg sm:text-xl font-bold text-indigo-800 flex items-center gap-2 border-b pb-3 mb-4">
+        <span class="w-6 h-6 rounded-full bg-indigo-600 text-white inline-flex items-center justify-center text-sm">4</span>
+        星の1年の動き（年周運動）
+      </h2>
+      <p class="text-sm leading-relaxed mb-4">毎日同じ時刻に星空を観察すると、見える星座は季節によって変わっていく。星が1年をかけて天球上を1周するように見える見かけの動きを、星の<strong>年周運動</strong>という。この現象は、地球が太陽のまわりを<strong>公転</strong>（1年で1周すること）しているために起こる。</p>
+      <p class="text-xs text-slate-500 mb-2">▼ 地球の位置をえらぶと、真夜中に南の空に見える星座がわかります（地球の公転と季節の星座）</p>
+      <div class="flex flex-wrap gap-2 mb-3" id="orb-tabs">
+        <button class="tabbtn" data-s="spring">春</button>
+        <button class="tabbtn" data-s="summer">夏</button>
+        <button class="tabbtn" data-s="autumn">秋</button>
+        <button class="tabbtn" data-s="winter">冬</button>
+      </div>
+      <div class="grid md:grid-cols-2 gap-4 items-center">
+        <svg id="orb-svg" viewBox="0 0 320 320" class="w-full max-w-[380px] rounded-2xl border border-slate-700 mx-auto" style="background:#0f172a"></svg>
+        <div id="orb-info" class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-sm leading-relaxed"></div>
+      </div>
+    </section>
+
+    <!-- ===== 5 季節の星座 ===== -->
+    <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+      <h2 class="heading-font text-lg sm:text-xl font-bold text-indigo-800 flex items-center gap-2 border-b pb-3 mb-4">
+        <span class="w-6 h-6 rounded-full bg-indigo-600 text-white inline-flex items-center justify-center text-sm">5</span>
+        季節の星座と大三角
+      </h2>
+      <div class="flex flex-wrap gap-2 mb-3" id="sea-tabs">
+        <button class="tabbtn" data-s="spring">🌸 春</button>
+        <button class="tabbtn" data-s="summer">🌻 夏</button>
+        <button class="tabbtn" data-s="autumn">🍁 秋</button>
+        <button class="tabbtn" data-s="winter">⛄ 冬</button>
+      </div>
+      <div class="grid md:grid-cols-2 gap-4 items-start">
+        <svg id="sea-svg" viewBox="0 0 320 280" class="w-full max-w-[400px] rounded-2xl border border-slate-700 mx-auto" style="background:#0f172a"></svg>
+        <div id="sea-info" class="text-sm leading-relaxed"></div>
+      </div>
+    </section>
+
+    <div class="p-4 bg-amber-50 rounded-xl border border-amber-200 text-amber-900 text-sm">
+      💡 <strong>まとめて覚える：</strong>日周運動＝<strong>自転</strong>（1日・西→東に回る・星は東→西）／年周運動＝<strong>公転</strong>（1年・季節で星座が変わる）
+    </div>
+  </main>
+
+  <script>
+    const NS = 'http://www.w3.org/2000/svg';
+    const $ = id => document.getElementById(id);
+    const stars = (n, w, h, seed) => { let x = seed; const r = () => (x = (x * 16807) % 2147483647) / 2147483647; return Array.from({length:n}, () => [r()*w, r()*h]); };
+    const bg = (w, h, n, seed) => stars(n, w, h, seed).map(([x,y]) => `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="0.8" fill="#fff" opacity="0.45"/>`).join('');
+
+    /* ---- 1 色 ---- */
+    const COLORS = [
+      {n:'青白', bg:'#7dd3fc', t:'12,000℃以上', ex:'リゲル（オリオン座）・スピカ（おとめ座）'},
+      {n:'白',   bg:'#e2e8f0', t:'約8,000〜12,000℃', ex:'シリウス（おおいぬ座）・ベガ（こと座）'},
+      {n:'黄',   bg:'#fde047', t:'約5,000〜8,000℃', ex:'プロキオン（こいぬ座）・カペラ（ぎょしゃ座）・太陽'},
+      {n:'オレンジ', bg:'#fb923c', t:'約4,000〜5,000℃', ex:'アークトゥルス（うしかい座）'},
+      {n:'赤',   bg:'#f87171', t:'約3,000〜4,000℃', ex:'ベテルギウス（オリオン座）・アンタレス（さそり座）'}
+    ];
+    function showColor(i) {
+      const c = COLORS[i];
+      $('color-info').innerHTML = `<span class="inline-block w-4 h-4 rounded-full align-middle mr-1" style="background:${c.bg}"></span><strong>${c.n}色の星</strong>　表面温度：<strong>${c.t}</strong><br>代表的な1等星の例：${c.ex}`;
+      [...$('color-bar').children].forEach((b, j) => b.style.outline = j === i ? '3px solid #4f46e5' : 'none');
+    }
+    COLORS.forEach((c, i) => {
+      const b = document.createElement('button');
+      b.className = 'flex-1 py-3 text-slate-800';
+      b.style.background = c.bg; b.textContent = c.n;
+      b.onclick = () => showColor(i); $('color-bar').appendChild(b);
+    });
+    showColor(2);
+
+    /* ---- 2 方位 ---- */
+    const DIRS = {
+      N: {t:'北の空', d:'北極星を中心に、<strong>反時計回り</strong>に円をえがくように動く。北極星はほとんど動かない。'},
+      E: {t:'東の空', d:'<strong>右ななめ上</strong>に向かって、地平線からのぼっていくように動く。'},
+      S: {t:'南の空', d:'<strong>東から西へ（左から右へ）</strong>、大きな弧をえがくように動く。'},
+      W: {t:'西の空', d:'<strong>右ななめ下</strong>に向かって、地平線にしずんでいくように動く。'}
+    };
+    function drawDir(k) {
+      let g = bg(300, 190, 40, 7);
+      const line = (x1,y1,x2,y2) => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#fde68a" stroke-width="2" stroke-linecap="round"/>`;
+      if (k === 'N') {
+        for (let r = 20; r <= 120; r += 22) for (let a = 0; a < 3; a++) {
+          const s = a * 2.1 + r * .05, e = s + 1.0 + r * .004;
+          const p = t => `${150 + r * Math.cos(t)} ${95 + r * Math.sin(t)}`;
+          g += `<path d="M ${p(s)} A ${r} ${r} 0 0 0 ${p(s-1.0)}" fill="none" stroke="#fde68a" stroke-width="2" stroke-linecap="round"/>`;
+        }
+        g += '<circle cx="150" cy="95" r="4" fill="#fff"/><text x="158" y="86" fill="#fff" font-size="12">北極星</text>';
+      } else if (k === 'E' || k === 'W') {
+        const sg = k === 'E' ? -1 : 1;
+        for (let i = 0; i < 16; i++) { const x = 20 + (i % 8) * 36 + (i > 7 ? 18 : 0), y = 30 + Math.floor(i / 8) * 80 + (i % 3) * 14; g += line(x, y, x + 30, y + sg * 55); }
+      } else {
+        for (let i = 0; i < 9; i++) { const y = 30 + i * 18, a = 18 + (i % 3) * 6; g += `<path d="M ${20 + (i%2)*30} ${y + a / 2} Q 150 ${y - a} ${150 + 100 + (i%2)*10} ${y + a / 2}" fill="none" stroke="#fde68a" stroke-width="2" stroke-linecap="round"/>`; }
+      }
+      g += '<rect x="0" y="190" width="300" height="50" fill="#b4793c"/><path d="M0 190 L30 175 L60 192 L95 170 L130 190 L170 178 L210 192 L250 172 L300 190Z" fill="#b4793c"/>';
+      $('dir-svg').innerHTML = g;
+      $('dir-info').innerHTML = `<p class="font-bold text-indigo-800 mb-1">${DIRS[k].t}</p><p>${DIRS[k].d}</p>`;
+      document.querySelectorAll('#dir-tabs .tabbtn').forEach(b => b.classList.toggle('on', b.dataset.d === k));
+    }
+    document.querySelectorAll('#dir-tabs .tabbtn').forEach(b => b.onclick = () => drawDir(b.dataset.d));
+    drawDir('N');
+
+    /* ---- 3 速さ ---- */
+    (function () {
+      const base = stars(18, 1, 1, 11).map(([a, b]) => [a * 6.28, 25 + b * 115]);
+      function draw() {
+        const h = +$('spin-range').value, ang = 15 * h;
+        let g = bg(300, 300, 30, 3);
+        [45, 90, 135].forEach(r => g += `<circle cx="150" cy="150" r="${r}" fill="none" stroke="#6366f1" stroke-width="0.6" stroke-dasharray="3 3"/>`);
+        g += `<g transform="rotate(${-ang} 150 150)">` + base.map(([a, r], i) => `<circle cx="${150 + r * Math.cos(a)}" cy="${150 + r * Math.sin(a)}" r="${i % 5 === 0 ? 3.4 : 2}" fill="${i % 5 === 0 ? '#fde047' : '#fff'}"/>`).join('') + '</g>';
+        g += '<circle cx="150" cy="150" r="4" fill="#fff"/><text x="158" y="146" fill="#fff" font-size="11">北極星</text>';
+        $('spin-svg').innerHTML = g;
+        $('spin-h').textContent = h; $('spin-h2').textContent = h; $('spin-deg').textContent = ang;
+      }
+      $('spin-range').oninput = draw; draw();
+    })();
+
+    /* ---- 4 公転 ---- */
+    const OR = {
+      spring: {x:160, y:42,  name:'春の星座', c:'しし座・おとめ座・うしかい座', lx:160, ly:16},
+      summer: {x:42,  y:160, name:'夏の星座', c:'こと座・わし座・はくちょう座・さそり座', lx:44, ly:128},
+      autumn: {x:160, y:278, name:'秋の星座', c:'ペガスス座・アンドロメダ座', lx:160, ly:310},
+      winter: {x:278, y:160, name:'冬の星座', c:'オリオン座・おおいぬ座・こいぬ座・おうし座・ふたご座', lx:276, ly:128}
+    };
+    function drawOrb(k) {
+      let g = bg(320, 320, 40, 5);
+      g += '<circle cx="160" cy="160" r="118" fill="none" stroke="#475569" stroke-dasharray="4 4"/>';
+      g += '<circle cx="160" cy="160" r="22" fill="#f59e0b"/><text x="160" y="164" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">太陽</text>';
+      g += '<path d="M 232 70 A 118 118 0 0 0 88 70" fill="none" stroke="#f87171" stroke-width="2"/>';
+      Object.entries(OR).forEach(([s, o]) => {
+        const on = s === k;
+        g += `<rect x="${o.lx - 36}" y="${o.ly - 11}" width="72" height="22" rx="4" fill="${on ? '#4f46e5' : '#1e293b'}" stroke="#818cf8"/><text x="${o.lx}" y="${o.ly + 4}" text-anchor="middle" font-size="11" fill="#fff">${o.name}</text>`;
+        const dx = 160 - o.x, dy = 160 - o.y, L = Math.hypot(dx, dy);
+        g += `<circle cx="${o.x}" cy="${o.y}" r="${on ? 13 : 9}" fill="#38bdf8" stroke="${on ? '#fde047' : 'none'}" stroke-width="3"/>`;
+        // 夜側（太陽の反対がわ）に黒い半円
+        const ang = Math.atan2(dy, dx) * 180 / Math.PI;
+        g += `<path d="M ${o.x} ${o.y - (on ? 13 : 9)} A ${on ? 13 : 9} ${on ? 13 : 9} 0 0 0 ${o.x} ${o.y + (on ? 13 : 9)} Z" fill="#0b1226" transform="rotate(${ang} ${o.x} ${o.y})"/>`;
+      });
+      $('orb-svg').innerHTML = g;
+      const o = OR[k];
+      $('orb-info').innerHTML = `<p class="font-bold text-indigo-800 mb-1">地球が「${o.name.replace('の星座', '')}」の位置にあるとき</p><p>真夜中、太陽と<strong>反対がわ</strong>（夜の面）に見える星座＝<strong>${o.name}</strong></p><p class="mt-1 text-slate-600">${o.c}</p><p class="mt-3 text-xs text-slate-500">★ 地球は太陽のまわりを<strong>反時計回り</strong>に公転（春→夏→秋→冬）。同じ時刻に見える星座は、1か月で約30度（約2時間ぶん）ずれる。</p>`;
+      document.querySelectorAll('#orb-tabs .tabbtn').forEach(b => b.classList.toggle('on', b.dataset.s === k));
+    }
+    document.querySelectorAll('#orb-tabs .tabbtn').forEach(b => b.onclick = () => drawOrb(b.dataset.s));
+    drawOrb('spring');
+
+    /* ---- 5 季節の星座 ---- */
+    const SEA = {
+      spring: {tri:'春の大三角', pts:[['デネボラ（しし座・2等星）',210,60,'#e2e8f0'],['スピカ（おとめ座・青白）',140,215,'#7dd3fc'],['アークトゥルス（うしかい座・オレンジ）',60,120,'#fb923c']],
+        list:'<strong>しし座・おとめ座・うしかい座</strong><br>午後8時ごろ、北の空では<strong>北斗七星</strong>が北極星の真上に見える。<br>しし座のしっぽにあたる2等星の<strong>デネボラ</strong>、おとめ座の青白い1等星の<strong>スピカ</strong>、うしかい座のオレンジの1等星の<strong>アークトゥルス</strong>を結んでできる三角形が<strong>春の大三角</strong>。<br>北斗七星のカーブをのばすと、アークトゥルスを通り、スピカにつながる。これを<strong>春の大曲線</strong>という。', curve:true},
+      summer: {tri:'夏の大三角', pts:[['デネブ（はくちょう座）',210,55,'#e2e8f0'],['ベガ（こと座・おりひめ星）',110,95,'#e2e8f0'],['アルタイル（わし座・ひこ星）',165,215,'#e2e8f0']],
+        list:'<strong>こと座・わし座・はくちょう座・さそり座</strong><br>午後8時ごろ、天頂付近に<strong>こと座とわし座</strong>があり、そのあいだの天の川の中に<strong>はくちょう座</strong>がある。南の空低くに赤色の1等星（<strong>アンタレス</strong>）をもつ<strong>さそり座</strong>や、いて座がある。<br>こと座の<strong>ベガ</strong>（おりひめ星）、わし座の<strong>アルタイル</strong>（ひこ星）、はくちょう座の<strong>デネブ</strong>を結んでできる三角形が<strong>夏の大三角</strong>。3つの星はすべて1等星で、白色。'},
+      autumn: {tri:'秋の大四辺形', quad:true, pts:[['ペガスス座',90,70,'#e2e8f0'],['ペガスス座',210,70,'#e2e8f0'],['ペガスス座',215,170,'#e2e8f0'],['アンドロメダ座',95,175,'#e2e8f0']],
+        list:'<strong>ペガスス座・アンドロメダ座</strong><br>午後8時ごろ、天頂付近にペガスス座とアンドロメダ座がつくる<strong>秋の大四辺形</strong>が見える。<br>明るい星はほとんどなく、<strong>みなみのうお座</strong>の1等星である<strong>フォーマルハウト</strong>が見えるくらいである。'},
+      winter: {tri:'冬の大三角', pts:[['ベテルギウス（オリオン座・赤）',185,70,'#f87171'],['シリウス（おおいぬ座・白）',150,215,'#e2e8f0'],['プロキオン（こいぬ座・黄）',70,125,'#fde047']], hex:[['リゲル（オリオン座）',215,140],['アルデバラン（おうし座）',235,70],['カペラ（ぎょしゃ座）',150,28],['ポルックス（ふたご座）',70,60]],
+        list:'<strong>オリオン座・おおいぬ座・こいぬ座・おうし座・ふたご座</strong><br>午後8時ごろ、南の空にはオリオン座があり、三ツ星の左上に赤い1等星の<strong>ベテルギウス</strong>が、右下に青白い1等星の<strong>リゲル</strong>が見える。オリオン座の左にはうすい黄色の1等星の<strong>プロキオン</strong>をもつこいぬ座が、左下には全天で最も明るい1等星の<strong>シリウス</strong>をもつおおいぬ座が見える。<br>ベテルギウス・シリウス・プロキオンを結んでできる三角形が<strong>冬の大三角</strong>。これをかこむように<strong>冬の大六角形</strong>がある。リゲル（オリオン座）・アルデバラン（おうし座）・カペラ（ぎょしゃ座）・ポルックス（ふたご座）・プロキオン（こいぬ座）・シリウス（おおいぬ座）の6つの星でできている。', both:true}
+    };
+    function drawSea(k) {
+      const S = SEA[k];
+      let g = bg(320, 280, 45, 9);
+      const P = S.pts;
+      if (S.quad) g += `<polygon points="${P.map(p => p[1] + ',' + p[2]).join(' ')}" fill="rgba(248,113,113,.12)" stroke="#f87171" stroke-width="2"/>`;
+      else g += `<polygon points="${P.map(p => p[1] + ',' + p[2]).join(' ')}" fill="rgba(248,113,113,.12)" stroke="#f87171" stroke-width="2"/>`;
+      if (S.hex) {
+        const H = [S.hex[1], S.hex[0], [S.pts[1][0], S.pts[1][1], S.pts[1][2]], [S.pts[2][0], S.pts[2][1], S.pts[2][2]], S.hex[3], S.hex[2]];
+        g += `<polygon points="${[S.hex[2],S.hex[1],S.hex[0],S.pts[1].slice(0,3),S.pts[2].slice(0,3),S.hex[3]].map(p => p[1] + ',' + p[2]).join(' ')}" fill="none" stroke="#a5b4fc" stroke-width="1.5" stroke-dasharray="5 4"/>`;
+        S.hex.forEach(p => g += `<circle cx="${p[1]}" cy="${p[2]}" r="4" fill="#fff"/><text x="${p[1] > 200 ? p[1] - 7 : p[1] + 6}" y="${p[2] - 5}" ${p[1] > 200 ? 'text-anchor="end"' : ''} fill="#c7d2fe" font-size="9">${p[0]}</text>`);
+      }
+      if (S.curve) g += '<path d="M 30 30 Q 70 40 60 120 Q 90 190 140 215" fill="none" stroke="#818cf8" stroke-width="1.5" stroke-dasharray="4 4"/><text x="22" y="22" fill="#a5b4fc" font-size="9">北斗七星→春の大曲線</text>';
+      P.forEach(p => g += `<circle cx="${p[1]}" cy="${p[2]}" r="6" fill="${p[3]}"/><text x="${p[1] + 9}" y="${p[2] + 4}" fill="#fff" font-size="10" ${p[1] > 200 ? 'text-anchor="end" dx="-18"' : ''}>${p[0]}</text>`);
+      g += `<text x="160" y="268" text-anchor="middle" fill="#fca5a5" font-size="13" font-weight="bold">${S.tri}${S.both ? '（実線）＋ 冬の大六角形（点線）' : ''}</text>`;
+      $('sea-svg').innerHTML = g;
+      $('sea-info').innerHTML = `<div class="p-4 bg-slate-50 rounded-xl border border-slate-200">${S.list}</div>`;
+      document.querySelectorAll('#sea-tabs .tabbtn').forEach(b => b.classList.toggle('on', b.dataset.s === k));
+    }
+    document.querySelectorAll('#sea-tabs .tabbtn').forEach(b => b.onclick = () => drawSea(b.dataset.s));
+    drawSea('spring');
+  </script>
+</body>
+</html>

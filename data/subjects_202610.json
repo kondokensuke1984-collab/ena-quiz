@@ -197,6 +197,252 @@
 "month": "202610",
 "parent": "menseki10"
 },
+"chokuho10": {
+"label": "立方体と直方体",
+"icon": "📦",
+"tag": "tag-chokuho",
+"category": "sansu",
+"month": "202610",
+"isGroup": true
+},
+"chokuho10_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-chokuho",
+"category": "sansu",
+"month": "202610",
+"parent": "chokuho10"
+},
+"chokuho10_renshu": {
+"label": "練習問題",
+"icon": "✏️",
+"tag": "tag-chokuho",
+"category": "sansu",
+"month": "202610",
+"parent": "chokuho10"
+},
+"chokuho10_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-chokuho",
+"category": "sansu",
+"month": "202610",
+"parent": "chokuho10"
+},
+"wariai10": {
+"label": "割合の表し方",
+"icon": "📊",
+"tag": "tag-wariai",
+"category": "sansu",
+"month": "202610",
+"isGroup": true
+},
+"wariai10_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-wariai",
+"category": "sansu",
+"month": "202610",
+"parent": "wariai10"
+},
+"wariai10_renshu": {
+"label": "練習問題",
+"icon": "✏️",
+"tag": "tag-wariai",
+"category": "sansu",
+"month": "202610",
+"parent": "wariai10"
+},
+"wariai10_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-wariai",
+"category": "sansu",
+"month": "202610",
+"parent": "wariai10"
+},
+"suiri10": {
+"label": "推理",
+"icon": "🕵️",
+"tag": "tag-suiri",
+"category": "sansu",
+"month": "202610",
+"isGroup": true
+},
+"suiri10_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-suiri",
+"category": "sansu",
+"month": "202610",
+"parent": "suiri10"
+},
+"suiri10_renshu": {
+"label": "練習問題",
+"icon": "✏️",
+"tag": "tag-suiri",
+"category": "sansu",
+"month": "202610",
+"parent": "suiri10"
+},
+"suiri10_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-suiri",
+"category": "sansu",
+"month": "202610",
+"parent": "suiri10"
+},
+"hoshi10": {
+"label": "星の動き1",
+"icon": "🌠",
+"tag": "tag-hoshi",
+"category": "rika",
+"month": "202610",
+"isGroup": true,
+"ref": "/hoshi1.html",
+"refLabel": "カラーページ（要点まとめ）",
+"refSub": "星の明るさと色・日周運動と年周運動・季節の星座と大三角"
+},
+"hoshi10_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-hoshi",
+"category": "rika",
+"month": "202610",
+"parent": "hoshi10"
+},
+"hoshi10_renshu": {
+"label": "練習問題",
+"icon": "✏️",
+"tag": "tag-hoshi",
+"category": "rika",
+"month": "202610",
+"parent": "hoshi10"
+},
+"hoshi10_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-hoshi",
+"category": "rika",
+"month": "202610",
+"parent": "hoshi10"
+},
+"hoshi10b": {
+"label": "星の動き2",
+"icon": "🔭",
+"tag": "tag-hoshi",
+"category": "rika",
+"month": "202610",
+"isGroup": true
+},
+"hoshi10b_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-hoshi",
+"category": "rika",
+"month": "202610",
+"parent": "hoshi10b"
+},
+"hoshi10b_renshu": {
+"label": "練習問題",
+"icon": "✏️",
+"tag": "tag-hoshi",
+"category": "rika",
+"month": "202610",
+"parent": "hoshi10b"
+},
+"hoshi10b_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-hoshi",
+"category": "rika",
+"month": "202610",
+"parent": "hoshi10b"
+},
+"keiyoushi10": {
+"label": "形容詞",
+"icon": "🌈",
+"tag": "tag-keiyou",
+"category": "kokugo",
+"month": "202610",
+"isGroup": true
+},
+"keiyoushi10_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-keiyou",
+"category": "kokugo",
+"month": "202610",
+"parent": "keiyoushi10"
+},
+"keiyoushi10_renshu": {
+"label": "補充問題",
+"icon": "✏️",
+"tag": "tag-keiyou",
+"category": "kokugo",
+"month": "202610",
+"parent": "keiyoushi10"
+},
+"keiyoushi10_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-keiyou",
+"category": "kokugo",
+"month": "202610",
+"parent": "keiyoushi10"
+},
+"fukushi10": {
+"label": "副詞",
+"icon": "🔑",
+"tag": "tag-fukushi",
+"category": "kokugo",
+"month": "202610",
+"isGroup": true,
+"ref": "/bungaku9.html?p=setumei10_kihon,setumei10_kako",
+"refLabel": "本文を読む",
+"refSub": "説明的文章(2)：適応の条件（鍵の文化）／世界の読者に伝えるということ"
+},
+"fukushi10_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-fukushi",
+"category": "kokugo",
+"month": "202610",
+"parent": "fukushi10"
+},
+"fukushi10_hojuu": {
+"label": "補充問題",
+"icon": "➕",
+"tag": "tag-fukushi",
+"category": "kokugo",
+"month": "202610",
+"parent": "fukushi10"
+},
+"fukushi10_dokkai": {
+"label": "文章読解",
+"icon": "📖",
+"tag": "tag-fukushi",
+"category": "kokugo",
+"month": "202610",
+"parent": "fukushi10"
+},
+"fukushi10_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-fukushi",
+"category": "kokugo",
+"month": "202610",
+"parent": "fukushi10"
+},
+"fukushi10_tokikata": {
+"label": "解き方",
+"icon": "💡",
+"tag": "tag-fukushi",
+"category": "kokugo",
+"month": "202610",
+"parent": "fukushi10"
+},
 "tekisei1": {
 "label": "適性検査Ⅰ",
 "icon": "🏯",
@@ -228,5 +474,77 @@
 "category": "sansu",
 "month": "202610",
 "parent": "tekisei2"
+},
+"hibi10": {
+"label": "日々の学習10月",
+"icon": "📆",
+"tag": "tag-hibi10",
+"category": "sansu",
+"month": "202610",
+"isGroup": true
+},
+"hibi10_01": {
+"label": "No.1",
+"icon": "1️⃣",
+"tag": "tag-hibi10",
+"category": "sansu",
+"month": "202610",
+"parent": "hibi10"
+},
+"hibi10_02": {
+"label": "No.2",
+"icon": "2️⃣",
+"tag": "tag-hibi10",
+"category": "sansu",
+"month": "202610",
+"parent": "hibi10"
+},
+"hibi10_03": {
+"label": "No.3",
+"icon": "3️⃣",
+"tag": "tag-hibi10",
+"category": "sansu",
+"month": "202610",
+"parent": "hibi10"
+},
+"hibi10_04": {
+"label": "No.4",
+"icon": "4️⃣",
+"tag": "tag-hibi10",
+"category": "sansu",
+"month": "202610",
+"parent": "hibi10"
+},
+"hibi10_05": {
+"label": "No.5",
+"icon": "5️⃣",
+"tag": "tag-hibi10",
+"category": "sansu",
+"month": "202610",
+"parent": "hibi10"
+},
+"hibi10_06": {
+"label": "No.6",
+"icon": "6️⃣",
+"tag": "tag-hibi10",
+"category": "sansu",
+"month": "202610",
+"parent": "hibi10"
+},
+"hibi10_07": {
+"label": "No.7",
+"icon": "7️⃣",
+"tag": "tag-hibi10",
+"category": "sansu",
+"month": "202610",
+"parent": "hibi10"
+},
+"hibi10_08": {
+"label": "No.8",
+"icon": "8️⃣",
+"tag": "tag-hibi10",
+"category": "sansu",
+"month": "202610",
+"parent": "hibi10"
 }
 }

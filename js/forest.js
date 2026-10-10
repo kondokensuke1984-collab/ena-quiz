@@ -17,6 +17,17 @@ const FOREST_BOSS_CHAR = 'bear', FOREST_BOSS_NAME = 'もりのぬし ビッグ�
 let fz = null;          // いまの階の迷路 { n, grid, start, goal, spring }
 let forestMsg = '';
 let forestMapOpen = false;
+let forestUnits = null;         // 森で出す単元（data/forest_units.json）。空・読めないときは制限なし
+fetch('data/forest_units.json', { cache: 'no-cache' }).then(r => r.json())
+  .then(j => { if (Array.isArray(j.units) && j.units.length) forestUnits = j.units; }).catch(() => {});
+function forestPool() {
+  if (!forestUnits) return QUESTIONS.slice();
+  const pool = QUESTIONS.filter(q => {
+    const su = SUBJECTS[q.subject] || {};
+    return forestUnits.includes(su.parent || q.subject);
+  });
+  return pool.length ? pool : QUESTIONS.slice();
+}
 let forestFromIsland = false;   // 島の こじまから 来た（でるときは 島へ もどる）
 
 // ── 迷路をつくる（シードつき乱数＋穴ほり法）──
@@ -266,7 +277,7 @@ function startForestBattle(boss) {
   bt = {
     boss: false, key: '__forest__', char,
     name: boss ? FOREST_BOSS_NAME : 'もりの' + CHAR_NAME[char],
-    queue: shuffle(QUESTIONS.slice()).slice(0, n), idx: 0,
+    queue: shuffle(forestPool()).slice(0, n), idx: 0,
     maxHp: n * DMG_HIT, hp: n * DMG_HIT, streak: 0, correct: 0, medals: 0, answered: false,
     tt: null, ttMedals: 0, ttIn: 0, ttAnswered: 0,
     forest: { floor: f.floor, boss: !!boss }
