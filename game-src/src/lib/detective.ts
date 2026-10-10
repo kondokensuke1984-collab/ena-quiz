@@ -20,7 +20,6 @@ export interface Evidence {
 export interface Suspect {
   char: CharKey;
   says: string;             // しょうげん
-  nervous?: boolean;        // あやしい えんしゅつ（目きょろきょろ・あせ）
 }
 
 /** ○×表の パズル。assign/rank は 行ごとに ○が1つ（answer[行]＝○の 列）。league は かち まけ */
@@ -78,7 +77,7 @@ export const CASES: Case[] = [
       { char: 'rabbit', says: 'ミミは がっこうに いたよ。' },
       { char: 'parrot', says: 'ピコは うたの れんしゅう！' },
       { char: 'squirrel', says: 'ぼくは どんぐり ひろいを してたよ！' },
-      { char: 'owl', says: 'ほ、ほう…わたしは ずっと ねていましたよ…', nervous: true },
+      { char: 'owl', says: 'わたしは ずっと ねていましたよ。' },
     ],
     puzzles: [{
       kind: 'assign', title: 'あんごうを とけ！（いえの ばんごう）', rule: 'A〜E は 5ひきの いえの ばんごう。1〜5の ちがう かずが 1つずつ',
@@ -114,7 +113,7 @@ export const CASES: Case[] = [
       { char: 'tanuki', says: 'ぼく？ たしか 1いでも 2いでも なかったなあ。' },
       { char: 'parrot', says: 'ピコ、しゃしんに うつってるよ！' },
       { char: 'rabbit', says: 'ミミは さいごじゃ なかったよ！' },
-      { char: 'bear', says: 'テ、テープ？ し、しらないよ…', nervous: true },
+      { char: 'bear', says: 'テープ？ わたしは しらないよ。' },
     ],
     puzzles: [{
       kind: 'rank', title: 'じゅんいを きめろ！', rule: '4ひきの じゅんいは みんな ちがう',
@@ -148,7 +147,7 @@ export const CASES: Case[] = [
     suspects: [
       { char: 'owl', says: 'わたしは ずっと トロフィーを みがいていました。ちょっと めを はなした すきに…。' },
       { char: 'tanuki', says: 'もっていったのは、ツキミチームに かった チームの だれかだよ！ ぼく みてたもん。' },
-      { char: 'rabbit', says: 'ミ、ミミは しらないよ〜', nervous: true },
+      { char: 'rabbit', says: 'ミミは しらないよ〜。' },
       { char: 'bear', says: 'くまったなあ。わたしじゃ ないよ。' },
     ],
     puzzles: [{
@@ -183,7 +182,7 @@ export const CASES: Case[] = [
     suspects: [
       { char: 'tanuki', says: 'ぼくの ふくろは Aだよ。' },
       { char: 'parrot', says: 'ピコは Bの ふくろ！' },
-      { char: 'cow', says: 'モ、モォ…わたしは Cの ふくろ…です…', nervous: true },
+      { char: 'cow', says: 'モモは Cの ふくろだよ〜。' },
       { char: 'bear', says: 'わたしは Dの ふくろを もってるよ。' },
       { char: 'rabbit', says: 'ミミは Eの ふくろ！' },
     ],
@@ -217,7 +216,7 @@ export const CASES: Case[] = [
     ],
     suspects: [
       { char: 'tanuki', says: 'ぼくは さいごまで かたづけ してたよ。まけちゃったけどね。' },
-      { char: 'parrot', says: 'ピ、ピコは…はやく かえっただけ！', nervous: true },
+      { char: 'parrot', says: 'ピコは はやく かえっただけ！' },
       { char: 'owl', says: 'くやしくて はしって かえったのは、モモチームに まけた チームの 子でしたよ。' },
       { char: 'cow', says: 'モモは ちゃんと ボールを もどしたよ〜。' },
     ],
@@ -252,7 +251,7 @@ export const CASES: Case[] = [
     suspects: [
       { char: 'tanuki', says: 'ぼくは はやおきだよ！ いちばん だったかも！' },
       { char: 'parrot', says: 'ピコ、ちょっと ねぼうしたけど さいごじゃ ないよ。' },
-      { char: 'owl', says: 'ほ…ほう？ わ、わたしは…ふわぁ…', nervous: true },
+      { char: 'owl', says: 'わたしは まだ ちょっと ねむいですね。' },
       { char: 'rabbit', says: 'ミミは まんなかくらい！' },
       { char: 'bear', says: 'わたしは ぽんたの つぎに おきたよ。' },
     ],
@@ -287,7 +286,7 @@ export const CASES: Case[] = [
       { id: 'e3', x: 50, y: 30, icon: '📒', name: 'うけつけ ノート', text: 'モモは 4ばんめ・ぽんたは 1ばんめでも 2ばんめでもない・ミミは 1ばんめではない' },
     ],
     suspects: [
-      { char: 'tanuki', says: 'ぽ、ぽん…ぼくは おなか いっぱい…じゃなくて、なにも しらないよ！', nervous: true },
+      { char: 'tanuki', says: 'ぼくは なにも しらないよ！' },
       { char: 'rabbit', says: 'ミミは 1ばんには まにあわなかったよ。' },
       { char: 'bear', says: 'わたしが いちばんのりだったよ！' },
       { char: 'cow', says: 'モモは さいごに きたよ〜。' },

@@ -197,3 +197,33 @@ body {
   50% { transform: translateY(-120px); }
   100% { transform: translateY(0); }
 }
+
+/* ── 3Dの島（components/island3d）：キャラの 名前・ふきだし・ポストの数。--k ＝ 島の はば / 1000 ── */
+.i3d-overlay > * { position: absolute; left: 0; top: 0; will-change: transform; }
+.i3d-label {
+  translate: -50% -100%;
+  font-size: calc(var(--k, 0.6) * 19px); font-weight: 900; color: #fff; white-space: nowrap;
+  -webkit-text-stroke: calc(var(--k, 0.6) * 5px) rgba(30, 27, 75, 0.85); paint-order: stroke fill;
+}
+.i3d-emote { translate: -50% -100%; font-size: calc(var(--k, 0.6) * 30px); }
+.i3d-bubble { translate: calc(-50% + var(--shift, 0px)) -100%; }
+.i3d-bubble-in {
+  position: relative; transform-origin: 50% 100%;
+  padding: calc(var(--k, 0.6) * 9px) calc(var(--k, 0.6) * 20px);
+  background: #fff; border: calc(var(--k, 0.6) * 3px) solid #4c1d95; border-radius: 999px;
+  font-size: calc(var(--k, 0.6) * 22px); font-weight: 900; color: #312e81; white-space: nowrap;
+}
+.i3d-bubble-in::after {
+  content: ''; position: absolute; top: 100%; left: calc(50% - var(--shift, 0px));
+  width: calc(var(--k, 0.6) * 16px); height: calc(var(--k, 0.6) * 16px); background: #fff;
+  border-right: calc(var(--k, 0.6) * 3px) solid #4c1d95; border-bottom: calc(var(--k, 0.6) * 3px) solid #4c1d95;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.i3d-heart { position: absolute; right: -10%; top: 40%; font-style: normal; font-size: calc(var(--k, 0.6) * 36px); }
+.i3d-badge {
+  translate: -50% -100%;
+  min-width: calc(var(--k, 0.6) * 30px); padding: 0 calc(var(--k, 0.6) * 6px); border-radius: 999px;
+  background: #f43f5e; border: calc(var(--k, 0.6) * 3px) solid #fff; color: #fff; text-align: center;
+  font-size: calc(var(--k, 0.6) * 18px); font-weight: 900; line-height: calc(var(--k, 0.6) * 28px);
+}
+.i3d-toggle { position: absolute; right: 8px; bottom: 8px; z-index: 3; }

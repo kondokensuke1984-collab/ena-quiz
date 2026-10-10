@@ -1,5 +1,5 @@
 import React from 'react';
-import { MAIN_GROUND, WORLD } from '../lib/island';
+import { MAIN_GROUND, SOCCER_PITCH, WORLD } from '../lib/island';
 
 // 島の地面（main）。2026-09-22 に土地を広げた：1000x750 の枠の外まで 大きな楕円の島。
 // pier＝さんばしとボート（上の海岸）、右上の小島（がっこうで できる）、左上の もりのこじま、右の海岸の はし。
@@ -92,6 +92,77 @@ function SeasonDeco({ season, halloween = false }: { season: number; halloween?:
 }
 
 // となりの島への はし（main の右の海岸から 世界の右はしへ）
+// サッカー場（緑ヶ丘サッカーへの 入口。上から見た ピッチ）
+function SoccerPitch() {
+  const { x: x0, y: y0, w, h } = SOCCER_PITCH;
+  const cx = x0 + w / 2, cy = y0 + h / 2;
+  const line = { fill: 'none', stroke: '#ffffff', strokeWidth: 3, strokeOpacity: 0.95 } as const;
+  const goal = (s: -1 | 1) => {
+    const gx = s < 0 ? x0 : x0 + w, depth = 16, gh = 52;
+    const bx = gx + s * depth;
+    return (
+      <g>
+        {/* ネット */}
+        <rect x={Math.min(gx, bx)} y={cy - gh / 2} width={depth} height={gh} fill="rgba(255,255,255,0.35)" />
+        {Array.from({ length: 5 }, (_, i) => (
+          <line key={'gv' + i} x1={gx + s * (i * depth) / 4} x2={gx + s * (i * depth) / 4} y1={cy - gh / 2} y2={cy + gh / 2} stroke="rgba(255,255,255,0.7)" strokeWidth="1" />
+        ))}
+        {Array.from({ length: 7 }, (_, i) => (
+          <line key={'gh' + i} x1={gx} x2={bx} y1={cy - gh / 2 + (i * gh) / 6} y2={cy - gh / 2 + (i * gh) / 6} stroke="rgba(255,255,255,0.7)" strokeWidth="1" />
+        ))}
+        {/* わく（ポストとバーの かげ） */}
+        <path d={`M${gx} ${cy - gh / 2} L${bx} ${cy - gh / 2 - 6} L${bx} ${cy + gh / 2 - 6} L${gx} ${cy + gh / 2}`} fill="none" stroke="#e5e7eb" strokeWidth="3" strokeLinejoin="round" />
+        <line x1={gx} x2={gx} y1={cy - gh / 2} y2={cy + gh / 2} stroke="#ffffff" strokeWidth="5" strokeLinecap="round" />
+      </g>
+    );
+  };
+  return (
+    <g>
+      {/* ピッチの かげと 芝の しま */}
+      <rect x={x0 - 8} y={y0 - 4} width={w + 16} height={h + 14} rx="12" fill="rgba(20,83,45,0.25)" />
+      {Array.from({ length: 8 }, (_, i) => (
+        <rect key={'st' + i} x={x0 + (i * w) / 8} y={y0} width={w / 8 + 0.5} height={h} fill={i % 2 ? '#3fae5c' : '#36a052'} />
+      ))}
+      {/* ライン */}
+      <rect x={x0} y={y0} width={w} height={h} {...line} />
+      <line x1={cx} x2={cx} y1={y0} y2={y0 + h} {...line} />
+      <circle cx={cx} cy={cy} r="24" {...line} />
+      <circle cx={cx} cy={cy} r="3" fill="#fff" />
+      {([-1, 1] as const).map((s) => {
+        const gx = s < 0 ? x0 : x0 + w;
+        return (
+          <g key={'box' + s}>
+            <rect x={s < 0 ? gx : gx - 44} y={cy - 46} width="44" height="92" {...line} />
+            <rect x={s < 0 ? gx : gx - 16} y={cy - 24} width="16" height="48" {...line} />
+            <circle cx={gx - s * 32} cy={cy} r="2.5" fill="#fff" />
+          </g>
+        );
+      })}
+      {goal(-1)}
+      {goal(1)}
+      {/* コーナーの はた */}
+      {[[x0, y0, '#facc15'], [x0 + w, y0, '#ef4444'], [x0, y0 + h, '#ef4444'], [x0 + w, y0 + h, '#facc15']].map(([fx, fy, c]) => (
+        <g key={`fl${fx}-${fy}`}>
+          <line x1={fx as number} x2={fx as number} y1={fy as number} y2={(fy as number) - 22} stroke="#f8fafc" strokeWidth="2.5" />
+          <path d={`M${fx} ${(fy as number) - 22} l13 5 l-13 5 Z`} fill={c as string} stroke="#7f1d1d" strokeWidth="1" />
+        </g>
+      ))}
+      {/* ボール */}
+      <g transform={`translate(${cx + 52} ${cy + 22})`}>
+        <ellipse cx="1" cy="7" rx="8" ry="3" fill="rgba(0,0,0,0.2)" />
+        <circle r="8" fill="#ffffff" stroke="#1f2937" strokeWidth="1.5" />
+        <path d="M0 -3.4 L3.2 -1 L2 2.8 L-2 2.8 L-3.2 -1 Z" fill="#1f2937" />
+      </g>
+      {/* かんばん */}
+      <g transform={`translate(${x0 + 28} ${y0 - 8})`}>
+        <rect x="-2" y="-30" width="4" height="30" fill="#78350f" />
+        <rect x="-44" y="-62" width="88" height="34" rx="8" fill="#fff7ed" stroke="#9a3412" strokeWidth="2.4" />
+        <text x="0" y="-38" fontSize="17" fontWeight="900" textAnchor="middle" fill="#7c2d12">⚽ サッカー</text>
+      </g>
+    </g>
+  );
+}
+
 function BridgeRight() {
   return (
     <g>
@@ -107,12 +178,15 @@ function BridgeRight() {
 
 // 広げた土地の 木・しげみ・花・岩（今の島の まわりを ぐるっと）。歩きの じゃまは しない
 const G0 = MAIN_GROUND;
+const inPitch = (x: number, y: number) =>
+  x > SOCCER_PITCH.x - 40 && x < SOCCER_PITCH.x + SOCCER_PITCH.w + 40 && y > SOCCER_PITCH.y - 30 && y < SOCCER_PITCH.y + SOCCER_PITCH.h + 30;
 const OUTER_DECO = Array.from({ length: 22 }, (_, i) => {
   const a = (i / 22) * Math.PI * 2 + 0.2;
   const k = i % 2 ? 0.86 : 0.78;
   return { x: G0.cx + Math.cos(a) * G0.grassRx * k, y: G0.cy + Math.sin(a) * G0.grassRy * k, kind: i % 4, a };
 }).filter((d) => Math.abs(d.x - 360) > 90 || d.y > 100)          // さんばしの前は あける
-  .filter((d) => !(d.x > 1222 && Math.abs(d.y - 450) < 90));      // はしの前も あける
+  .filter((d) => !(d.x > 1222 && Math.abs(d.y - 450) < 90))       // はしの前も あける
+  .filter((d) => !inPitch(d.x, d.y));                              // サッカー場も あける
 
 function OuterDeco() {
   return (
@@ -149,7 +223,7 @@ function OuterDeco() {
         </g>
       ))}
       {/* 草のぽつぽつ（外がわ） */}
-      {[[-60, 300], [1040, 250], [60, 780], [940, 800], [250, 950], [760, 960], [500, 1000], [150, 120], [860, 90], [-120, 520], [1120, 620], [300, -200], [750, -230], [-350, 150], [1380, 600], [-380, 640], [600, 1130], [-200, 960], [1150, 1000], [1250, 120], [-300, 320]].map(([x, y]) => (
+      {[[-60, 300], [1040, 250], [60, 780], [940, 800], [250, 950], [760, 960], [500, 1000], [150, 120], [860, 90], [-120, 520], [1120, 620], [300, -200], [750, -230], [-350, 150], [1380, 600], [-380, 640], [600, 1130], [-200, 960], [1150, 1000], [1250, 120], [-300, 320]].filter(([x, y]) => !inPitch(x, y)).map(([x, y]) => (
         <g key={`og${x}-${y}`} opacity="0.55">
           <path d={`M${x} ${y} q -4 -10 -1 -16`} stroke="#16a34a" strokeWidth="3" strokeLinecap="round" fill="none" />
           <path d={`M${x + 4} ${y} q 3 -12 8 -16`} stroke="#16a34a" strokeWidth="3" strokeLinecap="round" fill="none" />
@@ -275,6 +349,7 @@ function IslandGroundBase({ expansion = 0, pier = false, season = 0, bridge = fa
       <ellipse cx={G.cx} cy={G.cy} rx={G.sandRx} ry={G.sandRy} fill="url(#sand)" />
       <ellipse cx={G.cx} cy={G.cy} rx={G.grassRx} ry={G.grassRy} fill="url(#grass)" />
       <OuterDeco />
+      <SoccerPitch />
 
       {/* 草のぽつぽつ（更地でもさみしくしすぎない） */}
       {[

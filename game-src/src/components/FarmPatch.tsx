@@ -42,6 +42,25 @@ function Sprout({ stage, seed }: { stage: number; seed: string }) {
   );
 }
 
+/** うね 1つぶんの しょくぶつ（はこ・みずの しずくも）。うね（土）は ふくまない。3D の島でも 使う */
+export function PlotPlant({ p, stage, today, hour }: { p: FarmPlot; stage: number; today: string; hour: number }) {
+  const plant = plantOf(p);
+  const wet = p.watered === today;
+  return (
+    <g>
+      {plant && <PlantSVG p={plant} stage={stage} health={stage >= 1 ? healthOf(p) : { sun: true, fert: true, water: true }} hour={hour} boxed={p.box} />}
+      {!plant && <Sprout stage={stage} seed={p.seed} />}
+      {p.box && (
+        <g>
+          <rect x="-22" y="-82" width="44" height="80" rx="3" fill="#a16207" fillOpacity="0.6" {...S} />
+          <text x="0" y="-36" fontSize="16" textAnchor="middle">📦</text>
+        </g>
+      )}
+      {wet && !isRipe(p, stage) && !plant?.paddy && <text x="22" y="-16" fontSize="14">💧</text>}
+    </g>
+  );
+}
+
 function FarmPatchBase({ plots, stages, today }: { plots: (FarmPlot | null)[]; stages: number[]; today: string }) {
   const cx = FARM_POS.x * ISLAND_W;
   const cy = FARM_POS.y * ISLAND_H;
@@ -64,15 +83,7 @@ function FarmPatchBase({ plots, stages, today }: { plots: (FarmPlot | null)[]; s
             ) : (
               <path d="M-22 -2 q22 -8 44 0" stroke="#78350f" strokeWidth="2" fill="none" opacity="0.6" />
             )}
-            {p && plant && <PlantSVG p={plant} stage={stages[i]} health={stages[i] >= 1 ? healthOf(p) : { sun: true, fert: true, water: true }} hour={hour} boxed={p.box} />}
-            {p && !plant && <Sprout stage={stages[i]} seed={p.seed} />}
-            {p?.box && (
-              <g>
-                <rect x="-22" y="-82" width="44" height="80" rx="3" fill="#a16207" fillOpacity="0.6" {...S} />
-                <text x="0" y="-36" fontSize="16" textAnchor="middle">📦</text>
-              </g>
-            )}
-            {wet && !isRipe(p, stages[i]) && !plant?.paddy && <text x="22" y="-16" fontSize="14">💧</text>}
+            {p && <PlotPlant p={p} stage={stages[i]} today={today} hour={hour} />}
           </g>
         );
       })}

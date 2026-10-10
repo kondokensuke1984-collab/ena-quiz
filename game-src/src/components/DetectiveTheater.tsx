@@ -280,9 +280,8 @@ function Theater({ c, onBack }: { c: Case; onBack(): void }) {
           <div className="flex flex-col gap-3">
             {c.suspects.slice(0, talkN).map((s) => (
               <div key={s.char} className="dt-slide-in flex items-end gap-2">
-                <div className={`relative shrink-0 ${s.nervous ? 'dt-nervous' : ''}`}>
+                <div className="relative shrink-0">
                   <Portrait who={s.char} size={62} />
-                  {s.nervous && <span className="dt-sweat absolute right-1 top-1 text-[16px]">💧</span>}
                 </div>
                 <div className="flex-1 rounded-2xl bg-white px-3 py-2.5 text-[14px] font-bold leading-relaxed text-ink shadow">
                   <div className="text-[11px] font-black text-violet-600">{CHAR_NAMES[s.char]}</div>

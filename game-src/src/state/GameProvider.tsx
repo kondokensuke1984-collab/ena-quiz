@@ -17,6 +17,7 @@ import { FISH_PER_DAY, FISH_REWARDS, FISH_STUDY_BONUS } from '../lib/fish';
 import { harvestOf, isRipe, plantOf, stageOf } from '../lib/farm';
 import { FERT_OF, PLANT_BY_SEED, PLANT_REWARDS } from '../lib/plants';
 import { dateKey } from '../lib/study';
+import { makeRequest } from '../lib/talk';
 import { type Constellation, STAR_REWARDS, tonightConstellation } from '../lib/stars';
 import { isNearFull, moonAge, moonName } from '../lib/sky';
 import { LUNA, mk as mkLetter } from '../lib/letters';
@@ -200,6 +201,12 @@ export interface GameApi {
   spaceLaunch(destId: string, studied: boolean): { isNew: boolean } | null;
   /** うちゅうりょこう：クイズの あと おみやげを もらう（correct＝せいかいで +1、isNew＝はじめての いきさき） */
   spaceReturn(destId: string, correct: boolean, isNew: boolean): { got: number; reward: string | null; title: string | null };
+  /** なかまと はなした：その日 はじめてなら なかよし +1。first＝きょう はじめて */
+  talkDaily(charKey: string): { first: boolean; heartsBefore: number; heartsAfter: number };
+  /** きょうの おねがいを きめる（もう きまっていれば そのまま）。chars＝おねがいできる子 */
+  ensureRequest(chars: string[], opt: { giftItems: string[]; canWater: boolean; studied: boolean }): void;
+  /** おねがいを かなえた：たのんだ子と なかよし +3、おれいの品を 1つ */
+  finishRequest(): { char: string; heartsBefore: number; heartsAfter: number; gift: string } | null;
 }
 
 function pick<T>(list: T[]): T {
@@ -946,6 +953,56 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       });
       sfx('letter');
       return true;
+    },
+
+    talkDaily: (charKey) => {
+      const cur = saveRef.current;
+      const day = dateKey();
+      const t = cur.talk.day === day ? cur.talk : { day, talked: [] as string[], req: null, done: false };
+      const prev = cur.friendsPlay[charKey] ?? { pts: 0, day: todayStr(), today: 0, wear: null };
+      const before = heartsOf(prev.pts);
+      if (t.talked.includes(charKey)) return { first: false, heartsBefore: before, heartsAfter: before };
+      setSave((s) => {
+        const tt = s.talk.day === day ? s.talk : { day, talked: [], req: null, done: false };
+        const fp = s.friendsPlay[charKey] ?? prev;
+        return {
+          ...s,
+          talk: { ...tt, talked: [...tt.talked, charKey] },
+          friendsPlay: { ...s.friendsPlay, [charKey]: { ...fp, pts: fp.pts + 1 } },
+        };
+      });
+      const after = heartsOf(prev.pts + 1);
+      if (after > before) sfx('heart');
+      return { first: true, heartsBefore: before, heartsAfter: after };
+    },
+
+    ensureRequest: (chars, opt) => {
+      const day = dateKey();
+      if (saveRef.current.talk.day === day && (saveRef.current.talk.req || saveRef.current.talk.done)) return;
+      const req = makeRequest(chars, opt);
+      if (!req) return;
+      setSave((s) => {
+        const tt = s.talk.day === day ? s.talk : { day, talked: [], req: null, done: false };
+        if (tt.req || tt.done) return s;
+        return { ...s, talk: { ...tt, req } };
+      });
+    },
+
+    finishRequest: () => {
+      const cur = saveRef.current;
+      const day = dateKey();
+      const r = cur.talk.req;
+      if (cur.talk.day !== day || !r || cur.talk.done) return null;
+      const prev = cur.friendsPlay[r.char] ?? { pts: 0, day: todayStr(), today: 0, wear: null };
+      const gift = pick(EVERYDAY_GIFTS);
+      setSave((s) => {
+        const fp = s.friendsPlay[r.char] ?? prev;
+        const inventory = { ...s.inventory, [gift]: (s.inventory[gift] ?? 0) + 1 };
+        return { ...s, inventory, talk: { ...s.talk, done: true }, friendsPlay: { ...s.friendsPlay, [r.char]: { ...fp, pts: fp.pts + 3 } } };
+      });
+      const heartsBefore = heartsOf(prev.pts), heartsAfter = heartsOf(prev.pts + 3);
+      sfx(heartsAfter > heartsBefore ? 'heart' : 'gift');
+      return { char: r.char, heartsBefore, heartsAfter, gift };
     },
 
     arborTalk: (charKey, correct) => {

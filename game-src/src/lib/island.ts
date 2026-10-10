@@ -56,7 +56,10 @@ export const DOORS = {
   eastToMain: { x: 0.09, y: 0.6 },       // はしの たもと（east の左はし）
   mainToSchool: { x: 0.64, y: 0.39 },    // がっこうの 戸口
   schoolToMain: { x: 0.86, y: 0.62 },    // きょうしつの ドア（右）
+  mainToSoccer: { x: 0.88, y: 1.0 },     // サッカー場（灯台の 右下の しばふ）の 上のふち。ちかづくと「サッカーを する」
 };
+/** サッカー場（main の世界の px）。まわりの 石・花・草は よける */
+export const SOCCER_PITCH = { x: 730, y: 765, w: 300, h: 170 };
 export const ENTRY = {
   house: { x: 0.2, y: 0.68 },
   mainFromHouse: { x: 0.2, y: 0.5 },

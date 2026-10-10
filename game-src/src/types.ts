@@ -1,3 +1,4 @@
+import type { Request } from './lib/talk';
 import type { CharKey } from './lib/chars';
 
 export type PlayerKey = 'anri' | 'rino' | 'mitsuki' | 'kensuke' | 'yusei';
@@ -103,6 +104,7 @@ export interface SaveV1 {
   imo: { dex: string[]; day: string; served: number };  // やきいも やたい：やけた しゅるい・きょう きた おきゃくさんの数  // けんびきょう：みつけた プランクトンID・きょう とうろくした数・じゅんびの てじゅんを 1回 できた
   arbor: { dex: string[]; day: string; gathered: number; rested: boolean; tea: boolean; talked: number };  // もみじの あずまや：あつめた おちばID・きょうの おちばひろい／ひとやすみ／おちゃ／かいぎの かいすう
   space: { dex: string[]; day: string; trips: number };  // うちゅうりょこう：いった いきさきID・きょう とんだ かいすう
+  talk: { day: string; talked: string[]; req: Request | null; done: boolean };  // なかまの おしゃべり：その日 はなした子（なかよし+1は 1日1回）・きょうの おねがい・かなえたか
 }
 
 export interface FishLog {

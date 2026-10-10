@@ -18,6 +18,7 @@ interface Props {
   onStar(): void;
   skyTime: number;                 // 1分ごとに かわる（星を うごかす）
   onStarTap(id: string): void;
+  noTint?: boolean;                // 3D の島では 夕方・夜・くもりの 色の膜を かけない（3D がわで 光を かえる）
 }
 
 // 暗い かざりの 星（明るい星の あいだを うめる）
@@ -33,7 +34,7 @@ export function starRadius(mag: number): number {
   return Math.max(1.2, 3.8 - mag * 0.9);
 }
 
-function SkyLayerBase({ tod, weather, moonAge, glows, onMoon, onStar, skyTime, onStarTap }: Props) {
+function SkyLayerBase({ tod, weather, moonAge, glows, onMoon, onStar, skyTime, onStarTap, noTint = false }: Props) {
   const night = tod === 'night';
   const pos = useMemo(() => {
     const d = skyDate();
@@ -73,11 +74,11 @@ function SkyLayerBase({ tod, weather, moonAge, glows, onMoon, onStar, skyTime, o
   return (
     <g>
       {/* 時間帯の色 */}
-      {tod === 'evening' && <rect x="0" y="0" width={ISLAND_W} height={ISLAND_H} fill="rgba(251,146,60,0.18)" pointerEvents="none" />}
-      {night && <rect x="0" y="0" width={ISLAND_W} height={ISLAND_H} fill="rgba(15,23,72,0.5)" pointerEvents="none" />}
+      {!noTint && tod === 'evening' && <rect x="0" y="0" width={ISLAND_W} height={ISLAND_H} fill="rgba(251,146,60,0.18)" pointerEvents="none" />}
+      {!noTint && night && <rect x="0" y="0" width={ISLAND_W} height={ISLAND_H} fill="rgba(15,23,72,0.5)" pointerEvents="none" />}
 
       {/* くもり・雨は すこし灰色に */}
-      {(weather === 'cloudy' || weather === 'rain') && (
+      {!noTint && (weather === 'cloudy' || weather === 'rain') && (
         <rect x="0" y="0" width={ISLAND_W} height={ISLAND_H} fill="rgba(100,116,139,0.16)" pointerEvents="none" />
       )}
 

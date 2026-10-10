@@ -55,6 +55,7 @@ export function freshSave(now = Date.now()): SaveV1 {
     imo: { dex: [], day: '', served: 0 },
     arbor: { dex: [], day: '', gathered: 0, rested: false, tea: false, talked: 0 },
     space: { dex: [], day: '', trips: 0 },
+    talk: { day: '', talked: [], req: null, done: false },
   };
 }
 
@@ -151,6 +152,12 @@ export function loadSave(): SaveV1 {
       dex: Array.isArray(s.space?.dex) ? s.space!.dex.filter((x) => typeof x === 'string') : [],
       day: typeof s.space?.day === 'string' ? s.space!.day : '',
       trips: typeof s.space?.trips === 'number' ? s.space!.trips : 0,
+    },
+    talk: {
+      day: typeof s.talk?.day === 'string' ? s.talk!.day : '',
+      talked: Array.isArray(s.talk?.talked) ? s.talk!.talked.filter((x) => typeof x === 'string') : [],
+      req: s.talk?.req && typeof s.talk.req === 'object' && typeof (s.talk.req as { char?: unknown }).char === 'string' ? s.talk.req : null,
+      done: s.talk?.done === true,
     },
   });
 }

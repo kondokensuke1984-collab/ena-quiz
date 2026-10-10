@@ -1,11 +1,12 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Shell, HpBar } from '../components/Shell';
 import { DPad, type Axis } from '../components/DPad';
 import { IslandGround, FOREST_ISLET, MOSHI_ISLET } from '../components/IslandStage';
 import { useMoshis, moshiRewards } from '../lib/moshi';
 import { KidSVG, PALETTES } from '../components/KidSVG';
 import { FIXED_SCHOOL, SCHOOLS, SCHOOL_LABEL } from '../lib/school';
-import { CharSVG } from '../components/CharSVG';
+import { CharSVG, useChars } from '../components/CharSVG';
+import type { World3DHandle } from '../components/island3d/World3D';
 import { EggSVG } from '../components/EggSVG';
 import { FurnitureSVG } from '../components/FurnitureSVG';
 import { PhotoFrame } from '../components/PhotoFrame';
@@ -24,7 +25,10 @@ import { displayFullness, levelOf, mood, moodLine } from '../lib/monster';
 import { isFriendsKey, readFriends, readSeenLevels, visitorsFor, writeSeenLevels, type Friend } from '../lib/friends';
 import { SkyLayer } from '../components/SkyLayer';
 import { starInfo } from '../lib/starsky';
-import { moonAge as calcMoonAge, moonName, timeOfDay, weatherFor } from '../lib/sky';
+import { hourNow, isNearFull, moonAge as calcMoonAge, moonName, timeOfDay, weatherFor } from '../lib/sky';
+import { pairTalk, requestLine, talkLine, thanksLine, type TalkCtx } from '../lib/talk';
+import { EVERYDAY_GIFTS } from '../lib/items';
+import { dateKey } from '../lib/study';
 import { cycleSoundMode, setBgmNight, sfx, soundMode, voice, type SoundMode } from '../lib/sound';
 import { answeredByDate, daysThisWeek, stampDays, studiedToday, todayUnits, UNLOCK_CATS } from '../lib/study';
 import { earnedTotal } from '../lib/medals';
@@ -47,6 +51,14 @@ import { OrganModal } from '../components/OrganModal';
 import { MicroscopeModal } from '../components/MicroscopeModal';
 import { costumeOf, halloweenNight, isHalloween } from '../lib/events';
 import { FARM_BOX, isRipe, stageOf } from '../lib/farm';
+
+// 3Dの島（main だけ）。three.js が大きいので あとから 読む。2D と きりかえられる（端末ごとに おぼえる）
+const World3D = lazy(() => import('../components/island3d/World3D'));
+const PREF_3D = 'anrino-island-3d';
+function webglOK(): boolean {
+  try { const c = document.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); } catch { return false; }
+}
+const HAS_WEBGL = typeof document !== 'undefined' && webglOK();
 
 const IMO_SPOT = BUILDING_SPOTS.bd_imo;
 const ARBOR_SPOT = BUILDING_SPOTS.bd_arbor;
@@ -98,7 +110,6 @@ const PIER_POS = {   // 広げた島の 上の海岸（歩ける楕円の ふち
 };
 // ハロウィンの ランタン（IslandStage の 10月の かぼちゃと おなじ場所。夜に光らせる）
 const LANTERNS: [number, number][] = [[520, 725], [760, 690], [430, 330], [690, 590], [870, 470]];
-const TAP_LINES = ['なあに？', 'えへへ', 'ぴょん！', 'くすぐったいよ〜', 'いっしょに あそぼ！'];
 const WISHES = ['テストで 100てん とれますように', 'みんなと ずっと なかよし', 'しまが もっと にぎやかに なりますように', 'あしたも いい ひに なりますように'];
 const SOUND_LABEL: Record<SoundMode, string> = { sfx: '🔊 こうかおん', all: '🎵 おんがく', off: '🔇 おとなし' };
 
@@ -146,6 +157,11 @@ export function IslandScreen() {
   const [feedOpen, setFeedOpen] = useState(false);
   const [order, setOrder] = useState('');
   const [walking, setWalking] = useState(false);
+  const [pref3d, setPref3d] = useState(() => { try { return localStorage.getItem(PREF_3D) !== '0'; } catch { return true; } });
+  const [ready3d, setReady3d] = useState(false);
+  const w3d = useRef<World3DHandle | null>(null);
+  const on3dRef = useRef(false);
+  const chars = useChars();
   const [giftFor, setGiftFor] = useState<Friend | null>(null);
   const [wearFor, setWearFor] = useState<Friend | null>(null);
   const [bubble, setBubble] = useState<Bubble | null>(null);
@@ -194,6 +210,9 @@ export function IslandScreen() {
     : save.area === 'school' && !save.buildings.includes('bd_school') ? 'main'
     : save.area === 'east' && !save.buildings.includes('bd_bridge') ? 'main' : save.area;
   const indoor = area === 'house' || area === 'school';
+  const want3d = area === 'main' && pref3d && HAS_WEBGL;
+  const on3d = want3d && ready3d;
+  on3dRef.current = on3d;
   const expansion = expansionOf(save.buildings);
   setArea(area, expansion);
   const hasBridge = save.buildings.includes('bd_bridge');
@@ -469,8 +488,10 @@ export function IslandScreen() {
         const ny = cam.current.y + (tg.y - cam.current.y) * k;
         if (Math.abs(nx - cam.current.x) > 0.05 || Math.abs(ny - cam.current.y) > 0.05) {
           cam.current = { x: nx, y: ny };
-          stageRef.current?.setAttribute('viewBox', `${nx} ${ny} ${ISLAND_W} ${ISLAND_H}`);
-          skyRef.current?.setAttribute('transform', `translate(${nx} ${ny})`);
+          if (!on3dRef.current) {
+            stageRef.current?.setAttribute('viewBox', `${nx} ${ny} ${ISLAND_W} ${ISLAND_H}`);
+            skyRef.current?.setAttribute('transform', `translate(${nx} ${ny})`);
+          }
         }
       }
 
@@ -525,9 +546,11 @@ export function IslandScreen() {
     if (!svg) return;
     const r = svg.getBoundingClientRect();
     if (!r.width || !r.height) return;   // 見えていないとき（大きさ0）は 位置が NaN に なるので なにもしない
-    // 画面の中の位置 → 島の位置（main は カメラぶん たす）
+    // 画面の中の位置 → 島の位置（main は カメラぶん たす。3D は 地面との 交わりを 計算する）
     const c = cam.current ?? { x: 0, y: 0 };
-    const raw = {
+    const picked = on3dRef.current ? w3d.current?.pick(e.clientX, e.clientY) : null;
+    if (on3dRef.current && !picked) return;   // 空を タップした
+    const raw = picked ?? {
       x: (c.x + ((e.clientX - r.left) / r.width) * ISLAND_W) / ISLAND_W,
       y: (c.y + ((e.clientY - r.top) / r.height) * ISLAND_H) / ISLAND_H,
     };
@@ -602,8 +625,43 @@ export function IslandScreen() {
       if (got) g.showToast(`🍬 ${f.name}から ハロウィンの おかしを もらった！`);
       return;
     }
-    const lines = weather === 'rain' ? [...TAP_LINES, 'あめだね〜', 'かさ もってる？'] : TAP_LINES;
-    setBubble({ char: f.char, text: f.level > 1 ? lines[Math.floor(Math.random() * lines.length)] : '…コトコト', heart: false, key: Date.now() });
+    if (f.level <= 1) { setBubble({ char: f.char, text: '…コトコト', heart: false, key: Date.now() }); return; }
+    const c = talkCtx(f);
+    const say = (text: string, heart = false) => setBubble({ char: f.char, text, heart, key: Date.now() });
+    // きょうの おねがい
+    const req = todayReq;
+    if (req && req.kind === 'talk' && req.to === f.char) {
+      const from = friends.find((x) => x.char === req.char)?.name ?? CHAR_NAMES[req.char as keyof typeof CHAR_NAMES] ?? 'なかま';
+      say(`${from}から？ うれしい！ ありがとう`, true);
+      finishReq();
+      return;
+    }
+    if (req && req.char === f.char) {
+      const ok = (req.kind === 'quiz' && studied) || (req.kind === 'water' && save.farm.plots.some((q) => q && q.watered === day));
+      if (ok) { say(thanksLine(c), true); finishReq(); return; }
+      const to = req.kind === 'talk' ? friends.find((x) => x.char === req.to)?.name ?? CHAR_NAMES[req.to as keyof typeof CHAR_NAMES] : undefined;
+      say(requestLine(req, c, { item: req.kind === 'gift' ? `${ITEM_BY_ID[req.item]?.emoji ?? ''}${ITEM_BY_ID[req.item]?.name ?? ''}` : undefined, to }));
+      if (req.kind === 'gift' && !(save.inventory[req.item] > 0)) g.showToast(`${ITEM_BY_ID[req.item]?.emoji ?? ''} ${ITEM_BY_ID[req.item]?.name ?? ''}は ショップで かえるよ`);
+      return;
+    }
+    // ふつうの おしゃべり：つづけて タップすると はなしが つづく
+    const cv = convo.current;
+    const n = cv && cv.id === f.id && Date.now() - cv.at < 9000 ? cv.n + 1 : 0;
+    const line = talkLine(c, n);
+    convo.current = line.end ? null : { id: f.id, n, at: Date.now() };
+    const daily = g.talkDaily(f.char);
+    say(line.text, daily.first);
+    if (daily.heartsAfter > daily.heartsBefore) g.showToast(`💗 ${f.name}との なかよしが ♥${daily.heartsAfter} に なった！`);
+  };
+
+  // おねがいを かなえた
+  const finishReq = () => {
+    const r = g.finishRequest();
+    if (!r) return;
+    const fr = snap.friends.find((x) => x.char === r.char);
+    const nm = fr?.name ?? CHAR_NAMES[r.char as keyof typeof CHAR_NAMES] ?? 'なかま';
+    g.showToast(`✨ ${nm}の おねがいを かなえた！ おれいに ${ITEM_BY_ID[r.gift]?.emoji ?? ''}${ITEM_BY_ID[r.gift]?.name ?? ''} を もらったよ` +
+      (r.heartsAfter > r.heartsBefore ? `　なかよし ♥${r.heartsAfter}` : ''));
   };
 
   // 🏫 じゅぎょう：その子の 月・教科の もんだいを 1もん
@@ -656,6 +714,7 @@ export function IslandScreen() {
   const nearSchoolOut = area === 'school' && dist(pp, DOORS.schoolToMain) <= 0.12;
   const nearBridgeGo = area === 'main' && hasBridge && dist(pp, DOORS.mainToEast) <= 0.1;
   const nearBridgeBack = area === 'east' && dist(pp, DOORS.eastToMain) <= 0.1;
+  const nearSoccer = area === 'main' && dist(pp, DOORS.mainToSoccer) <= 0.11;
   const heartsFor = (f: Friend) => heartsOf(save.friendsPlay[f.char]?.pts ?? 0);
   const followOffFor = (f: Friend) => !!save.friendsPlay[f.char]?.followOff;
   // ♥3いじょうの子は いつも となりに いるので、そばの子を えらぶときは あとまわしにする。
@@ -696,20 +755,76 @@ export function IslandScreen() {
   useEffect(() => {
     const f = friendsRef.current.find((x) => x.char === nearChar);
     if (!f || f.level <= 1) return;
+    // ついてくる子が いれかわるたびに あいさつすると うるさいので、おなじ子は 1ぷんに 1回まで
+    const last = greetAt.current[f.char] ?? 0;
+    if (Date.now() - last < 60000) return;
+    greetAt.current[f.char] = Date.now();
     const h = heartsOf(stageRefState.current.play[f.char]?.pts ?? 0);
     const cur = f.month === snapRef.current.currentMonth;
     const study = f.total > 0 && f.n < f.total && Math.random() < 0.5;
     const text = study
       ? `${cur ? '' : f.monthLabel + 'の '}⭐ ${f.n}/${f.total}こ！ もっと そだちたいな`
-      : !cur && Math.random() < 0.5 ? `${f.monthLabel}から あそびに きたよ！` : GREET[h];
+      : !cur && Math.random() < 0.5 ? `${f.monthLabel}から あそびに きたよ！` : h >= 4 && Math.random() < 0.3 ? GREET[h] : talkLine(talkCtxRef.current(f), 0).text;
     setBubble({ char: f.char, text, heart: false, key: Date.now() });
+    convo.current = { id: f.id, n: 0, at: Date.now() };   // つぎに タップしたら はなしの つづき
   }, [nearChar]);
 
   useEffect(() => {
     if (!bubble) return;
-    const id = window.setTimeout(() => setBubble(null), 2800);
+    const id = window.setTimeout(() => setBubble(null), Math.max(2800, bubble.text.length * 130));
     return () => window.clearTimeout(id);
   }, [bubble]);
+
+  // ── なかまの おしゃべり ──
+  const greetAt = useRef<Record<string, number>>({});
+  const convo = useRef<{ id: string; n: number; at: number } | null>(null);
+  const todayReq = save.talk.day === day && !save.talk.done ? save.talk.req : null;
+  const talkCtx = (f: Friend): TalkCtx => {
+    const y = new Date(); y.setDate(y.getDate() - 1);
+    return {
+      char: f.char, me: f.name, cat: f.cat, catLabel: f.catLabel, hearts: heartsFor(f), name: playerName,
+      hour: hourNow(), tod, weather, month: seasonNow(),
+      studiedToday: studied, answeredToday: byDate[day] || 0, studiedYesterday: (byDate[dateKey(y)] || 0) >= 5, weekDays: daysThisWeek(new Date(), byDate),
+      moonFull: isNearFull(moonAge), halloween: hw, ripe: farmStages.some((n, i) => isRipe(save.farm.plots[i], n)),
+      unread, chest: showChest, monHungry: mo === 'hungry', mon: monsterName, buildings: save.buildings,
+      others: friends.filter((x) => x.id !== f.id).map((x) => ({ name: x.name, catLabel: x.catLabel })),
+    };
+  };
+  // きょうの おねがいを きめる（島に いる なかまから 1人）
+  const reqKey = area === 'main' ? friends.filter((f) => f.level > 1).map((f) => f.char).join(',') : '';
+  useEffect(() => {
+    if (!reqKey) return;
+    const owned = ITEMS.filter((i) => i.kind === 'gift' && (save.inventory[i.id] ?? 0) > 0).map((i) => i.id);
+    g.ensureRequest(reqKey.split(','), {
+      giftItems: owned.length ? owned : EVERYDAY_GIFTS,
+      canWater: save.farm.plots.some((q) => q && q.watered !== day),
+      studied,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reqKey, day]);
+  // ちかくに いる なかまどうしが ときどき おしゃべり する
+  const bubbleRef = useRef(bubble);
+  bubbleRef.current = bubble;
+  const talkCtxRef = useRef(talkCtx);
+  talkCtxRef.current = talkCtx;
+  useEffect(() => {
+    if (indoor) return;
+    let t2 = 0;
+    const iv = window.setInterval(() => {
+      if (bubbleRef.current || document.hidden) return;
+      const list = friendsRef.current.filter((f) => f.level > 1 && friendPos.current[f.id]);
+      const pairs: [Friend, Friend][] = [];
+      for (let i = 0; i < list.length; i++) for (let j = i + 1; j < list.length; j++) {
+        if (dist(friendPos.current[list[i].id], friendPos.current[list[j].id]) < 0.2) pairs.push([list[i], list[j]]);
+      }
+      if (!pairs.length || Math.random() < 0.35) return;
+      const [a, b] = pairs[Math.floor(Math.random() * pairs.length)];
+      const [x, y] = pairTalk(talkCtxRef.current(a), { name: b.name, catLabel: b.catLabel, char: b.char });
+      setBubble({ char: a.char, text: x, heart: false, key: Date.now() });
+      t2 = window.setTimeout(() => setBubble({ char: b.char, text: y, heart: false, key: Date.now() + 1 }), Math.max(2600, x.length * 120));
+    }, 11000);
+    return () => { window.clearInterval(iv); window.clearTimeout(t2); };
+  }, [indoor]);
 
   const gifts = useMemo(
     () => ITEMS.filter((i) => i.kind === 'gift' && (save.inventory[i.id] ?? 0) > 0),
@@ -721,6 +836,11 @@ export function IslandScreen() {
     const r = g.giveGift(f.char, f.name, itemId);
     if (!r) return;
     setGiftFor(null);
+    if (todayReq && todayReq.kind === 'gift' && todayReq.char === f.char && todayReq.item === itemId) {
+      setBubble({ char: f.char, text: thanksLine(talkCtx(f)), heart: true, key: Date.now() });
+      finishReq();
+      return;
+    }
     setBubble({
       char: f.char,
       text: r.favorite ? 'わあ！ これ だいすき！' : 'ありがとう！ うれしいな',
@@ -881,6 +1001,9 @@ export function IslandScreen() {
               {(f.level > 1 ? `${f.name} Lv.${f.level}` : `${f.name}（たまご）`) +
                 (heartsFor(f) > 0 ? ' ' + '♥'.repeat(heartsFor(f)) : '')}
             </text>
+            {todayReq?.char === f.char && (
+              <text x="46" y="-84" fontSize="34" textAnchor="middle" className="twinkle" style={{ pointerEvents: 'none' }}>❗</text>
+            )}
             {bubble && bubble.char === f.char && (() => {
               // 島の はしでも ふきだしが切れないように、横にずらす（しっぽの位置は そのまま）
               const half = bubble.text.length * 12 + 20;
@@ -932,7 +1055,33 @@ export function IslandScreen() {
     return list.sort((a, b) => a.y - b.y).map((e) => e.node);
     // order が変わったときに並べ直す
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [order, placedHere, area, save.player, save.equipped, save.titles.length, monster.charKey, level, fullness, mo, monsterName, walking, friends, save.buildings, save.friendsPlay, bubble, jump, unread, showChest, hwNight, snap.friends]);
+  }, [order, placedHere, area, save.player, save.equipped, save.titles.length, monster.charKey, level, fullness, mo, monsterName, walking, friends, save.buildings, save.friendsPlay, bubble, jump, unread, showChest, hwNight, snap.friends, todayReq]);
+
+  // 3D に わたす ようす（かわったときだけ 作りなおす）
+  const farm3d = useMemo(() => ({ plots: save.farm.plots, stages: farmStages, today: day }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [save.farm.plots, farmStages.join(','), day]);
+  const player3d = useMemo(() => ({
+    who: save.player,
+    hat: (save.equipped.hat === 'ht_crown' ? 'crown' : save.equipped.hat === 'ht_cap' ? 'cap' : save.equipped.hat === 'ht_detective' ? 'detective' : null) as 'cap' | 'crown' | 'detective' | null,
+    ribbon: save.equipped.costume === 'cs_ribbon',
+    magnifier: save.equipped.costume === 'cs_magnifier',
+  }), [save.player, save.equipped]);
+  const friends3d = friends.map((f) => {
+    const w = save.friendsPlay[f.char]?.wear ?? null;
+    return {
+      f,
+      label: (f.level > 1 ? `${f.name} Lv.${f.level}` : `${f.name}（たまご）`) + (heartsFor(f) > 0 ? ' ' + '♥'.repeat(heartsFor(f)) : ''),
+      wear: w && WEAR_POS[w] ? w : null,
+      costume: !w && hwNight && f.level > 1 ? costumeOf(f.char) : null,
+      emote: todayReq?.char === f.char ? '❗' : undefined,
+    };
+  });
+  const bubble3d = useMemo(() => {
+    if (!bubble) return null;
+    const f = friends.find((x) => x.char === bubble.char);
+    return f ? { id: f.id, text: bubble.text, heart: bubble.heart, key: bubble.key } : null;
+  }, [bubble, friends]);
 
   const friendPanel = (f: Friend) => (
             <div className="flex max-w-[230px] flex-col items-end gap-2">
@@ -1032,16 +1181,50 @@ export function IslandScreen() {
 
       {/* ── 島 ── */}
       <div className="relative overflow-hidden rounded-[18px] shadow-[0_8px_24px_rgba(0,0,0,.3)] lg:landscape:col-start-1 lg:landscape:row-span-6 lg:landscape:row-start-1 lg:landscape:mx-auto lg:landscape:w-full lg:landscape:max-w-[calc((100vh-150px)*4/3)]">
+        {want3d && (
+          <Suspense fallback={null}>
+            <World3D
+              ref={w3d}
+              live={{ playerPos, monsterPos, friendPos, flip, walkPhase, tapTarget }}
+              chars={chars}
+              built={builtSpots}
+              pier={hasPier}
+              bridge={hasBridge}
+              moshi={!!moshi}
+              expansion={expansion}
+              season={seasonNow()}
+              halloween={hw}
+              tod={tod}
+              weather={weather}
+              farm={farm3d}
+              placed={placedHere}
+              photoFriends={snap.friends}
+              player={player3d}
+              monster={{
+                charKey: monster.charKey ?? null, level, fill: fullness / 100, silhouette: mo === 'down', stars: save.titles.length,
+                emote: mo === 'down' ? '💤' : mo === 'hungry' ? '💭' : undefined,
+              }}
+              friends={friends3d}
+              bubble={bubble3d}
+              jump={jump}
+              unread={unread}
+              chest={showChest}
+              walking={walking}
+              showWalk={mode.kind !== 'walk'}
+              onReady={() => setReady3d(true)}
+            />
+          </Suspense>
+        )}
         <svg
           ref={stageRef}
-          className="island-stage block w-full"
-          viewBox={`${camNow.x} ${camNow.y} ${ISLAND_W} ${ISLAND_H}`}
+          className={`island-stage block w-full ${on3d ? 'relative' : ''}`}
+          viewBox={on3d ? `0 0 ${ISLAND_W} ${ISLAND_H}` : `${camNow.x} ${camNow.y} ${ISLAND_W} ${ISLAND_H}`}
           onPointerDown={onStagePointerDown}
         >
-          {area === 'main' && (
+          {!on3d && area === 'main' && (
             <IslandGround expansion={expansion} pier={hasPier} season={seasonNow()} bridge={hasBridge} halloween={hw} moshi={!!moshi} />
           )}
-          {area === 'main' && <FarmPatch plots={save.farm.plots} stages={farmStages} today={day} />}
+          {!on3d && area === 'main' && <FarmPatch plots={save.farm.plots} stages={farmStages} today={day} />}
           {area === 'east' && <EastGround tod={tod} />}
           {area === 'school' && (
             <SchoolGround tod={tod} moonAge={moonAge} medals={earnedTotal()} stamps={stamps.length} friends={snap.friends.length} today={byDate[day] || 0} />
@@ -1049,7 +1232,7 @@ export function IslandScreen() {
           {area === 'house' && (
             <RoomGround wall={save.room.wall} floor={save.room.floor} tod={tod} moonAge={moonAge} sleeping={sleeping} />
           )}
-          {mode.kind !== 'walk' && isWideArea() && (
+          {!on3d && mode.kind !== 'walk' && isWideArea() && (
             <ellipse
               cx={MAIN_WALK_ELLIPSE.cx * ISLAND_W} cy={MAIN_WALK_ELLIPSE.cy * ISLAND_H}
               rx={MAIN_WALK_ELLIPSE.rx * ISLAND_W} ry={MAIN_WALK_ELLIPSE.ry * ISLAND_H}
@@ -1069,10 +1252,11 @@ export function IslandScreen() {
               rx="40"
             />
           )}
-          {entities}
-          {/* 空（画面に くっつける）。夜のあかりは 下で 島の上に かく */}
-          <g ref={skyRef} transform={`translate(${camNow.x} ${camNow.y})`}>
+          {!on3d && entities}
+          {/* 空（画面に くっつける）。夜のあかりは 下で 島の上に かく。3D では 色の膜は 3D がわで つける */}
+          <g ref={skyRef} transform={on3d ? undefined : `translate(${camNow.x} ${camNow.y})`}>
             {!indoor && <SkyLayer
+              noTint={on3d}
               tod={tod}
               weather={weather}
               moonAge={moonAge}
@@ -1091,7 +1275,7 @@ export function IslandScreen() {
             ))}
           </g>
           {/* 夜の あかり（窓・ランプ・ランタン）。島の位置に かく */}
-          {!indoor && tod === 'night' && [
+          {!on3d && !indoor && tod === 'night' && [
 
               ...(area === 'main' && save.buildings.includes('bd_house') ? [{ x: 0.2, y: 0.36, r: 60 }] : []),
               ...(area === 'main' && save.buildings.includes('bd_school') ? [{ x: 0.64, y: 0.31, r: 80 }] : []),
@@ -1110,6 +1294,19 @@ export function IslandScreen() {
           {sleeping && <text x={ISLAND_W / 2} y={ISLAND_H * 0.4} fontSize="64" textAnchor="middle" className="twinkle">💤</text>}
         </svg>
 
+        {area === 'main' && HAS_WEBGL && (
+          <button
+            className="i3d-toggle rounded-xl bg-white/85 px-2.5 py-1 text-[12px] font-black text-indigo-900 shadow active:scale-95"
+            onClick={() => {
+              const v = !pref3d;
+              setPref3d(v);
+              if (!v) setReady3d(false);
+              try { localStorage.setItem(PREF_3D, v ? '1' : '0'); } catch { /* 保存できなくても 今は きりかわる */ }
+            }}
+          >
+            {pref3d ? '🗺 2Dで みる' : '🧊 3Dで みる'}
+          </button>
+        )}
         <div className={`pointer-events-none absolute inset-0 bg-indigo-950 transition-opacity duration-300 ${fade ? 'opacity-100' : 'opacity-0'}`} />
         {mode.kind !== 'walk' && (
           <div className="pointer-events-none absolute inset-x-0 top-2 text-center text-[12px] font-black text-white drop-shadow">
@@ -1145,6 +1342,8 @@ export function IslandScreen() {
             <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => travel('east', ENTRY.east)}>🌉 となりの しまへ</button>
           ) : nearBridgeBack ? (
             <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => travel('main', ENTRY.mainFromEast)}>🌉 もとの しまへ</button>
+          ) : nearSoccer ? (
+            <button className="btn-main !w-auto whitespace-nowrap !px-4 !py-2.5 text-[13px]" onClick={() => { location.href = '/soccer/'; }}>⚽ サッカーを する</button>
           ) : nearMonster ? (
             <button
               className="flex h-[84px] w-[84px] flex-col items-center justify-center rounded-full bg-gradient-to-br from-amber-400 to-orange-500 text-[12px] font-black text-white shadow-xl active:scale-95"
@@ -1587,7 +1786,13 @@ export function IslandScreen() {
             {reading ? (
               <div>
                 <div className="mb-2 flex items-center gap-2">
-                  <CharSVG charKey={reading.from as never} level={6} fillPct={1} size={56} label={reading.fromName} />
+                  {(() => {
+                    // なかまの てがみは、いまの せいちょうの すがたで 出す（そだちきった かおを 見せない＝ネタバレ しない）。ルナなど なかま以外は そのまま
+                    const fr = snap.friends.find((f) => f.char === reading.from);
+                    return fr
+                      ? <CharSVG charKey={fr.char} level={fr.level} fillPct={fr.fill} size={56} stars={fr.stars} label={fr.name} />
+                      : <CharSVG charKey={reading.from as never} level={6} fillPct={1} size={56} label={reading.fromName} />;
+                  })()}
                   <div className="text-[14px] font-black text-ink">{reading.title}</div>
                 </div>
                 <div className="whitespace-pre-line rounded-2xl bg-amber-50 px-4 py-3 text-[13px] font-bold leading-relaxed text-ink">{addressToNow(reading.body, save.player)}</div>
