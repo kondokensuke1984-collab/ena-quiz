@@ -78,10 +78,10 @@ export const ITEMS: Item[] = [
   { id: 'gf_dango',  kind: 'gift', name: 'おだんご',   emoji: '🍡', price: 5, desc: 'なかよし +3', love: 3 },
 
   // ── 教科キャラの きせかえ（1回かえば ずっと つかえる）──
-  { id: 'fw_silk',   kind: 'fwear', name: 'シルクハット', emoji: '🎩', price: 12, desc: 'きょうかキャラに かぶせる', once: true },
-  { id: 'fw_glass',  kind: 'fwear', name: 'サングラス',   emoji: '🕶️', price: 10, desc: 'きょうかキャラに かける',   once: true },
-  { id: 'fw_scarf',  kind: 'fwear', name: 'マフラー',     emoji: '🧣', price: 10, desc: 'きょうかキャラに まく',     once: true },
-  { id: 'fw_flower', kind: 'fwear', name: 'はなかんむり', emoji: '🌼', price: 14, desc: 'きょうかキャラに のせる',   once: true },
+  { id: 'fw_silk',   kind: 'fwear', name: 'シルクハット', emoji: '🎩', price: 12, desc: 'なかまや じぶんに かぶせる', once: true },
+  { id: 'fw_glass',  kind: 'fwear', name: 'サングラス',   emoji: '🕶️', price: 10, desc: 'なかまや じぶんに かける',   once: true },
+  { id: 'fw_scarf',  kind: 'fwear', name: 'マフラー',     emoji: '🧣', price: 10, desc: 'なかまや じぶんに まく',     once: true },
+  { id: 'fw_flower', kind: 'fwear', name: 'はなかんむり', emoji: '🌼', price: 14, desc: 'なかまや じぶんに のせる',   once: true },
 
   // ── けんせつ（BUILD_ORDER の順に1つずつ）──
   { id: 'bd_house',  kind: 'building', name: 'みんなの おうち',     emoji: '🏠', price: 30,  desc: 'しまの おくに おうちが たつ', once: true },
@@ -234,7 +234,7 @@ export function seasonNow(): number {
 /** ショップに並べるか（季節の品は その月だけ。もう持っている きせかえは いつでも見える） */
 export function onSale(item: Item, ownedIds: string[]): boolean {
   // ごほうびの ぼうし・きせかえは、もっていれば「きせかえ」に でる（そうびする ため）
-  if (item.reward) return (item.kind === 'hat' || item.kind === 'costume') && ownedIds.includes(item.id);
+  if (item.reward) return (item.kind === 'hat' || item.kind === 'costume' || item.kind === 'fwear') && ownedIds.includes(item.id);
   return !item.season || item.season === seasonNow() || !!item.seasonAlso?.includes(seasonNow()) || ownedIds.includes(item.id);
 }
 

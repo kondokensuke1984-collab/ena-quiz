@@ -121,6 +121,8 @@ export interface GameApi {
   buy(item: Item): void;
   feedMonster(itemId: string): void;
   equip(slot: Slot, itemId: string | null): void;
+  /** しゅじんこうに きせかえ（fwear）を つける。null で はずす */
+  dressPlayer(wearId: string | null): void;
   placeFurniture(itemId: string, x: number, y: number, area?: Area): void;
   /** 場所を移る。pos は移った先での立ち位置 */
   goArea(area: Area, pos: Pos): void;
@@ -415,6 +417,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     },
 
     equip: (slot, itemId) => setSave((s) => ({ ...s, equipped: { ...s.equipped, [slot]: itemId } })),
+    dressPlayer: (wearId) => setSave((s) => ({ ...s, playerWear: wearId })),
 
     placeFurniture: (itemId, x, y, area = 'main') =>
       setSave((s) => ({
@@ -502,13 +505,10 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       return { favorite, gained, heartsBefore, heartsAfter };
     },
 
-    // 1つのきせかえは1体だけ。ほかのキャラがつけていたら外してからつける
+    // 1つの きせかえを 何人でも 同時に つけられる（2026-10 から。まえは 1体だけ）
     dressFriend: (charKey, wearId) =>
       setSave((s) => {
-        const fp: typeof s.friendsPlay = {};
-        for (const [k, v] of Object.entries(s.friendsPlay)) {
-          fp[k] = wearId && v.wear === wearId ? { ...v, wear: null } : v;
-        }
+        const fp: typeof s.friendsPlay = { ...s.friendsPlay };
         const prev = fp[charKey] ?? { pts: 0, day: '', today: 0, wear: null };
         fp[charKey] = { ...prev, wear: wearId };
         return { ...s, friendsPlay: fp };

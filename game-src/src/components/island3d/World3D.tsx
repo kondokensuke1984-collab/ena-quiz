@@ -37,7 +37,7 @@ export interface World3DProps {
   farm: { plots: (FarmPlot | null)[]; stages: number[]; today: string };
   placed: PlacedFurniture[];
   photoFriends: Friend[];
-  player: { who: PlayerKey | null; hat: 'cap' | 'crown' | 'detective' | null; ribbon: boolean; magnifier: boolean };
+  player: { who: PlayerKey | null; hat: 'cap' | 'crown' | 'detective' | null; ribbon: boolean; magnifier: boolean; wear: string | null };
   monster: { charKey: CharKey | null; level: number; fill: number; silhouette: boolean; stars: number; emote?: string };
   friends: { f: Friend; label: string; wear: string | null; costume: string | null; emote?: string }[];
   bubble: { id: string; text: string; heart: boolean; key: number } | null;
@@ -138,8 +138,8 @@ const World3D = forwardRef<World3DHandle, World3DProps>(function World3D(props, 
     const list: ActorSpec[] = [];
     if (player.who) {
       const kidArt = (dir: KidDir, step: 0 | 1 | 2): ArtSpec => ({
-        key: `kid:${player.who}:${player.hat}:${player.ribbon}:${player.magnifier}:${dir}${step}`,
-        svg: renderToStaticMarkup(<KidSVG who={player.who!} size={104} hat={player.hat} ribbon={player.ribbon} magnifier={player.magnifier} dir={dir} step={step} />),
+        key: `kid:${player.who}:${player.hat}:${player.ribbon}:${player.magnifier}:${player.wear}:${dir}${step}`,
+        svg: renderToStaticMarkup(<KidSVG who={player.who!} size={104} hat={player.hat} ribbon={player.ribbon} magnifier={player.magnifier} wear={player.wear} dir={dir} step={step} />),
         unit: 104 / 100, anchorX: 50,
       });
       const poses: Record<string, ArtSpec> = {};

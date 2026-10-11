@@ -120,6 +120,15 @@ export function ShopScreen() {
                     >
                       {equipped ? '✓ そうび中' : 'そうびする'}
                     </button>
+                  ) : it.kind === 'fwear' ? (
+                    <button
+                      className={`rounded-xl px-3 py-2 text-[11px] font-extrabold ${
+                        g.save.playerWear === it.id ? 'bg-emerald-100 text-emerald-700' : 'bg-indigo-100 text-indigo-700 active:scale-95'
+                      }`}
+                      onClick={() => g.dressPlayer(g.save.playerWear === it.id ? null : it.id)}
+                    >
+                      {g.save.playerWear === it.id ? '✓ じぶんが つけてる' : 'じぶんに つける'}
+                    </button>
                   ) : (
                     <span className="rounded-xl bg-gray-100 px-3 py-2 text-[11px] font-extrabold text-gray-500">もっている</span>
                   )

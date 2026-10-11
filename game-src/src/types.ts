@@ -81,6 +81,7 @@ export interface SaveV1 {
   inventory: Record<string, number>;  // 消費アイテム（エサ・おやつ）
   owned: string[];                    // 一度きりの持ち物（装備・きせかえ・家具）
   equipped: Record<Slot, string | null>;
+  playerWear: string | null;          // しゅじんこうが つけている きせかえ（fwear のID。なかまと おなじ 品を 同時に つけられる）
   placed: PlacedFurniture[];          // 島に置いた家具
   titles: string[];
   battle: { wins: number; losses: number; lastAt: number };

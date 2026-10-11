@@ -1,5 +1,6 @@
 import React from 'react';
 import type { PlayerKey } from '../types';
+import { ITEM_BY_ID } from '../lib/items';
 
 // 主人公「あんり」「りの」「みつき」「けんすけ」「ゆうせい」。リポジトリに人物の絵がないので新規に描いたもの。
 // js/chars.js と同じ丸っこい絵柄（太い線・#3d2b5e の目・頬の赤み）に寄せている。
@@ -38,18 +39,33 @@ interface Props {
   magnifier?: boolean;
   dir?: KidDir;
   step?: 0 | 1 | 2;
+  wear?: string | null;   // なかまと おなじ きせかえ（fwear のID）。絵文字を 頭・顔・首に かさねる
 }
+
+// きせかえの 絵文字を おく ところ（viewBox 0 0 100 120。あたまの まるは 中心 50,42・はんけい 25）
+const WEAR_SPOT: Record<string, 'face' | 'neck'> = { fw_glass: 'face', fw_scarf: 'neck' };
+function KidWear({ id, dir }: { id: string; dir: KidDir }) {
+  const ch = ITEM_BY_ID[id]?.emoji;
+  if (!ch) return null;
+  const spot = WEAR_SPOT[id] ?? 'head';
+  if (spot === 'face' && dir === 'up') return null;   // うしろむきでは めがねは 見えない
+  const [y, size] = spot === 'face' ? [45, 24] : spot === 'neck' ? [68, 22] : [12, 30];
+  return <text x={dir === 'side' && spot === 'face' ? 56 : 50} y={y} fontSize={size} textAnchor="middle" dominantBaseline="central">{ch}</text>;
+}
+const wearOnHead = (id: string | null | undefined) => !!id && !!ITEM_BY_ID[id] && !WEAR_SPOT[id];
 
 export type KidDir = 'down' | 'up' | 'side';
 
 function KidSVGBase(props: Props) {
-  const { who, size = 110, walking = false, flip = false, hat = null, ribbon = false, magnifier = false, dir = 'down', step = 0 } = props;
+  const { who, size = 110, walking = false, flip = false, ribbon = false, magnifier = false, dir = 'down', step = 0, wear = null } = props;
+  const hat = wearOnHead(wear) ? null : (props.hat ?? null);   // あたまの きせかえを つけたら ぼうしは かくす
   const p = PALETTES[who];
   if (dir === 'up' || dir === 'side') {
     return (
       <svg width={size} height={size * 1.2} viewBox="0 0 100 120" style={{ transform: flip ? 'scaleX(-1)' : undefined, overflow: 'visible' }} aria-hidden="true">
         <ellipse cx="50" cy="114" rx={walking ? 17 : 20} ry={walking ? 4 : 5} fill="rgba(0,0,0,0.22)" />
         {dir === 'up' ? <KidBack who={who} p={p} hat={hat} ribbon={ribbon} step={step} /> : <KidSide who={who} p={p} hat={hat} ribbon={ribbon} magnifier={magnifier} step={step} />}
+        {wear && <KidWear id={wear} dir={dir} />}
       </svg>
     );
   }
@@ -276,6 +292,7 @@ function KidSVGBase(props: Props) {
           </g>
         )}
       </g>
+      {wear && <KidWear id={wear} dir="down" />}
     </svg>
   );
 }

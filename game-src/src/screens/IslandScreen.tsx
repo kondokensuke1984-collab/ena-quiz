@@ -331,6 +331,8 @@ export function IslandScreen() {
   const hw = isHalloween();
   const hwNight = halloweenNight();
   const hasPier = save.buildings.includes('bd_pier');
+  // しゅじんこうの きせかえ（もっている fwear だけ）
+  const playerWear = save.playerWear && save.owned.includes(save.playerWear) && ITEM_BY_ID[save.playerWear]?.kind === 'fwear' ? save.playerWear : null;
   const unread = save.letters.filter((l) => !l.read).length;
 
   // ── おてがみ：島を開いたとき・クイズから戻ったときに、前回からの変化を見て届ける ──
@@ -1137,6 +1139,7 @@ export function IslandScreen() {
                   hat={save.equipped.hat === 'ht_crown' ? 'crown' : save.equipped.hat === 'ht_cap' ? 'cap' : save.equipped.hat === 'ht_detective' ? 'detective' : null}
                   ribbon={save.equipped.costume === 'cs_ribbon'}
                   magnifier={save.equipped.costume === 'cs_magnifier'}
+                  wear={playerWear}
                 />
               )}
             </div>
@@ -1148,7 +1151,7 @@ export function IslandScreen() {
     return list.sort((a, b) => a.y - b.y).map((e) => e.node);
     // order が変わったときに並べ直す
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [order, placedHere, area, save.player, save.equipped, save.titles.length, monster.charKey, level, fullness, mo, monsterName, walking, friends, save.buildings, save.friendsPlay, bubble, jump, unread, showChest, hwNight, snap.friends, todayReq]);
+  }, [order, placedHere, area, save.player, save.equipped, playerWear, save.titles.length, monster.charKey, level, fullness, mo, monsterName, walking, friends, save.buildings, save.friendsPlay, bubble, jump, unread, showChest, hwNight, snap.friends, todayReq]);
 
   // 3D に わたす ようす（かわったときだけ 作りなおす）
   const farm3d = useMemo(() => ({ plots: save.farm.plots, stages: farmStages, today: day }),
@@ -1159,7 +1162,8 @@ export function IslandScreen() {
     hat: (save.equipped.hat === 'ht_crown' ? 'crown' : save.equipped.hat === 'ht_cap' ? 'cap' : save.equipped.hat === 'ht_detective' ? 'detective' : null) as 'cap' | 'crown' | 'detective' | null,
     ribbon: save.equipped.costume === 'cs_ribbon',
     magnifier: save.equipped.costume === 'cs_magnifier',
-  }), [save.player, save.equipped]);
+    wear: playerWear,
+  }), [save.player, save.equipped, playerWear]);
   const friends3d = friends.map((f) => {
     const w = save.friendsPlay[f.char]?.wear ?? null;
     return {
@@ -1897,7 +1901,6 @@ export function IslandScreen() {
               <div className="flex flex-col gap-2">
                 {wears.map((it) => {
                   const on = save.friendsPlay[wearFor.char]?.wear === it.id;
-                  const other = friends.find((f) => f.char !== wearFor.char && save.friendsPlay[f.char]?.wear === it.id);
                   return (
                     <button
                       key={it.id}
@@ -1907,7 +1910,6 @@ export function IslandScreen() {
                       <span className="text-xl">{it.emoji}</span>
                       <span className="flex-1 text-left">
                         {it.name}
-                        {other && <span className="ml-1 text-[11px] font-bold text-indigo-900/50">（いまは {other.name}が つけてる）</span>}
                       </span>
                       <span className={`text-[12px] font-black ${on ? 'text-emerald-600' : 'text-indigo-500'}`}>{on ? '✓ はずす' : 'つける'}</span>
                     </button>
