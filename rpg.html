@@ -597,7 +597,16 @@ function loadSave() {
     return r;
   } catch (e) { return null; }
 }
+// この画面より あたらしい 版の セーブ（古い画面の キャッシュで ひらいた）なら 上書きして 消さない
+function storedIsNewer() {
+  try { const s = JSON.parse(localStorage.getItem(SAVE_KEY) || 'null'); return !!s && typeof s.v === 'number' && s.v > 1; } catch (e) { return false; }
+}
+let newerWarned = false;
 function persist() {
+  if (storedIsNewer()) {
+    if (!newerWarned) { newerWarned = true; alert('アプリが あたらしく なったよ。さいよみこみしてね（きろくは だいじょうぶ）'); }
+    return;
+  }
   try { localStorage.setItem(SAVE_KEY, JSON.stringify(save)); } catch (e) {}
 }
 // ── 保護者レポート用の きろく（クイズの「📤 保護者に成績を送る」が読む）──

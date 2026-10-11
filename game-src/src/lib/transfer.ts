@@ -6,7 +6,7 @@ import { safeGet, safeSet } from './storage';
 import { medalTotalInDump } from './medals';
 
 const PREFIX = 'ANRINO1:';
-/** よみこむ まえの きろく（まちがえて よみこんだときに 手で もどせるように） */
+/** よみこむ まえの 島の セーブ（まちがえて よみこんだときに 手で もどせるように） */
 const BACKUP_KEY = 'ena_transfer_backup';
 const ISLAND_KEY = 'ena_island_save_v1';
 
@@ -95,11 +95,12 @@ export function summarize(d: Dump): TransferSummary {
 
 /**
  * コードの きろくで この端末を おきかえる（よびだしたあと すぐ location.reload() する）。
- * いまの きろくは BACKUP_KEY に とっておく（入りきらなければ とばす）。
+ * じゅんばん：あたらしい きろくを ぜんぶ 書く → うまく いったら コードに ない 古い きろくを けす。
+ * 入りきらなければ 古い きろくを けしてから もう1回。それでも だめなら 書くまえに もどして false。
+ * 島の セーブだけは BACKUP_KEY に 1つ まえの ぶんを のこす（まるごとの コピーは 容量を 2ばいに するので しない）。
  */
 export function applyDump(d: Dump): boolean {
   const before = dumpNow();
-  safeSet(BACKUP_KEY, JSON.stringify(before));
   // 島の セーブは rev を いまより 大きく して、ひらいている 画面が 古いセーブで 上書きしないように
   const keys = { ...d.keys };
   try {
@@ -110,12 +111,23 @@ export function applyDump(d: Dump): boolean {
       keys[ISLAND_KEY] = JSON.stringify(s);
     }
   } catch { /* そのまま */ }
-  for (const k of Object.keys(before.keys)) {
-    if (!(k in keys)) try { localStorage.removeItem(k); } catch { /* つづける */ }
+
+  const stale = Object.keys(before.keys).filter((k) => !(k in keys));
+  const remove = (ks: string[]) => { for (const k of ks) try { localStorage.removeItem(k); } catch { /* つづける */ } };
+  const writeAll = () => Object.entries(keys).filter(([k, v]) => !safeSet(k, v)).map(([k]) => k);
+
+  try { localStorage.removeItem(BACKUP_KEY); } catch { /* なくても よい */ }
+  let failed = writeAll();
+  remove(stale);
+  if (failed.length) failed = failed.filter((k) => !safeSet(k, keys[k]));
+  if (failed.length) {
+    // もとに もどす：コードで ふえた キーを けしてから、まえの きろくを 書きもどす
+    remove(Object.keys(keys).filter((k) => !(k in before.keys)));
+    for (const [k, v] of Object.entries(before.keys)) safeSet(k, v);
+    return false;
   }
-  let ok = true;
-  for (const [k, v] of Object.entries(keys)) if (!safeSet(k, v)) ok = false;
-  return ok;
+  if (before.keys[ISLAND_KEY]) safeSet(BACKUP_KEY, before.keys[ISLAND_KEY]);
+  return true;
 }
 
 /** このブラウザで つかえるか（とても古い iPad の Safari は CompressionStream が ない） */

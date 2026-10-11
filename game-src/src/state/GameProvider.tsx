@@ -4,7 +4,7 @@ import React, {
 import type { Area, Item, Letter, LetterMarks, PlayerKey, Pos, SaveV1, School, Screen, Slot } from '../types';
 import { publishSchool, resolveSchool } from '../lib/school';
 import { sfx, unlockAudio } from '../lib/sound';
-import { freshSave, isSaveKey, lastRestored, loadSave, persist, storedRev } from '../lib/save';
+import { freshSave, isSaveKey, lastRestored, loadSave, newerSaveFound, persist, storedRev } from '../lib/save';
 import { earnedTotal, grantBonus, isMedalKey } from '../lib/medals';
 import { findSecret } from '../lib/secret';
 import { claimSoccerResults, SOCCER_REWARD_ITEMS, type SoccerClaim } from '../lib/soccer';
@@ -251,6 +251,11 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     publishSchool(state.save.player, state.save.school);
   }, [state.save.player, state.save.school]);
+
+  // あたらしい 版の セーブが 入っていたら（古い画面の キャッシュ）、書きこまずに よみこみなおしを たのむ
+  useEffect(() => {
+    if (newerSaveFound) dispatch({ type: 'TOAST', text: 'アプリが あたらしく なったよ。さいよみこみしてね（きろくは だいじょうぶ）' });
+  }, []);
 
   // メダルの記録から もどした品が あれば しらせる（はじめの1回）
   useEffect(() => {

@@ -71,7 +71,7 @@ export function TransferModal({ onClose, start = 'menu' }: { onClose: () => void
 
   const apply = () => {
     if (!pending) return;
-    if (!applyDump(pending)) { setErr('ぜんぶは かきこめなかった（ようりょうが いっぱい かも）'); return; }
+    if (!applyDump(pending)) { setErr('入りきらなかったので もとの きろくに もどしたよ（ようりょうが いっぱい かも）'); return; }
     location.reload();
   };
 

@@ -64,6 +64,13 @@ function migrate(_raw: unknown): SaveV1 | null {
   return null;
 }
 
+/** この画面より あたらしい 版の セーブが 入っている（古い画面の キャッシュ）。消さないように 書きこまない */
+function isNewerSave(raw: unknown): boolean {
+  const v = raw && typeof raw === 'object' ? (raw as { v?: unknown }).v : undefined;
+  return typeof v === 'number' && v > 1;
+}
+export let newerSaveFound = false;
+
 function obj<T extends object>(value: unknown, fallback: T): T {
   return value && typeof value === 'object' && !Array.isArray(value) ? (value as T) : fallback;
 }
@@ -73,6 +80,7 @@ export function loadSave(): SaveV1 {
   if (!raw || typeof raw !== 'object') return freshSave();
 
   const s = raw as Partial<SaveV1>;
+  if (isNewerSave(raw)) { newerSaveFound = true; return freshSave(); }   // 画面の 中だけ。persist が 書かない
   if (s.v !== 1) return migrate(raw) ?? freshSave();
 
   // 浅いマージだと、あとから増やしたフィールドが undefined のまま残るので入れ子も混ぜる
@@ -200,6 +208,7 @@ export function storedRev(): number {
 }
 
 export function persist(save: SaveV1): boolean {
+  if (isNewerSave(readJSON<unknown>(SAVE_KEY, null))) { newerSaveFound = true; return false; }
   return writeJSON(SAVE_KEY, save);
 }
 
