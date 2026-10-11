@@ -2446,7 +2446,7 @@ body.sp-drawing { -webkit-user-select: none; user-select: none; }
   <div class="chara-popup">
     <div class="chara-label" id="chara-title">🎉 1周クリア！</div>
     <!-- 静止画（1周ごと） -->
-    <img id="chara-img" src="/images/chara_clear.png" alt="クリアキャラ"
+    <img id="chara-img" src="/images/chara_clear.png" alt="クリアキャラ" loading="lazy" decoding="async"
          style="width:min(72vw,280px);filter:drop-shadow(0 8px 32px rgba(0,0,0,0.35));border-radius:20px;">
     <!-- 動画（3科目ごと） -->
     <video id="chara-video" src="/videos/chara_clear.mp4"
@@ -18597,7 +18597,7 @@ function renderStatsBar(filterCatKey) {
     const div = document.createElement('div');
     div.className = 'stats-row';
     const pctHtml = pct === 100
-      ? `<span class="stats-row-perfect"><span class="stats-row-pct" style="color:#f472b6;font-weight:800;">100%</span><img class="ok-stamp" src="ok.png" alt="OK"></span>`
+      ? `<span class="stats-row-perfect"><span class="stats-row-pct" style="color:#f472b6;font-weight:800;">100%</span><img class="ok-stamp" loading="lazy" decoding="async" src="ok.png" alt="OK"></span>`
       : `<span class="stats-row-pct">${pct}%</span>`;
     div.innerHTML = `
       <div class="stats-row-top">
@@ -19086,8 +19086,8 @@ function renderQuestion() {
     renderMath(q.q) +
     (q.qDiagram ? makeEnergyFlowDiagram(q.qDiagram) : '') +
     (q.qTaiyouDiagram ? makeTaiyouDiagram(q.qTaiyouDiagram) : '') +
-    (q.qImage ? `<div class="question-img-wrap"><img src="${q.qImage}" class="question-img" alt="問題の図"></div>` : '') +
-    (q.qImage2 ? `<div class="question-img-wrap"><img src="${q.qImage2}" class="question-img" alt="問題の図2"></div>` : '');
+    (q.qImage ? `<div class="question-img-wrap"><img src="${q.qImage}" class="question-img" alt="問題の図" decoding="async"></div>` : '') +
+    (q.qImage2 ? `<div class="question-img-wrap"><img src="${q.qImage2}" class="question-img" alt="問題の図2" decoding="async"></div>` : '');
   updatePassagePanel(q, document.getElementById('quiz'), document.querySelector('#quiz .quiz-body'));
 
   const list = document.getElementById('options-list');
