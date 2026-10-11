@@ -217,7 +217,15 @@ function forestCastleNeed() {
   const goal = k < FOREST_CASTLE_KILLS
     ? '⚔️ もりで モンスターを あと ' + (FOREST_CASTLE_KILLS - k) + 'ひき たおそう（おしろに はいる じょうけん）'
     : '🏝 しまで たてものを あと ' + (FOREST_CASTLE_BUILD - b) + 'こ たてよう（おしろに はいる じょうけん）';
-  return { line, goal, msg: '🏰 おしろに はいるには…　🗝 かぎ✓　' + line };
+  return { line, goal };
+}
+// おしろの もんで：たりない ものを「◯◯まで しないと いけないよ」と おしえる（ぜんぶ そろっていれば ''）
+function forestCastleTodo() {
+  const f = save.forest, b = forestCastleBuilt(), k = forestKills(), todo = [];
+  if (!f.key) todo.push('どうくつの ばんにんを たおして 🗝しろの かぎを もらう');
+  if (b < FOREST_CASTLE_BUILD) todo.push('🏝しまで たてものを あと ' + (FOREST_CASTLE_BUILD - b) + 'こ たてる（いま ' + b + '/' + FOREST_CASTLE_BUILD + '）');
+  if (k < FOREST_CASTLE_KILLS) todo.push('⚔️もりで モンスターを あと ' + (FOREST_CASTLE_KILLS - k) + 'ひき たおす（いま ' + k + '/' + FOREST_CASTLE_KILLS + '）');
+  return todo.length ? '🏰 おしろに はいるには、' + todo.join('、') + ' まで しないと いけないよ！' : '';
 }
 
 // 🎯 いま めざす ところ（画面の 上の「つぎに やること」と、光る ！の 場所）
@@ -388,7 +396,7 @@ function forestSay(text) {
   el.textContent = text;
   el.classList.toggle('on', !!text);
   clearTimeout(forestSayTimer);
-  if (text) forestSayTimer = setTimeout(() => el.classList.remove('on'), 4200);
+  if (text) forestSayTimer = setTimeout(() => el.classList.remove('on'), text.length > 40 ? 8000 : 4200);   // ながい おしらせは ゆっくり 読めるように
 }
 
 function toggleForestMap() { forestMapOpen = !forestMapOpen; forestDrawMap(); }
@@ -552,9 +560,8 @@ function forestInteract(x, y, t) {
     return forestEncounter(() => startForestBattle('guard'));
   }
   if (t === 'K' || t === 'X') {
-    if (!f.key) return forestSay('🏰 しろの もんには かぎが かかっている。どうくつの ばんにんが かぎを もっているらしい…');
-    const need = forestCastleNeed();
-    if (need) return forestSay(need.msg);
+    const todo = forestCastleTodo();
+    if (todo) return forestSay(todo);
     return forestGoArea('castle');
   }
   // 🏰 おしろの なか
