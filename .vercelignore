@@ -7,4 +7,3 @@ tools
 .claude
 .env*
 .DS_Store
-package-lock.json
