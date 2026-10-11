@@ -281,6 +281,14 @@ body {
   border-radius: 6px;
   transition: width 0.6s ease;
 }
+.parent-hist-sum { font-size: 13px; color: #4b5563; margin-bottom: 10px; line-height: 1.6; }
+.parent-hist-row { display: grid; grid-template-columns: 78px 1fr 74px; align-items: center; gap: 8px; font-size: 12px; margin-bottom: 5px; }
+.parent-hist-row .d { white-space: nowrap; color: #6b7280; font-variant-numeric: tabular-nums; }
+.parent-hist-row .n { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
+.parent-hist-row.off .n, .parent-hist-row.off .d { color: #c4c4c4; }
+.parent-hist-cats { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 12px; }
+.parent-hist-cats th, .parent-hist-cats td { padding: 5px 6px; border-top: 1px solid #f3f4f6; text-align: right; }
+.parent-hist-cats th:first-child, .parent-hist-cats td:first-child { text-align: left; }
 .parent-badges {
   display: flex;
   gap: 12px;
@@ -2409,6 +2417,12 @@ body.sp-drawing { -webkit-user-select: none; user-select: none; }
   <div class="parent-card">
     <div class="parent-card-title">📚 教科別の成績</div>
     <div id="parent-cat-bars"></div>
+  </div>
+  <div class="parent-card" id="parent-hist-card" style="display:none">
+    <div class="parent-card-title">🗓 この2週間</div>
+    <div class="parent-hist-sum" id="parent-hist-sum"></div>
+    <div id="parent-hist-days"></div>
+    <table class="parent-hist-cats" id="parent-hist-cats"></table>
   </div>
   <div class="parent-badges">
     <div class="parent-badge">
@@ -24613,6 +24627,8 @@ ${todayAnswered === 0
 }
 </div>
 
+${weekHistoryMailHtml()}
+
 ${questReportHtml()}
 
 ${kidAdviceMailHtml(advice)}
@@ -24666,6 +24682,49 @@ ${superWrong.size > 0
   }
 }
 
+// ── 🗓 日ごとの きろく（ena_daily_<月>_<日付> を 月を こえて 日付ごとに 合計）。保護者の URL・メールで つかう ──
+//   [{ d:'2026-10-11', a:問題数, c:正解数, s:{ 教科:[問題数,正解数] } }]（新しい 日が 先。といた 日だけ）
+function dailyHistory(days) {
+  const want = new Map();
+  for (let i = 0; i < days; i++) {
+    const t = new Date(); t.setDate(t.getDate() - i);
+    want.set(t.toLocaleDateString('ja-JP').replace(/\//g, '-'), i);
+  }
+  const byDay = {};
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i) || '';
+    if (!k.startsWith('ena_daily_')) continue;
+    const d = k.slice(k.lastIndexOf('_') + 1);
+    if (!want.has(d)) continue;
+    let rec; try { rec = JSON.parse(localStorage.getItem(k) || '{}'); } catch (e) { continue; }
+    const day = byDay[d] || (byDay[d] = { d, a: 0, c: 0, s: {} });
+    day.a += rec.answered || 0; day.c += rec.correct || 0;
+    Object.entries(rec.bySubject || {}).forEach(([sub, v]) => {
+      const cat = (SUBJECTS[sub] && SUBJECTS[sub].category) || 'other';
+      const x = day.s[cat] || (day.s[cat] = [0, 0]);
+      x[0] += v.answered || 0; x[1] += v.correct || 0;
+    });
+  }
+  return Object.values(byDay).filter(x => x.a > 0).sort((x, y) => want.get(x.d) - want.get(y.d));
+}
+
+// 保護者メールの「この1週間」
+function weekHistoryMailHtml() {
+  const hist = dailyHistory(7);
+  const rows = [];
+  for (let i = 0; i < 7; i++) {
+    const t = new Date(); t.setDate(t.getDate() - i);
+    const d = t.toLocaleDateString('ja-JP').replace(/\//g, '-');
+    const h = hist.find(x => x.d === d);
+    const label = (t.getMonth() + 1) + '/' + t.getDate() + '（' + '日月火水木金土'[t.getDay()] + '）';
+    const cats = h ? Object.entries(h.s).map(([k, v]) => (CATEGORIES[k] ? CATEGORIES[k].label : 'その他') + v[0]).join('・') : '';
+    rows.push(`<tr><td style="padding:5px 10px;font-size:12px;color:#6b7280;">${label}</td><td style="padding:5px 8px;text-align:right;font-size:12px;font-weight:700;">${h ? h.a + '問' : '—'}</td><td style="padding:5px 8px;text-align:right;font-size:12px;">${h ? Math.round(h.c / h.a * 100) + '%' : ''}</td><td style="padding:5px 10px;font-size:11px;color:#6b7280;">${cats}</td></tr>`);
+  }
+  const total = hist.reduce((a, x) => a + x.a, 0);
+  return `<h2 style="font-size:14px;color:#3d2b5e;margin:0 0 6px;">🗓 この1週間（${hist.length}日 学習・${total}問）</h2>
+<table style="width:100%;border-collapse:collapse;background:#fafafa;border-radius:12px;overflow:hidden;margin-bottom:18px;"><tbody>${rows.join('')}</tbody></table>`;
+}
+
 function generateShareURL() {
   const stats = loadStats();
   const mastered = loadMasteredSet();
@@ -24680,7 +24739,8 @@ function generateShareURL() {
     masteredCount: mastered.size,
     superWrongCount: superWrong.size,
     totalDone: totalDone,
-    totalCorrect: totalCorrect
+    totalCorrect: totalCorrect,
+    daily: dailyHistory(14)
   };
   const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
   const url = location.origin + location.pathname + '?parent=' + encoded;
@@ -24689,6 +24749,48 @@ function generateShareURL() {
   }).catch(() => {
     prompt('このURLをコピーして保護者に送ってください:', url);
   });
+}
+
+// 保護者ビューの「この2週間」（古い URL には daily が ないので 出さない）
+function renderParentHistory(hist, dateStr) {
+  const card = document.getElementById('parent-hist-card');
+  if (!hist) { card.style.display = 'none'; return; }
+  card.style.display = '';
+  const esc = (t) => String(t).replace(/[&<>"]/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[ch]);
+  // URL を 作った日（data.date は 'YYYY/M/D'）から 14日 さかのぼる
+  const end = new Date(String(dateStr || ''));
+  const base = isNaN(end) ? new Date() : end;
+  const max = Math.max(1, ...hist.map(x => Number(x.a) || 0));
+  let total = 0, correct = 0;
+  const cats = {};
+  const rows = [];
+  for (let i = 0; i < 14; i++) {
+    const t = new Date(base); t.setDate(t.getDate() - i);
+    const d = t.toLocaleDateString('ja-JP').replace(/\//g, '-');
+    const h = hist.find(x => x && x.d === d);
+    const a = h ? Number(h.a) || 0 : 0, c = h ? Number(h.c) || 0 : 0;
+    total += a; correct += c;
+    if (h && h.s && typeof h.s === 'object') Object.entries(h.s).forEach(([k, v]) => {
+      const x = cats[k] || (cats[k] = [0, 0]); x[0] += Number(v[0]) || 0; x[1] += Number(v[1]) || 0;
+    });
+    const pct = a ? Math.round(c / a * 100) : 0;
+    const color = pct >= 80 ? '#10b981' : pct >= 60 ? '#f59e0b' : '#ef4444';
+    rows.push(`<div class="parent-hist-row${a ? '' : ' off'}">
+      <span class="d">${t.getMonth() + 1}/${t.getDate()}（${'日月火水木金土'[t.getDay()]}）</span>
+      <div class="parent-bar-bg"><div class="parent-bar-fill" style="width:${Math.round(a / max * 100)}%;background:${color}"></div></div>
+      <span class="n">${a ? a + '問 ' + pct + '%' : '—'}</span></div>`);
+  }
+  const studied = hist.filter(x => (Number(x.a) || 0) > 0).length;
+  document.getElementById('parent-hist-sum').textContent = total
+    ? `学習した日 ${studied}/14日 ・ ${total}問 ・ 正答率 ${Math.round(correct / total * 100)}%（休んだ日 ${14 - studied}日）`
+    : 'この2週間は まだ 問題を 解いていません';
+  document.getElementById('parent-hist-days').innerHTML = rows.join('');
+  const catRows = Object.entries(cats).filter(([, v]) => v[0] > 0).map(([k, v]) => {
+    const cat = CATEGORIES[k] ? CATEGORIES[k].icon + ' ' + CATEGORIES[k].label : esc('その他');
+    return `<tr><td>${cat}</td><td>${v[0]}問</td><td>${Math.round(v[1] / v[0] * 100)}%</td></tr>`;
+  });
+  document.getElementById('parent-hist-cats').innerHTML = catRows.length
+    ? '<tr><th>教科</th><th>問題数</th><th>正答率</th></tr>' + catRows.join('') : '';
 }
 
 function showParentView(data) {
@@ -24734,6 +24836,8 @@ function showParentView(data) {
       el.style.width = el.dataset.pct + '%';
     });
   });
+
+  renderParentHistory(Array.isArray(data.daily) ? data.daily : null, data.date);
 
   document.getElementById('parent-mastered').textContent = data.masteredCount || 0;
   document.getElementById('parent-super-wrong').textContent = data.superWrongCount || 0;
