@@ -191,6 +191,7 @@ function forestLoad() {
   if (!fz || fz.day !== f.day) { fz = forestBuild(f.day); fz.day = f.day; }
   if (!FOREST_WALK.includes(forestTile(f.x, f.y))) { f.x = fz.start[0]; f.y = fz.start[1]; }
   forestReveal();
+  forestPalReset();
 }
 function forestReveal() {
   const f = save.forest, n = FOREST_W * FOREST_H;
@@ -412,6 +413,7 @@ function forestTryStep(d) {
 }
 function forestArrive() {
   const f = save.forest;
+  forestPalAt = [forestMv.fx, forestMv.fy];   // なかまは ルナが いた マスへ
   f.x = forestMv.tx; f.y = forestMv.ty;
   forestMv = null;
   forestStepN++;
@@ -622,6 +624,50 @@ async function forestLunaSet() {
 }
 // いまの コマ（あるいている あいだは 1マスごとに あしを こうたい）
 let forestStepN = 0;
+
+// ── 🤝 なかま（5かい たおした モンスターを ずかんから えらぶと、ルナの うしろを ついてくる）──
+// save.forestPal：つれている モンスターの key（しんかした すがた _evo も えらべる）。'' なら なし
+const FOREST_PAL_NEED = 5;
+let forestPalAt = null;        // なかまが いる マス（ルナが 1マス すすむと、ルナが いた マスへ うつる）
+function forestPalKey() { const k = save.forestPal; return k && CHARS[k] && forestCanPal(k) ? k : ''; }
+function forestCanPal(k) {
+  if (/_evo$/.test(k)) return !!forestEvo()[k.slice(0, -4)];
+  return (forestDex()[k] || 0) >= FOREST_PAL_NEED;
+}
+function forestSetPal(k) {
+  save.forestPal = save.forestPal === k ? '' : k;   // おなじ子を もう いちど おすと わかれる
+  persist();
+  forestPalReset();
+  forestDexOpen(k);
+}
+// ルナの うしろ（あるけない ときは となりの どこか、なければ おなじ マス）
+function forestPalReset() {
+  const f = save.forest;
+  if (!f) { forestPalAt = null; return; }
+  const [dx, dy] = FOREST_DIRS[f.dir] || FOREST_DIRS.down;
+  const tries = [[-dx, -dy], [0, 1], [-1, 0], [1, 0], [0, -1]];
+  const ok = tries.find(([ax, ay]) => FOREST_WALK.includes(forestTile(f.x + ax, f.y + ay)));
+  forestPalAt = ok ? [f.x + ok[0], f.y + ok[1]] : [f.x, f.y];
+}
+// いま 画面に かく なかまの 位置（ルナが あるく あいだ、ルナが いた マスへ むかう）
+function forestPalPos() {
+  if (!forestPalAt) forestPalReset();
+  const [ax, ay] = forestPalAt;
+  if (!forestMv) return [ax, ay, 0];
+  const k = forestMv.t;
+  return [ax + (forestMv.fx - ax) * k, ay + (forestMv.fy - ay) * k, k];
+}
+// なかまの え（canvas）。key が かわったら つくりなおす
+let forestPalCv = { key: '', cv: null, busy: '' };
+function forestPalCanvas() {
+  const k = forestPalKey();
+  if (forestPalCv.key !== k && forestPalCv.busy !== k) {
+    forestPalCv.busy = k;
+    if (!k) forestPalCv = { key: '', cv: null, busy: '' };
+    else forestSvgCanvas(CHARS[k](6, 100, 256, {}), 256).then(cv => { if (forestPalCv.busy === k) forestPalCv = { key: k, cv, busy: '' }; });
+  }
+  return forestPalCv.key === k ? forestPalCv.cv : null;
+}
 function forestLunaFrame() {
   const f = save.forest;
   const d = FOREST_DIRS[f.dir] ? f.dir : 'down';
@@ -674,8 +720,13 @@ function forest2DInit() {
       g.translate(-((px - cols / 2) - ox) * k, -((py - rows / 2) - oy) * k);
       forestPaint2D(g, ox, oy, cols, rows, k, false);
       g.restore();
+      const pal = forestPalCanvas();
+      const [qx, qy, qk] = forestPalPos();
+      const drawPal = () => { if (pal) g.drawImage(pal, w / 2 + (qx - px) * k - k * 0.42, h / 2 + (qy - py) * k - k * 0.55 - Math.abs(Math.sin(qk * Math.PI)) * k * 0.12, k * 0.84, k * 0.84); };
+      if (qy <= py) drawPal();   // おくに いる ときは ルナの うしろに かく
       const luna = lunas[forestLunaFrame()];
       if (luna) g.drawImage(luna, w / 2 - k * 0.6, h / 2 - k * 0.7, k * 1.2, k * 1.2);
+      if (qy > py) drawPal();
     },
   };
 }
@@ -773,6 +824,15 @@ async function forest3DInit() {
   const heroShadow = new THREE.Mesh(new THREE.CircleGeometry(0.32, 20), new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.28, depthWrite: false }));
   heroShadow.rotation.x = -Math.PI / 2;
   scene.add(hero, heroShadow);
+  // 🤝 なかま（ルナの うしろを ついてくる）
+  let palTexKey = '', palTex = null;
+  const pal = new THREE.Sprite(new THREE.SpriteMaterial({ transparent: true, alphaTest: 0.1 }));
+  pal.center.set(0.5, 0.06);
+  pal.scale.set(1.05, 1.05, 1);
+  pal.renderOrder = 5;
+  const palShadow = new THREE.Mesh(new THREE.CircleGeometry(0.26, 18), heroShadow.material);
+  palShadow.rotation.x = -Math.PI / 2;
+  scene.add(pal, palShadow);
 
   // いずみの きらきら
   const sparkles = [];
@@ -947,6 +1007,18 @@ async function forest3DInit() {
       const ht = heroTex[forestLunaFrame()];
       if (ht && hero.material.map !== ht) hero.material.map = ht;
       heroShadow.position.set(px, 0.015, py);
+      const palCv = forestPalCanvas();
+      if (palCv && palTexKey !== forestPalCv.key) {
+        if (palTex) palTex.dispose();
+        palTex = new THREE.CanvasTexture(palCv); palTex.colorSpace = THREE.SRGBColorSpace;
+        pal.material.map = palTex; pal.material.needsUpdate = true; palTexKey = forestPalCv.key;
+      }
+      pal.visible = palShadow.visible = !!palCv;
+      if (palCv) {
+        const [qx, qy, qk] = forestPalPos();
+        pal.position.set(qx, walking ? Math.abs(Math.sin(qk * Math.PI)) * 0.16 : Math.abs(Math.sin(t * 2.4)) * 0.04, qy);
+        palShadow.position.set(qx, 0.012, qy);
+      }
       // カメラ：ななめ 上・うしろ（南）から
       look.set(px, 0.3, py - 0.6);
       const back = camera.fov > 40 ? 9 : 7.2, up = camera.fov > 40 ? 14 : 10.8;   // 約55°の 見おろし
@@ -1022,18 +1094,27 @@ function forestDexOpen(pick) {
     const area = (FOREST_DEX_ORDER.find(([k]) => k === pick) || [])[1] || '';
     const isEvo = /_evo$/.test(pick), base = isEvo ? pick.slice(0, -4) : pick;
     const canEvo = !isEvo && typeof FOREST_EVOS !== 'undefined' && FOREST_EVOS[pick];
+    // あと なんかい：しんかと なかまが おなじ かず（5）の ときは 1行に まとめる
+    const left = isEvo ? 0 : Math.max(0, FOREST_PAL_NEED - dex[pick]);
+    const evoLeft = canEvo && !forestEvo()[pick] ? Math.max(1, FOREST_EVO_NEED - dex[pick]) : 0;
+    const palLine = forestCanPal(pick)
+      ? '<button class="fz-palbtn' + (save.forestPal === pick ? ' on' : '') + '" onclick="forestSetPal(\'' + pick + '\')">' +
+          (save.forestPal === pick ? '🤝 いっしょに いるよ（タップで わかれる）' : '🤝 なかまに する') + '</button>'
+      : left && evoLeft === left ? '<div class="fz-evonext">✨ あと ' + left + 'かい たおすと しんか ＆ なかまに できるよ！</div>'
+      : left ? '<div class="fz-evonext">🤝 あと ' + left + 'かい たおすと なかまに できるよ！</div>' : '';
     const evoLine = isEvo
       ? '<button class="fz-evolink" onclick="forestDexOpen(\'' + base + '\')">' + esc(CHAR_NAME[base]) + ' が しんかした すがた →</button>'
       : !canEvo ? ''
       : forestEvo()[pick]
       ? '<button class="fz-evolink" onclick="forestDexOpen(\'' + pick + '_evo\')">✨ ' + esc(CHAR_NAME[pick + '_evo']) + ' に しんかした！ →</button>'
-      : '<div class="fz-evonext">✨ あと ' + Math.max(1, FOREST_EVO_NEED - dex[pick]) + 'かい たおすと しんか するよ！</div>';
+      : evoLeft === left ? ''
+      : '<div class="fz-evonext">✨ あと ' + evoLeft + 'かい たおすと しんか するよ！</div>';
     body =
       '<div style="display:flex; justify-content:center;">' + CHARS[pick](6, 100, 190, {}) + '</div>' +
       '<div style="font-size:20px; font-weight:800;">' + esc(CHAR_NAME[pick]) + '</div>' +
       '<div style="font-size:12px; color:#64748b; margin-top:2px;">📍 ' + area + (isEvo ? '' : '　⚔️ たおした かず ' + dex[pick]) + '</div>' +
       '<div style="margin-top:10px; background:#f0fdf4; border-radius:12px; padding:10px 12px; font-size:14px; line-height:1.8; text-align:left;">' + esc(FOREST_MONSTER_INFO[pick] || '') + '</div>' +
-      evoLine +
+      palLine + (palLine && evoLine ? '<br>' : '') + evoLine +
       '<button class="btn-main" style="margin-top:12px;" onclick="forestDexOpen()">← ずかんに もどる</button>';
   } else {
     let lastArea = '';
@@ -1045,8 +1126,9 @@ function forestDexOpen(pick) {
       const evo = !on || typeof FOREST_EVOS === 'undefined' || !FOREST_EVOS[k] ? ''
         : forestEvo()[k] ? '<span class="fz-dexevo done">✨</span>'
         : '<span class="fz-dexevo">' + Math.min(dex[k], FOREST_EVO_NEED) + '/' + FOREST_EVO_NEED + '</span>';
-      return head + '<button class="fz-dexcard' + (on ? '' : ' off') + '"' + (on ? ' onclick="forestDexOpen(\'' + k + '\')"' : '') + '>' +
-        '<span class="fz-dexno">No.' + String(i + 1).padStart(2, '0') + '</span>' + evo +
+      const palMark = on && save.forestPal === k ? '<span class="fz-dexpal">🤝</span>' : '';
+      return head + '<button class="fz-dexcard' + (on ? '' : ' off') + (palMark ? ' pal' : '') + '"' + (on ? ' onclick="forestDexOpen(\'' + k + '\')"' : '') + '>' +
+        '<span class="fz-dexno">No.' + String(i + 1).padStart(2, '0') + '</span>' + evo + palMark +
         CHARS[k](6, 100, 74, { silhouette: !on }) +
         '<span class="fz-dexname">' + (on ? esc(CHAR_NAME[k]) : '？？？') + '</span></button>';
     }).join('');
@@ -1160,6 +1242,8 @@ function forestEndBattle(win) {
         '<div style="font-size:15px; font-weight:800; color:#7c3aed;">📖 ' + esc(CHAR_NAME[evolved]) + ' が ずかんに のった！（' + forestDexCount() + ' / ' + FOREST_DEX_ORDER.length + '）</div>' +
         (evoBonus ? '<div style="font-size:14px; font-weight:800; color:#15803d; margin-top:2px;">しんか ボーナス 🪙+' + evoBonus + '</div>' : '') +
       '</div>' : '') +
+    (win && !evolved && forestDex()[bt.char] === FOREST_PAL_NEED ? '<div style="margin-top:6px; font-size:14px; font-weight:800; color:#0369a1;">🤝 ' + esc(CHAR_NAME[bt.char]) + ' を ずかんから なかまに できるよ！</div>' : '') +
+    (evolved ? '<div style="margin-top:6px; font-size:14px; font-weight:800; color:#0369a1;">🤝 ずかんから なかまに できるよ！</div>' : '') +
     (gotKey ? '<div style="margin-top:6px; font-size:15px; font-weight:800; color:#b45309;">🗝 しろの かぎを てに いれた！</div>' : '') +
     (bonus ? '<div style="margin-top:6px; font-size:15px; font-weight:800; color:#15803d;">🌲 もりのぬし ボーナス 🪙+' + bonus + '</div>' : '') +
     (first ? '<div style="margin-top:4px; font-size:13px; font-weight:800; color:#b45309;">🏆 しまに「もりの トロフィー」が とどくよ！</div>' : '') +
