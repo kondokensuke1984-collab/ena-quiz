@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
 <script src="/js/passage.js"></script>
+<script src="/js/medals.js"></script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
@@ -22624,23 +22625,12 @@ function petShardNote() {
 //     あとで⭐をとりけしても枚数は減らない
 //   ・あとから問題がふえて、また全問⭐にしたら、ふえたぶんだけ追加でもらえる
 // ============================================================
-const MEDAL_KEY = 'ena_anrino_medals';
 
-function loadMedalLedger() {
-  try {
-    const d = JSON.parse(localStorage.getItem(MEDAL_KEY) || '{}');
-    return (d && typeof d.units === 'object' && d.units) ? d : { units: {} };
-  } catch(e) { return { units: {} }; }
-}
-function saveMedalLedger(led) { localStorage.setItem(MEDAL_KEY, JSON.stringify(led)); }
-
-function medalTotal() {
-  return Object.values(loadMedalLedger().units).reduce((a, b) => a + (b || 0), 0);
-}
-function medalMonthTotal(month) {
-  const u = loadMedalLedger().units;
-  return Object.keys(u).reduce((a, k) => a + (k.split('|')[0] === month ? (u[k] || 0) : 0), 0);
-}
+// 読み書きと 合計は js/medals.js（クエスト・島と 同じ 数え方）
+function loadMedalLedger() { return AnrinoMedals.load(); }
+function saveMedalLedger(led) { return AnrinoMedals.save(led); }
+function medalTotal() { return AnrinoMedals.total(); }
+function medalMonthTotal(month) { return AnrinoMedals.monthTotal(month); }
 
 // その月の「単元」＝問題の subject ごとのまとまり
 // （SUBJECTS 側の month 指定もれに左右されないよう、問題そのものから作る）

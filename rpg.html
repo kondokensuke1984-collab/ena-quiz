@@ -266,6 +266,7 @@
 
 <script src="js/chars.js"></script>
 <script src="js/util.js"></script>
+<script src="js/medals.js"></script>
 <script src="js/passage.js"></script>
 <script>
 // ════════════════════════════════════════════════════════════
@@ -337,7 +338,6 @@ const EXP_HIT = 10, EXP_WIN = 50;
 //   ・はじめて正解した問題は1枚（クイズと同じ「led.first」を使うので、クイズで正解ずみの問題はもらえない＝二重取りなし）
 //   ・かげモンスターを はじめて たおすと ボーナス（ステージ3枚・ボス10枚）
 //   台帳の形はクイズ側（index.html の medalFirstCorrect / medalAward）と同じ。数を減らす処理は書かない。
-const MEDAL_KEY = 'ena_anrino_medals';
 let MEDAL_MONTH = '202609';   // クエストの月。boot() の pickQuestMonth() が決める（森・タイムトライアルも この月）
 
 // ── クエストの月：その月の6日から新しい月にする（manifest にある月だけ。問題の数は見ない）──
@@ -375,17 +375,10 @@ function isKakomon(subj) {
   return /_kakomon$/.test(subj || '') || ((typeof SUBJECTS === 'object' && SUBJECTS[subj]) || {}).label === '過去問演習';
 }
 function medalX(subj) { return isKakomon(subj) ? KAKOMON_X : 1; }
-function loadMedalLedger() {
-  try {
-    const d = JSON.parse(localStorage.getItem(MEDAL_KEY) || '{}');
-    return (d && typeof d.units === 'object' && d.units) ? d : { units: {} };
-  } catch (e) { return { units: {} }; }
-}
-function saveMedalLedger(led) { try { localStorage.setItem(MEDAL_KEY, JSON.stringify(led)); } catch (e) {} }
-function medalTotal() {
-  const u = loadMedalLedger().units;
-  return Object.keys(u).reduce((a, k) => a + (Number(u[k]) > 0 ? Math.floor(u[k]) : 0), 0);
-}
+// 読み書きと 合計は js/medals.js（クイズ・島と 同じ 数え方）
+function loadMedalLedger() { return AnrinoMedals.load(); }
+function saveMedalLedger(led) { return AnrinoMedals.save(led); }
+function medalTotal() { return AnrinoMedals.total(); }
 function medalFirstCorrect(q) {
   if (!q || !q.id) return 0;
   const led = loadMedalLedger();
