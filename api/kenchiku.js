@@ -5,16 +5,7 @@
 // 形式は ?kenchiku= / ?kenchiku1= と同じ（medalFromKenchiku がそのまま読める）。二重取りは ANRINO 側の台帳（kc:…）で防ぐ。
 const KEY = 'kenchiku:v1';
 const ORIGIN_OK = ['https://architect-exam-nine.vercel.app'];
-
-async function redis(cmd) {
-  const r = await fetch(process.env.KV_REST_API_URL, {
-    method: 'POST',
-    headers: { Authorization: 'Bearer ' + process.env.KV_REST_API_TOKEN, 'Content-Type': 'application/json' },
-    body: JSON.stringify(cmd),
-  });
-  if (!r.ok) throw new Error('redis ' + r.status);
-  return (await r.json()).result;
-}
+const { redis } = require('./_guard');
 
 // "R08.AQID,R07.AAE" → { R08: Buffer, R07: Buffer }
 function parse(txt) {

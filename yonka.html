@@ -295,6 +295,7 @@
   </div>
 </div>
 
+<script src="/js/edit_token.js"></script>
 <script>
 const FIELD_GROUPS = [
   {
@@ -469,11 +470,7 @@ async function saveAll() {
   });
   data._tests = tests;
   try {
-    const r = await fetch('/api/yonka', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ data, sha: currentSha }),
-    });
+    const r = await saveWithEditToken('/api/yonka', { data, sha: currentSha });
     if (!r.ok) throw new Error(await r.text());
     const res = await r.json();
     currentSha = res.sha;

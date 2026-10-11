@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const { allowOrigin, rateLimit } = require('./_guard');
 
 const RECIPIENTS = [
   'kondokensuke1984@gmail.com',
@@ -6,15 +7,14 @@ const RECIPIENTS = [
 ];
 
 module.exports = async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
-  if (req.method === 'OPTIONS') return res.status(200).end();
+  // ANRINO の サイトから だけ・1時間に 20通まで（宛先は RECIPIENTS に 固定）
+  if (!allowOrigin(req, res, 'POST')) return;
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { subject, htmlContent, images } = req.body;
-  if (!subject || !htmlContent) return res.status(400).json({ error: 'Missing fields' });
+  const { subject, htmlContent, images } = req.body || {};
+  if (typeof subject !== 'string' || typeof htmlContent !== 'string' || !subject || !htmlContent) return res.status(400).json({ error: 'Missing fields' });
+  if (subject.length > 200 || htmlContent.length > 500 * 1024) return res.status(413).json({ error: 'too large' });
+  if (!(await rateLimit(req, res, 'mail', 20, 3600))) return;
 
   // 本文に うめこむ 画像（もしの しまの 手書きなど）。Gmail は data: の画像を出さないので CID の添付にする
   //   images: [{ cid:'hand-1', dataUrl:'data:image/jpeg;base64,...' }]（20まいまで・1まい 300KB まで。かん字テストは14まい）
@@ -48,6 +48,6 @@ module.exports = async function handler(req, res) {
     res.status(200).json({ ok: true });
   } catch (err) {
     console.error('Mail error:', err);
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: 'mail failed' });
   }
 };
