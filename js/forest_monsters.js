@@ -269,3 +269,88 @@ const FOREST_DEX_ORDER = [
   [FOREST_GUARD_KEY, 'どうくつ'],
   [FOREST_NUSHI_KEY, 'おしろ'],
 ];
+
+// ============================================================
+// ✨ しんか：同じ モンスターを FOREST_EVO_NEED かい たおすと しんか して、ずかんに しんかした すがたが のる
+//   ・key は <もとの key>_evo（森には 出てこない。ずかんと けっか画面だけ）
+//   ・絵は もとの かたちを 色ちがいに して、金の かんむり＋オーラ＋キラキラを かさねる
+// ============================================================
+const FOREST_EVO_NEED = 5, FOREST_EVO_MEDAL = 3;
+// かんむりを のせる ところ（もとの 絵の あたまの てっぺん x, y）
+const FMON_CROWN_AT = {
+  puru: [100, 74], kinoko: [100, 64], koumori: [100, 68], donguri: [100, 58], hachi: [100, 86], ookami: [100, 72],
+  woody: [100, 58], yoroi: [100, 62], obake: [100, 54], hebi: [100, 50], hana: [100, 26], imomushi: [146, 68], chibidora: [100, 50],
+};
+function fmonEvo(shape, pal) {
+  const [x, y] = FMON_CROWN_AT[shape] || [100, 50];
+  const star = (sx, sy, r) => '<path d="M' + sx + ' ' + (sy - r) + ' Q' + sx + ' ' + sy + ' ' + (sx + r) + ' ' + sy + ' Q' + sx + ' ' + sy + ' ' + sx + ' ' + (sy + r) +
+    ' Q' + sx + ' ' + sy + ' ' + (sx - r) + ' ' + sy + ' Q' + sx + ' ' + sy + ' ' + sx + ' ' + (sy - r) + ' Z" fill="#fef08a" stroke="none"/>';
+  return '<circle cx="100" cy="112" r="86" fill="rgba(250,204,21,.18)" stroke="none"/>' +
+    '<circle cx="100" cy="112" r="70" fill="rgba(250,204,21,.16)" stroke="none"/>' +
+    '<g transform="translate(15 28) scale(.85)">' + FMON_DRAW[shape](pal) +
+    // 金の かんむり
+    '<path d="M' + (x - 26) + ' ' + y + ' L' + (x - 30) + ' ' + (y - 26) + ' L' + (x - 13) + ' ' + (y - 13) + ' L' + x + ' ' + (y - 32) +
+      ' L' + (x + 13) + ' ' + (y - 13) + ' L' + (x + 30) + ' ' + (y - 26) + ' L' + (x + 26) + ' ' + y + ' Z" fill="#facc15"/>' +
+    '<path d="M' + (x - 24) + ' ' + (y - 6) + ' L' + (x + 24) + ' ' + (y - 6) + '" fill="none" stroke="#b45309" stroke-width="3"/>' +
+    '<circle cx="' + x + '" cy="' + (y - 34) + '" r="5" fill="#ef4444" stroke-width="3"/>' +
+    '<circle cx="' + (x - 30) + '" cy="' + (y - 28) + '" r="4" fill="#38bdf8" stroke-width="3"/><circle cx="' + (x + 30) + '" cy="' + (y - 28) + '" r="4" fill="#38bdf8" stroke-width="3"/>' +
+    '</g>' +
+    star(24, 40, 12) + star(178, 58, 9) + star(30, 150, 8) + star(172, 160, 11);
+}
+
+// もとの key → [かたち, いろ, なまえ]
+const FOREST_EVOS = {
+  fm_puru:      ['puru', ['#fde047', '#713f12', '#16a34a'], 'キングぷるぷる'],
+  fm_kinoko:    ['kinoko', ['#f59e0b', '#fff7ed'], 'だいおうキノコ'],
+  fm_koumori:   ['koumori', ['#1e3a8a', '#312e81', '#fde047'], 'ほしよコウモリ'],
+  fm_donguri:   ['donguri', ['#7c2d12', '#fbbf24'], 'どんぐりしょうぐん'],
+  fm_hachi:     ['hachi', ['#fbbf24', '#7c2d12'], 'キングバチ'],
+  fm_obake:     ['obake', ['#e0f2fe', '#38bdf8', '#0c4a6e'], 'おおおばけ'],
+  fm_hebi:      ['hebi', ['#15803d', '#fde047'], 'もりのおろち'],
+  fm_hana:      ['hana', ['#e11d48', '#fef08a'], 'だいおうフラワー'],
+  fm_imomushi:  ['imomushi', ['#22d3ee', '#a78bfa', '#f472b6'], 'にじいろムシ'],
+  fm_puru2:     ['puru', ['#dc2626', '#450a0a', '#facc15'], 'メラキングぷる'],
+  fm_puru3:     ['puru', ['#7e22ce', '#1e1b4b', '#a3e635'], 'どくキングぷる'],
+  fm_kinoko2:   ['kinoko', ['#6b21a8', '#bef264'], 'もうどくキノコ'],
+  fm_koumori2:  ['koumori', ['#0f172a', '#991b1b', '#ef4444'], 'やみコウモリおう'],
+  fm_donguri2:  ['donguri', ['#fde047', '#ca8a04'], 'どんぐりだいおう'],
+  fm_hachi2:    ['hachi', ['#ec4899', '#500724'], 'ハチのめがみ'],
+  fm_obake2:    ['obake', ['#6d28d9', '#22d3ee', '#fde047'], 'やみのおおおばけ'],
+  fm_hebi2:     ['hebi', ['#4c1d95', '#f0abfc'], 'だいまどうへび'],
+  fm_hana2:     ['hana', ['#450a0a', '#f97316'], 'まおうフラワー'],
+  fm_imomushi2: ['imomushi', ['#ef4444', '#7f1d1d', '#fde047'], 'マグマムシ'],
+  fm_ookami:    ['ookami', ['#e2e8f0', '#94a3b8', '#ffffff'], 'ぎんろう'],
+  fm_woody:     ['woody', ['#3f6212', '#a3e635'], 'いにしえウッド'],
+  fm_yoroi:     ['yoroi', ['#fbbf24', '#b45309', '#22d3ee'], 'こがねのガランドウ'],
+  fm_chibidora: ['chibidora', ['#7c3aed', '#fde68a', '#22d3ee'], 'わかドラゴン'],
+};
+Object.entries(FOREST_EVOS).forEach(([key, [shape, pal, name]]) => {
+  CHARS[key + '_evo'] = (lv, fill, size, opts) => fmonSvg(size || 160, fmonEvo(shape, pal), opts && opts.silhouette);
+  CHAR_NAME[key + '_evo'] = name;
+});
+Object.assign(FOREST_MONSTER_INFO, {
+  fm_puru_evo:      'ぷるぷるが 5かい まけて、くやしくて しんかした。かんむりは じぶんで つくった らしい。',
+  fm_kinoko_evo:    'キノコたちの おうさま。よるの もりで キノコの おまつりを ひらく。',
+  fm_koumori_evo:   'つばさに よぞらの ほしを うつした コウモリ。とぶと キラキラ ひかる。',
+  fm_donguri_evo:   'どんぐりへいを まとめる しょうぐん。ごうれいは「ころがれー！」。',
+  fm_hachi_evo:     'ハチの むれの おうさま。はねの おとが ほかの ハチより ひくい。',
+  fm_obake_evo:     'まいごの おばけが あつまって 大きく なった。いまは もう さみしくない。',
+  fm_hebi_evo:      'くさへびが ながい としつきを かけて しんかした。もりの みちを ぜんぶ しっている。',
+  fm_hana_evo:      'もりで いちばん 大きい はな。いい においで なかまを よびよせる。',
+  fm_imomushi_evo:  'にじいろに かがやく いもむし。いつか きれいな ちょうに なる ゆめを みている。',
+  fm_puru2_evo:     'メラぷるの おうさま。かんむりまで あつあつで さわれない。',
+  fm_puru3_evo:     'どくの ぬまの ぬし。とおった あとには みどりの あわが のこる。',
+  fm_kinoko2_evo:   'もりで いちばん どくの つよい キノコ。でも じぶんの どくで くしゃみを している。',
+  fm_koumori2_evo:  'やみコウモリの おう。まっくらな どうくつでも すいすい とべる。',
+  fm_donguri2_evo:  'どんぐりの くにの だいおう。きんいろの からだは ひかって まぶしい。',
+  fm_hachi2_evo:    'じょおうバチが しんかした すがた。はなの みつを ひとりじめ したい。',
+  fm_obake2_evo:    'かげおばけの おやぶん。よるに なると もりの かげを ぜんぶ あやつる。',
+  fm_hebi2_evo:     'まほうを きわめた へび。しっぽで くうちゅうに まほうじんを かく。',
+  fm_hana2_evo:     'ひとくいフラワーの おう。ねもとに たからものを かくしている という うわさ。',
+  fm_imomushi2_evo: 'マグマの ように あつい いもむし。ねむると からだが ゆっくり ひかる。',
+  fm_ookami_evo:    'ぎんいろの けなみの オオカミ。つきの よるに だけ すがたを みせる。',
+  fm_woody_evo:     'なんびゃく ねんも いきた きりかぶ。あたまから また わかばが はえてきた。',
+  fm_yoroi_evo:     'きんいろに みがかれた よろい。おしろの おうさまを まもっていた らしい。',
+  fm_chibidora_evo: 'ちびドラゴンが すこし おとなに なった。もう ほのおで まきに 火を つけられる。',
+});
+FOREST_DEX_ORDER.push(...Object.keys(FOREST_EVOS).map(k => [k + '_evo', '✨ しんか']));
