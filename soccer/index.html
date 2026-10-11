@@ -2427,7 +2427,7 @@ function startObo(p, d) {
   b.immune = OBO_TIME + 0.4;
   g.charge = -1;
   banner("必殺！ オボサイド！", "obo");
-  $("banner").classList.remove("pop"); void $("banner").offsetWidth; $("banner").classList.add("pop");
+  bannerTimer = setTimeout(hideBanner, 1800);
   SFX.obo(false); SFX.cheer(false);
   sayF(o.used === 1 ? "obo1" : pick(["obo1", "obo2"]), 2);
   for (let i = 0; i < 16; i++) g.oboFx.push({ x: p.x, z: p.z, t: 0.8, a: rand(0, 6.28), r: rand(0.3, 1.4) });
@@ -3493,6 +3493,7 @@ function caption(text) { if (game) game.caption = { text, t: 2.4 }; }
 let bannerTimer = 0;
 function banner(text, kind, sub) {
   const el = $("banner");
+  clearTimeout(bannerTimer);
   el.innerHTML = "";
   const big = document.createElement("div");
   big.className = kind === "small" ? "small" : "big" + (kind === "goal" ? " goal" : kind === "obo" ? " obo" : "");
