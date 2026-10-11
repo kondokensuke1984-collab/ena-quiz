@@ -38,5 +38,11 @@ export default defineConfig({
   build: {
     outDir: '../game',
     emptyOutDir: true,   // Vite ルート外なので明示が必要
+    // three.js は 森（js/forest.js）と 同じ ファイルを 読む（バンドルに 入れない。iPad で 1回 ダウンロードすれば すむ）。
+    // package.json の three を 上げるときは js/vendor の ファイルも 同じ 版に そろえること
+    rollupOptions: {
+      external: ['three'],
+      output: { paths: { three: '/js/vendor/three-0.169.module.min.js' } },
+    },
   },
 });
