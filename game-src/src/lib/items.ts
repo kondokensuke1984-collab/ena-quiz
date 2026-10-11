@@ -122,6 +122,10 @@ export const ITEMS: Item[] = [
   { id: 'fw_saturn',     kind: 'fwear',     name: 'どせいの かみかざり', emoji: '🪐', price: 0, desc: 'うちゅうの 5かしょに いった ごほうび', once: true, reward: true },
   { id: 'fn_rocketmini', kind: 'furniture', name: 'ミニロケット',         emoji: '🚀', price: 0, desc: 'うちゅうの 6かしょ ぜんぶに いった ごほうび', once: true, reward: true, anywhere: true },
 
+  // ── サッカーの ごほうび（たいかいで はじめて ゆうしょう。ショップでは売らない。lib/soccer.ts）──
+  { id: 'fn_soccer_trophy', kind: 'furniture', name: 'ゆうしょう トロフィー', emoji: '🏆', price: 0, desc: 'サッカーの たいかいで ゆうしょうした ごほうび', once: true, reward: true, anywhere: true },
+  { id: 'fn_soccer_ball',   kind: 'furniture', name: 'サッカーボール',       emoji: '⚽', price: 0, desc: 'はじめて ゆうしょうした きねんの ボール', once: true, reward: true, anywhere: true },
+
   // ── まいにちスタンプの ごほうび（ショップでは売らない）──
   { id: 'fn_trophy',   kind: 'furniture', name: 'がんばりトロフィー', emoji: '🏆', price: 0, desc: 'スタンプ7日の ごほうび',  once: true, reward: true, anywhere: true },
   { id: 'fw_gold',     kind: 'fwear',     name: 'きんの かんむり',    emoji: '👑', price: 0, desc: 'スタンプ14日の ごほうび', once: true, reward: true },

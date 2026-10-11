@@ -83,3 +83,14 @@ export function grantBonus(id: string, month: string, n: number): 'ok' | 'alread
   led.units = units;
   return writeJSON(MEDAL_KEY, led) ? 'ok' : 'failed';
 }
+
+/** ボーナスの 数（'<月>|bonus:<prefix>…' の キーが いくつ あるか。読むだけ） */
+export function bonusCount(prefix: string): number {
+  const units = loadLedger().units;
+  let n = 0;
+  for (const key of Object.keys(units)) {
+    const i = key.indexOf('|');
+    if (i >= 0 && key.startsWith('bonus:' + prefix, i + 1) && Number(units[key]) > 0) n++;
+  }
+  return n;
+}

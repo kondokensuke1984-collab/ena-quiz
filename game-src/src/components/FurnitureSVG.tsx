@@ -486,6 +486,28 @@ const DRAWINGS: Record<string, Draw> = {
       <path d="M12 -50 q4 4 -2 8 q-6 6 -10 10 q-8 6 -14 6 q-4 -2 0 -4 q8 -2 12 -8 q6 -6 10 -10 z" fill="#4ade80" stroke="#15803d" strokeWidth="1.2" />
     </g>
   ),
+  fn_soccer_trophy: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="16" ry="5" fill="rgba(0,0,0,0.2)" />
+      <rect x="-15" y="-10" width="30" height="10" rx="2" fill="#1e3a8a" {...S} />
+      <rect x="-8" y="-7" width="16" height="3" rx="1.5" fill="#fbbf24" />
+      <rect x="-9" y="-16" width="18" height="6" rx="1.5" fill="#f59e0b" {...S} />
+      <rect x="-3" y="-24" width="6" height="8" fill="#f59e0b" {...S} />
+      <path d="M-11 -46 C-22 -46 -22 -32 -8 -30 M11 -46 C22 -46 22 -32 8 -30" fill="none" stroke="#d97706" strokeWidth="3.5" strokeLinecap="round" />
+      <path d="M-13 -50 L13 -50 L13 -40 C13 -30 6 -24 0 -24 C-6 -24 -13 -30 -13 -40 Z" fill="#fbbf24" {...S} />
+      <path d="M-7 -46 L-7 -39 C-7 -34 -4 -31 -2 -30" fill="none" stroke="#fef3c7" strokeWidth="2.2" strokeLinecap="round" />
+      <path d="M0 -60 l2 4.5 5 0.5 -4 3 1.2 5 -4.2 -2.6 -4.2 2.6 1.2 -5 -4 -3 5 -0.5 z" fill="#fde047" stroke="#b45309" strokeWidth="1" />
+    </g>
+  ),
+  fn_soccer_ball: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="13" ry="4" fill="rgba(0,0,0,0.2)" />
+      <circle cx="0" cy="-12" r="12" fill="#fff" {...S} />
+      <path d="M0 -17 l4.8 3.5 -1.8 5.6 -6 0 -1.8 -5.6 z" fill="#1f2937" />
+      <path d="M-11 -15 l3 -1 2 3.5 -2.5 4 -3 -1.5 M11 -15 l-3 -1 -2 3.5 2.5 4 3 -1.5 M-4 -1.5 l1 -3.5 6 0 1 3.5" fill="#1f2937" />
+      <path d="M0 -24 l0 7 M4.8 -13.5 l5.2 -1.8 M-4.8 -13.5 l-5.2 -1.8 M3 -8 l2.5 4.5 M-3 -8 l-2.5 4.5" stroke="#1f2937" strokeWidth="1.2" />
+    </g>
+  ),
   fn_xtree: () => (
     <g>
       <ellipse cx="0" cy="2" rx="18" ry="6" fill="rgba(0,0,0,0.2)" />

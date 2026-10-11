@@ -7,6 +7,7 @@ import { sfx, unlockAudio } from '../lib/sound';
 import { freshSave, isSaveKey, lastRestored, loadSave, persist, storedRev } from '../lib/save';
 import { earnedTotal, grantBonus, isMedalKey } from '../lib/medals';
 import { findSecret } from '../lib/secret';
+import { claimSoccerResults, SOCCER_REWARD_ITEMS, type SoccerClaim } from '../lib/soccer';
 import { isSpentKey, loadSpent, spend, type SpendLedger, type SpendResult } from '../lib/spend';
 import { feed } from '../lib/monster';
 import {
@@ -155,6 +156,8 @@ export interface GameApi {
   claimStamp(ym: string, days: number): string | null;
   /** がっこうの けいじばんの ひみつの あいことば。ok＝もらえた（n枚）／already＝もう もらった／ng＝ちがう */
   claimSecret(input: string): Promise<{ r: 'ok' | 'already' | 'ng'; n: number }>;
+  /** サッカーの しあいの ごほうびを うけとる（メダル・はじめての ゆうしょうの 品）。なにも なければ null */
+  claimSoccer(): (SoccerClaim & { items: string[] }) | null;
   /** たからばこを あける（その日1回）。出たプレゼントのID */
   openChest(day: string): string | null;
   /** gifts＝いっしょに とどく 家具（月の きねんしゃしん など） */
@@ -598,6 +601,15 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       const r = grantBonus(b.id, b.month, b.n);
       dispatch({ type: 'REFRESH_MEDALS' });
       return { r: r === 'ok' ? 'ok' : r === 'already' ? 'already' : 'ng', n: b.n };
+    },
+
+    claimSoccer: () => {
+      const r = claimSoccerResults();
+      if (!r) return null;
+      const items = r.cups ? SOCCER_REWARD_ITEMS.filter((id) => !saveRef.current.owned.includes(id)) : [];
+      if (items.length) setSave((s) => ({ ...s, owned: [...s.owned, ...items.filter((id) => !s.owned.includes(id))] }));
+      if (r.medals) dispatch({ type: 'REFRESH_MEDALS' });
+      return { ...r, items };
     },
 
     claimStamp: (ym, days) => {

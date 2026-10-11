@@ -54,6 +54,7 @@ import { StampModal } from './island/StampModal';
 import { MailModal } from './island/MailModal';
 import { costumeOf, halloweenNight, isHalloween } from '../lib/events';
 import { FARM_BOX, isRipe, stageOf } from '../lib/farm';
+import { soccerCups } from '../lib/soccer';
 
 // 3Dの島（main だけ）。three.js が大きいので あとから 読む。2D と きりかえられる（端末ごとに おぼえる）
 const World3D = lazy(() => import('../components/island3d/World3D'));
@@ -398,6 +399,21 @@ export function IslandScreen() {
   //   これらを useEffect の依存に入れると、保存→再レンダー→ループ再起動→保存… の無限ループになる。
   const gRef = useRef(g);
   gRef.current = g;
+
+  // サッカー（/soccer/）から もどったら、しあいの ごほうびを うけとる。ゆうしょうの 数だけ ピッチに トロフィー
+  const [cups, setCups] = useState(soccerCups);
+  useEffect(() => {
+    const r = gRef.current.claimSoccer();
+    if (!r) return;
+    setCups(soccerCups());
+    sfx('chest');
+    const parts: string[] = [];
+    if (r.cups) parts.push(`🏆 ゆうしょう おめでとう！`);
+    if (r.medals) parts.push(`⚽ サッカーの ごほうび メダル 🪙${r.medals}まい！`);
+    if (r.items.length) parts.push(r.items.map((id) => `${ITEM_BY_ID[id]?.emoji ?? ''}${ITEM_BY_ID[id]?.name ?? ''}`).join('・') + ' を もらったよ（もちものから おけるよ）');
+    if (!r.medals && r.capped) parts.push('⚽ きょうの かちの メダルは もう もらったよ。また あした！');
+    gRef.current.showToast(parts.join('　'));
+  }, []);
   const stageRefState = useRef({
     eggStage: monster.stage === 'egg', placed: placedHere, play: save.friendsPlay,
     school: area === 'main' && save.buildings.includes('bd_school'), built: builtSpots, inSchool: area === 'school',
@@ -1301,6 +1317,7 @@ export function IslandScreen() {
               expansion={expansion}
               season={seasonNow()}
               halloween={hw}
+              soccerCups={cups}
               tod={tod}
               weather={weather}
               farm={farm3d}
@@ -1329,7 +1346,7 @@ export function IslandScreen() {
           onPointerDown={onStagePointerDown}
         >
           {!on3d && area === 'main' && (
-            <IslandGround expansion={expansion} pier={hasPier} season={seasonNow()} bridge={hasBridge} halloween={hw} moshi={!!moshi} />
+            <IslandGround expansion={expansion} pier={hasPier} season={seasonNow()} bridge={hasBridge} halloween={hw} moshi={!!moshi} soccerCups={cups} />
           )}
           {!on3d && area === 'main' && <FarmPatch plots={save.farm.plots} stages={farmStages} today={day} />}
           {area === 'east' && <EastGround tod={tod} />}

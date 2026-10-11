@@ -49,6 +49,7 @@ export interface WorldOpts {
   expansion: number;
   season: number;
   halloween: boolean;
+  soccerCups: number;   // サッカーの たいかいで ゆうしょうした 数（ピッチの よこに トロフィー。3こまで）
 }
 
 export interface PlacedSpec { uid: string; x: number; y: number; art: ArtSpec; lamp: boolean }
@@ -278,7 +279,7 @@ export class IslandEngine {
 
   // ── 島の かざり（季節・広さ・はし などで 作りなおす） ──
   setWorld(o: WorldOpts) {
-    const key = [o.pier, o.bridge, o.moshi, o.expansion, o.season, o.halloween].join('|');
+    const key = [o.pier, o.bridge, o.moshi, o.expansion, o.season, o.halloween, Math.min(3, o.soccerCups)].join('|');
     if (key !== this.worldKey) {
       const seasonChanged = this.season !== o.season || !this.worldKey;
       this.worldKey = key;
@@ -459,7 +460,7 @@ export class IslandEngine {
       this.deco.add(r);
     }
 
-    this.buildPitch();
+    this.buildPitch(o.soccerCups);
     this.buildFarmBase();
     if (o.pier) this.buildPier();
     if (o.bridge) this.buildBridge();
@@ -506,7 +507,7 @@ export class IslandEngine {
     bakeStatic(this.deco);
   }
 
-  private buildPitch() {
+  private buildPitch(cups: number) {
     const P = SOCCER_PITCH;
     const x0 = P.x * PX, z0 = P.y * PX, w = P.w * PX, d = P.h * PX;
     const c = document.createElement('canvas');
@@ -562,6 +563,23 @@ export class IslandEngine {
     const sign = this.sprite('deco', signArt('⚽ サッカー'), x0 + 2.8, GRASS_H + 2.6, z0 - 0.8, this.deco);
     void sign;
     this.deco.add(part(new THREE.CylinderGeometry(0.14, 0.14, 3, 6), toon(0x78350f), x0 + 2.8, GRASS_H + 1.5, z0 - 0.9, false));
+    // ゆうしょうの トロフィー（ひょうしょうだいの 上に 3こまで）
+    const n = Math.min(3, cups);
+    if (n > 0) {
+      const gold = toon(0xfbbf24), dark = toon(0xd97706), navy = toon(0x1e3a8a);
+      const bx = x0 + w / 2 + 4 - (n - 1) * 1.1, bz = z0 - 1.6;
+      this.deco.add(part(boxG(2.2 * n + 0.8, 0.9, 2), navy, bx + (n - 1) * 1.1, GRASS_H + 0.45, bz, 0.06));
+      for (let i = 0; i < n; i++) {
+        const t = new THREE.Group();
+        t.position.set(bx + i * 2.2, GRASS_H + 0.9, bz);
+        t.scale.setScalar(1.6);
+        t.add(part(boxG(0.8, 0.22, 0.8), dark, 0, 0.11, 0, 0.06));
+        t.add(part(new THREE.CylinderGeometry(0.1, 0.14, 0.45, 8), gold, 0, 0.44, 0, 0.06));
+        t.add(part(new THREE.CylinderGeometry(0.42, 0.16, 0.65, 12), gold, 0, 0.98, 0, 0.06));
+        for (const s of [-1, 1]) t.add(part(new THREE.TorusGeometry(0.2, 0.05, 6, 12, Math.PI), dark, s * 0.42, 1.0, 0, 0.06).rotateZ(-s * Math.PI / 2));
+        this.deco.add(t);
+      }
+    }
   }
 
   private buildFarmBase() {

@@ -28,6 +28,7 @@ export interface World3DProps {
   pier: boolean;
   bridge: boolean;
   moshi: boolean;
+  soccerCups: number;
   expansion: number;
   season: number;
   halloween: boolean;
@@ -100,12 +101,12 @@ const World3D = forwardRef<World3DHandle, World3DProps>(function World3D(props, 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const { built, pier, bridge, moshi, expansion, season, halloween } = props;
+  const { built, pier, bridge, moshi, expansion, season, halloween, soccerCups } = props;
   const builtKey = built.join(',');
   useEffect(() => {
-    engine.current?.setWorld({ built, pier, bridge, moshi, expansion, season, halloween });
+    engine.current?.setWorld({ built, pier, bridge, moshi, expansion, season, halloween, soccerCups });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [builtKey, pier, bridge, moshi, expansion, season, halloween]);
+  }, [builtKey, pier, bridge, moshi, expansion, season, halloween, soccerCups]);
 
   useEffect(() => { engine.current?.setSky(props.tod, props.weather); }, [props.tod, props.weather]);
 

@@ -93,7 +93,7 @@ function SeasonDeco({ season, halloween = false }: { season: number; halloween?:
 
 // となりの島への はし（main の右の海岸から 世界の右はしへ）
 // サッカー場（緑ヶ丘サッカーへの 入口。上から見た ピッチ）
-function SoccerPitch() {
+function SoccerPitch({ cups = 0 }: { cups?: number }) {
   const { x: x0, y: y0, w, h } = SOCCER_PITCH;
   const cx = x0 + w / 2, cy = y0 + h / 2;
   const line = { fill: 'none', stroke: '#ffffff', strokeWidth: 3, strokeOpacity: 0.95 } as const;
@@ -153,6 +153,15 @@ function SoccerPitch() {
         <circle r="8" fill="#ffffff" stroke="#1f2937" strokeWidth="1.5" />
         <path d="M0 -3.4 L3.2 -1 L2 2.8 L-2 2.8 L-3.2 -1 Z" fill="#1f2937" />
       </g>
+      {/* ゆうしょうの トロフィー（3こまで） */}
+      {Array.from({ length: Math.min(3, cups) }, (_, i) => (
+        <g key={'tr' + i} transform={`translate(${x0 + 70 + i * 26} ${y0 - 8})`}>
+          <rect x="-10" y="-6" width="20" height="6" rx="1.5" fill="#1e3a8a" />
+          <rect x="-2" y="-12" width="4" height="6" fill="#d97706" />
+          <path d="M-9 -28 L9 -28 L9 -22 C9 -16 4 -12 0 -12 C-4 -12 -9 -16 -9 -22 Z" fill="#fbbf24" stroke="#b45309" strokeWidth="1.2" />
+          <path d="M-9 -25 C-15 -25 -14 -17 -6 -16 M9 -25 C15 -25 14 -17 6 -16" fill="none" stroke="#d97706" strokeWidth="2" strokeLinecap="round" />
+        </g>
+      ))}
       {/* かんばん */}
       <g transform={`translate(${x0 + 28} ${y0 - 8})`}>
         <rect x="-2" y="-30" width="4" height="30" fill="#78350f" />
@@ -233,7 +242,7 @@ function OuterDeco() {
   );
 }
 
-function IslandGroundBase({ expansion = 0, pier = false, season = 0, bridge = false, halloween = false, moshi = false }: { expansion?: number; pier?: boolean; season?: number; bridge?: boolean; halloween?: boolean; moshi?: boolean }) {
+function IslandGroundBase({ expansion = 0, pier = false, season = 0, bridge = false, halloween = false, moshi = false, soccerCups = 0 }: { expansion?: number; pier?: boolean; season?: number; bridge?: boolean; halloween?: boolean; moshi?: boolean; soccerCups?: number }) {
   const G = MAIN_GROUND;
   // さんばしの ねもと（x=360 の 砂浜の上のはし）
   const sandTop = Math.round(G.cy - G.sandRy * Math.sqrt(1 - ((360 - G.cx) / G.sandRx) ** 2));
@@ -349,7 +358,7 @@ function IslandGroundBase({ expansion = 0, pier = false, season = 0, bridge = fa
       <ellipse cx={G.cx} cy={G.cy} rx={G.sandRx} ry={G.sandRy} fill="url(#sand)" />
       <ellipse cx={G.cx} cy={G.cy} rx={G.grassRx} ry={G.grassRy} fill="url(#grass)" />
       <OuterDeco />
-      <SoccerPitch />
+      <SoccerPitch cups={soccerCups} />
 
       {/* 草のぽつぽつ（更地でもさみしくしすぎない） */}
       {[
