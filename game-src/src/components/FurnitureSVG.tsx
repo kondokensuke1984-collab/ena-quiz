@@ -245,6 +245,36 @@ const DRAWINGS: Record<string, Draw> = {
     </g>
   ),
 
+  fn_fishboat: () => (
+    <g>
+      <ellipse cx="0" cy="3" rx="34" ry="6" fill="rgba(0,0,0,0.2)" />
+      <path d="M-34 -14 L34 -14 L24 2 L-24 2 Z" fill="#b45309" {...S} />
+      <path d="M-30 -10 L30 -10" stroke="#fde68a" strokeWidth="2.5" />
+      <rect x="-2" y="-62" width="4" height="48" fill="#78350f" {...S} strokeWidth="1.5" />
+      <path d="M3 -60 L30 -20 L3 -20 Z" fill="#fff" {...S} />
+      <path d="M-3 -54 L-22 -20 L-3 -20 Z" fill="#fca5a5" {...S} />
+      <path d="M-2 -62 l14 -5 l-14 -4 z" fill="#ef4444" />
+      <path d="M-26 -14 l-10 -22" stroke="#92400e" strokeWidth="2" strokeLinecap="round" />
+      <path d="M-36 -36 q-4 16 2 24" stroke="#94a3b8" strokeWidth="1" fill="none" />
+    </g>
+  ),
+  fn_whalefount: () => (
+    <g>
+      <ellipse cx="0" cy="-4" rx="36" ry="12" fill="#a8a29e" {...S} />
+      <ellipse cx="0" cy="-5" rx="30" ry="8" fill="#38bdf8" />
+      <path d="M-22 -10 q0 -22 22 -22 q20 0 22 14 q2 8 -6 8 l-38 0 z" fill="#3b82f6" {...S} />
+      <path d="M-20 -12 q10 6 26 2" stroke="#bfdbfe" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+      <path d="M20 -18 l12 -10 l-2 10 l8 2 z" fill="#3b82f6" {...S} strokeWidth="1.5" />
+      <circle cx="-10" cy="-20" r="2" fill="#1e1b4b" />
+      <g className="crop-bob">
+        <path d="M-4 -32 q-2 -14 -10 -18 M-4 -32 q0 -16 0 -22 M-4 -32 q2 -14 10 -18" stroke="#7dd3fc" strokeWidth="3" fill="none" strokeLinecap="round" />
+        <circle cx="-14" cy="-50" r="2.5" fill="#bae6fd" />
+        <circle cx="6" cy="-50" r="2.5" fill="#bae6fd" />
+        <circle cx="-4" cy="-55" r="2.5" fill="#bae6fd" />
+      </g>
+    </g>
+  ),
+
   // ── けんびきょうの プランクトンずかんの ごほうび ──
   fn_medaka: () => (
     <g>

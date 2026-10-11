@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useGame } from '../state/useGame';
 import { ITEM_BY_ID } from '../lib/items';
-import { FISH, FISH_PER_DAY, FISH_REWARDS, FISH_STUDY_BONUS, rollFish, zoneWidth, type Fish, type FishCtx } from '../lib/fish';
+import { FISH, FISH_PER_DAY, FISH_REWARDS, FISH_STUDY_BONUS, fishStyle, rollFish, zoneWidth, type Fish, type FishCtx } from '../lib/fish';
 import { sfx } from '../lib/sound';
 
 // つり：うきが しずんだら ゲージの「いま！」で タップ。にげられても 回数は へらない（もういちど できる）。
@@ -107,7 +107,7 @@ export function FishingModal({ ctx, studied, onClose }: { ctx: FishCtx; studied:
               )}
               {phase.kind === 'got' && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
-                  <div className="bubble-pop text-6xl">{phase.fish.emoji}</div>
+                  <div className="bubble-pop text-6xl" style={fishStyle(phase.fish)}>{phase.fish.emoji}</div>
                   <div className="mt-1 text-[16px] font-black drop-shadow">{phase.fish.name}　{phase.cm}cm！</div>
                 </div>
               )}
@@ -166,7 +166,7 @@ export function FishingModal({ ctx, studied, onClose }: { ctx: FishCtx; studied:
                 const n = caught[f.id] ?? 0;
                 return (
                   <div key={f.id} className={`rounded-xl px-1 py-1.5 text-center ${n ? 'bg-sky-50' : 'bg-gray-100'}`}>
-                    <div className={`text-2xl ${n ? '' : 'opacity-40 grayscale'}`}>{n ? f.emoji : '❓'}</div>
+                    <div className={`text-2xl ${n ? '' : 'opacity-40 grayscale'}`} style={n ? fishStyle(f) : undefined}>{n ? f.emoji : '❓'}</div>
                     <div className="truncate text-[10px] font-black text-ink">{n ? f.name : '？？？'}</div>
                     <div className="text-[9px] font-bold leading-tight text-indigo-900/55">
                       {n ? `${g.save.fish.big[f.id] ?? 0}cm・${n}ひき` : f.hint}

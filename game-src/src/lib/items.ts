@@ -148,6 +148,8 @@ export const ITEMS: Item[] = [
   { id: 'fn_fishsign', kind: 'furniture', name: 'さかなの かんばん',   emoji: '🐟', price: 0, desc: 'さかなを 5しゅるい つった ごほうび',  once: true, reward: true },
   { id: 'fn_forest',   kind: 'furniture', name: 'もりの トロフィー',   emoji: '🌲', price: 0, desc: 'クエストの まよいの森で もりのぬしを たおした ごほうび', once: true, reward: true, anywhere: true },
   { id: 'fn_aquarium', kind: 'furniture', name: 'すいそう',           emoji: '🐠', price: 0, desc: 'さかなを 10しゅるい つった ごほうび', once: true, reward: true, anywhere: true },
+  { id: 'fn_fishboat',   kind: 'furniture', name: 'つりぶね',             emoji: '⛵', price: 0, desc: 'さかなを 18しゅるい つった ごほうび', once: true, reward: true },
+  { id: 'fn_whalefount', kind: 'furniture', name: 'くじらの ふんすい',     emoji: '🐳', price: 0, desc: 'さかなを 25しゅるい つった ごほうび', once: true, reward: true, anywhere: true },
   // ── けんびきょうの プランクトンずかんの ごほうび（ショップでは売らない）──
   { id: 'fn_medaka',   kind: 'furniture', name: 'メダカの いけ',       emoji: '🐟', price: 0, desc: 'プランクトンを 4しゅるい みつけた ごほうび', once: true, reward: true },
   // ── 星座ずかん・おだんごお供えの ごほうび（ショップでは売らない）──
