@@ -104,6 +104,61 @@ const FMON_DRAW = {
     '<circle cx="86" cy="78" r="4" fill="' + p[2] + '" stroke="none"/><circle cx="114" cy="78" r="4" fill="' + p[2] + '" stroke="none"/>' +
     fmonShine('M74 64 C78 56 86 52 94 50'),
   // 🪨 いわゴーレム（どうくつの ばんにん）
+  // 🏰 おしろの なか（2026-10）
+  // ⚔️ よろいナイト（かぶと・たて・けん）
+  knight: (p) =>
+    '<path d="M154 140 L154 52 L160 36 L166 52 L166 140 Z" fill="#e2e8f0"/><path d="M144 144 L176 144" fill="none" stroke-width="8"/><path d="M160 148 L160 170" fill="none" stroke-width="8"/>' +
+    '<path d="M72 168 L68 190 L92 190 L92 168 Z M128 168 L132 190 L108 190 L108 168 Z" fill="' + p[1] + '"/>' +
+    '<path d="M64 100 L136 100 L130 172 L70 172 Z" fill="' + p[0] + '"/>' +
+    '<path d="M100 100 L100 172" fill="none" stroke-width="3" opacity=".45"/>' +
+    '<path d="M136 112 C146 116 152 124 156 140" fill="none" stroke-width="12" stroke="' + p[1] + '"/>' +
+    '<path d="M18 96 L66 96 L66 140 C66 160 42 174 42 174 C42 174 18 160 18 140 Z" fill="' + p[1] + '"/>' +
+    '<path d="M42 108 L42 158 M26 128 L58 128" fill="none" stroke="' + p[2] + '" stroke-width="7"/>' +
+    '<path d="M66 100 C60 42 140 42 134 100 Z" fill="' + p[0] + '"/>' +
+    '<path d="M100 48 C96 22 122 14 140 22 C126 30 116 40 106 52 Z" fill="' + p[2] + '"/>' +
+    '<rect x="72" y="68" width="56" height="15" rx="5" fill="#111"/>' +
+    '<circle cx="88" cy="75.5" r="4.5" fill="#fde047" stroke="none"/><circle cx="112" cy="75.5" r="4.5" fill="#fde047" stroke="none"/>' +
+    fmonShine('M76 92 C74 74 80 60 92 54'),
+  // 🧙 まどうし（とんがりぼうし・ローブ・つえ）
+  madou: (p) =>
+    '<circle cx="152" cy="48" r="24" fill="' + p[2] + '" opacity=".3" stroke="none"/>' +
+    '<path d="M100 92 C70 96 52 150 44 186 L156 186 C148 150 130 96 100 92 Z" fill="' + p[0] + '"/>' +
+    '<path d="M70 150 Q100 162 130 150" fill="none" stroke="' + p[2] + '" stroke-width="5"/>' +
+    '<ellipse cx="100" cy="104" rx="26" ry="20" fill="#1e1b2e"/>' +
+    '<circle cx="90" cy="104" r="5" fill="#fde047" stroke="none"/><circle cx="110" cy="104" r="5" fill="#fde047" stroke="none"/>' +
+    '<path d="M50 94 Q100 108 150 94 Q124 84 114 82 L98 14 Q88 30 84 44 L86 82 Q76 84 50 94 Z" fill="' + p[1] + '"/>' +
+    '<path d="M86 80 Q100 88 114 80" fill="none" stroke="' + p[2] + '" stroke-width="6"/>' +
+    '<path d="M100 40 l3 6 6 1 -5 4 1 6 -5 -3 -5 3 1 -6 -5 -4 6 -1 z" fill="#fde047" stroke-width="2"/>' +
+    '<path d="M158 186 L150 62" fill="none" stroke-width="7"/>' +
+    '<circle cx="150" cy="48" r="14" fill="' + p[2] + '"/>' +
+    '<path d="M122 128 C136 124 144 122 150 118" fill="none" stroke-width="13" stroke="' + p[0] + '"/>' +
+    '<circle cx="150" cy="118" r="8" fill="#fde4c4"/>' +
+    fmonShine('M144 42 C146 38 150 36 154 36'),
+  // 🕯 おばけキャンドル（ろうそくの かお・ゆれる ほのお）
+  candle: (p) =>
+    '<ellipse cx="100" cy="182" rx="54" ry="10" fill="#b45309"/>' +
+    '<path d="M152 178 C176 176 176 152 154 156" fill="none" stroke-width="6"/>' +
+    '<path d="M64 180 L64 84 Q100 72 136 84 L136 180 Z" fill="' + p[0] + '"/>' +
+    '<path d="M64 86 L64 118 Q70 128 76 118 L76 88 Z M118 84 L118 108 Q124 118 130 108 L130 86 Z" fill="' + p[0] + '" stroke-width="3"/>' +
+    '<path d="M100 78 L100 62" fill="none"/>' +
+    '<path d="M100 66 C78 50 92 24 100 8 C108 24 124 48 100 66 Z" fill="' + p[1] + '"/>' +
+    '<path d="M100 60 C92 50 96 40 100 32 C104 40 108 50 100 60 Z" fill="#fef9c3" stroke="none"/>' +
+    fmonEye(84, 122, 10, 1, p[2]) + fmonEye(116, 122, 10, -1, p[2]) +
+    '<path d="M84 148 Q100 164 116 148 Q100 154 84 148 Z" fill="#7f1d1d"/>' +
+    fmonShine('M78 168 C74 140 74 112 78 94'),
+  // 📦 ミミック（たからばこの ふりを した モンスター）
+  mimic: (p) =>
+    '<path d="M42 120 L158 120 L150 76 L50 76 Z" fill="#1e1b2e"/>' +
+    '<circle cx="80" cy="98" r="7" fill="#fde047" stroke="none"/><circle cx="120" cy="98" r="7" fill="#fde047" stroke="none"/>' +
+    '<path d="M100 114 C88 132 106 154 130 142 C122 134 116 120 100 114 Z" fill="' + p[2] + '"/>' +
+    '<path d="M36 120 L164 120 L160 184 L40 184 Z" fill="' + p[0] + '"/>' +
+    '<path d="M46 120 L54 106 L62 120 L70 106 L78 120 L86 106 L94 120 L102 106 L110 120 L118 106 L126 120 L134 106 L142 120 L150 106 L158 120 Z" fill="#fff" stroke-width="3"/>' +
+    '<rect x="38" y="142" width="124" height="10" fill="' + p[1] + '"/>' +
+    '<rect x="90" y="132" width="20" height="26" rx="3" fill="' + p[1] + '"/><circle cx="100" cy="144" r="3" fill="#111" stroke="none"/>' +
+    '<path d="M32 76 L168 76 L174 40 Q100 12 26 40 Z" fill="' + p[0] + '"/>' +
+    '<path d="M30 58 Q100 34 170 58" fill="none" stroke="' + p[1] + '" stroke-width="8"/>' +
+    '<path d="M42 76 L50 92 L58 76 L66 92 L74 76 L82 92 L90 76 L98 92 L106 76 L114 92 L122 76 L130 92 L138 76 L146 92 L154 76 Z" fill="#fff" stroke-width="3"/>' +
+    fmonShine('M44 168 C42 150 44 136 50 128'),
   golem: (p) =>
     '<path d="M66 168 L60 190 L92 190 L90 168 Z M134 168 L140 190 L108 190 L110 168 Z" fill="' + p[1] + '"/>' +
     '<path d="M50 86 L150 82 L158 172 L42 174 Z" fill="' + p[0] + '"/>' +
@@ -219,6 +274,14 @@ const FOREST_MONSTERS = {
   fm_woody:     ['woody', ['#92400e', '#e07b2a'], 'あばれウッド'],
   fm_yoroi:     ['yoroi', ['#94a3b8', '#64748b', '#ef4444'], 'ガランドウ'],
   fm_chibidora: ['chibidora', ['#ef4444', '#fde68a', '#f97316'], 'ちびドラゴン'],
+  // おしろの なか
+  fm_knight:    ['knight', ['#cbd5e1', '#475569', '#ef4444'], 'よろいナイト'],
+  fm_knight2:   ['knight', ['#334155', '#0f172a', '#a855f7'], 'くろきし'],
+  fm_madou:     ['madou', ['#6d28d9', '#4c1d95', '#22d3ee'], 'まどうし'],
+  fm_madou2:    ['madou', ['#b91c1c', '#7f1d1d', '#fb923c'], 'ほのおの まどうし'],
+  fm_candle:    ['candle', ['#fef3c7', '#f97316', '#111'], 'おばけキャンドル'],
+  fm_candle2:   ['candle', ['#e0e7ff', '#38bdf8', '#1e3a8a'], 'あおびキャンドル'],
+  fm_mimic:     ['mimic', ['#92400e', '#facc15', '#f472b6'], 'ミミック'],
   // どうくつ・ぬし
   fm_golem:     ['golem', ['#a8a29e', '#78716c', '#22d3ee', '#4d7c0f'], 'いわゴーレム'],
   fm_nushi:     ['nushi', ['#5b3a1f', '#c8a27a', '#4d7c0f'], 'もりのぬし グランベア'],
@@ -227,7 +290,10 @@ const FOREST_MOBS = {
   west: ['fm_puru', 'fm_kinoko', 'fm_koumori', 'fm_donguri', 'fm_hachi', 'fm_obake', 'fm_hebi', 'fm_hana', 'fm_imomushi'],
   east: ['fm_puru2', 'fm_puru3', 'fm_kinoko2', 'fm_koumori2', 'fm_donguri2', 'fm_hachi2', 'fm_obake2', 'fm_hebi2',
          'fm_hana2', 'fm_imomushi2', 'fm_ookami', 'fm_woody', 'fm_yoroi', 'fm_chibidora'],
+  // おしろの なか（ミミックは たからばこに かくれているので ここには いれない）
+  castle: ['fm_knight', 'fm_knight2', 'fm_madou', 'fm_madou2', 'fm_candle', 'fm_candle2'],
 };
+const FOREST_MIMIC_KEY = 'fm_mimic';
 const FOREST_GUARD_KEY = 'fm_golem', FOREST_NUSHI_KEY = 'fm_nushi';
 Object.entries(FOREST_MONSTERS).forEach(([key, [shape, pal, name]]) => {
   CHARS[key] = (lv, fill, size, opts) => fmonSvg(size || 160, FMON_DRAW[shape](pal), opts && opts.silhouette);
@@ -259,6 +325,13 @@ const FOREST_MONSTER_INFO = {
   fm_woody:     'きられた きりかぶが おこって うごきだした。えだの うでを ふりまわす。',
   fm_yoroi:     'なかみが からっぽの よろい。むかし おしろを まもっていた へいしの もの らしい。',
   fm_chibidora: 'ドラゴンの こども。まだ ちいさいけど ひを ふく ことが できる。',
+  fm_knight:    'おしろを まもる きし。かぶとの すきまから きいろい めが ひかる。',
+  fm_knight2:   'まっくろな よろいの きし。よなかの おしろを ひとりで みまわっている。',
+  fm_madou:     'おしろの としょしつに すむ まほうつかい。つえの たまで ほんを よむ。',
+  fm_madou2:    'ほのおの まほうが とくいな まどうし。くしゃみを すると ひのこが でる。',
+  fm_candle:    'おしろの ろうかを てらす ろうそく。ときどき かってに あるきだす。',
+  fm_candle2:   'あおい ほのおの ろうそく。ふしぎな ことに さわっても つめたい。',
+  fm_mimic:     'たからばこの ふりを して まちぶせ する。あけた ひとを パクッと する きだ。',
   fm_golem:     'どうくつを まもる いわの ばんにん。おしろの かぎを ずっと もっている。',
   fm_nushi:     'もりで いちばん つよい ぬし。つのに もみじを かざった 大きな クマ。',
 };
@@ -266,6 +339,8 @@ const FOREST_MONSTER_INFO = {
 const FOREST_DEX_ORDER = [
   ...FOREST_MOBS.west.map(k => [k, 'かわの こちら']),
   ...FOREST_MOBS.east.map(k => [k, 'かわの むこう']),
+  ...FOREST_MOBS.castle.map(k => [k, 'おしろの なか']),
+  [FOREST_MIMIC_KEY, 'おしろの なか'],
   [FOREST_GUARD_KEY, 'どうくつ'],
   [FOREST_NUSHI_KEY, 'おしろ'],
 ];
@@ -279,7 +354,7 @@ const FOREST_EVO_NEED = 5, FOREST_EVO_MEDAL = 3;
 // かんむりを のせる ところ（もとの 絵の あたまの てっぺん x, y）
 const FMON_CROWN_AT = {
   puru: [100, 74], kinoko: [100, 64], koumori: [100, 68], donguri: [100, 58], hachi: [100, 86], ookami: [100, 72],
-  woody: [100, 58], yoroi: [100, 62], obake: [100, 54], hebi: [100, 50], hana: [100, 26], imomushi: [146, 68], chibidora: [100, 50],
+  woody: [100, 58], yoroi: [100, 62], knight: [100, 50], madou: [100, 92], candle: [100, 84], mimic: [100, 24], obake: [100, 54], hebi: [100, 50], hana: [100, 26], imomushi: [146, 68], chibidora: [100, 50],
 };
 function fmonEvo(shape, pal) {
   const [x, y] = FMON_CROWN_AT[shape] || [100, 50];
@@ -323,6 +398,13 @@ const FOREST_EVOS = {
   fm_woody:     ['woody', ['#3f6212', '#a3e635'], 'いにしえウッド'],
   fm_yoroi:     ['yoroi', ['#fbbf24', '#b45309', '#22d3ee'], 'こがねのガランドウ'],
   fm_chibidora: ['chibidora', ['#7c3aed', '#fde68a', '#22d3ee'], 'わかドラゴン'],
+  fm_knight:    ['knight', ['#fef3c7', '#ca8a04', '#22d3ee'], 'せいなる ナイト'],
+  fm_knight2:   ['knight', ['#1e1b4b', '#020617', '#f43f5e'], 'やみの きしだんちょう'],
+  fm_madou:     ['madou', ['#1e40af', '#172554', '#fde047'], 'だいまどうし'],
+  fm_madou2:    ['madou', ['#7f1d1d', '#450a0a', '#fde047'], 'ほのおの だいまどうし'],
+  fm_candle:    ['candle', ['#fde68a', '#ef4444', '#7c2d12'], 'シャンデリアおばけ'],
+  fm_candle2:   ['candle', ['#c7d2fe', '#818cf8', '#312e81'], 'あおびの シャンデリア'],
+  fm_mimic:     ['mimic', ['#facc15', '#f97316', '#e11d48'], 'キングミミック'],
 };
 Object.entries(FOREST_EVOS).forEach(([key, [shape, pal, name]]) => {
   CHARS[key + '_evo'] = (lv, fill, size, opts) => fmonSvg(size || 160, fmonEvo(shape, pal), opts && opts.silhouette);
@@ -351,6 +433,13 @@ Object.assign(FOREST_MONSTER_INFO, {
   fm_ookami_evo:    'ぎんいろの けなみの オオカミ。つきの よるに だけ すがたを みせる。',
   fm_woody_evo:     'なんびゃく ねんも いきた きりかぶ。あたまから また わかばが はえてきた。',
   fm_yoroi_evo:     'きんいろに みがかれた よろい。おしろの おうさまを まもっていた らしい。',
+  fm_knight_evo:    'おしろの おうさまに みとめられた きし。たての もんしょうが きんいろに ひかる。',
+  fm_knight2_evo:   'くろきしたちの だんちょう。こえを きいた ことが ある ものは いない。',
+  fm_madou_evo:     'おしろの まほうを ぜんぶ おぼえた まどうし。ぼうしの ほしが よぞらに なる。',
+  fm_madou2_evo:    'ほのおの まほうを きわめた まどうし。くしゃみ ひとつで だんろに 火が つく。',
+  fm_candle_evo:    'おしろの ろうそくが あつまって シャンデリアに なった。おどるのが すき。',
+  fm_candle2_evo:   'あおい ほのおの シャンデリア。おしろの おおひろまを しずかに てらす。',
+  fm_mimic_evo:     'ミミックの おうさま。なかには ほんものの たからものが…ある かも しれない。',
   fm_chibidora_evo: 'ちびドラゴンが すこし おとなに なった。もう ほのおで まきに 火を つけられる。',
 });
 FOREST_DEX_ORDER.push(...Object.keys(FOREST_EVOS).map(k => [k + '_evo', '✨ しんか']));

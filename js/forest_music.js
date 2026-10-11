@@ -115,6 +115,16 @@ const FM_SONGS = {
       'F5.4 Ab5.4 C6.4 F6.4  D6.4 B5.4 G5.8  Eb6.4 D6.4 C6.4 G5.4  B5.8 D6.8']],
     drums: ['x.hsx.h.x.hsx.h.', 'x.hsx.h.x.hsxrrr'],
   },
+  // 🏰 おしろの なか：ゆっくり おごそかな マーチ（イ短調）
+  castle: {
+    bpm: 92, pad: 0.6, bass: 'march', gain: 0.9,
+    chords: '| Am | Dm | G | C | F | Dm | A | A |',
+    lead: [['horn',
+      'A4.8 C5.4 E5.4  F5.8 E5.4 D5.4  B4.8 D5.4 G5.4  E5.16 ' +
+      'F5.6 E5.2 D5.4 C5.4  D5.8 F5.8  E5.6 D5.2 C#5.4 E5.4  A4.16'],
+      ['bell', 'r.16 r.16 r.16 r.8 E6.4 C6.4  r.16 r.16 r.16 r.8 A5.8', 0.4]],
+    drums: ['k.......s.......', 'k.......s...s.s.'],
+  },
   // 🎺 かちの ファンファーレ「たらら ら・ったっ・たた・たー」（オリジナル。1かいだけ）
   victory: {
     bpm: 138, loop: false, pad: 0.7, bass: 'march',

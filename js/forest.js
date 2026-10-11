@@ -13,13 +13,16 @@
 // ============================================================
 const FOREST_W = 34, FOREST_H = 26;
 const FOREST_ENC_MIN = 4;                                   // たたかいの あと この歩数は 出ない
-const FOREST_ENC = { '.': 0.05, '"': 0.10, 'T': 0.12 };     // 1歩ごとの 出やすさ（みち・はしは 出ない）
+const FOREST_ENC = { '.': 0.05, '"': 0.10, 'T': 0.12, 'o': 0.07, 'r': 0.03 };   // 1歩ごとの 出やすさ（みち・はしは 出ない。o r は おしろの なか）
 const FOREST_STEP = 0.2;                                    // 1マス あるく 秒
 const FOREST_BOSS_DAILY = 5, FOREST_BOSS_FIRST = 10;
 const FOREST_BOSS_CHAR = 'bear', FOREST_BOSS_NAME = 'もりのぬし ビッグベア';
 const FOREST_GUARD_NAME = 'どうくつの ばんにん';
-const FOREST_WALK = '.";T=B';                              // あるける マス
-let fz = null;          // いまの ちず（forestBuild の かえりち）
+const FOREST_WALK = '.";T=Bor';                            // あるける マス（o いしの ゆか・r じゅうたん は おしろの なか）
+// 🏰 おしろに はいる じょうけん（かぎ ＋ 島の たてもの ＋ これまでに たおした モンスター）
+const FOREST_CASTLE_BUILD = 7, FOREST_CASTLE_KILLS = 30;
+let fz = null;          // いまの ちず（森＝forestBuild／おしろ＝forestCastleMap。fz.area で わかる）
+let fzField = null;     // その日の 森の ちず（おしろから もどったときに つかいまわす）
 let forestMsg = '';
 let forestMapOpen = false;
 let forestUnits = null;         // 森で出す単元（data/forest_units.json）。空・読めないときは制限なし
@@ -162,12 +165,73 @@ function forestDist(map, sx, sy) {
   }
   return dist;
 }
+// ── 🏰 おしろの なか（まいにち おなじ かたち）──
+// 記号：H かべ　o いしの ゆか　r じゅうたん　I はしら　L たいまつ（かべ）　N おうざの ぬし　D でぐち
+//       $ たからばこ　M ミミック（たからばこの ふり）　W いずみ
+const CASTLE_ROWS = [
+  'HHHHHHHHHHHHHHHHH',
+  'HHHHLoooNoooLHHHH',
+  'HHHHHIorrroIHHHHH',
+  'HHHHHoorrrooHHHHH',
+  'HHHHHIorrroIHHHHH',
+  'HHHHHHHHrHHHHHHHH',
+  'H$ooHoooroooHooMH',
+  'LoooLoIoroIoLoooL',
+  'HWooHoooroooHoo$H',
+  'HoooooooroooooooH',
+  'HHHHHoIoroIoHHHHH',
+  'HHHHLoooroooLHHHH',
+  'HHHHHoooroooHHHHH',
+  'HHHHHHHHDHHHHHHHH',
+];
+const CASTLE_SPOTS = { start: [8, 12], throne: [8, 1], door: [8, 13], gateOut: [28, 5] };
+function forestCastleMap() {
+  const W = CASTLE_ROWS[0].length, H = CASTLE_ROWS.length;
+  const t = CASTLE_ROWS.join('').split('');
+  const get = (x, y) => (x < 0 || y < 0 || x >= W || y >= H) ? 'H' : t[y * W + x];
+  const chests = [];
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) if (t[y * W + x] === '$') chests.push([x, y]);
+  return { W, H, t, get, chests, start: CASTLE_SPOTS.start.slice(), area: 'castle' };
+}
+function forestInCastle() { return !!fz && fz.area === 'castle'; }
+
+// 🏰 おしろに はいる じょうけん
+// 島の たてもの（島の セーブ ena_island_save_v1 の buildings。おなじ サイトなので 読める）
+function forestCastleBuilt() {
+  try {
+    const s = JSON.parse(localStorage.getItem('ena_island_save_v1') || 'null');
+    return s && Array.isArray(s.buildings) ? s.buildings.filter(b => /^bd_/.test(b)).length : 0;
+  } catch (e) { return 0; }
+}
+// これまでに たおした モンスターの かず（ずかんの 合計。しんかした すがたは かぞえない）
+function forestKills() {
+  const d = forestDex();
+  return Object.keys(d).reduce((a, k) => a + (Number(d[k]) > 0 ? Math.floor(d[k]) : 0), 0);
+}
+// たりない ものが あれば { msg, goal, line }、ぜんぶ そろっていれば null（かぎは べつに しらべる）
+function forestCastleNeed() {
+  const b = forestCastleBuilt(), k = forestKills();
+  const line = '🏝 しまの たてもの ' + Math.min(b, FOREST_CASTLE_BUILD) + '/' + FOREST_CASTLE_BUILD + (b >= FOREST_CASTLE_BUILD ? '✓' : '') +
+    '　⚔️ たおした モンスター ' + Math.min(k, FOREST_CASTLE_KILLS) + '/' + FOREST_CASTLE_KILLS + (k >= FOREST_CASTLE_KILLS ? '✓' : '');
+  if (b >= FOREST_CASTLE_BUILD && k >= FOREST_CASTLE_KILLS) return null;
+  const goal = k < FOREST_CASTLE_KILLS
+    ? '⚔️ もりで モンスターを あと ' + (FOREST_CASTLE_KILLS - k) + 'ひき たおそう（おしろに はいる じょうけん）'
+    : '🏝 しまで たてものを あと ' + (FOREST_CASTLE_BUILD - b) + 'こ たてよう（おしろに はいる じょうけん）';
+  return { line, goal, msg: '🏰 おしろに はいるには…　🗝 かぎ✓　' + line };
+}
+
 // 🎯 いま めざす ところ（画面の 上の「つぎに やること」と、光る ！の 場所）
 function forestGoal() {
   const f = save.forest;
+  if (forestInCastle()) {
+    if (f.bossDay === todayKey()) return { at: CASTLE_SPOTS.door, h: 1.8, text: '👑 きょうの もりは クリア！ 🚪 でぐちから もりへ もどろう' };
+    return { at: CASTLE_SPOTS.throne, h: 2.9, text: '🎯 おくの おうざのまへ！ もりのぬしが まっている' };
+  }
   if (f.bossDay === todayKey()) return { at: null, text: '👑 きょうの もりは クリア！ また あしたの もりで あそぼう' };
   if (!f.key) return { at: FOREST_SPOTS.cave, h: 2.2, text: '🎯 ひだり うえの どうくつで ばんにんを たおして、しろの かぎを ゲット！' };
-  return { at: FOREST_SPOTS.gate, h: 3.9, text: '🎯 かぎを もって、はしを わたった みぎ うえの おしろへ！' };
+  const need = forestCastleNeed();
+  if (need) return { at: null, text: need.goal };
+  return { at: FOREST_SPOTS.gate, h: 3.9, text: '🎯 かぎを もって、はしを わたった みぎ うえの おしろに はいろう！' };
 }
 function forestTile(x, y) { return fz ? fz.get(x, y) : '#'; }
 function forestEast(x, y) { return x > forestRiverX(y) + 1; }
@@ -179,7 +243,7 @@ function forestState() {
   if (old.day !== d || old.v !== 2) {
     save.forest = {
       v: 2, day: d, x: FOREST_SPOTS.start[0], y: FOREST_SPOTS.start[1], dir: 'down', since: 0,
-      seen: '', opened: [], key: false, tower: false,
+      seen: '', opened: [], key: false, tower: false, area: 'field', mimic: false,
       bossDay: old.bossDay || '', bossEver: !!old.bossEver,
     };
     persist();
@@ -188,12 +252,14 @@ function forestState() {
 }
 function forestLoad() {
   const f = forestState();
-  if (!fz || fz.day !== f.day) { fz = forestBuild(f.day); fz.day = f.day; }
+  if (!fzField || fzField.day !== f.day) { fzField = forestBuild(f.day); fzField.day = f.day; fzField.area = 'field'; }
+  if (f.area === 'castle') { fz = forestCastleMap(); fz.day = f.day; } else fz = fzField;
   if (!FOREST_WALK.includes(forestTile(f.x, f.y))) { f.x = fz.start[0]; f.y = fz.start[1]; }
   forestReveal();
   forestPalReset();
 }
 function forestReveal() {
+  if (forestInCastle()) return;   // おしろの なかは ちいさいので さいしょから ぜんぶ 見える
   const f = save.forest, n = FOREST_W * FOREST_H;
   const a = (f.seen && f.seen.length === n ? f.seen : '0'.repeat(n)).split('');
   for (let dy = -4; dy <= 4; dy++) for (let dx = -4; dx <= 4; dx++) {
@@ -203,10 +269,13 @@ function forestReveal() {
   f.seen = a.join('');
 }
 function forestSeen(x, y) {
+  if (forestInCastle()) return true;
   const f = save.forest;
   return f.tower || (f.seen || '')[y * FOREST_W + x] === '1';
 }
-function forestChestOpened(x, y) { return (save.forest.opened || []).includes(x + ',' + y); }
+// あけた たからばこ（おしろの なかは 'c:x,y' で 森と わける）
+function forestChestKey(x, y) { return (forestInCastle() ? 'c:' : '') + x + ',' + y; }
+function forestChestOpened(x, y) { return (save.forest.opened || []).includes(forestChestKey(x, y)); }
 
 // ── 画面 ──
 function forestMapPanel() {
@@ -222,6 +291,8 @@ function forestMapPanel() {
     '</button>' +
     (typeof FOREST_DEX_ORDER !== 'undefined'
       ? '<button class="btn" onclick="forestDexOpen()" style="text-align:center; background:#fff; margin-top:8px;">📖 モンスターずかん ' + forestDexCount() + ' / ' + FOREST_DEX_ORDER.length + '</button>' : '') +
+    '<div style="margin-top:7px; font-size:11.5px; color:#14532d; font-weight:800;">🏰 おしろに はいる じょうけん：' +
+      (forestCastleNeed() ? forestCastleNeed().line : '🏝 たてもの✓　⚔️ モンスター✓（あとは 🗝 かぎ！）') + '</div>' +
     (beat ? '<div style="margin-top:6px; font-size:11.5px; color:#15803d; font-weight:800; text-align:right;">👑 きょうは もりのぬしを たおしたよ！</div>' : '') +
   '</div>';
 }
@@ -232,7 +303,8 @@ function enterForest() {
   forestLoad();
   forestMapOpen = false;
   persist();
-  forestShow(save.forest.key ? 'もりに もどってきた。おしろへ いこう！' : 'もりに はいった。どうくつの ばんにんが しろの かぎを もっているらしい…');
+  forestShow(forestInCastle() ? 'おしろの なかに もどってきた。'
+    : save.forest.key ? 'もりに もどってきた。おしろへ いこう！' : 'もりに はいった。どうくつの ばんにんが しろの かぎを もっているらしい…');
 }
 
 // 森の画面を つくって 出す（3D は はじめの 1かいだけ よみこむ）
@@ -282,7 +354,7 @@ function forestShow(msg) {
   document.getElementById('fz-leave').textContent = forestFromIsland ? '🏝 しまへ' : '🏃 でる';
   forestMusicLabel();
   showScreen('forest');
-  if (typeof fmPlay === 'function') fmPlay('field');
+  if (typeof fmPlay === 'function') fmPlay(forestInCastle() ? 'castle' : 'field');
   forestSay(msg || '');
   forestHud();
   forestDrawMap();
@@ -303,7 +375,8 @@ function forestHud() {
   const f = save.forest;
   document.getElementById('fz-items').textContent =
     (f.key ? '🗝 しろの かぎ　' : '') + (f.tower ? '🗺 ちずが ぜんぶ わかる　' : '') +
-    '📦 たからばこ ' + (f.opened || []).length + ' / ' + fz.chests.length;
+    (forestInCastle() ? '🏰 おしろの なか　' : '') +
+    '📦 たからばこ ' + (f.opened || []).filter(o => forestInCastle() === o.startsWith('c:')).length + ' / ' + fz.chests.length;
   document.getElementById('fz-goal').textContent = forestGoal().text;
 }
 
@@ -325,38 +398,45 @@ function forestDrawMap() {
   if (!forestMapOpen) { box.innerHTML = ''; return; }
   box.innerHTML = '<div class="fz-mapwrap" onclick="toggleForestMap()">' +
     '<div class="panel" style="text-align:center;" onclick="event.stopPropagation()">' +
-      '<b>🗺️ まよいの森の ちず</b>' +
+      (forestInCastle() ? '<b>🗺️ おしろの ちず</b>' : '<b>🗺️ まよいの森の ちず</b>') +
       '<canvas id="fz-mini" class="fz-mini"></canvas>' +
-      '<div style="font-size:11px; color:#64748b;">🔴 ルナ　🟡 いま いく ところ　🏰 おしろ　🕳 どうくつ　⛲ いずみ　🗼 とう　🪧 たてふだ　📦 たからばこ</div>' +
-      (save.forest.tower ? '' : '<div style="font-size:11px; color:#64748b; margin-top:2px;">ものみのとうに のぼると ちずが ぜんぶ わかるよ</div>') +
+      (forestInCastle()
+        ? '<div style="font-size:11px; color:#64748b;">🔴 ルナ　🟡 いま いく ところ　👑 おうざ　📦 たからばこ　⛲ いずみ　🚪 でぐち</div>'
+        : '<div style="font-size:11px; color:#64748b;">🔴 ルナ　🟡 いま いく ところ　🏰 おしろ　🕳 どうくつ　⛲ いずみ　🗼 とう　🪧 たてふだ　📦 たからばこ</div>' +
+          (save.forest.tower ? '' : '<div style="font-size:11px; color:#64748b; margin-top:2px;">ものみのとうに のぼると ちずが ぜんぶ わかるよ</div>')) +
       '<button class="btn-main" style="margin-top:10px;" onclick="toggleForestMap()">とじる</button>' +
     '</div>' +
   '</div>';
   const cv = document.getElementById('fz-mini');
   const k = 18;
-  cv.width = FOREST_W * k; cv.height = FOREST_H * k;
-  forestPaint2D(cv.getContext('2d'), 0, 0, FOREST_W, FOREST_H, k, true);
+  const k2 = forestInCastle() ? 30 : k;   // おしろは ちいさいので 大きめに
+  cv.width = fz.W * k2; cv.height = fz.H * k2;
+  forestPaint2D(cv.getContext('2d'), 0, 0, fz.W, fz.H, k2, true);
 }
 
 const FOREST_COLOR = { '#': '#14532d', '^': '#8d7b68', '~': '#3b82f6', 'X': '#9ca3af', 'K': '#9ca3af', 'C': '#44403c',
   'R': '#a8a29e', 'W': '#7dd3fc', 'F': '#fde68a', 'P': '#a16207', '$': '#86efac', '.': '#86d36b', '"': '#5fae48', 'T': '#2f8a3a',
-  '=': '#e2c58f', 'B': '#a16207' };
-const FOREST_EMOJI = { '#': '🌲', '^': '⛰️', 'T': '🌳', 'X': '', 'K': '🏰', 'C': '🕳️', 'R': '🗼', 'W': '⛲', 'F': '⛺', 'P': '🪧', '$': '📦' };
+  '=': '#e2c58f', 'B': '#a16207',
+  // おしろの なか
+  'H': '#3f3a4a', 'o': '#8b8598', 'r': '#b91c1c', 'I': '#d6d3d1', 'L': '#3f3a4a', 'N': '#facc15', 'D': '#78350f', 'M': '#86efac' };
+const FOREST_EMOJI = { '#': '🌲', '^': '⛰️', 'T': '🌳', 'X': '', 'K': '🏰', 'C': '🕳️', 'R': '🗼', 'W': '⛲', 'F': '⛺', 'P': '🪧', '$': '📦',
+  'L': '🔥', 'N': '👑', 'D': '🚪', 'M': '📦', 'I': '🏛️' };
 // ちず（ちいさい）と、WebGL が ない 端末の 画面を 2D で かく
 function forestPaint2D(g, ox, oy, cols, rows, k, mini) {
   const f = save.forest;
   g.textAlign = 'center'; g.textBaseline = 'middle';
   for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
     const x = ox + c, y = oy + r;
-    const inMap = x >= 0 && y >= 0 && x < FOREST_W && y < FOREST_H;
+    const inMap = x >= 0 && y >= 0 && x < fz.W && y < fz.H;
+    const castle = forestInCastle();
     let t = forestTile(x, y);
-    if (t === '$' && forestChestOpened(x, y)) t = '.';
+    if ((t === '$' || t === 'M') && forestChestOpened(x, y)) t = castle ? 'o' : '.';
     const seen = !mini || !inMap || forestSeen(x, y);
-    g.fillStyle = seen ? FOREST_COLOR[t] || '#86d36b' : '#0f172a';
+    g.fillStyle = !seen ? '#0f172a' : castle && (t === '$' || t === 'M' || t === 'W') ? FOREST_COLOR.o : FOREST_COLOR[t] || '#86d36b';
     g.fillRect(c * k, r * k, k + 0.5, k + 0.5);
     if (!seen) continue;
     const e = FOREST_EMOJI[t];
-    if (e && (!mini || 'KCRW$'.includes(t))) {
+    if (e && (!mini || 'KCRW$NDML'.includes(t))) {
       g.font = Math.round(k * (mini ? 1.25 : 0.8)) + 'px sans-serif';
       g.fillText(e, c * k + k / 2, r * k + k / 2 + 1);
     }
@@ -447,9 +527,14 @@ function forestInteract(x, y, t) {
     f.tower = true; persist(); forestHud();
     return forestSay('🗼 ものみのとうに のぼった！ もりの ちずが ぜんぶ わかるように なった。');
   }
-  if (t === '$') {
+  if (t === 'M' && !f.mimic) {   // 🏰 たからばこ…と おもったら ミミック！（たおすと ふつうの たからばこに なる）
+    persist();
+    forestSay('📦 たからばこ…と おもったら ミミックだ！');
+    return forestEncounter(() => startForestBattle('mimic'));
+  }
+  if (t === '$' || t === 'M') {
     if (forestChestOpened(x, y)) return forestSay('📦 からっぽの たからばこだ。');
-    f.opened = (f.opened || []).concat(x + ',' + y);
+    f.opened = (f.opened || []).concat(forestChestKey(x, y));
     const heal = Math.max(1, Math.round(maxHp() * 0.3));
     save.hp = Math.min(maxHp(), save.hp + heal);
     save.exp += 20;
@@ -467,16 +552,40 @@ function forestInteract(x, y, t) {
     return forestEncounter(() => startForestBattle('guard'));
   }
   if (t === 'K' || t === 'X') {
-    if (f.bossDay === todayKey()) return forestSay('✨ もりのぬしは もう たおしたよ。また あしたの もりで あおう！');
     if (!f.key) return forestSay('🏰 しろの もんには かぎが かかっている。どうくつの ばんにんが かぎを もっているらしい…');
+    const need = forestCastleNeed();
+    if (need) return forestSay(need.msg);
+    return forestGoArea('castle');
+  }
+  // 🏰 おしろの なか
+  if (t === 'N') {
+    if (f.bossDay === todayKey()) return forestSay('✨ もりのぬしは もう たおしたよ。また あしたの もりで あおう！');
     persist();
+    forestSay('👑 もりのぬしが おうざから たちあがった！');
     return forestEncounter(() => startForestBattle('boss'));
   }
+  if (t === 'D') return forestGoArea('field');
+  if (t === 'H') return forestSay('おしろの いしの かべだ。');
+  if (t === 'I') return forestSay('りっぱな はしらだ。');
+  if (t === 'L') return forestSay('🔥 たいまつが ゆらゆら もえている。');
   if (t === 'P') return forestSay('🪧 たてふだ「⬆ どうくつ（ばんにんが かぎを もっている）／➡ はし・おしろ（もりのぬし）／⬇ キャンプ」');
   if (t === 'F') return forestSay('⛺ キャンプの テント。「🏃 でる」で もりを でられるよ。');
   if (t === '^') return forestSay('けわしい 山だ。のぼれない。');
   if (t === '~') return forestSay('ながれが はやくて わたれない。はしを さがそう。');
   if (t === '#') return forestSay('きが しげっていて すすめない。');
+}
+// 森 ⇄ おしろ（area を かえて ちずを よみなおす）
+function forestGoArea(area) {
+  const f = save.forest;
+  f.area = area;
+  const [x, y] = area === 'castle' ? CASTLE_SPOTS.start : CASTLE_SPOTS.gateOut;
+  f.x = x; f.y = y; f.dir = area === 'castle' ? 'up' : 'down'; f.since = 0;
+  forestMv = null; forestHeld.length = 0; forestLastBump = '';
+  persist();
+  forestLoad();
+  if (typeof fmPlay === 'function') fmPlay(area === 'castle' ? 'castle' : 'field');
+  forestHud(); forestDrawMap();
+  forestSay(area === 'castle' ? '🏰 おしろに はいった！ おくの おうざのまに もりのぬしが いるらしい…' : '🌲 おしろを でて もりに もどった。');
 }
 // モンスターが でた！（画面が ちかちか してから たたかいへ）
 function forestEncounter(go) {
@@ -750,7 +859,8 @@ async function forest3DInit() {
   scene.background = new THREE.Color(SKY);
   scene.fog = new THREE.Fog(SKY, 17, 32);
   const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 80);
-  scene.add(new THREE.HemisphereLight(0xe0f2fe, 0x3f6212, 1.15));
+  const hemi = new THREE.HemisphereLight(0xe0f2fe, 0x3f6212, 1.15);
+  scene.add(hemi);
   const sun = new THREE.DirectionalLight(0xfff7e0, 1.6);
   sun.castShadow = true;
   sun.shadow.mapSize.set(1024, 1024);
@@ -804,6 +914,20 @@ async function forest3DInit() {
     golem.position.set(FOREST_SPOTS.cave[0], 0.05, FOREST_SPOTS.cave[1] + 0.35);
     scene.add(golem);
   }
+  // 🏰 おうざの まえに たつ もりのぬし（その日 たおすまで 見える）
+  let nushi = null;
+  if (typeof FOREST_NUSHI_KEY !== 'undefined') {
+    forestSvgCanvas(CHARS[FOREST_NUSHI_KEY](6, 100, 256, {}), 256).then(cv => {
+      if (!cv) return;
+      const tex = new THREE.CanvasTexture(cv); tex.colorSpace = THREE.SRGBColorSpace;
+      // ななめから 見ると 絵の 上が おうざに めりこむので、ゴーレムと おなじく まえに かく（ルナは さらに その 手前）
+      nushi = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, alphaTest: 0.1, depthTest: false, depthWrite: false }));
+      nushi.renderOrder = 5;
+      nushi.center.set(0.5, 0.05); nushi.scale.set(1.9, 1.9, 1);
+      nushi.position.set(CASTLE_SPOTS.throne[0], 0.05, CASTLE_SPOTS.throne[1] + 0.45);
+      scene.add(nushi);
+    });
+  }
   // めざす ところの 上の「！」
   const markTex = new THREE.CanvasTexture(forestMarkCanvas()); markTex.colorSpace = THREE.SRGBColorSpace;
   const mark = new THREE.Sprite(new THREE.SpriteMaterial({ map: markTex, transparent: true, depthTest: false, fog: false }));
@@ -840,9 +964,103 @@ async function forest3DInit() {
   const sparkMat = new THREE.MeshBasicMaterial({ color: 0xe0f2fe });
   let chestLids = {};
 
+  // たからばこ（森と おしろで おなじ かたち）
+  function chestAt(x, y) {
+    const g = new THREE.Group(); g.position.set(x, 0, y);
+    const wood = mat({ color: 0x92400e }), gold = mat({ color: 0xfacc15 });
+    const box = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.3, 0.36), wood); box.position.y = 0.15; box.castShadow = true; g.add(box);
+    const band = new THREE.Mesh(new THREE.BoxGeometry(0.52, 0.06, 0.38), gold); band.position.y = 0.2; g.add(band);
+    const lid = new THREE.Group(); lid.position.set(0, 0.3, -0.18); g.add(lid);
+    const top = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.12, 0.36), wood); top.position.set(0, 0.06, 0.18); top.castShadow = true; lid.add(top);
+    if (forestChestOpened(x, y)) lid.rotation.x = -1.9;
+    chestLids[x + ',' + y] = lid;
+    world.add(g);
+  }
+  // いずみ（森と おしろで おなじ かたち）
+  function springAt(sx, sy) {
+    const stone = mat({ color: 0xb8b9c2 });
+    const pond = new THREE.Mesh(new THREE.CylinderGeometry(0.44, 0.44, 0.06, 20), new THREE.MeshLambertMaterial({ color: 0x7dd3fc, emissive: 0x0ea5e9, emissiveIntensity: 0.35 }));
+    pond.position.set(sx, 0.03, sy); world.add(pond);
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(0.46, 0.07, 6, 20), stone); ring.rotation.x = Math.PI / 2; ring.position.set(sx, 0.06, sy); world.add(ring);
+    for (let i = 0; i < 6; i++) { const s = new THREE.Mesh(sparkGeo, sparkMat); s.userData.p = i / 6; s.position.set(sx, 0.3, sy); world.add(s); sparkles.push(s); }
+    world.userData.spring = [sx, sy];
+  }
+  const SKY_FIELD = new THREE.Color(SKY), SKY_CASTLE = new THREE.Color(0x1e1b2e);
+  // 🏰 おしろの なか（いしの ゆか・かべ・はしら・たいまつ・おうざ）
+  function buildCastle() {
+    scene.background = SKY_CASTLE; scene.fog = new THREE.Fog(0x1e1b2e, 16, 30);
+    hemi.intensity = 0.9; hemi.color.set(0xc4b5fd); hemi.groundColor.set(0x312e81);
+    sun.intensity = 0.55;
+    water.visible = false;
+    const rnd = forestRand(forestSeed('castle'));
+    const floors = [], walls = [], carpets = [], pillars = [], caps = [];
+    const flames = [];
+    const R = 4;
+    const walk = (x, y) => FOREST_WALK.includes(fz.get(x, y)) || 'W$MN'.includes(fz.get(x, y));
+    for (let y = -R; y < fz.H + R; y++) for (let x = -R; x < fz.W + R; x++) {
+      const t = fz.get(x, y);
+      if (t === 'H' || t === 'L' || t === 'D') {
+        // てまえ（南）に ゆかが ない かべは たかく、ゆかの すぐ 南の かべは ひくく（ルナが かくれないように）
+        const low = walk(x, y - 1);
+        const h = low ? 0.35 : 1.5;
+        walls.push([M(x, h / 2, y, 1, h, 1), col(t === 'D' ? '#78350f' : '#4b4458', rnd, 0.06)]);
+        if (t === 'L') {
+          // ゆかの ある がわの かべに かける（右・左・手前の じゅん）
+          const [ox, oz] = walk(x + 1, y) ? [0.52, 0] : walk(x - 1, y) ? [-0.52, 0] : [0, 0.52];
+          const fx = x + ox, fz0 = y + oz, fy = low ? 0.55 : 1.05;
+          const br = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.3, 0.1), mat({ color: 0x3f2a14 })); br.position.set(fx, fy - 0.18, fz0); world.add(br);
+          const fl = new THREE.Mesh(new THREE.ConeGeometry(0.11, 0.3, 6), new THREE.MeshBasicMaterial({ color: 0xfb923c }));
+          fl.position.set(fx, fy + 0.08, fz0); fl.userData.base = fy + 0.08; world.add(fl); flames.push(fl);
+          const pl = new THREE.PointLight(0xffa94d, 6, 5, 1.4); pl.position.set(fx + ox * 0.6, fy + 0.3, fz0 + oz * 0.6); world.add(pl);
+        }
+        if (t === 'D') {   // でぐちの とびら（きの わく）
+          const wood = mat({ color: 0xa16207 });
+          [[-0.42, 0.55], [0.42, 0.55]].forEach(([dx, hy]) => { const p = new THREE.Mesh(new THREE.BoxGeometry(0.12, 1.1, 0.12), wood); p.position.set(x + dx, hy, y - 0.4); p.castShadow = true; world.add(p); });
+          const top = new THREE.Mesh(new THREE.BoxGeometry(0.96, 0.14, 0.14), wood); top.position.set(x, 1.12, y - 0.4); world.add(top);
+        }
+        continue;
+      }
+      floors.push([M(x, -0.15, y, 1, 0.3, 1), col((x + y) % 2 ? '#8b8598' : '#7d7790', rnd, 0.04)]);
+      if (t === 'r') carpets.push([M(x, 0.02, y, 0.86, 0.04, 1.0), col('#b91c1c')]);
+      if (t === 'I') {
+        pillars.push([M(x, 0.95, y, 1, 1.9, 1), col('#e7e5e4', rnd, 0.04)]);
+        caps.push([M(x, 1.92, y, 1, 0.14, 1), col('#a8a29e')]);
+        caps.push([M(x, 0.07, y, 1, 0.14, 1), col('#a8a29e')]);
+      }
+      if (t === '$' || t === 'M') chestAt(x, y);
+      if (t === 'W') springAt(x, y);
+      if (t === 'N') {   // きんの おうざ
+        const gold = mat({ color: 0xfacc15 }), red = mat({ color: 0xdc2626 });
+        const th = new THREE.Group(); th.position.set(x, 0, y - 0.25);
+        [[new THREE.BoxGeometry(0.9, 0.42, 0.7), gold, 0, 0.21, 0], [new THREE.BoxGeometry(0.9, 1.5, 0.16), gold, 0, 0.75, -0.3],
+         [new THREE.BoxGeometry(0.7, 0.1, 0.56), red, 0, 0.46, 0.04], [new THREE.BoxGeometry(0.6, 1.0, 0.04), red, 0, 0.9, -0.21],
+         [new THREE.SphereGeometry(0.1, 8, 6), gold, -0.42, 1.55, -0.3], [new THREE.SphereGeometry(0.1, 8, 6), gold, 0.42, 1.55, -0.3]]
+          .forEach(([g, m, px, py, pz]) => { const o = new THREE.Mesh(g, m); o.position.set(px, py, pz); o.castShadow = o.receiveShadow = true; th.add(o); });
+        world.add(th);
+        // うしろの かべの たれまく
+        [-2, 2].forEach(dx => {
+          const b = new THREE.Mesh(new THREE.BoxGeometry(0.6, 1.2, 0.04), mat({ color: 0x7c3aed })); b.position.set(x + dx, 1.0, y - 0.47); world.add(b);
+          const e = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.3, 0.05), mat({ color: 0xfacc15 })); e.position.set(x + dx, 1.15, y - 0.45); world.add(e);
+        });
+      }
+    }
+    inst(new THREE.BoxGeometry(1, 1, 1), mat(), floors);
+    inst(new THREE.BoxGeometry(1, 1, 1), mat(), walls, true);
+    inst(new THREE.BoxGeometry(1, 1, 1), mat(), carpets);
+    inst(new THREE.CylinderGeometry(0.26, 0.3, 1, 10), mat(), pillars, true);
+    inst(new THREE.CylinderGeometry(0.36, 0.36, 1, 10), mat(), caps);
+    world.userData.flames = flames;
+  }
+
   function build() {
     while (world.children.length) { const c = world.children.pop(); if (c.geometry) c.geometry.dispose(); }
     sparkles.length = 0; chestLids = {};
+    world.userData = {};
+    if (fz.area === 'castle') return buildCastle();
+    scene.background = SKY_FIELD; scene.fog = new THREE.Fog(SKY, 17, 32);
+    hemi.intensity = 1.15; hemi.color.set(0xe0f2fe); hemi.groundColor.set(0x3f6212);
+    sun.intensity = 1.6;
+    water.visible = true;
     const rnd = forestRand(forestSeed('look#' + fz.day));
     const ground = [], bed = [], trunks = [], cones = [], rounds = [], tufts = [], flowers = [], rocks = [], mts = [], caps = [];
     const R = 7;   // ちずの 外も すこし かく
@@ -928,11 +1146,7 @@ async function forest3DInit() {
     const hole = new THREE.Mesh(new THREE.CircleGeometry(0.34, 16, 0, Math.PI), new THREE.MeshBasicMaterial({ color: 0x0c0a09 }));
     hole.position.set(cx, 0.02, cy + 0.12); world.add(hole);
     // いずみ
-    const [sx, sy] = FOREST_SPOTS.spring;
-    const pond = new THREE.Mesh(new THREE.CylinderGeometry(0.44, 0.44, 0.06, 20), new THREE.MeshLambertMaterial({ color: 0x7dd3fc, emissive: 0x0ea5e9, emissiveIntensity: 0.35 }));
-    pond.position.set(sx, 0.03, sy); world.add(pond);
-    const ring = new THREE.Mesh(new THREE.TorusGeometry(0.46, 0.07, 6, 20), stone); ring.rotation.x = Math.PI / 2; ring.position.set(sx, 0.06, sy); world.add(ring);
-    for (let i = 0; i < 6; i++) { const s = new THREE.Mesh(sparkGeo, sparkMat); s.userData.p = i / 6; s.position.set(sx, 0.3, sy); world.add(s); sparkles.push(s); }
+    springAt(FOREST_SPOTS.spring[0], FOREST_SPOTS.spring[1]);
     // たてふだ
     const [px0, py0] = FOREST_SPOTS.sign, wood = mat({ color: 0xa16207 });
     const post = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.75, 0.1), wood); post.position.set(px0, 0.37, py0); post.castShadow = true; world.add(post);
@@ -942,23 +1156,13 @@ async function forest3DInit() {
     const tent = new THREE.Mesh(new THREE.ConeGeometry(0.5, 0.75, 4), mat({ color: 0xf59e0b })); tent.position.set(fx0, 0.375, fy0); tent.rotation.y = Math.PI / 4; tent.castShadow = true; world.add(tent);
     const fire = new THREE.Mesh(new THREE.ConeGeometry(0.12, 0.3, 6), new THREE.MeshBasicMaterial({ color: 0xfb923c })); fire.position.set(fx0, 0.15, fy0 + 0.55); fire.userData.fire = true; world.add(fire);
     // たからばこ
-    fz.chests.forEach(([x, y]) => {
-      const g = new THREE.Group(); g.position.set(x, 0, y);
-      const wood = mat({ color: 0x92400e }), gold = mat({ color: 0xfacc15 });
-      const box = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.3, 0.36), wood); box.position.y = 0.15; box.castShadow = true; g.add(box);
-      const band = new THREE.Mesh(new THREE.BoxGeometry(0.52, 0.06, 0.38), gold); band.position.y = 0.2; g.add(band);
-      const lid = new THREE.Group(); lid.position.set(0, 0.3, -0.18); g.add(lid);
-      const top = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.12, 0.36), wood); top.position.set(0, 0.06, 0.18); top.castShadow = true; lid.add(top);
-      if (forestChestOpened(x, y)) lid.rotation.x = -1.9;
-      chestLids[x + ',' + y] = lid;
-      world.add(g);
-    });
+    fz.chests.forEach(([x, y]) => chestAt(x, y));
     castle.userData.flag = flag;
     world.userData.fire = fire;
     world.userData.castle = castle;
   }
   build();
-  let builtDay = fz.day;
+  let builtDay = fz.day + fz.area;
 
   let fxT = 0;
   const cam = new THREE.Vector3(), look = new THREE.Vector3();
@@ -998,7 +1202,7 @@ async function forest3DInit() {
     chest(x, y) { const lid = chestLids[x + ',' + y]; if (lid) lid.userData.open = true; },
     fx(kind) { if (kind === 'heal') fxT = 1; },
     draw(dt, t) {
-      if (builtDay !== fz.day) { build(); builtDay = fz.day; }
+      if (builtDay !== fz.day + fz.area) { build(); builtDay = fz.day + fz.area; first = true; }
       const [px, py, k] = forestPos();
       const f = save.forest;
       const walking = !!forestMv;
@@ -1032,7 +1236,8 @@ async function forest3DInit() {
       waterTex.offset.y = (waterTex.offset.y - dt * 0.25) % 1;
       sparkles.forEach(s => {
         const p = (t * 0.4 + s.userData.p) % 1, a = s.userData.p * Math.PI * 2 + t;
-        s.position.set(FOREST_SPOTS.spring[0] + Math.cos(a) * 0.3, 0.15 + p * 0.9, FOREST_SPOTS.spring[1] + Math.sin(a) * 0.3);
+        const [wx, wy] = world.userData.spring || FOREST_SPOTS.spring;
+        s.position.set(wx + Math.cos(a) * 0.3, 0.15 + p * 0.9, wy + Math.sin(a) * 0.3);
         s.scale.setScalar((1 - p) * (1 + fxT * 2));
         s.rotation.y = t * 3;
       });
@@ -1041,7 +1246,9 @@ async function forest3DInit() {
       if (c && c.userData.flag) c.userData.flag.rotation.y = Math.sin(t * 3) * 0.3;
       Object.values(chestLids).forEach(l => { if (l.userData.open && l.rotation.x > -1.9) l.rotation.x = Math.max(-1.9, l.rotation.x - dt * 6); });
       fxT = Math.max(0, fxT - dt);
-      if (golem) golem.visible = !f.key;
+      if (golem) golem.visible = !f.key && fz.area !== 'castle';
+      if (nushi) nushi.visible = fz.area === 'castle' && f.bossDay !== todayKey();
+      (world.userData.flames || []).forEach((fl, i) => { fl.scale.set(1, 0.8 + Math.sin(t * 13 + i * 1.7) * 0.25, 1); fl.position.y = fl.userData.base + Math.sin(t * 9 + i) * 0.02; });
       const goal = forestGoal().at;
       mark.visible = !!goal;
       if (goal) mark.position.set(goal[0], forestGoal().h + Math.abs(Math.sin(t * 3.2)) * 0.35, goal[1]);
@@ -1150,12 +1357,14 @@ function startForestBattle(kind) {
   if (!kind) kind = 'mob';
   const f = save.forest;
   if (save.hp <= 0) save.hp = maxHp();
-  const east = forestEast(f.x, f.y);
-  const n = kind === 'boss' ? 8 : kind === 'guard' ? 4 : 2 + (east || Math.random() < 0.3 ? 1 : 0);
-  // モンスター（js/forest_monsters.js）。川の むこうは 色ちがいの つよい なかま
-  const mobs = typeof FOREST_MOBS !== 'undefined' ? FOREST_MOBS[east ? 'east' : 'west'] : MONSTER_POOL;
+  const castle = forestInCastle();
+  const east = !castle && forestEast(f.x, f.y);
+  const n = kind === 'boss' ? 8 : kind === 'guard' ? 4 : kind === 'mimic' || castle ? 3 : 2 + (east || Math.random() < 0.3 ? 1 : 0);
+  // モンスター（js/forest_monsters.js）。川の むこうは 色ちがいの つよい なかま、おしろの なかは おしろの モンスター
+  const mobs = typeof FOREST_MOBS !== 'undefined' ? FOREST_MOBS[castle && FOREST_MOBS.castle ? 'castle' : east ? 'east' : 'west'] : MONSTER_POOL;
   const char = kind === 'boss' ? (typeof FOREST_NUSHI_KEY !== 'undefined' ? FOREST_NUSHI_KEY : FOREST_BOSS_CHAR)
     : kind === 'guard' && typeof FOREST_GUARD_KEY !== 'undefined' ? FOREST_GUARD_KEY
+    : kind === 'mimic' && typeof FOREST_MIMIC_KEY !== 'undefined' ? FOREST_MIMIC_KEY
     : mobs[Math.floor(Math.random() * mobs.length)];
   f.since = 0;
   bt = {
@@ -1164,7 +1373,8 @@ function startForestBattle(kind) {
     queue: shuffle(forestPool()).slice(0, n), idx: 0,
     maxHp: n * DMG_HIT, hp: n * DMG_HIT, streak: 0, correct: 0, medals: 0, answered: false,
     tt: null, ttMedals: 0, ttIn: 0, ttAnswered: 0,
-    forest: { kind, boss: kind === 'boss', label: kind === 'boss' ? '🏰 もりのぬし' : kind === 'guard' ? '🕳 どうくつ' : east ? '🌲 まよいの森（かわむこう）' : '🌲 まよいの森' }
+    forest: { kind, boss: kind === 'boss', label: kind === 'boss' ? '🏰 もりのぬし' : kind === 'guard' ? '🕳 どうくつ'
+      : kind === 'mimic' ? '🏰 おしろの たからばこ' : castle ? '🏰 おしろの なか' : east ? '🌲 まよいの森（かわむこう）' : '🌲 まよいの森' }
   };
   persist();
   if (typeof fmPlay === 'function') fmPlay(kind === 'boss' ? 'boss' : 'battle');
@@ -1199,9 +1409,10 @@ function forestEndBattle(win) {
       evoBonus = medalForest('forest:evo:' + bt.char, FOREST_EVO_MEDAL);
       bt.medals += evoBonus;
     }
-    save.exp += boss ? EXP_WIN * 2 : kind === 'guard' ? Math.round(EXP_WIN * 1.5) : EXP_WIN;
+    save.exp += boss ? EXP_WIN * 2 : kind === 'guard' || kind === 'mimic' ? Math.round(EXP_WIN * 1.5) : EXP_WIN;
     save.wins++;
     if (kind === 'guard' && !f.key) { f.key = true; gotKey = true; }
+    if (kind === 'mimic') f.mimic = true;   // たおした ミミックは ふつうの たからばこに なる
     if (boss && f.bossDay !== todayKey()) {
       bonus += medalForest('forest:' + todayKey(), FOREST_BOSS_DAILY);
       f.bossDay = todayKey();
@@ -1221,7 +1432,7 @@ function forestEndBattle(win) {
   const wiped = save.hp <= 0;
   if (wiped) {                                     // めのまえが まっくらに…→ キャンプへ
     save.hp = Math.max(1, Math.round(maxHp() / 2));
-    f.x = FOREST_SPOTS.start[0]; f.y = FOREST_SPOTS.start[1]; f.since = 0;
+    f.area = 'field'; f.x = FOREST_SPOTS.start[0]; f.y = FOREST_SPOTS.start[1]; f.since = 0;
   }
   persist();
 
@@ -1253,6 +1464,7 @@ function forestEndBattle(win) {
 
   forestMsg = win ? (evolved ? '✨ ' + CHAR_NAME[evolved] + ' が ずかんに のった！ 📖で みてみよう。' : boss ? '👑 もりのぬしを たおした！ きょうの もりは クリア！'
       : gotKey ? '🗝 しろの かぎを てに いれた！ 川の むこうの おしろへ いこう。'
+      : kind === 'mimic' ? 'ミミックを やっつけた！ こんどこそ たからばこを あけよう。'
       : 'モンスターを やっつけた！')
     : wiped ? 'きが ついたら もりの キャンプに いた…' : 'モンスターは にげていった。';
   if (typeof fmOnce === 'function') { if (win) fmOnce('victory', null); else fmStop(); }
