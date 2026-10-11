@@ -125,6 +125,36 @@ const FM_SONGS = {
       ['bell', 'r.16 r.16 r.16 r.8 E6.4 C6.4  r.16 r.16 r.16 r.8 A5.8', 0.4]],
     drums: ['k.......s.......', 'k.......s...s.s.'],
   },
+  // 🕊 へいわに なった おしろ：やさしい（ヘ長調）
+  peace: {
+    bpm: 100, pad: 0.6, bass: 'march', gain: 0.85,
+    chords: '| F | Dm | Bb | C | F | Am | Bb C | F |',
+    lead: [['bell',
+      'A5.4 C6.4 A5.4 F5.4  D5.8 F5.8  Bb5.4 A5.4 G5.8  E5.16 ' +
+      'F5.4 A5.4 C6.8  C6.4 E5.4 A5.8  D6.4 C6.4 Bb5.4 G5.4  F5.16', 0.8],
+      ['lead', 'r.16 r.16 r.16 G5.4 A5.4 Bb5.8  r.16 r.16 r.16 A4.16', 0.5]],
+    drums: ['k.......h.......', 'k.......h...h...'],
+  },
+  // 🌊 うみべ：あかるく はずむ（ハ長調）
+  beach: {
+    bpm: 126, pad: 0.45, bass: 'drive', gain: 0.9,
+    chords: '| C | Am | F | G | C | Am | F G | C |',
+    lead: [['lead',
+      'E5.2 G5.2 C6.4 B5.2 A5.2 G5.4  E5.2 G5.2 A5.8 r.4  F5.2 A5.2 C6.4 A5.4 F5.4  G5.4 B5.4 D6.8 ' +
+      'E6.2 D6.2 C6.4 G5.4 E5.4  A5.4 C6.4 E6.8  D6.4 C6.4 A5.2 B5.2 G5.4  C6.16'],
+      ['bell', 'r.16 r.16 r.16 r.8 G6.4 E6.4  r.16 r.16 r.16 r.8 C7.8', 0.35]],
+    drums: ['k.h.s.hkk.h.s.h.', 'k.h.s.hkk.h.s.hr'],
+  },
+  // 🕳 うみの どうくつ：ひんやり ふしぎ（ニ短調）
+  seacave: {
+    bpm: 84, pad: 0.65, bass: 'march', gain: 0.85,
+    chords: '| Dm | Bb | Gm | A | Dm | Bb | Gm | A |',
+    lead: [['bell',
+      'D6.4 A5.4 F5.8  D6.4 Bb5.4 F5.8  G5.4 Bb5.4 D6.8  C#6.8 E6.8 ' +
+      'F6.4 E6.4 D6.8  Bb5.4 D6.4 F6.8  G6.4 F6.4 D6.4 Bb5.4  A5.16', 0.7],
+      ['horn', 'D4.16 Bb3.16 G3.16 A3.16 D4.16 Bb3.16 G3.16 A3.16', 0.5]],
+    drums: ['k...............', 'k.......k.......'],
+  },
   // 🎺 かちの ファンファーレ「たらら ら・ったっ・たた・たー」（オリジナル。1かいだけ）
   victory: {
     bpm: 138, loop: false, pad: 0.7, bass: 'march',

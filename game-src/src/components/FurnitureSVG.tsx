@@ -177,6 +177,23 @@ const DRAWINGS: Record<string, Draw> = {
     </g>
   ),
 
+  fn_castle: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="30" ry="6" fill="rgba(0,0,0,0.2)" />
+      <rect x="-28" y="-8" width="56" height="8" rx="2" fill="#a16207" {...S} />
+      <rect x="-22" y="-34" width="44" height="26" fill="#d6d3d1" {...S} />
+      <path d="M-22 -34 v-5 h6 v5 h5 v-5 h6 v5 h6 v-5 h6 v5 h5 v-5 h6 v5" fill="#d6d3d1" {...S} strokeWidth={1.6} />
+      <rect x="-8" y="-54" width="16" height="20" fill="#e7e5e4" {...S} />
+      <path d="M-11 -54 L0 -68 L11 -54 Z" fill="#2563eb" {...S} />
+      <rect x="-28" y="-44" width="10" height="36" fill="#e7e5e4" {...S} />
+      <rect x="18" y="-44" width="10" height="36" fill="#e7e5e4" {...S} />
+      <path d="M-30 -44 L-23 -54 L-16 -44 Z M16 -44 L23 -54 L30 -44 Z" fill="#dc2626" {...S} />
+      <path d="M-5 -8 v-10 a5 5 0 0 1 10 0 v10 Z" fill="#78350f" />
+      <path d="M0 -68 v-8 l8 3 -8 3" fill="#22c55e" stroke="#4c1d95" strokeWidth="1.2" />
+      <path d="M-14 -24 l1.5 3 3.2 .4 -2.4 2.2 .6 3.2 -2.9 -1.6 -2.9 1.6 .6 -3.2 -2.4 -2.2 3.2 -.4 z" fill="#fde047" />
+    </g>
+  ),
+
   // ── 名探偵あんりの ごほうび ──
   fn_detective: () => (
     <g>

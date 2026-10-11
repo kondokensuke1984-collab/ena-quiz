@@ -282,17 +282,24 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     return () => window.removeEventListener('hashchange', onHash);
   }, []);
 
-  // ── クエストの まよいの森で もりのぬしを たおしたら、トロフィーを とどける（rpg.html は しるしを書くだけ）──
-  const trophyDone = useRef(false);
+  // ── クエストの まよいの森の ごほうびを とどける（rpg.html は しるしを書くだけ）──
+  //   もりのぬしを たおした → もりの トロフィー／おしろを へいわに した → おしろの もけい
+  const trophyDone = useRef<Record<string, boolean>>({});
   useEffect(() => {
+    const QUEST_GIFTS: [string, string, string][] = [
+      ['ena_forest_trophy', 'fn_forest', '🏆 もりの トロフィーが とどいたよ！「かぐ」から おけるよ'],
+      ['ena_castle_peace', 'fn_castle', '🏰 おしろの もけいが とどいたよ！「かぐ」から おけるよ'],
+    ];
     const check = () => {
-      if (trophyDone.current || saveRef.current.owned.includes('fn_forest')) return;
-      let flag: string | null = null;
-      try { flag = localStorage.getItem('ena_forest_trophy'); } catch { /* 読めなければ なし */ }
-      if (flag !== '1') return;
-      trophyDone.current = true;
-      dispatch({ type: 'UPDATE_SAVE', fn: (s) => (s.owned.includes('fn_forest') ? s : { ...s, owned: [...s.owned, 'fn_forest'] }) });
-      dispatch({ type: 'TOAST', text: '🏆 もりの トロフィーが とどいたよ！「かぐ」から おけるよ' });
+      for (const [key, item, text] of QUEST_GIFTS) {
+        if (trophyDone.current[item] || saveRef.current.owned.includes(item)) continue;
+        let flag: string | null = null;
+        try { flag = localStorage.getItem(key); } catch { /* 読めなければ なし */ }
+        if (flag !== '1') continue;
+        trophyDone.current[item] = true;
+        dispatch({ type: 'UPDATE_SAVE', fn: (s) => (s.owned.includes(item) ? s : { ...s, owned: [...s.owned, item] }) });
+        dispatch({ type: 'TOAST', text });
+      }
     };
     check();
     window.addEventListener('focus', check);

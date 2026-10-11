@@ -146,6 +146,7 @@ export const ITEMS: Item[] = [
   // ── ハロウィンの おかし・つりの ずかんの ごほうび（ショップでは売らない）──
   { id: 'gf_candy',    kind: 'gift',      name: 'ハロウィンの おかし', emoji: '🍬', price: 0, desc: 'ハロウィンの よるに もらえる・なかよし +2', love: 2, reward: true },
   { id: 'fn_fishsign', kind: 'furniture', name: 'さかなの かんばん',   emoji: '🐟', price: 0, desc: 'さかなを 5しゅるい つった ごほうび',  once: true, reward: true },
+  { id: 'fn_castle',   kind: 'furniture', name: 'おしろの もけい',     emoji: '🏰', price: 0, desc: 'クエストで おしろを へいわに した ごほうび', once: true, reward: true, anywhere: true },
   { id: 'fn_forest',   kind: 'furniture', name: 'もりの トロフィー',   emoji: '🌲', price: 0, desc: 'クエストの まよいの森で もりのぬしを たおした ごほうび', once: true, reward: true, anywhere: true },
   { id: 'fn_aquarium', kind: 'furniture', name: 'すいそう',           emoji: '🐠', price: 0, desc: 'さかなを 10しゅるい つった ごほうび', once: true, reward: true, anywhere: true },
   { id: 'fn_fishboat',   kind: 'furniture', name: 'つりぶね',             emoji: '⛵', price: 0, desc: 'さかなを 18しゅるい つった ごほうび', once: true, reward: true },
