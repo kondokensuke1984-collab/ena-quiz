@@ -252,6 +252,15 @@ function forestArea() { return fz ? fz.area : 'field'; }
 function forestInCastle() { return forestArea() === 'castle'; }
 function forestInside() { return forestArea() !== 'field'; }      // きまった かたちの ちず（さいしょから ぜんぶ 見える）
 function forestPeace() { return !!save.forestPeace; }              // 🕊 もりのぬしを たおして おしろが へいわに なった（ずっと）
+// 🕳 へいわに なる まえに しんか まで いかなかった おしろの モンスターは、うみの どうくつへ にげて すみついた（しんか すると もう でない）
+const SEACAVE_MIMIC = [2, 4];   // ミミックが かくれる たからばこ（ひだりの $）
+const FOREST_RUNAWAY_RATE = 0.4;
+function forestRunaways() {
+  if (!forestPeace() || typeof FOREST_MOBS === 'undefined' || !FOREST_MOBS.castle) return [];
+  return FOREST_MOBS.castle.filter(k => !forestEvo()[k]);
+}
+function forestMimicRunaway() { return forestPeace() && typeof FOREST_MIMIC_KEY !== 'undefined' && !forestEvo()[FOREST_MIMIC_KEY]; }
+function forestIsRunaway(k) { return forestRunaways().includes(k) || (k === FOREST_MIMIC_KEY && forestMimicRunaway()); }
 function forestMusic() {
   const a = forestArea();
   return a === 'castle' ? (forestPeace() ? 'peace' : 'castle') : a === 'beach' ? 'beach' : a === 'seacave' ? 'seacave' : 'field';
@@ -622,7 +631,8 @@ function forestInteract(x, y, t) {
     f.tower = true; persist(); forestHud();
     return forestSay('🗼 ものみのとうに のぼった！ もりの ちずが ぜんぶ わかるように なった。');
   }
-  if (t === 'M' && !f.mimic && !forestPeace()) {   // 🏰 たからばこ…と おもったら ミミック！（たおすと ふつうの たからばこに なる）
+  const caveMimic = t === '$' && forestArea() === 'seacave' && x === SEACAVE_MIMIC[0] && y === SEACAVE_MIMIC[1] && forestMimicRunaway();
+  if ((t === 'M' && !forestPeace() || caveMimic) && !f.mimic) {   // 🏰 たからばこ…と おもったら ミミック！（たおすと ふつうの たからばこに なる）
     persist();
     forestSay('📦 たからばこ…と おもったら ミミックだ！');
     return forestEncounter(() => startForestBattle('mimic'));
@@ -675,7 +685,8 @@ function forestInteract(x, y, t) {
   if (t === 'H') return forestSay('おしろの いしの かべだ。');
   // 🌊 うみべ・うみの どうくつ
   if (t === 'E') return forestGoArea('castle', CASTLE_SPOTS.fromBeach, 'left', '🏰 かいだんを のぼって おしろに もどった。');
-  if (t === 'U') return forestGoArea('seacave', SEACAVE_SPOTS.start, 'up', '🕳 うみの どうくつに はいった。ひんやり している…');
+  if (t === 'U') return forestGoArea('seacave', SEACAVE_SPOTS.start, 'up', '🕳 うみの どうくつに はいった。ひんやり している…' +
+    (forestRunaways().length || forestMimicRunaway() ? '　おしろから にげた モンスターも すみついて いるみたい！' : ''));
   if (t === 'Y') return forestGoArea('beach', BEACH_SPOTS.fromCave, 'down', '🌊 どうくつを でて うみべに もどった。');
   if (t === 'Q') {
     if (f.umiDay === todayKey()) return forestSay('🐙 うみのぬしは もう たおしたよ。また あした あおう！');
@@ -1567,14 +1578,15 @@ function forestDexOpen(pick) {
     body =
       '<div style="display:flex; justify-content:center;">' + CHARS[pick](6, 100, 190, {}) + '</div>' +
       '<div style="font-size:20px; font-weight:800;">' + esc(CHAR_NAME[pick]) + '</div>' +
-      '<div style="font-size:12px; color:#64748b; margin-top:2px;">📍 ' + area + (isEvo ? '' : '　⚔️ たおした かず ' + dex[pick]) + '</div>' +
+      '<div style="font-size:12px; color:#64748b; margin-top:2px;">📍 ' + area + (forestIsRunaway(pick) ? ' → いまは うみの どうくつ' : '') + (isEvo ? '' : '　⚔️ たおした かず ' + dex[pick]) + '</div>' +
       '<div style="margin-top:10px; background:#f0fdf4; border-radius:12px; padding:10px 12px; font-size:14px; line-height:1.8; text-align:left;">' + esc(FOREST_MONSTER_INFO[pick] || '') + '</div>' +
       palLine + (palLine && evoLine ? '<br>' : '') + evoLine +
       '<button class="btn-main" style="margin-top:12px;" onclick="forestDexOpen()">← ずかんに もどる</button>';
   } else {
     let lastArea = '';
     const cards = FOREST_DEX_ORDER.map(([k, area], i) => {
-      const head = area !== lastArea ? '<div class="fz-dexhead">' + area + '</div>' : '';
+      const head = area !== lastArea ? '<div class="fz-dexhead">' + area +
+        (area === 'おしろの なか' && (forestRunaways().length || forestMimicRunaway()) ? '<small>（へいわに なったので いまは うみの どうくつに いるよ）</small>' : '') + '</div>' : '';
       lastArea = area;
       const on = forestDexHas(k);
       // しんかの めじるし：しんか ずみは ✨、まだなら たおした かず / ひつような かず
@@ -1600,6 +1612,7 @@ function forestDexClose() { const w = document.getElementById('fz-dex'); if (w) 
 
 // ── たたかい（rpg.html の戦いを そのまま つかう）──
 // kind：'mob' ふつう／'guard' どうくつの ばんにん／'boss' もりのぬし
+function forestPick(a) { return a[Math.floor(Math.random() * a.length)]; }
 function startForestBattle(kind) {
   if (kind === true) kind = 'boss';
   if (!kind) kind = 'mob';
@@ -1614,7 +1627,8 @@ function startForestBattle(kind) {
     : kind === 'boss' ? (typeof FOREST_NUSHI_KEY !== 'undefined' ? FOREST_NUSHI_KEY : FOREST_BOSS_CHAR)
     : kind === 'guard' && typeof FOREST_GUARD_KEY !== 'undefined' ? FOREST_GUARD_KEY
     : kind === 'mimic' && typeof FOREST_MIMIC_KEY !== 'undefined' ? FOREST_MIMIC_KEY
-    : mobs[Math.floor(Math.random() * mobs.length)];
+    : area === 'seacave' && forestRunaways().length && Math.random() < FOREST_RUNAWAY_RATE ? forestPick(forestRunaways())   // 🕳 おしろから にげてきた
+    : forestPick(mobs);
   f.since = 0;
   bt = {
     boss: false, key: '__forest__', char,
@@ -1623,7 +1637,7 @@ function startForestBattle(kind) {
     maxHp: n * DMG_HIT, hp: n * DMG_HIT, streak: 0, correct: 0, medals: 0, answered: false,
     tt: null, ttMedals: 0, ttIn: 0, ttAnswered: 0,
     forest: { kind, boss: kind === 'boss' || kind === 'umi', label: kind === 'boss' ? '🏰 もりのぬし' : kind === 'umi' ? '🐙 うみのぬし' : kind === 'guard' ? '🕳 どうくつ'
-      : kind === 'mimic' ? '🏰 おしろの たからばこ' : area === 'castle' ? '🏰 おしろの なか' : area === 'beach' ? '🌊 うみべ' : area === 'seacave' ? '🕳 うみの どうくつ'
+      : kind === 'mimic' ? (area === 'seacave' ? '🕳 どうくつの たからばこ' : '🏰 おしろの たからばこ') : area === 'castle' ? '🏰 おしろの なか' : area === 'beach' ? '🌊 うみべ' : area === 'seacave' ? '🕳 うみの どうくつ'
       : east ? '🌲 まよいの森（かわむこう）' : '🌲 まよいの森' }
   };
   persist();
