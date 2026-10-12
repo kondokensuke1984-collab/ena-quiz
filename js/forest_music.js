@@ -155,6 +155,26 @@ const FM_SONGS = {
       ['horn', 'D4.16 Bb3.16 G3.16 A3.16 D4.16 Bb3.16 G3.16 A3.16', 0.5]],
     drums: ['k...............', 'k.......k.......'],
   },
+  // 🏜 さばくの アジト：しのびあしの スパイ曲（ハ短調。はねる ベースと ちいさな 音）
+  base: {
+    bpm: 104, pad: 0.35, bass: 'drive', gain: 0.85,
+    chords: '| Cm | Cm | Ab | G | Cm | Fm | Ab | G |',
+    lead: [['lead',
+      'C5.2 r.2 Eb5.2 r.2 G5.2 r.2 F5.2 Eb5.2  D5.4 r.4 G4.4 r.4  Ab4.2 r.2 C5.2 r.2 Eb5.2 r.2 D5.2 C5.2  B4.8 D5.4 G4.4 ' +
+      'C5.2 r.2 Eb5.2 r.2 G5.2 r.2 Bb5.2 Ab5.2  G5.4 F5.4 Ab5.4 F5.4  Eb5.2 r.2 C5.2 r.2 Ab4.2 r.2 C5.2 Eb5.2  D5.8 B4.8', 0.6],
+      ['bell', 'r.16 r.12 G6.4  r.16 r.12 B5.4  r.16 r.12 G6.4  r.16 D6.8 B5.8', 0.3]],
+    drums: ['k...h...k.h.h...', 'k...h...k.h.h.hh'],
+  },
+  // ❗ みはりに みつかった！
+  alert: { bpm: 180, loop: false, lead: [['brass', 'C6.2 r.1 C6.2 r.1 C6.2 r.1 Eb6.10'], ['lead', 'G5.2 r.1 G5.2 r.1 G5.2 r.1 Bb5.10', 0.7]], drums: ['x..x..x.r.......'] },
+  // 🚁 さくせん せいこう！（ファンファーレ。1かいだけ）
+  mission: {
+    bpm: 132, loop: false, pad: 0.7, bass: 'march',
+    chords: '| C | F G | C |',
+    lead: [['brass', 'G5.2 C6.2 E6.2 G6.6 E6.2 F6.4  D6.2 B5.2 G5.4 D6.4  C6.16'],
+      ['lead', 'E5.2 G5.2 C6.2 E6.6 C6.2 A5.4  B5.2 G5.2 D5.4 B5.4  E5.16', 0.6]],
+    drums: ['x...x...x.x.x...', 'x.......x...rrrr', 'x...............'],
+  },
   // 🎺 かちの ファンファーレ「たらら ら・ったっ・たた・たー」（オリジナル。1かいだけ）
   victory: {
     bpm: 138, loop: false, pad: 0.7, bass: 'march',

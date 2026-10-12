@@ -292,6 +292,70 @@ const FMON_DRAW = {
     '<path d="M87 103 L91 111 L95 102 M105 102 L109 111 L113 103" fill="#fff" stroke-width="2.5"/>' +
     fmonEye(80, 72, 8, 1, '#dc2626') + fmonEye(120, 72, 8, -1, '#dc2626') +
     '<circle cx="80" cy="74" r="13" fill="rgba(253,224,71,.25)" stroke="none"/><circle cx="120" cy="74" r="13" fill="rgba(253,224,71,.25)" stroke="none"/>',
+  // 🏜 さばくの アジト ──
+  // 🪖 みはりへい（ヘルメットを かぶった まるい へいたい。そうがんきょうを もつ）
+  soldier: (p) =>
+    '<path d="M44 182 C36 130 62 96 100 96 C138 96 164 130 156 182 Q128 190 100 186 Q72 190 44 182 Z" fill="' + p[0] + '"/>' +
+    fmonShine('M62 134 C64 118 72 108 84 102') +
+    '<path d="M56 106 C54 52 146 52 144 106 Z" fill="' + p[1] + '"/>' +
+    '<circle cx="78" cy="78" r="7" fill="rgba(0,0,0,.2)" stroke="none"/><circle cx="118" cy="70" r="9" fill="rgba(0,0,0,.2)" stroke="none"/><circle cx="128" cy="92" r="6" fill="rgba(0,0,0,.2)" stroke="none"/>' +
+    '<path d="M42 104 L158 104 Q164 116 152 116 L48 116 Q36 116 42 104 Z" fill="' + p[1] + '"/>' +
+    '<path d="M100 64 l4 8 9 1 -7 6 2 9 -8 -5 -8 5 2 -9 -7 -6 9 -1 z" fill="' + p[2] + '" stroke-width="3"/>' +
+    fmonEye(80, 138, 11, 1) + fmonEye(120, 138, 11, -1) +
+    '<path d="M88 164 L112 164" fill="none"/>' +
+    '<rect x="146" y="128" width="30" height="18" rx="6" fill="#334155"/><circle cx="154" cy="137" r="5" fill="#93c5fd" stroke-width="3"/><circle cx="168" cy="137" r="5" fill="#93c5fd" stroke-width="3"/>' +
+    '<circle cx="146" cy="152" r="10" fill="' + p[0] + '"/><circle cx="46" cy="156" r="10" fill="' + p[0] + '"/>',
+  // 🛸 ていさつドローン（プロペラ・コウモリの みみ・おおきな カメラの め）
+  drone: (p) =>
+    '<path d="M64 92 L30 64 M136 92 L170 64" fill="none" stroke-width="8"/>' +
+    '<ellipse cx="30" cy="58" rx="28" ry="6" fill="' + p[2] + '" opacity=".75"/><ellipse cx="170" cy="58" rx="28" ry="6" fill="' + p[2] + '" opacity=".75"/>' +
+    '<circle cx="30" cy="62" r="5" fill="' + p[1] + '"/><circle cx="170" cy="62" r="5" fill="' + p[1] + '"/>' +
+    '<path d="M64 78 L56 44 L84 70 Z M136 78 L144 44 L116 70 Z" fill="' + p[1] + '"/>' +
+    '<path d="M44 116 Q20 108 14 128 Q30 124 38 134 Q42 124 48 126 Z M156 116 Q180 108 186 128 Q170 124 162 134 Q158 124 152 126 Z" fill="' + p[1] + '"/>' +
+    '<ellipse cx="100" cy="116" rx="58" ry="48" fill="' + p[0] + '"/>' +
+    fmonShine('M58 102 C62 88 72 78 86 74') +
+    '<circle cx="100" cy="118" r="27" fill="#1e293b"/><circle cx="100" cy="118" r="16" fill="' + p[2] + '"/><circle cx="100" cy="118" r="7" fill="#0f172a" stroke="none"/>' +
+    '<circle cx="93" cy="111" r="5" fill="#fff" stroke="none"/>' +
+    '<path d="M74 86 L94 96 M126 86 L106 96" fill="none" stroke-width="6"/>' +
+    '<path d="M100 68 L100 50" fill="none"/><circle cx="100" cy="46" r="6" fill="#ef4444"/>' +
+    '<path d="M78 160 L70 176 M122 160 L130 176" fill="none" stroke-width="6"/>',
+  // 🔦 サーチライトロボ（あたまが おおきな ライト）
+  light: (p) =>
+    '<path d="M118 70 L198 34 L198 112 Z" fill="' + p[2] + '" opacity=".3" stroke="none"/>' +
+    '<path d="M70 160 L64 188 L90 188 L88 160 Z M130 160 L136 188 L110 188 L112 160 Z" fill="' + p[1] + '"/>' +
+    '<rect x="56" y="98" width="88" height="68" rx="14" fill="' + p[0] + '"/>' +
+    '<rect x="72" y="114" width="56" height="30" rx="6" fill="#1e293b"/>' +
+    '<circle cx="86" cy="129" r="5" fill="#4ade80" stroke="none"/><circle cx="100" cy="129" r="5" fill="#facc15" stroke="none"/><circle cx="114" cy="129" r="5" fill="#ef4444" stroke="none"/>' +
+    '<path d="M56 116 L32 140 L40 150 M144 116 L168 140 L160 150" fill="none" stroke-width="9"/>' +
+    '<path d="M100 98 L100 86" fill="none" stroke-width="8"/>' +
+    '<circle cx="100" cy="62" r="36" fill="' + p[1] + '"/><circle cx="100" cy="62" r="25" fill="' + p[2] + '"/>' +
+    '<circle cx="100" cy="64" r="11" fill="#111" stroke="none"/><circle cx="96" cy="60" r="4" fill="#fff" stroke="none"/>' +
+    '<path d="M74 34 L96 44 M126 34 L104 44" fill="none" stroke-width="7"/>' +
+    fmonShine('M78 52 C80 42 88 36 96 34'),
+  // 🕶 かげの だんちょう（ぼうしと サングラスの おおきな かげ）
+  kage: (p) =>
+    '<ellipse cx="100" cy="110" rx="94" ry="86" fill="rgba(76,29,149,.2)" stroke="none"/>' +
+    '<path d="M44 188 C46 126 64 92 100 92 C136 92 154 126 156 188 Z" fill="' + p[0] + '"/>' +
+    '<path d="M100 96 L78 140 L100 188 L122 140 Z" fill="' + p[1] + '"/>' +
+    '<path d="M76 98 L100 124 L124 98" fill="none" stroke-width="6"/>' +
+    '<circle cx="128" cy="140" r="9" fill="' + p[2] + '"/><path d="M124 150 L122 164 L128 158 L134 164 L132 150" fill="#ef4444" stroke-width="3"/>' +
+    '<ellipse cx="100" cy="68" rx="42" ry="38" fill="' + p[0] + '"/>' +
+    '<path d="M44 46 Q100 30 156 46 Q148 56 100 56 Q52 56 44 46 Z" fill="' + p[1] + '"/>' +
+    '<path d="M66 46 C64 10 136 10 134 46 Z" fill="' + p[1] + '"/>' +
+    '<path d="M67 38 Q100 30 133 38 L134 46 Q100 40 66 46 Z" fill="' + p[2] + '" stroke-width="3"/>' +
+    '<path d="M62 66 L96 66 L94 80 Q80 88 66 80 Z M104 66 L138 66 L134 80 Q120 88 106 80 Z" fill="#0f172a"/>' +
+    '<path d="M96 70 L104 70" fill="none"/>' +
+    '<path d="M70 70 L78 70 M110 70 L118 70" fill="none" stroke="#fff" stroke-width="4" opacity=".7"/>' +
+    '<path d="M82 94 Q100 104 118 94" fill="none"/>' +
+    '<path d="M30 150 C26 132 36 124 46 128 M170 150 C174 132 164 124 154 128" fill="none" stroke-width="12" stroke="' + p[0] + '"/>',
+  // 🔐 ろうやの ロック（ずかんには のらない。ろうやを あける クイズの あいて）
+  lock: (p) =>
+    '<path d="M62 100 L62 66 C62 22 138 22 138 66 L138 100" fill="none" stroke-width="22"/>' +
+    '<path d="M62 100 L62 66 C62 22 138 22 138 66 L138 100" fill="none" stroke="' + p[1] + '" stroke-width="12"/>' +
+    '<rect x="38" y="92" width="124" height="94" rx="18" fill="' + p[0] + '"/>' +
+    fmonShine('M54 116 C54 106 60 100 70 100') +
+    '<circle cx="100" cy="146" r="11" fill="' + FMON_INK + '"/><path d="M95 152 L91 172 L109 172 L105 152 Z" fill="' + FMON_INK + '"/>' +
+    fmonEye(70, 128, 9, 1) + fmonEye(130, 128, 9, -1),
 };
 
 // key → [かたち, いろ（[からだ, こい色, アクセント, …]）, なまえ]
@@ -340,6 +404,13 @@ const FOREST_MONSTERS = {
   fm_utsubo:    ['utsubo', ['#84cc16', '#365314', '#111'], 'ウツボン'],
   fm_utsubo2:   ['utsubo', ['#facc15', '#1e3a8a', '#111'], 'でんきウツボン'],
   fm_umi_nushi: ['tako', ['#e11d48', '#fda4af'], 'うみのぬし オオダコ'],
+  // さばくの アジト（みはり）
+  fm_heitai:    ['soldier', ['#a3e635', '#3f6212', '#facc15'], 'みはりへい'],
+  fm_heitai2:   ['soldier', ['#fdba74', '#7c2d12', '#f87171'], 'へいたいちょう'],
+  fm_drone:     ['drone', ['#cbd5e1', '#475569', '#22d3ee'], 'ていさつドローン'],
+  fm_drone2:    ['drone', ['#fca5a5', '#7f1d1d', '#fde047'], 'レッドドローン'],
+  fm_light:     ['light', ['#a8a29e', '#57534e', '#fef08a'], 'サーチライトロボ'],
+  fm_kage:      ['kage', ['#3b2f5c', '#1e1b2e', '#facc15'], 'かげの だんちょう'],
   // どうくつ・ぬし
   fm_golem:     ['golem', ['#a8a29e', '#78716c', '#22d3ee', '#4d7c0f'], 'いわゴーレム'],
   fm_nushi:     ['nushi', ['#5b3a1f', '#c8a27a', '#4d7c0f'], 'もりのぬし グランベア'],
@@ -353,13 +424,19 @@ const FOREST_MOBS = {
   // うみべ・うみの どうくつ（おしろが へいわに なると いける）
   beach: ['fm_kani', 'fm_kurage', 'fm_hitode'],
   seacave: ['fm_kani2', 'fm_kurage2', 'fm_utsubo', 'fm_utsubo2'],
+  // さばくの アジト（みはり。ランダムには でない。js/forest_base.js の みはりに みつかると たたかう）
+  base: ['fm_heitai', 'fm_heitai2', 'fm_drone', 'fm_drone2', 'fm_light'],
 };
 const FOREST_MIMIC_KEY = 'fm_mimic', FOREST_UMI_KEY = 'fm_umi_nushi';
 const FOREST_GUARD_KEY = 'fm_golem', FOREST_NUSHI_KEY = 'fm_nushi';
+const FOREST_KAGE_KEY = 'fm_kage', FOREST_LOCK_KEY = 'fm_lock';
 Object.entries(FOREST_MONSTERS).forEach(([key, [shape, pal, name]]) => {
   CHARS[key] = (lv, fill, size, opts) => fmonSvg(size || 160, FMON_DRAW[shape](pal), opts && opts.silhouette);
   CHAR_NAME[key] = name;
 });
+// 🔐 ろうやの ロック（ずかんには のせない）
+CHARS[FOREST_LOCK_KEY] = (lv, fill, size, opts) => fmonSvg(size || 160, FMON_DRAW.lock(['#facc15', '#94a3b8']), opts && opts.silhouette);
+CHAR_NAME[FOREST_LOCK_KEY] = 'ろうやの ロック';
 
 // 📖 ずかんの せつめい（たおすと 読める）
 const FOREST_MONSTER_INFO = {
@@ -403,6 +480,12 @@ const FOREST_MONSTER_INFO = {
   fm_umi_nushi: 'うみの どうくつの おくに すむ 大きな タコ。8ほんの あしで たからものを まもっている。',
   fm_golem:     'どうくつを まもる いわの ばんにん。おしろの かぎを ずっと もっている。',
   fm_nushi:     'もりで いちばん つよい ぬし。つのに もみじを かざった 大きな クマ。',
+  fm_heitai:    'アジトを みまわる へいたい。ヘルメットが ちょっと おおきくて まえが みえにくい。',
+  fm_heitai2:   'みはりへいの リーダー。そうがんきょうで とおくまで よく みている。',
+  fm_drone:     'そらから アジトを みはる ドローン。プロペラの おとが ブーンと する。',
+  fm_drone2:    'あかい ドローン。みつけると すぐに あかい ランプが ピカピカ ひかる。',
+  fm_light:     'あたまの ライトで よるの アジトを てらす ロボ。くさむらの なかは てらせない。',
+  fm_kage:      'さばくの アジトの だんちょう。サングラスの おくの めを みた ものは いない。',
 };
 // ずかんの ならび と ばしょ
 const FOREST_DEX_ORDER = [
@@ -415,6 +498,8 @@ const FOREST_DEX_ORDER = [
   [FOREST_GUARD_KEY, 'どうくつ'],
   [FOREST_NUSHI_KEY, 'おしろ'],
   [FOREST_UMI_KEY, 'うみの どうくつ'],
+  ...FOREST_MOBS.base.map(k => [k, 'さばくの アジト']),
+  [FOREST_KAGE_KEY, 'さばくの アジト'],
 ];
 
 // ============================================================
@@ -427,6 +512,7 @@ const FOREST_EVO_NEED = 5, FOREST_EVO_MEDAL = 3;
 const FMON_CROWN_AT = {
   puru: [100, 74], kinoko: [100, 64], koumori: [100, 68], donguri: [100, 58], hachi: [100, 86], ookami: [100, 72],
   woody: [100, 58], yoroi: [100, 62], knight: [100, 50], madou: [100, 92], candle: [100, 84], mimic: [100, 24],
+  soldier: [100, 62], drone: [100, 74], light: [100, 30],
   kani: [100, 104], kurage: [100, 62], hitode: [100, 30], utsubo: [92, 38], obake: [100, 54], hebi: [100, 50], hana: [100, 26], imomushi: [146, 68], chibidora: [100, 50],
 };
 function fmonEvo(shape, pal) {
@@ -485,6 +571,11 @@ const FOREST_EVOS = {
   fm_kurage2:   ['kurage', ['#fde68a', '#facc15', '#713f12'], 'たいようクラゲ'],
   fm_utsubo:    ['utsubo', ['#15803d', '#fde047', '#111'], 'ウツボンだいおう'],
   fm_utsubo2:   ['utsubo', ['#a855f7', '#fde047', '#111'], 'かみなりウツボン'],
+  fm_heitai:    ['soldier', ['#22c55e', '#14532d', '#fde047'], 'エリートみはりへい'],
+  fm_heitai2:   ['soldier', ['#fb923c', '#431407', '#facc15'], 'へいたい だいしょう'],
+  fm_drone:     ['drone', ['#e2e8f0', '#0ea5e9', '#a7f3d0'], 'ステルスドローン'],
+  fm_drone2:    ['drone', ['#f87171', '#450a0a', '#fb923c'], 'ジェットドローン'],
+  fm_light:     ['light', ['#fde68a', '#b45309', '#ffffff'], 'ゴールドライトロボ'],
 };
 Object.entries(FOREST_EVOS).forEach(([key, [shape, pal, name]]) => {
   CHARS[key + '_evo'] = (lv, fill, size, opts) => fmonSvg(size || 160, fmonEvo(shape, pal), opts && opts.silhouette);
@@ -528,5 +619,10 @@ Object.assign(FOREST_MONSTER_INFO, {
   fm_utsubo_evo:    'どうくつの ウツボたちの おうさま。いちど かみついたら はなさない。',
   fm_utsubo2_evo:   'かみなりの ちからを もつ ウツボ。あらしの よるに げんきに なる。',
   fm_chibidora_evo: 'ちびドラゴンが すこし おとなに なった。もう ほのおで まきに 火を つけられる。',
+  fm_heitai_evo:    'くんれんを がんばった みはりへい。ヘルメットが やっと ぴったりに なった。',
+  fm_heitai2_evo:   'みはりへいたちの だいしょう。ごうれいの こえは さばくの むこうまで ひびく。',
+  fm_drone_evo:     'おとも なく とぶ ドローン。すがたが すけて みえにくい。',
+  fm_drone2_evo:    'ジェットで びゅんと とぶ ドローン。はやすぎて じぶんでも とまれない。',
+  fm_light_evo:     'きんいろに ひかる ライトロボ。よるの さばくを ひるまの ように てらす。',
 });
 FOREST_DEX_ORDER.push(...Object.keys(FOREST_EVOS).map(k => [k + '_evo', '✨ しんか']));

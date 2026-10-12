@@ -44,6 +44,29 @@
   #fz-arrow{ position:absolute; left:0; top:0; width:56px; height:56px; display:none; pointer-events:none; }
   #fz-arrow > div{ width:56px; height:56px; border-radius:50%; background:#facc15; border:4px solid #2a1b3d; color:#dc2626; font-size:28px; font-weight:900; display:flex; align-items:center; justify-content:center; box-shadow:0 3px 0 rgba(0,0,0,.35); animation:fzpulse 1s ease-in-out infinite; }
   @keyframes fzpulse{ 50%{ box-shadow:0 0 0 8px rgba(250,204,21,.35); } }
+  /* 🏜 さばくの アジト（js/forest_base.js）*/
+  .fz-hud{ align-items:flex-start; }
+  .fz-radar{ width:96px; height:96px; border:2px solid #fff; border-radius:12px; align-self:flex-end; background:#052e16; }
+  .fz-act2{ position:absolute; right:22px; bottom:calc(146px + env(safe-area-inset-bottom)); width:80px; height:52px; border-radius:16px; border:3px solid #fff; background:linear-gradient(135deg,#c8a165,#a16207); color:#fff; font-weight:800; font-size:14px; box-shadow:0 4px 0 rgba(0,0,0,.3); touch-action:manipulation; }
+  .fz-act2.on{ background:linear-gradient(135deg,#4ade80,#15803d); }
+  .fz-act2:active{ transform:translateY(2px); box-shadow:none; }
+  #fz-brief{ position:fixed; inset:0; z-index:60; display:flex; align-items:flex-end; justify-content:center; padding:16px 12px calc(20px + env(safe-area-inset-bottom)); background:rgba(0,0,0,.35); cursor:pointer; }
+  .fz-brief-box{ display:flex; gap:12px; width:min(100%,620px); background:#04260f; border:3px solid #4ade80; border-radius:14px; padding:12px; color:#dcfce7; box-shadow:0 0 0 4px rgba(74,222,128,.18), 0 10px 30px rgba(0,0,0,.4); }
+  .fz-brief-face{ flex:0 0 92px; display:flex; flex-direction:column; align-items:center; gap:4px; }
+  .fz-brief-face svg{ width:88px; height:88px; background:linear-gradient(180deg,#14532d,#052e16); border:2px solid #4ade80; border-radius:10px; }
+  .fz-brief-face span{ font-size:10.5px; font-weight:800; color:#86efac; text-align:center; line-height:1.2; }
+  .fz-brief-text{ flex:1; font-size:15px; font-weight:800; line-height:1.75; min-width:0; }
+  .fz-brief-ch{ font-size:11px; color:#4ade80; letter-spacing:.08em; margin-bottom:2px; }
+  .fz-brief-next{ font-size:11.5px; color:#86efac; text-align:right; margin-top:4px; animation:fzblink 1s steps(2) infinite; }
+  @keyframes fzblink{ 50%{ opacity:.3; } }
+  .panel.fz-missionpanel{ width:min(92vw,420px); text-align:center; background:linear-gradient(180deg,#0f172a,#1e293b); color:#fff; border:3px solid #facc15; }
+  .fz-mission-head{ font-size:22px; font-weight:900; letter-spacing:.12em; color:#facc15; text-shadow:0 2px 0 #000; }
+  .fz-mission-rank{ margin:10px auto; width:96px; height:96px; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:52px; font-weight:900; line-height:1; border:4px solid #fff; }
+  .fz-mission-rank small{ font-size:11px; font-weight:800; margin-top:2px; }
+  .fz-mission-rank.rS{ background:linear-gradient(135deg,#a855f7,#ec4899); } .fz-mission-rank.rA{ background:linear-gradient(135deg,#0ea5e9,#22c55e); } .fz-mission-rank.rB{ background:linear-gradient(135deg,#64748b,#94a3b8); }
+  .fz-mission-stats{ display:grid; gap:6px; margin:6px 0 10px; text-align:left; }
+  .fz-mission-stats div{ display:flex; justify-content:space-between; gap:8px; background:rgba(255,255,255,.08); border-radius:10px; padding:7px 11px; font-size:14px; }
+  .fz-mission-stats b{ color:#fde68a; }
   .fz-warppanel{ width:min(92vw,420px); text-align:center; }
   .fz-warpbtn{ display:flex; align-items:center; gap:12px; width:100%; margin-top:8px; padding:12px 14px; border:2px solid #c7d2fe; border-radius:14px; background:#f8fafc; font-family:inherit; font-size:15px; color:var(--ink); cursor:pointer; }
   .fz-warpbtn:not(:disabled):active{ transform:translateY(2px); }
@@ -1550,6 +1573,7 @@ boot();
 <script src="js/forest_music.js"></script>
 <script src="js/forest_monsters.js"></script>
 <script src="js/forest.js"></script>
+<script src="js/forest_base.js"></script>
 <script src="js/moshi.js"></script>
 <script src="js/detective.js"></script>
 </body>
