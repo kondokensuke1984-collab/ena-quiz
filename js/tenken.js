@@ -3,7 +3,8 @@
 //   ・この ページの きろく（セーブ・メダル・ずかん・島の ごほうびの しるし など）は ぜんぶ メモリの 中だけ。
 //     ほんものの localStorage には 1つも 書かない（とじる・よみなおすと もとどおり）。読むのは ほんものから（いまの すすみぐあいで ためせる）
 //   ・サーバーへ おくる もの（/api/ への POST）も おくらない
-//   ・右下の「🔧 点検」から：アジトへ（じょうけん なし）・みはりを とめる・みつからない・たたかいを かったことに・HP かいふく
+//   ・rpg.html?tenken=1#base で ひらくと すぐ アジトの さくせんへ
+//   ・下の「🔧 点検」から：アジトへ（じょうけん なし）・みはりを とめる・みつからない・たたかいを かったことに・HP かいふく
 //   ・ほかの スクリプトより さきに よむ（rpg.html の いちばん はじめの <script>）
 // ============================================================
 const TENKEN = { on: /[?&]tenken=1(&|$)/.test(location.search), freeze: false, ghost: false };
@@ -47,6 +48,16 @@ const TENKEN = { on: /[?&]tenken=1(&|$)/.test(location.search), freeze: false, g
     b.id = 'tk-btn'; b.textContent = '🔧 点検モード';
     b.onclick = tenkenOpen;
     document.body.appendChild(b);
+    // #base：ひらいたら すぐ アジトの さくせんへ（もんだいの よみこみを まってから）
+    if (location.hash === '#base') {
+      const t0 = Date.now();
+      const iv = setInterval(() => {
+        const ready = typeof STAGES !== 'undefined' && STAGES.length && typeof tenkenBase === 'function' && document.getElementById('title-hero') && document.getElementById('title-hero').innerHTML;
+        if (!ready && Date.now() - t0 < 15000) return;
+        clearInterval(iv);
+        if (ready) tenkenBase(false);
+      }, 200);
+    }
   });
 })();
 
