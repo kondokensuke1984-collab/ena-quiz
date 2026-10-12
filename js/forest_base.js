@@ -158,13 +158,15 @@ function forestBaseTick(dt) {
   forestBaseRadar();
   if (forestBasePeace() || fzBase.alert || forestBaseState().done) return;
   if (document.getElementById('fz-brief') || document.getElementById('fz-warp') || document.getElementById('fz-dex') || document.getElementById('fz-mission')) return;
+  const tk = typeof TENKEN !== 'undefined' && TENKEN.on ? TENKEN : {};   // 🔧 点検モード（js/tenken.js）
+  if (tk.freeze) return;
   fzBase.grace = Math.max(0, fzBase.grace - dt);
   fzBase.t += dt;
   if (fzBase.t >= BASE_TICK) {
     fzBase.t -= BASE_TICK;
     for (const g of fzBase.guards) { if (forestBaseStepGuard(g)) return; }
   }
-  if (fzBase.grace > 0 || forestBaseHidden()) return;
+  if (fzBase.grace > 0 || forestBaseHidden() || tk.ghost) return;
   const f = save.forest;
   const cells = forestMv ? [[f.x, f.y], [forestMv.tx, forestMv.ty]] : [[f.x, f.y]];
   for (const g of fzBase.guards) {
@@ -189,7 +191,8 @@ function forestBaseStepGuard(g) {
   const [nx, ny] = g.cells[ni], f = save.forest;
   g.dir = forestBaseDirOf(nx - g.x, ny - g.y);
   const lx = forestMv ? forestMv.tx : f.x, ly = forestMv ? forestMv.ty : f.y;
-  if (fzBase.grace <= 0 && ((nx === f.x && ny === f.y) || (nx === lx && ny === ly))) {
+  const ghost = typeof TENKEN !== 'undefined' && TENKEN.on && TENKEN.ghost;
+  if (fzBase.grace <= 0 && !ghost && ((nx === f.x && ny === f.y) || (nx === lx && ny === ly))) {
     forestBaseAlert(g, forestBaseState().box ? '📦 ダンボールに ぶつかった…！ ' : '');
     return true;
   }
