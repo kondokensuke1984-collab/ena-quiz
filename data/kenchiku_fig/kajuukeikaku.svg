@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 498" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="498" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">風・雪・振動と構造計画の考え方</text>
+<rect x="14" y="48" width="452" height="22" fill="#dbeafe"/>
+<text x="22" y="64" font-weight="700" font-size="13" fill="#1e3a8a">風圧力</text>
+<text x="22" y="92" font-size="12">・速度圧 q＝0.6EV0²。V0は稀な暴風の地上10m・10分間平均風速</text>
+<text x="22" y="110" font-size="12">・ガスト影響係数Gfは、高さが高いほど小さく、都市化した地域ほど大きい</text>
+<text x="22" y="128" font-size="12">・外装材・屋根ふき材は局部のピーク風圧で、骨組用より大きい（屋根ふき材の平</text>
+<text x="34" y="146" font-size="12">均速度圧はGfなし、V0は同じ）</text>
+<rect x="14" y="154" width="452" height="22" fill="#dcfce7"/>
+<text x="22" y="170" font-weight="700" font-size="13" fill="#14532d">積雪</text>
+<text x="22" y="198" font-size="12">・多雪区域：垂直積雪量1m以上、または初終間日数30日以上</text>
+<text x="22" y="216" font-size="12">・不均等な積雪を考慮。大スパン・緩勾配の屋根は降雨を見込んだ割増し</text>
+<text x="22" y="234" font-size="12">・雪下ろしで減らした場合はその旨を表示する</text>
+<rect x="14" y="242" width="452" height="22" fill="#fef3c7"/>
+<text x="22" y="258" font-weight="700" font-size="13" fill="#78350f">振動</text>
+<text x="22" y="286" font-size="12">・固有周期 T＝2π√(m/k)。剛性が大きいほど短い。1次の周期が最も長い</text>
+<text x="22" y="304" font-size="12">・応答スペクトル：長周期ほど加速度は小さく、変位は大きい</text>
+<text x="22" y="322" font-size="12">・減衰が大きいほど共振時の振幅は小さい。減衰定数はRC約3%、S約2%</text>
+<rect x="14" y="330" width="452" height="22" fill="#e0e7ff"/>
+<text x="22" y="346" font-weight="700" font-size="13" fill="#312e81">構造計画</text>
+<text x="22" y="374" font-size="12">・エキスパンションジョイントは温度応力・乾燥収縮にも有利</text>
+<text x="22" y="392" font-size="12">・床の鉛直固有振動数が10Hz以下なら居住性を検討。振動はたわみや振動数で確</text>
+<text x="34" y="410" font-size="12">かめる</text>
+<text x="22" y="428" font-size="12">・地震時の軸力変動は外柱のほうが大きい。基礎を軽くすると転倒に不利</text>
+<text x="22" y="446" font-size="12">・ピロティ階は剛性・耐力を大きくする。設備機器の震度は設置階に応じ上階ほど</text>
+<text x="34" y="464" font-size="12">大きい</text>
+<text x="22" y="482" font-size="12">・住宅性能表示の耐震等級は3が最高。降伏点を上げても弾性たわみは変わらない</text>
+</svg>

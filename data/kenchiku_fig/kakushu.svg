@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 600" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="600" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">プレストレスト・壁式・合成構造の要点</text>
+<!-- PC -->
+<text x="20" y="54" font-size="13" font-weight="700" fill="#1e3a8a">プレストレストコンクリート（PC）</text>
+<g font-size="12">
+<text x="20" y="76" font-weight="700">プレテンション</text>
+<rect x="20" y="84" width="200" height="26" fill="#e5e7eb" stroke="#6b7280"/>
+<line x1="12" y1="97" x2="228" y2="97" stroke="#dc2626" stroke-width="2"/>
+<path d="M6,97 l8,-4 v8 z M234,97 l-8,-4 v8 z" fill="#dc2626"/>
+<text x="20" y="128" fill="#4b5563">鋼材を先に引張り→打設→硬化後に</text>
+<text x="20" y="144" fill="#4b5563">解放。付着で力を伝える（工場製品）</text>
+<text x="260" y="76" font-weight="700">ポストテンション</text>
+<rect x="260" y="84" width="200" height="26" fill="#e5e7eb" stroke="#6b7280"/>
+<path d="M266,104 Q360,82 454,104" stroke="#dc2626" stroke-width="2" fill="none"/>
+<rect x="254" y="86" width="6" height="22" fill="#4b5563"/><rect x="460" y="86" width="6" height="22" fill="#4b5563"/>
+<text x="260" y="128" fill="#4b5563">シースを入れて打設→硬化後に緊張し</text>
+<text x="260" y="144" fill="#4b5563">定着具で固定→グラウト注入</text>
+</g>
+<g font-size="12">
+<text x="34" y="166">・Ⅰ種：引張応力を生じさせない　Ⅱ種：ひび割れ強度以下の</text>
+<text x="48" y="182">引張を許容　Ⅲ種（PRC）：ひび割れを許容し幅を制御</text>
+<text x="34" y="200">・プレストレスはリラクセーション・クリープ・乾燥収縮で減る</text>
+<text x="34" y="218">・アンボンドPC鋼材（防錆材で被覆）はグラウト不要</text>
+<text x="34" y="236">・復元性が高く残留変形は小さいが、履歴ループが細く減衰は小さい</text>
+<text x="34" y="254">・不静定架構ではプレストレスによる不静定二次応力を考える</text>
+</g>
+<line x1="8" y1="268" x2="472" y2="268" stroke="#e5e7eb" stroke-width="1.5"/>
+<!-- 壁式 -->
+<text x="20" y="292" font-size="13" font-weight="700" fill="#14532d">壁式鉄筋コンクリート造</text>
+<g font-size="12">
+<text x="34" y="312">・地上5階以下。壁式ラーメンRC造はより高い建物に使える</text>
+<text x="34" y="330">・強度で抵抗する構造で、靱性（ねばり）は期待しにくい</text>
+<text x="34" y="348">・Fcを高くすると必要壁量を小さくできる。Zに応じて低減も可</text>
+<text x="34" y="366">・小開口も補強をしてはじめて「開口なし」とみなせる</text>
+<text x="34" y="384">・壁梁の幅は耐力壁の厚さ以上。階高3.5m超は保有耐力計算</text>
+<text x="34" y="402">・壁式RC造と壁式PCa造は同じ階に混用できる</text>
+</g>
+<line x1="8" y1="416" x2="472" y2="416" stroke="#e5e7eb" stroke-width="1.5"/>
+<!-- 合成 -->
+<text x="20" y="440" font-size="13" font-weight="700" fill="#78350f">合成構造（CFT・SRC・合成梁）</text>
+<g>
+<circle cx="44" cy="474" r="20" fill="#d1d5db" stroke="#4b5563" stroke-width="4"/>
+<rect x="80" y="454" width="40" height="40" fill="#d1d5db" stroke="#4b5563" stroke-width="4"/>
+<text x="82" y="512" font-size="12" text-anchor="middle" fill="#4b5563">CFT（円形が拘束効果大）</text>
+</g>
+<g font-size="12">
+<text x="170" y="462">・CFT：コンファインド効果でコンクリート</text>
+<text x="182" y="478">強度を高く評価。局部座屈しにくく、</text>
+<text x="182" y="494">耐火性・塑性変形能力も高い</text>
+<text x="34" y="534">・SRC：鉄骨部分とRC部分の耐力を累加。引張軸力の生じる</text>
+<text x="48" y="550">柱脚は埋込み形式とする</text>
+<text x="34" y="568">・合成梁：上フランジはスラブで拘束→局部座屈の検討を省略可。</text>
+<text x="48" y="584">端部で圧縮を受ける下フランジは検討する</text>
+</g>
+</svg>

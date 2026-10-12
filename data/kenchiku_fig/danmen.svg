@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 330" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="15" fill="#1f2937">
+<rect width="480" height="330" fill="#fff"/>
+<rect x="60" y="40" width="80" height="160" fill="#e5e7eb" stroke="#1f2937" stroke-width="3"/>
+<line x1="44" y1="120" x2="156" y2="120" stroke="#2563eb" stroke-width="2" stroke-dasharray="6 4"/>
+<text x="74" y="114" font-size="12" fill="#2563eb">中立軸</text>
+<g stroke="#1f2937" stroke-width="1.5"><line x1="60" y1="210" x2="60" y2="222"/><line x1="140" y1="210" x2="140" y2="222"/><line x1="60" y1="216" x2="140" y2="216"/>
+<line x1="34" y1="40" x2="46" y2="40"/><line x1="34" y1="200" x2="46" y2="200"/><line x1="40" y1="40" x2="40" y2="200"/></g>
+<text x="96" y="238" font-style="italic">b</text><text x="22" y="126" font-style="italic">h</text>
+<line x1="200" y1="40" x2="200" y2="200" stroke="#1f2937" stroke-width="1.5"/>
+<path d="M200,40 H246 L154,200 H200" fill="#dc2626" fill-opacity=".15" stroke="#dc2626" stroke-width="2.5"/>
+<g font-size="13" fill="#dc2626"><text x="210" y="34">圧縮</text><text x="150" y="220">引張</text></g>
+<text x="214" y="128" font-size="13" fill="#dc2626">σ</text>
+<g>
+<text x="276" y="56" font-size="14" fill="#4b5563">断面二次モーメント</text>
+<text x="276" y="84" font-size="21" font-weight="700">I ＝ bh³／12</text>
+<text x="276" y="118" font-size="14" fill="#4b5563">断面係数</text>
+<text x="276" y="146" font-size="21" font-weight="700">Z ＝ bh²／6</text>
+<text x="276" y="180" font-size="14" fill="#4b5563">縁の曲げ応力度</text>
+<text x="276" y="208" font-size="21" font-weight="700">σ ＝ M／Z</text>
+</g>
+<line x1="8" y1="252" x2="472" y2="252" stroke="#e5e7eb" stroke-width="1.5"/>
+<text x="20" y="278">・hが2倍 → Iは8倍、Zは4倍（たわみは1/8、応力度は1/4）</text>
+<text x="20" y="304">・断面二次半径 i ＝ √(I／A)、細長比 λ ＝ lk／i</text>
+</svg>

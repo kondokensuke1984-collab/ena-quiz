@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 614" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="614" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">RC部材の強さとねばりを左右するもの</text>
+<rect x="14" y="46" width="452" height="22" fill="#f3f4f6"/>
+<text x="22" y="61" font-size="12" text-anchor="start" fill="#4b5563">変えるもの</text>
+<text x="212" y="61" font-size="12" text-anchor="start" fill="#4b5563">耐力</text>
+<text x="360" y="61" font-size="12" text-anchor="start" fill="#4b5563">靱性（ねばり）</text>
+<text x="22" y="81" font-size="12" text-anchor="start" fill="#1f2937">柱の軸力（軸力比）を大きく</text>
+<text x="212" y="81" font-size="12" text-anchor="start" fill="#1f2937">せん断耐力↑※</text>
+<text x="360" y="81" font-size="12" text-anchor="start" fill="#1f2937">低下</text>
+<text x="22" y="101" font-size="12" text-anchor="start" fill="#1f2937">せん断スパン比を小さく（短柱）</text>
+<text x="212" y="101" font-size="12" text-anchor="start" fill="#1f2937">せん断耐力↑</text>
+<text x="360" y="101" font-size="12" text-anchor="start" fill="#1f2937">低下（せん断破壊）</text>
+<text x="22" y="121" font-size="12" text-anchor="start" fill="#1f2937">引張鉄筋比を大きく</text>
+<text x="212" y="121" font-size="12" text-anchor="start" fill="#1f2937">曲げ耐力↑</text>
+<text x="360" y="121" font-size="12" text-anchor="start" fill="#1f2937">低下（付着割裂）</text>
+<text x="22" y="141" font-size="12" text-anchor="start" fill="#1f2937">梁幅を大きく</text>
+<text x="212" y="141" font-size="12" text-anchor="start" fill="#1f2937">圧縮域が浅くなる</text>
+<text x="360" y="141" font-size="12" text-anchor="start" fill="#1f2937">向上</text>
+<text x="22" y="161" font-size="12" text-anchor="start" fill="#1f2937">せん断補強筋を増やす</text>
+<text x="212" y="161" font-size="12" text-anchor="start" fill="#1f2937">せん断耐力↑</text>
+<text x="360" y="161" font-size="12" text-anchor="start" fill="#1f2937">向上</text>
+<text x="22" y="181" font-size="12" text-anchor="start" fill="#1f2937">Fcを高く</text>
+<text x="212" y="181" font-size="12" text-anchor="start" fill="#1f2937">せん断・接合部↑</text>
+<text x="360" y="181" font-size="12" text-anchor="start" fill="#1f2937">曲げ耐力は大差なし</text>
+<rect x="14" y="198" width="452" height="22" fill="#dbeafe"/>
+<text x="22" y="214" font-weight="700" font-size="13" fill="#1e3a8a">許容応力度計算</text>
+<text x="22" y="242" font-size="12">※軸応力度がFcの0.4倍程度までは軸力が大きいほどせん断耐力が大きい</text>
+<text x="22" y="260" font-size="12">・梁の曲げ剛性はスラブの協力幅を考えたT形断面で評価</text>
+<text x="22" y="278" font-size="12">・上端筋の許容付着応力度は下端筋より小さい（ブリーディングの影響）</text>
+<text x="22" y="296" font-size="12">・ヤング係数比nは、Fcが高いほど小さくする</text>
+<text x="22" y="314" font-size="12">・柱の許容曲げモーメントは3条件で求めた値の最小値</text>
+<text x="22" y="332" font-size="12">・長期のせん断では耐力壁の壁筋の効果を見込まない</text>
+<text x="22" y="350" font-size="12">・圧縮鉄筋を増やすとクリープによるたわみが小さくなる</text>
+<text x="22" y="368" font-size="12">・はね出し2m以下の片持ちバルコニー等は鉛直震度の割増しを省略可</text>
+<rect x="14" y="376" width="452" height="22" fill="#dcfce7"/>
+<text x="22" y="392" font-weight="700" font-size="13" fill="#14532d">保有水平耐力計算</text>
+<text x="22" y="420" font-size="12">・せん断破壊する柱はFD、付着割裂破壊する柱はFAにできない</text>
+<text x="22" y="438" font-size="12">・脆性破壊する柱を無視して保有水平耐力を求めてはいけない</text>
+<text x="22" y="456" font-size="12">・保有水平耐力時の変形と大地震時の最大応答変形は一致しない</text>
+<rect x="14" y="464" width="452" height="22" fill="#fef3c7"/>
+<text x="22" y="480" font-weight="700" font-size="13" fill="#78350f">部材寸法の目安</text>
+<text x="22" y="509" font-size="12" text-anchor="start" fill="#1f2937">部材</text>
+<text x="200" y="509" font-size="12" text-anchor="start" fill="#1f2937">目安</text>
+<text x="22" y="529" font-size="12" text-anchor="start" fill="#1f2937">耐力壁の厚さ</text>
+<text x="200" y="529" font-size="12" text-anchor="start" fill="#1f2937">内法高さの1/30以上かつ120mm以上</text>
+<text x="22" y="549" font-size="12" text-anchor="start" fill="#1f2937">柱の小径</text>
+<text x="200" y="549" font-size="12" text-anchor="start" fill="#1f2937">主要な支点間距離の1/15以上</text>
+<text x="22" y="569" font-size="12" text-anchor="start" fill="#1f2937">床スラブの厚さ</text>
+<text x="200" y="569" font-size="12" text-anchor="start" fill="#1f2937">短辺有効スパンの1/40以上かつ80mm以上</text>
+<text x="22" y="589" font-size="12" text-anchor="start" fill="#1f2937">片持ちスラブの厚さ</text>
+<text x="200" y="589" font-size="12" text-anchor="start" fill="#1f2937">はね出し長さの1/10以上</text>
+</svg>

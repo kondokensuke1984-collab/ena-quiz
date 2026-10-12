@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 442" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="442" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">工事の届出・申請と提出先</text>
+<rect x="14" y="46" width="452" height="22" fill="#f3f4f6"/>
+<text x="22" y="61" font-size="12" text-anchor="start" fill="#4b5563">届出・申請</text>
+<text x="250" y="61" font-size="12" text-anchor="start" fill="#4b5563">提出先</text>
+<text x="380" y="61" font-size="12" text-anchor="start" fill="#4b5563">時期</text>
+<text x="22" y="81" font-size="12" text-anchor="start" fill="#1f2937">建設工事計画届（高さ31m超など）</text>
+<text x="250" y="81" font-size="12" text-anchor="start" fill="#1f2937">労働基準監督署長</text>
+<text x="380" y="81" font-size="12" text-anchor="start" fill="#1f2937">開始14日前</text>
+<text x="22" y="101" font-size="12" text-anchor="start" fill="#1f2937">クレーン設置届（3t以上）</text>
+<text x="250" y="101" font-size="12" text-anchor="start" fill="#1f2937">労働基準監督署長</text>
+<text x="380" y="101" font-size="12" text-anchor="start" fill="#1f2937">開始30日前</text>
+<text x="22" y="121" font-size="12" text-anchor="start" fill="#1f2937">足場設置届（10m以上・60日以上）</text>
+<text x="250" y="121" font-size="12" text-anchor="start" fill="#1f2937">労働基準監督署長</text>
+<text x="380" y="121" font-size="12" text-anchor="start" fill="#1f2937">開始30日前</text>
+<text x="22" y="141" font-size="12" text-anchor="start" fill="#1f2937">共同企業体代表者届</text>
+<text x="250" y="141" font-size="12" text-anchor="start" fill="#1f2937">都道府県労働局長</text>
+<text x="380" y="141" font-size="12" text-anchor="start" fill="#1f2937">開始14日前</text>
+<text x="22" y="161" font-size="12" text-anchor="start" fill="#1f2937">特定元方事業者の事業開始報告</text>
+<text x="250" y="161" font-size="12" text-anchor="start" fill="#1f2937">労働基準監督署長</text>
+<text x="380" y="161" font-size="12" text-anchor="start" fill="#1f2937">遅滞なく</text>
+<text x="22" y="181" font-size="12" text-anchor="start" fill="#1f2937">特定建設作業実施届（騒音・振動）</text>
+<text x="250" y="181" font-size="12" text-anchor="start" fill="#1f2937">市町村長</text>
+<text x="380" y="181" font-size="12" text-anchor="start" fill="#1f2937">開始7日前</text>
+<text x="22" y="201" font-size="12" text-anchor="start" fill="#1f2937">建設リサイクル法の届出</text>
+<text x="250" y="201" font-size="12" text-anchor="start" fill="#1f2937">都道府県知事</text>
+<text x="380" y="201" font-size="12" text-anchor="start" fill="#1f2937">着手7日前</text>
+<text x="22" y="221" font-size="12" text-anchor="start" fill="#1f2937">建築工事届・除却届（10m²超）</text>
+<text x="250" y="221" font-size="12" text-anchor="start" fill="#1f2937">知事（建築主事経由）</text>
+<text x="380" y="221" font-size="12" text-anchor="start" fill="#1f2937">確認申請時等</text>
+<text x="22" y="241" font-size="12" text-anchor="start" fill="#1f2937">消防用設備等の設置届</text>
+<text x="250" y="241" font-size="12" text-anchor="start" fill="#1f2937">消防長・消防署長</text>
+<text x="380" y="241" font-size="12" text-anchor="start" fill="#1f2937">完了後4日以内</text>
+<text x="22" y="261" font-size="12" text-anchor="start" fill="#1f2937">完了検査の申請</text>
+<text x="250" y="261" font-size="12" text-anchor="start" fill="#1f2937">建築主事等</text>
+<text x="380" y="261" font-size="12" text-anchor="start" fill="#1f2937">完了後4日以内</text>
+<text x="22" y="281" font-size="12" text-anchor="start" fill="#1f2937">仮設建築物の許可・工事中の安全計画</text>
+<text x="250" y="281" font-size="12" text-anchor="start" fill="#1f2937">特定行政庁</text>
+<text x="380" y="281" font-size="12" text-anchor="start" fill="#1f2937">着手前</text>
+<text x="22" y="301" font-size="12" text-anchor="start" fill="#1f2937">道路占用許可・歩道切下げ</text>
+<text x="250" y="301" font-size="12" text-anchor="start" fill="#1f2937">道路管理者</text>
+<text x="380" y="301" font-size="12" text-anchor="start" fill="#1f2937">着手前</text>
+<text x="22" y="321" font-size="12" text-anchor="start" fill="#1f2937">道路使用許可（交通の妨げ）</text>
+<text x="250" y="321" font-size="12" text-anchor="start" fill="#1f2937">警察署長</text>
+<text x="380" y="321" font-size="12" text-anchor="start" fill="#1f2937">着手前</text>
+<text x="22" y="341" font-size="12" text-anchor="start" fill="#1f2937">特殊車両通行許可</text>
+<text x="250" y="341" font-size="12" text-anchor="start" fill="#1f2937">道路管理者</text>
+<text x="380" y="341" font-size="12" text-anchor="start" fill="#1f2937">通行前</text>
+<text x="22" y="361" font-size="12" text-anchor="start" fill="#1f2937">石綿の事前調査結果（100万円以上）</text>
+<text x="250" y="361" font-size="12" text-anchor="start" fill="#1f2937">知事・労基署長</text>
+<text x="380" y="361" font-size="12" text-anchor="start" fill="#1f2937">着工前</text>
+<text x="22" y="390" font-size="12" fill="#4b5563">・労働安全衛生法は労働基準監督署長、騒音規制法は市町村長、リサイクル法は知</text>
+<text x="34" y="408" font-size="12" fill="#4b5563">事と覚える</text>
+<text x="22" y="426" font-size="12" fill="#4b5563">・高さ31m超の建築物の解体、石綿吹付け材の除去も14日前に計画届</text>
+</svg>

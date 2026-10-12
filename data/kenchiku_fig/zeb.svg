@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 500" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="500" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">ZEBの区分と省エネ指標</text>
+<text x="20" y="50" font-size="11" fill="#4b5563">基準一次エネルギー消費量からの削減率（その他の消費を除く）</text>
+<g font-size="12">
+<text x="20" y="80" font-weight="700">『ZEB』</text>
+<rect x="130" y="66" width="150" height="20" fill="#2563eb"/><rect x="280" y="66" width="150" height="20" fill="#16a34a"/>
+<text x="424" y="81" font-size="11" fill="#fff" font-weight="700" text-anchor="end">100%以上</text>
+<text x="20" y="114" font-weight="700">Nearly ZEB</text>
+<rect x="130" y="100" width="150" height="20" fill="#2563eb"/><rect x="280" y="100" width="75" height="20" fill="#16a34a"/>
+<text x="363" y="115" font-size="11">75%以上</text>
+<text x="20" y="148" font-weight="700">ZEB Ready</text>
+<rect x="130" y="134" width="150" height="20" fill="#2563eb"/>
+<text x="288" y="149" font-size="11">省エネだけで50%以上</text>
+<text x="20" y="182" font-weight="700">ZEB Oriented</text>
+<rect x="130" y="168" width="90" height="20" fill="#2563eb"/>
+<text x="228" y="178" font-size="10">延べ1万m²以上。事務所等40%・</text>
+<text x="228" y="191" font-size="10">ホテル・病院等30%以上の省エネ</text>
+<rect x="130" y="206" width="14" height="12" fill="#2563eb"/><text x="150" y="217" font-size="11">省エネ（50%以上は必須）</text>
+<rect x="300" y="206" width="14" height="12" fill="#16a34a"/><text x="320" y="217" font-size="11">創エネ（再生可能エネルギー）</text>
+</g>
+<line x1="8" y1="236" x2="472" y2="236" stroke="#e5e7eb" stroke-width="1.5"/>
+<text x="20" y="260" font-weight="700">省エネ・環境性能の指標</text>
+<g font-size="12">
+<text x="34" y="282"><tspan font-weight="700">BEI</tspan> ＝ 設計一次エネ消費量 ÷ 基準一次エネ消費量</text>
+<text x="48" y="300" fill="#4b5563">小さいほど省エネ。省エネ基準はBEI≦1.0（等級4相当）</text>
+<text x="34" y="322"><tspan font-weight="700">PAL＊</tspan>（パルスター）：非住宅の外皮（窓・外壁等）の熱性能。</text>
+<text x="48" y="340" fill="#4b5563">ペリメーターゾーンの年間熱負荷÷床面積。小さいほど高性能</text>
+<text x="34" y="362"><tspan font-weight="700">UA値</tspan>：住宅の外皮平均熱貫流率。小さいほど断熱性が高い</text>
+<text x="34" y="384"><tspan font-weight="700">BEE</tspan>（CASBEE）＝ 環境品質Q ÷ 環境負荷L。大きいほど高評価</text>
+<text x="34" y="406"><tspan font-weight="700">COP・APF</tspan>：機器の効率。大きいほど省エネ</text>
+</g>
+<line x1="8" y1="422" x2="472" y2="422" stroke="#e5e7eb" stroke-width="1.5"/>
+<g font-size="12">
+<text x="20" y="446">・ZEBは省エネが前提。再生可能エネルギーだけでは認められない</text>
+<text x="20" y="468">・既存建築物も改修によりZEB化できる</text>
+<text x="20" y="490">・BELS：第三者による省エネ性能の表示制度（星の数で表示）</text>
+</g>
+</svg>

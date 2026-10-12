@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 540" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="540" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">軽量鉄骨の天井下地・壁下地（標準仕様書）</text>
+<!-- 天井 -->
+<text x="20" y="52" font-size="13" font-weight="700">天井下地</text>
+<rect x="20" y="60" width="440" height="12" fill="#d1d5db" stroke="#6b7280"/>
+<rect x="20" y="72" width="10" height="90" fill="#d1d5db" stroke="#6b7280"/>
+<g stroke="#4b5563" stroke-width="2">
+<line x1="60" y1="72" x2="60" y2="118"/><line x1="180" y1="72" x2="180" y2="118"/><line x1="300" y1="72" x2="300" y2="118"/><line x1="380" y1="72" x2="380" y2="118"/>
+</g>
+<g fill="#93c5fd" stroke="#1d4ed8">
+<rect x="54" y="118" width="12" height="9"/><rect x="174" y="118" width="12" height="9"/><rect x="294" y="118" width="12" height="9"/><rect x="374" y="118" width="12" height="9"/>
+</g>
+<rect x="30" y="127" width="400" height="6" fill="#fde68a" stroke="#ca8a04"/>
+<rect x="30" y="133" width="400" height="5" fill="#f3f4f6" stroke="#9ca3af"/>
+<g stroke="#dc2626" fill="none" stroke-width="1.2">
+<path d="M180,94 h120 M180,90 v8 M300,90 v8"/>
+<path d="M386,150 h44 M386,146 v8 M430,146 v8"/>
+<path d="M30,150 h30 M30,146 v8 M60,146 v8"/>
+</g>
+<g font-size="12" fill="#dc2626">
+<text x="240" y="88" text-anchor="middle">吊りボルト 900程度</text>
+<text x="408" y="168" text-anchor="middle">はね出し</text>
+<text x="408" y="182" text-anchor="middle">150以下</text>
+<text x="34" y="168">端から150以内</text>
+</g>
+<g font-size="12" fill="#4b5563">
+<text x="196" y="116">野縁受</text>
+<text x="196" y="160">野縁（屋内19形・屋外25形）</text>
+<path d="M234,150 l0,-12" stroke="#4b5563" fill="none"/>
+</g>
+<line x1="8" y1="196" x2="472" y2="196" stroke="#e5e7eb" stroke-width="1.5"/>
+<!-- 壁 -->
+<text x="20" y="218" font-size="13" font-weight="700">壁下地（高さ2.7mの例）</text>
+<rect x="30" y="232" width="200" height="8" fill="#93c5fd" stroke="#1d4ed8"/>
+<rect x="30" y="424" width="200" height="8" fill="#93c5fd" stroke="#1d4ed8"/>
+<line x1="20" y1="432" x2="240" y2="432" stroke="#4b5563" stroke-width="2"/>
+<g fill="#fde68a" stroke="#ca8a04">
+<rect x="46" y="244" width="6" height="180"/><rect x="96" y="244" width="6" height="180"/><rect x="146" y="244" width="6" height="180"/><rect x="196" y="244" width="6" height="180"/>
+</g>
+<line x1="34" y1="347" x2="226" y2="347" stroke="#1d4ed8" stroke-width="3"/>
+<line x1="34" y1="261" x2="226" y2="261" stroke="#9ca3af" stroke-width="3" stroke-dasharray="6 4"/>
+<g stroke="#dc2626" fill="none" stroke-width="1.2">
+<path d="M74,347 v77 M70,347 h8 M70,424 h8"/>
+<path d="M152,410 h44 M152,406 v8 M196,406 v8"/>
+</g>
+<g font-size="12" fill="#dc2626">
+<text x="78" y="390">1.2m</text>
+<text x="174" y="404" text-anchor="middle">間隔</text>
+</g>
+<g font-size="12">
+<text x="262" y="244">・スタッド天端とランナーの</text>
+<text x="272" y="260">すき間は10mm以下</text>
+<text x="262" y="284">・振れ止め：床ランナーから</text>
+<text x="272" y="300">1.2mごと。上部ランナーから</text>
+<text x="272" y="316">400mm以内の段は省略できる</text>
+<text x="262" y="340">・スタッド間隔：ボード2枚張り</text>
+<text x="272" y="356">450程度、1枚張り300程度</text>
+<text x="262" y="380">・スペーサー：両端と振れ止め</text>
+<text x="272" y="396">位置を押さえ600程度ごと</text>
+<text x="262" y="420">・開口補強：長さ4.0m超は</text>
+<text x="272" y="436">スタッド2本抱き合わせ溶接</text>
+</g>
+<line x1="8" y1="452" x2="472" y2="452" stroke="#e5e7eb" stroke-width="1.5"/>
+<g font-size="12">
+<text x="20" y="474">・野縁を留めるクリップのつめは、向きを交互にする</text>
+<text x="20" y="494">・天井の段違い部分は、2.7m程度の間隔で斜め補強</text>
+<text x="20" y="514">・JISの鋼製下地材は亜鉛の犠牲防食があるので、</text>
+<text x="34" y="530">切断面の錆止め塗りを省略できる</text>
+</g>
+</svg>

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 500" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="500" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">開発許可が必要な規模（都市計画法29条）</text>
+<text x="20" y="50" font-size="11" fill="#4b5563">開発行為＝建築物の建築などのために行う土地の区画形質の変更</text>
+<rect x="20" y="60" width="440" height="200" fill="#f3f4f6" stroke="#9ca3af"/>
+<text x="30" y="78" font-size="12" font-weight="700">都市計画区域</text>
+<rect x="30" y="86" width="200" height="90" fill="#dbeafe" stroke="#2563eb"/>
+<text x="40" y="106" font-weight="700" fill="#1d4ed8">市街化区域</text>
+<text x="40" y="128" font-size="12">1,000m²以上で許可</text>
+<text x="40" y="146" font-size="11" fill="#4b5563">三大都市圏の既成市街地等</text>
+<text x="40" y="162" font-size="11" fill="#4b5563">は500m²以上</text>
+<rect x="240" y="86" width="210" height="90" fill="#fee2e2" stroke="#dc2626"/>
+<text x="250" y="106" font-weight="700" fill="#b91c1c">市街化調整区域</text>
+<text x="250" y="128" font-size="12">規模にかかわらず許可</text>
+<text x="250" y="146" font-size="11" fill="#4b5563">許可できるものも限定</text>
+<text x="250" y="162" font-size="11" fill="#4b5563">（市街化を抑制する区域）</text>
+<rect x="30" y="184" width="420" height="34" fill="#fef9c3" stroke="#ca8a04"/>
+<text x="40" y="206" font-size="12"><tspan font-weight="700">区域区分のない都市計画区域・準都市計画区域</tspan>：3,000m²以上</text>
+<text x="30" y="246" font-size="12"><tspan font-weight="700">都市計画区域・準都市計画区域の外</tspan>：1ha以上</text>
+<text x="20" y="282" font-size="11" fill="#4b5563">※市街化区域・区域区分のない区域等は、条例で300m²まで引下げ可</text>
+<line x1="8" y1="296" x2="472" y2="296" stroke="#e5e7eb" stroke-width="1.5"/>
+<text x="20" y="320" font-weight="700">許可が不要な開発行為（主なもの）</text>
+<g font-size="12">
+<text x="34" y="342">・市街化区域以外での農林漁業用の建築物・その従事者の住宅</text>
+<text x="34" y="362">・駅舎・図書館・公民館・変電所などの公益上必要な建築物</text>
+<text x="48" y="380" fill="#4b5563">（病院・学校・社会福祉施設は許可が必要）</text>
+<text x="34" y="400">・都市計画事業・土地区画整理事業などの施行として行うもの</text>
+<text x="34" y="420">・非常災害の応急措置、仮設建築物のためのもの</text>
+</g>
+<line x1="8" y1="436" x2="472" y2="436" stroke="#e5e7eb" stroke-width="1.5"/>
+<g font-size="12">
+<text x="20" y="460">・工事完了公告の後は、原則として予定建築物以外は建築できない</text>
+<text x="34" y="478" fill="#4b5563">（用途地域等が定められている場合を除く）</text>
+<text x="20" y="496" font-size="11" fill="#4b5563">許可権者は都道府県知事（指定都市・中核市はその長）</text>
+</g>
+</svg>

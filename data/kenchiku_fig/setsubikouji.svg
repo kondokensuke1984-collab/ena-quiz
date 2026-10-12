@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 560" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="560" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">設備工事の数値（標準仕様書・SHASE）</text>
+<!-- 埋設 -->
+<text x="20" y="52" font-size="13" font-weight="700">配管の埋設</text>
+<rect x="20" y="70" width="440" height="110" fill="#fef3c7"/>
+<line x1="20" y1="70" x2="460" y2="70" stroke="#4b5563" stroke-width="2"/>
+<line x1="60" y1="86" x2="140" y2="86" stroke="#9ca3af" stroke-width="3" stroke-dasharray="6 3"/>
+<circle cx="100" cy="112" r="9" fill="#93c5fd" stroke="#1d4ed8"/>
+<circle cx="190" cy="140" r="11" fill="#d6d3d1" stroke="#57534e"/>
+<g stroke="#dc2626" fill="none" stroke-width="1.2">
+<path d="M52,70 v16 M48,70 h8 M48,86 h8"/>
+<path d="M100,152 h90 M100,148 v8 M190,148 v8"/>
+
+</g>
+<g font-size="12">
+<text x="146" y="90" fill="#4b5563">埋設表示テープ（土被り150程度）</text>
+<text x="116" y="116" fill="#1d4ed8">給水管（上）</text>
+<text x="206" y="144" fill="#57534e">排水管（下）</text>
+<text x="145" y="170" fill="#dc2626" text-anchor="middle">水平500以上</text>
+<text x="310" y="106" fill="#dc2626">管の上端の深さ</text>
+<text x="310" y="124" fill="#dc2626">・車両道路 600以上</text>
+<text x="310" y="142" fill="#dc2626">・その他 300以上</text>
+<text x="310" y="160" fill="#dc2626">・寒冷地は凍結深度以上</text>
+</g>
+<line x1="8" y1="194" x2="472" y2="194" stroke="#e5e7eb" stroke-width="1.5"/>
+<!-- 排水勾配 -->
+<text x="20" y="216" font-size="13" font-weight="700">屋内の横走り排水管の最小勾配</text>
+<g font-size="12" text-anchor="middle">
+<rect x="20" y="228" width="440" height="24" fill="#f3f4f6"/>
+<text x="90" y="245" fill="#4b5563">呼び径</text><text x="200" y="245">65以下</text><text x="275" y="245">75・100</text><text x="350" y="245">125</text><text x="420" y="245">150以上</text>
+<text x="90" y="273" fill="#4b5563">最小勾配</text>
+<g font-weight="700" fill="#1d4ed8"><text x="200" y="273">1/50</text><text x="275" y="273">1/100</text><text x="350" y="273">1/150</text><text x="420" y="273">1/200</text></g>
+</g>
+<text x="20" y="298" font-size="12" fill="#4b5563">太い管ほど緩くてよい。蒸気管は先下り1/250以上・先上り1/80以上</text>
+<line x1="8" y1="312" x2="472" y2="312" stroke="#e5e7eb" stroke-width="1.5"/>
+<g font-size="12">
+<text x="20" y="334" font-weight="700" font-size="13">配管・試験</text>
+<text x="34" y="354">・スリーブ径：保温材を含む管の外径＋40mm程度</text>
+<text x="34" y="374">・ステンレス管（呼び径80）の横走り支持間隔：2.0m以下</text>
+<text x="34" y="394">・給水管の水圧試験：保持時間60分以上</text>
+<text x="34" y="414">・雨水管を汚水管に接続：雨水側にトラップます</text>
+<text x="34" y="434">・貯水槽の間接排水：管径65なら排水口空間150以上</text>
+<text x="20" y="460" font-weight="700" font-size="13">電気・防災</text>
+<text x="34" y="480">・CD管はコンクリート埋込み専用。壁下地内はPF管</text>
+<text x="34" y="500">・接地極：地下0.75m以上、ガス管から1.5m以上離す</text>
+<text x="34" y="520">・感知器：空調の吹出し口から1.5m以上離す</text>
+<text x="34" y="540">・排気口は屋外避難階段から2m以上離す</text>
+</g>
+</svg>

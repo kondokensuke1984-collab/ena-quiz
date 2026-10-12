@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 520" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<defs><marker id="k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#6b7280"/></marker></defs>
+<rect width="480" height="520" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">確認から検査までの流れ（建築基準法6条〜7条の6）</text>
+<g font-size="12">
+<rect x="20" y="46" width="140" height="40" rx="6" fill="#dbeafe" stroke="#2563eb"/><text x="90" y="71" text-anchor="middle" font-weight="700">確認申請</text>
+<rect x="200" y="46" width="140" height="40" rx="6" fill="#dbeafe" stroke="#2563eb"/><text x="270" y="71" text-anchor="middle" font-weight="700">確認済証の交付</text>
+<text x="180" y="40" text-anchor="middle" font-size="10" fill="#dc2626">審査 35日以内</text><text x="180" y="98" text-anchor="middle" font-size="10" fill="#dc2626">（小規模は7日以内）</text>
+<rect x="360" y="46" width="100" height="40" rx="6" fill="#f3f4f6" stroke="#6b7280"/><text x="410" y="71" text-anchor="middle" font-weight="700">着工</text>
+<rect x="20" y="130" width="140" height="40" rx="6" fill="#fef3c7" stroke="#ca8a04"/><text x="90" y="148" text-anchor="middle" font-weight="700">特定工程の終了</text><text x="90" y="163" text-anchor="middle" font-size="10">（共同住宅の2階床の配筋など）</text>
+<rect x="200" y="130" width="140" height="40" rx="6" fill="#fef3c7" stroke="#ca8a04"/><text x="270" y="155" text-anchor="middle" font-weight="700">中間検査</text>
+<rect x="360" y="130" width="100" height="40" rx="6" fill="#fef3c7" stroke="#ca8a04"/><text x="410" y="148" text-anchor="middle" font-weight="700" font-size="11">中間検査</text><text x="410" y="163" text-anchor="middle" font-weight="700" font-size="11">合格証</text>
+<text x="180" y="124" text-anchor="middle" font-size="10" fill="#dc2626">申請 4日以内</text>
+<rect x="20" y="214" width="140" height="40" rx="6" fill="#dcfce7" stroke="#16a34a"/><text x="90" y="239" text-anchor="middle" font-weight="700">工事完了</text>
+<rect x="200" y="214" width="140" height="40" rx="6" fill="#dcfce7" stroke="#16a34a"/><text x="270" y="239" text-anchor="middle" font-weight="700">完了検査</text>
+<rect x="360" y="214" width="100" height="40" rx="6" fill="#dcfce7" stroke="#16a34a"/><text x="410" y="239" text-anchor="middle" font-weight="700">検査済証</text>
+<text x="180" y="208" text-anchor="middle" font-size="10" fill="#dc2626">申請 4日以内に到達</text><text x="350" y="208" text-anchor="middle" font-size="10" fill="#dc2626">受理から7日以内に検査</text>
+</g>
+<g stroke="#6b7280" stroke-width="2" marker-end="url(#k)"><line x1="160" y1="66" x2="198" y2="66"/><line x1="340" y1="66" x2="358" y2="66"/><line x1="160" y1="150" x2="198" y2="150"/><line x1="340" y1="150" x2="358" y2="150"/><line x1="160" y1="234" x2="198" y2="234"/><line x1="340" y1="234" x2="358" y2="234"/><path d="M410,88 V104 H90 V128" fill="none"/><path d="M410,172 V188 H90 V212" fill="none"/></g>
+<line x1="8" y1="272" x2="472" y2="272" stroke="#e5e7eb" stroke-width="1.5"/>
+<g font-size="12">
+<text x="20" y="296">・中間検査に合格しないと、特定工程後の工事を施工できない</text>
+<text x="20" y="318">・検査済証の交付前は、原則として建築物を使用できない。</text>
+<text x="34" y="336" fill="#4b5563">特定行政庁等の仮使用の認定を受ければ使用できる</text>
+<text x="20" y="358">・構造計算適合性判定が必要な建築物は、適合判定通知書の</text>
+<text x="34" y="376">提出を受けてから確認する</text>
+<text x="20" y="398">・用途変更は完了検査の対象外。工事完了から4日以内に</text>
+<text x="34" y="416">建築主事等へ届け出る（法87条）</text>
+<text x="20" y="438">・建築工事届・除却届：床面積10m²超は都道府県知事へ</text>
+<text x="34" y="456" fill="#4b5563">（建築主事を経由。除却届は施工者が届け出る）</text>
+<text x="20" y="478">・指定確認検査機関も確認・検査ができる（結果は特定行政庁へ報告）</text>
+<text x="20" y="502" font-size="11" fill="#4b5563">※確認が必要な建築物の区分は令和7年4月の改正で見直された</text>
+</g>
+</svg>

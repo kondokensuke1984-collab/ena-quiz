@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 410" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="410" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">プレキャスト鉄筋コンクリート工事</text>
+<rect x="14" y="48" width="452" height="22" fill="#dbeafe"/>
+<text x="22" y="64" font-weight="700" font-size="13" fill="#1e3a8a">製造</text>
+<text x="22" y="92" font-size="12">・加熱養生：前養生3時間以上、温度上昇勾配20℃/h以下</text>
+<text x="22" y="110" font-size="12">・脱型時の所要強度：8〜12N/mm²程度（立て起こして吊る場合も必要）</text>
+<text x="22" y="128" font-size="12">・脱型時強度は部材と同じ養生をした供試体で確認する</text>
+<text x="22" y="146" font-size="12">・急冷を避け、外気温と同程度になるまでシートで覆う</text>
+<text x="22" y="164" font-size="12">・幅0.1mm以下で性能上支障のないひび割れは、補修して合格にできる</text>
+<text x="22" y="182" font-size="12">・梁部材の長さの許容差±10mm</text>
+<rect x="14" y="190" width="452" height="22" fill="#dcfce7"/>
+<text x="22" y="206" font-weight="700" font-size="13" fill="#14532d">運搬・組立て</text>
+<text x="22" y="234" font-size="12">・台木は組立て後の支持位置に合わせる（ずれると有害なひび割れ）</text>
+<text x="22" y="252" font-size="12">・搬入した部材をクレーンで車両から直接吊って組み立てる（直取り）</text>
+<text x="22" y="270" font-size="12">・組立て精度は仮固定後・接合前に全数を検査（±5mm程度）</text>
+<rect x="14" y="278" width="452" height="22" fill="#fef3c7"/>
+<text x="22" y="294" font-weight="700" font-size="13" fill="#78350f">接合部</text>
+<text x="22" y="322" font-size="12">・接合面は清掃・散水して湿潤にし、1か所ごとに一度に打ち込む</text>
+<text x="22" y="340" font-size="12">・グラウトは全ての排出口からあふれ出たことを確認</text>
+<text x="22" y="358" font-size="12">・エンクローズ溶接は同じ接合部を連続して溶接する</text>
+<text x="22" y="376" font-size="12">・敷モルタルの供試体は現場封かん養生などで管理</text>
+<text x="22" y="394" font-size="12">・目地の防水はバックアップ材を入れてシーリング</text>
+</svg>

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 346" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="346" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">コンクリートの強度と弾性の性質</text>
+<rect x="14" y="46" width="452" height="22" fill="#f3f4f6"/>
+<text x="22" y="61" font-size="12" text-anchor="start" fill="#4b5563">条件</text>
+<text x="260" y="61" font-size="12" text-anchor="start" fill="#4b5563">圧縮強度</text>
+<text x="22" y="81" font-size="12" text-anchor="start" fill="#1f2937">供試体の寸法が大きい・h/dが大きい</text>
+<text x="260" y="81" font-size="12" text-anchor="start" fill="#1f2937">小さく出る</text>
+<text x="22" y="101" font-size="12" text-anchor="start" fill="#1f2937">載荷速度が速い</text>
+<text x="260" y="101" font-size="12" text-anchor="start" fill="#1f2937">大きく出る</text>
+<text x="22" y="121" font-size="12" text-anchor="start" fill="#1f2937">水中養生（気中養生と比べて）</text>
+<text x="260" y="121" font-size="12" text-anchor="start" fill="#1f2937">大きい</text>
+<text x="22" y="141" font-size="12" text-anchor="start" fill="#1f2937">硬化初期の温度が低い</text>
+<text x="260" y="141" font-size="12" text-anchor="start" fill="#1f2937">発現が遅れる</text>
+<text x="22" y="161" font-size="12" text-anchor="start" fill="#1f2937">セメントの粒子が細かい</text>
+<text x="260" y="161" font-size="12" text-anchor="start" fill="#1f2937">初期強度が早く出る</text>
+<rect x="14" y="178" width="452" height="22" fill="#dbeafe"/>
+<text x="22" y="194" font-weight="700" font-size="13" fill="#1e3a8a">弾性と強度の関係</text>
+<text x="22" y="222" font-size="12">・ヤング係数は圧縮強度の1/3の点と原点を結ぶ割線の勾配。骨材により異なる</text>
+<text x="22" y="240" font-size="12">・せん断弾性係数 G＝E/{2(1＋ν)}、ヤング係数の約0.4倍</text>
+<text x="22" y="258" font-size="12">・引張強度は圧縮強度の1/10〜1/13程度。支圧強度は圧縮強度より大きい</text>
+<text x="22" y="276" font-size="12">・圧縮強度が大きいほど、最大応力時のひずみは大きい</text>
+<text x="22" y="294" font-size="12">・線膨張係数は鋼材とほぼ同じ1×10⁻⁵/℃</text>
+<text x="22" y="312" font-size="12">・軽量コンクリートはヤング係数が小さく、許容せん断応力度は普通の0.9倍</text>
+<text x="22" y="330" font-size="12">・AE剤の微細な気泡で凍結融解への抵抗性が増す</text>
+</svg>

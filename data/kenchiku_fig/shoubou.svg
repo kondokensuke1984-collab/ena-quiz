@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 536" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<defs><marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#dc2626"/></marker>
+<marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#6b7280"/></marker></defs>
+<rect width="480" height="536" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">屋内消火栓と排煙設備</text>
+<text x="20" y="54" font-weight="700">屋内消火栓の種類（消防法施行令11条）</text>
+<g font-size="12" fill="#4b5563"><text x="190" y="76" text-anchor="middle">放水量</text><text x="290" y="76" text-anchor="middle">警戒範囲（半径）</text><text x="410" y="76" text-anchor="middle">操作</text></g>
+<g font-size="12">
+<text x="30" y="100" font-weight="700">1号消火栓</text><text x="190" y="100" text-anchor="middle">130L/min以上</text><text x="290" y="100" text-anchor="middle">25m</text><text x="410" y="100" text-anchor="middle">2人以上</text>
+<text x="30" y="124" font-weight="700">易操作性1号</text><text x="190" y="124" text-anchor="middle">130L/min以上</text><text x="290" y="124" text-anchor="middle">25m</text><text x="410" y="124" text-anchor="middle">1人で可</text>
+<text x="30" y="148" font-weight="700">2号消火栓</text><text x="190" y="148" text-anchor="middle">60L/min以上</text><text x="290" y="148" text-anchor="middle">15m</text><text x="410" y="148" text-anchor="middle">1人で可</text>
+<text x="30" y="172" font-weight="700">広範囲型2号</text><text x="190" y="172" text-anchor="middle">80L/min以上</text><text x="290" y="172" text-anchor="middle">25m</text><text x="410" y="172" text-anchor="middle">1人で可</text>
+</g>
+<text x="20" y="196" font-size="11" fill="#4b5563">工場・倉庫は1号。病院・ホテルは操作しやすい2号・易操作性1号</text>
+<line x1="8" y1="210" x2="472" y2="210" stroke="#e5e7eb" stroke-width="1.5"/>
+<text x="20" y="234" font-weight="700">排煙設備（建築基準法施行令126条の2・126条の3）</text>
+<rect x="30" y="250" width="330" height="120" fill="#f9fafb" stroke="#1f2937" stroke-width="2"/>
+<rect x="190" y="250" width="10" height="40" fill="#9ca3af" stroke="#1f2937"/>
+<text x="206" y="278" font-size="11">防煙壁（垂れ壁）</text>
+<line x1="216" y1="250" x2="216" y2="290" stroke="#dc2626" stroke-width="1" marker-start="url(#r)" marker-end="url(#r)"/>
+<text x="222" y="304" font-size="11" fill="#dc2626">天井から50cm以上</text>
+<rect x="30" y="256" width="8" height="24" fill="#2563eb"/>
+<line x1="44" y1="250" x2="44" y2="280" stroke="#2563eb" stroke-width="1" marker-start="url(#r)" marker-end="url(#r)"/>
+<text x="46" y="270" font-size="10" fill="#2563eb">排煙口：天井から80cm以内</text>
+<path d="M150,340 q10,-20 0,-40 q-10,-20 0,-40" fill="none" stroke="#6b7280" stroke-width="2" marker-end="url(#g)"/>
+<text x="164" y="356" font-size="11" fill="#4b5563">煙は天井付近にたまる</text>
+<text x="372" y="282" font-size="12" font-weight="700">防煙区画</text>
+<text x="372" y="300" font-size="11">500m²以内</text>
+<g font-size="12">
+<text x="20" y="396">・排煙口は防煙区画の各部分から水平距離30m以内</text>
+<text x="20" y="418">・自然排煙：排煙口の開放部分の面積 ≧ 防煙区画の床面積の1/50</text>
+<text x="20" y="440">・機械排煙：排煙機は120m³/min以上、かつ</text>
+<text x="34" y="458">防煙区画の床面積1m²につき1m³/min以上</text>
+<text x="20" y="480">・排煙口には手動開放装置が必要（自動開放装置があっても）</text>
+<text x="20" y="500">・連結送水管・非常コンセントは消防隊が使う「消火活動上必要な施設」</text>
+<text x="20" y="520">・スプリンクラーの閉鎖型ヘッドは、熱で感熱体が分解して開き、散水する</text>
+</g>
+</svg>

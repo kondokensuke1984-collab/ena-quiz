@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 588" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="588" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">地盤と基礎の性質（沈下・土圧・杭の水平抵抗）</text>
+<rect x="14" y="48" width="452" height="22" fill="#dbeafe"/>
+<text x="22" y="64" font-weight="700" font-size="13" fill="#1e3a8a">沈下</text>
+<text x="22" y="92" font-size="12">・即時沈下：地盤を弾性体とみなして計算。同じ接地圧なら基礎の幅が大きいほど</text>
+<text x="34" y="110" font-size="12">大きい</text>
+<text x="22" y="128" font-size="12">・圧密沈下：粘性土の間隙水が抜けて体積が減る（土粒子の変形ではない）。正規</text>
+<text x="34" y="146" font-size="12">圧密粘土は過圧密粘土より大きい</text>
+<text x="22" y="164" font-size="12">・根入れが深いほど極限鉛直支持力は大きい。群杭は単杭より沈下が大きい</text>
+<text x="22" y="182" font-size="12">・杭先端の支持力度：打込み杭＞埋込み杭＞場所打ち杭</text>
+<rect x="14" y="190" width="452" height="22" fill="#dcfce7"/>
+<text x="22" y="206" font-weight="700" font-size="13" fill="#14532d">土圧と擁壁</text>
+<text x="22" y="234" font-size="12">・受働土圧＞静止土圧＞主働土圧。静止土圧係数は0.5程度</text>
+<text x="22" y="252" font-size="12">・内部摩擦角が大きいほど主働土圧は小さい</text>
+<text x="22" y="270" font-size="12">・地下水位より下は水圧（三角形分布）を加える。地表の荷重は×土圧係数で加え</text>
+<text x="34" y="288" font-size="12">る</text>
+<text x="22" y="306" font-size="12">・擁壁：底版の上の土の重さは抵抗側に入れてよい。突起（シアキー）で滑動抵抗</text>
+<text x="34" y="324" font-size="12">を増す。転倒・滑動の安全率1.5以上</text>
+<rect x="14" y="332" width="452" height="22" fill="#fef3c7"/>
+<text x="22" y="348" font-weight="700" font-size="13" fill="#78350f">杭の水平抵抗（水平地盤反力係数kh）</text>
+<text x="22" y="376" font-size="12">・khは杭径が大きいほど小さい。液状化のおそれがあれば低減</text>
+<text x="22" y="394" font-size="12">・khが大きいほど杭頭の水平変位も曲げモーメントも小さい</text>
+<text x="22" y="412" font-size="12">・群杭のkhは単杭の合計より小さい。杭長が短い杭ほど大きな水平力を負担</text>
+<text x="22" y="430" font-size="12">・孔内水平載荷試験は、水平抵抗に効く地表付近で行う</text>
+<rect x="14" y="438" width="452" height="22" fill="#e0e7ff"/>
+<text x="22" y="454" font-weight="700" font-size="13" fill="#312e81">土質</text>
+<text x="22" y="482" font-size="12">・有効応力＝全応力−間隙水圧。飽和度＝水の体積÷間隙の体積</text>
+<text x="22" y="500" font-size="12">・細粒分が多いほど含水比は大きく、液状化の判定値FLは大きい（液状化しにく</text>
+<text x="34" y="518" font-size="12">い）</text>
+<text x="22" y="536" font-size="12">・ひずみが大きいほど、せん断剛性は下がり減衰定数は上がる</text>
+<text x="22" y="554" font-size="12">・PS検層は地盤の動的特性、圧密試験は沈下、三軸圧縮試験は粘着力と内部摩擦</text>
+<text x="34" y="572" font-size="12">角</text>
+</svg>

@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 620" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="620" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">土工事・山留めと仮設工事の数値</text>
+<rect x="14" y="48" width="452" height="22" fill="#dbeafe"/>
+<text x="22" y="64" font-weight="700" font-size="13" fill="#1e3a8a">排水と山留め</text>
+<text x="22" y="92" font-size="12">・ウェルポイントは透水性の比較的低いシルト質砂に向く。ディープウェルは周辺</text>
+<text x="34" y="110" font-size="12">への影響を検討</text>
+<text x="22" y="128" font-size="12">・リチャージ工法は揚水量を多めに見込む。地下水位は観測井で管理</text>
+<text x="22" y="146" font-size="12">・釜場は根切り底の最も低い所。井戸の閉塞は止水を確実に</text>
+<text x="22" y="164" font-size="12">・鋼矢板は遮水性が高い。親杭横矢板は裏込めを充塡しくさびで締める</text>
+<text x="22" y="182" font-size="12">・盤圧計は切ばりの腹起し側の端部付近。切ばりはジャッキを緩めてから撤去</text>
+<text x="22" y="200" font-size="12">・山留め壁と躯体の隙間は、切ばり撤去前に盛替え梁を設ける</text>
+<text x="22" y="218" font-size="12">・法面勾配は土の内部摩擦角より小さく。周辺の上載荷重は10kN/m²程度</text>
+<rect x="14" y="226" width="452" height="22" fill="#dcfce7"/>
+<text x="22" y="242" font-weight="700" font-size="13" fill="#14532d">掘削・埋戻し</text>
+<text x="22" y="270" font-size="12">・根切り底は目視で確認し、レベルは4m程度ごとに1点。乱したら礫・砂質土に置</text>
+<text x="34" y="288" font-size="12">換</text>
+<text x="22" y="306" font-size="12">・透水性の悪い土の埋戻しは30cm程度ごとに締め固める。砂質土は振動ローラー</text>
+<text x="22" y="324" font-size="12">・ソイルセメント壁は土質に応じて入念に撹拌。地盤アンカーの確認試験は全数</text>
+<rect x="14" y="332" width="452" height="22" fill="#fef3c7"/>
+<text x="22" y="348" font-weight="700" font-size="13" fill="#78350f">足場と仮設</text>
+<rect x="14" y="362" width="452" height="22" fill="#f3f4f6"/>
+<text x="22" y="377" font-size="12" text-anchor="start" fill="#4b5563">項目</text>
+<text x="250" y="377" font-size="12" text-anchor="start" fill="#4b5563">数値</text>
+<text x="22" y="397" font-size="12" text-anchor="start" fill="#1f2937">手すりの高さ</text>
+<text x="250" y="397" font-size="12" text-anchor="start" fill="#1f2937">85cm以上</text>
+<text x="22" y="417" font-size="12" text-anchor="start" fill="#1f2937">中桟の位置</text>
+<text x="250" y="417" font-size="12" text-anchor="start" fill="#1f2937">35〜50cm</text>
+<text x="22" y="437" font-size="12" text-anchor="start" fill="#1f2937">幅木の高さ</text>
+<text x="250" y="437" font-size="12" text-anchor="start" fill="#1f2937">15cm以上</text>
+<text x="22" y="457" font-size="12" text-anchor="start" fill="#1f2937">単管足場の壁つなぎ</text>
+<text x="250" y="457" font-size="12" text-anchor="start" fill="#1f2937">垂直5m以下・水平5.5m以下</text>
+<text x="22" y="477" font-size="12" text-anchor="start" fill="#1f2937">枠組足場の壁つなぎ</text>
+<text x="250" y="477" font-size="12" text-anchor="start" fill="#1f2937">垂直9m以下・水平8m以下</text>
+<text x="22" y="497" font-size="12" text-anchor="start" fill="#1f2937">防護棚（朝顔）</text>
+<text x="250" y="497" font-size="12" text-anchor="start" fill="#1f2937">1段目5m以下、以降10m以下ごと</text>
+<text x="22" y="517" font-size="12" text-anchor="start" fill="#1f2937">防護棚のはね出し</text>
+<text x="250" y="517" font-size="12" text-anchor="start" fill="#1f2937">水平2m以上</text>
+<text x="22" y="537" font-size="12" text-anchor="start" fill="#1f2937">6,600Vの配電線からの離隔</text>
+<text x="250" y="537" font-size="12" text-anchor="start" fill="#1f2937">2.0m以上</text>
+<text x="22" y="557" font-size="12" text-anchor="start" fill="#1f2937">移動式クレーンの作業中止</text>
+<text x="250" y="557" font-size="12" text-anchor="start" fill="#1f2937">10分間平均風速10m/s以上</text>
+<text x="22" y="586" font-size="12">・ベンチマークは動かない所に2か所以上。鋼製巻尺は新品でもテープ合わせをす</text>
+<text x="34" y="604" font-size="12">る</text>
+</svg>

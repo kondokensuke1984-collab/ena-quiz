@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 620" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="620" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">山留め壁・支保工・掘削工法の形</text>
+<g transform="translate(0,42)"><text x="20" y="10" font-size="12" text-anchor="start" fill="#4b5563">山留め壁を上から見た形（上が地山、下が掘る側）</text>
+<rect x="30" y="24" width="130" height="30" fill="#f5e6c8" stroke="none"/>
+<path d="M38,54 h14 M45,54 v14 M38,68 h14" stroke="#334155" stroke-width="3" fill="none"/>
+<path d="M76,54 h14 M83,54 v14 M76,68 h14" stroke="#334155" stroke-width="3" fill="none"/>
+<path d="M114,54 h14 M121,54 v14 M114,68 h14" stroke="#334155" stroke-width="3" fill="none"/>
+<path d="M152,54 h14 M159,54 v14 M152,68 h14" stroke="#334155" stroke-width="3" fill="none"/>
+<rect x="45" y="52" width="114" height="5" fill="#d97706"/>
+<text x="95" y="92" font-size="13" text-anchor="middle" fill="#1f2937" font-weight="700">親杭横矢板</text><text x="95" y="107" font-size="12" text-anchor="middle" fill="#4b5563">遮水性なし</text>
+<rect x="180" y="24" width="130" height="30" fill="#f5e6c8" stroke="none"/>
+<path d="M180,60 l12,-10 h16 l12,10 h16 l12,-10 h16 l12,10 h16 l12,-10 h6" fill="none" stroke="#334155" stroke-width="3"/>
+<text x="245" y="92" font-size="13" text-anchor="middle" fill="#1f2937" font-weight="700">鋼矢板</text><text x="245" y="107" font-size="12" text-anchor="middle" fill="#4b5563">遮水性あり</text>
+<rect x="330" y="24" width="130" height="30" fill="#f5e6c8" stroke="none"/>
+<circle cx="344" cy="58" r="12" fill="#d6d3d1" stroke="#78716c"/>
+<path d="M339,53 h10 M344,53 v10 M339,63 h10" stroke="#334155" stroke-width="2.5" fill="none"/>
+<circle cx="365" cy="58" r="12" fill="#d6d3d1" stroke="#78716c"/>
+<circle cx="386" cy="58" r="12" fill="#d6d3d1" stroke="#78716c"/>
+<path d="M381,53 h10 M386,53 v10 M381,63 h10" stroke="#334155" stroke-width="2.5" fill="none"/>
+<circle cx="407" cy="58" r="12" fill="#d6d3d1" stroke="#78716c"/>
+<circle cx="428" cy="58" r="12" fill="#d6d3d1" stroke="#78716c"/>
+<path d="M423,53 h10 M428,53 v10 M423,63 h10" stroke="#334155" stroke-width="2.5" fill="none"/>
+<circle cx="449" cy="58" r="12" fill="#d6d3d1" stroke="#78716c"/>
+<text x="395" y="92" font-size="13" text-anchor="middle" fill="#1f2937" font-weight="700">ソイルセメント壁</text><text x="395" y="107" font-size="12" text-anchor="middle" fill="#4b5563">遮水性・剛性が高い</text></g>
+<text x="22" y="176" font-size="12">・親杭横矢板はH形鋼の間に板をはめる。鋼矢板はかみ合わせて連続。ソイルセメ</text>
+<text x="34" y="194" font-size="12">ント壁は柱列に心材（H形鋼）</text>
+<g transform="translate(0,206)"><text x="20" y="10" font-size="12" text-anchor="start" fill="#4b5563">支保工を上から見た形</text>
+<text x="300" y="10" font-size="12" text-anchor="start" fill="#4b5563">地盤アンカー（断面）</text>
+<rect x="30" y="14" width="240" height="160" fill="#f5e6c8" stroke="none"/>
+<rect x="40" y="24" width="220" height="140" fill="#fff" stroke="#334155" stroke-width="4"/>
+<rect x="44" y="28" width="212" height="132" fill="none" stroke="#d97706" stroke-width="5"/>
+<line x1="46" y1="70.66666666666666" x2="254" y2="70.66666666666666" stroke="#2563eb" stroke-width="5"/>
+<line x1="46" y1="117.33333333333333" x2="254" y2="117.33333333333333" stroke="#2563eb" stroke-width="5"/>
+<line x1="95.0" y1="30" x2="95.0" y2="158" stroke="#2563eb" stroke-width="5"/>
+<line x1="150.0" y1="30" x2="150.0" y2="158" stroke="#2563eb" stroke-width="5"/>
+<line x1="205.0" y1="30" x2="205.0" y2="158" stroke="#2563eb" stroke-width="5"/>
+<path d="M46,54 L70,30" stroke="#16a34a" stroke-width="5"/>
+<path d="M254,54 L230,30" stroke="#16a34a" stroke-width="5"/>
+<rect x="90.0" y="65.66666666666666" width="10" height="10" fill="#334155"/>
+<rect x="90.0" y="112.33333333333333" width="10" height="10" fill="#334155"/>
+<rect x="145.0" y="65.66666666666666" width="10" height="10" fill="#334155"/>
+<rect x="145.0" y="112.33333333333333" width="10" height="10" fill="#334155"/>
+<rect x="200.0" y="65.66666666666666" width="10" height="10" fill="#334155"/>
+<rect x="200.0" y="112.33333333333333" width="10" height="10" fill="#334155"/>
+<text x="150.0" y="192" font-size="12" text-anchor="middle" fill="#374151">山留め壁（黒）・腹起し（橙）・切ばり（青）</text>
+<text x="150.0" y="208" font-size="12" text-anchor="middle" fill="#374151">火打ち（緑）・切ばりの交点に支柱（黒い四角）</text>
+<rect x="330" y="30" width="130" height="150" fill="#f5e6c8" stroke="none"/>
+<rect x="290" y="30" width="40" height="150" fill="#fff"/>
+<rect x="326" y="30" width="8" height="150" fill="#334155"/>
+<line x1="334" y1="70" x2="440" y2="116" stroke="#2563eb" stroke-width="3"/>
+<rect x="408" y="98" width="34" height="10" transform="rotate(23 425 103)" fill="#2563eb"/>
+<line x1="334" y1="125" x2="440" y2="171" stroke="#2563eb" stroke-width="3"/>
+<rect x="408" y="153" width="34" height="10" transform="rotate(23 425 158)" fill="#2563eb"/>
+<text x="310" y="196" font-size="12" text-anchor="middle" fill="#4b5563">掘る側</text>
+<text x="400" y="196" font-size="12" text-anchor="middle" fill="#4b5563">定着部を地中に</text></g>
+<g transform="translate(0,428)"><text x="20" y="10" font-size="12" text-anchor="start" fill="#4b5563">掘削工法（断面）</text>
+<rect x="20" y="24" width="140" height="70" fill="#f5e6c8" stroke="none"/><rect x="26" y="24" width="4" height="70" fill="#334155"/><rect x="150" y="24" width="4" height="70" fill="#334155"/>
+<path d="M30,24 L60,70 H120 L150,24 Z" fill="#fff"/>
+<rect x="68" y="58" width="44" height="12" fill="#94a3b8"/>
+<text x="90" y="112" font-size="13" text-anchor="middle" fill="#1f2937" font-weight="700">アイランド工法</text><text x="90" y="127" font-size="12" text-anchor="middle" fill="#4b5563">中央を先に、周囲は法面</text>
+<rect x="170" y="24" width="140" height="70" fill="#f5e6c8" stroke="none"/><rect x="176" y="24" width="4" height="70" fill="#334155"/><rect x="300" y="24" width="4" height="70" fill="#334155"/>
+<rect x="180" y="24" width="28" height="46" fill="#fff"/>
+<rect x="272" y="24" width="28" height="46" fill="#fff"/>
+<rect x="182" y="58" width="24" height="12" fill="#94a3b8"/>
+<rect x="274" y="58" width="24" height="12" fill="#94a3b8"/>
+<text x="240" y="112" font-size="13" text-anchor="middle" fill="#1f2937" font-weight="700">トレンチカット工法</text><text x="240" y="127" font-size="12" text-anchor="middle" fill="#4b5563">周囲の溝を先、中央は後</text>
+<rect x="320" y="24" width="140" height="70" fill="#f5e6c8" stroke="none"/><rect x="326" y="24" width="4" height="70" fill="#334155"/><rect x="450" y="24" width="4" height="70" fill="#334155"/>
+<rect x="330" y="24" width="120" height="50" fill="#fff"/>
+<rect x="330" y="28" width="120" height="6" fill="#94a3b8"/>
+<rect x="330" y="50" width="120" height="6" fill="#94a3b8"/>
+<path d="M390,74 v10" stroke="#dc2626" stroke-width="2"/>
+<text x="390" y="112" font-size="13" text-anchor="middle" fill="#1f2937" font-weight="700">逆打ち工法</text><text x="390" y="127" font-size="12" text-anchor="middle" fill="#4b5563">床を支保工に使う</text></g>
+<text x="22" y="586" font-size="12">・灰色が先に造る躯体、白が掘った所。ヒービング・ボイリング・盤ぶくれは別の</text>
+<text x="34" y="604" font-size="12">図を参照</text>
+</svg>

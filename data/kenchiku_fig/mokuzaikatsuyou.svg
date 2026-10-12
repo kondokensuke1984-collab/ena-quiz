@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 558" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="558" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">木質材料とパッシブデザイン</text>
+<rect x="14" y="46" width="452" height="22" fill="#f3f4f6"/>
+<text x="22" y="61" font-size="12" text-anchor="start" fill="#4b5563">材料</text>
+<text x="110" y="61" font-size="12" text-anchor="start" fill="#4b5563">つくり方・用途</text>
+<text x="22" y="81" font-size="12" text-anchor="start" fill="#1f2937">集成材</text>
+<text x="110" y="81" font-size="12" text-anchor="start" fill="#1f2937">ひき板の繊維方向を平行にそろえて積層</text>
+<text x="22" y="101" font-size="12" text-anchor="start" fill="#1f2937">CLT</text>
+<text x="110" y="101" font-size="12" text-anchor="start" fill="#1f2937">ひき板を直交させて積層。壁・床のパネル</text>
+<text x="22" y="121" font-size="12" text-anchor="start" fill="#1f2937">LVL</text>
+<text x="110" y="121" font-size="12" text-anchor="start" fill="#1f2937">単板を繊維方向を平行にして積層。主に軸材</text>
+<text x="22" y="141" font-size="12" text-anchor="start" fill="#1f2937">合板</text>
+<text x="110" y="141" font-size="12" text-anchor="start" fill="#1f2937">単板を直交させて積層。特類は屋外・常時湿潤も可</text>
+<text x="22" y="161" font-size="12" text-anchor="start" fill="#1f2937">OSB</text>
+<text x="110" y="161" font-size="12" text-anchor="start" fill="#1f2937">配向した木片の層を直交させて積層。耐力壁の面材</text>
+<rect x="14" y="178" width="452" height="22" fill="#dbeafe"/>
+<text x="22" y="194" font-weight="700" font-size="13" fill="#1e3a8a">木材の性質</text>
+<text x="22" y="222" font-size="12">・収縮率：接線方向＞半径方向＞繊維方向</text>
+<text x="22" y="240" font-size="12">・心材は腐朽しにくく狂いも小さい。心持ち材は干割れしやすい→背割り</text>
+<text x="22" y="258" font-size="12">・腐朽菌は酸素・温度・水分・栄養のどれかを断てば防げる。ヤマトシロアリは湿</text>
+<text x="34" y="276" font-size="12">った下部に多い</text>
+<text x="22" y="294" font-size="12">・オイルステインは浸透して塗膜をつくらない。ウレタン塗装は耐摩耗性が高い</text>
+<text x="22" y="312" font-size="12">・耐火の木造：被覆型（せっこうボード等）・燃え止まり型、準耐火は燃えしろ設</text>
+<text x="34" y="330" font-size="12">計</text>
+<rect x="14" y="338" width="452" height="22" fill="#dcfce7"/>
+<text x="22" y="354" font-weight="700" font-size="13" fill="#14532d">パッシブデザイン</text>
+<text x="22" y="382" font-size="12">・パッシブヒーティング：断熱・気密、集熱、蓄熱（ダイレクトゲインは蓄熱体を</text>
+<text x="34" y="400" font-size="12">大きく）</text>
+<text x="22" y="418" font-size="12">・パッシブクーリング：日射遮蔽、通風、夜間の排熱。太陽光発電はアクティブ</text>
+<text x="22" y="436" font-size="12">・換気は下部から給気、上部から排気。アースチューブは外気温の年較差が大きい</text>
+<text x="34" y="454" font-size="12">地域で有効</text>
+<rect x="14" y="462" width="452" height="22" fill="#fef3c7"/>
+<text x="22" y="478" font-weight="700" font-size="13" fill="#78350f">建物と周辺の風</text>
+<text x="22" y="506" font-size="12">・周囲が低層だと高層建物の足元の風速増加率は大きい。低層部（基壇）で吹き降</text>
+<text x="34" y="524" font-size="12">ろしを弱める</text>
+<text x="22" y="542" font-size="12">・防風植栽は風向に直角に、高木と低木を組み合わせる</text>
+</svg>

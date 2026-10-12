@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 500" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<defs><marker id="k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
+<rect width="480" height="500" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">鋼材の応力度−ひずみ度曲線</text>
+<line x1="50" y1="250" x2="450" y2="250" stroke="#1f2937" stroke-width="1.5" marker-end="url(#k)"/>
+<line x1="50" y1="250" x2="50" y2="44" stroke="#1f2937" stroke-width="1.5" marker-end="url(#k)"/>
+<text x="440" y="270" font-size="12" text-anchor="end">ひずみ度 ε</text>
+<text x="58" y="52" font-size="12">応力度 σ</text>
+<path d="M50,250 L80,130 L86,126 L92,134 L170,134 C230,90 300,72 340,72 C370,72 395,90 415,130" fill="none" stroke="#2563eb" stroke-width="3"/>
+<circle cx="415" cy="130" r="4" fill="#2563eb"/><text x="420" y="124" font-size="11">破断</text>
+<g stroke="#9ca3af" stroke-dasharray="4 3"><line x1="50" y1="126" x2="86" y2="126"/><line x1="50" y1="72" x2="340" y2="72"/></g>
+<text x="96" y="122" font-size="12" fill="#dc2626" font-weight="700">降伏点</text>
+<text x="114" y="152" font-size="11" fill="#4b5563">降伏棚（伸びるだけ）</text>
+<text x="262" y="62" font-size="12" fill="#dc2626" font-weight="700">引張強さ</text>
+<text x="80" y="200" font-size="11" fill="#1d4ed8">弾性域</text>
+<text x="80" y="216" font-size="11" fill="#1d4ed8">傾き＝ヤング係数E</text>
+<text x="230" y="150" font-size="11" fill="#4b5563">ひずみ硬化</text>
+<line x1="8" y1="290" x2="472" y2="290" stroke="#e5e7eb" stroke-width="1.5"/>
+<g font-size="12">
+<text x="20" y="314">・降伏比 ＝ 降伏点 ÷ 引張強さ。小さいほど降伏後に粘り強い</text>
+<text x="34" y="332" fill="#4b5563">（SN490B・C などは降伏比の上限 0.80 が定められている）</text>
+<text x="20" y="356">・ヤング係数 E ＝ 2.05×10⁵ N/mm²（鋼種・強度によらずほぼ一定）</text>
+<text x="34" y="374" fill="#4b5563">→ 高強度鋼にしても、たわみ・座屈しにくさはほぼ変わらない</text>
+<text x="20" y="398">・せん断弾性係数 G ≒ 7.9×10⁴ N/mm²、ポアソン比 0.3</text>
+<text x="20" y="422">・線膨張係数 1.2×10⁻⁵/℃（コンクリートとほぼ同じ）</text>
+<text x="20" y="446">・炭素量が多いほど強度は上がるが、伸び・溶接性は低下</text>
+<text x="20" y="470">・SN材：A種は溶接しない部材、B種は一般の溶接構造、</text>
+<text x="34" y="488">C種は板厚方向の性能も保証（通しダイアフラム等）</text>
+</g>
+</svg>

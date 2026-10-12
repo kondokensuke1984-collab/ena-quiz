@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 684" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="684" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">居室の採光・換気と一般構造の規定（令19条〜23条ほか）</text>
+<rect x="14" y="48" width="452" height="22" fill="#dbeafe"/>
+<text x="22" y="64" font-weight="700" font-size="13" fill="#1e3a8a">採光関係比率 D／H（断面）</text>
+<g transform="translate(0,74)"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker></defs><rect x="60" y="20" width="150" height="110" fill="#e7e5e4" stroke="#78716c" stroke-width="1.2"/><rect x="250" y="70" width="170" height="60" fill="#f8fafc" stroke="#334155"/><rect x="246" y="92" width="8" height="22" fill="#bfdbfe" stroke="#1d4ed8"/><text x="335" y="104" font-size="12" text-anchor="middle" fill="#1f2937">居室</text><path d="M30,130 L450,130" stroke="#334155" stroke-width="1.2" fill="none"/><path d="M225,10 L225,140" stroke="#dc2626" stroke-dasharray="4 3"/><text x="225" y="154" font-size="11" text-anchor="middle" fill="#dc2626">隣地境界線</text><path d="M250,103 L225,103" stroke="#1d4ed8" stroke-width="1.2"/><path d="M238,20 L238,103" stroke="#1d4ed8" stroke-dasharray="3 2"/><text x="244" y="60" font-size="13" text-anchor="start" fill="#1d4ed8" font-weight="700">H</text><text x="237" y="118" font-size="13" text-anchor="middle" fill="#1d4ed8" font-weight="700">D</text><text x="135" y="80" font-size="11" text-anchor="middle" fill="#1f2937">開口部の上方にある</text><text x="135" y="95" font-size="11" text-anchor="middle" fill="#1f2937">建築物の部分</text><text x="256" y="30" font-size="11" text-anchor="start" fill="#1d4ed8">H：開口部の中心から上の部分の頂部まで</text><text x="256" y="48" font-size="11" text-anchor="start" fill="#1d4ed8">D：開口部から隣地境界線までの水平距離</text></g>
+<rect x="14" y="242" width="452" height="22" fill="#f3f4f6"/>
+<text x="22" y="257" font-size="12" text-anchor="start" fill="#4b5563">用途地域</text>
+<text x="150" y="257" font-size="12" text-anchor="start" fill="#4b5563">採光補正係数</text>
+<text x="290" y="257" font-size="12" text-anchor="start" fill="#4b5563">D がこれ以上で1未満のとき</text>
+<text x="22" y="277" font-size="12" text-anchor="start" fill="#1f2937">住居系</text>
+<text x="150" y="277" font-size="12" text-anchor="start" fill="#1d4ed8" font-weight="700">D/H×6 − 1.4</text>
+<text x="290" y="277" font-size="12" text-anchor="start" fill="#1f2937">7m → 1.0とする</text>
+<text x="22" y="297" font-size="12" text-anchor="start" fill="#1f2937">工業系</text>
+<text x="150" y="297" font-size="12" text-anchor="start" fill="#1d4ed8" font-weight="700">D/H×8 − 1.0</text>
+<text x="290" y="297" font-size="12" text-anchor="start" fill="#1f2937">5m → 1.0とする</text>
+<text x="22" y="317" font-size="12" text-anchor="start" fill="#1f2937">商業系・無指定</text>
+<text x="150" y="317" font-size="12" text-anchor="start" fill="#1d4ed8" font-weight="700">D/H×10 − 1.0</text>
+<text x="290" y="317" font-size="12" text-anchor="start" fill="#1f2937">4m → 1.0とする</text>
+<text x="22" y="346" font-size="12">・用途地域の区分で式が違う（「用途地域に関係なく算定」は誤り）</text>
+<text x="22" y="364" font-size="12">・算定値の上限は3.0、負の値なら0</text>
+<text x="22" y="382" font-size="12">・道に面する開口は、算定値が1.0未満でも1.0とする</text>
+<text x="22" y="400" font-size="12">・天窓は算定値を3倍する（例：商業系で4m以上・1.0未満なら1.0×3＝3.0）</text>
+<text x="22" y="418" font-size="12">・幅90cm以上の縁側（ぬれ縁を除く）に面する開口は0.7を乗じる</text>
+<rect x="14" y="426" width="452" height="22" fill="#dcfce7"/>
+<text x="22" y="442" font-weight="700" font-size="13" fill="#14532d">換気・天井の高さ・地階・階段・界壁</text>
+<text x="22" y="470" font-size="12">・劇場・映画館・演芸場・観覧場・公会堂・集会場の居室は、窓の大きさにかかわ</text>
+<text x="34" y="488" font-size="12">らず換気設備が必要（法28条3項）</text>
+<text x="22" y="506" font-size="12">・居室の天井の高さは2.1m以上。1室で高さが違うときは平均の高さ（令21条）</text>
+<text x="22" y="524" font-size="12">・地階：床が地盤面下にあり、床面から地盤面までの高さがその階の天井の高さの</text>
+<text x="34" y="542" font-size="12">1/3以上</text>
+<text x="22" y="560" font-size="12">・階段の手すり等は、幅10cmまではないものとみなして階段・踊場の幅を算定（</text>
+<text x="34" y="578" font-size="12">令23条3項）</text>
+<text x="22" y="596" font-size="12">・界壁の遮音（125Hz 25dB・500Hz 40dB・2,000Hz 50dB）は長屋・共同住</text>
+<text x="34" y="614" font-size="12">宅の各戸の界壁が対象。老人福祉施設等の防火上主要な間仕切壁には遮音の規定</text>
+<text x="34" y="632" font-size="12">はない</text>
+<text x="22" y="650" font-size="12">・構造耐力上主要な部分の指定建築材料は、JIS・JASに適合するか大臣認定を受</text>
+<text x="34" y="668" font-size="12">けたもの（法37条）</text>
+</svg>

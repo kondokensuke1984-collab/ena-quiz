@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 520" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="520" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">集合住宅のアクセス形式と住まい方</text>
+<g font-size="11" text-anchor="middle">
+<g fill="#fef9c3" stroke="#92400e"><rect x="20" y="46" width="40" height="40"/><rect x="72" y="46" width="40" height="40"/><rect x="20" y="96" width="40" height="40"/><rect x="72" y="96" width="40" height="40"/></g>
+<rect x="60" y="46" width="12" height="90" fill="#9ca3af"/>
+<text x="66" y="154" font-weight="700" font-size="12">階段室型</text>
+<g fill="#fef9c3" stroke="#92400e"><rect x="134" y="46" width="34" height="60"/><rect x="168" y="46" width="34" height="60"/><rect x="202" y="46" width="34" height="60"/></g>
+<rect x="134" y="106" width="102" height="14" fill="#9ca3af"/>
+<text x="185" y="154" font-weight="700" font-size="12">片廊下型</text>
+<g fill="#fef9c3" stroke="#92400e"><rect x="258" y="46" width="34" height="40"/><rect x="292" y="46" width="34" height="40"/><rect x="326" y="46" width="34" height="40"/><rect x="258" y="98" width="34" height="38"/><rect x="292" y="98" width="34" height="38"/><rect x="326" y="98" width="34" height="38"/></g>
+<rect x="258" y="86" width="102" height="12" fill="#9ca3af"/>
+<text x="309" y="154" font-weight="700" font-size="12">中廊下型</text>
+<g fill="#fef9c3" stroke="#92400e"><rect x="384" y="46" width="76" height="22"/><rect x="384" y="90" width="76" height="22"/></g>
+<rect x="384" y="68" width="76" height="22" fill="#fef9c3" stroke="#92400e" stroke-dasharray="3 2"/>
+<rect x="384" y="112" width="76" height="22" fill="#fef9c3" stroke="#92400e" stroke-dasharray="3 2"/>
+<rect x="384" y="78" width="76" height="4" fill="#9ca3af"/>
+<text x="422" y="154" font-weight="700" font-size="12">スキップフロア型</text>
+</g>
+<g font-size="11">
+<text x="20" y="172">採光・通風よい</text><text x="20" y="186">EV効率は悪い</text>
+<text x="134" y="172">EV効率よい</text><text x="134" y="186">廊下側の視線に難</text>
+<text x="258" y="172">高密度にできる</text><text x="258" y="186">採光・通風に不利</text>
+<text x="384" y="172">廊下は数階おき</text><text x="384" y="186">他階は両面開口</text>
+</g>
+<line x1="8" y1="202" x2="472" y2="202" stroke="#e5e7eb" stroke-width="1.5"/>
+<g font-size="12">
+<text x="20" y="226" font-weight="700" font-size="13">住まい方・つくり方</text>
+<text x="34" y="248"><tspan font-weight="700">コーポラティブハウス</tspan>：入居希望者が組合をつくり、</text>
+<text x="48" y="266">土地取得・設計から共同で進める</text>
+<text x="34" y="288"><tspan font-weight="700">コレクティブハウス</tspan>：独立した住戸に加え、食堂などの</text>
+<text x="48" y="306">共用空間を居住者が共同で使い運営する</text>
+<text x="34" y="328"><tspan font-weight="700">スケルトン・インフィル（SI）</tspan>：構造躯体（S）と内装・設備（I）</text>
+<text x="48" y="346">を分け、Iを変更・更新しやすくする</text>
+<text x="34" y="368"><tspan font-weight="700">51C型</tspan>：公営住宅の標準設計。台所と食事室を一体のDKとし、</text>
+<text x="48" y="386">食寝分離を図った</text>
+<text x="34" y="408"><tspan font-weight="700">メゾネット</tspan>：1住戸が2層にわたる形式</text>
+<text x="34" y="430"><tspan font-weight="700">リビングアクセス</tspan>：廊下側に居間を向け、近隣との交流を促す</text>
+<text x="20" y="458" font-weight="700" font-size="13">マンションの長期修繕計画（ガイドライン）</text>
+<text x="34" y="480">・計画期間は30年以上、かつ大規模修繕工事が2回含まれる期間以上</text>
+<text x="34" y="502">・共用の排水管・PSは、共用部から点検・更新できるようにする</text>
+</g>
+</svg>

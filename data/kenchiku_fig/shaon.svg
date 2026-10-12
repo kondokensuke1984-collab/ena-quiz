@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 430" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="430" fill="#fff"/>
+<g stroke="#e5e7eb" stroke-width="1"><line x1="80" y1="60" x2="440" y2="60"/><line x1="80" y1="120" x2="440" y2="120"/><line x1="80" y1="180" x2="440" y2="180"/><line x1="80" y1="240" x2="440" y2="240"/></g>
+<path d="M80,40 V300 H450" fill="none" stroke="#1f2937" stroke-width="2"/>
+<g text-anchor="middle" font-size="12"><text x="80" y="318">125</text><text x="152" y="318">250</text><text x="224" y="318">500</text><text x="296" y="318">1k</text><text x="368" y="318">2k</text><text x="440" y="318">4k</text></g>
+<text x="265" y="340" text-anchor="middle">周波数（Hz）→ 高い音</text>
+<g text-anchor="end" font-size="12"><text x="72" y="304">20</text><text x="72" y="244">30</text><text x="72" y="184">40</text><text x="72" y="124">50</text><text x="72" y="64">60</text></g>
+<text x="24" y="34" font-size="12">透過損失（dB）</text>
+<polyline points="80,270 152,234 224,198 296,162 340,150 368,206 400,178 440,150" fill="none" stroke="#2563eb" stroke-width="3.5" stroke-linejoin="round"/>
+<line x1="80" y1="270" x2="440" y2="90" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="6 5"/>
+<text x="100" y="140" fill="#2563eb" font-weight="700">質量則</text>
+<text x="100" y="158" fill="#2563eb" font-size="12">1オクターブで約6dB増</text>
+<circle cx="368" cy="206" r="16" fill="none" stroke="#dc2626" stroke-width="2"/>
+<text x="300" y="260" fill="#dc2626">コインシデンス効果</text>
+<text x="300" y="278" fill="#dc2626" font-size="12">（ある周波数で低下）</text>
+<line x1="8" y1="356" x2="472" y2="356" stroke="#e5e7eb" stroke-width="1.5"/>
+<text x="20" y="380" font-size="14">・質量則：面密度または周波数が2倍 → 透過損失が約6dB増</text>
+<text x="20" y="402" font-size="14">・二重壁は低音域で共鳴透過が起き、遮音性が落ちる</text>
+<text x="20" y="424" font-size="14">・遮音等級：D値は大きいほど、L値は小さいほど性能が高い</text>
+</svg>

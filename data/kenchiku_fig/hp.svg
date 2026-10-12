@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 500" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<defs><marker id="k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker>
+<marker id="rr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#dc2626"/></marker>
+<marker id="bb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#2563eb"/></marker></defs>
+<rect width="480" height="500" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">ヒートポンプ（冷凍サイクル）と成績係数</text>
+<rect x="140" y="56" width="200" height="40" rx="6" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+<text x="240" y="81" text-anchor="middle" font-weight="700">凝縮器（熱を捨てる）</text>
+<rect x="140" y="214" width="200" height="40" rx="6" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+<text x="240" y="239" text-anchor="middle" font-weight="700">蒸発器（熱をくみ上げる）</text>
+<circle cx="370" cy="155" r="26" fill="#f3f4f6" stroke="#1f2937" stroke-width="2"/>
+<text x="370" y="160" text-anchor="middle" font-size="12" font-weight="700">圧縮機</text>
+<path d="M98,145 L122,165 M98,165 L122,145" stroke="#1f2937" stroke-width="2"/>
+<text x="64" y="160" text-anchor="middle" font-size="12" font-weight="700">膨張弁</text>
+<g fill="none" stroke="#1f2937" stroke-width="2.5">
+<path d="M340,234 H370 V181" marker-end="url(#k)"/>
+<path d="M370,129 V76 H342" marker-end="url(#k)"/>
+<path d="M140,76 H110 V143" marker-end="url(#k)"/>
+<path d="M110,167 V234 H138" marker-end="url(#k)"/>
+</g>
+<text x="380" y="110" font-size="11" fill="#4b5563">高温・高圧</text>
+<text x="380" y="210" font-size="11" fill="#4b5563">低温・低圧</text>
+<text x="200" y="152" font-size="12" fill="#6b7280">冷媒が循環</text>
+<g stroke-width="3"><line x1="240" y1="56" x2="240" y2="40" stroke="#dc2626" marker-end="url(#rr)"/><line x1="240" y1="280" x2="240" y2="258" stroke="#2563eb" marker-end="url(#bb)"/></g>
+<text x="256" y="48" font-size="12" fill="#dc2626">放熱（暖房時は室内側）</text>
+<text x="256" y="276" font-size="12" fill="#2563eb">吸熱（冷房時は室内側）</text>
+<line x1="8" y1="298" x2="472" y2="298" stroke="#e5e7eb" stroke-width="1.5"/>
+<text x="20" y="324" font-size="14" font-weight="700">成績係数 COP ＝ 冷暖房能力 ÷ 消費電力</text>
+<g font-size="12">
+<text x="34" y="348">・暖房のCOPは、理論上「冷房のCOP＋1」</text>
+<text x="48" y="366" fill="#4b5563">（放熱量＝吸熱量＋圧縮機の仕事）</text>
+<text x="34" y="390">・くみ上げる温度差が小さいほどCOPは高い</text>
+<text x="48" y="408" fill="#4b5563">冷房：外気温が低いほど／暖房：外気温が高いほど有利</text>
+<text x="48" y="426" fill="#4b5563">冷却水の温度が低いほど冷凍機のCOPは高い</text>
+<text x="34" y="450">・APF（通年エネルギー消費効率）は、1年間の運転を</text>
+<text x="48" y="468">想定した総合の効率（定格のCOPとは別の指標）</text>
+</g>
+</svg>

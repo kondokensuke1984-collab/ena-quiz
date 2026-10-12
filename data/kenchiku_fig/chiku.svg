@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 580" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="580" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">建築協定と地区計画（法69条〜・68条の2〜）</text>
+<!-- 建築協定の流れ -->
+<text x="20" y="54" font-size="13" font-weight="700" fill="#1e3a8a">建築協定の流れ</text>
+<g font-size="12" text-anchor="middle">
+<rect x="20" y="64" width="100" height="44" rx="6" fill="#dbeafe" stroke="#1d4ed8"/>
+<text x="70" y="82">市町村の条例で</text><text x="70" y="98">区域を定める</text>
+<rect x="138" y="64" width="100" height="44" rx="6" fill="#dbeafe" stroke="#1d4ed8"/>
+<text x="188" y="82">土地の所有者等</text><text x="188" y="98">全員の合意</text>
+<rect x="256" y="64" width="100" height="44" rx="6" fill="#dbeafe" stroke="#1d4ed8"/>
+<text x="306" y="82">特定行政庁の</text><text x="306" y="98">認可・公告</text>
+<rect x="374" y="64" width="86" height="44" rx="6" fill="#1d4ed8"/>
+<text x="417" y="82" fill="#fff">後の所有者</text><text x="417" y="98" fill="#fff">にも効力</text>
+</g>
+<g stroke="#1d4ed8" stroke-width="1.5" fill="#1d4ed8"><path d="M121,86 h14 l-5,-4 v8 l5,-4"/><path d="M239,86 h14 l-5,-4 v8 l5,-4"/><path d="M357,86 h14 l-5,-4 v8 l5,-4"/></g>
+<g font-size="12">
+<text x="34" y="132">・都市計画区域外でも締結できる（条例で定めた区域）</text>
+<text x="34" y="150">・借地権の目的の土地は借地権者の合意だけでよい</text>
+<text x="34" y="168">・定められる内容：敷地・位置・構造・用途・形態・意匠・設備</text>
+<text x="34" y="186">・変更は全員の合意＋認可、廃止は過半数の合意＋認可</text>
+<text x="34" y="204">・一人協定：認可後3年以内に所有者等が2人以上で効力発生</text>
+<text x="34" y="222">・協定区域内の土地の所有者は、あとから書面の意思表示で加入</text>
+<text x="48" y="238">（隣接地を区域に加える場合はその所有者等全員の合意）</text>
+<text x="34" y="256">・地区計画が定められても、建築協定は廃止とみなされない</text>
+</g>
+<line x1="8" y1="272" x2="472" y2="272" stroke="#e5e7eb" stroke-width="1.5"/>
+<!-- 地区計画 -->
+<text x="20" y="296" font-size="13" font-weight="700" fill="#14532d">地区計画</text>
+<g font-size="12" text-anchor="middle">
+<rect x="20" y="306" width="132" height="44" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+<text x="86" y="324">都市計画で決定</text><text x="86" y="340">（地区整備計画）</text>
+<rect x="174" y="306" width="132" height="44" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+<text x="240" y="324">市町村の条例で</text><text x="240" y="340">建築制限にする</text>
+<rect x="328" y="306" width="132" height="44" rx="6" fill="#16a34a"/>
+<text x="394" y="324" fill="#fff">建築基準関係規定</text><text x="394" y="340" fill="#fff">として確認で審査</text>
+</g>
+<g stroke="#16a34a" stroke-width="1.5" fill="#16a34a"><path d="M153,328 h18 l-5,-4 v8 l5,-4"/><path d="M307,328 h18 l-5,-4 v8 l5,-4"/></g>
+<g font-size="12">
+<text x="34" y="374">・条例で定められる：用途、容積率の最高・最低、建蔽率、</text>
+<text x="48" y="390">敷地面積の最低、壁面の位置、高さ、形態・意匠、垣・柵</text>
+<text x="34" y="408">・階数の制限は条例で定められない</text>
+<text x="34" y="426">・壁面の位置の制限に、高さ2m以下の門・塀は含まない</text>
+<text x="34" y="444">・準都市計画区域には地区計画を定められない</text>
+<text x="34" y="462">・再開発等促進区：容積率の緩和は特定行政庁の認定、</text>
+<text x="48" y="478">斜線制限・用途制限の緩和は許可</text>
+</g>
+<line x1="8" y1="492" x2="472" y2="492" stroke="#e5e7eb" stroke-width="1.5"/>
+<g font-size="12">
+<text x="20" y="514" font-weight="700" font-size="13">あわせて出る規定</text>
+<text x="34" y="534">・一団地の総合的設計：同一敷地とみなすが、用途制限は対象外</text>
+<text x="34" y="552">・予定道路：特定行政庁の許可で前面道路とみなして容積率</text>
+<text x="34" y="570">・法22条区域の内外にわたる建築物→全部に区域内の規定</text>
+</g>
+</svg>

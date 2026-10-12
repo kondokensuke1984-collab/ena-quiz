@@ -121,6 +121,12 @@
   .btn-main:active{ transform:scale(.985); }
   .hpbar{ height:13px; border-radius:99px; background:#e5e7eb; overflow:hidden; }
   .hpbar > i{ display:block; height:100%; border-radius:99px; transition:width .45s cubic-bezier(.2,.8,.2,1); }
+  .exfig{ margin:10px 0 0; background:#fff; border:2px solid var(--line); border-radius:12px; padding:8px; cursor:zoom-in; }
+  .exfig img{ display:block; width:100%; height:auto; }
+  .exfig figcaption{ font-size:12px; color:#475569; margin-top:5px; text-align:center; font-weight:700; }
+  .exfig-zoom{ position:fixed; inset:0; z-index:9999; background:rgba(15,23,42,.88); overflow:auto; padding:16px; cursor:zoom-out; }
+  .exfig-zoom img{ display:block; width:min(100%, 1100px); margin:30px auto 0; background:#fff; border-radius:10px; }
+  .exfig-x{ position:fixed; top:10px; right:12px; color:#fff; font-weight:800; font-size:14px; background:rgba(0,0,0,.4); border-radius:999px; padding:6px 12px; }
   .qimg{ display:block; max-width:100%; max-height:300px; margin:10px auto; border-radius:10px; }
   .shake{ animation:shake .4s; }
   @keyframes shake{ 0%,100%{transform:none} 20%{transform:translateX(-9px)} 40%{transform:translateX(9px)} 60%{transform:translateX(-5px)} 80%{transform:translateX(5px)} }
@@ -361,6 +367,7 @@ function questMonthLabel(m) { return SCHOOL_QUEST ? SCHOOL_QUEST.label : Number(
 function questSchool() {
   try { const s = (JSON.parse(localStorage.getItem('ena_school_v1') || 'null') || {}).school; return s === 'eikoh' || s === 'g2' || s === 'kenchiku' ? s : null; } catch (e) { return null; }
 }
+let FOREST_QUESTIONS = null;   // 森だけで出す問題（SCHOOL_QUEST.forest）
 let SCHOOL_QUEST = null;   // 栄光・2年生の子の クエスト { label, months }（data/quest_schools.json）。null＝ena の月
 // つきのぬしは月ごと（前は bossDown:true だけ＝9月ぶん）
 function bossDownNow() {
@@ -733,6 +740,12 @@ async function boot() {
   ])));
   QUESTIONS = [].concat(...loaded.map(x => x[0]));
   SUBJECTS  = Object.assign({}, ...loaded.map(x => x[1]));
+  // 🌲 まよいの森だけの 問題（建築は 一問一答 ○×：data/questions_kenchiku1.json）。なければ ふつうの問題
+  if (SCHOOL_QUEST && Array.isArray(SCHOOL_QUEST.forest)) {
+    try {
+      FOREST_QUESTIONS = [].concat(...await Promise.all(SCHOOL_QUEST.forest.map(m => fetch('data/questions_' + m + '.json').then(r => r.json()))));
+    } catch (e) { FOREST_QUESTIONS = null; }
+  }
   if (typeof loadDetective === 'function') await loadDetective();
   buildStages();
   save = loadSave();
@@ -1345,12 +1358,29 @@ function resolveTurn(ok, q, timeout) {
     '<div style="margin-top:12px; background:' + (ok ? '#f0fdf4' : '#fef2f2') +
       '; border-radius:12px; padding:12px; font-size:13.5px; line-height:1.8;">' +
       '<b>' + (ok ? '⭕ せいかい' : '❌ ざんねん') + '</b><br>' + qHTML(q.explanation || '') +
-    '</div>' +
+    '</div>' + explainFigsHTML(q) +
     (rush ? '' : quizLinkMasterBtn(ok, q)) +
     '<button class="btn-main" style="margin-top:10px;" onclick="nextTurn()">つぎへ →</button>';
   persist();
   // 3分トライアルは 正解なら すぐ つぎへ（時間を むだにしない）
   if (rush && ok) { const at = bt.idx; setTimeout(() => { if (bt && bt.tt === 'rush' && !bt.ended && bt.idx === at) nextTurn(); }, 700); }
+}
+
+// 解説の図（建築は explainFigs：[{src, title}]。ほかは explainImage）。タップで 大きく
+function explainFigsHTML(q) {
+  const figs = (Array.isArray(q.explainFigs) ? q.explainFigs : []).concat(q.explainImage ? [{ src: q.explainImage, title: '' }] : []);
+  return figs.map(f =>
+    '<figure class="exfig" onclick="zoomExFig(\'' + esc(f.src) + '\')">' +
+      '<img src="' + esc(f.src) + '" alt="' + esc(f.title || '図') + '" loading="lazy">' +
+      '<figcaption>🔍 タップで おおきく</figcaption>' +
+    '</figure>').join('');
+}
+function zoomExFig(src) {
+  const w = document.createElement('div');
+  w.className = 'exfig-zoom';
+  w.onclick = () => w.remove();
+  w.innerHTML = '<img src="' + esc(src) + '" alt="図"><div class="exfig-x">✕ とじる</div>';
+  document.body.appendChild(w);
 }
 
 function popDamage(n, crit) {

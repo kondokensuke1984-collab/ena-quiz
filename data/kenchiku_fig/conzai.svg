@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 500" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<defs><marker id="k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker>
+<marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#dc2626"/></marker></defs>
+<rect width="480" height="500" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">コンクリートの調合と劣化</text>
+<text x="20" y="54" font-weight="700" font-size="13">水セメント比と強度</text>
+<line x1="40" y1="200" x2="220" y2="200" stroke="#1f2937" stroke-width="1.5" marker-end="url(#k)"/>
+<line x1="40" y1="200" x2="40" y2="66" stroke="#1f2937" stroke-width="1.5" marker-end="url(#k)"/>
+<path d="M54,80 C90,120 140,160 210,184" fill="none" stroke="#2563eb" stroke-width="3"/>
+<text x="210" y="218" font-size="11" text-anchor="end">水セメント比 W/C</text>
+<text x="46" y="78" font-size="11">強度</text>
+<text x="96" y="104" font-size="11" fill="#1d4ed8">W/Cが小さいほど</text>
+<text x="96" y="118" font-size="11" fill="#1d4ed8">強く・耐久性が高い</text>
+<text x="256" y="54" font-weight="700" font-size="13">中性化と鉄筋の腐食</text>
+<rect x="256" y="66" width="200" height="130" fill="#e5e7eb" stroke="#6b7280"/>
+<rect x="256" y="66" width="60" height="130" fill="#fef3c7"/>
+<line x1="316" y1="66" x2="316" y2="196" stroke="#ca8a04" stroke-width="2" stroke-dasharray="5 3"/>
+<circle cx="340" cy="130" r="9" fill="#78716c"/>
+<line x1="226" y1="100" x2="262" y2="100" stroke="#dc2626" stroke-width="2" marker-end="url(#r)"/>
+<text x="226" y="92" font-size="11" fill="#dc2626">CO₂</text>
+<text x="262" y="186" font-size="11" fill="#854d0e">中性化した部分</text>
+<text x="352" y="134" font-size="11">鉄筋</text>
+<text x="352" y="160" font-size="11" fill="#4b5563">アルカリ性で</text>
+<text x="352" y="174" font-size="11" fill="#4b5563">さびから守られる</text>
+<text x="256" y="216" font-size="11" fill="#4b5563">中性化が鉄筋に達すると腐食・ひび割れ</text>
+<line x1="8" y1="232" x2="472" y2="232" stroke="#e5e7eb" stroke-width="1.5"/>
+<text x="20" y="256" font-weight="700" font-size="13">調合・受入れの主な数値（JASS5・普通コンクリート）</text>
+<g font-size="12">
+<text x="34" y="280">単位水量</text><text x="440" y="280" text-anchor="end" font-weight="700">185kg/m³以下</text>
+<text x="34" y="302">単位セメント量</text><text x="440" y="302" text-anchor="end" font-weight="700">270kg/m³以上</text>
+<text x="34" y="324">塩化物イオン量</text><text x="440" y="324" text-anchor="end" font-weight="700">0.30kg/m³以下</text>
+<text x="34" y="346">空気量</text><text x="440" y="346" text-anchor="end" font-weight="700">4.5%（許容差±1.5%）</text>
+<text x="34" y="368">スランプ18cmの許容差</text><text x="440" y="368" text-anchor="end" font-weight="700">±2.5cm</text>
+</g>
+<line x1="8" y1="384" x2="472" y2="384" stroke="#e5e7eb" stroke-width="1.5"/>
+<g font-size="12">
+<text x="20" y="408">・単位水量が多いと、乾燥収縮・ひび割れ・ブリーディングが増える</text>
+<text x="20" y="430">・AE剤の微細な空気泡は、ワーカビリティーと凍結融解抵抗性を高める</text>
+<text x="20" y="452">・アルカリシリカ反応：反応性骨材がアルカリと反応して膨張・ひび割れ</text>
+<text x="20" y="474">・ヤング係数は、圧縮強度・単位容積質量が大きいほど大きい</text>
+</g>
+</svg>

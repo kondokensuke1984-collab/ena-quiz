@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 598" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="598" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">材料の保管・受入れと工場の選定（施工の品質管理）</text>
+<rect x="14" y="48" width="452" height="22" fill="#dbeafe"/>
+<text x="22" y="64" font-weight="700" font-size="13" fill="#1e3a8a">保管・運搬</text>
+<g transform="translate(0,74)"><rect x="60" y="12" width="320" height="16" rx="8" fill="#e7e5e4" stroke="#78716c"/><path d="M124,28 L118,44 L130,44 Z" fill="#334155"/><path d="M316,28 L310,44 L322,44 Z" fill="#334155"/><path d="M60,54 L124,54 M316,54 L380,54" stroke="#dc2626"/><text x="92" y="68" font-size="12" text-anchor="middle" fill="#dc2626" font-weight="700">L/5</text><text x="348" y="68" font-size="12" text-anchor="middle" fill="#dc2626" font-weight="700">L/5</text><text x="220" y="46" font-size="12" text-anchor="middle" fill="#1f2937">既製コンクリート杭（長さL）</text><text x="400" y="24" font-size="11" text-anchor="start" fill="#1f2937">2点で支持し</text><text x="400" y="40" font-size="11" text-anchor="start" fill="#1f2937">曲げを小さく</text></g>
+<text x="22" y="168" font-size="12">・既製杭の積込み・荷降し・仮置き：両端から杭長の約1/5の2点で支持（1/3で</text>
+<text x="34" y="186" font-size="12">はない）</text>
+<text x="22" y="204" font-size="12">・押出成形セメント板：平坦で乾燥した屋内に台木を置き、積置き高さ1.0m以下</text>
+<text x="22" y="222" font-size="12">・アスファルトルーフィング：屋内の乾燥した場所にたて積み</text>
+<text x="22" y="240" font-size="12">・タイルカーペット：荷崩れしないよう5〜6段積みまで</text>
+<rect x="14" y="248" width="452" height="22" fill="#dcfce7"/>
+<text x="22" y="264" font-weight="700" font-size="13" fill="#14532d">受入れ・施工</text>
+<text x="22" y="292" font-size="12">・異形鉄筋の圧延マーク：SD295（旧SD295A）はなし、SD345は突起1個（・</text>
+<text x="34" y="310" font-size="12">）、SD390は突起2個（・・）</text>
+<text x="22" y="328" font-size="12">・鉄筋の表面の浮いていない赤錆程度は、付着を妨げないので除去しなくてよい</text>
+<text x="22" y="346" font-size="12">・塗料：再分散しない沈殿・皮ばり等はこしわけて除く。気温5℃未満・湿度85%</text>
+<text x="34" y="364" font-size="12">以上は、採暖・換気で条件を確保すれば塗装できる</text>
+<text x="22" y="382" font-size="12">・硬質ポリ塩化ビニル管のたてどいの受け金物：1.2m以下の間隔</text>
+<text x="22" y="400" font-size="12">・吹付けロックウールの厚さ確認ピンは、施工後もそのまま存置してよい</text>
+<rect x="14" y="408" width="452" height="22" fill="#fef3c7"/>
+<text x="22" y="424" font-weight="700" font-size="13" fill="#78350f">鉄骨製作工場の性能評価グレード（溶接する鋼材の目安）</text>
+<rect x="14" y="438" width="452" height="22" fill="#f3f4f6"/>
+<text x="22" y="453" font-size="12" text-anchor="start" fill="#4b5563">グレード</text>
+<text x="100" y="453" font-size="12" text-anchor="start" fill="#4b5563">鋼材</text>
+<text x="260" y="453" font-size="12" text-anchor="start" fill="#4b5563">板厚</text>
+<text x="22" y="473" font-size="12" text-anchor="start" fill="#1f2937">J</text>
+<text x="100" y="473" font-size="12" text-anchor="start" fill="#1f2937">400N級</text>
+<text x="260" y="473" font-size="12" text-anchor="start" fill="#1d4ed8" font-weight="700">16mm以下</text>
+<text x="22" y="493" font-size="12" text-anchor="start" fill="#1f2937">R</text>
+<text x="100" y="493" font-size="12" text-anchor="start" fill="#1f2937">490N級まで</text>
+<text x="260" y="493" font-size="12" text-anchor="start" fill="#1d4ed8" font-weight="700">25mm以下</text>
+<text x="22" y="513" font-size="12" text-anchor="start" fill="#1f2937">M</text>
+<text x="100" y="513" font-size="12" text-anchor="start" fill="#1f2937">490N級まで</text>
+<text x="260" y="513" font-size="12" text-anchor="start" fill="#1d4ed8" font-weight="700">40mm以下</text>
+<text x="22" y="533" font-size="12" text-anchor="start" fill="#1f2937">H</text>
+<text x="100" y="533" font-size="12" text-anchor="start" fill="#1f2937">520N級まで</text>
+<text x="260" y="533" font-size="12" text-anchor="start" fill="#1d4ed8" font-weight="700">60mm以下</text>
+<text x="22" y="553" font-size="12" text-anchor="start" fill="#1f2937">S</text>
+<text x="100" y="553" font-size="12" text-anchor="start" fill="#1f2937">制限なし</text>
+<text x="260" y="553" font-size="12" text-anchor="start" fill="#1d4ed8" font-weight="700">制限なし</text>
+<text x="22" y="582" font-size="12" fill="#4b5563">・板厚60mmの400N・490N級鋼の溶接にはHグレード以上（Mでは不足）</text>
+</svg>

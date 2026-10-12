@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 440" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="14" fill="#1f2937">
+<rect width="480" height="440" fill="#fff"/>
+<line x1="30" y1="280" x2="450" y2="280" stroke="#1f2937" stroke-width="3"/>
+<text x="30" y="302">北</text><text x="436" y="302">南</text>
+<g stroke-width="2" stroke-dasharray="6 4" fill="none">
+<line x1="160" y1="280" x2="313" y2="186" stroke="#2563eb"/>
+<line x1="160" y1="280" x2="263" y2="133" stroke="#ea580c"/>
+<line x1="160" y1="280" x2="196" y2="104" stroke="#dc2626"/>
+</g>
+<g stroke="#1f2937" stroke-width="1.5" fill="none">
+<path d="M220,280 A60,60 0 0 0 211,249"/>
+</g>
+<circle cx="313" cy="186" r="13" fill="#93c5fd"/><circle cx="263" cy="133" r="13" fill="#fdba74"/><circle cx="196" cy="104" r="13" fill="#fca5a5"/>
+<rect x="148" y="250" width="24" height="30" fill="#e5e7eb" stroke="#1f2937" stroke-width="2"/>
+<g font-size="14" font-weight="700"><text x="332" y="190" fill="#2563eb">冬至 31.6°</text><text x="282" y="130" fill="#ea580c">春分・秋分 55.0°</text><text x="216" y="88" fill="#dc2626">夏至 78.4°</text></g>
+<text x="230" y="272" font-size="12">南中高度</text>
+<text x="240" y="40" text-anchor="middle" font-weight="700" font-size="15">北緯35°の南中高度 ＝ 90° − 35° ± 23.4°</text>
+<line x1="8" y1="320" x2="472" y2="320" stroke="#e5e7eb" stroke-width="1.5"/>
+<text x="20" y="346">・水平面の直達日射 JH ＝ JN・sin h（h：太陽高度）</text>
+<text x="20" y="370">・南中時の南向き鉛直面 JV ＝ JN・cos h</text>
+<text x="20" y="396">・夏至：南向き鉛直面の日射は少なく、東・西向きの面が多い</text>
+<text x="20" y="420">・冬至：終日の直達日射量は南向き鉛直面が最も多い</text>
+</svg>

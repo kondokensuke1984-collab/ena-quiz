@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 650" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="650" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">福祉施設・バリアフリーの細部と防災・防犯</text>
+<rect x="14" y="48" width="452" height="22" fill="#dbeafe"/>
+<text x="22" y="64" font-weight="700" font-size="13" fill="#1e3a8a">階段・便所の細部（建築設計標準）</text>
+<rect x="14" y="78" width="452" height="22" fill="#f3f4f6"/>
+<text x="22" y="93" font-size="12" text-anchor="start" fill="#4b5563">部位</text>
+<text x="130" y="93" font-size="12" text-anchor="start" fill="#4b5563">目安</text>
+<text x="22" y="113" font-size="12" text-anchor="start" fill="#1f2937">階段の寸法</text>
+<text x="130" y="113" font-size="12" text-anchor="start" fill="#1f2937">蹴上げ16cm以下・踏面30cm以上・蹴込み2cm以下</text>
+<text x="22" y="133" font-size="12" text-anchor="start" fill="#1f2937">2段手すり</text>
+<text x="130" y="133" font-size="12" text-anchor="start" fill="#1f2937">上段75〜85cm、下段60〜65cm</text>
+<text x="22" y="153" font-size="12" text-anchor="start" fill="#1f2937">手すりの延長</text>
+<text x="130" y="153" font-size="12" text-anchor="start" fill="#1f2937">上端は水平に45cm以上、下端も45cm以上</text>
+<text x="22" y="173" font-size="12" text-anchor="start" fill="#1f2937">点状ブロック</text>
+<text x="130" y="173" font-size="12" text-anchor="start" fill="#1f2937">段のおよそ30cm手前（線状ではない）</text>
+<text x="22" y="193" font-size="12" text-anchor="start" fill="#1f2937">便房の手すり</text>
+<text x="130" y="193" font-size="12" text-anchor="start" fill="#1f2937">便座面から20〜25cm上に水平部</text>
+<text x="22" y="213" font-size="12" text-anchor="start" fill="#1f2937">洗面所の鏡</text>
+<text x="130" y="213" font-size="12" text-anchor="start" fill="#1f2937">洗面器上端付近から高さ100cm以上の平面鏡</text>
+<text x="22" y="242" font-size="12">・段鼻の滑止めは踏面と明度差をつける。直角に曲がって入る出入口は通路幅</text>
+<text x="34" y="260" font-size="12">800mmでは不足</text>
+<text x="22" y="278" font-size="12">・白内障の人には黒地に白文字が読みやすい。聴覚障害者には文字の表示灯</text>
+<text x="22" y="296" font-size="12">・バリアフリー法：公衆便所は50m²以上、病院・物販等は2,000m²以上で適合義</text>
+<text x="34" y="314" font-size="12">務。共同住宅・工場は特別特定建築物ではない</text>
+<text x="22" y="332" font-size="12">・車椅子使用者用客室は客室総数50以上で必要</text>
+<rect x="14" y="340" width="452" height="22" fill="#dcfce7"/>
+<text x="22" y="356" font-weight="700" font-size="13" fill="#14532d">福祉施設と用語</text>
+<text x="22" y="384" font-size="12">・グループホーム：1ユニット5〜9人、共同生活室はユニットごと、居間と食堂は</text>
+<text x="34" y="402" font-size="12">兼用可</text>
+<text x="22" y="420" font-size="12">・小規模多機能型居宅介護は通い・訪問・泊まり。宿泊室は7.43m²程度以上</text>
+<text x="22" y="438" font-size="12">・ケアハウスは軽費老人ホームの一種。ユニットケアは少人数の生活単位でケア</text>
+<text x="22" y="456" font-size="12">・認定こども園：園舎は原則2階以下。保育室と遊戯室は兼用可（ほふく室は不</text>
+<text x="34" y="474" font-size="12">可）</text>
+<text x="22" y="492" font-size="12">・ノーマライゼーション、レスパイトケア（介護者の休息）、地域包括ケア、ジェ</text>
+<text x="34" y="510" font-size="12">ントリフィケーション（都市の高級化）</text>
+<rect x="14" y="518" width="452" height="22" fill="#fef3c7"/>
+<text x="22" y="534" font-weight="700" font-size="13" fill="#78350f">防災・防犯</text>
+<text x="22" y="562" font-size="12">・CPTED：見通しの確保・コミュニティ形成・接近の制御・対象物の強化</text>
+<text x="22" y="580" font-size="12">・割れ窓理論、ジェイコブズ「街路の多くの目」、ニューマン「守りやすい空間」</text>
+<text x="22" y="598" font-size="12">・建設型仮設住宅の供与期間は原則2年。借上型は「みなし仮設」</text>
+<text x="22" y="616" font-size="12">・避難所のトイレは約50人に1基（長期化したら約20人に1基）</text>
+<text x="22" y="634" font-size="12">・フェーズフリー：日常時と非常時の区別をなくす考え方</text>
+</svg>

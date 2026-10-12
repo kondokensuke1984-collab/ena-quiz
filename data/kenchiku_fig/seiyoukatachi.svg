@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 702" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="702" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">西洋建築の形（オーダー・ヴォールト・ゴシック）</text>
+<g transform="translate(0,42)"><text x="20" y="10" font-size="12" text-anchor="start" fill="#4b5563">古代ギリシャ・ローマのオーダー（柱の形式）</text>
+<rect x="76" y="52" width="28" height="80" fill="#f5f5f4" stroke="#57534e" stroke-width="1.3"/>
+<line x1="82" y1="54" x2="82" y2="130" stroke="#a8a29e"/>
+<line x1="90" y1="54" x2="90" y2="130" stroke="#a8a29e"/>
+<line x1="98" y1="54" x2="98" y2="130" stroke="#a8a29e"/>
+<path d="M68,44 h44 v6 l-6,4 h-32 l-6,-4 z" fill="#f5f5f4" stroke="#57534e" stroke-width="1.3"/>
+<text x="90" y="160" font-size="13" text-anchor="middle" fill="#1f2937" font-weight="700">ドリス式</text><text x="90" y="175" font-size="12" text-anchor="middle" fill="#4b5563">太く簡素・礎盤なし</text>
+<rect x="226" y="52" width="28" height="80" fill="#f5f5f4" stroke="#57534e" stroke-width="1.3"/>
+<line x1="232" y1="54" x2="232" y2="130" stroke="#a8a29e"/>
+<line x1="240" y1="54" x2="240" y2="130" stroke="#a8a29e"/>
+<line x1="248" y1="54" x2="248" y2="130" stroke="#a8a29e"/>
+<rect x="214" y="40" width="52" height="8" fill="#f5f5f4" stroke="#57534e" stroke-width="1.3"/>
+<circle cx="220" cy="52" r="7" fill="#f5f5f4" stroke="#57534e" stroke-width="1.3"/><circle cx="260" cy="52" r="7" fill="#f5f5f4" stroke="#57534e" stroke-width="1.3"/>
+<rect x="220" y="132" width="40" height="6" fill="#f5f5f4" stroke="#57534e" stroke-width="1.3"/>
+<text x="240" y="160" font-size="13" text-anchor="middle" fill="#1f2937" font-weight="700">イオニア式</text><text x="240" y="175" font-size="12" text-anchor="middle" fill="#4b5563">渦巻き形の柱頭</text>
+<rect x="376" y="52" width="28" height="80" fill="#f5f5f4" stroke="#57534e" stroke-width="1.3"/>
+<line x1="382" y1="54" x2="382" y2="130" stroke="#a8a29e"/>
+<line x1="390" y1="54" x2="390" y2="130" stroke="#a8a29e"/>
+<line x1="398" y1="54" x2="398" y2="130" stroke="#a8a29e"/>
+<path d="M366,36 h48 v6 l-8,18 h-32 l-8,-18 z" fill="#f5f5f4" stroke="#57534e" stroke-width="1.3"/>
+<path d="M374,58 q-4,-10 4,-16 M390,58 q0,-12 0,-18 M406,58 q4,-10 -4,-16" fill="none" stroke="#16a34a" stroke-width="2"/>
+<rect x="370" y="132" width="40" height="6" fill="#f5f5f4" stroke="#57534e" stroke-width="1.3"/>
+<text x="390" y="160" font-size="13" text-anchor="middle" fill="#1f2937" font-weight="700">コリント式</text><text x="390" y="175" font-size="12" text-anchor="middle" fill="#4b5563">アカンサスの葉の柱頭</text></g>
+<text x="22" y="246" font-size="12">・柱の上の水平部分（梁にあたる所）がエンタブレチュア、その上の三角形の破風</text>
+<text x="34" y="264" font-size="12">がペディメント</text>
+<g transform="translate(0,276)"><text x="20" y="10" font-size="12" text-anchor="start" fill="#4b5563">アーチを延ばした天井（ヴォールト）とドーム</text>
+<path d="M30,96 V60 A40,40 0 0 1 110,60 V96" fill="#e0e7ff" stroke="#3730a3" stroke-width="1.3"/>
+<path d="M110,96 l30,-20 V40 A40,40 0 0 0 100,26" fill="none" stroke="#3730a3"/>
+<text x="90" y="124" font-size="13" text-anchor="middle" fill="#1f2937" font-weight="700">トンネルヴォールト</text><text x="90" y="139" font-size="12" text-anchor="middle" fill="#4b5563">半円筒形</text>
+<rect x="180" y="30" width="90" height="66" fill="#e0e7ff" stroke="#3730a3"/>
+<path d="M180,30 L270,96 M270,30 L180,96" stroke="#dc2626" stroke-width="3"/>
+<text x="225" y="124" font-size="13" text-anchor="middle" fill="#1f2937" font-weight="700">リブヴォールト</text><text x="225" y="139" font-size="12" text-anchor="middle" fill="#4b5563">交差部に骨（リブ）</text>
+<rect x="340" y="30" width="96" height="66" fill="#fff" stroke="#3730a3"/>
+<circle cx="388" cy="63" r="33" fill="#e0e7ff" stroke="#3730a3"/>
+<path d="M340,30 Q360,40 358,48 Q350,38 340,30 z M436,30 Q416,40 418,48 Q426,38 436,30 z" fill="#fcd34d" stroke="#b45309"/>
+<text x="388" y="124" font-size="13" text-anchor="middle" fill="#1f2937" font-weight="700">ペンデンティブドーム</text><text x="388" y="139" font-size="12" text-anchor="middle" fill="#4b5563">四角の上に円いドーム</text></g>
+<text x="22" y="444" font-size="12">・リブヴォールトはゴシック。ペンデンティブ（黄）は四角い平面とドームの間の</text>
+<text x="34" y="462" font-size="12">球面三角形（ビザンチン）</text>
+<g transform="translate(0,474)"><text x="20" y="10" font-size="12" text-anchor="start" fill="#4b5563">ゴシック大聖堂の断面とバシリカの平面</text>
+<rect x="100" y="40" width="10" height="110" fill="#f5f5f4" stroke="#57534e" stroke-width="1.3"/><rect x="170" y="40" width="10" height="110" fill="#f5f5f4" stroke="#57534e" stroke-width="1.3"/>
+<path d="M100,40 Q140,0 180,40" fill="none" stroke="#57534e" stroke-width="3"/>
+<rect x="40" y="90" width="12" height="60" fill="#f5f5f4" stroke="#57534e" stroke-width="1.3"/><rect x="228" y="90" width="12" height="60" fill="#f5f5f4" stroke="#57534e" stroke-width="1.3"/>
+<path d="M52,96 Q80,60 100,60" fill="none" stroke="#dc2626" stroke-width="4"/>
+<path d="M228,96 Q200,60 180,60" fill="none" stroke="#dc2626" stroke-width="4"/>
+<text x="140" y="170" font-size="12" text-anchor="middle" fill="#374151">身廊</text>
+<text x="140" y="192" font-size="13" text-anchor="middle" fill="#1f2937" font-weight="700">フライングバットレス（赤）</text><text x="140" y="207" font-size="12" text-anchor="middle" fill="#4b5563">外の控え壁へ横の力を飛ばす</text>
+<rect x="290" y="40" width="150" height="80" fill="#fff" stroke="#57534e"/>
+<rect x="290" y="60" width="150" height="40" fill="#fef3c7" stroke="#b45309"/>
+<path d="M440,60 A20,20 0 0 1 440,100" fill="#fef3c7" stroke="#b45309"/>
+<text x="360" y="84" font-size="12" text-anchor="middle" fill="#78350f">身廊（ネイブ）</text>
+<text x="360" y="54" font-size="12" text-anchor="middle" fill="#4b5563">側廊</text>
+<text x="360" y="114" font-size="12" text-anchor="middle" fill="#4b5563">側廊</text>
+<text x="448" y="134" font-size="12" text-anchor="middle" fill="#78350f">アプス↑</text>
+<text x="365" y="150" font-size="13" text-anchor="middle" fill="#1f2937" font-weight="700">バシリカ式の平面</text><text x="365" y="165" font-size="12" text-anchor="middle" fill="#4b5563">長方形の身廊と側廊・奥にアプス</text></g>
+</svg>

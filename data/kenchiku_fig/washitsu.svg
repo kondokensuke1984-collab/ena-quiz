@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 440" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="440" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">和室の造作（床の間まわり）と真壁・大壁</text>
+<g transform="translate(0,42)"><rect x="40" y="30" width="300" height="230" fill="#fefce8" stroke="#a16207"/>
+<line x1="40" y1="36" x2="340" y2="36" stroke="#d6d3d1"/>
+<line x1="40" y1="42" x2="340" y2="42" stroke="#d6d3d1"/>
+<line x1="40" y1="48" x2="340" y2="48" stroke="#d6d3d1"/>
+<line x1="40" y1="54" x2="340" y2="54" stroke="#d6d3d1"/>
+<line x1="40" y1="60" x2="340" y2="60" stroke="#d6d3d1"/>
+<rect x="40" y="60" width="300" height="5" fill="#fde68a" stroke="#b45309" stroke-width="1.2"/>
+<rect x="40" y="116" width="300" height="8" fill="#fde68a" stroke="#b45309" stroke-width="1.2"/>
+<rect x="180" y="60" width="10" height="200" fill="#fde68a" stroke="#b45309" stroke-width="1.2"/>
+<rect x="40" y="100" width="140" height="6" fill="#fde68a" stroke="#b45309" stroke-width="1.2"/>
+<rect x="40" y="230" width="140" height="10" fill="#a16207"/>
+<rect x="40" y="240" width="140" height="20" fill="#fef3c7" stroke="#a16207"/>
+<rect x="190" y="124" width="150" height="36" fill="#fef9c3" stroke="#a16207"/>
+<rect x="205" y="180" width="60" height="6" fill="#fde68a" stroke="#b45309" stroke-width="1.2"/><rect x="265" y="168" width="60" height="6" fill="#fde68a" stroke="#b45309" stroke-width="1.2"/>
+<rect x="190" y="220" width="150" height="40" fill="#fef9c3" stroke="#a16207"/>
+<text x="110" y="170" font-size="12" text-anchor="middle" stroke="#fff" stroke-width="4" paint-order="stroke" stroke-linejoin="round" font-weight="700" fill="#1f2937">床の間</text>
+<text x="110" y="96" font-size="12" text-anchor="middle" stroke="#fff" stroke-width="4" paint-order="stroke" stroke-linejoin="round" font-weight="700" fill="#1f2937">落とし掛け</text>
+<text x="110" y="226" font-size="12" text-anchor="middle" stroke="#fff" stroke-width="4" paint-order="stroke" stroke-linejoin="round" font-weight="700" fill="#1f2937">床框</text>
+<text x="185" y="280" font-size="12" text-anchor="middle" stroke="#fff" stroke-width="4" paint-order="stroke" stroke-linejoin="round" font-weight="700" fill="#1f2937">床柱</text>
+<text x="265" y="146" font-size="12" text-anchor="middle" stroke="#fff" stroke-width="4" paint-order="stroke" stroke-linejoin="round" font-weight="700" fill="#1f2937">天袋</text>
+<text x="265" y="202" font-size="12" text-anchor="middle" stroke="#fff" stroke-width="4" paint-order="stroke" stroke-linejoin="round" font-weight="700" fill="#1f2937">違い棚</text>
+<text x="265" y="244" font-size="12" text-anchor="middle" stroke="#fff" stroke-width="4" paint-order="stroke" stroke-linejoin="round" font-weight="700" fill="#1f2937">地袋</text>
+<path d="M340,45 L350,42" stroke="#4b5563" fill="none" stroke-width="0.8"/>
+<text x="352" y="46" font-size="12" text-anchor="start" fill="#1f2937">天井（竿縁天井）</text>
+<path d="M340,62 L350,64" stroke="#4b5563" fill="none" stroke-width="0.8"/>
+<text x="352" y="68" font-size="12" text-anchor="start" fill="#1f2937">回り縁</text>
+<path d="M340,120 L350,120" stroke="#4b5563" fill="none" stroke-width="0.8"/>
+<text x="352" y="124" font-size="12" text-anchor="start" fill="#1f2937">長押（なげし）</text></g>
+<text x="22" y="370" font-size="12">・付書院：床の間の脇の縁側に張り出した、障子窓付きの机状の部分</text>
+<text x="22" y="388" font-size="12">・鴨居（上）と敷居（下）の溝を建具が走る。鴨居の上の開口が欄間</text>
+<text x="22" y="406" font-size="12">・真壁：柱を見せる壁（和室）。大壁：柱を壁の中に隠す壁（洋室）</text>
+<text x="22" y="424" font-size="12">・畳寄せ：真壁で畳と壁の間に入れる材。幅木：大壁の床際を保護する材</text>
+</svg>

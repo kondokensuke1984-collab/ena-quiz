@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<defs><marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#dc2626"/></marker></defs>
+<rect width="480" height="480" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">駐車場の車路（駐車場法施行令8条）</text>
+<rect x="20" y="70" width="200" height="22" fill="#9ca3af"/>
+<path d="M20,200 H90 L220,170 H300" fill="none" stroke="#1f2937" stroke-width="4"/>
+<line x1="20" y1="92" x2="300" y2="92" stroke="#6b7280" stroke-width="1"/>
+<line x1="250" y1="92" x2="250" y2="170" stroke="#dc2626" stroke-width="1.5" marker-start="url(#r)" marker-end="url(#r)"/>
+<text x="244" y="130" font-size="12" fill="#dc2626" font-weight="700" text-anchor="end">はり下 2.3m以上</text>
+<text x="226" y="84" font-size="11" fill="#4b5563">はり</text>
+<text x="96" y="214" font-size="12" fill="#dc2626" font-weight="700">傾斜部の勾配 17%以下</text>
+<text x="96" y="230" font-size="11" fill="#4b5563">路面は粗面・滑りにくい仕上げ</text>
+<text x="330" y="60" font-weight="700" font-size="12">車路の幅員</text>
+<g font-size="12">
+<text x="330" y="84">一方通行</text><text x="460" y="84" text-anchor="end" font-weight="700">3.5m以上</text>
+<text x="330" y="106">双方向</text><text x="460" y="106" text-anchor="end" font-weight="700">5.5m以上</text>
+<text x="330" y="128" font-size="11">料金徴収施設部分</text><text x="460" y="144" text-anchor="end" font-weight="700">2.75m以上</text>
+<text x="330" y="144" font-size="11">（一方通行）</text>
+<text x="330" y="176" font-size="11">屈曲部の内法半径</text><text x="460" y="192" text-anchor="end" font-weight="700">5m以上</text>
+</g>
+<line x1="8" y1="252" x2="472" y2="252" stroke="#e5e7eb" stroke-width="1.5"/>
+<g font-size="12">
+<text x="20" y="276" font-weight="700" font-size="13">ほかの数値の目安</text>
+<text x="34" y="298">・車椅子使用者用の駐車施設の幅：350cm以上（バリアフリー法）</text>
+<text x="34" y="320">・普通乗用車の駐車ますは幅2.5m×奥行5.0m程度。3台並列に</text>
+<text x="48" y="338">は 2.5m×3 ＝ 7.5m 以上の幅が必要</text>
+<text x="34" y="360">・自動二輪車（250ccクラス）の駐車区画の幅は90cm程度</text>
+<text x="34" y="382">・自走式駐車場はスロープ式・自走式立体など。機械式は</text>
+<text x="48" y="400">車路を省けるが、入出庫に時間がかかる</text>
+<text x="20" y="428" font-size="11" fill="#4b5563">※路外駐車場で、駐車の用に供する部分の面積が500m²以上の</text>
+<text x="34" y="444" font-size="11" fill="#4b5563">ものに適用される基準</text>
+</g>
+</svg>

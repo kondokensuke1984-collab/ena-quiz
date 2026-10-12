@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 500" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<defs><marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#dc2626"/></marker>
+<marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#2563eb"/></marker></defs>
+<rect width="480" height="500" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">溶接の種類とのど厚</text>
+<text x="20" y="54" font-weight="700">隅肉溶接（断面）</text>
+<rect x="30" y="170" width="200" height="22" fill="#d1d5db" stroke="#1f2937" stroke-width="1.5"/>
+<rect x="110" y="70" width="22" height="100" fill="#d1d5db" stroke="#1f2937" stroke-width="1.5"/>
+<path d="M132,170 V110 L192,170 Z" fill="#fdba74" stroke="#ea580c" stroke-width="2"/>
+<line x1="132" y1="170" x2="162" y2="140" stroke="#dc2626" stroke-width="2" marker-start="url(#r)" marker-end="url(#r)"/>
+<line x1="152" y1="148" x2="176" y2="106" stroke="#dc2626" stroke-width="1"/><text x="146" y="100" fill="#dc2626" font-weight="700" font-size="12">のど厚 a＝0.7S</text>
+<line x1="132" y1="204" x2="192" y2="204" stroke="#2563eb" stroke-width="1.5" marker-start="url(#b)" marker-end="url(#b)"/>
+<text x="162" y="222" text-anchor="middle" fill="#2563eb" font-weight="700">S</text>
+<line x1="98" y1="110" x2="98" y2="170" stroke="#2563eb" stroke-width="1.5" marker-start="url(#b)" marker-end="url(#b)"/>
+<text x="84" y="146" fill="#2563eb" font-weight="700">S</text>
+<text x="40" y="244" font-size="12" fill="#2563eb">S：サイズ（脚長の短い方）</text>
+<text x="262" y="54" font-weight="700">完全溶込み溶接（突合せ）</text>
+<path d="M262,150 H340 L352,110 H262 Z" fill="#d1d5db" stroke="#1f2937" stroke-width="1.5"/>
+<path d="M378,150 H452 V110 H366 Z" fill="#d1d5db" stroke="#1f2937" stroke-width="1.5"/>
+<path d="M340,150 L352,110 H366 L378,150 Z" fill="#fdba74" stroke="#ea580c" stroke-width="2"/>
+<rect x="330" y="150" width="58" height="8" fill="#9ca3af"/>
+<text x="394" y="172" font-size="11" fill="#4b5563">裏当て金</text>
+<line x1="456" y1="110" x2="456" y2="150" stroke="#dc2626" stroke-width="1.5" marker-start="url(#r)" marker-end="url(#r)"/>
+<text x="268" y="190" font-size="12" fill="#dc2626" font-weight="700">のど厚＝薄い方の母材の厚さ</text>
+<text x="268" y="208" font-size="12">母材と同等の強さを期待できる</text>
+<text x="268" y="230" font-size="11" fill="#4b5563">両端にエンドタブを付け、欠陥が</text>
+<text x="268" y="246" font-size="11" fill="#4b5563">出やすい始端・終端を外に出す</text>
+<line x1="8" y1="262" x2="472" y2="262" stroke="#e5e7eb" stroke-width="1.5"/>
+<text x="20" y="288" font-size="14" font-weight="700">隅肉溶接の有効長さ・有効面積</text>
+<rect x="40" y="304" width="300" height="16" fill="#fdba74" stroke="#ea580c"/>
+<rect x="40" y="304" width="20" height="16" fill="#fee2e2" stroke="#dc2626"/><rect x="320" y="304" width="20" height="16" fill="#fee2e2" stroke="#dc2626"/>
+<text x="50" y="340" text-anchor="middle" font-size="11" fill="#dc2626">S</text><text x="330" y="340" text-anchor="middle" font-size="11" fill="#dc2626">S</text>
+<text x="350" y="317" font-size="12">溶接の全長</text>
+<g font-size="12">
+<text x="34" y="366">・有効長さ ＝ 溶接の全長 − 2S（始端・終端は欠陥が出やすい）</text>
+<text x="34" y="388">・有効面積 ＝ 有効長さ × 有効のど厚</text>
+<text x="34" y="410">・サイズは原則として薄い方の母材の厚さ以下</text>
+</g>
+<line x1="8" y1="426" x2="472" y2="426" stroke="#e5e7eb" stroke-width="1.5"/>
+<g font-size="12">
+<text x="20" y="450">・部分溶込み溶接は、繰返し応力・曲げを受ける部分には使わない</text>
+<text x="20" y="472">・スカラップ：溶接線の交差を避ける扇形の切欠き</text>
+<text x="34" y="490" fill="#4b5563">（ノンスカラップ工法は応力集中が少ない）</text>
+</g>
+</svg>

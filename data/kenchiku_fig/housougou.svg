@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 768" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="768" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">法規の総合問題でよく出る規定</text>
+<rect x="14" y="48" width="452" height="22" fill="#dbeafe"/>
+<text x="22" y="64" font-weight="700" font-size="13" fill="#1e3a8a">既存不適格・用途変更</text>
+<text x="22" y="92" font-size="12">・増築部分だけ適合でよい：50m²以下かつ基準時の延べ面積の1/20以下</text>
+<text x="22" y="110" font-size="12">・1/2以下の増築は耐久性等関係規定と告示の基準に適合させればよい</text>
+<text x="22" y="128" font-size="12">・全体計画の認定：最後の工事が完了したときに建築物全体を現行基準に適合させ</text>
+<text x="34" y="146" font-size="12">る</text>
+<text x="22" y="164" font-size="12">・危険性が増大しない大規模の修繕は現行規定を適用しない。確認申請には既存不</text>
+<text x="34" y="182" font-size="12">適格調書</text>
+<text x="22" y="200" font-size="12">・200m²以下の用途変更は確認不要（基準には適合させる）</text>
+<text x="22" y="218" font-size="12">・確認が必要な用途変更は、完了検査ではなく工事完了の届出</text>
+<text x="22" y="236" font-size="12">・耐震改修計画の認定は確認済証の交付とみなされる</text>
+<rect x="14" y="244" width="452" height="22" fill="#dcfce7"/>
+<text x="22" y="260" font-weight="700" font-size="13" fill="#14532d">手続き・その他</text>
+<text x="22" y="288" font-size="12">・指定確認検査機関の処分への審査請求は建築審査会へ。許可には条件を付けられ</text>
+<text x="34" y="306" font-size="12">る</text>
+<text x="22" y="324" font-size="12">・緊急時、建築監視員は手続きなしで工事の停止を命じられる</text>
+<text x="22" y="342" font-size="12">・災害時の建築制限は発生から1月以内。火葬場は審議会を経た許可で新築可</text>
+<text x="22" y="360" font-size="12">・昇降路・共用廊下・階段は容積率の延べ面積に全て不算入（1/3の限度は住宅の</text>
+<text x="34" y="378" font-size="12">地階）</text>
+<text x="22" y="396" font-size="12">・階段室等で水平投影面積が建築面積の1/8以下なら階数に算入しない</text>
+<text x="22" y="414" font-size="12">・採光：縁側（幅90cm以上）に面する開口は0.7を乗じる。学校の職員室は対象</text>
+<text x="34" y="432" font-size="12">外</text>
+<rect x="14" y="440" width="452" height="22" fill="#fef3c7"/>
+<text x="22" y="456" font-weight="700" font-size="13" fill="#78350f">構造・防火・避難の細目</text>
+<text x="22" y="484" font-size="12">・SRC造の鉄骨のかぶり5cm以上。コンクリートは打込み後5日間2℃以上で養生</text>
+<text x="22" y="502" font-size="12">・コンクリートの材料・骨材の種別は使用構造材料一覧表、かぶり厚さは構造詳細</text>
+<text x="34" y="520" font-size="12">図</text>
+<text x="22" y="538" font-size="12">・土砂災害特別警戒区域で外壁を衝撃に耐える構造にするのは居室のある建築物</text>
+<text x="22" y="556" font-size="12">・耐力壁の開口の周囲は径12mm以上の補強筋</text>
+<text x="22" y="574" font-size="12">・避難階段から屋外への出口の戸は屋内からかぎなしで解錠。劇場客席の出口は内</text>
+<text x="34" y="592" font-size="12">開き不可</text>
+<text x="22" y="610" font-size="12">・避難階段の防火戸は煙感知器連動（熱感知器は不可）。強化天井なら界壁は天井</text>
+<text x="34" y="628" font-size="12">まで</text>
+<text x="22" y="646" font-size="12">・住宅性能表示の耐震等級：2は1.25倍、3は1.5倍</text>
+<rect x="14" y="654" width="452" height="22" fill="#e0e7ff"/>
+<text x="22" y="670" font-weight="700" font-size="13" fill="#312e81">建築士法</text>
+<text x="22" y="698" font-size="12">・定期講習の義務は事務所に属する建築士と構造・設備設計一級建築士</text>
+<text x="22" y="716" font-size="12">・免許証の提示：委託者の請求時と重要事項説明時。設計図書には記名</text>
+<text x="22" y="734" font-size="12">・建築士でない者は懲戒ではなく罰則の対象。施工者として違反しても懲戒の対象</text>
+<text x="34" y="752" font-size="12">になりうる</text>
+</svg>

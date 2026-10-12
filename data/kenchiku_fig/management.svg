@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 606" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="606" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">建築のマネジメントと技術者倫理の用語</text>
+<rect x="14" y="48" width="452" height="22" fill="#dbeafe"/>
+<text x="22" y="64" font-weight="700" font-size="13" fill="#1e3a8a">発注・事業方式</text>
+<rect x="14" y="78" width="452" height="22" fill="#f3f4f6"/>
+<text x="22" y="93" font-size="12" text-anchor="start" fill="#4b5563">用語</text>
+<text x="160" y="93" font-size="12" text-anchor="start" fill="#4b5563">意味</text>
+<text x="22" y="113" font-size="12" text-anchor="start" fill="#1f2937">PPP／PFI</text>
+<text x="160" y="113" font-size="12" text-anchor="start" fill="#1f2937">公共サービスへの民間参画（広い概念）／その一手法</text>
+<text x="22" y="133" font-size="12" text-anchor="start" fill="#1f2937">BOT／BTO</text>
+<text x="160" y="133" font-size="12" text-anchor="start" fill="#1f2937">建設・運営後に移管／建設後すぐ移管し運営</text>
+<text x="22" y="153" font-size="12" text-anchor="start" fill="#1f2937">コンセッション</text>
+<text x="160" y="153" font-size="12" text-anchor="start" fill="#1f2937">所有権は公共に残し、運営権を民間に設定</text>
+<text x="22" y="173" font-size="12" text-anchor="start" fill="#1f2937">SPC</text>
+<text x="160" y="173" font-size="12" text-anchor="start" fill="#1f2937">PFI事業のための特別目的会社（終了後に解散）</text>
+<text x="22" y="193" font-size="12" text-anchor="start" fill="#1f2937">デザインビルド</text>
+<text x="160" y="193" font-size="12" text-anchor="start" fill="#1f2937">設計と施工を一括発注</text>
+<text x="22" y="213" font-size="12" text-anchor="start" fill="#1f2937">ECI</text>
+<text x="160" y="213" font-size="12" text-anchor="start" fill="#1f2937">設計段階から施工者が技術協力し後で工事契約</text>
+<text x="22" y="233" font-size="12" text-anchor="start" fill="#1f2937">コストオン</text>
+<text x="160" y="233" font-size="12" text-anchor="start" fill="#1f2937">発注者が決めた専門工事費を元請に上乗せ</text>
+<text x="22" y="253" font-size="12" text-anchor="start" fill="#1f2937">オープンブック</text>
+<text x="160" y="253" font-size="12" text-anchor="start" fill="#1f2937">施工者がコストを開示し発注者が監査</text>
+<rect x="14" y="270" width="452" height="22" fill="#dcfce7"/>
+<text x="22" y="286" font-weight="700" font-size="13" fill="#14532d">管理・評価</text>
+<text x="22" y="315" font-size="12" text-anchor="start" fill="#1f2937">VE／VM</text>
+<text x="160" y="315" font-size="12" text-anchor="start" fill="#1f2937">機能とコストの関係で価値を高める／価値の管理</text>
+<text x="22" y="335" font-size="12" text-anchor="start" fill="#1f2937">LCC／LCM</text>
+<text x="160" y="335" font-size="12" text-anchor="start" fill="#1f2937">生涯費用／それを最小にする生涯管理</text>
+<text x="22" y="355" font-size="12" text-anchor="start" fill="#1f2937">FM</text>
+<text x="160" y="355" font-size="12" text-anchor="start" fill="#1f2937">施設を経営の視点で総合的に管理・活用</text>
+<text x="22" y="375" font-size="12" text-anchor="start" fill="#1f2937">CRE戦略</text>
+<text x="160" y="375" font-size="12" text-anchor="start" fill="#1f2937">企業不動産を経営の視点で最適に活用</text>
+<text x="22" y="395" font-size="12" text-anchor="start" fill="#1f2937">デューデリジェンス</text>
+<text x="160" y="395" font-size="12" text-anchor="start" fill="#1f2937">取得する不動産の物理・法・経済の調査</text>
+<text x="22" y="415" font-size="12" text-anchor="start" fill="#1f2937">フィージビリティ</text>
+<text x="160" y="415" font-size="12" text-anchor="start" fill="#1f2937">企画が事業として実行可能かの検討</text>
+<text x="22" y="435" font-size="12" text-anchor="start" fill="#1f2937">ブリーフィング</text>
+<text x="160" y="435" font-size="12" text-anchor="start" fill="#1f2937">要求・目的・条件を明らかにする過程</text>
+<text x="22" y="455" font-size="12" text-anchor="start" fill="#1f2937">コミッショニング</text>
+<text x="160" y="455" font-size="12" text-anchor="start" fill="#1f2937">要求性能の実現を検証するプロセス</text>
+<text x="22" y="475" font-size="12" text-anchor="start" fill="#1f2937">BCP</text>
+<text x="160" y="475" font-size="12" text-anchor="start" fill="#1f2937">災害時も重要業務を継続・早期再開する計画</text>
+<rect x="14" y="492" width="452" height="22" fill="#fef3c7"/>
+<text x="22" y="508" font-weight="700" font-size="13" fill="#78350f">技術者倫理</text>
+<text x="22" y="536" font-size="12">・コンプライアンスは法令だけでなく社会規範・倫理も守ること</text>
+<text x="22" y="554" font-size="12">・リスクマネジメントは発生前、クライシスマネジメントは発生後</text>
+<text x="22" y="572" font-size="12">・アカウンタビリティ＝説明責任。モラルハザードは保険の分野から生まれた語</text>
+<text x="22" y="590" font-size="12">・共同企業体の結成は談合ではない。公益通報は内部・行政機関・外部の3つ</text>
+</svg>

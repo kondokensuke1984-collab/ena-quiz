@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 506" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="506" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">音の大きさと距離・室内の数値</text>
+<rect x="14" y="48" width="452" height="22" fill="#dbeafe"/>
+<text x="22" y="64" font-weight="700" font-size="13" fill="#1e3a8a">dBの足し算・引き算</text>
+<rect x="14" y="78" width="452" height="22" fill="#f3f4f6"/>
+<text x="22" y="93" font-size="12" text-anchor="start" fill="#4b5563">変化</text>
+<text x="250" y="93" font-size="12" text-anchor="start" fill="#4b5563">音圧レベル</text>
+<text x="22" y="113" font-size="12" text-anchor="start" fill="#1f2937">同じ音が2つ（パワー2倍）</text>
+<text x="250" y="113" font-size="12" text-anchor="start" fill="#1f2937">＋3dB</text>
+<text x="22" y="133" font-size="12" text-anchor="start" fill="#1f2937">同じ音が4つ（パワー4倍）</text>
+<text x="250" y="133" font-size="12" text-anchor="start" fill="#1f2937">＋6dB</text>
+<text x="22" y="153" font-size="12" text-anchor="start" fill="#1f2937">音の強さを1/10・1/100・1/1000</text>
+<text x="250" y="153" font-size="12" text-anchor="start" fill="#1f2937">−10・−20・−30dB</text>
+<text x="22" y="173" font-size="12" text-anchor="start" fill="#1f2937">点音源で距離2倍（4倍）</text>
+<text x="250" y="173" font-size="12" text-anchor="start" fill="#1f2937">−6dB（−12dB）</text>
+<text x="22" y="193" font-size="12" text-anchor="start" fill="#1f2937">線音源で距離2倍</text>
+<text x="250" y="193" font-size="12" text-anchor="start" fill="#1f2937">−3dB</text>
+<text x="22" y="213" font-size="12" text-anchor="start" fill="#1f2937">面音源（無限大）</text>
+<text x="250" y="213" font-size="12" text-anchor="start" fill="#1f2937">距離で減衰しない</text>
+<text x="22" y="233" font-size="12" text-anchor="start" fill="#1f2937">室の吸音力2倍</text>
+<text x="250" y="233" font-size="12" text-anchor="start" fill="#1f2937">−3dB</text>
+<rect x="14" y="250" width="452" height="22" fill="#dcfce7"/>
+<text x="22" y="266" font-weight="700" font-size="13" fill="#14532d">室内音響</text>
+<text x="22" y="294" font-size="12">・セイビンの残響時間 T＝0.161V/A（容積に比例、吸音力に反比例）</text>
+<text x="22" y="312" font-size="12">・吸音率が大きい室ではセイビン式はアイリング式より長めに出る</text>
+<text x="22" y="330" font-size="12">・最適残響時間は室容積が大きいほど長い。普通教室の平均吸音率は0.2程度</text>
+<text x="22" y="348" font-size="12">・凹曲面は音の集中を起こす。カラレーションは反射音の干渉による音色の変化</text>
+<rect x="14" y="356" width="452" height="22" fill="#fef3c7"/>
+<text x="22" y="372" font-weight="700" font-size="13" fill="#78350f">人の聞こえ方と伝わり方</text>
+<text x="22" y="400" font-size="12">・可聴域20Hz〜20kHz（波長約17m〜17mm）。3〜4kHz付近が最も敏感</text>
+<text x="22" y="418" font-size="12">・マスキング：低い音が高い音を隠しやすい</text>
+<text x="22" y="436" font-size="12">・カクテルパーティー効果：騒音の中でも聞きたい音を聞き取れる</text>
+<text x="22" y="454" font-size="12">・空気吸収と、塀による回折減衰は高音ほど大きい</text>
+<text x="22" y="472" font-size="12">・アナウンススタジオはNC-15〜20程度。騒音の環境基準は夜間が昼間より10dB</text>
+<text x="34" y="490" font-size="12">低い</text>
+</svg>

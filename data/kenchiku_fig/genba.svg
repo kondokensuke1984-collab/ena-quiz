@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 522" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="522" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">工事現場の管理（作業主任者・技術者・環境）</text>
+<rect x="14" y="48" width="452" height="22" fill="#dbeafe"/>
+<text x="22" y="64" font-weight="700" font-size="13" fill="#1e3a8a">作業主任者が必要な作業</text>
+<rect x="14" y="78" width="452" height="22" fill="#f3f4f6"/>
+<text x="22" y="93" font-size="12" text-anchor="start" fill="#4b5563">作業</text>
+<text x="300" y="93" font-size="12" text-anchor="start" fill="#4b5563">規模</text>
+<text x="22" y="113" font-size="12" text-anchor="start" fill="#1f2937">地山の掘削</text>
+<text x="300" y="113" font-size="12" text-anchor="start" fill="#1f2937">掘削面の高さ2m以上</text>
+<text x="22" y="133" font-size="12" text-anchor="start" fill="#1f2937">土止め支保工（切ばり・腹起しの取付け等）</text>
+<text x="300" y="133" font-size="12" text-anchor="start" fill="#1f2937">規模によらず</text>
+<text x="22" y="153" font-size="12" text-anchor="start" fill="#1f2937">足場の組立て・解体</text>
+<text x="300" y="153" font-size="12" text-anchor="start" fill="#1f2937">高さ5m以上</text>
+<text x="22" y="173" font-size="12" text-anchor="start" fill="#1f2937">型枠支保工の組立て・解体</text>
+<text x="300" y="173" font-size="12" text-anchor="start" fill="#1f2937">規模によらず</text>
+<text x="22" y="193" font-size="12" text-anchor="start" fill="#1f2937">コンクリート造工作物の解体</text>
+<text x="300" y="193" font-size="12" text-anchor="start" fill="#1f2937">高さ5m以上</text>
+<text x="22" y="213" font-size="12" text-anchor="start" fill="#1f2937">石綿含有建材の除去</text>
+<text x="300" y="213" font-size="12" text-anchor="start" fill="#1f2937">規模によらず</text>
+<rect x="14" y="230" width="452" height="22" fill="#dcfce7"/>
+<text x="22" y="246" font-weight="700" font-size="13" fill="#14532d">技術者の配置と安全</text>
+<text x="22" y="274" font-size="12">・下請も建設業許可業者なら主任技術者を置く</text>
+<text x="22" y="292" font-size="12">・監理技術者補佐を専任で置けば、監理技術者は2現場まで兼任できる</text>
+<text x="22" y="310" font-size="12">・現場代理人に請負代金の変更・請求・受領の権限はない</text>
+<text x="22" y="328" font-size="12">・満18歳未満は足場の組立て・解体等に就かせない（地上の補助作業を除く）</text>
+<text x="22" y="346" font-size="12">・巻上げ用ワイヤロープの安全係数は6以上</text>
+<text x="22" y="364" font-size="12">・高さ2m以上の作業床の端・開口部には囲い・手すりを設ける</text>
+<text x="22" y="382" font-size="12">・瞬間風速30m/s超の後のクレーン作業は事前に点検する</text>
+<rect x="14" y="390" width="452" height="22" fill="#fef3c7"/>
+<text x="22" y="406" font-weight="700" font-size="13" fill="#78350f">環境・廃棄物</text>
+<text x="22" y="434" font-size="12">・特定建設作業の騒音：敷地境界で85dB以下</text>
+<text x="22" y="452" font-size="12">・排水のpH：5.8〜8.6（海域へは5.0〜9.0）</text>
+<text x="22" y="470" font-size="12">・マニフェストで運搬・処分・最終処分を確認。特定建設資材はコンクリート、コ</text>
+<text x="34" y="488" font-size="12">ンクリート及び鉄、木材、アスファルト・コンクリート</text>
+<text x="22" y="506" font-size="12">・PCB含有安定器は所有者に引き渡す（所有者が保管・処分）</text>
+</svg>

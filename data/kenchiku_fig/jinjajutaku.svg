@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 640" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="640" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">神社本殿の形式と住宅の様式（日本建築史）</text>
+<g transform="translate(0,42)"><text x="20" y="10" font-size="12" fill="#4b5563">平面の略図：赤い点線＝棟の向き、青い矢印＝入口</text>
+<text x="20" y="26" font-size="12" fill="#4b5563">棟と平行な面から入る＝平入、妻（三角の面）から入る＝妻入</text>
+<g transform="translate(0,40)"><rect x="34" y="20" width="60" height="38" fill="#fef3c7" stroke="#b45309" stroke-width="1.4"/>
+<line x1="26" y1="39" x2="102" y2="39" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="4 3"/>
+<circle cx="28" cy="39" r="3" fill="#b45309"/>
+<circle cx="100" cy="39" r="3" fill="#b45309"/>
+<path d="M64,74 v-12 M60,66 l4,-6 l4,6" stroke="#1d4ed8" fill="none" stroke-width="1.6"/><text x="64" y="98" font-size="13" font-weight="700" text-anchor="middle">神明造</text><text x="64" y="113" font-size="12" text-anchor="middle" fill="#b45309">切妻・平入</text></g>
+<text x="64" y="168" font-size="12" text-anchor="middle" fill="#4b5563">伊勢神宮</text>
+<g transform="translate(0,40)"><rect x="150" y="14" width="52" height="52" fill="#fef3c7" stroke="#b45309" stroke-width="1.4"/>
+<line x1="176" y1="8" x2="176" y2="72" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="4 3"/>
+<circle cx="176" cy="40" r="4" fill="#b45309"/>
+<path d="M189,82 v-12 M185,74 l4,-6 l4,6" stroke="#1d4ed8" fill="none" stroke-width="1.6"/><text x="176" y="98" font-size="13" font-weight="700" text-anchor="middle">大社造</text><text x="176" y="113" font-size="12" text-anchor="middle" fill="#b45309">切妻・妻入</text></g>
+<text x="176" y="168" font-size="12" text-anchor="middle" fill="#4b5563">出雲大社</text>
+<g transform="translate(0,40)"><rect x="272" y="8" width="32" height="62" fill="#fef3c7" stroke="#b45309" stroke-width="1.4"/>
+<line x1="288" y1="2" x2="288" y2="76" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="4 3"/>
+<path d="M288,86 v-12 M284,78 l4,-6 l4,6" stroke="#1d4ed8" fill="none" stroke-width="1.6"/><text x="288" y="98" font-size="13" font-weight="700" text-anchor="middle">住吉造</text><text x="288" y="113" font-size="12" text-anchor="middle" fill="#b45309">切妻・妻入</text></g>
+<text x="288" y="168" font-size="12" text-anchor="middle" fill="#4b5563">住吉大社</text>
+<g transform="translate(0,40)"><rect x="382" y="12" width="36" height="40" fill="#fef3c7" stroke="#b45309" stroke-width="1.4"/>
+<line x1="400" y1="6" x2="400" y2="52" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="4 3"/>
+<rect x="378" y="52" width="44" height="12" fill="#fde68a" stroke="#b45309" stroke-dasharray="3 2"/>
+<path d="M400,80 v-12 M396,72 l4,-6 l4,6" stroke="#1d4ed8" fill="none" stroke-width="1.6"/><text x="400" y="98" font-size="13" font-weight="700" text-anchor="middle">春日造</text><text x="400" y="113" font-size="12" text-anchor="middle" fill="#b45309">妻入＋向拝</text></g>
+<text x="400" y="168" font-size="12" text-anchor="middle" fill="#4b5563">春日大社</text>
+<g transform="translate(0,186)"><rect x="32" y="12" width="64" height="34" fill="#fef3c7" stroke="#b45309" stroke-width="1.4"/>
+<line x1="26" y1="26" x2="102" y2="26" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="4 3"/>
+<rect x="32" y="46" width="64" height="16" fill="#fde68a" stroke="#b45309" stroke-dasharray="3 2"/>
+<path d="M64,78 v-12 M60,70 l4,-6 l4,6" stroke="#1d4ed8" fill="none" stroke-width="1.6"/><text x="64" y="98" font-size="13" font-weight="700" text-anchor="middle">流造</text><text x="64" y="113" font-size="12" text-anchor="middle" fill="#b45309">平入・前が長い</text></g>
+<text x="64" y="314" font-size="12" text-anchor="middle" fill="#4b5563">賀茂別雷神社</text>
+<g transform="translate(0,186)"><rect x="144" y="6" width="64" height="24" fill="#fef3c7" stroke="#b45309" stroke-width="1.4"/>
+<rect x="144" y="40" width="64" height="24" fill="#fef3c7" stroke="#b45309" stroke-width="1.4"/>
+<rect x="166" y="30" width="20" height="10" fill="#e5e7eb" stroke="#6b7280"/>
+<line x1="138" y1="18" x2="214" y2="18" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="4 3"/>
+<line x1="138" y1="52" x2="214" y2="52" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="4 3"/>
+<path d="M176,80 v-12 M172,72 l4,-6 l4,6" stroke="#1d4ed8" fill="none" stroke-width="1.6"/><text x="176" y="98" font-size="13" font-weight="700" text-anchor="middle">八幡造</text><text x="176" y="113" font-size="12" text-anchor="middle" fill="#b45309">前殿＋後殿</text></g>
+<text x="176" y="314" font-size="12" text-anchor="middle" fill="#4b5563">宇佐神宮</text>
+<g transform="translate(0,186)"><rect x="266" y="4" width="44" height="22" fill="#fef3c7" stroke="#b45309" stroke-width="1.4"/>
+<rect x="276" y="26" width="24" height="14" fill="#e5e7eb" stroke="#6b7280"/>
+<rect x="254" y="40" width="68" height="24" fill="#fef3c7" stroke="#b45309" stroke-width="1.4"/>
+<path d="M288,80 v-12 M284,72 l4,-6 l4,6" stroke="#1d4ed8" fill="none" stroke-width="1.6"/><text x="288" y="98" font-size="13" font-weight="700" text-anchor="middle">権現造</text><text x="288" y="113" font-size="12" text-anchor="middle" fill="#b45309">本殿＋拝殿</text></g>
+<text x="288" y="314" font-size="12" text-anchor="middle" fill="#4b5563">日光東照宮</text></g>
+<text x="22" y="390" font-size="12">・神明造は両妻の外に棟持柱、大社造は正方形平面の中央に心御柱で入口が片寄る</text>
+<text x="22" y="408" font-size="12">・春日造・流造は前に向拝（ひさし）。八幡造は前殿・後殿を相の間で、権現造は</text>
+<text x="34" y="426" font-size="12">本殿・拝殿を石の間でつなぐ</text>
+<rect x="14" y="434" width="452" height="22" fill="#dcfce7"/>
+<text x="22" y="450" font-weight="700" font-size="13" fill="#14532d">住宅の様式</text>
+<rect x="14" y="464" width="452" height="22" fill="#f3f4f6"/>
+<text x="22" y="479" font-size="12" text-anchor="start" fill="#4b5563">様式</text>
+<text x="130" y="479" font-size="12" text-anchor="start" fill="#4b5563">特徴（代表例）</text>
+<text x="22" y="499" font-size="12" text-anchor="start" fill="#1f2937">寝殿造（平安）</text>
+<text x="130" y="499" font-size="12" text-anchor="start" fill="#1f2937">寝殿を中心に対屋を渡殿でつなぐ。丸柱・蔀戸・板敷</text>
+<text x="22" y="519" font-size="12" text-anchor="start" fill="#1f2937">書院造（室町〜）</text>
+<text x="130" y="519" font-size="12" text-anchor="start" fill="#1f2937">床・違い棚・付書院・帳台構、角柱・畳敷（光浄院客殿）</text>
+<text x="22" y="539" font-size="12" text-anchor="start" fill="#1f2937">数寄屋風書院</text>
+<text x="130" y="539" font-size="12" text-anchor="start" fill="#1f2937">書院造に茶室の意匠を取り入れた軽快な造り（桂離宮）</text>
+<text x="22" y="559" font-size="12" text-anchor="start" fill="#1f2937">草庵風茶室</text>
+<text x="130" y="559" font-size="12" text-anchor="start" fill="#1f2937">妙喜庵待庵：二畳に次の間・隅炉</text>
+<text x="22" y="588" font-size="12">・鹿苑寺金閣：初層は住宅風、中層は和様仏堂風、最上層は禅宗様仏堂風</text>
+<text x="22" y="606" font-size="12">・旧開智学校：洋風（アーチ・隅石）と和風（唐破風）が混ざる擬洋風</text>
+<text x="22" y="624" font-size="12">・箱木家住宅：現存最古級の民家。柱間が長く、内法高が低い</text>
+</svg>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 504" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="504" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">特定天井（天井脱落対策の技術基準・平25国交告771号）</text>
+<rect x="14" y="48" width="452" height="22" fill="#dbeafe"/>
+<text x="22" y="64" font-weight="700" font-size="13" fill="#1e3a8a">特定天井に当たるもの（すべてを満たす吊り天井）</text>
+<g transform="translate(0,74)"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker></defs><rect x="60" y="14" width="230" height="12" fill="#e7e5e4" stroke="#78716c" stroke-width="1.2"/><text x="175" y="10" font-size="11" text-anchor="middle" fill="#57534e">上の床・屋根</text><path d="M85,26 L85,92" stroke="#475569" stroke-width="1.5"/><path d="M130,26 L130,92" stroke="#475569" stroke-width="1.5"/><path d="M175,26 L175,92" stroke="#475569" stroke-width="1.5"/><path d="M220,26 L220,92" stroke="#475569" stroke-width="1.5"/><path d="M265,26 L265,92" stroke="#475569" stroke-width="1.5"/><rect x="70" y="92" width="210" height="8" fill="#93c5fd" stroke="#1d4ed8" stroke-width="1.2"/><text x="288" y="99" font-size="11" text-anchor="start" fill="#1d4ed8">← 吊りボルトで吊る天井</text><rect x="60" y="168" width="230" height="10" fill="#e7e5e4" stroke="#78716c" stroke-width="1.2"/><text x="175" y="192" font-size="11" text-anchor="middle" fill="#57534e">人が日常立ち入る場所の床</text><path d="M48,100 L48,168" stroke="#dc2626" stroke-width="1.2"/><path d="M44,100 L52,100 M44,168 L52,168" stroke="#dc2626"/><text x="42" y="140" font-size="12" text-anchor="end" fill="#dc2626" font-weight="700">6m超</text><text x="300" y="122" font-size="12" text-anchor="start" fill="#dc2626" font-weight="700">・高さ6m超</text><text x="300" y="140" font-size="12" text-anchor="start" fill="#dc2626" font-weight="700">・水平投影面積200m²超</text><text x="300" y="158" font-size="12" text-anchor="start" fill="#dc2626" font-weight="700">・単位面積質量2kg/m²超</text></g>
+<text x="22" y="292" font-size="12">・吊り天井であることが要件（「支持方式にかかわらず該当」は誤り）</text>
+<text x="22" y="310" font-size="12">・特定天井＝脱落で重大な危害を生ずるおそれがある天井。「強化天井」は防火上</text>
+<text x="34" y="328" font-size="12">の天井で別のもの</text>
+<rect x="14" y="336" width="452" height="22" fill="#dcfce7"/>
+<text x="22" y="352" font-weight="700" font-size="13" fill="#14532d">目標と検証</text>
+<text x="22" y="380" font-size="12">・稀に生じる地震（中地震）で天井が損傷しないようにし、それを超える地震でも</text>
+<text x="34" y="398" font-size="12">脱落の低減を図る</text>
+<text x="22" y="416" font-size="12">・免震構造で加速度が小さくても、特定天井の安全性の検証は必要</text>
+<text x="22" y="434" font-size="12">・周囲の壁等との間に隙間を設けない構造方法でも、脱落に対する安全性の検証は</text>
+<text x="34" y="452" font-size="12">必要</text>
+<text x="22" y="470" font-size="12">・既存建築物の増改築では、ネットやワイヤー等による落下防止措置も認められる</text>
+<text x="34" y="488" font-size="12">（新築と同じ基準でなくてよい）</text>
+</svg>

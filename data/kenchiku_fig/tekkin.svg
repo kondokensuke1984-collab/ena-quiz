@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 520" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="520" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">鉄筋工事の数値（継手・定着・圧接）</text>
+<rect x="14" y="48" width="452" height="22" fill="#dbeafe"/>
+<text x="22" y="64" font-weight="700" font-size="13" fill="#1e3a8a">ガス圧接の外観検査（d＝鉄筋径）</text>
+<rect x="14" y="78" width="452" height="22" fill="#f3f4f6"/>
+<text x="22" y="93" font-size="12" text-anchor="start" fill="#4b5563">項目</text>
+<text x="180" y="93" font-size="12" text-anchor="start" fill="#4b5563">基準</text>
+<text x="300" y="93" font-size="12" text-anchor="start" fill="#4b5563">外れたときの処置</text>
+<text x="22" y="113" font-size="12" text-anchor="start" fill="#1f2937">膨らみの直径</text>
+<text x="180" y="113" font-size="12" text-anchor="start" fill="#1f2937">1.4d以上</text>
+<text x="300" y="113" font-size="12" text-anchor="start" fill="#1f2937">再加熱・加圧</text>
+<text x="22" y="133" font-size="12" text-anchor="start" fill="#1f2937">膨らみの長さ</text>
+<text x="180" y="133" font-size="12" text-anchor="start" fill="#1f2937">1.1d以上</text>
+<text x="300" y="133" font-size="12" text-anchor="start" fill="#1f2937">再加熱・加圧</text>
+<text x="22" y="153" font-size="12" text-anchor="start" fill="#1f2937">圧接面のずれ</text>
+<text x="180" y="153" font-size="12" text-anchor="start" fill="#1f2937">1/4d以下</text>
+<text x="300" y="153" font-size="12" text-anchor="start" fill="#1f2937">切り取って再圧接</text>
+<text x="22" y="173" font-size="12" text-anchor="start" fill="#1f2937">偏心量</text>
+<text x="180" y="173" font-size="12" text-anchor="start" fill="#1f2937">1/5d以下</text>
+<text x="300" y="173" font-size="12" text-anchor="start" fill="#1f2937">切り取って再圧接</text>
+<text x="22" y="202" font-size="12">・径の差7mm以下なら異なる径・鋼種でも圧接できる</text>
+<text x="22" y="220" font-size="12">・隣り合う継手は400mm以上ずらす（機械式はあき40mm以上も）</text>
+<text x="22" y="238" font-size="12">・検査は品質管理をした者と別の第三者が行う</text>
+<rect x="14" y="246" width="452" height="22" fill="#dcfce7"/>
+<text x="22" y="262" font-weight="700" font-size="13" fill="#14532d">継手・定着</text>
+<text x="22" y="290" font-size="12">・柱主筋の継手：床上500以上、梁下からH0/4以上離れた範囲</text>
+<text x="22" y="308" font-size="12">・大梁の継手：上端筋は中央L0/2、下端筋は柱面からD以上離す</text>
+<text x="22" y="326" font-size="12">・重ね継手長さ：SD345・Fc21〜27でフックなし40d、径が違うときは細いほう</text>
+<text x="34" y="344" font-size="12">の径による</text>
+<text x="22" y="362" font-size="12">・梁下端筋の90°折曲げ定着：投影定着長さは柱せいの3/4以上</text>
+<text x="22" y="380" font-size="12">・小梁の下端筋の直線定着は20d（Fcによらない）</text>
+<text x="22" y="398" font-size="12">・180°フックの余長4d以上。柱頭出隅・煙突の主筋は末端にフック</text>
+<text x="22" y="416" font-size="12">・スパイラル筋の重ね継手は50d以上</text>
+<rect x="14" y="424" width="452" height="22" fill="#fef3c7"/>
+<text x="22" y="440" font-weight="700" font-size="13" fill="#78350f">組立て</text>
+<text x="22" y="468" font-size="12">・鉄筋のあき：1.5d・25mm・粗骨材最大寸法×1.25のうち最大以上</text>
+<text x="22" y="486" font-size="12">・スペーサー：梁は端部0.5m・中間1.5m程度、スラブは1m²に1.3個程度</text>
+<text x="22" y="504" font-size="12">・結束は交点の半数以上</text>
+</svg>

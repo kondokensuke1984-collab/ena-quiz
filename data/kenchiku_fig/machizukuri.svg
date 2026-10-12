@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 664" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="664" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">まちづくりの制度と用語</text>
+<rect x="14" y="46" width="452" height="22" fill="#f3f4f6"/>
+<text x="22" y="61" font-size="12" text-anchor="start" fill="#4b5563">制度（根拠）</text>
+<text x="176" y="61" font-size="12" text-anchor="start" fill="#4b5563">内容</text>
+<text x="22" y="81" font-size="12" text-anchor="start" fill="#1f2937">総合設計（建基法）</text>
+<text x="176" y="81" font-size="12" text-anchor="start" fill="#1f2937">公開空地を設け、許可で容積率・高さを緩和</text>
+<text x="22" y="101" font-size="12" text-anchor="start" fill="#1f2937">連担建築物（建基法）</text>
+<text x="176" y="101" font-size="12" text-anchor="start" fill="#1f2937">複数の敷地を一つの敷地とみなす（都計は不要）</text>
+<text x="22" y="121" font-size="12" text-anchor="start" fill="#1f2937">高度地区（都計法）</text>
+<text x="176" y="121" font-size="12" text-anchor="start" fill="#1f2937">建築物の高さの最高・最低限度</text>
+<text x="22" y="141" font-size="12" text-anchor="start" fill="#1f2937">高度利用地区（都計法）</text>
+<text x="176" y="141" font-size="12" text-anchor="start" fill="#1f2937">容積率の最高・最低、建蔽率、壁面の位置</text>
+<text x="22" y="161" font-size="12" text-anchor="start" fill="#1f2937">特例容積率適用地区</text>
+<text x="176" y="161" font-size="12" text-anchor="start" fill="#1f2937">未利用の容積を他の敷地へ移す</text>
+<text x="22" y="181" font-size="12" text-anchor="start" fill="#1f2937">都市再生特別地区</text>
+<text x="176" y="181" font-size="12" text-anchor="start" fill="#1f2937">用途地域等の制限によらない自由な計画</text>
+<text x="22" y="201" font-size="12" text-anchor="start" fill="#1f2937">風致地区（都計法）</text>
+<text x="176" y="201" font-size="12" text-anchor="start" fill="#1f2937">自然の風致を守る地域地区（条例で規制）</text>
+<text x="22" y="221" font-size="12" text-anchor="start" fill="#1f2937">景観地区（景観法）</text>
+<text x="176" y="221" font-size="12" text-anchor="start" fill="#1f2937">都市計画で定め、形態意匠を認定で規制</text>
+<text x="22" y="241" font-size="12" text-anchor="start" fill="#1f2937">伝建地区</text>
+<text x="176" y="241" font-size="12" text-anchor="start" fill="#1f2937">市町村が都市計画または条例で定める</text>
+<text x="22" y="261" font-size="12" text-anchor="start" fill="#1f2937">立地適正化計画</text>
+<text x="176" y="261" font-size="12" text-anchor="start" fill="#1f2937">都市機能誘導区域と居住誘導区域を定める</text>
+<text x="22" y="281" font-size="12" text-anchor="start" fill="#1f2937">第二種再開発事業</text>
+<text x="176" y="281" font-size="12" text-anchor="start" fill="#1f2937">管理処分（用地買収）方式。第一種は権利変換</text>
+<text x="22" y="310" font-size="12">・協定の合意：建築協定・景観協定・緑地協定は全員、都市利便増進協定は相当部</text>
+<text x="34" y="328" font-size="12">分</text>
+<text x="22" y="346" font-size="12">・まちづくり三法：改正都市計画法・中心市街地活性化法・大店立地法</text>
+<rect x="14" y="354" width="452" height="22" fill="#dbeafe"/>
+<text x="22" y="370" font-weight="700" font-size="13" fill="#1e3a8a">交通とまちの用語</text>
+<text x="22" y="398" font-size="12">・パークアンドライド：郊外で車を停めて公共交通へ乗り換える。キスアンドライ</text>
+<text x="34" y="416" font-size="12">ドは家族が駅まで送迎</text>
+<text x="22" y="434" font-size="12">・トランジットモール：歩行者と公共交通だけが通れる街路</text>
+<text x="22" y="452" font-size="12">・フリンジパーキング：都心の周辺に置く駐車場。ショップモビリティ：車いす等</text>
+<text x="34" y="470" font-size="12">を貸し出す</text>
+<text x="22" y="488" font-size="12">・ブラウンフィールド：土壌汚染のため使われない土地。インナーシティ：都心周</text>
+<text x="34" y="506" font-size="12">辺の衰退</text>
+<rect x="14" y="514" width="452" height="22" fill="#dcfce7"/>
+<text x="22" y="530" font-weight="700" font-size="13" fill="#14532d">事例</text>
+<text x="22" y="558" font-size="12">・富山市：LRTを軸にコンパクトシティ／長浜市：黒壁スクエア／小布施町：町並</text>
+<text x="34" y="576" font-size="12">み修景</text>
+<text x="22" y="594" font-size="12">・クリチバ：BRT／ソウル清渓川：高架道路を撤去し河川を復元／ニューヨーク：</text>
+<text x="34" y="612" font-size="12">ハイライン（高架鉄道跡の公園）</text>
+<text x="22" y="630" font-size="12">・首都計画：パリ（オスマン）、ワシントン（ランファン）、キャンベラ（グリフ</text>
+<text x="34" y="648" font-size="12">ィン）、ブラジリア（胴体が行政・翼が住居）</text>
+</svg>

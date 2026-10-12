@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 520" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<defs><marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#dc2626"/></marker>
+<marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#2563eb"/></marker></defs>
+<rect width="480" height="520" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">階段の寸法（令23条〜25条）</text>
+<path d="M30,210 H70 V180 H120 V150 H170 V120 H220 V90 H270 V210 Z" fill="#e5e7eb" stroke="#1f2937" stroke-width="2.5"/>
+<line x1="112" y1="150" x2="112" y2="180" stroke="#dc2626" stroke-width="2" marker-start="url(#r)" marker-end="url(#r)"/>
+<text x="106" y="170" fill="#dc2626" font-weight="700" text-anchor="end">蹴上げ</text>
+<line x1="120" y1="140" x2="170" y2="140" stroke="#2563eb" stroke-width="2" marker-start="url(#b)" marker-end="url(#b)"/>
+<text x="145" y="132" fill="#2563eb" font-weight="700" text-anchor="middle">踏面</text>
+<path d="M40,170 L262,60" stroke="#ea580c" stroke-width="3"/>
+<text x="290" y="76" fill="#ea580c" font-weight="700">手すり</text>
+<text x="290" y="94" font-size="12" fill="#4b5563">少なくとも片側に必要</text>
+<text x="290" y="112" font-size="12" fill="#4b5563">高さ1m以下の部分は不要</text>
+<text x="290" y="138" font-size="12" fill="#4b5563">回り階段の踏面は</text>
+<text x="290" y="156" font-size="12" fill="#4b5563">狭い端から30cmで測る</text>
+<line x1="8" y1="232" x2="472" y2="232" stroke="#e5e7eb" stroke-width="1.5"/>
+<g font-size="12" fill="#4b5563"><text x="20" y="254">階段の種別</text><text x="330" y="254" text-anchor="middle">幅</text><text x="392" y="254" text-anchor="middle">蹴上げ</text><text x="452" y="254" text-anchor="middle">踏面</text></g>
+<g font-size="12">
+<text x="20" y="278">① 小学校の児童用</text>
+<text x="330" y="278" text-anchor="middle">140以上</text><text x="392" y="278" text-anchor="middle">16以下</text><text x="452" y="278" text-anchor="middle">26以上</text>
+<text x="20" y="302">② 中学・高校の生徒用、物販店舗</text>
+<text x="34" y="318">（1,500m²超）・劇場・集会場等の客用</text>
+<text x="330" y="302" text-anchor="middle">140以上</text><text x="392" y="302" text-anchor="middle">18以下</text><text x="452" y="302" text-anchor="middle">26以上</text>
+<text x="20" y="342">③ 直上階の居室200m²超の地上階、</text>
+<text x="34" y="358">居室100m²超の地階</text>
+<text x="330" y="342" text-anchor="middle">120以上</text><text x="392" y="342" text-anchor="middle">20以下</text><text x="452" y="342" text-anchor="middle">24以上</text>
+<text x="20" y="382">④ ①〜③以外</text>
+<text x="330" y="382" text-anchor="middle">75以上</text><text x="392" y="382" text-anchor="middle">22以下</text><text x="452" y="382" text-anchor="middle">21以上</text>
+<text x="20" y="406">住宅（共同住宅の共用階段を除く）</text>
+<text x="330" y="406" text-anchor="middle">75以上</text><text x="392" y="406" text-anchor="middle">23以下</text><text x="452" y="406" text-anchor="middle">15以上</text>
+</g>
+<text x="460" y="424" font-size="11" fill="#4b5563" text-anchor="end">単位：cm</text>
+<line x1="8" y1="434" x2="472" y2="434" stroke="#e5e7eb" stroke-width="1.5"/>
+<text x="20" y="456">・踊場：①②は高さ3m以内ごと、その他は4m以内ごと</text>
+<text x="20" y="478">・直階段の踊場の踏幅は1.2m以上</text>
+<text x="20" y="500">・手すりは幅10cmまで、ないものとみなして幅を測る</text>
+</svg>

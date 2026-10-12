@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 450" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="450" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">トルシア形</text>
+<text x="250" y="28" font-size="15" font-weight="700">マーキング（上から見る）</text>
+<!-- 左：トルシア形（側面） -->
+<rect x="50" y="110" width="130" height="30" fill="#d1d5db" stroke="#1f2937" stroke-width="2"/>
+<rect x="50" y="140" width="130" height="30" fill="#e5e7eb" stroke="#1f2937" stroke-width="2"/>
+<rect x="95" y="80" width="40" height="30" rx="14" fill="#6b7280" stroke="#1f2937" stroke-width="2"/>
+<rect x="105" y="110" width="20" height="90" fill="#9ca3af" stroke="#1f2937" stroke-width="1.5"/>
+<rect x="90" y="170" width="50" height="6" fill="#6b7280"/>
+<rect x="92" y="176" width="46" height="24" fill="#4b5563" stroke="#1f2937" stroke-width="1.5"/>
+<rect x="108" y="200" width="14" height="14" fill="#9ca3af" stroke="#1f2937" stroke-width="1.5"/>
+<path d="M110,214 h10 v6 h-10 z" fill="#fff" stroke="#1f2937" stroke-width="1"/>
+<rect x="107" y="220" width="16" height="22" fill="#9ca3af" stroke="#1f2937" stroke-width="1.5"/>
+<line x1="128" y1="231" x2="160" y2="240" stroke="#dc2626" stroke-width="1.2"/>
+<text x="162" y="244" fill="#dc2626" font-weight="700">ピンテール</text>
+<line x1="124" y1="217" x2="160" y2="214" stroke="#1f2937" stroke-width="1.2"/>
+<text x="162" y="216" font-size="12">破断溝</text>
+<text x="20" y="276" font-size="12">専用レンチで締め、ピンテールが</text>
+<text x="20" y="292" font-size="12">破断すれば締付け完了</text>
+<!-- 右：マーキング -->
+<g transform="translate(300,140)">
+<rect x="-44" y="-44" width="88" height="88" fill="#f3f4f6" stroke="#9ca3af"/>
+<polygon points="30,0 15,26 -15,26 -30,0 -15,-26 15,-26" fill="#d1d5db" stroke="#1f2937" stroke-width="2"/>
+<circle r="12" fill="#9ca3af" stroke="#1f2937" stroke-width="1.5"/>
+<line x1="-44" y1="0" x2="44" y2="0" stroke="#dc2626" stroke-width="3"/>
+</g>
+<g transform="translate(420,140)">
+<rect x="-44" y="-44" width="88" height="88" fill="#f3f4f6" stroke="#9ca3af"/>
+<polygon points="30,0 15,26 -15,26 -30,0 -15,-26 15,-26" fill="#d1d5db" stroke="#1f2937" stroke-width="2" transform="rotate(120)"/>
+<line x1="-44" y1="0" x2="-30" y2="0" stroke="#dc2626" stroke-width="3"/><line x1="30" y1="0" x2="44" y2="0" stroke="#dc2626" stroke-width="3"/>
+<line x1="-30" y1="0" x2="30" y2="0" stroke="#dc2626" stroke-width="3" transform="rotate(120)"/>
+<circle r="12" fill="#9ca3af" stroke="#1f2937" stroke-width="1.5"/>
+<line x1="-12" y1="0" x2="12" y2="0" stroke="#dc2626" stroke-width="3"/>
+</g>
+<g text-anchor="middle" font-size="12"><text x="300" y="206">本締め前</text><text x="420" y="206">本締め後</text></g>
+<text x="250" y="232" font-size="12">ナットの線だけがずれる → 正常</text>
+<text x="250" y="250" font-size="12">（ボルト・座金・母材の線はそのまま）</text>
+<text x="250" y="270" font-size="12" fill="#dc2626">ボルトや座金の線もずれる → 共回り</text>
+<line x1="8" y1="308" x2="472" y2="308" stroke="#e5e7eb" stroke-width="1.5"/>
+<text x="20" y="334">・一次締め → マーキング → 本締め の順に行う</text>
+<text x="20" y="356">・ボルト群は中央部から周辺部に向かって締め付ける</text>
+<text x="20" y="378">・ナット回転法：一次締め後から 120°±30°（M12は60°）</text>
+<text x="20" y="400">・共回り・軸回りしたもの、ナットの回転量が過大なものは、</text>
+<text x="34" y="420">新しいボルトセットに取り替える（不足なら所定の量まで追締め）</text>
+<text x="20" y="442" font-size="12" fill="#4b5563">・一度使ったボルトは再使用しない</text>
+</svg>

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 600" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="600" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">空調方式と熱源の効率</text>
+<!-- 系統図 -->
+<g font-size="12" text-anchor="middle">
+<rect x="20" y="70" width="80" height="44" rx="6" fill="#e0e7ff" stroke="#4f46e5"/>
+<text x="60" y="88">冷凍機</text><text x="60" y="104">（熱源）</text>
+<rect x="20" y="138" width="80" height="34" rx="6" fill="#e0e7ff" stroke="#4f46e5"/>
+<text x="60" y="160">冷却塔</text>
+<rect x="160" y="70" width="90" height="44" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+<text x="205" y="88">空調機</text><text x="205" y="104">（AHU）</text>
+<rect x="300" y="60" width="160" height="120" rx="6" fill="#fef3c7" stroke="#ca8a04"/>
+<text x="380" y="78" fill="#78350f">室（ゾーンごと）</text>
+<rect x="318" y="88" width="56" height="24" fill="#fff" stroke="#ca8a04"/><text x="346" y="105">VAV</text>
+<rect x="386" y="88" width="56" height="24" fill="#fff" stroke="#ca8a04"/><text x="414" y="105">VAV</text>
+<text x="380" y="140">温度センサーで</text><text x="380" y="156">送風量を変える</text>
+<text x="205" y="58" fill="#4b5563">外気（OA）</text>
+</g>
+<g stroke-width="2" fill="none">
+<path d="M100,92 h58" stroke="#2563eb"/><path d="M60,114 v22" stroke="#dc2626"/>
+<path d="M250,92 h48" stroke="#16a34a"/><path d="M205,62 v6" stroke="#4b5563"/>
+<path d="M298,170 h-93 v-54" stroke="#9ca3af" stroke-dasharray="5 3"/>
+</g>
+<g font-size="12" fill="#4b5563">
+<text x="108" y="86">冷水</text><text x="66" y="130">冷却水</text><text x="230" y="186">還気（RA）</text>
+</g>
+<line x1="8" y1="200" x2="472" y2="200" stroke="#e5e7eb" stroke-width="1.5"/>
+<g font-size="12">
+<text x="20" y="222" font-weight="700" font-size="13">方式</text>
+<text x="34" y="242">・VAVは送風量を変えて搬送動力を減らす（CAVより省エネ）。</text>
+<text x="48" y="258">送風量を絞ると外気量が不足することがある</text>
+<text x="34" y="276">・外気冷房：外気のエンタルピーが室内より低いとき。全熱交換器はバイパス</text>
+<text x="34" y="294">・ナイトパージ：夜間の冷たい外気で躯体を冷やす</text>
+<text x="34" y="312">・床吹出し：冷房は居住域を効率よく。暖房は上下温度差が出やすい</text>
+<text x="34" y="330">・放射空調：気流感が少ない。パネル表面は露点温度以上に保つ</text>
+<text x="34" y="348">・デシカント：除湿剤で潜熱を処理。再生にコージェネ排熱を利用</text>
+<text x="20" y="374" font-weight="700" font-size="13">熱源の効率（COP）</text>
+<text x="34" y="394">・冷却水温度が低いほど、冷水出口温度が高いほどCOPは上がる</text>
+<text x="34" y="412">・冷却塔の冷却水温は外気の湿球温度より下げられない</text>
+<text x="34" y="430">・フリークーリング：冬に冷凍機を止め、冷却塔だけで冷水をつくる</text>
+<text x="34" y="448">・吸収冷凍機：冷媒は水、吸収液は臭化リチウム。機内は真空に近く</text>
+<text x="48" y="464">振動・騒音は小さいが、排熱が多く冷却水量は多い</text>
+<text x="34" y="482">・密閉式冷却塔は開放式より送風機動力が大きい</text>
+<text x="34" y="500">・蓄熱槽：ピークを平準化し熱源容量を小さく。高効率で運転</text>
+<text x="20" y="526" font-weight="700" font-size="13">搬送</text>
+<text x="34" y="546">・送風機：風量∝回転数、圧力∝回転数²、軸動力∝回転数³</text>
+<text x="34" y="564">・ダクトの圧力損失∝風速²。アスペクト比は4以下が望ましい</text>
+<text x="34" y="582">・軸流送風機は低静圧・大風量。高静圧には遠心送風機</text>
+</g>
+</svg>

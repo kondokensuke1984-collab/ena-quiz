@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 502" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="502" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">鉄骨工事の精度と溶接欠陥の補修</text>
+<rect x="14" y="48" width="452" height="22" fill="#dbeafe"/>
+<text x="22" y="64" font-weight="700" font-size="13" fill="#1e3a8a">管理許容差（JASS 6）</text>
+<rect x="14" y="78" width="452" height="22" fill="#f3f4f6"/>
+<text x="22" y="93" font-size="12" text-anchor="start" fill="#4b5563">対象</text>
+<text x="220" y="93" font-size="12" text-anchor="start" fill="#4b5563">管理許容差</text>
+<text x="22" y="113" font-size="12" text-anchor="start" fill="#1f2937">柱の長さ</text>
+<text x="220" y="113" font-size="12" text-anchor="start" fill="#1f2937">H＜10mで±3mm、H≧10mで±4mm</text>
+<text x="22" y="133" font-size="12" text-anchor="start" fill="#1f2937">階高</text>
+<text x="220" y="133" font-size="12" text-anchor="start" fill="#1f2937">±3mm</text>
+<text x="22" y="153" font-size="12" text-anchor="start" fill="#1f2937">柱の倒れ</text>
+<text x="220" y="153" font-size="12" text-anchor="start" fill="#1f2937">H/1,000以下かつ10mm以下</text>
+<text x="22" y="173" font-size="12" text-anchor="start" fill="#1f2937">建物の倒れ</text>
+<text x="220" y="173" font-size="12" text-anchor="start" fill="#1f2937">H/4,000＋7mm以下かつ30mm以下</text>
+<rect x="14" y="190" width="452" height="22" fill="#dcfce7"/>
+<text x="22" y="206" font-weight="700" font-size="13" fill="#14532d">溶接欠陥の補修</text>
+<rect x="14" y="220" width="452" height="22" fill="#f3f4f6"/>
+<text x="22" y="235" font-size="12" text-anchor="start" fill="#4b5563">欠陥</text>
+<text x="150" y="235" font-size="12" text-anchor="start" fill="#4b5563">補修</text>
+<text x="22" y="255" font-size="12" text-anchor="start" fill="#1f2937">アンダーカット</text>
+<text x="150" y="255" font-size="12" text-anchor="start" fill="#1f2937">整形して補修溶接、グラインダー仕上げ</text>
+<text x="22" y="275" font-size="12" text-anchor="start" fill="#1f2937">オーバーラップ</text>
+<text x="150" y="275" font-size="12" text-anchor="start" fill="#1f2937">削りすぎないようグラインダー仕上げ</text>
+<text x="22" y="295" font-size="12" text-anchor="start" fill="#1f2937">ピット</text>
+<text x="150" y="295" font-size="12" text-anchor="start" fill="#1f2937">欠陥部を削り取って再溶接</text>
+<text x="22" y="315" font-size="12" text-anchor="start" fill="#1f2937">融合不良</text>
+<text x="150" y="315" font-size="12" text-anchor="start" fill="#1f2937">欠陥部をはつり取って再溶接</text>
+<text x="22" y="335" font-size="12" text-anchor="start" fill="#1f2937">割れ</text>
+<text x="150" y="335" font-size="12" text-anchor="start" fill="#1f2937">両端から50mm以上広げて除去し再溶接</text>
+<rect x="14" y="352" width="452" height="22" fill="#fef3c7"/>
+<text x="22" y="368" font-weight="700" font-size="13" fill="#78350f">そのほか</text>
+<text x="22" y="396" font-size="12">・V形開先：開先角度（全体）、ベベル角度（片側）、ルート面、ルート間隔</text>
+<text x="22" y="414" font-size="12">・1節が複数階のときは最上階から溶接して柱の倒れの累積を防ぐ</text>
+<text x="22" y="432" font-size="12">・ベースモルタルは厚さ30〜50mm、養生3日以上</text>
+<text x="22" y="450" font-size="12">・鋼材表面が50℃以上で泡が出るおそれがあれば塗装を中止</text>
+<text x="22" y="468" font-size="12">・耐火被覆の吹付け厚さは確認ピンで確かめる</text>
+<text x="22" y="486" font-size="12">・指定グレード以上の工場で製作すればよい（Jの指定にRは可）</text>
+</svg>

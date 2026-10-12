@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 574" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="574" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">外装・開口部の計画と人間の空間知覚</text>
+<rect x="14" y="48" width="452" height="22" fill="#dbeafe"/>
+<text x="22" y="64" font-weight="700" font-size="13" fill="#1e3a8a">カーテンウォール・外装</text>
+<text x="22" y="92" font-size="12">・層間変位への追従：スウェイ（ファスナーを滑らせる）とロッキング（パネルを</text>
+<text x="34" y="110" font-size="12">回転）</text>
+<text x="22" y="128" font-size="12">・オープンジョイント：等圧空間で気圧差をなくし、重力で排水。等圧空間の容量</text>
+<text x="34" y="146" font-size="12">は小さく</text>
+<text x="22" y="164" font-size="12">・フィルドジョイント：目地にシーリング材を充塡。SSG構法：構造シーラントで</text>
+<text x="34" y="182" font-size="12">ガラスを接着</text>
+<text x="22" y="200" font-size="12">・折板は山の部分で固定する。瓦棒葺は勾配を緩くできる</text>
+<text x="22" y="218" font-size="12">・水平庇は南面で効果が大きい。通風は風下側の開口を大きく</text>
+<text x="22" y="236" font-size="12">・寒冷地のタイルは吸水率の小さいⅠ類</text>
+<rect x="14" y="244" width="452" height="22" fill="#dcfce7"/>
+<text x="22" y="260" font-weight="700" font-size="13" fill="#14532d">ガラスの種類</text>
+<rect x="14" y="274" width="452" height="22" fill="#f3f4f6"/>
+<text x="22" y="289" font-size="12" text-anchor="start" fill="#4b5563">種類</text>
+<text x="130" y="289" font-size="12" text-anchor="start" fill="#4b5563">特徴</text>
+<text x="22" y="309" font-size="12" text-anchor="start" fill="#1f2937">強化ガラス</text>
+<text x="130" y="309" font-size="12" text-anchor="start" fill="#1f2937">約3倍の強度。割れると粒状に崩れ落ちる→天窓に不向き</text>
+<text x="22" y="329" font-size="12" text-anchor="start" fill="#1f2937">倍強度ガラス</text>
+<text x="130" y="329" font-size="12" text-anchor="start" fill="#1f2937">約2倍。割れても破片が脱落しにくい</text>
+<text x="22" y="349" font-size="12" text-anchor="start" fill="#1f2937">合わせガラス</text>
+<text x="130" y="349" font-size="12" text-anchor="start" fill="#1f2937">破片が飛散しにくく防犯性も高い。天窓向き</text>
+<text x="22" y="369" font-size="12" text-anchor="start" fill="#1f2937">網入りガラス</text>
+<text x="130" y="369" font-size="12" text-anchor="start" fill="#1f2937">火災時の脱落防止。強度はフロートより低い</text>
+<text x="22" y="389" font-size="12" text-anchor="start" fill="#1f2937">Low-E複層</text>
+<text x="130" y="389" font-size="12" text-anchor="start" fill="#1f2937">金属膜で放射の熱の出入りを抑える</text>
+<rect x="14" y="406" width="452" height="22" fill="#fef3c7"/>
+<text x="22" y="422" font-weight="700" font-size="13" fill="#78350f">人間と空間</text>
+<text x="22" y="450" font-size="12">・ホールの4つの距離帯：密接・個体・社会・公衆。パーソナルスペースは身体を</text>
+<text x="34" y="468" font-size="12">取り巻く見えない領域</text>
+<text x="22" y="486" font-size="12">・ソシオペタル（向き合い交流を促す）／ソシオフーガル（背を向け交流を避け</text>
+<text x="34" y="504" font-size="12">る）</text>
+<text x="22" y="522" font-size="12">・メルテンスのD/H、ニューマンのディフェンシブルスペース</text>
+<text x="22" y="540" font-size="12">・黄金比は約1：1.618。形として見える部分が「図」、背景が「地」</text>
+<text x="22" y="558" font-size="12">・江戸間（田舎間）は柱心で割る柱割り、京間は畳を基準にする畳割り</text>
+</svg>

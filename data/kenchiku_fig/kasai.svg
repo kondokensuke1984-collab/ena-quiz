@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 506" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="506" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">火災・煙・避難の数値</text>
+<rect x="14" y="46" width="452" height="22" fill="#f3f4f6"/>
+<text x="22" y="61" font-size="12" text-anchor="start" fill="#4b5563">項目</text>
+<text x="250" y="61" font-size="12" text-anchor="start" fill="#4b5563">目安</text>
+<text x="22" y="81" font-size="12" text-anchor="start" fill="#1f2937">煙の水平方向の速さ</text>
+<text x="250" y="81" font-size="12" text-anchor="start" fill="#1f2937">0.5〜1m/s（歩く速さ程度）</text>
+<text x="22" y="101" font-size="12" text-anchor="start" fill="#1f2937">煙の竪穴での上昇速度</text>
+<text x="250" y="101" font-size="12" text-anchor="start" fill="#1f2937">3〜5m/s</text>
+<text x="22" y="121" font-size="12" text-anchor="start" fill="#1f2937">階段を下りる速さ</text>
+<text x="250" y="121" font-size="12" text-anchor="start" fill="#1f2937">0.6m/s程度</text>
+<text x="22" y="141" font-size="12" text-anchor="start" fill="#1f2937">木材が引火する温度</text>
+<text x="250" y="141" font-size="12" text-anchor="start" fill="#1f2937">約260℃（自然発火は約450℃）</text>
+<text x="22" y="161" font-size="12" text-anchor="start" fill="#1f2937">一酸化炭素濃度</text>
+<text x="250" y="161" font-size="12" text-anchor="start" fill="#1f2937">1%超で数分で死に至る</text>
+<text x="22" y="181" font-size="12" text-anchor="start" fill="#1f2937">歩行速度が大きく落ちる照度</text>
+<text x="250" y="181" font-size="12" text-anchor="start" fill="#1f2937">1lx以下</text>
+<rect x="14" y="198" width="452" height="22" fill="#dbeafe"/>
+<text x="22" y="214" font-weight="700" font-size="13" fill="#1e3a8a">火災の性状</text>
+<text x="22" y="242" font-size="12">・フラッシュオーバーで酸素が急減しCOが急増。内装の不燃化で発生を遅らせる</text>
+<text x="22" y="260" font-size="12">・開口が大きいほど燃焼は激しいが、火災継続時間は短い</text>
+<text x="22" y="278" font-size="12">・冬は煙突効果で、下の階ほど竪穴に煙が入りやすい</text>
+<rect x="14" y="286" width="452" height="22" fill="#dcfce7"/>
+<text x="22" y="302" font-weight="700" font-size="13" fill="#14532d">延焼と区画</text>
+<text x="22" y="330" font-size="12">・横長の窓は火炎が外壁に沿いやすく上階に延焼しやすい（縦長窓は離れる）</text>
+<text x="22" y="348" font-size="12">・層間区画：床・スパンドレル・庇・バルコニーで上階への延焼を防ぐ</text>
+<text x="22" y="366" font-size="12">・異なる用途の部分は防火区画（異種用途区画）。吹抜けの防火シャッターは吹抜</text>
+<text x="34" y="384" font-size="12">け側</text>
+<rect x="14" y="392" width="452" height="22" fill="#fef3c7"/>
+<text x="22" y="408" font-weight="700" font-size="13" fill="#78350f">避難計画</text>
+<text x="22" y="436" font-size="12">・階段室の出入口は階段幅より狭くして、階段内の滞留・転倒を防ぐ</text>
+<text x="22" y="454" font-size="12">・売場の避難出口の扉は避難方向（外開き）</text>
+<text x="22" y="472" font-size="12">・手術室・ICUは籠城区画。超高層・福祉施設は一時待避場所を設ける</text>
+<text x="22" y="490" font-size="12">・避難経路は家具の配置を考慮して評価する</text>
+</svg>

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 358" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="358" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">建築設備の耐震と昇降機の計画</text>
+<rect x="14" y="48" width="452" height="22" fill="#dbeafe"/>
+<text x="22" y="64" font-weight="700" font-size="13" fill="#1e3a8a">設備機器の耐震</text>
+<text x="22" y="92" font-size="12">・設計用標準震度は上層階ほど大きく、防振装置付きの機器はさらに大きい</text>
+<text x="22" y="110" font-size="12">・1階の天井から吊る機器は上の床から吊るので中間階として扱う。基礎免震は全</text>
+<text x="34" y="128" font-size="12">階同じ</text>
+<text x="22" y="146" font-size="12">・設計用鉛直地震力は水平の1/2。アンカーの引抜きは鉛直力を上向きとして計算</text>
+<text x="22" y="164" font-size="12">・耐震ストッパの隙間はできるだけ小さく。コイルばねは固有振動数を低くできる</text>
+<text x="22" y="182" font-size="12">・エキスパンションジョイントを配管が通るときは変位の小さい低層部で</text>
+<text x="22" y="200" font-size="12">・長時間運転する非常用発電機は空冷式が望ましい</text>
+<rect x="14" y="208" width="452" height="22" fill="#dcfce7"/>
+<text x="22" y="224" font-weight="700" font-size="13" fill="#14532d">エレベーター・エスカレーター</text>
+<text x="22" y="252" font-size="12">・事務所ビルは出勤時のピーク5分間の交通量で台数を計画。貸事務所の平均運転</text>
+<text x="34" y="270" font-size="12">間隔は40秒以下</text>
+<text x="22" y="288" font-size="12">・地震時は最寄り階に止めて乗客を降ろす（避難階まで走らせない）</text>
+<text x="22" y="306" font-size="12">・戸開走行保護装置が必要。防火シャッターと連動して停止させる</text>
+<text x="22" y="324" font-size="12">・エスカレーターは一端を固定し他端はかかり代を確保。勾配30°超は速度30m/</text>
+<text x="34" y="342" font-size="12">分以下</text>
+</svg>

@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 580" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="580" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">耐震・制振・免震のちがい</text>
+<!-- 3つの建物 -->
+<g font-size="12" text-anchor="middle">
+<!-- 耐震 -->
+<path d="M50,190 L58,70 h60 L126,190 z" fill="#f3f4f6" stroke="#6b7280"/>
+<g stroke="#9ca3af"><line x1="54" y1="130" x2="122" y2="130"/><line x1="56" y1="100" x2="120" y2="100"/><line x1="52" y1="160" x2="124" y2="160"/></g>
+<line x1="30" y1="190" x2="146" y2="190" stroke="#4b5563" stroke-width="2"/>
+<text x="88" y="56" font-weight="700" font-size="13">耐震構造</text>
+<text x="88" y="210">柱・梁・壁の強さと</text><text x="88" y="226">ねばりで耐える</text>
+<!-- 制振 -->
+<rect x="190" y="70" width="80" height="120" fill="#f3f4f6" stroke="#6b7280" transform="skewX(-6) translate(14,0)"/>
+<g stroke="#dc2626" stroke-width="2"><line x1="200" y1="160" x2="260" y2="130"/><line x1="203" y1="120" x2="263" y2="90"/></g>
+<line x1="170" y1="190" x2="290" y2="190" stroke="#4b5563" stroke-width="2"/>
+<text x="232" y="56" font-weight="700" font-size="13">制振構造</text>
+<text x="232" y="210">ダンパーで揺れの</text><text x="232" y="226">エネルギーを吸収</text>
+<!-- 免震 -->
+<rect x="340" y="70" width="80" height="104" fill="#f3f4f6" stroke="#6b7280"/>
+<rect x="334" y="174" width="92" height="6" fill="#9ca3af"/>
+<g fill="#fde68a" stroke="#ca8a04"><rect x="342" y="180" width="14" height="10"/><rect x="404" y="180" width="14" height="10"/></g>
+<rect x="372" y="181" width="16" height="8" fill="#fca5a5" stroke="#dc2626"/>
+<line x1="320" y1="190" x2="460" y2="190" stroke="#4b5563" stroke-width="2"/>
+<text x="380" y="56" font-weight="700" font-size="13">免震構造</text>
+<text x="380" y="210">積層ゴムで周期を</text><text x="380" y="226">長くし揺れを伝えにくく</text>
+</g>
+<line x1="8" y1="242" x2="472" y2="242" stroke="#e5e7eb" stroke-width="1.5"/>
+<g font-size="12">
+<text x="20" y="264" font-weight="700" font-size="13">免震</text>
+<text x="34" y="284">・長周期化で加速度は小さくなるが、免震層の変位は大きい</text>
+<text x="34" y="302">・天然ゴム系積層ゴムは復元力のみで減衰はほとんどない→ダンパー併用</text>
+<text x="34" y="320">・減衰が少ないと変位が過大、減衰が大きすぎても応答が増える</text>
+<text x="34" y="338">・ダンパーを外周に配置するとねじれを抑えられる</text>
+<text x="34" y="356">・積層ゴムの圧縮応力は中心部が大きい。大変形でハードニング</text>
+<text x="34" y="374">・高さ60m超や第三種地盤でも、時刻歴応答解析・認定で採用可</text>
+<text x="20" y="400" font-weight="700" font-size="13">制振（ダンパーの種類）</text>
+<text x="34" y="420">・鋼材ダンパー：塑性化してはじめてエネルギーを吸収</text>
+<text x="34" y="438">・オイル・粘性ダンパー：速度に応じた力→小さな揺れから効く</text>
+<text x="34" y="456">・ブレース型の配置が一般に効率がよい。接合部や柱の変形が</text>
+<text x="48" y="472">大きいとダンパーの効率は下がる。接合部は弾性範囲に保つ</text>
+<text x="20" y="498" font-weight="700" font-size="13">耐震（保有水平耐力）</text>
+<text x="34" y="518">・必要保有水平耐力＝Ds・Fes・Qud。Dsは靱性・減衰で低減</text>
+<text x="34" y="536">・筋かい付き架構のDsは、筋かいのない架構以上の値</text>
+<text x="34" y="554">・耐震スリットは靱性を高めるが、耐力は下がる</text>
+<text x="34" y="572">・剛性率が小さい階に変形が集中→層崩壊しやすい</text>
+</g>
+</svg>

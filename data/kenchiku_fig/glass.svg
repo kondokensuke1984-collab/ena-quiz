@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 574" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="574" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">ガラスのはめ込み（不定形シーリング材構法）</text>
+<!-- 断面 -->
+<text x="100" y="54" font-size="12" font-weight="700" text-anchor="middle">下枠の断面</text>
+<rect x="96" y="66" width="10" height="150" fill="#bfdbfe" stroke="#1d4ed8"/>
+<path d="M66,140 h14 v84 h48 v-84 h14 v98 h-76 z" fill="#d1d5db" stroke="#6b7280"/>
+<path d="M80,140 l16,0 l0,14 z M128,140 l-22,0 l0,14 z" fill="#4b5563"/>
+<rect x="92" y="216" width="18" height="8" fill="#f59e0b" stroke="#b45309"/>
+<circle cx="88" cy="231" r="3.5" fill="#fff" stroke="#dc2626" stroke-width="1.5"/>
+<g stroke="#dc2626" fill="none" stroke-width="1.2">
+<path d="M52,140 v76 M48,140 h8 M48,216 h8"/>
+<path d="M150,216 v8 M146,216 h8 M146,224 h8"/>
+<path d="M106,128 h22 M106,124 v8 M128,124 v8"/>
+</g>
+<g font-size="12" fill="#dc2626">
+<text x="46" y="174" text-anchor="end">掛り代</text>
+<text x="46" y="190" text-anchor="end">（複層15</text>
+<text x="46" y="204" text-anchor="end">以上）</text>
+<text x="158" y="218">エッジ</text>
+<text x="158" y="232">クリアランス</text>
+<text x="132" y="118">面クリアランス</text>
+</g>
+<g font-size="12" fill="#4b5563">
+<text x="132" y="160">シーリング</text>
+<path d="M130,156 l-14,-4" stroke="#4b5563" fill="none"/>
+<text x="20" y="272">水抜き孔（径6以上・2か所以上）</text>
+<path d="M84,260 l3,-24" stroke="#4b5563" fill="none"/>
+<text x="172" y="254" font-size="12" fill="#b45309">セッティングブロック</text>
+<path d="M170,250 L111,222" stroke="#b45309" fill="none"/>
+</g>
+<!-- 立面 -->
+<text x="355" y="54" font-size="12" font-weight="700" text-anchor="middle">立面（引違い窓のガラス）</text>
+<rect x="262" y="66" width="186" height="148" fill="#e5e7eb" stroke="#6b7280"/>
+<rect x="272" y="74" width="166" height="128" fill="#bfdbfe" stroke="#1d4ed8"/>
+<rect x="306" y="202" width="16" height="7" fill="#f59e0b" stroke="#b45309"/>
+<rect x="388" y="202" width="16" height="7" fill="#f59e0b" stroke="#b45309"/>
+<g stroke="#dc2626" fill="none" stroke-width="1.2">
+<path d="M272,226 h42 M272,222 v8 M314,222 v8"/>
+<path d="M396,226 h42 M396,222 v8 M438,222 v8"/>
+</g>
+<g font-size="12" fill="#dc2626" text-anchor="middle">
+<text x="293" y="244">幅の1/4</text><text x="417" y="244">幅の1/4</text>
+</g>
+<text x="355" y="140" font-size="12" text-anchor="middle" fill="#1e3a8a">ガラス</text>
+<line x1="8" y1="284" x2="472" y2="284" stroke="#e5e7eb" stroke-width="1.5"/>
+<g font-size="12" transform="translate(0,16)">
+<text x="20" y="290" font-weight="700" font-size="13">はめ込み構法</text>
+<text x="34" y="310">・エッジクリアランス：地震で枠が面内変形しても</text>
+<text x="48" y="326">ガラスが枠に当たって割れないように確保</text>
+<text x="34" y="346">・セッティングブロック：両端から幅の1/4に2か所</text>
+<text x="34" y="366">・外部に面する下端の溝には水抜き孔を設ける</text>
+<text x="20" y="392" font-weight="700" font-size="13">グレイジングチャンネル構法</text>
+<text x="34" y="412">・セッティングブロックは使わない</text>
+<text x="34" y="432">・突合せは上辺中央（下辺では突き合わせない）</text>
+<text x="34" y="452">・単板ガラス・引違い戸向き。外部の複層ガラスは不可</text>
+<text x="20" y="478" font-weight="700" font-size="13">割れの防止とガラスの選び方</text>
+<text x="34" y="498">・熱線吸収ガラスは熱割れしやすい→熱応力を計算</text>
+<text x="34" y="518">・網入りガラスの下辺と縦小口の下1/4は防錆処置</text>
+<text x="34" y="538">・線入りガラスは防火設備に不可／天窓は合わせガラス</text>
+</g>
+</svg>

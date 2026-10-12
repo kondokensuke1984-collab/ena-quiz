@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 500" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<defs><marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#dc2626"/></marker></defs>
+<rect width="480" height="500" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">コンクリートの打込みと締固め（JASS5）</text>
+<rect x="40" y="60" width="16" height="200" fill="#d6b48a" stroke="#92400e"/>
+<rect x="424" y="60" width="16" height="200" fill="#d6b48a" stroke="#92400e"/>
+<rect x="56" y="180" width="368" height="80" fill="#d1d5db"/>
+<rect x="56" y="110" width="368" height="70" fill="#e5e7eb"/>
+<line x1="56" y1="180" x2="424" y2="180" stroke="#6b7280" stroke-dasharray="6 4"/>
+<text x="68" y="230" font-size="12">先に打ち込んだ層（下層）</text>
+<text x="68" y="128" font-size="12">後から打ち込む層（上層）</text>
+<g fill="#1f2937"><rect x="146" y="70" width="8" height="128"/><rect x="266" y="70" width="8" height="128"/></g>
+<line x1="150" y1="60" x2="150" y2="70" stroke="#1f2937" stroke-width="2"/><line x1="270" y1="60" x2="270" y2="70" stroke="#1f2937" stroke-width="2"/>
+<text x="156" y="54" font-size="12">棒形振動機（ほぼ鉛直に挿入）</text>
+<line x1="154" y1="92" x2="266" y2="92" stroke="#dc2626" stroke-width="1.5" marker-start="url(#r)" marker-end="url(#r)"/>
+<text x="284" y="97" font-size="12" fill="#dc2626" font-weight="700">← 挿入間隔 60cm以下</text>
+<line x1="294" y1="180" x2="294" y2="198" stroke="#dc2626" stroke-width="1.5" marker-start="url(#r)" marker-end="url(#r)"/>
+<text x="300" y="196" font-size="12" fill="#dc2626" font-weight="700">下層に10cm程度入れる</text>
+<text x="300" y="212" font-size="11" fill="#dc2626">（打重ね部を一体にする）</text>
+<text x="20" y="282" font-size="12" fill="#4b5563">加振はペーストが浮き上がるまで。引き抜くときは穴が残らないよう徐々に</text>
+<line x1="8" y1="298" x2="472" y2="298" stroke="#e5e7eb" stroke-width="1.5"/>
+<g font-size="12" fill="#4b5563"><text x="20" y="320">時間の限度（目安）</text><text x="340" y="320" text-anchor="middle">外気温25℃未満</text><text x="434" y="320" text-anchor="middle">25℃以上</text></g>
+<g font-size="13">
+<text x="20" y="346">練混ぜから打込み終了まで</text><text x="340" y="346" text-anchor="middle" font-weight="700">120分</text><text x="434" y="346" text-anchor="middle" font-weight="700">90分</text>
+<text x="20" y="372">打重ね時間間隔</text><text x="340" y="372" text-anchor="middle" font-weight="700">150分</text><text x="434" y="372" text-anchor="middle" font-weight="700">120分</text>
+</g>
+<text x="20" y="392" font-size="11" fill="#4b5563">時間を超えるとコールドジョイント（打重ね部の一体化不良）の原因になる</text>
+<line x1="8" y1="406" x2="472" y2="406" stroke="#e5e7eb" stroke-width="1.5"/>
+<g font-size="12">
+<text x="20" y="430">・目的の位置の近くに落とし込み、横流ししない（分離の防止）</text>
+<text x="20" y="452">・1回の打込み高さを抑え、層ごとに締め固める</text>
+<text x="20" y="474">・型枠振動機・木づちは補助。棒形振動機の間隔を広げてよい</text>
+<text x="34" y="492">理由にはならない</text>
+</g>
+</svg>

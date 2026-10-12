@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 520" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<defs><marker id="k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#6b7280"/></marker></defs>
+<rect width="480" height="520" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">病院の部門構成と主な基準</text>
+<g font-size="12" text-anchor="middle">
+<rect x="20" y="60" width="120" height="70" rx="6" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/><text x="80" y="92" font-weight="700">外来部門</text><text x="80" y="110" font-size="11">診察・待合</text>
+<rect x="180" y="60" width="120" height="70" rx="6" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/><text x="240" y="86" font-weight="700">診療部門</text><text x="240" y="104" font-size="11">手術・検査・放射線</text><text x="240" y="120" font-size="11">ICU・救急</text>
+<rect x="340" y="60" width="120" height="70" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/><text x="400" y="92" font-weight="700">病棟部門</text><text x="400" y="110" font-size="11">病室・看護拠点</text>
+<rect x="100" y="164" width="280" height="44" rx="6" fill="#f3f4f6" stroke="#6b7280" stroke-width="2"/><text x="240" y="184" font-weight="700">供給部門・管理部門</text><text x="240" y="200" font-size="11">薬剤・中央材料・給食・物品・事務</text>
+</g>
+<g stroke="#6b7280" stroke-width="2" marker-start="url(#k)" marker-end="url(#k)"><line x1="142" y1="95" x2="178" y2="95"/><line x1="302" y1="95" x2="338" y2="95"/><line x1="240" y1="132" x2="240" y2="162"/></g>
+<text x="240" y="226" text-anchor="middle" font-size="11" fill="#4b5563">診療部門を外来と病棟の間に置き、両方から使いやすくする</text>
+<line x1="8" y1="240" x2="472" y2="240" stroke="#e5e7eb" stroke-width="1.5"/>
+<g font-size="12">
+<text x="20" y="264" font-weight="700" font-size="13">医療法施行規則の主な数値</text>
+<text x="34" y="286">・病院の病室の床面積：患者1人につき6.4m²以上（内法）</text>
+<text x="48" y="304" fill="#4b5563">小児だけの病室はその2/3以上とできる</text>
+<text x="34" y="326">・患者が使う廊下の幅：1.8m以上、両側に居室があれば2.1m以上</text>
+<text x="48" y="344" fill="#4b5563">（精神病床・療養病床に接する廊下は両側居室で2.7m以上）</text>
+<text x="20" y="372" font-weight="700" font-size="13">計画の要点</text>
+<text x="34" y="394">・1看護単位は40〜50床程度（看護拠点から各病室を見通す）</text>
+<text x="34" y="416">・ICUは手術部・救急部門の近くに置く</text>
+<text x="34" y="438">・手術部の中を他部門への通過動線にしない（清潔区域を守る）</text>
+<text x="34" y="460">・感染症病室は陰圧に、手術室・無菌室は陽圧にする</text>
+<text x="34" y="482">・LDR：陣痛・分娩・回復を同じ一つの部屋で過ごす方式</text>
+<text x="34" y="504">・病棟階は防火区画で2以上に分け、水平避難できるようにする</text>
+</g>
+</svg>

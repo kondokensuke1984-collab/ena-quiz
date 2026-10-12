@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 500" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<defs><marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#dc2626"/></marker>
+<marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#6b7280"/></marker></defs>
+<rect width="480" height="500" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">排水トラップの封水と通気</text>
+<!-- 水 -->
+<path d="M70,190 V200 A60,60 0 0 0 190,200 V190 H150 V200 A20,20 0 0 1 110,200 V190 Z" fill="#bfdbfe"/>
+<!-- 管 -->
+<g fill="none" stroke="#1f2937" stroke-width="3">
+<path d="M70,50 V200 A60,60 0 0 0 190,200 V150 H300"/>
+<path d="M110,50 V200 A20,20 0 0 0 150,200 V190 H300"/>
+</g>
+<text x="90" y="44" text-anchor="middle" font-size="12">器具から</text>
+<text x="306" y="174" font-size="12">排水管へ</text>
+<!-- ウェアとディップ -->
+<line x1="150" y1="190" x2="250" y2="190" stroke="#dc2626" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="150" y1="220" x2="250" y2="220" stroke="#dc2626" stroke-width="1" stroke-dasharray="3 3"/>
+<circle cx="150" cy="190" r="4" fill="#dc2626"/><circle cx="130" cy="220" r="4" fill="#dc2626"/>
+<line x1="244" y1="190" x2="244" y2="220" stroke="#dc2626" stroke-width="2" marker-start="url(#r)" marker-end="url(#r)"/>
+<text x="252" y="212" fill="#dc2626" font-weight="700">封水深 5〜10cm</text>
+<text x="176" y="246" font-size="12" fill="#dc2626">上の点：ウェア（あふれ面）</text>
+<text x="176" y="264" font-size="12" fill="#dc2626">下の点：ディップ（管頂部の最下点）</text>
+<text x="20" y="300" font-size="12" fill="#4b5563">封水が排水管の臭気・虫の侵入を防ぐ</text>
+<!-- 通気 -->
+<line x1="400" y1="40" x2="400" y2="270" stroke="#1f2937" stroke-width="3"/>
+<line x1="420" y1="40" x2="420" y2="270" stroke="#1f2937" stroke-width="3"/>
+<line x1="300" y1="150" x2="400" y2="150" stroke="#1f2937" stroke-width="3"/>
+<line x1="300" y1="190" x2="400" y2="190" stroke="#1f2937" stroke-width="3"/>
+<line x1="410" y1="120" x2="410" y2="60" stroke="#6b7280" stroke-width="2" marker-end="url(#g)"/>
+<text x="436" y="80" font-size="12">通気</text>
+<text x="430" y="290" font-size="12" text-anchor="middle">排水立て管</text>
+<line x1="8" y1="314" x2="472" y2="314" stroke="#e5e7eb" stroke-width="1.5"/>
+<text x="20" y="338" font-size="14" font-weight="700">封水がなくなる（破封）原因</text>
+<g font-size="12">
+<text x="34" y="360">・自己サイホン：器具の排水自身の勢いで封水が引き出される</text>
+<text x="34" y="380">・誘導サイホン（吸出し）：立て管の流水で管内が負圧になる</text>
+<text x="34" y="400">・跳ね出し：立て管の下流が詰まり正圧で封水が押し上がる</text>
+<text x="34" y="420">・毛管現象（糸くず等）、長期間使わないことによる蒸発</text>
+</g>
+<line x1="8" y1="436" x2="472" y2="436" stroke="#e5e7eb" stroke-width="1.5"/>
+<text x="20" y="460" font-size="12">・通気管で管内の圧力変動をやわらげ、サイホン作用を防ぐ</text>
+<text x="20" y="482" font-size="12">・二重トラップは禁止（間の空気で排水が流れにくくなる）</text>
+</svg>

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 500" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<defs><marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#dc2626"/></marker></defs>
+<rect width="480" height="500" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">標準貫入試験とN値</text>
+<rect x="20" y="150" width="240" height="140" fill="#e7e5e4"/>
+<line x1="20" y1="150" x2="260" y2="150" stroke="#78716c" stroke-width="2"/>
+<text x="30" y="282" font-size="12" fill="#57534e">地盤</text>
+<rect x="104" y="150" width="32" height="140" fill="#fff" stroke="#a8a29e"/>
+<line x1="120" y1="40" x2="120" y2="240" stroke="#1f2937" stroke-width="4"/>
+<rect x="110" y="70" width="20" height="30" fill="#6b7280" stroke="#1f2937"/>
+<rect x="104" y="128" width="32" height="10" fill="#1f2937"/>
+<rect x="114" y="200" width="12" height="60" fill="#9ca3af" stroke="#1f2937"/>
+<line x1="150" y1="70" x2="150" y2="128" stroke="#dc2626" stroke-width="1.5" marker-start="url(#r)" marker-end="url(#r)"/>
+<text x="158" y="96" font-size="12" fill="#dc2626" font-weight="700">落下高さ 76cm</text>
+<text x="158" y="80" font-size="12">ハンマー 63.5kg</text>
+<text x="158" y="140" font-size="12">ノッキングヘッド</text>
+<line x1="150" y1="200" x2="150" y2="260" stroke="#dc2626" stroke-width="1.5" marker-start="url(#r)" marker-end="url(#r)"/>
+<text x="158" y="226" font-size="12" fill="#dc2626" font-weight="700">30cm 貫入させる</text>
+<text x="158" y="244" font-size="11">SPTサンプラー（土を採取）</text>
+<rect x="280" y="60" width="180" height="70" rx="8" fill="#eff6ff" stroke="#2563eb"/>
+<text x="370" y="88" text-anchor="middle" font-weight="700" fill="#1d4ed8">N値</text>
+<text x="370" y="110" text-anchor="middle" font-size="12">30cm貫入に要した</text>
+<text x="370" y="126" text-anchor="middle" font-size="12">打撃回数（上限は通常50回）</text>
+<line x1="8" y1="310" x2="472" y2="310" stroke="#e5e7eb" stroke-width="1.5"/>
+<g font-size="12">
+<text x="20" y="334" font-weight="700" font-size="13">N値から推定できるもの</text>
+<text x="34" y="356">・砂質土：相対密度、内部摩擦角（N値が大きいほど大きい）、液状化</text>
+<text x="34" y="376">・粘性土：一軸圧縮強さ・粘着力の目安（精度は低い）</text>
+<text x="48" y="394" fill="#4b5563">→ 粘性土はサンプリングして一軸圧縮試験などで確かめる</text>
+<text x="20" y="420" font-weight="700" font-size="13">ほかの原位置試験</text>
+<text x="34" y="442">・平板載荷試験：載荷板（直径30cm）に荷重をかけ地盤反力を測る。</text>
+<text x="48" y="460" fill="#4b5563">分かるのは載荷幅の1.5〜2倍程度の深さまで</text>
+<text x="34" y="482">・スウェーデン式サウンディング（SWS）：戸建住宅などの簡易な調査</text>
+</g>
+</svg>

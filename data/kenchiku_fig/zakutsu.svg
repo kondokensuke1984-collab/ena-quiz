@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 400" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="15" fill="#1f2937">
+<defs>
+<marker id="k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker>
+<pattern id="h" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#1f2937" stroke-width="1.5"/></pattern>
+</defs>
+<rect width="480" height="400" fill="#fff"/>
+<g stroke="#9ca3af" stroke-width="2" stroke-dasharray="5 4" fill="none">
+<line x1="48" y1="80" x2="48" y2="240"/><line x1="144" y1="80" x2="144" y2="240"/><line x1="240" y1="80" x2="240" y2="240"/><line x1="336" y1="80" x2="336" y2="240"/><line x1="432" y1="80" x2="432" y2="240"/>
+</g>
+<g stroke="#2563eb" stroke-width="4" fill="none" stroke-linecap="round">
+<path d="M48,80 C70,120 70,200 48,240"/>
+<path d="M144,80 C176,125 144,180 144,240"/>
+<path d="M240,80 C240,120 262,125 262,160 C262,195 240,200 240,240"/>
+<path d="M336,240 C336,170 340,110 370,80"/>
+<path d="M432,240 C432,160 462,160 462,80"/>
+</g>
+<!-- 支点：ピン＝○、固定＝ハッチ -->
+<g stroke="#1f2937" stroke-width="2">
+<circle cx="48" cy="80" r="5" fill="#fff"/>
+<circle cx="48" cy="240" r="5" fill="#fff"/><path d="M48,245 L38,258 L58,258 Z" fill="#fff"/>
+<circle cx="144" cy="80" r="5" fill="#fff"/>
+<rect x="126" y="240" width="36" height="10" fill="url(#h)"/>
+<rect x="222" y="70" width="36" height="10" fill="url(#h)"/>
+<rect x="222" y="240" width="36" height="10" fill="url(#h)"/>
+<rect x="318" y="240" width="36" height="10" fill="url(#h)"/>
+<rect x="444" y="70" width="36" height="10" fill="url(#h)"/>
+<rect x="414" y="240" width="36" height="10" fill="url(#h)"/>
+</g>
+<g stroke="#1f2937" stroke-width="2.5" marker-end="url(#k)">
+<line x1="48" y1="24" x2="48" y2="70"/><line x1="144" y1="24" x2="144" y2="70"/><line x1="240" y1="20" x2="240" y2="66"/><line x1="370" y1="24" x2="370" y2="72"/><line x1="462" y1="20" x2="462" y2="66"/>
+</g>
+<g font-size="14" font-style="italic"><text x="54" y="38">P</text><text x="150" y="38">P</text><text x="246" y="36">P</text><text x="376" y="38">P</text><text x="446" y="36">P</text></g>
+<text x="20" y="166" font-style="italic">l</text>
+<g text-anchor="middle">
+<text x="48" y="282">両端</text><text x="48" y="300">ピン</text>
+<text x="144" y="282">一端固定</text><text x="144" y="300">他端ピン</text>
+<text x="240" y="282">両端</text><text x="240" y="300">固定</text>
+<text x="336" y="282">一端固定</text><text x="336" y="300">他端自由</text>
+<text x="432" y="282">両端固定</text><text x="432" y="300" font-size="13">水平移動自由</text>
+<g fill="#2563eb" font-weight="700" font-size="19"><text x="48" y="332">l</text><text x="144" y="332">0.7l</text><text x="240" y="332">0.5l</text><text x="336" y="332">2l</text><text x="432" y="332">l</text></g>
+</g>
+<text x="8" y="332" font-size="13" fill="#2563eb" font-weight="700">lk</text>
+<text x="240" y="364" text-anchor="middle" font-size="17" font-weight="700">弾性座屈荷重 Pe ＝ π²EI ／ lk²</text>
+<text x="240" y="388" text-anchor="middle" font-size="14">lk（座屈長さ）が2倍 → Peは1/4。EIが大きいほどPeは大きい</text>
+</svg>

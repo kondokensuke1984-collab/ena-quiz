@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 592" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="592" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">木造の壁量計算（令46条）</text>
+<!-- 必要壁量 -->
+<text x="20" y="54" font-size="13" font-weight="700">必要壁量は「地震」と「風」の大きいほう</text>
+<g font-size="12">
+<rect x="20" y="64" width="210" height="122" rx="6" fill="#fef3c7" stroke="#ca8a04"/>
+<text x="32" y="84" font-weight="700">地震力</text>
+<text x="32" y="104">床面積×係数</text>
+<path d="M60,150 l40,-24 l80,0 l-40,24 z" fill="#fde68a" stroke="#ca8a04"/>
+<text x="32" y="174" fill="#b45309">→ 張り間・桁行で同じ値</text>
+<rect x="250" y="64" width="210" height="122" rx="6" fill="#dbeafe" stroke="#1d4ed8"/>
+<text x="262" y="84" font-weight="700">風圧力</text>
+<text x="262" y="104">見付面積×50cm/m²</text>
+<rect x="330" y="118" width="100" height="40" fill="#bfdbfe" stroke="#1d4ed8"/>
+<line x1="324" y1="146" x2="436" y2="146" stroke="#dc2626" stroke-dasharray="4 3"/>
+<g stroke="#1d4ed8" stroke-width="2" fill="#1d4ed8"><path d="M276,130 h40 l-6,-4 v8 l6,-4"/><path d="M276,146 h40 l-6,-4 v8 l6,-4"/></g>
+<text x="262" y="174" fill="#1d4ed8">床面から1.35m超の部分の面積</text>
+</g>
+<text x="20" y="206" font-size="12" fill="#4b5563">各方向の必要壁量には、その方向に見た見付面積を使う</text>
+<line x1="8" y1="220" x2="472" y2="220" stroke="#e5e7eb" stroke-width="1.5"/>
+<!-- 壁倍率 -->
+<text x="20" y="244" font-size="13" font-weight="700">存在壁量＝壁の長さ×壁倍率</text>
+<g font-size="12" text-anchor="middle">
+<rect x="20" y="254" width="440" height="22" fill="#f3f4f6"/>
+<text x="90" y="270" fill="#4b5563">筋かいの断面</text><text x="215" y="270" fill="#4b5563">片筋かい</text><text x="320" y="270" fill="#4b5563">たすき掛け</text><text x="410" y="270" fill="#4b5563">負担できる力</text>
+<text x="90" y="294">15×90</text><text x="215" y="294">1.0</text><text x="320" y="294">2.0</text><text x="410" y="294">引張のみ</text>
+<text x="90" y="314">30×90</text><text x="215" y="314">1.5</text><text x="320" y="314">3.0</text><text x="410" y="314">圧縮・引張</text>
+<text x="90" y="334">45×90</text><text x="215" y="334">2.0</text><text x="320" y="334">4.0</text><text x="410" y="334">圧縮・引張</text>
+<text x="90" y="354">90×90</text><text x="215" y="354">3.0</text><text x="320" y="354" font-weight="700" fill="#dc2626">5.0</text><text x="410" y="354">圧縮・引張</text>
+</g>
+<g font-size="12">
+<text x="34" y="380">・筋かいと面材の併用は倍率の和（上限5）</text>
+<text x="34" y="398">・同じ面材を両面に張ると2倍。片面に2枚重ねても2倍にはならない</text>
+<text x="34" y="416">・張り間方向の存在壁量に、桁行方向の壁は入れない</text>
+</g>
+<line x1="8" y1="430" x2="472" y2="430" stroke="#e5e7eb" stroke-width="1.5"/>
+<g font-size="12">
+<text x="20" y="452" font-weight="700" font-size="13">壁の配置と部材の規定</text>
+<text x="34" y="472">・側端部分（両端1/4）の充足率がともに1超なら壁率比は不要。</text>
+<text x="48" y="488">そうでなければ壁率比0.5以上。偏心率0.3以下でも可</text>
+<text x="34" y="506">・筋かいは欠き込まない（間柱を欠く）。柱を1/3以上欠くなら補強</text>
+<text x="34" y="524">・柱の有効細長比150以下。3階建ての1階の柱は小径13.5cm以上</text>
+<text x="34" y="542">・隅柱は通し柱か、同等以上に補強した管柱とする</text>
+<text x="20" y="564" fill="#4b5563">※令和7年4月の改正で必要壁量の求め方などが見直された。</text>
+<text x="34" y="580" fill="#4b5563">図は過去問の出題時の規定による</text>
+</g>
+</svg>

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 500" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<defs><marker id="k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#6b7280"/></marker></defs>
+<rect width="480" height="500" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">建築士事務所の契約と業務（建築士法）</text>
+<g font-size="12" text-anchor="middle">
+<rect x="20" y="46" width="130" height="58" rx="6" fill="#dbeafe" stroke="#2563eb"/><text x="85" y="68" font-weight="700">重要事項説明</text><text x="85" y="84" font-size="10">契約の前に</text><text x="85" y="97" font-size="10">（24条の7）</text>
+<rect x="175" y="46" width="130" height="58" rx="6" fill="#dbeafe" stroke="#2563eb"/><text x="240" y="68" font-weight="700">契約の締結</text><text x="240" y="84" font-size="10">延べ300m²超は書面で</text><text x="240" y="97" font-size="10">（22条の3の3）</text>
+<rect x="330" y="46" width="130" height="58" rx="6" fill="#dbeafe" stroke="#2563eb"/><text x="395" y="68" font-weight="700">書面の交付</text><text x="395" y="84" font-size="10">契約後、遅滞なく</text><text x="395" y="97" font-size="10">（24条の8）</text>
+</g>
+<g stroke="#6b7280" stroke-width="2" marker-end="url(#k)"><line x1="150" y1="75" x2="173" y2="75"/><line x1="305" y1="75" x2="328" y2="75"/></g>
+<g font-size="12">
+<text x="20" y="130">・重要事項説明は、管理建築士またはその事務所に属する建築士が、</text>
+<text x="34" y="148">建築士免許証（免許証明書）を示して、書面を交付して行う</text>
+<text x="20" y="170">・設計・工事監理以外の業務（調査・鑑定など）には義務なし</text>
+</g>
+<line x1="8" y1="186" x2="472" y2="186" stroke="#e5e7eb" stroke-width="1.5"/>
+<text x="20" y="210" font-weight="700">事務所の決まり</text>
+<g font-size="12">
+<text x="34" y="232">・登録の有効期間は5年（更新が必要）</text>
+<text x="34" y="254">・事務所ごとに専任の管理建築士を置く（実務3年以上＋管理建築士講習）</text>
+<text x="34" y="276">・延べ300m²超の新築工事の設計・工事監理は、委託者の承諾が</text>
+<text x="48" y="294">あっても一括して再委託できない（24条の3）</text>
+<text x="34" y="316">・業務に関する帳簿・図書は15年間保存する（24条の4）</text>
+<text x="34" y="338">・所属建築士は3年ごとに定期講習を受ける</text>
+</g>
+<line x1="8" y1="354" x2="472" y2="354" stroke="#e5e7eb" stroke-width="1.5"/>
+<text x="20" y="378" font-weight="700">工事監理と業務報酬</text>
+<g font-size="12">
+<text x="34" y="400">・工事監理：工事を設計図書と照合し、設計図書のとおりに</text>
+<text x="48" y="418">実施されているか確認すること（2条8項）</text>
+<text x="34" y="440">・設計図書のとおりでないときは、工事施工者に注意し、</text>
+<text x="48" y="458">従わなければ建築主に報告する（18条3項）</text>
+<text x="34" y="480">・業務報酬 ＝ 直接人件費＋特別経費＋直接経費＋間接経費</text>
+<text x="48" y="496" font-size="11" fill="#4b5563">＋技術料等経費（＋消費税）（国交省告示の業務報酬基準）</text>
+</g>
+</svg>

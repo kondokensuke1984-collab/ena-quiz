@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 560" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="560" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">西洋建築史の流れ（代表作と特徴）</text>
+<line x1="104" y1="46" x2="104" y2="496" stroke="#9ca3af" stroke-width="3"/>
+<g font-size="12" font-weight="700" text-anchor="end" fill="#4b5563">
+<text x="94" y="62">ギリシャ</text><text x="94" y="106">ローマ</text><text x="94" y="144">ビザンチン</text><text x="94" y="180">ロマネスク</text><text x="94" y="216">ゴシック</text><text x="94" y="268">ルネサンス</text><text x="94" y="306">バロック</text><text x="94" y="344">19世紀</text><text x="94" y="420">近代</text>
+</g>
+<g fill="#2563eb"><circle cx="104" cy="58" r="5"/><circle cx="104" cy="102" r="5"/><circle cx="104" cy="140" r="5"/><circle cx="104" cy="176" r="5"/><circle cx="104" cy="212" r="5"/><circle cx="104" cy="264" r="5"/><circle cx="104" cy="302" r="5"/><circle cx="104" cy="340" r="5"/><circle cx="104" cy="416" r="5"/></g>
+<g font-size="12">
+<text x="116" y="62"><tspan font-weight="700">パルテノン神殿</tspan>（ドリス式・周柱式・エンタシス）</text>
+<text x="116" y="78" font-size="11" fill="#4b5563">オーダー：ドリス式・イオニア式・コリント式</text>
+<text x="116" y="106"><tspan font-weight="700">パンテオン</tspan>（大ドームと頂部の円窓）、コロッセウム</text>
+<text x="116" y="144"><tspan font-weight="700">ハギア・ソフィア</tspan>（ペンデンティブ・ドーム）</text>
+<text x="116" y="180"><tspan font-weight="700">ピサ大聖堂</tspan>（半円アーチ・厚い壁）</text>
+<text x="116" y="216"><tspan font-weight="700">ノートルダム（パリ）・シャルトル・アミアン</tspan></text>
+<text x="116" y="232" font-size="11" fill="#4b5563">尖頭アーチ・リブヴォールト・フライングバットレス・</text>
+<text x="116" y="246" font-size="11" fill="#4b5563">ステンドグラス、周歩廊と放射状祭室</text>
+<text x="116" y="268"><tspan font-weight="700">フィレンツェ大聖堂のドーム</tspan>（ブルネレスキ）</text>
+<text x="116" y="284" font-size="11" fill="#4b5563">テンピエット（ブラマンテ）、サン・ピエトロ大聖堂</text>
+<text x="116" y="306"><tspan font-weight="700">ヴェルサイユ宮殿</tspan>、サン・カルロ聖堂（ボッロミーニ）</text>
+<text x="116" y="344"><tspan font-weight="700">水晶宮</tspan>（パクストン、鉄とガラス）</text>
+<text x="116" y="360" font-size="11" fill="#4b5563">ウェストミンスター宮殿（ゴシック・リヴァイヴァル）</text>
+<text x="116" y="376" font-size="11" fill="#4b5563">タッセル邸（オルタ、アール・ヌーヴォー）</text>
+<text x="116" y="392" font-size="11" fill="#4b5563">ウィーン郵便貯金局（O.ワーグナー、ウィーン分離派）</text>
+<text x="116" y="420"><tspan font-weight="700">ル・コルビュジエ</tspan>：サヴォア邸（近代建築の五原則）</text>
+<text x="116" y="440"><tspan font-weight="700">ミース</tspan>：バルセロナ・パヴィリオン、ファンズワース邸</text>
+<text x="116" y="460"><tspan font-weight="700">ライト</tspan>：落水荘、グッゲンハイム美術館（螺旋スロープ）</text>
+<text x="116" y="480"><tspan font-weight="700">グロピウス</tspan>：バウハウス校舎、<tspan font-weight="700">リートフェルト</tspan>：シュレーダー邸</text>
+</g>
+<line x1="8" y1="508" x2="472" y2="508" stroke="#e5e7eb" stroke-width="1.5"/>
+<g font-size="12">
+<text x="20" y="530">・近代建築の五原則：ピロティ・屋上庭園・自由な平面・</text>
+<text x="34" y="548">水平連続窓・自由な立面（ル・コルビュジエ）</text>
+</g>
+</svg>

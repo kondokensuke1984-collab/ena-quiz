@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 560" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="560" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">木造軸組の施工（アンカーボルト・筋かい・継手）</text>
+<!-- 土台とアンカーボルト -->
+<text x="20" y="52" font-size="13" font-weight="700">土台とアンカーボルト</text>
+<rect x="20" y="150" width="440" height="34" fill="#d1d5db" stroke="#6b7280"/>
+<path d="M30,132 h210 v-6 h40 v24 h-250 z" fill="#fde68a" stroke="#ca8a04"/>
+<path d="M240,150 v-12 h-0" fill="none"/>
+<path d="M280,126 h170 v24 h-210 v-12 h40 z" fill="#fcd34d" stroke="#ca8a04"/>
+<g fill="#fde68a" stroke="#ca8a04"><rect x="50" y="66" width="14" height="60"/><rect x="150" y="66" width="14" height="60"/><rect x="380" y="66" width="14" height="60"/></g>
+<path d="M64,124 L150,70" stroke="#b45309" stroke-width="5"/>
+<g stroke="#1d4ed8" stroke-width="3">
+<line x1="76" y1="136" x2="76" y2="178"/><line x1="138" y1="136" x2="138" y2="178"/><line x1="272" y1="122" x2="272" y2="178"/><line x1="406" y1="136" x2="406" y2="178"/>
+</g>
+<g font-size="12" fill="#4b5563">
+<text x="92" y="64" text-anchor="middle">耐力壁</text>
+<text x="300" y="104">土台継手：上木</text>
+<text x="300" y="118">（上側）の端部付近</text>
+<path d="M298,112 L276,124" stroke="#4b5563" fill="none"/>
+<text x="232" y="148" text-anchor="end">下木</text>
+</g>
+<g font-size="12" fill="#1d4ed8">
+<text x="20" y="202">●耐力壁の両端の柱の近く ●継手の上木の端部 ●隅角部</text>
+<text x="20" y="220">径12以上・埋込み250以上。ホールダウン用（20kN）は360以上</text>
+</g>
+<line x1="8" y1="234" x2="472" y2="234" stroke="#e5e7eb" stroke-width="1.5"/>
+<!-- 筋かいと間柱 -->
+<text x="20" y="256" font-size="13" font-weight="700">筋かいと間柱</text>
+<rect x="40" y="270" width="12" height="110" fill="#fde68a" stroke="#ca8a04"/>
+<rect x="172" y="270" width="12" height="110" fill="#fde68a" stroke="#ca8a04"/>
+<rect x="108" y="270" width="8" height="110" fill="#fef3c7" stroke="#ca8a04"/>
+<path d="M52,372 L172,278" stroke="#b45309" stroke-width="10"/>
+<rect x="107" y="318" width="10" height="20" fill="#fff" stroke="#dc2626" stroke-dasharray="3 2"/>
+<g font-size="12">
+<text x="200" y="292">・間柱のほうを欠き取り、筋かいは</text>
+<text x="212" y="308">欠かずに通す</text>
+<text x="200" y="330">・片筋かいの壁倍率：</text>
+<text x="212" y="346">30×90は1.5、45×90は2.0</text>
+<text x="200" y="368">・木製火打梁：90×90、傾ぎ大入れ</text>
+<text x="212" y="384">ボルト締め（45×90は不可）</text>
+</g>
+<text x="112" y="396" font-size="12" text-anchor="middle" fill="#dc2626">間柱を欠く</text>
+<line x1="8" y1="408" x2="472" y2="408" stroke="#e5e7eb" stroke-width="1.5"/>
+<g font-size="12">
+<text x="20" y="430" font-weight="700" font-size="13">そのほかの要点</text>
+<text x="34" y="450">・上下階の面材の間（胴差部）は6mm程度以上すき間をあける</text>
+<text x="34" y="470">・追掛け大栓継ぎ：上木の先端が柱心から150程度</text>
+<text x="34" y="490">・ボルト孔の径：ボルト径＋2mm程度以下（径16の例）</text>
+<text x="34" y="510">・防腐・防蟻：地面から1m以内の木部</text>
+<text x="34" y="530">・FNくぎはNくぎの代用にならない（細くて弱い）</text>
+<text x="34" y="550">・建方精度（特記なし）：垂直・水平とも1/1,000以下</text>
+</g>
+</svg>

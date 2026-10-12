@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 440" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="440" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">電圧の区分（電気設備に関する技術基準）</text>
+<g font-size="12" fill="#4b5563"><text x="130" y="58" text-anchor="middle">交流</text><text x="290" y="58" text-anchor="middle">直流</text></g>
+<rect x="20" y="68" width="440" height="40" fill="#dcfce7" stroke="#16a34a"/>
+<text x="30" y="93" font-weight="700" fill="#15803d">低圧</text><text x="130" y="93" text-anchor="middle">600V以下</text><text x="290" y="93" text-anchor="middle">750V以下</text>
+<rect x="20" y="108" width="440" height="40" fill="#fef9c3" stroke="#ca8a04"/>
+<text x="30" y="133" font-weight="700" fill="#854d0e">高圧</text><text x="130" y="133" text-anchor="middle">600V超〜7,000V</text><text x="290" y="133" text-anchor="middle">750V超〜7,000V</text>
+<rect x="20" y="148" width="440" height="40" fill="#fee2e2" stroke="#dc2626"/>
+<text x="30" y="173" font-weight="700" fill="#b91c1c">特別高圧</text><text x="210" y="173" text-anchor="middle">7,000V超（交流・直流とも）</text>
+<text x="380" y="93" font-size="11" fill="#4b5563">100V・200V</text>
+<text x="380" y="133" font-size="11" fill="#4b5563">6,600V</text>
+<text x="380" y="173" font-size="11" fill="#4b5563">22kV・66kV</text>
+<text x="380" y="58" font-size="11" fill="#4b5563">主な使用例</text>
+<line x1="8" y1="206" x2="472" y2="206" stroke="#e5e7eb" stroke-width="1.5"/>
+<text x="20" y="232" font-weight="700">受電の目安（契約電力）</text>
+<g font-size="12">
+<text x="34" y="254">・50kW未満：低圧受電（住宅・小規模店舗）</text>
+<text x="34" y="274">・50kW以上：高圧受電（6.6kV）→ 自家用の受変電設備（キュービクル）</text>
+<text x="34" y="294">・2,000kW以上：特別高圧受電（大規模建築物）</text>
+</g>
+<line x1="8" y1="310" x2="472" y2="310" stroke="#e5e7eb" stroke-width="1.5"/>
+<g font-size="12">
+<text x="20" y="334">・同じ電力なら電圧を高くするほど電流が小さく、電線を細くでき、</text>
+<text x="34" y="352">電圧降下・電力損失も小さくなる</text>
+<text x="20" y="376">・単相3線式100/200V：住宅の一般的な配電方式</text>
+<text x="20" y="400">・接地工事：A種は高圧・特別高圧の機器の外箱など、</text>
+<text x="34" y="418">D種は300V以下の低圧の機器（C種は300V超の低圧）</text>
+</g>
+</svg>

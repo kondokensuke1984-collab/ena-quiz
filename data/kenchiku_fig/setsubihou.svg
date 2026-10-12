@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 600" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="600" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">建築設備の規定（建築基準法施行令）</text>
+<!-- 建物の断面 -->
+<rect x="40" y="56" width="120" height="208" fill="#f3f4f6" stroke="#6b7280"/>
+<g stroke="#9ca3af"><line x1="40" y1="82" x2="160" y2="82"/><line x1="40" y1="108" x2="160" y2="108"/><line x1="40" y1="134" x2="160" y2="134"/><line x1="40" y1="160" x2="160" y2="160"/><line x1="40" y1="186" x2="160" y2="186"/><line x1="40" y1="212" x2="160" y2="212"/><line x1="40" y1="238" x2="160" y2="238"/></g>
+<rect x="64" y="56" width="22" height="208" fill="#bfdbfe" stroke="#1d4ed8"/>
+<rect x="86" y="238" width="30" height="26" fill="#fde68a" stroke="#ca8a04"/>
+<line x1="20" y1="264" x2="190" y2="264" stroke="#4b5563" stroke-width="2"/>
+<line x1="30" y1="108" x2="170" y2="108" stroke="#dc2626" stroke-dasharray="5 3"/>
+<path d="M100,56 v-14 M96,46 l4,-6 l4,6" stroke="#4b5563" fill="none"/>
+<g font-size="12">
+<text x="174" y="104" fill="#dc2626">高さ31m</text>
+<text x="110" y="50" fill="#4b5563">避雷設備：20m超</text>
+<text x="75" y="282" text-anchor="middle" fill="#1d4ed8">非常用EV</text>
+<text x="118" y="282" fill="#b45309">乗降ロビー</text>
+</g>
+<g font-size="12">
+<text x="234" y="60" font-weight="700" font-size="13">非常用エレベーター</text>
+<text x="234" y="80">・高さ31m超の建築物に設置</text>
+<text x="234" y="98">・不要：31m超の部分が機械室等だけ</text>
+<text x="246" y="114">／階数4以下で100m²ごとに区画</text>
+<text x="234" y="132">・乗降ロビー：1基につき10m²以上</text>
+<text x="234" y="150">・避難階：ロビー出口から屋外の</text>
+<text x="246" y="166">出口まで歩行距離30m以下</text>
+<text x="234" y="184">・中央管理室で呼戻し・排煙の監視</text>
+<text x="234" y="210" font-weight="700" font-size="13">昇降機・エスカレーター</text>
+<text x="234" y="230">・かごと乗場の床先の距離4cm以下</text>
+<text x="234" y="248">・エスカレーター：勾配30°以下、</text>
+<text x="246" y="266">踏段幅1.1m以下、積載荷重2.6kN/m²</text>
+</g>
+<line x1="8" y1="298" x2="472" y2="298" stroke="#e5e7eb" stroke-width="1.5"/>
+<g font-size="12">
+<text x="20" y="320" font-weight="700" font-size="13">排煙設備</text>
+<text x="34" y="340">・排煙口には手動開放装置が必要（自動開放を付けても）</text>
+<text x="34" y="358">・開放できる窓が床面積の1/50未満の居室は排煙設備が必要</text>
+<text x="34" y="376">・不要：共同住宅の住戸200m²以内／ホテル客室等100m²以内に</text>
+<text x="48" y="392">準耐火構造の床・壁と防火設備で区画</text>
+<text x="20" y="416" font-weight="700" font-size="13">換気設備</text>
+<text x="34" y="436">・自然換気の給気口は天井高さの1/2以下の位置</text>
+<text x="34" y="454">・火気使用室で換気設備が不要：100m²以内の住宅で発熱量</text>
+<text x="48" y="470">12kW以下、開口が床面積の1/10以上（0.8m²以上）</text>
+<text x="34" y="488">・調理室（住宅以外）はこの特例の対象外</text>
+<text x="20" y="512" font-weight="700" font-size="13">配管・煙突</text>
+<text x="34" y="532">・防火区画を貫通する管：貫通部と両側1m以内を不燃材料</text>
+<text x="34" y="550">・煙突の先端：水平1m以内の建築物の軒から60cm以上高く</text>
+<text x="34" y="568">・11階以上の屋上の冷却塔：大臣の構造方法なら不燃以外可</text>
+<text x="34" y="586">・既存不適格：増築部分が基準時の1/2超で非常用EVが必要</text>
+</g>
+</svg>

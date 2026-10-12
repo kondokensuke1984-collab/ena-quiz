@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 600" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="600" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">関係法令の「規模・期限・義務」早見表</text>
+<g font-size="12">
+<rect x="14" y="40" width="452" height="22" fill="#dbeafe"/>
+<text x="22" y="56" font-weight="700" font-size="13" fill="#1e3a8a">建築物省エネ法</text>
+<text x="22" y="80">・令和7年4月から原則すべての新築に省エネ基準の適合義務</text>
+<text x="22" y="98">・増改築は、増改築する部分だけ基準に適合させる</text>
+<text x="22" y="116">・建築士は建築主に省エネ性能を説明する（努力義務）</text>
+<text x="22" y="134">・トップランナー：分譲戸建て年150戸・請負戸建て年300戸・</text>
+<text x="34" y="150">共同住宅（分譲・請負）年1,000戸以上の事業者</text>
+<text x="22" y="168">・性能向上計画の認定：設備部分は延べ面積の1/10まで容積率不算入</text>
+<rect x="14" y="180" width="452" height="22" fill="#dcfce7"/>
+<text x="22" y="196" font-weight="700" font-size="13" fill="#14532d">品確法・住宅瑕疵担保履行法</text>
+<text x="22" y="220">・新築住宅の構造耐力上主要な部分・雨水の浸入を防ぐ部分：</text>
+<text x="34" y="236">引渡しから10年の瑕疵担保責任（特約で20年まで延長可）</text>
+<text x="22" y="254">・設計住宅性能評価書の写しを契約書に添付→その性能で契約</text>
+<text x="22" y="272">・紛争処理：あっせん・調停は一方の申請で可、仲裁は双方の合意</text>
+<rect x="14" y="284" width="452" height="22" fill="#fef3c7"/>
+<text x="22" y="300" font-weight="700" font-size="13" fill="#78350f">建設リサイクル法・建設業法・宅建業法</text>
+<text x="22" y="324">・分別解体の対象：解体80m²以上、新築・増築500m²以上</text>
+<text x="22" y="342">・発注者は工事着手の7日前までに知事に届出</text>
+<text x="22" y="360">・共同住宅の新築工事は、承諾があっても一括下請負は禁止</text>
+<text x="22" y="378">・宅建業：2以上の都道府県に事務所→国土交通大臣の免許</text>
+<rect x="14" y="390" width="452" height="22" fill="#fce7f3"/>
+<text x="22" y="406" font-weight="700" font-size="13" fill="#831843">耐震改修促進法</text>
+<text x="22" y="430">・要緊急安全確認大規模建築物など：耐震診断は義務、改修は努力義務</text>
+<text x="22" y="448">・特定既存耐震不適格建築物：診断・改修とも努力義務</text>
+<text x="34" y="464">（例：病院・事務所は階数3以上かつ1,000m²以上）</text>
+<text x="22" y="482">・計画の認定で、容積率・建蔽率・法27条2項の特例</text>
+<rect x="14" y="494" width="452" height="22" fill="#e0e7ff"/>
+<text x="22" y="510" font-weight="700" font-size="13" fill="#312e81">宅地造成・景観・その他</text>
+<text x="22" y="534">・宅地造成の許可：盛土で1m超の崖、切土で2m超の崖、</text>
+<text x="34" y="550">または面積500m²超など（ちょうどは対象外）</text>
+<text x="22" y="568">・景観計画区域は届出（30日は着手不可）、景観地区は市町村長の認定</text>
+<text x="22" y="586">・石綿：解体前に有無を調査。吹付け石綿の除去は14日前に計画届</text>
+</g>
+</svg>

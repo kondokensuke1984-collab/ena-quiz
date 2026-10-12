@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 450" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="15" fill="#1f2937">
+<rect width="480" height="450" fill="#fff"/>
+<g stroke="#1f2937" stroke-width="2.5" fill="#f3f4f6">
+<rect x="50" y="60" width="120" height="60"/><rect x="50" y="120" width="120" height="60"/><rect x="50" y="180" width="120" height="60"/><rect x="50" y="240" width="120" height="60"/>
+</g>
+<line x1="20" y1="300" x2="200" y2="300" stroke="#1f2937" stroke-width="3"/>
+<g text-anchor="middle" font-weight="700"><text x="110" y="96">4階</text><text x="110" y="156">3階</text><text x="110" y="216">2階</text><text x="110" y="276">1階</text></g>
+<text x="20" y="40" font-size="14" fill="#4b5563">Ai の分布（例：4階建・各階同じ重さ・T＝0.3秒）</text>
+<g fill="#2563eb" fill-opacity=".25" stroke="#2563eb" stroke-width="2">
+<rect x="240" y="72" width="186" height="36"/><rect x="240" y="132" width="155" height="36"/><rect x="240" y="192" width="136" height="36"/><rect x="240" y="252" width="120" height="36"/>
+</g>
+<line x1="240" y1="60" x2="240" y2="300" stroke="#1f2937" stroke-width="1.5"/>
+<g font-size="14"><text x="432" y="95">1.55</text><text x="401" y="155">1.29</text><text x="382" y="215">1.13</text><text x="366" y="275">1.0</text></g>
+<text x="240" y="322" font-size="13" fill="#4b5563">上の階ほど大きい（1階で1.0）</text>
+<line x1="8" y1="338" x2="472" y2="338" stroke="#e5e7eb" stroke-width="1.5"/>
+<text x="20" y="366" font-size="18" font-weight="700">Qi ＝ Ci × ΣWi</text>
+<text x="176" y="366" font-size="13">（ΣWi：i階より上の重量の和）</text>
+<text x="20" y="394" font-size="18" font-weight="700">Ci ＝ Z・Rt・Ai・C0</text>
+<text x="20" y="420" font-size="14">Z：地震地域係数　Rt：振動特性係数（周期が長いと小さくなる）</text>
+<text x="20" y="442" font-size="14">C0：標準せん断力係数（一次設計0.2以上、必要保有水平耐力1.0以上）</text>
+</svg>

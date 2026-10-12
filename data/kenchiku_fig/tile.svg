@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 520" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="520" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">タイル後張りの工法（公共建築工事標準仕様書）</text>
+<g font-size="11" text-anchor="middle">
+<!-- 改良圧着 -->
+<rect x="30" y="48" width="18" height="90" fill="#d1d5db" stroke="#6b7280"/><rect x="48" y="48" width="8" height="90" fill="#fde68a"/><rect x="56" y="48" width="6" height="90" fill="#fde68a" stroke="#ca8a04" stroke-dasharray="2 2"/><rect x="62" y="56" width="10" height="34" fill="#93c5fd" stroke="#1d4ed8"/><rect x="62" y="96" width="10" height="34" fill="#93c5fd" stroke="#1d4ed8"/>
+<text x="52" y="156" font-weight="700" font-size="12">改良圧着張り</text>
+<text x="52" y="170">下地とタイル裏</text>
+<!-- 密着 -->
+<rect x="140" y="48" width="18" height="90" fill="#d1d5db" stroke="#6b7280"/><rect x="158" y="48" width="8" height="90" fill="#fde68a"/><rect x="166" y="56" width="10" height="34" fill="#93c5fd" stroke="#1d4ed8"/><rect x="166" y="96" width="10" height="34" fill="#93c5fd" stroke="#1d4ed8"/>
+<path d="M182,70 l12,0 m-4,-4 l4,4 l-4,4" stroke="#dc2626" fill="none"/>
+<text x="162" y="156" font-weight="700" font-size="12">密着張り</text>
+<text x="162" y="170">下地に塗り振動</text>
+<!-- 改良積上げ -->
+<rect x="250" y="48" width="18" height="90" fill="#d1d5db" stroke="#6b7280"/><rect x="268" y="56" width="8" height="34" fill="#fde68a"/><rect x="268" y="96" width="8" height="34" fill="#fde68a"/><rect x="276" y="56" width="10" height="34" fill="#93c5fd" stroke="#1d4ed8"/><rect x="276" y="96" width="10" height="34" fill="#93c5fd" stroke="#1d4ed8"/>
+<text x="272" y="156" font-weight="700" font-size="12">改良積上げ張り</text>
+<text x="272" y="170">タイル裏に塗る</text>
+<!-- モザイク -->
+<rect x="360" y="48" width="18" height="90" fill="#d1d5db" stroke="#6b7280"/><rect x="378" y="48" width="5" height="90" fill="#fde68a"/>
+<g fill="#93c5fd" stroke="#1d4ed8"><rect x="383" y="52" width="5" height="12"/><rect x="383" y="66" width="5" height="12"/><rect x="383" y="80" width="5" height="12"/><rect x="383" y="94" width="5" height="12"/><rect x="383" y="108" width="5" height="12"/><rect x="383" y="122" width="5" height="12"/></g>
+<text x="400" y="156" font-weight="700" font-size="12">モザイク・マスク張り</text>
+<text x="400" y="170">ユニットタイル</text>
+</g>
+<line x1="8" y1="186" x2="472" y2="186" stroke="#e5e7eb" stroke-width="1.5"/>
+<g font-size="12" fill="#4b5563"><text x="20" y="208">工法</text><text x="250" y="208">1回の塗付け面積</text><text x="380" y="208">張付けまでの時間</text></g>
+<g font-size="12">
+<text x="20" y="232">改良圧着張り</text><text x="250" y="232">2m²以下</text><text x="380" y="232">60分以内</text>
+<text x="20" y="254">密着張り</text><text x="250" y="254">2m²以下</text><text x="380" y="254">20分以内</text>
+<text x="20" y="276">モザイクタイル張り</text><text x="250" y="276">3m²以下</text><text x="380" y="276">20分以内</text>
+<text x="20" y="298">マスク張り</text><text x="250" y="298" fill="#4b5563">（ユニット裏に塗る）</text><text x="380" y="298">5分以内</text>
+<text x="20" y="320">改良積上げ張り</text><text x="250" y="320" fill="#4b5563">1日の張付け高さ</text><text x="380" y="320">1.5m程度まで</text>
+</g>
+<line x1="8" y1="336" x2="472" y2="336" stroke="#e5e7eb" stroke-width="1.5"/>
+<g font-size="12">
+<text x="20" y="360">・密着張りの目地の深さは、タイル厚さの1/2以下</text>
+<text x="20" y="382">・密着張りは上部から下部へ、一段おきに張ってから間を張る</text>
+<text x="20" y="404" font-weight="700" font-size="13">検査</text>
+<text x="34" y="426">・打音検査：浮きの有無を確認</text>
+<text x="34" y="448">・引張接着試験：0.4N/mm²以上、かつコンクリート下地との</text>
+<text x="48" y="466">界面での破壊率が50%以下で合格</text>
+<text x="34" y="488">・試験体の数：100m²ごと（端数含む）に1個以上、全体で3個以上</text>
+<text x="20" y="510" font-size="11" fill="#4b5563">※数値は仕様書・JASS19の版により異なることがある</text>
+</g>
+</svg>

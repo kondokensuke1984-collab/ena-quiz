@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 500" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<defs><marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#dc2626"/></marker></defs>
+<rect width="480" height="500" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">型枠の側圧と支保工</text>
+<rect x="40" y="50" width="14" height="190" fill="#d6b48a" stroke="#92400e"/>
+<rect x="54" y="50" width="70" height="190" fill="#d1d5db"/>
+<rect x="124" y="50" width="14" height="190" fill="#d6b48a" stroke="#92400e"/>
+<path d="M138,50 L138,240 L218,240 Z" fill="#fee2e2" stroke="#dc2626"/>
+<g stroke="#dc2626" stroke-width="2" marker-end="url(#r)"><line x1="138" y1="110" x2="162" y2="110"/><line x1="138" y1="160" x2="180" y2="160"/><line x1="138" y1="210" x2="200" y2="210"/></g>
+<text x="60" y="44" font-size="11">打込み高さ H</text>
+<text x="150" y="258" font-size="12" fill="#dc2626" font-weight="700">側圧 ＝ W₀ × H</text>
+<text x="150" y="274" font-size="11" fill="#4b5563">（液圧として計算した最大値）</text>
+<text x="240" y="62" font-size="12" font-weight="700">側圧が大きくなる条件</text>
+<g font-size="12">
+<text x="250" y="86">・打込み速さが速い</text>
+<text x="250" y="106">・打込み高さが高い</text>
+<text x="250" y="126">・スランプが大きい</text>
+<text x="250" y="146">・気温・コンクリート温度が低い</text>
+<text x="250" y="166">・単位容積質量が大きい</text>
+<text x="250" y="186">・振動機で締め固める</text>
+</g>
+<text x="240" y="214" font-size="11" fill="#4b5563">打込み速さ10m/h以下・高さ1.5m以下なら</text>
+<text x="240" y="228" font-size="11" fill="#4b5563">柱と壁の側圧は同じ値でよい（JASS5）</text>
+<line x1="8" y1="292" x2="472" y2="292" stroke="#e5e7eb" stroke-width="1.5"/>
+<text x="20" y="316" font-weight="700">支保工（労働安全衛生規則242条）</text>
+<g font-size="12">
+<text x="34" y="338">・パイプサポートは3本以上継いで使わない</text>
+<text x="34" y="358">・継ぐときは4本以上のボルトか専用の金具で固定</text>
+<text x="34" y="378">・パイプサポートの高さが3.5mを超えるときは、高さ2m以内ごとに</text>
+<text x="48" y="396">水平つなぎを2方向に設け、変位を防ぐ</text>
+</g>
+<line x1="8" y1="412" x2="472" y2="412" stroke="#e5e7eb" stroke-width="1.5"/>
+<text x="20" y="436" font-weight="700">せき板・支保工の取外し</text>
+<g font-size="12">
+<text x="34" y="458">・せき板：所定の圧縮強度に達するか、所定の材齢を経てから</text>
+<text x="34" y="478">・スラブ下・梁下の支保工：原則として設計基準強度に達してから</text>
+<text x="48" y="494" font-size="11" fill="#4b5563">または圧縮強度12N/mm²以上で、構造計算により安全を確かめた場合</text>
+</g>
+</svg>

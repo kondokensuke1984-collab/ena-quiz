@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 520" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<defs><marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#dc2626"/></marker></defs>
+<rect width="480" height="520" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">場所打ちコンクリート杭の工法と施工</text>
+<g font-size="11" text-anchor="middle">
+<rect x="20" y="70" width="440" height="140" fill="#e7e5e4"/>
+<rect x="20" y="62" width="440" height="8" fill="#a8a29e"/>
+<rect x="56" y="62" width="48" height="140" fill="#bfdbfe" stroke="#1f2937"/><rect x="52" y="62" width="56" height="26" fill="none" stroke="#1f2937" stroke-width="3"/>
+<text x="80" y="226" font-weight="700" font-size="12">アースドリル</text>
+<text x="80" y="242">安定液で孔壁保護</text><text x="80" y="256">表層だけケーシング</text>
+<rect x="176" y="62" width="48" height="140" fill="#f9fafb" stroke="#1f2937"/><rect x="172" y="62" width="56" height="140" fill="none" stroke="#1f2937" stroke-width="3"/>
+<text x="200" y="226" font-weight="700" font-size="12">オールケーシング</text>
+<text x="200" y="242">全長をケーシングで</text><text x="200" y="256">保護（孔壁崩壊なし）</text>
+<rect x="296" y="62" width="48" height="140" fill="#bfdbfe" stroke="#1f2937"/>
+<line x1="296" y1="56" x2="344" y2="56" stroke="#2563eb" stroke-width="2"/>
+<line x1="356" y1="56" x2="356" y2="90" stroke="#dc2626" stroke-width="1.2" marker-start="url(#r)" marker-end="url(#r)"/>
+<line x1="250" y1="90" x2="380" y2="90" stroke="#2563eb" stroke-dasharray="4 3"/>
+<text x="320" y="226" font-weight="700" font-size="12">リバース</text>
+<text x="320" y="242">孔内水位を地下水位</text><text x="320" y="256">より2m以上高く保つ</text>
+<text x="292" y="100" font-size="10" fill="#2563eb" text-anchor="end">地下水位</text>
+<rect x="410" y="62" width="40" height="80" fill="#f9fafb" stroke="#1f2937"/>
+<text x="430" y="226" font-weight="700" font-size="12">深礎</text>
+<text x="430" y="242">人力等で掘削</text>
+</g>
+<line x1="8" y1="272" x2="472" y2="272" stroke="#e5e7eb" stroke-width="1.5"/>
+<text x="20" y="296" font-weight="700">施工の要点</text>
+<g font-size="12">
+<text x="34" y="318">・支持層の確認：掘削土を土質柱状図・試料と比べる</text>
+<text x="34" y="340">・スライム処理：一次は掘削完了直後（底ざらいバケット等）、</text>
+<text x="48" y="358">二次はコンクリート打込み直前（水中ポンプ・サクション等）</text>
+<text x="34" y="380">・トレミー管の先端は、打込み中つねにコンクリート中に2m以上入れる</text>
+<text x="34" y="402">・安定液は、孔壁保護に必要な範囲でできるだけ低粘性・低比重に</text>
+<text x="48" y="420" fill="#4b5563">（コンクリートと置き換わりやすくする）</text>
+<text x="34" y="442">・杭頭は余盛りし、硬化後（打込みから14日程度）に所定の高さまで</text>
+<text x="48" y="460">はつり取る（上部はレイタンス等で品質が劣るため）</text>
+<text x="34" y="482">・既製杭のセメントミルク工法：根固め液を注入し、支持層には</text>
+<text x="48" y="500">掘削深さと電流値（積分電流値）の変化で到達を確認する</text>
+</g>
+</svg>

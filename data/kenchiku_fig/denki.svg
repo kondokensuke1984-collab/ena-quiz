@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 522" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="522" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">電気設備・防災電源の用語（誘導灯・非常電源・発電）</text>
+<rect x="14" y="48" width="452" height="22" fill="#dbeafe"/>
+<text x="22" y="64" font-weight="700" font-size="13" fill="#1e3a8a">風力発電の系統連系</text>
+<g transform="translate(0,74)"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker></defs><text x="20" y="18" font-size="12" text-anchor="start" fill="#14532d" font-weight="700">DCリンク</text><rect x="90" y="4" width="60" height="26" rx="4" fill="#f1f5f9" stroke="#334155"/><text x="120.0" y="21" font-size="11" text-anchor="middle" fill="#1f2937">発電機</text><path d="M150,17 L172,17" stroke="#334155" stroke-width="1.3" fill="none" marker-end="url(#ah)"/><rect x="174" y="4" width="76" height="26" rx="4" fill="#f1f5f9" stroke="#334155"/><text x="212.0" y="21" font-size="11" text-anchor="middle" fill="#1f2937">直流に変換</text><path d="M250,17 L272,17" stroke="#334155" stroke-width="1.3" fill="none" marker-end="url(#ah)"/><rect x="274" y="4" width="84" height="26" rx="4" fill="#f1f5f9" stroke="#334155"/><text x="316.0" y="21" font-size="11" text-anchor="middle" fill="#1f2937">インバータ</text><path d="M358,17 L380,17" stroke="#334155" stroke-width="1.3" fill="none" marker-end="url(#ah)"/><rect x="382" y="4" width="70" height="26" rx="4" fill="#f1f5f9" stroke="#334155"/><text x="417.0" y="21" font-size="11" text-anchor="middle" fill="#1f2937">系統</text><text x="270" y="46" font-size="11" text-anchor="middle" fill="#14532d">風速が変わっても出力変動の影響を受けにくく、安定した電力にできる</text><text x="20" y="78" font-size="12" text-anchor="start" fill="#7f1d1d" font-weight="700">ACリンク</text><rect x="90" y="64" width="60" height="26" rx="4" fill="#f1f5f9" stroke="#334155"/><text x="120.0" y="81" font-size="11" text-anchor="middle" fill="#1f2937">発電機</text><path d="M150,77 L380,77" stroke="#334155" stroke-width="1.3" fill="none" marker-end="url(#ah)"/><rect x="382" y="64" width="70" height="26" rx="4" fill="#f1f5f9" stroke="#334155"/><text x="417.0" y="81" font-size="11" text-anchor="middle" fill="#1f2937">系統</text><text x="265" y="70" font-size="11" text-anchor="middle" fill="#4b5563">交流のまま連系</text><text x="270" y="106" font-size="11" text-anchor="middle" fill="#7f1d1d">出力変動の影響を受けやすい</text></g>
+<rect x="14" y="196" width="452" height="22" fill="#dcfce7"/>
+<text x="22" y="212" font-weight="700" font-size="13" fill="#14532d">防災用の電源・設備</text>
+<text x="22" y="240" font-size="12">・誘導灯のA級・B級・C級は、表示面の大きさ（縦寸法）と明るさによる区分。予</text>
+<text x="34" y="258" font-size="12">備電源の容量による区分ではない</text>
+<text x="22" y="276" font-size="12">・非常コンセント設備は、単相交流100V・15A以上を供給できるもの</text>
+<text x="22" y="294" font-size="12">・非常電源専用受電設備は、延べ1,000m²以上の特定防火対象物では非常電源に</text>
+<text x="34" y="312" font-size="12">できない</text>
+<text x="22" y="330" font-size="12">・所定の基準に適合する燃料電池設備は、屋内消火栓設備等の非常電源にできる</text>
+<text x="22" y="348" font-size="12">・蓄電池は非常用電源・停電補償・受電電力の平準化・再生可能エネルギーの出力</text>
+<text x="34" y="366" font-size="12">平準化に使う</text>
+<rect x="14" y="374" width="452" height="22" fill="#fef3c7"/>
+<text x="22" y="390" font-weight="700" font-size="13" fill="#78350f">そのほか</text>
+<text x="22" y="418" font-size="12">・アクティブフィルタ：インバータ機器などが出す高調波電流を打ち消して抑える</text>
+<text x="22" y="436" font-size="12">・鉄骨造では、構造体の鉄骨を雷保護の引き下げ導線として利用できる</text>
+<g transform="translate(0,448)"><path d="M60,30 A18,18 0 0,1 96,30 Z" fill="none" stroke="#1f2937" stroke-width="1.6"/><text x="78" y="52" font-size="12" text-anchor="middle" fill="#1f2937">熱感知器</text><path d="M190,30 A18,18 0 0,1 226,30 Z" fill="none" stroke="#1f2937" stroke-width="1.6"/><text x="208" y="27" font-size="12" text-anchor="middle" fill="#1f2937" font-weight="700">S</text><text x="208" y="52" font-size="12" text-anchor="middle" fill="#1f2937">煙感知器（Sを添える）</text><text x="300" y="24" font-size="12" text-anchor="start" fill="#4b5563">配線用図記号</text><text x="300" y="40" font-size="12" text-anchor="start" fill="#4b5563">（JIS C 0303）の例</text></g>
+</svg>

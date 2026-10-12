@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 520" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<defs><marker id="k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker>
+<marker id="rr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#dc2626"/></marker></defs>
+<rect width="480" height="520" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">工程管理と品質管理の手法</text>
+<text x="20" y="52" font-weight="700">ネットワーク工程表</text>
+<g fill="#fff" stroke="#1f2937" stroke-width="2"><circle cx="40" cy="120" r="14"/><circle cx="160" cy="80" r="14"/><circle cx="160" cy="160" r="14"/><circle cx="290" cy="120" r="14"/><circle cx="420" cy="120" r="14"/></g>
+<g font-size="12" text-anchor="middle"><text x="40" y="125">1</text><text x="160" y="85">2</text><text x="160" y="165">3</text><text x="290" y="125">4</text><text x="420" y="125">5</text></g>
+<g stroke="#dc2626" stroke-width="3" marker-end="url(#rr)"><line x1="53" y1="114" x2="145" y2="84"/><line x1="173" y1="86" x2="276" y2="114"/><line x1="304" y1="120" x2="404" y2="120"/></g>
+<g stroke="#1f2937" stroke-width="2" marker-end="url(#k)"><line x1="53" y1="127" x2="145" y2="156"/><line x1="173" y1="155" x2="276" y2="126"/></g>
+<line x1="160" y1="94" x2="160" y2="144" stroke="#1f2937" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#k)"/>
+<g font-size="11"><text x="90" y="88" fill="#dc2626">A 5日</text><text x="220" y="88" fill="#dc2626">C 6日</text><text x="350" y="112" fill="#dc2626">E 4日</text><text x="80" y="160">B 3日</text><text x="222" y="160">D 4日</text><text x="166" y="124" fill="#4b5563">ダミー</text></g>
+<text x="20" y="196" font-size="12"><tspan fill="#dc2626" font-weight="700">クリティカルパス</tspan>：最も時間のかかる経路（A→C→E＝15日）</text>
+<g font-size="11" fill="#4b5563">
+<text x="34" y="214">トータルフロート（TF）が0の作業の連なり。遅れると全体工期が遅れる</text>
+<text x="34" y="230">TF：作業の余裕日数。FF（フリーフロート）は後続作業に影響しない余裕。FF≦TF</text>
+<text x="34" y="246">ダミー：作業の前後関係だけを表す点線（所要時間0）</text>
+</g>
+<line x1="8" y1="262" x2="472" y2="262" stroke="#e5e7eb" stroke-width="1.5"/>
+<text x="20" y="286" font-weight="700">QC七つ道具（品質管理）</text>
+<g font-size="12">
+<text x="34" y="308"><tspan font-weight="700">パレート図</tspan>：不良を項目別に多い順に並べ、重点を見つける</text>
+<text x="34" y="330"><tspan font-weight="700">特性要因図</tspan>：結果（特性）と原因の関係を魚の骨状に整理</text>
+<text x="34" y="352"><tspan font-weight="700">ヒストグラム</tspan>：データの分布（ばらつき）の形を見る</text>
+<text x="34" y="374"><tspan font-weight="700">管理図</tspan>：管理限界線で工程が安定しているかを見る</text>
+<text x="34" y="396"><tspan font-weight="700">散布図</tspan>：2つの特性の相関を見る</text>
+<text x="34" y="418"><tspan font-weight="700">チェックシート</tspan>：データを簡単に記録・集計する</text>
+<text x="34" y="440"><tspan font-weight="700">層別</tspan>：データを機械別・作業者別などに分けて比べる</text>
+</g>
+<line x1="8" y1="456" x2="472" y2="456" stroke="#e5e7eb" stroke-width="1.5"/>
+<g font-size="12">
+<text x="20" y="480">・バーチャート：作業の時期が分かりやすいが、作業間の関係や</text>
+<text x="34" y="498">クリティカルパスが分かりにくい</text>
+<text x="20" y="516" font-size="11" fill="#4b5563">PDCA：計画→実施→確認→処置を繰り返して改善する</text>
+</g>
+</svg>

@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 430" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<defs><marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0L10,5L0,10z" fill="#dc2626"/></marker>
+<marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0L10,5L0,10z" fill="#2563eb"/></marker></defs>
+<rect width="480" height="430" fill="#fff"/>
+<text x="85.0" y="34" text-anchor="middle" font-size="15" font-weight="700">ヒービング</text>
+<path d="M10,60 H80 V150 H160 V260 H10 Z" fill="#e7d8c9"/>
+<line x1="10" y1="60" x2="80" y2="60" stroke="#1f2937" stroke-width="2"/>
+<rect x="77" y="50" width="6" height="160" fill="#1f2937"/>
+<path d="M40,80 C50,240 100,230 120,156" fill="none" stroke="#dc2626" stroke-width="2.5" marker-end="url(#r)"/>
+<path d="M84,150 Q120.0,126 160,150" fill="none" stroke="#dc2626" stroke-width="2.5"/>
+<text x="84" y="116" font-size="11" fill="#4b5563">根切り</text>
+<text x="85.0" y="286" text-anchor="middle" font-size="12">軟らかい粘性土</text>
+<text x="85.0" y="304" text-anchor="middle" font-size="12">背面の土が回り込み</text>
+<text x="85.0" y="322" text-anchor="middle" font-size="12">底面がふくれ上がる</text>
+<text x="245.0" y="34" text-anchor="middle" font-size="15" font-weight="700">ボイリング</text>
+<path d="M170,60 H240 V150 H320 V260 H170 Z" fill="#f5e9c8"/>
+<line x1="170" y1="60" x2="240" y2="60" stroke="#1f2937" stroke-width="2"/>
+<rect x="237" y="50" width="6" height="160" fill="#1f2937"/>
+<path d="M174,82 q8,-5 16,0 t16,0 t16,0" fill="none" stroke="#2563eb" stroke-width="2"/>
+<text x="174" y="100" font-size="11" fill="#2563eb">地下水位</text>
+<path d="M200,110 C210,240 260,230 280,156" fill="none" stroke="#2563eb" stroke-width="2.5" marker-end="url(#b)"/>
+<circle cx="260" cy="142" r="3" fill="#a16207"/><circle cx="266" cy="134" r="2.5" fill="#a16207"/>
+<circle cx="280" cy="142" r="3" fill="#a16207"/><circle cx="286" cy="134" r="2.5" fill="#a16207"/>
+<circle cx="300" cy="142" r="3" fill="#a16207"/><circle cx="306" cy="134" r="2.5" fill="#a16207"/>
+<text x="244" y="120" font-size="11" fill="#4b5563">根切り</text>
+<text x="245.0" y="286" text-anchor="middle" font-size="12">地下水位の高い砂質土</text>
+<text x="245.0" y="304" text-anchor="middle" font-size="12">上向きの水流で</text>
+<text x="245.0" y="322" text-anchor="middle" font-size="12">砂が沸き上がる</text>
+<text x="405.0" y="34" text-anchor="middle" font-size="15" font-weight="700">盤ぶくれ</text>
+<path d="M330,60 H400 V150 H480 V260 H330 Z" fill="#e7d8c9"/>
+<rect x="330" y="175" width="150" height="30" fill="#a8a29e"/>
+<rect x="330" y="205" width="150" height="55" fill="#f5e9c8"/>
+<text x="334" y="194" font-size="11">粘土（水を通しにくい）</text>
+<text x="334" y="252" font-size="11" fill="#2563eb">砂（被圧水）</text>
+<line x1="412" y1="235" x2="412" y2="208" stroke="#2563eb" stroke-width="2.5" marker-end="url(#b)"/>
+<line x1="440" y1="235" x2="440" y2="208" stroke="#2563eb" stroke-width="2.5" marker-end="url(#b)"/>
+<line x1="468" y1="235" x2="468" y2="208" stroke="#2563eb" stroke-width="2.5" marker-end="url(#b)"/>
+<path d="M404,150 Q440.0,128 480,150" fill="none" stroke="#dc2626" stroke-width="2.5"/>
+<line x1="330" y1="60" x2="400" y2="60" stroke="#1f2937" stroke-width="2"/>
+<rect x="397" y="50" width="6" height="125" fill="#1f2937"/>
+<text x="404" y="116" font-size="11" fill="#4b5563">根切り</text>
+<text x="405.0" y="286" text-anchor="middle" font-size="12">難透水層の下の</text>
+<text x="405.0" y="304" text-anchor="middle" font-size="12">被圧地下水の圧力で</text>
+<text x="405.0" y="322" text-anchor="middle" font-size="12">底面が持ち上がる</text>
+<line x1="8" y1="352" x2="472" y2="352" stroke="#e5e7eb" stroke-width="1.5"/>
+<text x="20" y="376" font-size="13">・ヒービング：山留め壁の根入れを深くする、地盤改良をする</text>
+<text x="20" y="398" font-size="13">・ボイリング：止水性の山留め壁の根入れを深くする、地下水位を下げる</text>
+<text x="20" y="420" font-size="13">・盤ぶくれ：ディープウェルなどで被圧地下水の水圧を下げる</text>
+</svg>

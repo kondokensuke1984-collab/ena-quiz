@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 764" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="764" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">ホテル・劇場・商業施設と各部の計画</text>
+<rect x="14" y="48" width="452" height="22" fill="#dbeafe"/>
+<text x="22" y="64" font-weight="700" font-size="13" fill="#1e3a8a">劇場の舞台（平面・客席から見る）</text>
+<g transform="translate(0,74)"><rect x="170" y="10" width="140" height="34" fill="#f1f5f9" stroke="#334155"/><text x="240" y="32" font-size="12" text-anchor="middle" fill="#1f2937">後舞台</text><rect x="170" y="44" width="140" height="56" fill="#fef3c7" stroke="#334155"/><text x="240" y="76" font-size="13" text-anchor="middle" fill="#1f2937" font-weight="700">主舞台</text><rect x="80" y="44" width="90" height="56" fill="#f1f5f9" stroke="#334155"/><text x="125" y="70" font-size="12" text-anchor="middle" fill="#1f2937">下手側舞台</text><text x="125" y="86" font-size="11" text-anchor="middle" fill="#4b5563">（左）</text><rect x="310" y="44" width="90" height="56" fill="#f1f5f9" stroke="#334155"/><text x="355" y="70" font-size="12" text-anchor="middle" fill="#1f2937">上手側舞台</text><text x="355" y="86" font-size="11" text-anchor="middle" fill="#4b5563">（右）</text><path d="M170,100 L310,100" stroke="#dc2626" stroke-width="2.5"/><text x="240" y="116" font-size="11" text-anchor="middle" fill="#dc2626">プロセニアム（額縁）</text><path d="M150,128 Q240,150 330,128 L350,164 Q240,190 130,164 Z" fill="#e0e7ff" stroke="#334155"/><text x="240" y="162" font-size="12" text-anchor="middle" fill="#1f2937">客席</text></g>
+<text x="22" y="284" font-size="12">・客席から舞台を見て右が上手、左が下手</text>
+<text x="22" y="302" font-size="12">・台詞が主体の演劇の可視限界距離は20m程度。客席から舞台への見下ろし角は5</text>
+<text x="34" y="320" font-size="12">〜15°程度</text>
+<text x="22" y="338" font-size="12">・客席へは段階的に暗くし、暗さに慣れやすい赤色系の内装とする</text>
+<rect x="14" y="346" width="452" height="22" fill="#dcfce7"/>
+<text x="22" y="362" font-weight="700" font-size="13" fill="#14532d">ホテル</text>
+<text x="22" y="390" font-size="12">・車椅子使用者用客室のベッドサイドキャビネットは、マットレス上面と同じ程度</text>
+<text x="34" y="408" font-size="12">の高さ（高くしない）</text>
+<text x="22" y="426" font-size="12">・非常用エレベーターは、平常時はサービス用として使える。近くにリネン室等を</text>
+<text x="34" y="444" font-size="12">置ける</text>
+<text x="22" y="462" font-size="12">・シティホテルのPSは客室ごとに分離すると、横引き配管が短く階高を抑えら</text>
+<text x="34" y="480" font-size="12">れ、階ごとの改修もしやすい</text>
+<text x="22" y="498" font-size="12">・宴会場（着席）は1人約2.5m²。大浴場のカランの間隔は隔て板なしで70〜</text>
+<text x="34" y="516" font-size="12">80cm程度（60cmは狭い）</text>
+<rect x="14" y="524" width="452" height="22" fill="#fef3c7"/>
+<text x="22" y="540" font-weight="700" font-size="13" fill="#78350f">商業施設・事務所・その他</text>
+<text x="22" y="568" font-size="12">・防災センターは、消防隊が屋外から到達しやすく、非常用エレベーターに近い位</text>
+<text x="34" y="586" font-size="12">置に</text>
+<text x="22" y="604" font-size="12">・全館避難安全検証の大臣認定（個別認定）は計画変更のたびに再認定が必要→区</text>
+<text x="34" y="622" font-size="12">画変更の多い店舗には不向き</text>
+<text x="22" y="640" font-size="12">・車椅子使用者用駐車スペースは青色の路面塗装で区別。ビル風には出隅を曲面</text>
+<text x="34" y="658" font-size="12">に、常緑の高木を植える</text>
+<text x="22" y="676" font-size="12">・オフィスランドスケープ：固定間仕切なしでローパーティション・家具・植物で</text>
+<text x="34" y="694" font-size="12">区切る。在席率が低ければフリーアドレス</text>
+<text x="22" y="712" font-size="12">・図書館のBDSは図書の無断持出しを防ぐ装置（入室管理ではない）</text>
+<text x="22" y="730" font-size="12">・学校給食の調理室は児童700人で200m²程度は必要（49m²では不足）</text>
+<text x="22" y="748" font-size="12">・事務所ビルの乗用エレベーターの概算：利用対象人員250人程度に1台</text>
+</svg>

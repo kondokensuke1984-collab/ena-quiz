@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 540" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="540" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">日本建築史の流れ（代表作と様式）</text>
+<line x1="96" y1="48" x2="96" y2="440" stroke="#9ca3af" stroke-width="3"/>
+<g font-size="12">
+<g font-weight="700" text-anchor="end" fill="#4b5563">
+<text x="86" y="66">飛鳥</text><text x="86" y="108">奈良</text><text x="86" y="150">平安</text><text x="86" y="212">鎌倉</text><text x="86" y="274">室町</text><text x="86" y="336">桃山</text><text x="86" y="398">江戸</text>
+</g>
+<g fill="#2563eb"><circle cx="96" cy="62" r="5"/><circle cx="96" cy="104" r="5"/><circle cx="96" cy="146" r="5"/><circle cx="96" cy="208" r="5"/><circle cx="96" cy="270" r="5"/><circle cx="96" cy="332" r="5"/><circle cx="96" cy="394" r="5"/></g>
+<text x="110" y="66"><tspan font-weight="700">法隆寺</tspan> 金堂・五重塔（現存最古級の木造建築）</text>
+<text x="110" y="100"><tspan font-weight="700">東大寺</tspan> 法華堂・正倉院（校倉造）、<tspan font-weight="700">唐招提寺</tspan> 金堂</text>
+<text x="110" y="118" fill="#4b5563" font-size="11">伊勢神宮（神明造）・出雲大社（大社造）は古い形式を伝える神社</text>
+<text x="110" y="142"><tspan font-weight="700">平等院鳳凰堂</tspan>（阿弥陀堂、池の中島）、<tspan font-weight="700">中尊寺金色堂</tspan></text>
+<text x="110" y="160" fill="#4b5563" font-size="11">寝殿造（貴族の住宅）、和様の完成</text>
+<text x="110" y="196"><tspan font-weight="700" fill="#b91c1c">大仏様</tspan>：<tspan font-weight="700">東大寺南大門</tspan>、浄土寺浄土堂</text>
+<text x="124" y="212" fill="#4b5563" font-size="11">貫で軸部を固める・挿肘木で軒を支える・化粧屋根裏</text>
+<text x="110" y="232"><tspan font-weight="700" fill="#b91c1c">禅宗様</tspan>：<tspan font-weight="700">円覚寺舎利殿</tspan></text>
+<text x="124" y="248" fill="#4b5563" font-size="11">詰組・扇垂木・花頭窓・鏡天井</text>
+<text x="110" y="274"><tspan font-weight="700">慈照寺銀閣・東求堂同仁斎</tspan>（違い棚・付書院、初期の書院造）</text>
+<text x="110" y="292" fill="#4b5563" font-size="11">鹿苑寺金閣（舎利殿）</text>
+<text x="110" y="328"><tspan font-weight="700">姫路城</tspan>（天守）、<tspan font-weight="700">待庵</tspan>（千利休の草庵茶室、2畳）</text>
+<text x="110" y="346" fill="#4b5563" font-size="11">書院造の完成：光浄院客殿・西本願寺書院</text>
+<text x="110" y="390"><tspan font-weight="700">桂離宮</tspan>（数寄屋風書院）、<tspan font-weight="700">日光東照宮</tspan>（権現造）</text>
+<text x="110" y="408" fill="#4b5563" font-size="11">旧閑谷学校（庶民のための学校）、民家・町家の発達</text>
+</g>
+<line x1="8" y1="456" x2="472" y2="456" stroke="#e5e7eb" stroke-width="1.5"/>
+<g font-size="12">
+<text x="20" y="480">・和様：平安までに日本化した様式（長押で固める、緩い勾配）</text>
+<text x="20" y="502">・大仏様は重源が東大寺再建で、禅宗様は禅宗寺院とともに導入</text>
+<text x="20" y="524">・書院造 → 数寄屋造（茶室の意匠を取り入れた、より自由な書院）</text>
+</g>
+</svg>

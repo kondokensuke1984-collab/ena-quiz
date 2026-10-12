@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 400" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="400" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">傾斜地の建築物（立面）</text>
+<rect x="140" y="80" width="200" height="190" fill="#f3f4f6" stroke="#1f2937" stroke-width="3"/>
+<path d="M140,255 L340,205 L340,255 Z" fill="#a16207" fill-opacity=".35"/>
+<path d="M20,285 L140,255 M340,205 L460,175" stroke="#a16207" stroke-width="3" fill="none"/>
+<line x1="140" y1="255" x2="340" y2="205" stroke="#a16207" stroke-width="3" stroke-dasharray="6 3"/>
+<line x1="110" y1="230" x2="380" y2="230" stroke="#dc2626" stroke-width="2.5"/>
+<text x="384" y="226" fill="#dc2626" font-weight="700">地盤面</text>
+<text x="384" y="244" fill="#dc2626" font-size="12">（平均の高さ）</text>
+<text x="300" y="250" font-size="12" fill="#713f12">接する部分</text>
+<g stroke="#1f2937" stroke-width="1.2"><line x1="100" y1="230" x2="100" y2="80"/><line x1="94" y1="80" x2="106" y2="80"/></g>
+<text x="40" y="160" font-size="12">高さはここから</text>
+<text x="20" y="312" font-size="12" fill="#713f12">地面</text>
+<line x1="8" y1="326" x2="472" y2="326" stroke="#e5e7eb" stroke-width="1.5"/>
+<text x="20" y="350">・地盤面 ＝ 建築物が周囲の地面と接する位置の平均の高さ</text>
+<text x="34" y="370" font-size="12" fill="#4b5563">＝（周囲で地面と接する部分の面積の合計）÷（建築物の周長）</text>
+<text x="20" y="392">・接する位置の高低差が3mを超える → 3m以内ごとに区分して求める</text>
+</svg>

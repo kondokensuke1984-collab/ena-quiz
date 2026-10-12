@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 624" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="624" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">環境工学の用語と指標（温熱・光・色・日照）</text>
+<rect x="14" y="48" width="452" height="22" fill="#dbeafe"/>
+<text x="22" y="64" font-weight="700" font-size="13" fill="#1e3a8a">温熱・空気</text>
+<text x="22" y="92" font-size="12">・clo：着衣の熱抵抗（裸0、背広1）。met：代謝量（椅座安静で約1）</text>
+<text x="22" y="110" font-size="12">・PMV0付近でPPDは最小（約5%）。SET＊は22.2〜25.6℃程度が快適</text>
+<text x="22" y="128" font-size="12">・MRTはグローブ温度・空気温度・気流から。OTは空気温度と平均放射温度の加重</text>
+<text x="34" y="146" font-size="12">平均</text>
+<text x="22" y="164" font-size="12">・WBGT（屋内）＝0.7×湿球温度＋0.3×グローブ温度</text>
+<text x="22" y="182" font-size="12">・放射の不均一は10℃以内、床の表面温度は29℃程度以下</text>
+<text x="22" y="200" font-size="12">・空気齢は小さいほど新鮮な空気。RMR＝労働代謝÷基礎代謝</text>
+<rect x="14" y="208" width="452" height="22" fill="#dcfce7"/>
+<text x="22" y="224" font-weight="700" font-size="13" fill="#14532d">光と色</text>
+<text x="22" y="252" font-size="12">・暗くなると青が明るく赤が暗く見える（プルキンエ現象、感度の山555nm→</text>
+<text x="34" y="270" font-size="12">507nm）</text>
+<text x="22" y="288" font-size="12">・光幕反射は輝度対比を小さくし見えにくくする。照度均斉度＝最小÷平均（また</text>
+<text x="34" y="306" font-size="12">は最大）</text>
+<text x="22" y="324" font-size="12">・色温度は日没前に低く正午に高い。全天空照度は直射日光を含まない（設計用</text>
+<text x="34" y="342" font-size="12">5,000lx）</text>
+<text x="22" y="360" font-size="12">・加法混色の三原色は赤・緑・青、減法混色はシアン・マゼンタ・イエロー</text>
+<text x="22" y="378" font-size="12">・誘目性は赤が最も高い。記憶色は実際より彩度が高くなる。色度は色相と彩度（</text>
+<text x="34" y="396" font-size="12">明度を含まない）</text>
+<text x="22" y="414" font-size="12">・可視光は約380〜780nm。低照度では暖かい色の光が好まれる（クルーゾフ）</text>
+<rect x="14" y="422" width="452" height="22" fill="#fef3c7"/>
+<text x="22" y="438" font-weight="700" font-size="13" fill="#78350f">日照・日射</text>
+<text x="22" y="466" font-size="12">・4時間以上の日影の範囲は、高さより建物の東西方向の幅の影響が大きい</text>
+<text x="22" y="484" font-size="12">・夏至に終日日影の部分が永久日影。日照率＝日照時間÷可照時間</text>
+<text x="22" y="502" font-size="12">・終日日射量：夏至は水平面が最大で南鉛直面は小さい。冬至は南鉛直面が最大</text>
+<text x="22" y="520" font-size="12">・南面は水平ルーバー、西面は垂直ルーバー。西の落葉樹は夏の西日を遮る</text>
+<rect x="14" y="528" width="452" height="22" fill="#e0e7ff"/>
+<text x="22" y="544" font-weight="700" font-size="13" fill="#312e81">音・その他</text>
+<text x="22" y="572" font-size="12">・音の強さは単位面積・単位時間に通るエネルギー。LAeqは変動騒音のエネルギ</text>
+<text x="34" y="590" font-size="12">ー平均</text>
+<text x="22" y="608" font-size="12">・夜間放射＝地表面放射−大気放射。剥離流は角で風が建物から離れる現象</text>
+</svg>

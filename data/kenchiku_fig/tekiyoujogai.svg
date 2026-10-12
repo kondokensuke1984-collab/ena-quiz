@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 414" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="414" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">構造計算の方法と仕様規定の適用除外（令36条）</text>
+<rect x="14" y="46" width="452" height="22" fill="#f3f4f6"/>
+<text x="22" y="61" font-size="12" text-anchor="start" fill="#4b5563">構造計算の方法</text>
+<text x="230" y="61" font-size="12" text-anchor="start" fill="#4b5563">守る仕様規定</text>
+<text x="22" y="81" font-size="12" text-anchor="start" fill="#1f2937">許容応力度計算（ルート1・2）</text>
+<text x="230" y="81" font-size="12" text-anchor="start" fill="#1d4ed8" font-weight="700">すべての仕様規定</text>
+<text x="22" y="101" font-size="12" text-anchor="start" fill="#1f2937">保有水平耐力計算（ルート3）</text>
+<text x="230" y="101" font-size="12" text-anchor="start" fill="#1d4ed8" font-weight="700">一部を除外可（帯筋・鉄筋の継手等）</text>
+<text x="22" y="121" font-size="12" text-anchor="start" fill="#1f2937">限界耐力計算・時刻歴応答解析</text>
+<text x="230" y="121" font-size="12" text-anchor="start" fill="#1d4ed8" font-weight="700">耐久性等関係規定だけ</text>
+<rect x="14" y="138" width="452" height="22" fill="#dbeafe"/>
+<text x="22" y="154" font-weight="700" font-size="13" fill="#1e3a8a">耐久性等関係規定（限界耐力計算でも除外できない）の例</text>
+<text x="22" y="182" font-size="12">・構造設計の原則（36条の3）、木材の品質（41条）、外壁内部等の防腐措置（</text>
+<text x="34" y="200" font-size="12">49条）</text>
+<text x="22" y="218" font-size="12">・コンクリートの材料（72条）・強度（74条）・型枠の取外し（76条）</text>
+<text x="22" y="236" font-size="12">・コンクリートの養生（75条：打込み中と打込み後5日間は2℃以上に保つ）</text>
+<text x="22" y="254" font-size="12">・鉄筋のかぶり厚さ（79条）</text>
+<rect x="14" y="262" width="452" height="22" fill="#dcfce7"/>
+<text x="22" y="278" font-weight="700" font-size="13" fill="#14532d">限界耐力計算なら除外できる仕様規定の例</text>
+<text x="22" y="306" font-size="12">・鉄骨の圧縮材の有効細長比（柱200以下：65条）</text>
+<text x="22" y="324" font-size="12">・鉄骨の柱脚の基礎への緊結（66条）</text>
+<text x="22" y="342" font-size="12">・RC柱の帯筋（77条）、RC梁の複筋・あばら筋の間隔（78条）</text>
+<text x="22" y="362" font-size="12" fill="#4b5563">・保有水平耐力計算で除外できるのは、鉄筋の継手・定着（73条）、帯筋の径・</text>
+<text x="34" y="380" font-size="12" fill="#4b5563">間隔等（77条2〜6号）など。梁の規定（78条）はプレキャストの梁の接合部だ</text>
+<text x="34" y="398" font-size="12" fill="#4b5563">け</text>
+</svg>

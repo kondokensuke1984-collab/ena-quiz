@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 520" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<defs><marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#2563eb"/></marker></defs>
+<rect width="480" height="520" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">移動等円滑化経路の寸法（バリアフリー法 令19条）</text>
+<text x="20" y="54" font-weight="700">傾斜路（横から見た図）</text>
+<path d="M20,190 L170,140 H260 L410,90 H460 V190 Z" fill="#e5e7eb" stroke="#1f2937" stroke-width="2"/>
+<g stroke="#2563eb" stroke-width="1.5" fill="none"><path d="M70,173 h60 v-20"/></g>
+<text x="80" y="190" font-size="12" fill="#2563eb">12</text><text x="136" y="168" font-size="12" fill="#2563eb">1</text>
+<text x="20" y="140" font-weight="700" fill="#2563eb">勾配 1/12以下</text>
+<text x="20" y="122" font-size="11" fill="#4b5563">高さ16cm以下なら1/8以下</text>
+<line x1="170" y1="112" x2="260" y2="112" stroke="#2563eb" stroke-width="1.5" marker-start="url(#r)" marker-end="url(#r)"/>
+<text x="215" y="102" text-anchor="middle" font-size="12" font-weight="700">踊場 踏幅150cm以上</text>
+<line x1="276" y1="140" x2="276" y2="190" stroke="#2563eb" stroke-width="1.5" marker-start="url(#r)" marker-end="url(#r)"/>
+<text x="284" y="174" font-size="12" font-weight="700">高さ75cm</text>
+<text x="284" y="190" font-size="11" fill="#4b5563">以内ごとに踊場</text>
+<text x="20" y="220" font-size="12">幅：階段に代わるもの120cm以上、階段に併設するもの90cm以上</text>
+<line x1="8" y1="236" x2="472" y2="236" stroke="#e5e7eb" stroke-width="1.5"/>
+<g font-size="13">
+<text x="20" y="262">出入口の幅</text><text x="440" y="262" text-anchor="end" font-weight="700">80cm以上</text>
+<text x="20" y="286">廊下等の幅</text><text x="440" y="286" text-anchor="end" font-weight="700">120cm以上</text>
+<text x="20" y="310">車椅子の転回できる場所</text><text x="440" y="310" text-anchor="end" font-weight="700">50m以内ごと</text>
+<text x="20" y="334">エレベーター 籠・昇降路の出入口の幅</text><text x="440" y="334" text-anchor="end" font-weight="700">80cm以上</text>
+<text x="20" y="358">エレベーター 籠の奥行き</text><text x="440" y="358" text-anchor="end" font-weight="700">135cm以上</text>
+<text x="20" y="382">乗降ロビーの幅・奥行き</text><text x="440" y="382" text-anchor="end" font-weight="700">150cm以上</text>
+<text x="20" y="406">敷地内の通路の幅</text><text x="440" y="406" text-anchor="end" font-weight="700">120cm以上</text>
+<text x="20" y="430">車椅子使用者用駐車施設の幅</text><text x="440" y="430" text-anchor="end" font-weight="700">350cm以上</text>
+</g>
+<line x1="8" y1="446" x2="472" y2="446" stroke="#e5e7eb" stroke-width="1.5"/>
+<text x="20" y="470" font-size="12">・経路に階段・段を設けない（傾斜路や昇降機を併設すれば可）</text>
+<text x="20" y="490" font-size="12">・戸は車椅子で開閉しやすい構造とし、前後に高低差をつけない</text>
+<text x="20" y="512" font-size="11" fill="#4b5563">※法令の最低限度。建築設計標準・誘導基準ではより広い寸法が望ましいとされる</text>
+</svg>

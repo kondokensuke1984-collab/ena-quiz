@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 600" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="600" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">屋上の防水と保護コンクリート（標準仕様書）</text>
+<!-- 断面 -->
+<rect x="20" y="50" width="26" height="110" fill="#d1d5db" stroke="#6b7280"/>
+<rect x="20" y="160" width="440" height="22" fill="#d1d5db" stroke="#6b7280"/>
+<path d="M46,60 v100 h414" fill="none" stroke="#1d4ed8" stroke-width="4"/>
+<rect x="50" y="128" width="410" height="28" fill="#e5e7eb" stroke="#9ca3af"/>
+<g fill="#fde68a" stroke="#ca8a04"><rect x="94" y="126" width="8" height="32"/><rect x="250" y="126" width="8" height="32"/><rect x="406" y="126" width="8" height="32"/></g>
+<rect x="330" y="150" width="34" height="12" fill="#6b7280"/>
+<path d="M340,162 v24 h14 v-24" fill="#9ca3af" stroke="#4b5563"/>
+<g stroke="#dc2626" fill="none" stroke-width="1.2">
+<path d="M50,112 h48 M50,108 v8 M98,108 v8"/>
+<path d="M98,112 h156 M254,108 v8"/>
+<path d="M46,204 h284 M46,200 v8 M330,200 v8"/>
+</g>
+<g font-size="12" fill="#dc2626">
+<text x="74" y="104" text-anchor="middle">600程度</text>
+<text x="176" y="104" text-anchor="middle">中間は縦横3m程度</text>
+<text x="40" y="222">ドレンは立上りから離す（300程度以上）</text>
+</g>
+<g font-size="12" fill="#4b5563">
+<text x="56" y="76">防水層（青）</text>
+<text x="290" y="120">保護コンクリート</text>
+<text x="340" y="204">縦形ドレンのつばは</text>
+<text x="340" y="220">周囲より30〜50下げる</text>
+<text x="120" y="148">伸縮目地は下面まで</text>
+</g>
+<line x1="8" y1="236" x2="472" y2="236" stroke="#e5e7eb" stroke-width="1.5"/>
+<!-- 下地の角 -->
+<text x="20" y="258" font-size="13" font-weight="700">下地の入隅・出隅</text>
+<g font-size="12">
+<text x="20" y="280" fill="#4b5563">工法</text><text x="290" y="280" fill="#4b5563">入隅</text><text x="380" y="280" fill="#4b5563">出隅</text>
+<text x="20" y="300">アスファルト防水</text><text x="290" y="300" fill="#b45309">面取り</text><text x="380" y="300" fill="#b45309">面取り</text>
+<text x="20" y="320">改質アスファルトシート・</text>
+<text x="20" y="336">合成高分子系シート・塗膜防水</text><text x="290" y="328" fill="#1d4ed8">直角</text><text x="380" y="328" fill="#b45309">面取り</text>
+</g>
+<line x1="8" y1="350" x2="472" y2="350" stroke="#e5e7eb" stroke-width="1.5"/>
+<g font-size="12">
+<text x="20" y="372" font-weight="700" font-size="13">数値と手順</text>
+<text x="34" y="392">・プライマーは十分乾燥（一般に翌日）してから張る</text>
+<text x="34" y="412">・打継ぎ・ひび割れ部：絶縁用テープ50＋増張り300</text>
+<text x="34" y="432">・絶縁工法：砂付あなあきルーフィングは平場だけ。</text>
+<text x="48" y="448">立上り際500程度は密着張り</text>
+<text x="34" y="468">・塗膜防水：補強布の重ね50以上、塗継ぎ100以上。</text>
+<text x="48" y="484">立上り→平場の順に塗る</text>
+<text x="34" y="504">・加硫ゴム系シート：重ね100、立上り取合い150。</text>
+<text x="48" y="520">シートは引っ張らずに張る</text>
+<text x="20" y="546" font-weight="700" font-size="13">シーリング</text>
+<text x="34" y="566">・動く目地＝2面接着（ボンドブレーカー）／誘発目地＝3面</text>
+<text x="34" y="586">・異種の打継ぎ：シリコーン系は後打ち（先打ちすると付かない）</text>
+</g>
+</svg>

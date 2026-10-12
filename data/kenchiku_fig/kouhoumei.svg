@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 224" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="224" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">工法の名前と中身（取り違えやすいもの）</text>
+<rect x="14" y="46" width="452" height="22" fill="#f3f4f6"/>
+<text x="22" y="61" font-size="12" text-anchor="start" fill="#4b5563">工法</text>
+<text x="176" y="61" font-size="12" text-anchor="start" fill="#4b5563">中身</text>
+<text x="22" y="81" font-size="12" text-anchor="start" fill="#1d4ed8" font-weight="700">グリッパー工法</text>
+<text x="176" y="81" font-size="12" text-anchor="start" fill="#1f2937">カーペットを釘付きの木材に引っ掛けて張る</text>
+<text x="22" y="101" font-size="12" text-anchor="start" fill="#1d4ed8" font-weight="700">スリーブ圧着継手</text>
+<text x="176" y="101" font-size="12" text-anchor="start" fill="#1f2937">スリーブを被せ油圧で圧着する鉄筋継手</text>
+<text x="22" y="121" font-size="12" text-anchor="start" fill="#1d4ed8" font-weight="700">トーチ工法</text>
+<text x="176" y="121" font-size="12" text-anchor="start" fill="#1f2937">改質アスファルトシートをバーナーで密着</text>
+<text x="22" y="141" font-size="12" text-anchor="start" fill="#1d4ed8" font-weight="700">バイブロフローテーション</text>
+<text x="176" y="141" font-size="12" text-anchor="start" fill="#1f2937">振動体で砂質地盤を締め固める地盤改良</text>
+<text x="22" y="161" font-size="12" text-anchor="start" fill="#1d4ed8" font-weight="700">リフトアップ工法</text>
+<text x="176" y="161" font-size="12" text-anchor="start" fill="#1f2937">地上で組んだ屋根架構をジャッキで上げる</text>
+<text x="22" y="190" font-size="12" fill="#4b5563">・「スリーブを油圧ジャッキで圧着し、鉄筋の節に食い込ませる継手」をグリッパ</text>
+<text x="34" y="208" font-size="12" fill="#4b5563">ー工法とするのは誤り</text>
+</svg>

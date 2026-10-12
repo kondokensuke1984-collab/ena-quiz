@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 430" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="15" fill="#1f2937">
+<defs><pattern id="ins" width="10" height="10" patternUnits="userSpaceOnUse"><rect width="10" height="10" fill="#fef3c7"/><path d="M0,5 Q2.5,0 5,5 T10,5" fill="none" stroke="#d97706" stroke-width="1"/></pattern>
+<marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#dc2626"/></marker></defs>
+<rect width="480" height="430" fill="#fff"/>
+<rect x="90" y="40" width="120" height="250" fill="#e5e7eb"/>
+<rect x="210" y="40" width="60" height="250" fill="url(#ins)"/>
+<rect x="270" y="40" width="26" height="250" fill="#f5f5f4"/>
+<g stroke="#6b7280" stroke-width="1.5"><line x1="90" y1="40" x2="90" y2="290"/><line x1="210" y1="40" x2="210" y2="290"/><line x1="270" y1="40" x2="270" y2="290"/><line x1="296" y1="40" x2="296" y2="290"/></g>
+<polyline points="20,280 62,280 90,268 210,255 270,90 296,82 330,60 460,60" fill="none" stroke="#dc2626" stroke-width="4" stroke-linejoin="round"/>
+<g font-size="14"><text x="22" y="270">屋外 0℃</text><text x="372" y="50">室内 20℃</text></g>
+<g text-anchor="middle" font-size="13"><text x="150" y="310">コンクリート</text><text x="240" y="310">断熱材</text><text x="283" y="310">ボード</text></g>
+<line x1="356" y1="166" x2="248" y2="170" stroke="#dc2626" stroke-width="1.5" marker-end="url(#r)"/>
+<text x="310" y="150" font-size="14" fill="#dc2626">温度勾配が急な層</text>
+<text x="310" y="190" font-size="13" fill="#dc2626">＝ 熱伝導率が小さい</text>
+<text x="310" y="208" font-size="13" fill="#dc2626">（熱を通しにくい）</text>
+<text x="96" y="226" font-size="12" fill="#4b5563">ゆるやか＝熱を通しやすい</text>
+<text x="300" y="96" font-size="12" fill="#4b5563">表面で温度が変わる</text>
+<text x="300" y="112" font-size="12" fill="#4b5563">（表面熱伝達抵抗）</text>
+<line x1="8" y1="326" x2="472" y2="326" stroke="#e5e7eb" stroke-width="1.5"/>
+<text x="20" y="352">定常状態では、どの層にも同じ熱流 q が流れる</text>
+<text x="20" y="384" font-size="17" font-weight="700">熱貫流抵抗 R ＝ 1/αo ＋ Σ(d／λ) ＋ 1/αi</text>
+<text x="20" y="414" font-size="17" font-weight="700">熱貫流率 U ＝ 1／R 、 q ＝ U(ti − to)</text>
+</svg>

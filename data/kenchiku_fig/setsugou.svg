@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 552" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="552" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">鉄骨構造の接合部と柱脚</text>
+<rect x="14" y="48" width="452" height="22" fill="#dbeafe"/>
+<text x="22" y="64" font-weight="700" font-size="13" fill="#1e3a8a">高力ボルト摩擦接合（To＝設計ボルト張力）</text>
+<rect x="14" y="78" width="452" height="22" fill="#f3f4f6"/>
+<text x="22" y="93" font-size="12" text-anchor="start" fill="#4b5563"></text>
+<text x="210" y="93" font-size="12" text-anchor="start" fill="#4b5563">長期</text>
+<text x="330" y="93" font-size="12" text-anchor="start" fill="#4b5563">短期</text>
+<text x="22" y="113" font-size="12" text-anchor="start" fill="#1f2937">1面摩擦の許容せん断</text>
+<text x="210" y="113" font-size="12" text-anchor="start" fill="#1f2937">0.3To</text>
+<text x="330" y="113" font-size="12" text-anchor="start" fill="#1f2937">0.45To（1.5倍）</text>
+<text x="22" y="133" font-size="12" text-anchor="start" fill="#1f2937">2面摩擦の許容せん断</text>
+<text x="210" y="133" font-size="12" text-anchor="start" fill="#1f2937">0.6To（2倍）</text>
+<text x="330" y="133" font-size="12" text-anchor="start" fill="#1f2937">0.9To</text>
+<text x="22" y="162" font-size="12">・すべるまでは摩擦で伝え、ボルトにせん断は生じない</text>
+<text x="22" y="180" font-size="12">・2面摩擦2本と1面摩擦4本は同じ耐力（摩擦面の数×本数）</text>
+<text x="22" y="198" font-size="12">・引張を同時に受けると許容せん断は低減。すべり耐力以下の繰返しは張力低下を</text>
+<text x="34" y="216" font-size="12">考えなくてよい</text>
+<text x="22" y="234" font-size="12">・溶接との併用：ボルトを先に締めたときだけ耐力を加算できる</text>
+<text x="22" y="252" font-size="12">・肌すき1mm以下ならフィラープレート不要</text>
+<text x="22" y="270" font-size="12">・最小縁端距離は自動ガス切断縁のほうが手動より小さい</text>
+<text x="22" y="288" font-size="12">・山形鋼はボルト本数が多いほど有効断面積が大きい</text>
+<rect x="14" y="296" width="452" height="22" fill="#dcfce7"/>
+<text x="22" y="312" font-weight="700" font-size="13" fill="#14532d">溶接・部材</text>
+<text x="22" y="340" font-size="12">・異なる鋼材の溶接部の許容応力度は、強度の低いほうに合わせる</text>
+<text x="22" y="358" font-size="12">・幅厚比の上限・限界細長比は、Fが大きいほど小さい。ウェブの幅厚比上限はフ</text>
+<text x="34" y="376" font-size="12">ランジより大きい</text>
+<text x="22" y="394" font-size="12">・冷間成形角形鋼管は角部の変形性能が低い。ルート1-1はCo≧0.3で柱を割増し</text>
+<text x="22" y="412" font-size="12">・梁せいがスパンの1/15以下ならたわみ1/250以下を確かめる</text>
+<rect x="14" y="420" width="452" height="22" fill="#fef3c7"/>
+<text x="22" y="436" font-weight="700" font-size="13" fill="#78350f">柱脚</text>
+<text x="22" y="464" font-size="12">・露出柱脚：アンカーボルトの定着長さは径の20倍以上。曲げにも設計する</text>
+<text x="22" y="482" font-size="12">・根巻柱脚：根巻きの高さは柱せいの2.5倍以上</text>
+<text x="22" y="500" font-size="12">・埋込柱脚：埋込み部の上下の支圧で曲げとせん断を伝える</text>
+<text x="22" y="518" font-size="12">・伸び能力のあるアンカーボルト（転造ねじ等）は軸部が降伏するまでねじ部が切</text>
+<text x="34" y="536" font-size="12">れない</text>
+</svg>

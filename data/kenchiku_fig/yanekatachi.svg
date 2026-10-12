@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 626" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="626" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">屋根の形と各部の名前・金属屋根の葺き方</text>
+<g transform="translate(0,42)"><path d="M34,70 h70 v-26 h-70 z" fill="#f5f5f4" stroke="#57534e" stroke-width="1.2"/>
+<path d="M104,70 l26,-13.0 v-26 l-26,13.0 z" fill="#f5f5f4" stroke="#57534e" stroke-width="1.2"/>
+<path d="M104,44 l13.0,-28.5 l13.0,15.5 z" fill="#f5f5f4" stroke="#57534e" stroke-width="1.2"/>
+<path d="M30,44 L43.0,15.5 L117.0,15.5 L106,46 z" fill="#fca5a5" stroke="#991b1b" stroke-width="1.2"/>
+<text x="82" y="94" font-size="13" text-anchor="middle" fill="#1f2937" font-weight="700">切妻</text><text x="82" y="109" font-size="12" text-anchor="middle" fill="#4b5563">2面</text>
+<path d="M184,70 h70 v-26 h-70 z" fill="#f5f5f4" stroke="#57534e" stroke-width="1.2"/>
+<path d="M254,70 l26,-13.0 v-26 l-26,13.0 z" fill="#f5f5f4" stroke="#57534e" stroke-width="1.2"/>
+<path d="M180,44 L202,22 H250 L256,46 z" fill="#fca5a5" stroke="#991b1b" stroke-width="1.2"/>
+<path d="M256,46 L250,22 L267.0,20 L280,31.0 z" fill="#f87171" stroke="#991b1b" stroke-width="1.2"/>
+<text x="232" y="94" font-size="13" text-anchor="middle" fill="#1f2937" font-weight="700">寄棟</text><text x="232" y="109" font-size="12" text-anchor="middle" fill="#4b5563">4面</text>
+<path d="M334,70 h70 v-26 h-70 z" fill="#f5f5f4" stroke="#57534e" stroke-width="1.2"/>
+<path d="M404,70 l26,-13.0 v-26 l-26,13.0 z" fill="#f5f5f4" stroke="#57534e" stroke-width="1.2"/>
+<path d="M330,44 L348,30 H402 L406,46 z" fill="#fca5a5" stroke="#991b1b" stroke-width="1.2"/>
+<path d="M406,46 L402,30 L430,31.0 z" fill="#f87171" stroke="#991b1b" stroke-width="1.2"/>
+<path d="M348,30 L358,14 H410 L402,30 z" fill="#fca5a5" stroke="#991b1b" stroke-width="1.2"/>
+<path d="M402,30 L410,14 L418,24 z" fill="#f5f5f4" stroke="#57534e" stroke-width="1.2"/>
+<text x="382" y="94" font-size="13" text-anchor="middle" fill="#1f2937" font-weight="700">入母屋</text><text x="382" y="109" font-size="12" text-anchor="middle" fill="#4b5563">寄棟の上に切妻</text>
+<path d="M34,188 h70 v-26 h-70 z" fill="#f5f5f4" stroke="#57534e" stroke-width="1.2"/>
+<path d="M104,188 l26,-13.0 v-26 l-26,13.0 z" fill="#f5f5f4" stroke="#57534e" stroke-width="1.2"/>
+<path d="M30,162 L82.0,128 L106,164 z" fill="#fca5a5" stroke="#991b1b" stroke-width="1.2"/>
+<path d="M106,164 L82.0,128 L130,149.0 z" fill="#f87171" stroke="#991b1b" stroke-width="1.2"/>
+<text x="82" y="212" font-size="13" text-anchor="middle" fill="#1f2937" font-weight="700">方形</text><text x="82" y="227" font-size="12" text-anchor="middle" fill="#4b5563">頂点に集まる</text>
+<path d="M184,188 h70 v-26 h-70 z" fill="#f5f5f4" stroke="#57534e" stroke-width="1.2"/>
+<path d="M254,188 l26,-13.0 v-26 l-26,13.0 z" fill="#f5f5f4" stroke="#57534e" stroke-width="1.2"/>
+<path d="M254,162 l26,-13.0 v-16 z" fill="#f5f5f4" stroke="#57534e" stroke-width="1.2"/>
+<path d="M180,164 L206,133.0 H282 L256,164 z" fill="#fca5a5" stroke="#991b1b" stroke-width="1.2"/>
+<text x="232" y="212" font-size="13" text-anchor="middle" fill="#1f2937" font-weight="700">片流れ</text><text x="232" y="227" font-size="12" text-anchor="middle" fill="#4b5563">1面</text>
+<path d="M334,188 h70 v-26 h-70 z" fill="#f5f5f4" stroke="#57534e" stroke-width="1.2"/>
+<path d="M404,188 l26,-13.0 v-26 l-26,13.0 z" fill="#f5f5f4" stroke="#57534e" stroke-width="1.2"/>
+<path d="M332,162 h74 l26,-13.0 h-74 z" fill="#e5e7eb" stroke="#57534e" stroke-width="1.2"/>
+<path d="M332,162 h74 v-5 h-74 z" fill="#d6d3d1" stroke="#57534e"/>
+<text x="382" y="212" font-size="13" text-anchor="middle" fill="#1f2937" font-weight="700">陸屋根</text><text x="382" y="227" font-size="12" text-anchor="middle" fill="#4b5563">ほぼ平ら</text></g>
+<g transform="translate(0,292)"><text x="20" y="10" font-size="12" text-anchor="start" fill="#4b5563">各部の名前（切妻を正面から）</text>
+<path d="M60,90 L150,30 L240,90 z" fill="#fca5a5" stroke="#991b1b"/>
+<path d="M74,90 h152 v50 h-152 z" fill="#f5f5f4" stroke="#57534e"/>
+<path d="M60,90 L150,30 L240,90" fill="none" stroke="#78350f" stroke-width="5"/>
+<path d="M150,30 L290,26" stroke="#4b5563" fill="none" stroke-width="0.8"/>
+<text x="294" y="30" font-size="12" text-anchor="start" fill="#1f2937">棟：いちばん高い所</text>
+<path d="M200,64 L290,52" stroke="#4b5563" fill="none" stroke-width="0.8"/>
+<text x="294" y="56" font-size="12" text-anchor="start" fill="#1f2937">破風・けらば：妻側の端</text>
+<path d="M236,90 L290,78" stroke="#4b5563" fill="none" stroke-width="0.8"/>
+<text x="294" y="82" font-size="12" text-anchor="start" fill="#1f2937">軒先：雨が落ちる側の端</text>
+<path d="M80,115 L290,108" stroke="#4b5563" fill="none" stroke-width="0.8"/>
+<text x="294" y="112" font-size="12" text-anchor="start" fill="#1f2937">妻：三角形の面</text></g>
+<text x="22" y="460" font-size="12">・棟と平行な面を平（ひら）という。平側から入る＝平入、妻側から入る＝妻入</text>
+<g transform="translate(0,472)"><text x="20" y="10" font-size="12" text-anchor="start" fill="#4b5563">金属屋根の葺き方（断面）</text>
+<path d="M20,64 l14,-30 h18 l14,30 h14 l14,-30 h18 l14,30 h14" fill="none" stroke="#1d4ed8" stroke-width="3"/>
+<text x="85" y="92" font-size="13" text-anchor="middle" fill="#1f2937" font-weight="700">折板葺</text><text x="85" y="107" font-size="12" text-anchor="middle" fill="#4b5563">山の部分で固定</text>
+<rect x="196" y="40" width="12" height="24" fill="#fde68a" stroke="#b45309"/><rect x="276" y="40" width="12" height="24" fill="#fde68a" stroke="#b45309"/>
+<path d="M170,64 h24 v-26 h16 v26 h64 v-26 h16 v26 h24" fill="none" stroke="#1d4ed8" stroke-width="3"/>
+<text x="242" y="92" font-size="13" text-anchor="middle" fill="#1f2937" font-weight="700">瓦棒葺</text><text x="242" y="107" font-size="12" text-anchor="middle" fill="#4b5563">心木の上で継ぐ・緩勾配も可</text>
+<path d="M340,64 h40 v-18 l4,-4 l4,4 v18 h40 v-18 l4,-4 l4,4 v18 h20" fill="none" stroke="#1d4ed8" stroke-width="3"/>
+<text x="400" y="92" font-size="13" text-anchor="middle" fill="#1f2937" font-weight="700">立はぜ葺</text><text x="400" y="107" font-size="12" text-anchor="middle" fill="#4b5563">はぜを立てて継ぐ</text></g>
+<text x="22" y="610" font-size="12">・けらば包みの留付け間隔は1.2m以下</text>
+</svg>

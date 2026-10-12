@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 500" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="500" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">建築士でなければできない設計（建築士法3条〜3条の3）</text>
+<text x="20" y="54" font-size="12" fill="#4b5563">工事監理も同じ。新築の場合。上の段ほど上位の資格が必要</text>
+<rect x="20" y="66" width="440" height="128" fill="#fee2e2" stroke="#dc2626"/>
+<text x="30" y="88" font-weight="700" fill="#b91c1c">一級建築士のみ</text>
+<g font-size="12">
+<text x="40" y="110">・学校・病院・劇場・映画館・観覧場・公会堂・集会場・百貨店で</text>
+<text x="52" y="126">延べ面積500m²超</text>
+<text x="40" y="146">・木造で 高さ16m超 または 地階を除く階数4以上</text>
+<text x="40" y="166">・RC造・S造等で 延べ300m²超、高さ16m超 または 階数4以上</text>
+<text x="40" y="186">・延べ1,000m²超 かつ 階数2以上（構造を問わない）</text>
+</g>
+<rect x="20" y="200" width="440" height="84" fill="#ffedd5" stroke="#ea580c"/>
+<text x="30" y="222" font-weight="700" fill="#c2410c">一級または二級建築士（上記以外で）</text>
+<g font-size="12">
+<text x="40" y="244">・RC造・S造等で 延べ30m²超</text>
+<text x="40" y="264">・延べ100m²超（木造は300m²超）または 階数3以上</text>
+</g>
+<rect x="20" y="290" width="440" height="56" fill="#fef9c3" stroke="#ca8a04"/>
+<text x="30" y="312" font-weight="700" fill="#854d0e">一級・二級または木造建築士</text>
+<text x="40" y="334" font-size="12">・木造で 延べ100m²超（上記以外のもの）</text>
+<rect x="20" y="352" width="440" height="34" fill="#f3f4f6" stroke="#9ca3af"/>
+<text x="30" y="374" font-size="12">それ以外（小規模な木造など）は資格がなくても設計できる</text>
+<line x1="8" y1="402" x2="472" y2="402" stroke="#e5e7eb" stroke-width="1.5"/>
+<g font-size="12">
+<text x="20" y="426">・令和2年3月施行の改正前は、木造の一級の範囲が</text>
+<text x="34" y="444" font-weight="700">「高さ13m超 または 軒の高さ9m超」</text>
+<text x="34" y="462">だった（令和元年までの問題は当時の規定で解く）</text>
+<text x="20" y="486">・増築・改築・大規模の修繕等は、その部分を新築するとみなして判断</text>
+</g>
+</svg>

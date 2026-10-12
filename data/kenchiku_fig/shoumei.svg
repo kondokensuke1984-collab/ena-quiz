@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 540" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="540" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">光の単位・照明率と電気の用語</text>
+<rect x="14" y="46" width="452" height="22" fill="#f3f4f6"/>
+<text x="22" y="61" font-size="12" text-anchor="start" fill="#4b5563">量</text>
+<text x="150" y="61" font-size="12" text-anchor="start" fill="#4b5563">単位</text>
+<text x="250" y="61" font-size="12" text-anchor="start" fill="#4b5563">意味</text>
+<text x="22" y="81" font-size="12" text-anchor="start" fill="#1f2937">光束</text>
+<text x="150" y="81" font-size="12" text-anchor="start" fill="#1f2937">lm</text>
+<text x="250" y="81" font-size="12" text-anchor="start" fill="#1f2937">光の量（放射束を比視感度で重み付け）</text>
+<text x="22" y="101" font-size="12" text-anchor="start" fill="#1f2937">光度</text>
+<text x="150" y="101" font-size="12" text-anchor="start" fill="#1f2937">cd</text>
+<text x="250" y="101" font-size="12" text-anchor="start" fill="#1f2937">方向ごとの光の強さ。配光曲線はこれ</text>
+<text x="22" y="121" font-size="12" text-anchor="start" fill="#1f2937">照度</text>
+<text x="150" y="121" font-size="12" text-anchor="start" fill="#1f2937">lx</text>
+<text x="250" y="121" font-size="12" text-anchor="start" fill="#1f2937">面に入る光束（lm/m²）</text>
+<text x="22" y="141" font-size="12" text-anchor="start" fill="#1f2937">輝度</text>
+<text x="150" y="141" font-size="12" text-anchor="start" fill="#1f2937">cd/m²</text>
+<text x="250" y="141" font-size="12" text-anchor="start" fill="#1f2937">見た面の明るさ（照度×反射率に比例）</text>
+<text x="22" y="161" font-size="12" text-anchor="start" fill="#1f2937">光束発散度</text>
+<text x="150" y="161" font-size="12" text-anchor="start" fill="#1f2937">rlx</text>
+<text x="250" y="161" font-size="12" text-anchor="start" fill="#1f2937">面から出る光束＝照度×反射率</text>
+<rect x="14" y="178" width="452" height="22" fill="#dbeafe"/>
+<text x="22" y="194" font-weight="700" font-size="13" fill="#1e3a8a">照明率と光束法</text>
+<text x="22" y="222" font-size="12">・光束法 E＝F×N×U×M÷A（U 照明率、M 保守率）</text>
+<text x="22" y="240" font-size="12">・照明率が上がる：器具効率が高い、室内の反射率が高い、室指数が大きい（広く</text>
+<text x="34" y="258" font-size="12">低い室）</text>
+<text x="22" y="276" font-size="12">・照明率が下がる：配光が広がる。保守率は汚れや劣化を見込む係数</text>
+<text x="22" y="294" font-size="12">・照度センサーは昼光利用、人感センサーは不在の検知。初期照度補正で省エネ</text>
+<rect x="14" y="302" width="452" height="22" fill="#dcfce7"/>
+<text x="22" y="318" font-weight="700" font-size="13" fill="#14532d">光の質</text>
+<text x="22" y="346" font-size="12">・色温度：電球色約2,800K＜昼白色約5,000K。色温度が同じでも演色性は違う</text>
+<text x="34" y="364" font-size="12">ことがある</text>
+<text x="22" y="382" font-size="12">・手術室・診察室は演色性の高い光源。UGRは人工照明の不快グレアの指標</text>
+<text x="22" y="400" font-size="12">・CIE標準曇天空の輝度は高度だけで決まる。照度均斉度が大きいほど均一</text>
+<rect x="14" y="408" width="452" height="22" fill="#fef3c7"/>
+<text x="22" y="424" font-weight="700" font-size="13" fill="#78350f">電気の用語</text>
+<text x="22" y="452" font-size="12">・需要率＝最大需要電力÷設備容量、負荷率＝平均÷最大、不等率＝個々の最大の</text>
+<text x="34" y="470" font-size="12">和÷合成最大</text>
+<text x="22" y="488" font-size="12">・力率＝有効電力÷皮相電力</text>
+<text x="22" y="506" font-size="12">・太陽光発電：アレイ〜パワーコンディショナは直流、その先は交流</text>
+<text x="22" y="524" font-size="12">・発電効率はガスエンジンのほうがガスタービンより高い</text>
+</svg>

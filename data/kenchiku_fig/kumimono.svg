@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 692" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="692" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">組物の種類と寺院の様式（日本建築史）</text>
+<g transform="translate(0,42)"><defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/></marker></defs>
+<text x="20" y="14" font-size="12" fill="#4b5563">正面から見た形（簡単なものから順に）</text>
+<rect x="53" y="96" width="18" height="44" fill="#fde68a" stroke="#b45309" stroke-width="1.2"/>
+<rect x="27.0" y="88" width="70" height="8" rx="4" fill="#fde68a" stroke="#b45309" stroke-width="1.2"/>
+<rect x="20.0" y="77" width="84" height="11" fill="#d6d3d1" stroke="#57534e" stroke-width="1.2"/>
+<text x="62" y="168" font-size="13" font-weight="700" text-anchor="middle">舟肘木</text><text x="62" y="183" font-size="12" text-anchor="middle" fill="#4b5563">柱に肘木を直接</text>
+<rect x="169" y="96" width="18" height="44" fill="#fde68a" stroke="#b45309" stroke-width="1.2"/>
+<path d="M166.0,86 h24 l-3,10 h-18 z" fill="#fbbf24" stroke="#b45309" stroke-width="1.2"/>
+<rect x="142.0" y="78" width="72" height="8" rx="4" fill="#fde68a" stroke="#b45309" stroke-width="1.2"/>
+<rect x="136.0" y="67" width="84" height="11" fill="#d6d3d1" stroke="#57534e" stroke-width="1.2"/>
+<text x="178" y="168" font-size="13" font-weight="700" text-anchor="middle">大斗肘木</text><text x="178" y="183" font-size="12" text-anchor="middle" fill="#4b5563">大斗＋肘木</text>
+<rect x="289" y="96" width="18" height="44" fill="#fde68a" stroke="#b45309" stroke-width="1.2"/>
+<path d="M286.0,86 h24 l-3,10 h-18 z" fill="#fbbf24" stroke="#b45309" stroke-width="1.2"/>
+<rect x="256.0" y="78" width="84" height="8" rx="4" fill="#fde68a" stroke="#b45309" stroke-width="1.2"/>
+<path d="M258.0,69 h16 l-3,9 h-10 z" fill="#fbbf24" stroke="#b45309" stroke-width="1.2"/>
+<path d="M290.0,69 h16 l-3,9 h-10 z" fill="#fbbf24" stroke="#b45309" stroke-width="1.2"/>
+<path d="M322.0,69 h16 l-3,9 h-10 z" fill="#fbbf24" stroke="#b45309" stroke-width="1.2"/>
+<rect x="250.0" y="58" width="96" height="11" fill="#d6d3d1" stroke="#57534e" stroke-width="1.2"/>
+<text x="298" y="168" font-size="13" font-weight="700" text-anchor="middle">平三斗</text><text x="298" y="183" font-size="12" text-anchor="middle" fill="#4b5563">肘木に斗が3つ</text>
+<rect x="405" y="96" width="18" height="44" fill="#fde68a" stroke="#b45309" stroke-width="1.2"/>
+<path d="M402.0,86 h24 l-3,10 h-18 z" fill="#fbbf24" stroke="#b45309" stroke-width="1.2"/>
+<rect x="372.0" y="78" width="84" height="8" rx="4" fill="#fde68a" stroke="#b45309" stroke-width="1.2"/>
+<path d="M374.0,69 h16 l-3,9 h-10 z" fill="#fbbf24" stroke="#b45309" stroke-width="1.2"/>
+<path d="M406.0,69 h16 l-3,9 h-10 z" fill="#fbbf24" stroke="#b45309" stroke-width="1.2"/>
+<path d="M438.0,69 h16 l-3,9 h-10 z" fill="#fbbf24" stroke="#b45309" stroke-width="1.2"/>
+<rect x="408" y="78" width="12" height="8" fill="#f59e0b" stroke="#b45309"/>
+<rect x="366.0" y="58" width="96" height="11" fill="#d6d3d1" stroke="#57534e" stroke-width="1.2"/>
+<text x="414" y="168" font-size="13" font-weight="700" text-anchor="middle">出三斗</text><text x="414" y="183" font-size="12" text-anchor="middle" fill="#4b5563">前にも肘木が出る</text></g>
+<g transform="translate(0,238)"><defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/></marker></defs>
+<text x="20" y="14" font-size="12" fill="#4b5563">横から見た形：肘木を壁から外へ何段持ち出すか（左の点線が壁の面）</text>
+<line x1="56" y1="57" x2="56" y2="148" stroke="#9ca3af" stroke-dasharray="3 3"/>
+<rect x="38" y="104" width="18" height="44" fill="#fde68a" stroke="#b45309" stroke-width="1.2"/>
+<path d="M35.0,94 h24 l-3,10 h-18 z" fill="#fbbf24" stroke="#b45309" stroke-width="1.2"/>
+<rect x="38" y="86" width="48" height="8" rx="4" fill="#fde68a" stroke="#b45309" stroke-width="1.2"/>
+<path d="M75.0,77 h14 l-3,9 h-8 z" fill="#fbbf24" stroke="#b45309" stroke-width="1.2"/>
+<circle cx="82" cy="70" r="7" fill="#d6d3d1" stroke="#57534e" stroke-width="1.2"/>
+<text x="92" y="63" font-size="12" fill="#57534e">丸桁</text>
+<text x="69.0" y="122" font-size="12" text-anchor="middle" fill="#dc2626">一</text>
+<path d="M56,128 h26" stroke="#dc2626" fill="none" marker-end="url(#ar)"/>
+<text x="69.0" y="172" font-size="13" font-weight="700" text-anchor="middle">出組（一手先）</text><text x="69.0" y="187" font-size="12" text-anchor="middle" fill="#4b5563">外へ1段</text>
+<line x1="206" y1="40" x2="206" y2="148" stroke="#9ca3af" stroke-dasharray="3 3"/>
+<rect x="188" y="104" width="18" height="44" fill="#fde68a" stroke="#b45309" stroke-width="1.2"/>
+<path d="M185.0,94 h24 l-3,10 h-18 z" fill="#fbbf24" stroke="#b45309" stroke-width="1.2"/>
+<rect x="188" y="86" width="48" height="8" rx="4" fill="#fde68a" stroke="#b45309" stroke-width="1.2"/>
+<path d="M225.0,77 h14 l-3,9 h-8 z" fill="#fbbf24" stroke="#b45309" stroke-width="1.2"/>
+<rect x="188" y="69" width="74" height="8" rx="4" fill="#fde68a" stroke="#b45309" stroke-width="1.2"/>
+<path d="M251.0,60 h14 l-3,9 h-8 z" fill="#fbbf24" stroke="#b45309" stroke-width="1.2"/>
+<circle cx="258" cy="53" r="7" fill="#d6d3d1" stroke="#57534e" stroke-width="1.2"/>
+<text x="268" y="46" font-size="12" fill="#57534e">丸桁</text>
+<text x="219.0" y="122" font-size="12" text-anchor="middle" fill="#dc2626">一</text>
+<text x="245.0" y="122" font-size="12" text-anchor="middle" fill="#dc2626">二</text>
+<path d="M206,128 h52" stroke="#dc2626" fill="none" marker-end="url(#ar)"/>
+<text x="232.0" y="172" font-size="13" font-weight="700" text-anchor="middle">二手先</text><text x="232.0" y="187" font-size="12" text-anchor="middle" fill="#4b5563">外へ2段</text>
+<line x1="352" y1="23" x2="352" y2="148" stroke="#9ca3af" stroke-dasharray="3 3"/>
+<rect x="334" y="104" width="18" height="44" fill="#fde68a" stroke="#b45309" stroke-width="1.2"/>
+<path d="M331.0,94 h24 l-3,10 h-18 z" fill="#fbbf24" stroke="#b45309" stroke-width="1.2"/>
+<rect x="334" y="86" width="48" height="8" rx="4" fill="#fde68a" stroke="#b45309" stroke-width="1.2"/>
+<path d="M371.0,77 h14 l-3,9 h-8 z" fill="#fbbf24" stroke="#b45309" stroke-width="1.2"/>
+<rect x="334" y="69" width="74" height="8" rx="4" fill="#fde68a" stroke="#b45309" stroke-width="1.2"/>
+<path d="M397.0,60 h14 l-3,9 h-8 z" fill="#fbbf24" stroke="#b45309" stroke-width="1.2"/>
+<rect x="334" y="52" width="100" height="8" rx="4" fill="#fde68a" stroke="#b45309" stroke-width="1.2"/>
+<path d="M423.0,43 h14 l-3,9 h-8 z" fill="#fbbf24" stroke="#b45309" stroke-width="1.2"/>
+<circle cx="430" cy="36" r="7" fill="#d6d3d1" stroke="#57534e" stroke-width="1.2"/>
+<text x="440" y="29" font-size="12" fill="#57534e">丸桁</text>
+<line x1="338" y1="47" x2="446" y2="73" stroke="#92400e" stroke-width="5" stroke-linecap="round"/>
+<text x="426" y="89" font-size="12" fill="#92400e">尾垂木</text>
+<text x="365.0" y="122" font-size="12" text-anchor="middle" fill="#dc2626">一</text>
+<text x="391.0" y="122" font-size="12" text-anchor="middle" fill="#dc2626">二</text>
+<text x="417.0" y="122" font-size="12" text-anchor="middle" fill="#dc2626">三</text>
+<path d="M352,128 h78" stroke="#dc2626" fill="none" marker-end="url(#ar)"/>
+<text x="391.0" y="172" font-size="13" font-weight="700" text-anchor="middle">三手先</text><text x="391.0" y="187" font-size="12" text-anchor="middle" fill="#4b5563">外へ3段・尾垂木</text></g>
+<text x="22" y="460" font-size="12" fill="#1f2937">・組物＝斗（ます）と肘木（ひじき）の組合せ。軒の荷重を柱に伝える</text>
+<text x="22" y="478" font-size="12" fill="#1f2937">・飛鳥様式（法隆寺金堂・五重塔）は雲斗・雲肘木、卍崩しの高欄</text>
+<rect x="14" y="486" width="452" height="22" fill="#dbeafe"/>
+<text x="22" y="502" font-weight="700" font-size="13" fill="#1e3a8a">寺院の様式</text>
+<rect x="14" y="516" width="452" height="22" fill="#f3f4f6"/>
+<text x="22" y="531" font-size="12" text-anchor="start" fill="#4b5563">様式</text>
+<text x="110" y="531" font-size="12" text-anchor="start" fill="#4b5563">特徴（代表例）</text>
+<text x="22" y="551" font-size="12" text-anchor="start" fill="#1f2937">和様</text>
+<text x="110" y="551" font-size="12" text-anchor="start" fill="#1f2937">組物は柱の上だけ、垂木は平行、長押で固める（平等院鳳凰堂）</text>
+<text x="22" y="571" font-size="12" text-anchor="start" fill="#1f2937">大仏様</text>
+<text x="110" y="571" font-size="12" text-anchor="start" fill="#1f2937">挿肘木（柱に差す肘木）・貫・化粧屋根裏（東大寺南大門）</text>
+<text x="22" y="591" font-size="12" text-anchor="start" fill="#1f2937">禅宗様</text>
+<text x="110" y="591" font-size="12" text-anchor="start" fill="#1f2937">詰組（柱間にも組物）・扇垂木・花頭窓・鏡天井（円覚寺舎利殿）</text>
+<text x="22" y="611" font-size="12" text-anchor="start" fill="#1f2937">折衷様</text>
+<text x="110" y="611" font-size="12" text-anchor="start" fill="#1f2937">和様に大仏様・禅宗様の手法を取り入れたもの</text>
+<text x="22" y="640" font-size="12">・扇垂木：垂木を隅で放射状に配る（禅宗様）。平行垂木は和様</text>
+<text x="22" y="658" font-size="12">・桔木（はねぎ）：梃子の原理で長い軒先を小屋裏から支える材</text>
+<text x="22" y="676" font-size="12">・薬師寺東塔は各層に裳階が付く三重塔（奈良時代）</text>
+</svg>

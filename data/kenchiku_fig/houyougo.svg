@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 514" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="514" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">建築基準法の用語（定義でよく問われる所）</text>
+<rect x="14" y="46" width="452" height="22" fill="#f3f4f6"/>
+<text x="22" y="61" font-size="12" text-anchor="start" fill="#4b5563">用語</text>
+<text x="150" y="61" font-size="12" text-anchor="start" fill="#4b5563">含まれる／含まれない</text>
+<text x="22" y="81" font-size="12" text-anchor="start" fill="#1f2937">建築物</text>
+<text x="150" y="81" font-size="12" text-anchor="start" fill="#1f2937">観覧の工作物（屋根なしも）・高架下の店舗は含む</text>
+<text x="22" y="101" font-size="12" text-anchor="start" fill="#1f2937">居室</text>
+<text x="150" y="101" font-size="12" text-anchor="start" fill="#1f2937">調理室・談話室など継続的に使う室は居室</text>
+<text x="22" y="121" font-size="12" text-anchor="start" fill="#1f2937">特殊建築物</text>
+<text x="150" y="121" font-size="12" text-anchor="start" fill="#1f2937">学校（こども園含む）は該当。事務所・警察署は非該当</text>
+<text x="22" y="141" font-size="12" text-anchor="start" fill="#1f2937">建築設備</text>
+<text x="150" y="141" font-size="12" text-anchor="start" fill="#1f2937">消火の設備・小荷物専用昇降機を含む。防火戸は含まない</text>
+<text x="22" y="161" font-size="12" text-anchor="start" fill="#1f2937">主要構造部</text>
+<text x="150" y="161" font-size="12" text-anchor="start" fill="#1f2937">壁・柱・床・はり・屋根・階段。屋外階段・土台は除く</text>
+<text x="22" y="181" font-size="12" text-anchor="start" fill="#1f2937">構造耐力上主要</text>
+<text x="150" y="181" font-size="12" text-anchor="start" fill="#1f2937">土台・最下階の床版も含む</text>
+<text x="22" y="201" font-size="12" text-anchor="start" fill="#1f2937">防火設備</text>
+<text x="150" y="201" font-size="12" text-anchor="start" fill="#1f2937">20分の遮炎性能。特定防火設備は1時間</text>
+<text x="22" y="221" font-size="12" text-anchor="start" fill="#1f2937">防煙壁</text>
+<text x="150" y="221" font-size="12" text-anchor="start" fill="#1f2937">天井から50cm以上下がる不燃材料の垂れ壁</text>
+<text x="22" y="241" font-size="12" text-anchor="start" fill="#1f2937">強化天井／特定天井</text>
+<text x="150" y="241" font-size="12" text-anchor="start" fill="#1f2937">防火上の天井／脱落防止が必要な吊り天井</text>
+<rect x="14" y="258" width="452" height="22" fill="#dbeafe"/>
+<text x="22" y="274" font-weight="700" font-size="13" fill="#1e3a8a">性能の定義</text>
+<text x="22" y="302" font-size="12">・耐火性能：外壁以外の主要構造部は屋内の火災、外壁は屋内・周囲の火災に耐え</text>
+<text x="34" y="320" font-size="12">る</text>
+<text x="22" y="338" font-size="12">・遮炎性能は防火設備の性能。準防火性能は外壁（20分の遮熱）</text>
+<text x="22" y="356" font-size="12">・防火構造の軒裏は30分の遮熱。不燃材料は加熱20分間の性能</text>
+<rect x="14" y="364" width="452" height="22" fill="#dcfce7"/>
+<text x="22" y="380" font-weight="700" font-size="13" fill="#14532d">延焼のおそれ・面積・高さ</text>
+<text x="22" y="408" font-size="12">・延焼のおそれのある部分：道路中心線・隣地境界線から1階3m、2階以上5m以内</text>
+<text x="22" y="426" font-size="12">・同じ敷地の建築物（合計500m²超）は外壁間の中心線から測る</text>
+<text x="22" y="444" font-size="12">・宅配ボックス部分は延べ面積の1/100まで不算入</text>
+<text x="22" y="462" font-size="12">・高い開放性の建築物は端から1m以内を建築面積に入れない</text>
+<text x="22" y="480" font-size="12">・塔屋等は建築面積の1/8以下なら階数に入れない（休憩室などがあれば算入）</text>
+<text x="22" y="498" font-size="12">・避雷設備の高さには屋上部分も入れる</text>
+</svg>

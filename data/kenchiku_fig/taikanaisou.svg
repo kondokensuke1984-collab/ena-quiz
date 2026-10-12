@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 612" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="612" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">耐火性能・内装制限・避難施設の要点</text>
+<rect x="14" y="48" width="452" height="22" fill="#dbeafe"/>
+<text x="22" y="64" font-weight="700" font-size="13" fill="#1e3a8a">構造の性能</text>
+<rect x="14" y="78" width="452" height="22" fill="#f3f4f6"/>
+<text x="22" y="93" font-size="12" text-anchor="start" fill="#4b5563">構造・材料</text>
+<text x="210" y="93" font-size="12" text-anchor="start" fill="#4b5563">求められる性能</text>
+<text x="22" y="113" font-size="12" text-anchor="start" fill="#1f2937">耐火構造</text>
+<text x="210" y="113" font-size="12" text-anchor="start" fill="#1f2937">加熱が終わった後も倒壊・延焼しない</text>
+<text x="22" y="133" font-size="12" text-anchor="start" fill="#1f2937">準耐火構造</text>
+<text x="210" y="133" font-size="12" text-anchor="start" fill="#1f2937">加熱中の所定時間（45分・1時間など）</text>
+<text x="22" y="153" font-size="12" text-anchor="start" fill="#1f2937">防火構造</text>
+<text x="210" y="153" font-size="12" text-anchor="start" fill="#1f2937">外壁・軒裏30分の遮熱など</text>
+<text x="22" y="173" font-size="12" text-anchor="start" fill="#1f2937">準防火性能</text>
+<text x="210" y="173" font-size="12" text-anchor="start" fill="#1f2937">外壁20分の遮熱など</text>
+<text x="22" y="193" font-size="12" text-anchor="start" fill="#1f2937">不燃・準不燃・難燃</text>
+<text x="210" y="193" font-size="12" text-anchor="start" fill="#1f2937">加熱20分・10分・5分の性能</text>
+<text x="22" y="222" font-size="12">・法27条の特殊建築物は、耐火建築物または特定避難時間倒壊等防止建築物</text>
+<text x="22" y="240" font-size="12">・法21条と27条の両方がかかるときは、長いほうの時間で設計</text>
+<text x="22" y="258" font-size="12">・準防火地域：延べ1,500m²超は耐火建築物等、500m²超は準耐火建築物等以上</text>
+<text x="22" y="276" font-size="12">・木造3階建ての共同住宅は1時間準耐火構造。学校は耐火の義務がない規模があ</text>
+<text x="34" y="294" font-size="12">る</text>
+<rect x="14" y="302" width="452" height="22" fill="#dcfce7"/>
+<text x="22" y="318" font-weight="700" font-size="13" fill="#14532d">内装制限</text>
+<text x="22" y="346" font-size="12">・居室は難燃材料以上、通路・階段は準不燃材料以上</text>
+<text x="22" y="364" font-size="12">・自動車車庫は規模によらず準不燃材料以上</text>
+<text x="22" y="382" font-size="12">・住宅の最上階以外の火気使用室は対象（主要構造部が耐火構造なら除く）</text>
+<text x="22" y="400" font-size="12">・せっこうボード：厚さ9mm以上で準不燃、7mm以上で難燃（原紙の厚さに条件）</text>
+<rect x="14" y="408" width="452" height="22" fill="#fef3c7"/>
+<text x="22" y="424" font-weight="700" font-size="13" fill="#78350f">避難施設・仮設</text>
+<text x="22" y="452" font-size="12">・物販店舗の避難階段の幅の合計：最大の階の床面積100m²につき60cm</text>
+<text x="22" y="470" font-size="12">・主要構造部が耐火構造で各階の居室200m²以下・避難上有効なバルコニー等があ</text>
+<text x="34" y="488" font-size="12">れば直通階段1か所</text>
+<text x="22" y="506" font-size="12">・地下街の地下道：幅員5m以上、天井高3m以上、1/8を超える勾配は不可</text>
+<text x="22" y="524" font-size="12">・特別避難階段の階段室は付室以外から屋内に開口を設けない</text>
+<text x="22" y="542" font-size="12">・小学校の両側居室の廊下2.3m以上。学校には非常用照明の義務がない</text>
+<text x="22" y="560" font-size="12">・災害時の応急仮設建築物（1月以内に着手）は法令の適用なし。50m²超は屋根の</text>
+<text x="34" y="578" font-size="12">規定がかかる</text>
+<text x="22" y="596" font-size="12">・定期調査の間隔はおおむね6月〜3年</text>
+</svg>

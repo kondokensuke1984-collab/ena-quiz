@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 608" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif" font-size="13" fill="#1f2937">
+<rect width="480" height="608" fill="#fff"/>
+<text x="20" y="28" font-size="15" font-weight="700">工事請負契約約款と監理業務の要点</text>
+<rect x="14" y="48" width="452" height="22" fill="#dbeafe"/>
+<text x="22" y="64" font-weight="700" font-size="13" fill="#1e3a8a">民間（七会）連合協定 工事請負契約約款</text>
+<text x="22" y="92" font-size="12">・不可抗力による重大な損害は発注者が負担する</text>
+<text x="22" y="110" font-size="12">・施工上避けられない騒音・振動などの第三者への損害は発注者が負担</text>
+<text x="22" y="128" font-size="12">・特許権等の対象の材料・工法を使うときの責任は原則として受注者</text>
+<text x="22" y="146" font-size="12">・共同住宅の新築工事は、承諾があっても一括下請負は禁止</text>
+<text x="22" y="164" font-size="12">・監理技術者・主任技術者の氏名は発注者に書面で通知する</text>
+<text x="22" y="182" font-size="12">・工事用図書どおりでない部分は受注者の負担で修補（工期延長は求められない）</text>
+<text x="22" y="200" font-size="12">・破壊検査は受注者に通知して行う（書面の同意は不要）</text>
+<text x="22" y="218" font-size="12">・部分使用＝引渡し前に使うこと。部分引渡し＝一部を先に引き渡すこと。部分使</text>
+<text x="34" y="236" font-size="12">用の手続き費用は発注者負担</text>
+<text x="22" y="254" font-size="12">・完成検査は受注者が求め、発注者が監理者の立会いのもとで行う</text>
+<text x="22" y="272" font-size="12">・請負代金額が2/3以上減ったときは、受注者は直ちに解除できる</text>
+<text x="22" y="290" font-size="12">・履行の追完の請求先は受注者。協議した事項は書面にして記名・押印</text>
+<rect x="14" y="298" width="452" height="22" fill="#dcfce7"/>
+<text x="22" y="314" font-weight="700" font-size="13" fill="#14532d">四会連合協定 監理業務委託契約約款</text>
+<text x="22" y="342" font-size="12">・監理業務方針の説明を受けた日から7日以内に、修正の協議を請求できる</text>
+<text x="22" y="360" font-size="12">・承諾があっても監理業務の全部を一括して再委託してはならない。再委託先の行</text>
+<text x="34" y="378" font-size="12">為の責任も受託者</text>
+<text x="22" y="396" font-size="12">・委託者に帰責事由がなければ、受託者は損害賠償を請求できない</text>
+<text x="22" y="414" font-size="12">・双方の責めに帰さない事由で業務ができなくなったら、既履行分の報酬を請求で</text>
+<text x="34" y="432" font-size="12">きる</text>
+<text x="22" y="450" font-size="12">・工事請負契約が解除されたときは、催告なしで直ちに書面で解除できる</text>
+<rect x="14" y="458" width="452" height="22" fill="#fef3c7"/>
+<text x="22" y="474" font-weight="700" font-size="13" fill="#78350f">監理者の業務（告示の標準業務）</text>
+<text x="22" y="502" font-size="12">・報告先は建築主。設計者への確認は建築主を通じて行う</text>
+<text x="22" y="520" font-size="12">・施工者が設計図書どおりに施工しないとき→施工者に指摘し、従わなければ建築</text>
+<text x="34" y="538" font-size="12">主に報告</text>
+<text x="22" y="556" font-size="12">・材料・機器や施工計画、請負代金内訳書、支払請求を検討・審査して建築主に報</text>
+<text x="34" y="574" font-size="12">告</text>
+<text x="22" y="592" font-size="12">・工事監理の方法を変えるときは建築主と協議する（施工者の承認ではない）</text>
+</svg>
