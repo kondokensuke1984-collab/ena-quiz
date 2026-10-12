@@ -29,7 +29,6 @@ let forestUnits = null;         // 森で出す単元（data/forest_units.json�
 fetch('data/forest_units.json', { cache: 'no-cache' }).then(r => r.json())
   .then(j => { if (Array.isArray(j.units) && j.units.length) forestUnits = j.units; }).catch(() => {});
 function forestPool() {
-  if (typeof FOREST_QUESTIONS !== 'undefined' && FOREST_QUESTIONS && FOREST_QUESTIONS.length) return FOREST_QUESTIONS.slice();   // 建築は 一問一答
   if (!forestUnits) return QUESTIONS.slice();
   const pool = QUESTIONS.filter(q => {
     const su = SUBJECTS[q.subject] || {};

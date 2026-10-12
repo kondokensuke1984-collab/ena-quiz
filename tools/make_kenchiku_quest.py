@@ -6,7 +6,7 @@
 出力：
   data/questions_kenchiku.json   4択の問題（id は 'kc:<年度>-<番号>'。建築アプリの「メダルを受け取る」と同じ id なので、メダルは二重に増えない）
   data/questions_kenchiku1.json  一問一答（○×）。4択の肢を1つずつ「正しい記述か」で出す（id は 'kc:<年度>-<番号>#<肢>'。建築アプリの一問一答と同じ）
-                                 まよいの森の たたかいは こちらを使う（quest_schools.json の forest）
+                                 クエスト（マップ・まよいの森）は こちらを使う（quest_schools.json の questions）
   data/subjects_kenchiku.json    ダンジョン＝科目、フロア＝分野
   data/quest_schools.json        'kenchiku' の1行を追加（ほかの学校はそのまま）
   data/kenchiku_fig/             解説の図（建築アプリの data/expfig から、使うぶんだけ写す）。問題の explainFigs に [{src, title}]
@@ -96,7 +96,7 @@ for qf in sorted(glob.glob(os.path.join(SRC, 'data/questions/*.json'))):
                 'id': 'kc:%s#%d' % (q['id'], i), 'subject': key, 'month': MONTH,
                 'q': '【' + cat + '】つぎの きじゅつは ただしい？\n\n' + ch,
                 'options': ['⭕ ただしい', '❌ まちがい'], 'answer': 0 if truth else 1, 'keepOrder': True,
-                'explanation': ('⭕ ただしい きじゅつ' if truth else '❌ まちがいの きじゅつ') + '\n' + why,
+                'explanation': ('👉 この きじゅつは ただしい' if truth else '👉 この きじゅつは まちがい') + '\n' + why,
                 **({'explainFigs': figs} if figs else {}),
             })
 
@@ -131,7 +131,7 @@ dump('data/subjects_kenchiku.json', subjects)
 
 qsp = os.path.join(ROOT, 'data/quest_schools.json')
 qs = load(qsp)
-qs['kenchiku'] = {'label': '一級建築士', 'months': [MONTH], 'forest': [MONTH + '1']}
+qs['kenchiku'] = {'label': '一級建築士', 'months': [MONTH], 'questions': [MONTH + '1']}
 with open(qsp, 'w', encoding='utf-8') as f:
     json.dump(qs, f, ensure_ascii=False)
 
