@@ -44,6 +44,13 @@
   #fz-arrow{ position:absolute; left:0; top:0; width:56px; height:56px; display:none; pointer-events:none; }
   #fz-arrow > div{ width:56px; height:56px; border-radius:50%; background:#facc15; border:4px solid #2a1b3d; color:#dc2626; font-size:28px; font-weight:900; display:flex; align-items:center; justify-content:center; box-shadow:0 3px 0 rgba(0,0,0,.35); animation:fzpulse 1s ease-in-out infinite; }
   @keyframes fzpulse{ 50%{ box-shadow:0 0 0 8px rgba(250,204,21,.35); } }
+  .fz-warppanel{ width:min(92vw,420px); text-align:center; }
+  .fz-warpbtn{ display:flex; align-items:center; gap:12px; width:100%; margin-top:8px; padding:12px 14px; border:2px solid #c7d2fe; border-radius:14px; background:#f8fafc; font-family:inherit; font-size:15px; color:var(--ink); cursor:pointer; }
+  .fz-warpbtn:not(:disabled):active{ transform:translateY(2px); }
+  .fz-warpbtn.here{ border-color:#22c55e; background:#f0fdf4; }
+  .fz-warpbtn:disabled{ opacity:.55; cursor:default; }
+  .fz-warpbtn small{ display:block; font-size:11.5px; color:#64748b; font-weight:700; margin-top:2px; }
+  .fz-warpicon{ font-size:28px; width:36px; text-align:center; }
   .fz-dexpanel{ width:min(94vw,640px); max-height:88vh; overflow-y:auto; text-align:center; }
   .fz-dexbar{ height:8px; background:#e2e8f0; border-radius:99px; overflow:hidden; margin-bottom:8px; }
   .fz-dexbar i{ display:block; height:100%; background:linear-gradient(90deg,#a78bfa,#7c3aed); }

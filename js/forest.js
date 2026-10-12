@@ -431,6 +431,46 @@ function enterForest() {
   forestShow(forestArea() === 'beach' ? 'うみべに もどってきた。' : forestArea() === 'seacave' ? 'うみの どうくつに もどってきた。'
     : forestInCastle() ? 'おしろの なかに もどってきた。'
     : save.forest.key ? 'もりに もどってきた。おしろへ いこう！' : 'もりに はいった。どうくつの ばんにんが しろの かぎを もっているらしい…');
+  if (forestPeace()) forestWarpOpen(true);   // 🧭 おしろを クリアした ひとは はじめる ばしょを えらべる
+}
+
+// ── 🧭 いどう（クリアした ステージから はじめられる）──
+//   もり：いつでも　おしろ・うみべ：もりのぬしを たおして へいわに なったら　うみの どうくつ：うみのぬしを たおしたら
+function forestWarps() {
+  return [
+    { area: 'field', icon: '🌲', name: 'もりの キャンプ', pos: FOREST_SPOTS.start, dir: 'down', on: true, msg: '🌲 もりの キャンプに きた。' },
+    { area: 'castle', icon: '🏰', name: 'へいわな おしろ', pos: CASTLE_SPOTS.start, dir: 'up', on: forestPeace(), lock: 'もりのぬしを おしろで たおすと えらべるよ', msg: '🕊 へいわな おしろに きた。' },
+    { area: 'beach', icon: '🌊', name: 'うみべ', pos: BEACH_SPOTS.start, dir: 'up', on: forestPeace(), lock: 'もりのぬしを おしろで たおすと えらべるよ', msg: '🌊 うみべに きた。' },
+    { area: 'seacave', icon: '🕳', name: 'うみの どうくつ', pos: SEACAVE_SPOTS.start, dir: 'up', on: forestUmiPeace(), lock: 'うみのぬしを たおすと えらべるよ', msg: '🕳 うみの どうくつに きた。' },
+  ];
+}
+function forestWarpOpen(onEnter) {
+  forestWarpClose();
+  const w = document.createElement('div');
+  w.id = 'fz-warp'; w.className = 'fz-mapwrap';
+  w.onclick = e => { if (e.target === w) forestWarpClose(); };
+  const here = forestArea();
+  w.innerHTML = '<div class="panel fz-warppanel" onclick="event.stopPropagation()">' +
+    '<div style="font-size:18px; font-weight:800;">🧭 ' + (onEnter ? 'どこから はじめる？' : 'どこへ いく？') + '</div>' +
+    '<div style="font-size:12.5px; color:#64748b; margin:2px 0 10px;">クリアした ステージには すぐ いけるよ</div>' +
+    forestWarps().map((p, i) =>
+      '<button class="fz-warpbtn' + (p.area === here ? ' here' : '') + '"' + (p.on ? ' onclick="forestWarpGo(' + i + ')"' : ' disabled') + '>' +
+        '<span class="fz-warpicon">' + (p.on ? p.icon : '🔒') + '</span>' +
+        '<span style="flex:1; text-align:left;"><b>' + p.name + '</b>' +
+          (p.area === here ? '<small>いま ここに いるよ</small>' : !p.on ? '<small>' + p.lock + '</small>' : '') + '</span>' +
+      '</button>').join('') +
+    '<button class="btn-main" style="margin-top:10px;" onclick="forestWarpClose()">' + (onEnter ? 'このまま つづける' : 'とじる') + '</button>' +
+  '</div>';
+  document.body.appendChild(w);
+}
+function forestWarpClose() { const w = document.getElementById('fz-warp'); if (w) w.remove(); }
+function forestWarpGo(i) {
+  const p = forestWarps()[i];
+  forestWarpClose();
+  if (!p || !p.on || forestBusy) return;
+  if (p.area === forestArea() && p.area !== 'field') return;
+  forestMapOpen = false;
+  forestGoArea(p.area, p.pos, p.dir, p.msg);
 }
 
 // 森の画面を つくって 出す（3D は はじめの 1かいだけ よみこむ）
@@ -452,6 +492,7 @@ function forestShow(msg) {
         '<div style="display:flex; flex-direction:column; gap:6px;">' +
           '<button class="fz-btn" onclick="toggleForestMap()">🗺️ ちず</button>' +
           '<button class="fz-btn" onclick="forestDexOpen()">📖 ずかん</button>' +
+          '<button class="fz-btn" id="fz-warpbtn" onclick="forestWarpOpen()" style="display:none;">🧭 いどう</button>' +
           '<button class="fz-btn" id="fz-music" onclick="forestMusicToggle()"></button>' +
           '<button class="fz-btn" id="fz-leave" onclick="leaveForest()"></button>' +
         '</div>' +
@@ -498,6 +539,8 @@ function forestHud() {
   if (!lv) return;
   lv.textContent = 'ルナ Lv ' + save.lv + '　HP ' + Math.max(0, save.hp) + ' / ' + maxHp();
   document.getElementById('fz-hpbar').style.width = pct(save.hp, maxHp()) + '%';
+  const wb = document.getElementById('fz-warpbtn');
+  if (wb) wb.style.display = forestPeace() ? '' : 'none';
   const f = save.forest;
   document.getElementById('fz-items').textContent =
     (f.key ? '🗝 しろの かぎ　' : '') + (f.tower ? '🗺 ちずが ぜんぶ わかる　' : '') +
@@ -590,6 +633,7 @@ function forestPaint2D(g, ox, oy, cols, rows, k, mini) {
 
 function leaveForest() {
   forestHeld.length = 0;
+  forestWarpClose();
   if (typeof fmStop === 'function') fmStop();
   persist();
   if (forestFromIsland) { location.href = '/game/#island'; return; }
