@@ -2262,7 +2262,7 @@ body.sp-drawing { -webkit-user-select: none; user-select: none; }
   <button id="pet-card" onclick="showPetScreen()"></button>
   <div class="medal-row">
     <button class="medal-bar" id="medal-bar" onclick="showDexScreen()"></button>
-    <a class="island-btn" href="/game/"><span class="island-btn-emoji">🏝</span><span class="island-btn-text">島へいく</span></a>
+    <a class="island-btn" href="/game/" onclick="goIsland(event)"><span class="island-btn-emoji">🏝</span><span class="island-btn-text">島へいく</span></a>
   </div>
   <div class="subject-grid" id="subject-grid"></div>
   <button class="share-btn" id="kid-advice-card" onclick="showKidAdvice()" style="display:none;background:linear-gradient(135deg,#fde68a,#fbbf24);color:#78350f;"></button>
@@ -22813,9 +22813,12 @@ function medalFromServer() {
   return kenchikuPulling;
 }
 // 最初の画面の「島へいく」：建築であずけたメダルがあれば うけとってから（2.5秒まで待つ）島へ
+//   ISLAND_VIDEO の動画を まだ さいごまで見ていなければ、島へいく まえに 動画が はじまる（とじたら 島へ）
 function goIsland(ev) {
   ev.preventDefault();
-  Promise.race([medalFromServer(), new Promise(r => setTimeout(r, 2500))]).finally(() => { location.href = '/game/'; });
+  const pull = medalFromServer();
+  const go = () => Promise.race([pull, new Promise(r => setTimeout(r, 2500))]).finally(() => { location.href = '/game/'; });
+  if (!islandVideoGate(go)) go();
 }
 async function medalFromServerRun() {
   try {
@@ -23445,6 +23448,8 @@ const CHANNEL_VIDEOS = [
     subject:'meishi9', month:'202609' },
   { id:'J88uyY4GIuo', title:'【小4算数】分数をかけて整数に｜ひっくり返して、上は最小公倍数・下は最大公約数（やり直し版）',
     subject:'shobun9', month:'202609' },
+  { id:'BltqmgGVyW4', title:'【小4理科】星はなぜ動く？犯人は地球だった！｜ずんだもん探偵と星の動き',
+    subject:'hoshi10', month:'202610' },
 ];
 // ── 開いたら自動で おすすめ動画 ──
 //   id を入れると、アプリを開いたときに「ふくしゅう どうがだよ！」の案内が出る（見るまで、1日1回）。
@@ -23488,6 +23493,33 @@ function autoVideoShow() {
     try { localStorage.setItem(key, today); } catch (e) {}
     close();
   };
+}
+// ── 島へいくときに 自動で 動画 ──
+//   「島へいく」を おすと、島へ うつる まえに この動画が はじまる（タップした いきおいで 自動再生。
+//   止められた ブラウザでは まん中の ▶ を タップ）。とじると そのまま 島へ。
+//   さいごまで見たら もう出ない。とちゅうで とじたら その日は もう出ず、つぎの日に また出る。
+//   検証：localhost で ?islandvideo=<id> を つけると 期間・きろくに 関係なく 出る
+const ISLAND_VIDEO = {
+  id: 'BltqmgGVyW4',                         // ← 投稿した動画の video_id（星の動き1）
+  from: '2026-10-13', until: '2026-10-31',
+};
+let _islandAfter = null;   // 動画を とじたら よぶ（島へ いく）
+function islandVideoGate(go) {
+  let id = ISLAND_VIDEO.id, force = false;
+  if (/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) {
+    const q = new URLSearchParams(location.search).get('islandvideo'); if (q) { id = q; force = true; }
+  }
+  if (!id || !channelVideo(id)) return false;
+  const d = new Date(), today = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+  const iso = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  if (!force && (iso < ISLAND_VIDEO.from || iso > ISLAND_VIDEO.until)) return false;
+  const key = 'ena_islandvideo_' + id;
+  try { const st = localStorage.getItem(key); if (!force && (st === 'watched' || st === today)) return false; } catch (e) {}
+  try { localStorage.setItem(key, today); } catch (e) {}     // とちゅうで とじても きょうは もう出さない
+  _islandAfter = () => { _islandAfter = null; go(); };
+  _islandAfter.key = key;
+  if (!openChannelVideo(id, { auto: true, prefix: '🏝 島へいく まえに みよう！ ' })) { _islandAfter = null; return false; }
+  return true;
 }
 function channelVideo(id) { return CHANNEL_VIDEOS.find(v => v.id === id) || null; }
 function channelVideosFor(subjectKey) { return CHANNEL_VIDEOS.filter(v => v.subject === subjectKey); }
@@ -23548,12 +23580,13 @@ function loadYTApi() {
 let _cv = null;
 function cvFmt(t) { t = Math.max(0, Math.floor(t || 0)); return Math.floor(t / 60) + ':' + String(t % 60).padStart(2, '0'); }
 
-function openChannelVideo(id) {
+function openChannelVideo(id, opt) {
   const v = channelVideo(id);
   if (!v) return false;                         // 許可リストにない動画は再生しない
+  opt = opt || {};
   cvTeardown();
   const body = document.getElementById('video-modal-body');
-  document.getElementById('video-modal-title').textContent = '📺 ' + v.title;
+  document.getElementById('video-modal-title').textContent = (opt.prefix || '📺 ') + v.title;
   body.classList.add('cv-mode');
   body.innerHTML = `
     <div class="cv-stage" id="cv-stage">
@@ -23579,7 +23612,7 @@ function openChannelVideo(id) {
     <div class="cv-simple-note" id="cv-simple-note" hidden></div>`;
   document.getElementById('video-modal-overlay').classList.add('open');
   const my = { id: v.id, player: null, timer: null, dragging: false, state: -1, tapTimer: null,
-               step: 0, ready: false, slowTimer: null, failTimer: null };
+               step: 0, ready: false, slowTimer: null, failTimer: null, auto: !!opt.auto };
   _cv = my;
   // 検証用：?cvstep=2 / ?cvstep=3 でその段階から始める
   let first = 1;
@@ -23620,7 +23653,8 @@ function cvStartStep(my, step) {
           onReady: () => {
             if (_cv !== my || my.step !== step) return;
             my.ready = true; clearTimeout(my.slowTimer); clearTimeout(my.failTimer);
-            cvNoCaptions(); cvShowPanel('start'); cvTick(); my.timer = setInterval(cvTick, 500);
+            cvNoCaptions(); cvTick(); my.timer = setInterval(cvTick, 500);
+            if (my.auto) cvPlay(); else cvShowPanel('start');   // 島へいく とき：すぐ再生
           },
           onApiChange: () => { if (_cv === my) cvNoCaptions(); },
           onStateChange: e => { if (_cv === my && my.step === step) cvOnState(e.data); },
@@ -23658,7 +23692,8 @@ function cvPlainEmbed(my) {
   const f = document.createElement('iframe');
   f.id = 'cv-player';
   f.src = 'https://www.youtube.com/embed/' + my.id +
-          '?rel=0&modestbranding=1&playsinline=1&cc_load_policy=0&iv_load_policy=3&fs=0&disablekb=1';
+          '?rel=0&modestbranding=1&playsinline=1&cc_load_policy=0&iv_load_policy=3&fs=0&disablekb=1' +
+          (my.auto ? '&autoplay=1' : '');   // 島へいく とき：すぐ再生
   f.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture');
   f.setAttribute('frameborder', '0');
   f.title = 'ずんだもん動画';
@@ -23694,8 +23729,9 @@ function cvShowPanel(kind) {
   const B = (label, fn, main) => `<button class="${main ? 'cv-pbtn-main' : 'cv-pbtn-sub'}" onclick="${fn}">${label}</button>`;
   const close = B('✕ とじる', 'closeVideoModal()', false);
   if (kind === 'start')  { msg.textContent = '';                             btns.innerHTML = B('▶ 再生する', 'cvPlay()', true); }
-  if (kind === 'paused') { msg.textContent = '一時停止中';                   btns.innerHTML = B('▶ つづきから見る', 'cvPlay()', true) + close; }
-  if (kind === 'ended')  { msg.textContent = 'さいごまで見たね！';           btns.innerHTML = B('🔁 もう一度見る', 'cvReplay()', true) + close; }
+  if (kind === 'paused') { msg.textContent = '一時停止中';                   btns.innerHTML = B('▶ つづきから見る', 'cvPlay()', true) + (_islandAfter ? B('🏝 島へいく', 'closeVideoModal()', false) : close); }
+  if (kind === 'ended' && _islandAfter) { msg.textContent = 'さいごまで見たね！'; btns.innerHTML = B('🏝 島へいく', 'closeVideoModal()', true) + B('🔁 もう一度見る', 'cvReplay()', false); }
+  else if (kind === 'ended')  { msg.textContent = 'さいごまで見たね！';           btns.innerHTML = B('🔁 もう一度見る', 'cvReplay()', true) + close; }
   if (kind === 'error')  { const ver = cvBrowserVer(); msg.textContent = 'このiPadでは動画を読みこめませんでした' + (ver ? '（' + ver + '）' : ''); btns.innerHTML = close; }
   if (kind === 'tap')    { panel.hidden = true; return; }
   panel.hidden = false;
@@ -23720,6 +23756,7 @@ function cvOnState(st) {
   } else if (st === 2) {
     cvShowPanel('paused');
   } else if (st === 0) {
+    if (_islandAfter) { try { localStorage.setItem(_islandAfter.key, 'watched'); } catch (e) {} }
     cvShowPanel('ended');
   }
 }
@@ -23821,6 +23858,7 @@ function closeVideoModal(e) {
   const body = document.getElementById('video-modal-body');
   body.innerHTML = '';
   document.getElementById('video-modal-overlay').classList.remove('open');
+  if (_islandAfter) _islandAfter();   // 島へいく まえの 動画だったら、とじたら 島へ
 }
 
 // ============================================================
