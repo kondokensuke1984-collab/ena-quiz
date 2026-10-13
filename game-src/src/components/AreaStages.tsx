@@ -1,6 +1,7 @@
 import React from 'react';
 import { ISLAND_H, ISLAND_W } from '../lib/island';
-import { moonLitPath, type TimeOfDay } from '../lib/sky';
+import { moonLitPath, SYNODIC, type TimeOfDay } from '../lib/sky';
+import { BuildingSVG } from './BuildingSVG';
 
 // となりの島（はなばたけ）と、おうちの中 の地面。座標は島と同じ 1000 x 750。
 
@@ -229,3 +230,176 @@ function SchoolGroundBase({ tod, moonAge, medals, stamps, friends, today }: {
   );
 }
 export const SchoolGround = React.memo(SchoolGroundBase);
+
+// ── 🌕 月の じめん（ロケットで いける。うえは くろい 空と ちきゅう）──
+/** タップすると まめちしき（割合の 座標・はんけい） */
+export const MOON_HITS: { id: string; x: number; y: number; r: number; text: string }[] = [
+  { id: 'earth', x: 0.2, y: 0.17, r: 0.09, text: '' },   // ちきゅうは みちかけで ことばが かわる（IslandScreen で つくる）
+  { id: 'flag', x: 0.44, y: 0.47, r: 0.06, text: '🚩 1969ねん、アポロ11ごうの ひとが はじめて 月を あるいたよ。月には 空気が ないから、はたは よこぼうで ひろげて あるんだ。' },
+  { id: 'c1', x: 0.24, y: 0.68, r: 0.08, text: '🕳️ クレーターは いんせきが ぶつかった あと。月には 雨や かぜが ないから、あとが ずっと のこるよ。' },
+  { id: 'c2', x: 0.6, y: 0.78, r: 0.07, text: '🕳️ 月の いちばん 大きい クレーターは さしわたし 2000km いじょう。にほんが すっぽり はいるくらい！' },
+  { id: 'c3', x: 0.82, y: 0.86, r: 0.05, text: '🦶 月には かぜが ないから、あしあとは なんまんねんも きえずに のこるんだって。' },
+  { id: 'c4', x: 0.12, y: 0.86, r: 0.05, text: '🌡️ 月の ひるは 100ど いじょう、よるは マイナス 170ど。だから うちゅうふくが ひつようだよ。' },
+];
+const MOON_CRATERS = [
+  [240, 510, 70, 26], [600, 585, 60, 22], [820, 645, 36, 13], [120, 645, 34, 12],
+  [400, 640, 22, 8], [720, 470, 26, 9], [520, 470, 16, 6], [920, 520, 20, 7], [330, 715, 18, 6],
+] as const;
+const MOON_STARS = Array.from({ length: 46 }, (_, i) => [(i * 211) % 1000, (i * 97) % 300, i % 7 === 0 ? 2.6 : 1.4] as const);
+
+/** 月から みた ちきゅうは、地球から みた 月と ぎゃくの みちかけ（しんげつの とき まんちきゅう） */
+export function earthAge(moonAge: number): number { return (moonAge + SYNODIC / 2) % SYNODIC; }
+
+function MoonGroundBase({ moonAge }: { moonAge: number }) {
+  const ea = earthAge(moonAge);
+  return (
+    <>
+      <defs>
+        <linearGradient id="moonSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#020617" />
+          <stop offset="100%" stopColor="#1e1b4b" />
+        </linearGradient>
+        <radialGradient id="moonSoil" cx="50%" cy="30%" r="80%">
+          <stop offset="0%" stopColor="#e2e8f0" />
+          <stop offset="100%" stopColor="#94a3b8" />
+        </radialGradient>
+        <clipPath id="earthLit"><path d={moonLitPath(ea, 46)} /></clipPath>
+      </defs>
+      <rect x="0" y="0" width={ISLAND_W} height={ISLAND_H} fill="url(#moonSky)" />
+      {MOON_STARS.map(([x, y, r], i) => <circle key={i} cx={x} cy={y} r={r} fill="#fff" className={i % 3 ? undefined : 'twinkle'} />)}
+      {/* ちきゅう（くらい ところも うっすら みえる） */}
+      <g transform={`translate(${MOON_HITS[0].x * ISLAND_W} ${MOON_HITS[0].y * ISLAND_H})`}>
+        <circle r="56" fill="rgba(96,165,250,0.18)" />
+        <circle r="46" fill="#1e293b" />
+        <g clipPath="url(#earthLit)">
+          <circle r="46" fill="#3b82f6" />
+          <path d="M-30 -20 q12 -14 26 -4 q6 14 -8 20 q-14 4 -18 -16 Z M6 4 q18 -6 26 8 q-4 18 -20 22 q-10 -12 -6 -30 Z" fill="#22c55e" />
+          <path d="M-40 10 q20 -4 34 6 M-10 -36 q20 6 40 -2" stroke="#fff" strokeWidth="5" strokeLinecap="round" fill="none" opacity="0.75" />
+        </g>
+        <text y="70" fontSize="15" fontWeight="900" textAnchor="middle" fill="#bfdbfe">ちきゅう</text>
+      </g>
+      {/* じめん */}
+      <path d={`M0 ${ISLAND_H * 0.42} Q 160 ${ISLAND_H * 0.36} 330 ${ISLAND_H * 0.41} T 680 ${ISLAND_H * 0.4} T 1000 ${ISLAND_H * 0.39} L1000 ${ISLAND_H} L0 ${ISLAND_H} Z`} fill="url(#moonSoil)" />
+      <path d={`M0 ${ISLAND_H * 0.42} Q 160 ${ISLAND_H * 0.36} 330 ${ISLAND_H * 0.41} T 680 ${ISLAND_H * 0.4} T 1000 ${ISLAND_H * 0.39}`} fill="none" stroke="#f8fafc" strokeWidth="4" />
+      {MOON_CRATERS.map(([x, y, rx, ry], i) => (
+        <g key={i}>
+          <ellipse cx={x} cy={y} rx={rx} ry={ry} fill="#94a3b8" stroke="#cbd5e1" strokeWidth="3" />
+          <ellipse cx={x} cy={y + ry * 0.2} rx={rx * 0.78} ry={ry * 0.62} fill="#64748b" />
+        </g>
+      ))}
+      {[[90, 470], [470, 560], [880, 720], [180, 740], [700, 700]].map(([x, y], i) => (
+        <ellipse key={'r' + i} cx={x} cy={y} rx="12" ry="7" fill="#cbd5e1" stroke="#64748b" strokeWidth="2" />
+      ))}
+      {/* はた（よこぼうで ひろげて ある） */}
+      <g transform={`translate(${MOON_HITS[1].x * ISLAND_W} ${MOON_HITS[1].y * ISLAND_H + 30})`}>
+        <ellipse cx="0" cy="2" rx="18" ry="5" fill="rgba(0,0,0,0.2)" />
+        <path d="M0 0 L0 -96 M0 -92 L58 -92" stroke="#e5e7eb" strokeWidth="4" strokeLinecap="round" />
+        <rect x="2" y="-90" width="54" height="34" fill="#fff" stroke="#4c1d95" strokeWidth="2.5" />
+        <circle cx="29" cy="-73" r="9" fill="#dc2626" />
+      </g>
+      {/* おりてきた ロケット */}
+      <g transform={`translate(${0.85 * ISLAND_W} ${0.5 * ISLAND_H})`}>
+        <BuildingSVG id="bd_rocket" />
+      </g>
+    </>
+  );
+}
+export const MoonGround = React.memo(MoonGroundBase);
+
+// ── 🔴 火星の じめん（その日 3教科クリアで いける。空は うすい オレンジ、ゆうやけは あおい）──
+export const MARS_HITS: { id: string; x: number; y: number; r: number; text: string }[] = [
+  { id: 'olympus', x: 0.3, y: 0.33, r: 0.1, text: '🌋 あれは オリンポスさん。たかさ やく 2まん5000m で、たいようけいで いちばん たかい やま。ふじさんの 7ばいくらい！' },
+  { id: 'phobos', x: 0.62, y: 0.12, r: 0.05, text: '🥔 フォボスは 火星の 月。じゃがいもみたいな かたちで、1にちに 3かいも 空を まわるよ。' },
+  { id: 'deimos', x: 0.82, y: 0.2, r: 0.04, text: '🌑 ダイモスは もう ひとつの 火星の 月。さしわたし やく 12km の ちいさな 月だよ。' },
+  { id: 'earth', x: 0.12, y: 0.1, r: 0.05, text: '🌍 あの あおい ほしが ちきゅう！ 火星から みると、よあけや ゆうがたに ひかる ほしに みえるよ。' },
+  { id: 'rover', x: 0.56, y: 0.6, r: 0.07, text: '🤖 たんさしゃ（ローバー）が つちや いわを しらべて いるよ。むかしの 火星には 水が ながれて いた あとが あるんだ。' },
+  { id: 'soil', x: 0.22, y: 0.78, r: 0.08, text: '🧲 火星の つちが あかいのは、てつの さびが ふくまれて いるから。くぎが さびて あかく なるのと おなじだよ。' },
+  { id: 'flag', x: 0.44, y: 0.47, r: 0.06, text: '🌅 火星の ゆうやけは あおいんだって。ひるの 空は うすい オレンジいろ。ちきゅうと ぎゃくだね。' },
+];
+const MARS_ROCKS = [
+  [140, 470, 22], [380, 520, 16], [700, 560, 26], [900, 640, 18], [260, 690, 14], [520, 700, 20], [80, 610, 12], [620, 470, 10],
+] as const;
+
+function MarsGroundBase() {
+  return (
+    <>
+      <defs>
+        <linearGradient id="marsSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#7c2d12" />
+          <stop offset="100%" stopColor="#fdba74" />
+        </linearGradient>
+        <radialGradient id="marsSoil" cx="50%" cy="25%" r="85%">
+          <stop offset="0%" stopColor="#f97316" />
+          <stop offset="100%" stopColor="#9a3412" />
+        </radialGradient>
+      </defs>
+      <rect x="0" y="0" width={ISLAND_W} height={ISLAND_H} fill="url(#marsSky)" />
+      {MOON_STARS.slice(0, 14).map(([x, y], i) => <circle key={i} cx={x} cy={y * 0.5} r="1.2" fill="#fff" opacity="0.6" />)}
+      {/* ちきゅう（あおい ほし）・フォボス・ダイモス */}
+      <g transform={`translate(${MARS_HITS[3].x * ISLAND_W} ${MARS_HITS[3].y * ISLAND_H})`}>
+        <circle r="13" fill="rgba(96,165,250,0.35)" className="twinkle" />
+        <circle r="6" fill="#60a5fa" />
+        <text y="28" fontSize="13" fontWeight="900" textAnchor="middle" fill="#dbeafe">ちきゅう</text>
+      </g>
+      <g transform={`translate(${MARS_HITS[1].x * ISLAND_W} ${MARS_HITS[1].y * ISLAND_H}) rotate(-20)`}>
+        <ellipse rx="26" ry="17" fill="#a8a29e" stroke="#57534e" strokeWidth="2.5" />
+        <circle cx="-7" cy="-3" r="5" fill="#78716c" /><circle cx="9" cy="5" r="3.5" fill="#78716c" />
+        <text y="34" fontSize="12" fontWeight="900" textAnchor="middle" fill="#fff7ed" transform="rotate(20)">フォボス</text>
+      </g>
+      <g transform={`translate(${MARS_HITS[2].x * ISLAND_W} ${MARS_HITS[2].y * ISLAND_H})`}>
+        <circle r="10" fill="#d6d3d1" stroke="#57534e" strokeWidth="2" />
+        <text y="26" fontSize="12" fontWeight="900" textAnchor="middle" fill="#fff7ed">ダイモス</text>
+      </g>
+      {/* とおくの オリンポスさん */}
+      <path d={`M60 ${ISLAND_H * 0.43} Q 200 ${ISLAND_H * 0.22} 270 ${ISLAND_H * 0.215} L330 ${ISLAND_H * 0.215} Q 400 ${ISLAND_H * 0.22} 540 ${ISLAND_H * 0.43} Z`} fill="#c2410c" stroke="#7c2d12" strokeWidth="3" />
+      <ellipse cx="300" cy={ISLAND_H * 0.217} rx="30" ry="5" fill="#7c2d12" />
+      <text x="300" y={ISLAND_H * 0.19} fontSize="13" fontWeight="900" textAnchor="middle" fill="#fff7ed">オリンポスさん</text>
+      <path d={`M600 ${ISLAND_H * 0.43} Q 720 ${ISLAND_H * 0.33} 830 ${ISLAND_H * 0.42} Q 900 ${ISLAND_H * 0.36} 1000 ${ISLAND_H * 0.4} L1000 ${ISLAND_H * 0.45} L600 ${ISLAND_H * 0.45} Z`} fill="#c2410c" opacity="0.8" />
+      {/* じめん */}
+      <path d={`M0 ${ISLAND_H * 0.42} Q 180 ${ISLAND_H * 0.38} 350 ${ISLAND_H * 0.42} T 700 ${ISLAND_H * 0.41} T 1000 ${ISLAND_H * 0.4} L1000 ${ISLAND_H} L0 ${ISLAND_H} Z`} fill="url(#marsSoil)" />
+      <path d={`M0 ${ISLAND_H * 0.42} Q 180 ${ISLAND_H * 0.38} 350 ${ISLAND_H * 0.42} T 700 ${ISLAND_H * 0.41} T 1000 ${ISLAND_H * 0.4}`} fill="none" stroke="#fed7aa" strokeWidth="3" />
+      {[[300, 610, 90, 20], [760, 690, 70, 16]].map(([x, y, rx, ry], i) => (
+        <g key={'c' + i}>
+          <ellipse cx={x} cy={y} rx={rx} ry={ry} fill="#c2410c" stroke="#fdba74" strokeWidth="3" />
+          <ellipse cx={x} cy={y + ry * 0.2} rx={rx * 0.75} ry={ry * 0.6} fill="#7c2d12" />
+        </g>
+      ))}
+      {MARS_ROCKS.map(([x, y, r], i) => (
+        <g key={'k' + i}>
+          <ellipse cx={x} cy={y + r * 0.5} rx={r * 1.1} ry={r * 0.3} fill="rgba(0,0,0,0.2)" />
+          <path d={`M${x - r} ${y + r * 0.4} L${x - r * 0.6} ${y - r * 0.5} L${x + r * 0.3} ${y - r * 0.7} L${x + r} ${y} L${x + r * 0.8} ${y + r * 0.4} Z`} fill="#b45309" stroke="#78350f" strokeWidth="2.5" />
+        </g>
+      ))}
+      {/* はた */}
+      <g transform={`translate(${MARS_HITS[6].x * ISLAND_W} ${MARS_HITS[6].y * ISLAND_H + 30})`}>
+        <ellipse cx="0" cy="2" rx="18" ry="5" fill="rgba(0,0,0,0.2)" />
+        <path d="M0 0 L0 -96 M0 -92 L58 -92" stroke="#e5e7eb" strokeWidth="4" strokeLinecap="round" />
+        <rect x="2" y="-90" width="54" height="34" fill="#fff" stroke="#4c1d95" strokeWidth="2.5" />
+        <circle cx="29" cy="-73" r="9" fill="#dc2626" />
+      </g>
+      {/* たんさしゃ（ローバー） */}
+      <g transform={`translate(${MARS_HITS[4].x * ISLAND_W} ${MARS_HITS[4].y * ISLAND_H + 20})`}>
+        <ellipse cx="0" cy="4" rx="50" ry="8" fill="rgba(0,0,0,0.25)" />
+        {[-34, 0, 34].map((x) => <circle key={x} cx={x} cy="-6" r="10" fill="#334155" stroke="#0f172a" strokeWidth="2.5" />)}
+        <rect x="-42" y="-34" width="84" height="22" rx="4" fill="#e5e7eb" stroke="#475569" strokeWidth="2.5" />
+        <rect x="-38" y="-42" width="40" height="8" fill="#1d4ed8" stroke="#475569" strokeWidth="2" />
+        <path d="M24 -34 L24 -64" stroke="#475569" strokeWidth="4" />
+        <rect x="14" y="-76" width="22" height="14" rx="3" fill="#f8fafc" stroke="#475569" strokeWidth="2.5" />
+        <circle cx="30" cy="-69" r="3.5" fill="#0ea5e9" />
+      </g>
+      {/* おりてきた ロケット */}
+      <g transform={`translate(${0.85 * ISLAND_W} ${0.5 * ISLAND_H})`}>
+        <BuildingSVG id="bd_rocket" />
+      </g>
+    </>
+  );
+}
+export const MarsGround = React.memo(MarsGroundBase);
+
+/** ほしごとの せってい（IslandScreen が つかう） */
+export const PLANET_CFG = {
+  moon: { title: '🌕 つき', hits: MOON_HITS, stone: '🪨 つきの いし', hop: 26, jump: 120, jumpMs: 1300, jumpClass: 'moon-jump', foot: 'rgba(71,85,105,0.55)',
+    hint: 'クレーター・はた・ちきゅうを タップしてみよう。ロケットで しまに かえれるよ' },
+  mars: { title: '🔴 かせい', hits: MARS_HITS, stone: '🔴 かせいの いし', hop: 18, jump: 80, jumpMs: 1000, jumpClass: 'mars-jump', foot: 'rgba(124,45,18,0.5)',
+    hint: 'オリンポスさん・フォボス・ローバーを タップしてみよう。ロケットで しまに かえれるよ' },
+} as const;

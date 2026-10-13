@@ -16,6 +16,7 @@ import { EggSVG } from '../EggSVG';
 import { FurnitureSVG } from '../FurnitureSVG';
 import { PhotoFrame } from '../PhotoFrame';
 import { PlotPlant } from '../FarmPatch';
+import { MochiUsagi } from '../MochiUsagiSVG';
 import { IslandEngine, type ActorSpec, type LiveRefs, type FarmSpec, type PlacedSpec } from './engine';
 import type { ArtSpec } from './sprites';
 
@@ -40,6 +41,8 @@ export interface World3DProps {
   player: { who: PlayerKey | null; hat: 'cap' | 'crown' | 'detective' | null; ribbon: boolean; magnifier: boolean; wear: string | null };
   monster: { charKey: CharKey | null; level: number; fill: number; silhouette: boolean; stars: number; emote?: string };
   friends: { f: Friend; label: string; wear: string | null; costume: string | null; emote?: string }[];
+  /** 🐰 もちつきうさぎ（ちきゅうに きて ついてくる とき）。いちは live.friendPos['@usagi'] */
+  usagi?: { label: string } | null;
   bubble: { id: string; text: string; heart: boolean; key: number } | null;
   jump: { id: string; key: number } | null;
   unread: number;
@@ -132,8 +135,8 @@ const World3D = forwardRef<World3DHandle, World3DProps>(function World3D(props, 
     engine.current?.setPlaced(list);
   }, [placed, photoFriends]);
 
-  const { chars, player, monster, friends } = props;
-  const actorKey = JSON.stringify([!!chars, player, monster, friends.map((x) => [x.f.id, x.f.char, x.f.level, x.f.fill, x.f.stars, x.label, x.wear, x.costume, x.emote])]);
+  const { chars, player, monster, friends, usagi } = props;
+  const actorKey = JSON.stringify([!!chars, player, monster, usagi ?? null, friends.map((x) => [x.f.id, x.f.char, x.f.level, x.f.fill, x.f.stars, x.label, x.wear, x.costume, x.emote])]);
   useEffect(() => {
     const list: ActorSpec[] = [];
     if (player.who) {
@@ -157,6 +160,7 @@ const World3D = forwardRef<World3DHandle, World3DProps>(function World3D(props, 
         : costume ? { ch: costume, y: -46, size: 30 } : null;
       list.push({ id: f.id, art: charArt(chars, f.char, f.level, f.fill, f.stars, false, emoji), label, tapDy: -0.07, emote });
     }
+    if (usagi) list.push({ id: '@usagi', art: { key: 'usagi:0.78', svg: svgOf(<g transform="scale(0.78)"><MochiUsagi /></g>), unit: 1, anchorX: 0 }, label: usagi.label, tapDy: -0.07 });
     engine.current?.setActors(list);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [actorKey]);

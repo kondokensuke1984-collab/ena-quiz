@@ -37,11 +37,14 @@ const BOUNDS_MAIN = {
 const BOUNDS_SCHOOL = { minX: 0.08, maxX: 0.92, minY: 0.58, maxY: 0.92 };
 const BOUNDS_HOUSE = { minX: 0.08, maxX: 0.92, minY: 0.56, maxY: 0.92 };
 const BOUNDS_EAST = { minX: 0.08, maxX: 0.9, minY: 0.3, maxY: 0.88 };
-export function setArea(area: 'main' | 'east' | 'house' | 'school', _expansion?: number): void {
+/** 月の じめん（上は くろい 空と ちきゅう） */
+const BOUNDS_MOON = { minX: 0.08, maxX: 0.92, minY: 0.45, maxY: 0.9 };
+export function setArea(area: 'main' | 'east' | 'house' | 'school' | 'moon' | 'mars', _expansion?: number): void {
   WALK = area === 'main' ? MAIN_WALK : null;
   if (area === 'house') BOUNDS = BOUNDS_HOUSE;
   else if (area === 'school') BOUNDS = BOUNDS_SCHOOL;
   else if (area === 'east') BOUNDS = BOUNDS_EAST;
+  else if (area === 'moon' || area === 'mars') BOUNDS = BOUNDS_MOON;   // 火星も おなじ はば
   else BOUNDS = BOUNDS_MAIN;   // 土地を広げたので、main は いつも いちばん広い形
 }
 /** いまの場所が main（広い島・カメラあり）か */
@@ -56,7 +59,9 @@ export const DOORS = {
   eastToMain: { x: 0.09, y: 0.6 },       // はしの たもと（east の左はし）
   mainToSchool: { x: 0.64, y: 0.39 },    // がっこうの 戸口
   schoolToMain: { x: 0.86, y: 0.62 },    // きょうしつの ドア（右）
-  mainToSoccer: { x: 0.88, y: 1.0 },     // サッカー場（灯台の 右下の しばふ）の 上のふち。ちかづくと「サッカーを する」
+  mainToSoccer: { x: 0.88, y: 1.0 },
+  moonRocket: { x: 0.82, y: 0.6 },
+  marsRocket: { x: 0.82, y: 0.6 },       // 火星に おりた ロケット（月と おなじ ばしょ）       // 月に おりた ロケット（ちかづくと「しまに かえる」）     // サッカー場（灯台の 右下の しばふ）の 上のふち。ちかづくと「サッカーを する」
 };
 /** サッカー場（main の世界の px）。まわりの 石・花・草は よける */
 export const SOCCER_PITCH = { x: 730, y: 765, w: 300, h: 170 };
@@ -67,6 +72,9 @@ export const ENTRY = {
   mainFromEast: { x: 1.23, y: 0.6 },
   school: { x: 0.8, y: 0.7 },
   mainFromSchool: { x: 0.64, y: 0.44 },
+  moon: { x: 0.7, y: 0.68 },
+  mars: { x: 0.7, y: 0.68 },
+  eastFromMoon: { x: 0.8, y: 0.6 },      // east の ロケットの まえ
 };
 
 /** 芝と砂浜の大きさ（段階ごと） */

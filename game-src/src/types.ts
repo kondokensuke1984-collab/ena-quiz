@@ -27,7 +27,9 @@ export interface MonsterState {
 }
 
 /** 島の場所。main＝いまの島、east＝となりの島、house＝おうちの中、school＝がっこうの きょうしつ */
-export type Area = 'main' | 'east' | 'house' | 'school';
+export type Area = 'main' | 'east' | 'house' | 'school' | 'moon' | 'mars';
+/** ロケットで おりて あるける ほし */
+export type Planet = 'moon' | 'mars';
 
 export interface PlacedFurniture {
   uid: string;
@@ -104,7 +106,8 @@ export interface SaveV1 {
   micro: { dex: string[]; day: string; today: number; ready: boolean };
   imo: { dex: string[]; day: string; served: number };  // やきいも やたい：やけた しゅるい・きょう きた おきゃくさんの数  // けんびきょう：みつけた プランクトンID・きょう とうろくした数・じゅんびの てじゅんを 1回 できた
   arbor: { dex: string[]; day: string; gathered: number; rested: boolean; tea: boolean; talked: number };  // もみじの あずまや：あつめた おちばID・きょうの おちばひろい／ひとやすみ／おちゃ／かいぎの かいすう
-  space: { dex: string[]; day: string; trips: number };  // うちゅうりょこう：いった いきさきID・きょう とんだ かいすう
+  space: { dex: string[]; day: string; trips: number; moonStone: string; marsStone: string };
+  usagi: { talked: string; home: boolean };   // 🐰 もちつきうさぎ：さいごに はなした日・ちきゅうに きたか（なかよし度は friendsPlay.mochiusa）  // うちゅうりょこう：いった いきさきID・きょう とんだ かいすう・月／火星で いしを ひろった日
   talk: { day: string; talked: string[]; req: Request | null; done: boolean };  // なかまの おしゃべり：その日 はなした子（なかよし+1は 1日1回）・きょうの おねがい・かなえたか
 }
 

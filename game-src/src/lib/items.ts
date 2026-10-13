@@ -97,7 +97,7 @@ export const ITEMS: Item[] = [
   { id: 'bd_imo',    kind: 'building', name: 'やきいも やたい',     emoji: '🍠', price: 500, desc: 'となりの しまに たつ。サツマイモを やいて おみせやさん', once: true },
   { id: 'bd_arbor',  kind: 'building', name: 'もみじの あずまや',   emoji: '🍁', price: 600, desc: 'となりの しまに たつ。みんなで ひとやすみ', once: true },
   // うちゅうセット（となりの しまに たつ。10月 理科「月の位置と見え方」の つづき）
-  { id: 'bd_base',   kind: 'building', name: 'うちゅうきち',       emoji: '🛰️', price: 700,  desc: 'となりの しまに たつ。うちゅうずかんが みられる', once: true },
+  { id: 'bd_base',   kind: 'building', name: 'うちゅうきち',       emoji: '🛰️', price: 700,  desc: 'となりの しまに たつ。🚀ロケットも ついてくる！ うちゅうずかんと うちゅうりょこう', once: true },
   { id: 'bd_planet', kind: 'building', name: 'プラネタリウム',     emoji: '🪐', price: 800,  desc: 'となりの しまに たつ。ひるでも ほしぞらが みられる', once: true },
   { id: 'bd_rocket', kind: 'building', name: 'ロケット',           emoji: '🚀', price: 1000, desc: 'となりの しまに たつ。つきや わくせいへ うちゅうりょこう！', once: true },
 
@@ -195,8 +195,8 @@ export const ITEMS: Item[] = [
 ];
 
 /** その場所に置ける家具か */
-export function placeableIn(item: Item | undefined, area: 'main' | 'east' | 'house' | 'school'): boolean {
-  if (!item) return false;
+export function placeableIn(item: Item | undefined, area: 'main' | 'east' | 'house' | 'school' | 'moon' | 'mars'): boolean {
+  if (!item || area === 'moon' || area === 'mars') return false;
   if (item.anywhere) return item.kind === 'furniture' || item.kind === 'indoor';
   if (area === 'school') return item.kind === 'classroom';
   if (area === 'house' && item.alsoHouse) return true;
@@ -240,7 +240,14 @@ export function onSale(item: Item, ownedIds: string[]): boolean {
 }
 
 /** 建てる順番。前のを建てると次が出る */
-export const BUILD_ORDER = ['bd_house', 'bd_pier', 'bd_light', 'bd_school', 'bd_bridge', 'bd_wheel', 'bd_observ', 'bd_moon', 'bd_imo', 'bd_arbor', 'bd_base', 'bd_planet', 'bd_rocket'];
+export const BUILD_ORDER = ['bd_house', 'bd_pier', 'bd_light', 'bd_school', 'bd_bridge', 'bd_wheel', 'bd_observ', 'bd_moon', 'bd_imo', 'bd_arbor', 'bd_base', 'bd_planet'];
+/** たてると いっしょに もらえる おまけの たてもの（BUILD_ORDER には いれない） */
+export const BUILD_BONUS: Record<string, string[]> = { bd_base: ['bd_rocket'] };
+/** 親が たっていれば おまけも たっている ことにする（まえの セーブにも つく） */
+export function withBonus(buildings: string[]): string[] {
+  const add = buildings.flatMap((id) => BUILD_BONUS[id] ?? []).filter((id) => !buildings.includes(id));
+  return add.length ? [...buildings, ...add] : buildings;
+}
 /** つぎに建てるもの＝BUILD_ORDER の順で まだ建てていない最初の1つ（途中に足しても 今のセーブが こわれない） */
 export function nextBuildId(buildings: string[]): string | undefined {
   return BUILD_ORDER.find((id) => !buildings.includes(id));
@@ -254,6 +261,7 @@ export function expansionOf(buildings: string[]): number {
 
 /** 教科キャラの だいすきなもの（ポイント2倍） */
 export const FAVORITE: Record<string, string> = {
+  mochiusa: 'gf_dango',   // 🐰 もちつきうさぎ（月）
   tanuki: 'gf_dango', owl: 'gf_book', parrot: 'gf_berry', rabbit: 'gf_flower', bear: 'gf_cookie', cow: 'gf_apple', koala: 'gf_flower',
 };
 export const GIFTS_PER_DAY = 3;

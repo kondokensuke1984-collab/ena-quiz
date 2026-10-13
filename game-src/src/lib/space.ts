@@ -130,3 +130,14 @@ export function tripContent(dest: SpaceDest, day: string, visit: number): { fact
   const quiz = { ...base, choices: order.map((k) => base.choices[k]), answer: order.indexOf(base.answer) };
   return { facts: [dest.facts[i], dest.facts[j]], quiz };
 }
+
+/** 🌕🔴 月・火星を あるく：きょうの いしの ばしょ（日付と ほしで きまる。じめんの 中） */
+const STONE_SPOTS = [
+  { x: 0.18, y: 0.82 }, { x: 0.3, y: 0.56 }, { x: 0.47, y: 0.86 }, { x: 0.5, y: 0.62 },
+  { x: 0.9, y: 0.84 }, { x: 0.12, y: 0.6 }, { x: 0.68, y: 0.86 }, { x: 0.38, y: 0.72 },
+];
+export function planetStoneSpot(planet: 'moon' | 'mars', day: string): { x: number; y: number } {
+  return STONE_SPOTS[hash(planet === 'moon' ? `stone|${day}` : `${planet}|stone|${day}`) % STONE_SPOTS.length];
+}
+/** いしの ごほうび（🥫うちゅうしょく）。火星は ノルマの ごほうびなので おおめ */
+export const STONE_FOOD: Record<'moon' | 'mars', number> = { moon: 1, mars: 2 };

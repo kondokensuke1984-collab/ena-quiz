@@ -1,7 +1,7 @@
 import React, {
   createContext, useCallback, useEffect, useMemo, useReducer, useRef, useState,
 } from 'react';
-import type { Area, Item, Letter, LetterMarks, PlayerKey, Pos, SaveV1, School, Screen, Slot } from '../types';
+import type { Area, Item, Letter, LetterMarks, Planet, PlayerKey, Pos, SaveV1, School, Screen, Slot } from '../types';
 import { publishSchool, resolveSchool } from '../lib/school';
 import { sfx, unlockAudio } from '../lib/sound';
 import { freshSave, isSaveKey, lastRestored, loadSave, newerSaveFound, persist, storedRev } from '../lib/save';
@@ -12,7 +12,7 @@ import { isSpentKey, loadSpent, spend, type SpendLedger, type SpendResult } from
 import { feed } from '../lib/monster';
 import {
   isConsumable, ITEM_BY_ID, WHEEL_TITLE,
-  FAVORITE, GIFTS_PER_DAY, heartsOf, stampRewardsFor, EVERYDAY_GIFTS, nextBuildId,
+  FAVORITE, GIFTS_PER_DAY, heartsOf, stampRewardsFor, EVERYDAY_GIFTS, nextBuildId, withBonus, BUILD_BONUS,
 } from '../lib/items';
 import { FISH_PER_DAY, FISH_REWARDS, FISH_STUDY_BONUS } from '../lib/fish';
 import { harvestOf, isRipe, plantOf, stageOf } from '../lib/farm';
@@ -27,7 +27,8 @@ import { seasonNow } from '../lib/items';
 import { ORGAN_TITLE, SONGS } from '../lib/songs';
 import { IMO_BY_ID, IMO_PER_DAY, IMO_REWARDS } from '../lib/yakiimo';
 import { ARBOR_REWARDS, GATHER_PER_DAY, TALK_PER_DAY, arborToday, rollLeaf, type Leaf } from '../lib/arbor';
-import { DEST_BY_ID, DESTS, SPACE_REWARDS, SPACE_TITLE, TRIPS_PER_DAY, TRIPS_STUDY_BONUS, openDests } from '../lib/space';
+import { USAGI_KEY } from '../lib/usagi';
+import { DEST_BY_ID, DESTS, SPACE_REWARDS, SPACE_TITLE, STONE_FOOD, TRIPS_PER_DAY, TRIPS_STUDY_BONUS, openDests } from '../lib/space';
 import { MICRO_TITLE, PLANKTON, PLANKTON_PER_DAY, PLANKTON_REWARDS, PLANKTON_STUDY_BONUS } from '../lib/plankton';
 
 /** プレゼントの結果。IslandScreen がハートとふきだしを出すのに使う */
@@ -162,6 +163,12 @@ export interface GameApi {
   claimSoccer(): (SoccerClaim & { items: string[] }) | null;
   /** たからばこを あける（その日1回）。出たプレゼントのID */
   openChest(day: string): string | null;
+  /** 🌕🔴 月・火星で いしを ひろう（ほしごとに 1日1回・うちゅうしょく STONE_FOOD）。ひろえたら true */
+  pickPlanetStone(planet: Planet, day: string): boolean;
+  /** 🐰 もちつきうさぎと はなす。その日 はじめてなら なかよし +1 して あたらしい ♥の かずを かえす（2かいめ いこうは null） */
+  talkUsagi(day: string): { heartsBefore: number; heartsAfter: number } | null;
+  /** 🐰 ちきゅうに つれていく（true）／月で まっててもらう（false） */
+  setUsagiHome(home: boolean): void;
   /** gifts＝いっしょに とどく 家具（月の きねんしゃしん など） */
   deliverLetters(letters: Letter[], marks: LetterMarks, gifts?: string[]): void;
   readLetter(id: string): void;
@@ -464,13 +471,14 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       }
       setSave((s) => ({
         ...s,
-        buildings: s.buildings.includes(itemId) ? s.buildings : [...s.buildings, itemId],
+        buildings: withBonus(s.buildings.includes(itemId) ? s.buildings : [...s.buildings, itemId]),
         titles: itemId === 'bd_wheel' && !s.titles.includes(WHEEL_TITLE) ? [...s.titles, WHEEL_TITLE] : s.titles,
       }));
       dispatch({ type: 'REFRESH_MEDALS' });
       dispatch({ type: 'GO', screen: 'island' });
       sfx('build');
-      showToast(`🎉 ${item.emoji} ${item.name} が できた！`);
+      const bonus = (BUILD_BONUS[itemId] ?? []).map((id) => ITEM_BY_ID[id]).filter(Boolean);
+      showToast(`🎉 ${[item, ...bonus].map((b) => `${b.emoji} ${b.name}`).join(' と ')} が できた！`);
     },
 
     giftsLeft: (charKey) => {
@@ -658,6 +666,35 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       }));
       sfx('chest');
       return id;
+    },
+
+    talkUsagi: (day) => {
+      const cur = saveRef.current;
+      if (cur.usagi.talked === day) return null;
+      const prev = cur.friendsPlay[USAGI_KEY] ?? { pts: 0, day: '', today: 0, wear: null };
+      const heartsBefore = heartsOf(prev.pts);
+      const heartsAfter = heartsOf(prev.pts + 1);
+      setSave((s) => (s.usagi.talked === day ? s : {
+        ...s,
+        usagi: { ...s.usagi, talked: day },
+        friendsPlay: { ...s.friendsPlay, [USAGI_KEY]: { ...(s.friendsPlay[USAGI_KEY] ?? prev), pts: (s.friendsPlay[USAGI_KEY]?.pts ?? prev.pts) + 1 } },
+      }));
+      sfx(heartsAfter > heartsBefore ? 'heart' : 'gift');
+      return { heartsBefore, heartsAfter };
+    },
+
+    setUsagiHome: (home) => setSave((s) => ({ ...s, usagi: { ...s.usagi, home } })),
+
+    pickPlanetStone: (planet, day) => {
+      const key = planet === 'moon' ? 'moonStone' : 'marsStone';
+      if (saveRef.current.space[key] === day) return false;
+      setSave((s) => (s.space[key] === day ? s : {
+        ...s,
+        space: { ...s.space, [key]: day },
+        inventory: { ...s.inventory, gf_spacefood: (s.inventory.gf_spacefood ?? 0) + STONE_FOOD[planet] },
+      }));
+      sfx('chest');
+      return true;
     },
 
     deliverLetters: (letters, marks, gifts = []) => {
@@ -1065,6 +1102,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       setSave((s) => ({
         ...s,
         space: {
+          ...s.space,
           dex: s.space.dex.includes(destId) ? s.space.dex : [...s.space.dex, destId],
           day,
           trips: (s.space.day === day ? s.space.trips : 0) + 1,

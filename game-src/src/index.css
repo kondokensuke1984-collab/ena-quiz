@@ -99,6 +99,17 @@ body {
 }
 @keyframes fountain-jet { 0%, 100% { transform: scaleY(0.85); } 50% { transform: scaleY(1.1); } }
 /* キャラを タップしたときの ジャンプ */
+/* 🐰 もちつき：きねを ふりおろす・おもちが ぺたんと つぶれる */
+.mochi-pound { animation: mochi-pound 0.9s ease-in-out infinite; }
+@keyframes mochi-pound { 0%, 100% { transform: rotate(-18deg); } 45% { transform: rotate(-18deg); } 70% { transform: rotate(38deg); } 80% { transform: rotate(34deg); } }
+.mochi-squish { animation: mochi-squish 0.9s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100%; }
+@keyframes mochi-squish { 0%, 65%, 100% { transform: scale(1, 1); } 72% { transform: scale(1.15, 0.7); } }
+/* 🔴 火星の ジャンプ：月より ひくめ（じゅうりょく 3ぶんの1） */
+.mars-jump { animation: mars-jump 1s ease-in-out; transform-box: fill-box; transform-origin: 50% 100%; }
+@keyframes mars-jump { 0% { transform: translateY(0); } 50% { transform: translateY(-70px); } 100% { transform: translateY(0); } }
+/* 🌕 月の ジャンプ：たかく ゆっくり */
+.moon-jump { animation: moon-jump 1.3s ease-in-out; transform-box: fill-box; transform-origin: 50% 100%; }
+@keyframes moon-jump { 0% { transform: translateY(0); } 50% { transform: translateY(-110px); } 100% { transform: translateY(0); } }
 .char-jump { animation: char-jump 0.55s ease-out; transform-box: fill-box; transform-origin: 50% 100%; }
 @keyframes char-jump {
   0% { transform: translateY(0) scale(1, 1); }

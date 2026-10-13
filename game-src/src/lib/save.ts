@@ -2,7 +2,7 @@
 
 import { readJSON, writeJSON } from './storage';
 import { loadSpent } from './spend';
-import { BUILD_ORDER, ITEM_BY_ID, isConsumable, WHEEL_TITLE } from './items';
+import { BUILD_ORDER, ITEM_BY_ID, isConsumable, WHEEL_TITLE, withBonus } from './items';
 import type { PlayerKey, SaveV1 } from '../types';
 import { FARM_PLOTS } from './farm';
 import { isSchool, resolveSchool } from './school';
@@ -55,7 +55,8 @@ export function freshSave(now = Date.now()): SaveV1 {
     micro: { dex: [], day: '', today: 0, ready: false },
     imo: { dex: [], day: '', served: 0 },
     arbor: { dex: [], day: '', gathered: 0, rested: false, tea: false, talked: 0 },
-    space: { dex: [], day: '', trips: 0 },
+    space: { dex: [], day: '', trips: 0, moonStone: '', marsStone: '' },
+    usagi: { talked: '', home: false },
     talk: { day: '', talked: [], req: null, done: false },
   };
 }
@@ -86,7 +87,7 @@ export function loadSave(): SaveV1 {
 
   // 浅いマージだと、あとから増やしたフィールドが undefined のまま残るので入れ子も混ぜる
   const f = freshSave();
-  return restorePaid({
+  return withBonusSave(restorePaid({
     ...f,
     ...s,
     v: 1,
@@ -126,7 +127,7 @@ export function loadSave(): SaveV1 {
       today: typeof s.micro?.today === 'number' ? s.micro!.today : 0,
       ready: s.micro?.ready === true,
     },
-    area: s.area === 'east' || s.area === 'house' || s.area === 'school' ? s.area : 'main',
+    area: s.area === 'east' || s.area === 'house' || s.area === 'school' || s.area === 'moon' || s.area === 'mars' ? s.area : 'main',
     room: { ...f.room, ...obj(s.room, {}) },
     fish: {
       ...f.fish,
@@ -162,6 +163,12 @@ export function loadSave(): SaveV1 {
       dex: Array.isArray(s.space?.dex) ? s.space!.dex.filter((x) => typeof x === 'string') : [],
       day: typeof s.space?.day === 'string' ? s.space!.day : '',
       trips: typeof s.space?.trips === 'number' ? s.space!.trips : 0,
+      moonStone: typeof s.space?.moonStone === 'string' ? s.space!.moonStone : '',
+      marsStone: typeof s.space?.marsStone === 'string' ? s.space!.marsStone : '',
+    },
+    usagi: {
+      talked: typeof s.usagi?.talked === 'string' ? s.usagi!.talked : '',
+      home: s.usagi?.home === true,
     },
     talk: {
       day: typeof s.talk?.day === 'string' ? s.talk!.day : '',
@@ -169,7 +176,13 @@ export function loadSave(): SaveV1 {
       req: s.talk?.req && typeof s.talk.req === 'object' && typeof (s.talk.req as { char?: unknown }).char === 'string' ? s.talk.req : null,
       done: s.talk?.done === true,
     },
-  });
+  }));
+}
+
+/** うちゅうきち → ロケット などの おまけを つける */
+function withBonusSave(save: SaveV1): SaveV1 {
+  const b = withBonus(save.buildings);
+  return b === save.buildings ? save : { ...save, buildings: b };
 }
 
 /** さいごの loadSave() で メダルの記録から もどした品（トーストに出す） */

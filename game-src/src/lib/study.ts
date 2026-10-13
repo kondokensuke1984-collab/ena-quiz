@@ -54,6 +54,11 @@ export function daysThisWeek(now = new Date(), by = answeredByDate()): number {
 
 /** 島の入口：その日に この数の教科で、単元を1つずつ 最後まで といたら ひらく（クイズの ISLAND_UNLOCK_CATS と おなじ） */
 export const UNLOCK_CATS = 2;
+/** 🔴 火星を あるく ノルマ：その日に この数の教科で 単元クリア（島の入口の 一段上） */
+export const MARS_CATS = 3;
+export const CAT_LABEL: Record<string, string> = {
+  shakai: '🗾 しゃかい', rika: '🔬 りか', kokugo: '✍️ こくご', sansu: '🔢 さんすう', eigo: '🔤 えいご',
+};
 
 /** 今日 単元を最後まで といた教科（クイズが ena_daily_*_<今日> の units に書く） */
 export function todayUnits(now = new Date()): { cats: string[]; unlocked: boolean } {
@@ -73,4 +78,11 @@ export function todayUnits(now = new Date()): { cats: string[]; unlocked: boolea
   let kenchiku = false;
   try { kenchiku = localStorage.getItem('ena_kenchiku_day') === day; } catch { /* 読めなければ とじたまま */ }
   return { cats: [...cats], unlocked: dev || kenchiku || cats.size >= UNLOCK_CATS };
+}
+
+/** 🔴 きょう 火星に いけるか（3教科クリア）。島の ?unlock=1 や 一級アプリの日は かぞえない。確認用に localhost だけ ?mars=1 */
+export function marsQuota(now = new Date()): { cats: string[]; open: boolean } {
+  const { cats } = todayUnits(now);
+  const dev = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) && new URLSearchParams(location.search).get('mars') === '1';
+  return { cats, open: dev || cats.length >= MARS_CATS };
 }

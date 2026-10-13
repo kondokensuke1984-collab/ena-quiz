@@ -25,18 +25,22 @@ import { displayFullness, levelOf, mood, moodLine } from '../lib/monster';
 import { isFriendsKey, readFriends, readSeenLevels, visitorsFor, writeSeenLevels, type Friend } from '../lib/friends';
 import { SkyLayer } from '../components/SkyLayer';
 import { starInfo } from '../lib/starsky';
-import { hourNow, isNearFull, moonAge as calcMoonAge, moonName, timeOfDay, weatherFor } from '../lib/sky';
+import { hourNow, isNearFull, moonAge as calcMoonAge, moonName, SYNODIC, timeOfDay, weatherFor } from '../lib/sky';
 import { pairTalk, requestLine, talkLine, thanksLine, type TalkCtx } from '../lib/talk';
 import { EVERYDAY_GIFTS } from '../lib/items';
 import { dateKey } from '../lib/study';
-import { cycleSoundMode, setBgmNight, sfx, soundMode, voice, type SoundMode } from '../lib/sound';
-import { answeredByDate, daysThisWeek, stampDays, studiedToday, todayUnits, UNLOCK_CATS } from '../lib/study';
+import { cycleSoundMode, setBgmNight, setSpaceBgm, sfx, soundMode, voice, type SoundMode } from '../lib/sound';
+import { answeredByDate, daysThisWeek, marsQuota, MARS_CATS, stampDays, studiedToday, todayUnits, UNLOCK_CATS } from '../lib/study';
 import { earnedTotal } from '../lib/medals';
 import { pickLesson, type Lesson } from '../lib/lesson';
 import { buildLetters } from '../lib/letters';
 import { photoMonthOf } from '../lib/items';
-import type { Area, Pos } from '../types';
-import { EastGround, RoomGround, SchoolGround, SCHOOL_DESKS, SCHOOL_HITS } from '../components/AreaStages';
+import type { Area, Planet, Pos } from '../types';
+import { EastGround, earthAge, MarsGround, MoonGround, PLANET_CFG, RoomGround, SchoolGround, SCHOOL_DESKS, SCHOOL_HITS } from '../components/AreaStages';
+import { planetStoneSpot, STONE_FOOD } from '../lib/space';
+import { MochiUsagi, Usu } from '../components/MochiUsagiSVG';
+import { USAGI_AREAS, USAGI_KEY, USAGI_NAME, USAGI_SPOT, USU_SPOT, usagiLine } from '../lib/usagi';
+import type { CharKey } from '../lib/chars';
 import { FishingModal } from '../components/FishingModal';
 import { FarmPatch } from '../components/FarmPatch';
 import { FarmModal } from '../components/FarmModal';
@@ -122,7 +126,7 @@ const SOUND_LABEL: Record<SoundMode, string> = { sfx: '🔊 こうかおん', al
 const MAX_ON_ISLAND = 7;
 // おうちの中に ついてきた子の 立ち位置
 const HOUSE_SPAWNS: Pos[] = [{ x: 0.32, y: 0.72 }, { x: 0.42, y: 0.8 }, { x: 0.3, y: 0.86 }, { x: 0.5, y: 0.74 }];
-const AREA_TITLE: Record<Area, string> = { main: '🏝 アンリノ島', east: '🌸 はなばたけの しま', house: '🏠 おうちの なか', school: '🏫 しまの がっこう' };   // 教科キャラを一度に出す数のめやす（主役＋あそびに来る住人）
+const AREA_TITLE: Record<Area, string> = { main: '🏝 アンリノ島', east: '🌸 はなばたけの しま', house: '🏠 おうちの なか', school: '🏫 しまの がっこう', moon: PLANET_CFG.moon.title, mars: PLANET_CFG.mars.title };   // 教科キャラを一度に出す数のめやす（主役＋あそびに来る住人）
 
 /** カメラ（main だけ）：主人公を まんなかに、世界の はしで とめる。px */
 function camTarget(p: Pos): Pos {
@@ -220,10 +224,23 @@ export function IslandScreen() {
   const moshis = useMoshis();
   const moshi = moshis[0] ?? null;
 
+  // 🔴 火星の ノルマ（その日 3教科クリア）。クイズから もどったときに よみなおす
+  const [marsOk, setMarsOk] = useState(() => marsQuota().open);
+  useEffect(() => {
+    const re = () => setMarsOk(marsQuota().open);
+    window.addEventListener('focus', re);
+    document.addEventListener('visibilitychange', re);
+    return () => { window.removeEventListener('focus', re); document.removeEventListener('visibilitychange', re); };
+  }, []);
   // いる場所（main／east／house）と、建てたもので島が広がる。clampToIsland などが見る BOUNDS をここで切りかえる
   const area: Area = save.area === 'house' && !save.buildings.includes('bd_house') ? 'main'
     : save.area === 'school' && !save.buildings.includes('bd_school') ? 'main'
-    : save.area === 'east' && !save.buildings.includes('bd_bridge') ? 'main' : save.area;
+    : save.area === 'east' && !save.buildings.includes('bd_bridge') ? 'main'
+    : save.area === 'moon' && !(save.buildings.includes('bd_rocket') && save.space.dex.includes('moon')) ? 'main'
+    : save.area === 'mars' && !(save.buildings.includes('bd_rocket') && save.space.dex.includes('mars') && marsOk) ? 'east' : save.area;
+  /** 月・火星（ロケットで おりて あるける ほし） */
+  const planet: Planet | null = area === 'moon' || area === 'mars' ? area : null;
+  const pcfg = planet ? PLANET_CFG[planet] : null;
   const indoor = area === 'house' || area === 'school';
   const want3d = area === 'main' && pref3d && HAS_WEBGL;
   const on3d = want3d && ready3d;
@@ -263,6 +280,11 @@ export function IslandScreen() {
         f.level > 1 && heartsOf(save.friendsPlay[f.char]?.pts ?? 0) >= FOLLOW_HEARTS && !save.friendsPlay[f.char]?.followOff);
     }
     if (area === 'east') return vis;
+    // 月：ついてくる子（♥3）と 主役が いっしょに のってくる（たまごは おるすばん）
+    if (area === 'moon' || area === 'mars') {
+      const fol = [...cur, ...vis].filter((f) => f.level > 1 && heartsOf(save.friendsPlay[f.char]?.pts ?? 0) >= FOLLOW_HEARTS && !save.friendsPlay[f.char]?.followOff);
+      return [...fol, ...cur.filter((f) => f.level > 1 && !fol.includes(f))].slice(0, 4);
+    }
     // がっこう：主役と きょう あそびに来た子が つくえに すわる（たまごは こない）
     if (area === 'school') return [...cur, ...vis].filter((f) => f.level > 1).slice(0, SCHOOL_DESKS.length);
     return hasBridge ? cur : [...cur, ...vis];
@@ -280,7 +302,25 @@ export function IslandScreen() {
   const labelW = useRef<Record<string, { t: string; w: number }>>({});
   // 場所を移ったら、キャラの立ち位置は その場所で あたらしく決める
   const lastArea = useRef(area);
+  const areaRef = useRef(area);
+  areaRef.current = area;
+  // 🌕 月：ふわっと ジャンプ（はじめた時刻）と あしあと（セーブしない）
+  const moonJumpAt = useRef(0);
+  const pcfgRef = useRef<(typeof PLANET_CFG)[Planet] | null>(null);
+  // 🐰 もちつきうさぎ：月では うすの よこ、ちきゅうに きたら ついてくる
+  const usagiHome = save.usagi.home;
+  const usagiFollow = usagiHome && USAGI_AREAS.includes(area);
+  const usagiHere = (area === 'moon' && save.buildings.includes('bd_rocket')) || usagiFollow;
+  const usagiPos = useRef<Pos>(USAGI_SPOT);
+  const usagiNode = useRef<SVGGElement | null>(null);
+  const usagiMode = useRef({ here: false, follow: false });
+  usagiMode.current = { here: usagiHere, follow: usagiFollow };
+  const footRef = useRef<SVGGElement | null>(null);
+  const lastFoot = useRef<Pos | null>(null);
   if (lastArea.current !== area) {
+    usagiPos.current = usagiFollow ? clampToIsland({ x: playerPos.current.x - 0.09, y: playerPos.current.y + 0.01 }) : USAGI_SPOT;
+    footRef.current?.replaceChildren();
+    lastFoot.current = null;
     friendPos.current = {};
     friendTarget.current = {};
     lastArea.current = area;
@@ -555,6 +595,17 @@ export function IslandScreen() {
         }
       }
 
+      // 🐰 うさぎ：ついてくる ときは 主人公の ひだりうしろへ
+      if (usagiMode.current.here) {
+        if (usagiMode.current.follow) {
+          const pp = playerPos.current;
+          const spot = clampToIsland({ x: pp.x - 0.09, y: pp.y + 0.01 });
+          if (dist(usagiPos.current, spot) > 0.03) usagiPos.current = clampToIsland(stepToward(usagiPos.current, spot, MONSTER_SPEED * 3.2, dt).pos);
+        }
+        friendPos.current['@usagi'] = usagiPos.current;   // 3D も おなじ いち
+        usagiNode.current?.setAttribute('transform', `translate(${usagiPos.current.x * ISLAND_W} ${usagiPos.current.y * ISLAND_H})`);
+      }
+
       // 安全網。なにがあっても島の外には出さない
       playerPos.current = clampToIsland(playerPos.current);
       monsterPos.current = clampToIsland(monsterPos.current);
@@ -588,7 +639,28 @@ export function IslandScreen() {
       }
 
       // DOM に反映
-      const bob = moved ? Math.abs(Math.sin(walkPhase.current)) * 7 : 0;
+      let bob = moved ? Math.abs(Math.sin(walkPhase.current)) * 7 : 0;
+      const pc = pcfgRef.current;
+      if (pc) {
+        // じゅうりょくが 月は 6ぶんの1・火星は 3ぶんの1：あるくと ゆっくり 大きく はねる。ジャンプは ふわーっと
+        bob = moved ? Math.abs(Math.sin(walkPhase.current * 0.45)) * pc.hop : 0;
+        const jt = (t - moonJumpAt.current) / pc.jumpMs;
+        if (jt >= 0 && jt < 1) bob += Math.sin(Math.PI * jt) * pc.jump;
+        // あしあと：すこし すすむごとに 1つ（さいごの 40こ）
+        const pp0 = playerPos.current;
+        const lf = lastFoot.current;
+        if (moved && footRef.current && (!lf || Math.hypot(pp0.x - lf.x, pp0.y - lf.y) > 0.035)) {
+          lastFoot.current = pp0;
+          const n = footRef.current.childElementCount;
+          const el = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+          el.setAttribute('cx', String(pp0.x * ISLAND_W + (n % 2 ? 9 : -9)));
+          el.setAttribute('cy', String(pp0.y * ISLAND_H - 2));
+          el.setAttribute('rx', '7'); el.setAttribute('ry', '4');
+          el.setAttribute('fill', pc.foot);
+          footRef.current.appendChild(el);
+          if (n >= 40) footRef.current.firstElementChild?.remove();
+        }
+      }
       if (playerNodeRef.current) {
         playerNodeRef.current.setAttribute(
           'transform',
@@ -610,6 +682,7 @@ export function IslandScreen() {
         [MAIL_POS.y, '@mail'] as const,
         ...friendsRef.current.map((f) => [friendPos.current[f.id]?.y ?? 0, '@f:' + f.id] as const),
         [playerPos.current.y, '@player'] as const,
+        ...(usagiMode.current.here ? [[usagiPos.current.y, '@usagi'] as const] : []),
       ].sort((x, y) => x[0] - y[0]).map(([, id]) => id).join(',');
       if (key !== lastOrder) { lastOrder = key; setOrder(key); }
 
@@ -680,6 +753,16 @@ export function IslandScreen() {
       if (inBox(SCHOOL_HITS.tv)) { sfx('letter'); setTvAsk(true); return; }
       if (inBox(SCHOOL_HITS.notice)) { sfx('letter'); setModal('roster'); return; }
     }
+    if (pcfg) {
+      if (moonStone && dist(raw, { x: moonStone.x, y: moonStone.y - 0.02 }) < 0.06) { pickStone(); return; }
+      if (dist(raw, { x: DOORS.moonRocket.x + 0.03, y: DOORS.moonRocket.y - 0.2 }) < 0.1) { goHomeFromMoon(); return; }
+      const hit = (pcfg.hits as readonly { id: string; x: number; y: number; r: number; text: string }[]).find((h) => dist(raw, h) < h.r);
+      if (hit) { sfx('letter'); g.showToast(planet === 'moon' && hit.id === 'earth' ? earthText() : hit.text); return; }
+    }
+    if (usagiHere && dist(raw, { x: usagiPos.current.x, y: usagiPos.current.y - 0.07 }) < 0.07) { tapUsagi(); return; }
+    if (area === 'moon' && dist(raw, { x: USU_SPOT.x, y: USU_SPOT.y - 0.04 }) < 0.05) {
+      sfx('letter'); g.showToast('🍡 うすと きねで おもちを つくよ。にっぽんでは、つきの もようが この すがたに みえるんだって'); return;
+    }
     for (const f of friends) {
       const fp = friendPos.current[f.id];
       if (fp && dist(raw, { x: fp.x, y: fp.y - 0.07 }) < 0.065) {
@@ -705,6 +788,63 @@ export function IslandScreen() {
     if (area === 'east' && save.buildings.includes('bd_base') && dist(raw, { x: BUILDING_SPOTS.bd_base.x, y: BUILDING_SPOTS.bd_base.y - 0.05 }) < 0.08) { setModal('spaceDex'); return; }
     if (area === 'east' && save.buildings.includes('bd_planet') && dist(raw, { x: BUILDING_SPOTS.bd_planet.x, y: BUILDING_SPOTS.bd_planet.y - 0.05 }) < 0.08) { setModal('stars'); return; }
     tapTarget.current = p;
+  };
+
+  // 🌕🔴 きょうの いし（ほしごとに 1日1こ。ひろったら きえる）
+  pcfgRef.current = pcfg;
+  const moonStone = planet && save.space[planet === 'moon' ? 'moonStone' : 'marsStone'] !== day ? planetStoneSpot(planet, day) : null;
+  // 月・火星に いる あいだは うちゅうの BGM（音の設定が off なら 鳴らない）
+  useEffect(() => {
+    if (!planet) return;
+    setSpaceBgm('space');
+    return () => setSpaceBgm(null);
+  }, [planet]);
+  // ノルマの 日が おわったのに 火星に いたら、となりの しまの ロケットの まえに もどす
+  useEffect(() => {
+    if (save.area === 'mars' && area === 'east') {
+      playerPos.current = ENTRY.eastFromMoon;
+      g.goArea('east', ENTRY.eastFromMoon);
+      g.showToast('🚀 かせいから かえってきたよ。また ノルマを クリアしたら いこうね');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [save.area, area]);
+  const pickStone = () => { if (planet && g.pickPlanetStone(planet, day)) g.showToast(`${pcfg!.stone}を みつけた！ うちゅうしょく +${STONE_FOOD[planet]}`); };
+  const goHomeFromMoon = () => { sfx('launch'); travel('east', ENTRY.eastFromMoon); };
+  const moonJump = () => { moonJumpAt.current = performance.now(); friends.forEach((f, i) => window.setTimeout(() => setJump({ id: f.id, key: Date.now() + i }), 120 + i * 150)); };
+  const earthText = () => {
+    // ひかって いる わりあい（0＝まっくら、1＝まんまる）
+    const lit = (1 - Math.cos((2 * Math.PI * earthAge(moonAge)) / SYNODIC)) / 2;
+    const look = lit > 0.85 ? 'まんまるに ひかって' : lit > 0.62 ? 'ほとんど まるく ひかって' : lit > 0.38 ? 'はんぶん ひかって' : lit > 0.12 ? 'ほそく ひかって' : 'ほとんど くらく なって';
+    return `🌍 いまの ちきゅうは ${look} いるよ。月から みた ちきゅうは、ちきゅうから みた 月と ぎゃくに みちかけ するんだ（いまの 月は ${moonName(moonAge).replace(/（.*?）/, '')}）。`;
+  };
+
+  // 🐰 もちつきうさぎ
+  const usagiHearts = heartsOf(save.friendsPlay[USAGI_KEY]?.pts ?? 0);
+  const usagiTalkN = useRef(0);
+  const usagiFriend: Friend = {
+    id: '@usagi', month: '', monthLabel: '', cat: '', catLabel: 'つき', char: USAGI_KEY as CharKey, name: USAGI_NAME,
+    level: 2, stars: 0, fill: 0, levelName: '', n: 0, total: 0,
+  };
+  const tapUsagi = () => {
+    setJump({ id: '@usagi', key: Date.now() });
+    const text = usagiLine(area, usagiHome, usagiHearts, day.length + usagiTalkN.current++);
+    const r = g.talkUsagi(day);
+    setBubble({ char: USAGI_KEY, text, heart: !!r, key: Date.now() });
+    if (r && r.heartsAfter > r.heartsBefore) {
+      g.showToast(`💗 ${USAGI_NAME}との なかよしが ♥${r.heartsAfter} に なった！` + (r.heartsAfter === FOLLOW_HEARTS && !usagiHome ? '　ちきゅうに さそえるように なったよ' : ''));
+    } else if (r) g.showToast(`💗 ${USAGI_NAME}と おはなし（なかよし +1）`);
+  };
+  const inviteUsagi = () => {
+    g.setUsagiHome(true);
+    setJump({ id: '@usagi', key: Date.now() });
+    setBubble({ char: USAGI_KEY, text: 'やったー！ ちきゅうに いける！', heart: true, key: Date.now() });
+    sfx('heart');
+    g.showToast(`🐰 ${USAGI_NAME}が なかまに なった！ ちきゅうでも ついてくるよ`);
+  };
+  const leaveUsagi = () => {
+    g.setUsagiHome(false);
+    usagiPos.current = USAGI_SPOT;
+    setBubble({ char: USAGI_KEY, text: 'また むかえに きてね！ ぺったん ぺったん', heart: false, key: Date.now() });
   };
 
   const tapFriend = (f: Friend) => {
@@ -941,7 +1081,7 @@ export function IslandScreen() {
     });
     if (r.heartsAfter > r.heartsBefore) {
       g.showToast(`💗 ${f.name}との なかよしが ♥${r.heartsAfter} に なった！` +
-        (r.heartsAfter === FOLLOW_HEARTS ? '　ついてくるように なったよ' : '') +
+        (r.heartsAfter === FOLLOW_HEARTS ? ((f.char as string) === USAGI_KEY ? (usagiHome ? '' : '　ちきゅうに さそえるように なったよ') : '　ついてくるように なったよ') : '') +
         (r.heartsAfter === 5 ? '　しょうごうを もらったよ' : ''));
     }
   };
@@ -1063,7 +1203,7 @@ export function IslandScreen() {
             ref={(el) => { friendNodes.current[f.id] = el; }}
             transform={`translate(${fp.x * ISLAND_W} ${fp.y * ISLAND_H})`}
           >
-            <g key={'j' + (jump?.id === f.id ? jump.key : 0)} className={jump?.id === f.id ? 'char-jump' : ''}>
+            <g key={'j' + (jump?.id === f.id ? jump.key : 0)} className={jump?.id === f.id ? (pcfg ? pcfg.jumpClass : 'char-jump') : ''}>
             <foreignObject x={-60} y={-124} width={120} height={144} style={{ overflow: 'visible', pointerEvents: 'none' }}>
               <div className="flex h-full w-full items-end justify-center">
                 <CharSVG charKey={f.char} level={f.level} fillPct={f.fill} size={108} stars={f.stars} label={f.name} />
@@ -1122,6 +1262,42 @@ export function IslandScreen() {
       });
     }
 
+    if (area === 'moon') list.push({
+      id: '@usu', y: USU_SPOT.y,
+      node: <g key="@usu" transform={`translate(${USU_SPOT.x * ISLAND_W} ${USU_SPOT.y * ISLAND_H})`} style={{ pointerEvents: 'none' }}><Usu /></g>,
+    });
+    if (usagiHere) {
+      const up = usagiPos.current;
+      const h = heartsOf(save.friendsPlay[USAGI_KEY]?.pts ?? 0);
+      list.push({
+        id: '@usagi', y: up.y,
+        node: (
+          <g key="@usagi" ref={usagiNode} transform={`translate(${up.x * ISLAND_W} ${up.y * ISLAND_H})`} style={{ pointerEvents: 'none' }}>
+            <g key={'j' + (jump?.id === '@usagi' ? jump.key : 0)} className={jump?.id === '@usagi' ? (pcfg ? pcfg.jumpClass : 'char-jump') : ''}>
+              <MochiUsagi pound={!usagiFollow && area === 'moon'} />
+            </g>
+            <text x="0" y={LABEL_Y + 6} fontSize="24" fontWeight="900" textAnchor="middle" fill="#fff" stroke="rgba(30,27,75,0.85)" strokeWidth="6" paintOrder="stroke">
+              {USAGI_NAME + (h > 0 ? ' ' + '♥'.repeat(h) : '')}
+            </text>
+            {bubble && bubble.char === USAGI_KEY && (() => {
+              const half = bubble.text.length * 12 + 20;
+              const bx = up.x * ISLAND_W - (cam.current?.x ?? 0);
+              const sx = Math.max(half + 6 - bx, Math.min(0, ISLAND_W - half - 6 - bx));
+              return (
+                <g key={'b' + bubble.key} className="bubble-pop">
+                  <rect x={sx - half} y={-196} width={half * 2} height={50} rx={22} fill="#fff" stroke="#4c1d95" strokeWidth="3" />
+                  <path d="M-10 -147 L0 -132 L10 -147 Z" fill="#fff" stroke="#4c1d95" strokeWidth="3" strokeLinejoin="round" />
+                  <rect x={-12} y={-150} width={24} height={6} fill="#fff" />
+                  <text x={sx} y="-164" fontSize="23" fontWeight="900" textAnchor="middle" fill="#312e81">{bubble.text}</text>
+                  {bubble.heart && <text x="46" y="-60" fontSize="40" textAnchor="middle" className="heart-float">💗</text>}
+                </g>
+              );
+            })()}
+          </g>
+        ),
+      });
+    }
+
     list.push({
       id: '@player',
       y: playerPos.current.y,
@@ -1151,7 +1327,7 @@ export function IslandScreen() {
     return list.sort((a, b) => a.y - b.y).map((e) => e.node);
     // order が変わったときに並べ直す
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [order, placedHere, area, save.player, save.equipped, playerWear, save.titles.length, monster.charKey, level, fullness, mo, monsterName, walking, friends, save.buildings, save.friendsPlay, bubble, jump, unread, showChest, hwNight, snap.friends, todayReq]);
+  }, [order, placedHere, area, save.player, save.equipped, playerWear, save.titles.length, monster.charKey, level, fullness, mo, monsterName, walking, friends, save.buildings, save.friendsPlay, bubble, jump, unread, showChest, hwNight, snap.friends, todayReq, usagiHere, usagiFollow, pcfg]);
 
   // 3D に わたす ようす（かわったときだけ 作りなおす）
   const farm3d = useMemo(() => ({ plots: save.farm.plots, stages: farmStages, today: day }),
@@ -1176,6 +1352,7 @@ export function IslandScreen() {
   });
   const bubble3d = useMemo(() => {
     if (!bubble) return null;
+    if (bubble.char === USAGI_KEY) return { id: '@usagi', text: bubble.text, heart: bubble.heart, key: bubble.key };
     const f = friends.find((x) => x.char === bubble.char);
     return f ? { id: f.id, text: bubble.text, heart: bubble.heart, key: bubble.key } : null;
   }, [bubble, friends]);
@@ -1203,6 +1380,14 @@ export function IslandScreen() {
   act(nearRocket, 'rocket', '🚀 うちゅうへ いく', () => setModal('spaceGo'));
   act(nearBase, 'base', '🛰️ うちゅうずかん', () => setModal('spaceDex'));
   act(nearPlanet, 'planet', '🪐 ほしぞらを みる', () => setModal('stars'));
+  act(!!planet && dist(pp, DOORS.moonRocket) <= 0.12, 'moonHome', '🚀 しまに かえる', goHomeFromMoon);
+  act(!!moonStone && dist(pp, moonStone) <= 0.08, 'moonStone', `${pcfg?.stone}を ひろう`, pickStone);
+  act(!!planet, 'moonJump', '🦘 ジャンプ', moonJump, false);
+  const nearUsagi = usagiHere && dist(pp, usagiPos.current) <= 0.13;
+  act(nearUsagi, 'usagiTalk', '🐰 うさぎと はなす', tapUsagi);
+  act(nearUsagi, 'usagiGift', '🎁 うさぎに あげる', () => setGiftFor(usagiFriend), false);
+  act(nearUsagi && area === 'moon' && !usagiHome && usagiHearts >= FOLLOW_HEARTS, 'usagiInvite', '🌍 いっしょに ちきゅうへ いこう', inviteUsagi);
+  act(nearUsagi && area === 'moon' && usagiHome, 'usagiStay', '🌙 つきで まってて', leaveUsagi, false);
   if (nearFurniture) {
     const nf = nearFurniture;
     act(nf.id === 'sc_organ', 'organ', '🎹 ひく', () => setModal('organ'));
@@ -1333,6 +1518,7 @@ export function IslandScreen() {
                 emote: mo === 'down' ? '💤' : mo === 'hungry' ? '💭' : undefined,
               }}
               friends={friends3d}
+              usagi={usagiHere ? { label: USAGI_NAME + (usagiHearts > 0 ? ' ' + '♥'.repeat(usagiHearts) : '') } : null}
               bubble={bubble3d}
               jump={jump}
               unread={unread}
@@ -1354,6 +1540,16 @@ export function IslandScreen() {
           )}
           {!on3d && area === 'main' && <FarmPatch plots={save.farm.plots} stages={farmStages} today={day} />}
           {area === 'east' && <EastGround tod={tod} />}
+          {area === 'moon' && <MoonGround moonAge={moonAge} />}
+          {area === 'mars' && <MarsGround />}
+          {planet && <g ref={footRef} pointerEvents="none" />}
+          {moonStone && (
+            <g transform={`translate(${moonStone.x * ISLAND_W} ${moonStone.y * ISLAND_H})`} pointerEvents="none">
+              <circle r="26" fill={planet === 'mars' ? 'rgba(254,215,170,0.5)' : 'rgba(253,224,71,0.35)'} className="twinkle" />
+              <path d="M-14 4 L-8 -10 L6 -13 L15 -2 L9 9 L-6 10 Z" fill={planet === 'mars' ? '#ef4444' : '#fde68a'} stroke={planet === 'mars' ? '#7f1d1d' : '#a16207'} strokeWidth="2.5" />
+              <text y="-20" fontSize="16" textAnchor="middle">✨</text>
+            </g>
+          )}
           {area === 'school' && (
             <SchoolGround tod={tod} moonAge={moonAge} medals={earnedTotal()} stamps={stamps.length} friends={snap.friends.length} today={byDate[day] || 0} />
           )}
@@ -1383,7 +1579,7 @@ export function IslandScreen() {
           {!on3d && entities}
           {/* 空（画面に くっつける）。夜のあかりは 下で 島の上に かく。3D では 色の膜は 3D がわで つける */}
           <g ref={skyRef} transform={on3d ? undefined : `translate(${camNow.x} ${camNow.y})`}>
-            {!indoor && <SkyLayer
+            {!indoor && !planet && <SkyLayer
               noTint={on3d}
               tod={tod}
               weather={weather}
@@ -1394,7 +1590,7 @@ export function IslandScreen() {
               skyTime={skyMin}
               onStarTap={(id) => g.showToast(starInfo(id))}
             />}
-            {hwNight && !indoor && [[120, 90], [520, 60], [760, 130]].map(([x, y], i) => (
+            {hwNight && !indoor && !planet && [[120, 90], [520, 60], [760, 130]].map(([x, y], i) => (
               <g key={'bat' + i} transform={`translate(${x} ${y})`} style={{ pointerEvents: 'none' }}>
                 <g className="bat-fly" style={{ animationDelay: `${-i * 2.3}s` }}>
                   <text fontSize="30" textAnchor="middle">🦇</text>
@@ -1403,7 +1599,7 @@ export function IslandScreen() {
             ))}
           </g>
           {/* 夜の あかり（窓・ランプ・ランタン）。島の位置に かく */}
-          {!on3d && !indoor && tod === 'night' && [
+          {!on3d && !indoor && !planet && tod === 'night' && [
 
               ...(area === 'main' && save.buildings.includes('bd_house') ? [{ x: 0.2, y: 0.36, r: 60 }] : []),
               ...(area === 'main' && save.buildings.includes('bd_school') ? [{ x: 0.64, y: 0.31, r: 80 }] : []),
@@ -1473,6 +1669,8 @@ export function IslandScreen() {
                 ? 'へやの かぐを おいて かざろう。ドアの まえで そとに でられるよ'
                 : area === 'school'
                 ? 'こくばん・テレビ・けいじばん・おともだちを タップしてみよう'
+                : pcfg
+                ? pcfg.hint
                 : area === 'east'
                 ? save.buildings.includes('bd_rocket')
                   ? 'ロケットを タップすると うちゅうりょこうに いけるよ。ひだりの はしで もとの しまに もどれるよ'
@@ -1661,7 +1859,7 @@ export function IslandScreen() {
       {modal === 'moonView' && <MoonViewModal onClose={() => setModal(null)} />}
       {modal === 'imo' && <YakiimoModal customers={imoCustomers} onClose={() => setModal(null)} />}
       {modal === 'arbor' && <ArborModal friends={imoCustomers} studied={studied} onClose={() => setModal(null)} />}
-      {(modal === 'spaceGo' || modal === 'spaceDex') && <SpaceTripModal tab={modal === 'spaceGo' ? 'go' : 'dex'} studied={studied} crew={imoCustomers} onClose={() => setModal(null)} />}
+      {(modal === 'spaceGo' || modal === 'spaceDex') && <SpaceTripModal tab={modal === 'spaceGo' ? 'go' : 'dex'} studied={studied} crew={imoCustomers} onClose={() => setModal(null)} marsOk={marsOk} onWalk={(to) => { setModal(null); travel(to, ENTRY[to]); }} />}
 
       {/* ── 🌲 まよいの森へ（クエストの ページに うつる）── */}
       {forestAsk && (
@@ -1715,6 +1913,8 @@ export function IslandScreen() {
                 {(byDate[day] || 0) >= 5 ? '🗓️ きょうの スタンプ ゲット！' : `🗓️ あと ${5 - (byDate[day] || 0)}もんで きょうの スタンプ`}<br />
                 🔑 さいごまで といた きょうか <b className="text-[16px] text-yellow-200">{Math.min(tu.cats.length, UNLOCK_CATS)} / {UNLOCK_CATS}</b>
                 {tu.cats.length >= UNLOCK_CATS ? '　しまの かぎ OK！' : ''}<br />
+                🔴 かせいの ノルマ <b className="text-[16px] text-yellow-200">{Math.min(tu.cats.length, MARS_CATS)} / {MARS_CATS}</b>
+                {tu.cats.length >= MARS_CATS ? '　きょうは かせいに いけるよ！' : ''}<br />
                 こんげつの スタンプは <b className="text-[16px] text-yellow-200">{stamps.length}にち</b>
               </div>
               <div className="mt-3 grid grid-cols-2 gap-2">

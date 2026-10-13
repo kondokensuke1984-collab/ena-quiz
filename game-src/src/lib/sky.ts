@@ -19,7 +19,7 @@ export function timeOfDay(d = new Date()): TimeOfDay {
   return 'night';
 }
 
-const SYNODIC = 29.530588853;
+export const SYNODIC = 29.530588853;
 const NEW_MOON_REF = Date.UTC(2000, 0, 6, 18, 14);   // 基準の新月
 
 /** 月齢（0..29.5）。平均の周期で出すので、本当の月齢と1日くらいずれることがある。確認用に ?moonage=15 で上書きできる */

@@ -3,7 +3,8 @@ import { useGame } from '../state/useGame';
 import { ITEM_BY_ID } from '../lib/items';
 import type { Friend } from '../lib/friends';
 import { setSpaceBgm, sfx } from '../lib/sound';
-import { dateKey } from '../lib/study';
+import { CAT_LABEL, dateKey, MARS_CATS, todayUnits } from '../lib/study';
+import type { Planet } from '../types';
 import { DESTS, SPACE_REWARDS, TRIPS_STUDY_BONUS, openDests, tripContent, type SpaceDest, type SpaceQuiz } from '../lib/space';
 import { CharSVG } from './CharSVG';
 
@@ -14,6 +15,7 @@ type Phase =
   | { kind: 'pick' }
   | { kind: 'count'; dest: SpaceDest; isNew: boolean; n: number }
   | { kind: 'fly'; dest: SpaceDest; isNew: boolean }
+  | { kind: 'walk'; dest: SpaceDest; to: Planet }   // 🌕🔴 月・火星を あるきに いく（回数は つかわない）
   | { kind: 'arrive'; dest: SpaceDest; isNew: boolean; facts: string[]; quiz: SpaceQuiz }
   | { kind: 'quiz'; dest: SpaceDest; isNew: boolean; quiz: SpaceQuiz; chosen: number | null }
   | { kind: 'done'; dest: SpaceDest; correct: boolean; got: number; reward: string | null; title: string | null };
@@ -21,8 +23,11 @@ type Phase =
 /** 月と かせいには おりられる。ほかは まどから みる */
 const LANDABLE = new Set(['moon', 'mars']);
 
-export function SpaceTripModal({ tab: tab0, studied, crew, onClose }: {
+export function SpaceTripModal({ tab: tab0, studied, crew, onClose, onWalk, marsOk = false }: {
   tab: 'go' | 'dex'; studied: boolean; crew: Friend[]; onClose(): void;
+  /** 月に いったことが あれば いつでも、火星は その日の ノルマ（3教科クリア）で あるきに いける */
+  onWalk?(to: Planet): void;
+  marsOk?: boolean;
 }) {
   const g = useGame();
   const hasRocket = g.save.buildings.includes('bd_rocket');
@@ -43,7 +48,7 @@ export function SpaceTripModal({ tab: tab0, studied, crew, onClose }: {
 
   // BGM：はっしゃまでは わくわく、うちゅうでは ゆったり、かえったら とめる
   useEffect(() => {
-    setSpaceBgm(phase.kind === 'count' || phase.kind === 'fly' ? 'launch' : phase.kind === 'arrive' || phase.kind === 'quiz' ? 'space' : null);
+    setSpaceBgm(phase.kind === 'count' || phase.kind === 'fly' || phase.kind === 'walk' ? 'launch' : phase.kind === 'arrive' || phase.kind === 'quiz' ? 'space' : null);
   }, [phase.kind]);
 
   // カウントダウン → とぶ → とうちゃく
@@ -62,8 +67,43 @@ export function SpaceTripModal({ tab: tab0, studied, crew, onClose }: {
       }, 2800);
       return () => window.clearTimeout(id);
     }
+    if (phase.kind === 'walk') {
+      const to = phase.to;
+      const id = window.setTimeout(() => onWalk?.(to), 1700);
+      return () => window.clearTimeout(id);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase]);
+
+  const canWalk = hasRocket && dex.includes('moon') && !!onWalk;
+  const canMars = hasRocket && dex.includes('mars') && !!onWalk;
+  const goWalk = (to: Planet) => { sfx('launch'); setPhase({ kind: 'walk', dest: DESTS.find((d) => d.id === to)!, to }); };
+  const walkBtn = (
+    <button className="btn-main mb-2 w-full" onClick={() => goWalk('moon')}>
+      👣 つきを あるく<span className="ml-1 text-[11px] font-bold opacity-80">（なんかいでも）</span>
+    </button>
+  );
+  // 🔴 火星：その日 3教科クリアで あるける。まだなら ノルマの カード
+  const cats = todayUnits().cats;
+  const marsBtn = marsOk ? (
+    <button className="mb-2 w-full rounded-2xl bg-gradient-to-br from-orange-600 to-red-500 px-4 py-3 text-[15px] font-black text-white shadow active:scale-95" onClick={() => goWalk('mars')}>
+      👣 かせいを あるく<span className="ml-1 text-[11px] font-bold opacity-90">（きょうの ノルマ クリア！）</span>
+    </button>
+  ) : (
+    <div className="mb-2 rounded-2xl border-2 border-dashed border-orange-300 bg-orange-50 px-3 py-2.5 text-center">
+      <div className="text-[14px] font-black text-orange-700">🔒 👣 かせいを あるく</div>
+      <div className="mt-0.5 text-[11px] font-bold text-indigo-900/60">きょうの ノルマ：{MARS_CATS}つの きょうかで たんげんを さいごまで</div>
+      <div className="mt-1.5 flex justify-center gap-1.5">
+        {Array.from({ length: MARS_CATS }, (_, i) => (
+          <span key={i} className={`rounded-xl px-2 py-1 text-[11px] font-black ${cats[i] ? 'bg-emerald-100 text-emerald-700' : 'border border-dashed border-orange-300 text-orange-300'}`}>
+            {cats[i] ? `✅ ${CAT_LABEL[cats[i]] ?? cats[i]}` : '⬜ まだ'}
+          </span>
+        ))}
+      </div>
+      <div className="mt-1 text-[12px] font-black text-orange-600">あと {Math.max(1, MARS_CATS - cats.length)}きょうか！<span className="text-[10px] font-bold text-indigo-900/50">（8わり いじょう せいかいで クリア）</span></div>
+      <a className="mt-1.5 inline-block rounded-xl bg-indigo-600 px-3 py-1.5 text-[12px] font-black text-white no-underline" href="/">📚 クイズへ</a>
+    </div>
+  );
 
   const launch = (dest: SpaceDest) => {
     const r = g.spaceLaunch(dest.id, studied);
@@ -83,7 +123,7 @@ export function SpaceTripModal({ tab: tab0, studied, crew, onClose }: {
     window.setTimeout(() => setPhase({ kind: 'done', dest: phase.dest, correct, ...r }), 1800);
   };
 
-  const busy = phase.kind === 'count' || phase.kind === 'fly';
+  const busy = phase.kind === 'count' || phase.kind === 'fly' || phase.kind === 'walk';
 
   return (
     <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/60 p-3" onClick={busy ? undefined : onClose}>
@@ -105,10 +145,12 @@ export function SpaceTripModal({ tab: tab0, studied, crew, onClose }: {
         {phase.kind === 'pick' && tab === 'go' && (
           !hasRocket ? (
             <div className="rounded-2xl bg-indigo-50 px-3 py-4 text-center text-[13px] font-bold leading-relaxed text-ink">
-              🚀 ロケットを けんせつすると<br />うちゅうりょこうに いけるよ！
+              🛰️ うちゅうきちを けんせつすると<br />うちゅうりょこうに いけるよ！
             </div>
           ) : (
             <div>
+              {canWalk && walkBtn}
+              {canMars && marsBtn}
               <div className="mb-2 text-center text-[12px] font-bold text-indigo-900/60">
                 きょう あと {left}かい とべるよ{!studied && `（クイズを 5もん やると +${TRIPS_STUDY_BONUS}かい）`}
               </div>
@@ -142,9 +184,9 @@ export function SpaceTripModal({ tab: tab0, studied, crew, onClose }: {
 
         {phase.kind === 'pick' && tab === 'dex' && <SpaceDex dex={dex} />}
 
-        {(phase.kind === 'count' || phase.kind === 'fly') && (
-          <div className="relative h-[260px] overflow-hidden rounded-2xl" style={{ background: phase.kind === 'fly' ? '#0b1026' : 'linear-gradient(#38bdf8, #bae6fd)' }}>
-            {phase.kind === 'fly' && Array.from({ length: 18 }, (_, i) => (
+        {(phase.kind === 'count' || phase.kind === 'fly' || phase.kind === 'walk') && (
+          <div className="relative h-[260px] overflow-hidden rounded-2xl" style={{ background: phase.kind !== 'count' ? '#0b1026' : 'linear-gradient(#38bdf8, #bae6fd)' }}>
+            {phase.kind !== 'count' && Array.from({ length: 18 }, (_, i) => (
               <div
                 key={i}
                 className="space-streak absolute w-[2px] rounded bg-white/80"
@@ -152,9 +194,9 @@ export function SpaceTripModal({ tab: tab0, studied, crew, onClose }: {
               />
             ))}
             {phase.kind === 'count' && <div className="absolute inset-x-0 bottom-0 h-10 bg-green-400" />}
-            <div className={`absolute bottom-6 left-1/2 -translate-x-1/2 ${phase.kind === 'fly' ? 'rocket-shake' : ''}`}>
+            <div className={`absolute bottom-6 left-1/2 -translate-x-1/2 ${phase.kind !== 'count' ? 'rocket-shake' : ''}`}>
               <svg viewBox="-40 -180 80 200" width="80" height="200">
-                {phase.kind === 'fly' && <path d="M-10 -6 Q0 40 10 -6 Z" fill="#f97316" className="twinkle" />}
+                {phase.kind !== 'count' && <path d="M-10 -6 Q0 40 10 -6 Z" fill="#f97316" className="twinkle" />}
                 <path d="M-14 -20 L-30 -4 L-30 -34 L-14 -56 Z" fill="#ef4444" stroke="#4c1d95" strokeWidth="2.6" />
                 <path d="M14 -20 L30 -4 L30 -34 L14 -56 Z" fill="#ef4444" stroke="#4c1d95" strokeWidth="2.6" />
                 <path d="M-16 -8 L-16 -120 Q0 -176 16 -120 L16 -8 Z" fill="#f8fafc" stroke="#4c1d95" strokeWidth="2.6" />
@@ -168,7 +210,7 @@ export function SpaceTripModal({ tab: tab0, studied, crew, onClose }: {
               </div>
             ) : (
               <div className="absolute inset-x-0 top-3 text-center text-[15px] font-black text-white">
-                {phase.dest.emoji} {phase.dest.name}へ しゅっぱつ！
+                {phase.kind === 'walk' ? `${phase.dest.emoji} ${phase.dest.name}へ おさんぽに しゅっぱつ！` : `${phase.dest.emoji} ${phase.dest.name}へ しゅっぱつ！`}
               </div>
             )}
           </div>
@@ -234,6 +276,8 @@ export function SpaceTripModal({ tab: tab0, studied, crew, onClose }: {
               </div>
             )}
             {phase.title && <div className="text-[12px] font-black text-violet-700">🏅 しょうごう「{phase.title}」</div>}
+            {phase.dest.id === 'moon' && canWalk && <div className="mt-2 w-full">{walkBtn}</div>}
+            {phase.dest.id === 'mars' && canMars && marsOk && <div className="mt-2 w-full">{marsBtn}</div>}
             <button className="btn mt-2" onClick={() => setPhase({ kind: 'pick' })}>もどる</button>
           </div>
         )}

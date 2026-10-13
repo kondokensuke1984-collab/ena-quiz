@@ -1,10 +1,7 @@
 import { TransferLink } from '../components/TransferModal';
-import { UNLOCK_CATS } from '../lib/study';
+import { CAT_LABEL, UNLOCK_CATS } from '../lib/study';
 
 // 島の入口。その日に UNLOCK_CATS 教科で 単元を1つずつ 最後まで といたら ひらく
-const CAT_LABEL: Record<string, string> = {
-  shakai: '🗾 しゃかい', rika: '🔬 りか', kokugo: '✍️ こくご', sansu: '🔢 さんすう', eigo: '🔤 えいご',
-};
 
 export function LockScreen({ cats }: { cats: string[] }) {
   const left = Math.max(0, UNLOCK_CATS - cats.length);
