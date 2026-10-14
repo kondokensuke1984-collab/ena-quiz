@@ -9,7 +9,7 @@ export type CharKey =
   | 'luna' | 'kabu' | 'tanuki' | 'parrot' | 'owl' | 'neko' | 'penguin'
   | 'sheep' | 'frog' | 'snail' | 'duck' | 'squirrel' | 'turtle' | 'fox'
   | 'dolphin' | 'elephant' | 'hedgehog' | 'panda' | 'hamster' | 'rabbit' | 'bear'
-  | 'cow' | 'koala';
+  | 'cow' | 'koala' | 'dog' | 'cheetah' | 'lion' | 'bee' | 'pig';
 
 export interface CharOpts {
   silhouette?: boolean;
@@ -40,6 +40,7 @@ export const CHAR_NAMES: Record<CharKey, string> = {
   duck: 'アヒ', squirrel: 'リスまる', turtle: 'カメきち', fox: 'コンタ', dolphin: 'ドルル',
   elephant: 'ゾウまる', hedgehog: 'ハリー', panda: 'パンコ', hamster: 'ハムタ', rabbit: 'ミミ', bear: 'ツキミ',
   cow: 'モモ', koala: 'ユーカ',
+  dog: 'シバすけ', cheetah: 'チタ', lion: 'レオ', bee: 'ハニー', pig: 'ブブ',
 };
 
 const SCRIPT_URL = '/js/chars.js';

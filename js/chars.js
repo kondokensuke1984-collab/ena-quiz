@@ -1449,6 +1449,305 @@ function renderKoalaSVG(level, fillPct, size, opts) {
   return petWrapSVG(L, size, bg, deco, body);
 }
 
+function renderDogSVG(level, fillPct, size, opts) {
+  opts = opts || {};
+  const sil = !!opts.silhouette, L = Math.max(1, level | 0);
+  const pal = { fur:'#f59e0b', belly:'#fffbeb', ear:'#fcd34d', line:'#92400e', eye:'#2a1d3d', nose:'#1f2937',
+                blush:'#fda4af', brush:'#78350f', tip:'#1f2937', paper:'#ffffff', ink:'#111827',
+                book:'#2563eb', bookLine:'#1e3a8a', scarf:'#ef4444', crown:'#fbbf24', star:'#fde68a',
+                egg:'#fef3c7', spot:'#f59e0b' };
+  const c = sil ? petSilPalette(pal) : pal;
+  const bg = petRingBG(fillPct, '#fcd34d', sil);
+  const deco = petCommonDeco(L, opts.stars, c.star, sil);
+  let body;
+  if (L === 1) {
+    body = petEggBody(c, `
+      <path d="M80 84 l4 -18 l12 12 z" fill="${c.fur}" stroke="${c.line}" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M120 84 l-4 -18 l-12 12 z" fill="${c.fur}" stroke="${c.line}" stroke-width="2" stroke-linejoin="round"/>`);
+  } else {
+    // Lv2〜：くるんとした しっぽ と スカーフ
+    const scarf = `<path d="M78 134 q22 10 44 0 l-2 6 q-20 8 -40 0 z" fill="${c.scarf}" stroke="${c.line}" stroke-width="1.4"/>`;
+    // Lv3〜：ふで
+    const brush = L >= 3 ? `<g transform="rotate(30 152 150)">
+        <rect x="148" y="118" width="8" height="40" rx="3" fill="${c.brush}" stroke="${c.line}" stroke-width="1.6"/>
+        <path d="M148 158 q4 16 4 16 q0 0 4 -16 z" fill="${c.tip}"/>
+      </g>` : '';
+    // Lv4〜：はんしに「志」
+    const paper = L >= 4 ? `<g transform="rotate(-8 50 156)">
+        <rect x="30" y="134" width="38" height="46" rx="2" fill="${c.paper}" stroke="${c.line}" stroke-width="1.6"/>
+        <text x="49" y="167" font-size="24" font-weight="bold" fill="${c.ink}" text-anchor="middle">志</text>
+      </g>` : '';
+    // Lv5〜：こくごじてん
+    const book = L >= 5 ? `<g>
+        <rect x="132" y="166" width="40" height="14" rx="2" fill="${c.book}" stroke="${c.bookLine}" stroke-width="1.8"/>
+        <path d="M136 170 h32" stroke="${c.paper}" stroke-width="1.4"/>
+        <text x="152" y="179" font-size="7" font-weight="bold" fill="${c.paper}" text-anchor="middle">じてん</text>
+      </g>` : '';
+    const crown = L >= 6 ? `<path d="M84 80 L88 64 L96 74 L100 60 L104 74 L112 64 L116 80 Z" fill="${c.crown}" stroke="${c.line}" stroke-width="1.6" stroke-linejoin="round"/>` : '';
+    body = `
+      <path d="M128 150 q22 -4 16 -22 q-6 -8 -12 0 q6 4 2 10 q-4 6 -10 4 z" fill="${c.fur}" stroke="${c.line}" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M76 100 l2 -26 l18 14 z" fill="${c.fur}" stroke="${c.line}" stroke-width="2.2" stroke-linejoin="round"/>
+      <path d="M80 96 l1 -14 l9 8 z" fill="${c.ear}"/>
+      <path d="M124 100 l-2 -26 l-18 14 z" fill="${c.fur}" stroke="${c.line}" stroke-width="2.2" stroke-linejoin="round"/>
+      <path d="M120 96 l-1 -14 l-9 8 z" fill="${c.ear}"/>
+      <ellipse cx="100" cy="146" rx="32" ry="30" fill="${c.fur}" stroke="${c.line}" stroke-width="3"/>
+      <ellipse cx="100" cy="154" rx="19" ry="18" fill="${c.belly}"/>
+      <ellipse cx="86" cy="174" rx="10" ry="5" fill="${c.belly}" stroke="${c.line}" stroke-width="1.8"/>
+      <ellipse cx="114" cy="174" rx="10" ry="5" fill="${c.belly}" stroke="${c.line}" stroke-width="1.8"/>
+      <circle cx="100" cy="112" r="27" fill="${c.fur}" stroke="${c.line}" stroke-width="2.5"/>
+      <path d="M78 118 q22 22 44 0 q-4 16 -22 18 q-18 -2 -22 -18 z" fill="${c.belly}"/>
+      <ellipse cx="80" cy="121" rx="5.5" ry="3.5" fill="${c.blush}" opacity="0.75"/>
+      <ellipse cx="120" cy="121" rx="5.5" ry="3.5" fill="${c.blush}" opacity="0.75"/>
+      ${petEyes(c, sil, 90, 110, 108, 4)}
+      <ellipse cx="100" cy="119" rx="5" ry="3.4" fill="${c.nose}"/>
+      <path d="M100 122 q-4 5 -8 1 M100 122 q4 5 8 1" stroke="${c.eye}" stroke-width="2" fill="none" stroke-linecap="round"/>
+      ${scarf}${crown}${brush}${paper}${book}`;
+  }
+  return petWrapSVG(L, size, bg, deco, body);
+}
+
+function renderCheetahSVG(level, fillPct, size, opts) {
+  opts = opts || {};
+  const sil = !!opts.silhouette, L = Math.max(1, level | 0);
+  const pal = { fur:'#fbbf24', belly:'#fffbeb', ear:'#fde68a', line:'#92400e', eye:'#2a1d3d', nose:'#7c2d12',
+                dot:'#78350f', tear:'#451a03', blush:'#fda4af', watch:'#e5e7eb', watchLine:'#374151', hand:'#ef4444',
+                card:'#dbeafe', cardLine:'#1d4ed8', shoe:'#22c55e', crown:'#fbbf24', star:'#fde68a',
+                egg:'#fef9c3', spot:'#92400e' };
+  const c = sil ? petSilPalette(pal) : pal;
+  const bg = petRingBG(fillPct, '#fdba74', sil);
+  const deco = petCommonDeco(L, opts.stars, c.star, sil);
+  let body;
+  if (L === 1) {
+    body = petEggBody(c, `
+      <circle cx="84" cy="82" r="8" fill="${c.fur}" stroke="${c.line}" stroke-width="2"/>
+      <circle cx="116" cy="82" r="8" fill="${c.fur}" stroke="${c.line}" stroke-width="2"/>`);
+  } else {
+    const dots = (pts) => pts.map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="${c.dot}"/>`).join('');
+    // Lv2〜：はしる くつ
+    const shoes = `<g>
+        <ellipse cx="84" cy="175" rx="11" ry="5.5" fill="${c.shoe}" stroke="${c.line}" stroke-width="1.8"/>
+        <ellipse cx="116" cy="175" rx="11" ry="5.5" fill="${c.shoe}" stroke="${c.line}" stroke-width="1.8"/>
+      </g>`;
+    // Lv3〜：ストップウォッチ（はやさ）
+    const watch = L >= 3 ? `<g>
+        <rect x="45" y="128" width="8" height="6" rx="1" fill="${c.watchLine}"/>
+        <circle cx="49" cy="150" r="16" fill="${c.watch}" stroke="${c.watchLine}" stroke-width="2.4"/>
+        <path d="M49 150 v-10 M49 150 l7 4" stroke="${c.hand}" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="49" cy="150" r="2" fill="${c.watchLine}"/>
+      </g>` : '';
+    // Lv4〜：小数のカード
+    const card = L >= 4 ? `<g transform="rotate(10 152 146)">
+        <rect x="134" y="126" width="36" height="28" rx="4" fill="${c.card}" stroke="${c.cardLine}" stroke-width="2"/>
+        <text x="152" y="145" font-size="13" font-weight="bold" fill="${c.cardLine}" text-anchor="middle">2.5</text>
+      </g>` : '';
+    // Lv5〜：分数のカード
+    const frac = L >= 5 ? `<g transform="rotate(-6 150 172)">
+        <rect x="136" y="158" width="28" height="26" rx="4" fill="#fff" stroke="${c.cardLine}" stroke-width="2"/>
+        <text x="150" y="169" font-size="9" font-weight="bold" fill="${c.cardLine}" text-anchor="middle">5</text>
+        <path d="M143 171 h14" stroke="${c.cardLine}" stroke-width="1.4"/>
+        <text x="150" y="181" font-size="9" font-weight="bold" fill="${c.cardLine}" text-anchor="middle">6</text>
+      </g>` : '';
+    const crown = L >= 6 ? `<path d="M84 82 L88 66 L96 76 L100 62 L104 76 L112 66 L116 82 Z" fill="${c.crown}" stroke="${c.line}" stroke-width="1.6" stroke-linejoin="round"/>` : '';
+    body = `
+      <path d="M130 156 q26 2 28 -22" fill="none" stroke="${c.line}" stroke-width="7" stroke-linecap="round"/>
+      <path d="M130 156 q26 2 28 -22" fill="none" stroke="${c.fur}" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="78" cy="92" r="10" fill="${c.fur}" stroke="${c.line}" stroke-width="2.2"/>
+      <circle cx="78" cy="92" r="5" fill="${c.ear}"/>
+      <circle cx="122" cy="92" r="10" fill="${c.fur}" stroke="${c.line}" stroke-width="2.2"/>
+      <circle cx="122" cy="92" r="5" fill="${c.ear}"/>
+      <ellipse cx="100" cy="146" rx="32" ry="30" fill="${c.fur}" stroke="${c.line}" stroke-width="3"/>
+      <ellipse cx="100" cy="154" rx="18" ry="17" fill="${c.belly}"/>
+      ${dots([[76,140,3],[82,128,2.4],[124,138,3],[118,128,2.4],[126,156,2.6],[74,158,2.6]])}
+      <circle cx="100" cy="112" r="27" fill="${c.fur}" stroke="${c.line}" stroke-width="2.5"/>
+      ${dots([[90,94,2.2],[100,90,2.2],[110,94,2.2],[78,108,2],[122,108,2]])}
+      <ellipse cx="100" cy="124" rx="13" ry="9" fill="${c.belly}"/>
+      <path d="M88 114 q-2 8 -6 12 M112 114 q2 8 6 12" stroke="${c.tear}" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      ${petEyes(c, sil, 90, 110, 108, 4)}
+      <path d="M96 119 h8 l-4 4 z" fill="${c.nose}" stroke-linejoin="round"/>
+      <path d="M100 123 q-4 5 -8 1 M100 123 q4 5 8 1" stroke="${c.eye}" stroke-width="2" fill="none" stroke-linecap="round"/>
+      ${shoes}${crown}${watch}${card}${frac}`;
+  }
+  return petWrapSVG(L, size, bg, deco, body);
+}
+
+function renderLionSVG(level, fillPct, size, opts) {
+  opts = opts || {};
+  const sil = !!opts.silhouette, L = Math.max(1, level | 0);
+  const pal = { fur:'#fcd34d', mane:'#ea580c', belly:'#fffbeb', ear:'#fde68a', line:'#7c2d12', eye:'#2a1d3d', nose:'#7c2d12',
+                blush:'#fda4af', blockA:'#ef4444', blockB:'#3b82f6', blockC:'#22c55e', letter:'#ffffff',
+                racket:'#8b5cf6', ball:'#d9f99d', ballLine:'#65a30d', globe:'#38bdf8', land:'#22c55e',
+                crown:'#fbbf24', star:'#fde68a', egg:'#fff7ed', spot:'#fb923c' };
+  const c = sil ? petSilPalette(pal) : pal;
+  const bg = petRingBG(fillPct, '#fdba74', sil);
+  const deco = petCommonDeco(L, opts.stars, c.star, sil);
+  let body;
+  if (L === 1) {
+    body = petEggBody(c, `
+      <circle cx="84" cy="80" r="8" fill="${c.mane}" stroke="${c.line}" stroke-width="2"/>
+      <circle cx="116" cy="80" r="8" fill="${c.mane}" stroke="${c.line}" stroke-width="2"/>`);
+  } else {
+    // たてがみ：Lv が上がると ふさふさに
+    const n = L >= 4 ? 14 : 10, R = L >= 4 ? 36 : 33;
+    let mane = '';
+    for (let i = 0; i < n; i++) {
+      const a = (i / n) * Math.PI * 2;
+      mane += `<circle cx="${(100 + Math.cos(a) * R * 0.86).toFixed(1)}" cy="${(112 + Math.sin(a) * R * 0.86).toFixed(1)}" r="${L >= 4 ? 11 : 10}" fill="${c.mane}" stroke="${c.line}" stroke-width="1.6"/>`;
+    }
+    const block = (x, y, col, t) => `<g>
+        <rect x="${x}" y="${y}" width="20" height="20" rx="3" fill="${col}" stroke="${c.line}" stroke-width="1.6"/>
+        <text x="${x + 10}" y="${y + 15}" font-size="13" font-weight="bold" fill="${c.letter}" text-anchor="middle">${t}</text>
+      </g>`;
+    // Lv3〜：ABC ブロック
+    const blocks = L >= 3 ? `${block(28, 158, c.blockA, 'A')}${block(50, 158, c.blockB, 'B')}${block(39, 137, c.blockC, 'C')}` : '';
+    // Lv4〜：テニスラケットと ボール（スポーツの えいたんご）
+    const racket = L >= 4 ? `<g transform="rotate(25 152 150)">
+        <ellipse cx="152" cy="132" rx="13" ry="16" fill="#fff" stroke="${c.racket}" stroke-width="3"/>
+        <path d="M146 120 v24 M152 117 v30 M158 120 v24 M141 128 h22 M140 136 h24" stroke="${c.racket}" stroke-width="0.8"/>
+        <rect x="149" y="147" width="6" height="22" rx="2" fill="${c.racket}"/>
+      </g>
+      <circle cx="172" cy="174" r="7" fill="${c.ball}" stroke="${c.ballLine}" stroke-width="1.6"/>
+      <path d="M166 171 q6 4 12 0" stroke="${c.ballLine}" stroke-width="1.2" fill="none"/>` : '';
+    // Lv5〜：ちきゅうぎ（Japan・China・Korea・India）
+    const globe = L >= 5 ? `<g>
+        <circle cx="52" cy="112" r="15" fill="${c.globe}" stroke="${c.line}" stroke-width="1.8"/>
+        <path d="M44 104 q6 2 8 8 q-4 4 -10 2 z M54 114 q6 -2 8 4 q-2 6 -8 4 z" fill="${c.land}"/>
+        <path d="M52 127 v8 M44 135 h16" stroke="${c.line}" stroke-width="2.2" stroke-linecap="round"/>
+      </g>` : '';
+    const crown = L >= 6 ? `<path d="M84 74 L88 58 L96 68 L100 54 L104 68 L112 58 L116 74 Z" fill="${c.crown}" stroke="${c.line}" stroke-width="1.6" stroke-linejoin="round"/>` : '';
+    body = `
+      <path d="M130 158 q24 0 24 -18" fill="none" stroke="${c.line}" stroke-width="6" stroke-linecap="round"/>
+      <path d="M130 158 q24 0 24 -18" fill="none" stroke="${c.fur}" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="154" cy="137" r="6" fill="${c.mane}" stroke="${c.line}" stroke-width="1.4"/>
+      <ellipse cx="100" cy="148" rx="32" ry="29" fill="${c.fur}" stroke="${c.line}" stroke-width="3"/>
+      <ellipse cx="100" cy="156" rx="18" ry="16" fill="${c.belly}"/>
+      <ellipse cx="86" cy="175" rx="10" ry="5" fill="${c.fur}" stroke="${c.line}" stroke-width="1.8"/>
+      <ellipse cx="114" cy="175" rx="10" ry="5" fill="${c.fur}" stroke="${c.line}" stroke-width="1.8"/>
+      ${mane}
+      <circle cx="80" cy="90" r="7" fill="${c.fur}" stroke="${c.line}" stroke-width="1.8"/>
+      <circle cx="120" cy="90" r="7" fill="${c.fur}" stroke="${c.line}" stroke-width="1.8"/>
+      <circle cx="100" cy="112" r="25" fill="${c.fur}" stroke="${c.line}" stroke-width="2.5"/>
+      <ellipse cx="100" cy="124" rx="12" ry="8.5" fill="${c.belly}"/>
+      <ellipse cx="81" cy="120" rx="5" ry="3.2" fill="${c.blush}" opacity="0.75"/>
+      <ellipse cx="119" cy="120" rx="5" ry="3.2" fill="${c.blush}" opacity="0.75"/>
+      ${petEyes(c, sil, 90, 110, 108, 4)}
+      <path d="M95 118 h10 l-5 5 z" fill="${c.nose}" stroke-linejoin="round"/>
+      <path d="M100 123 q-4 5 -8 1 M100 123 q4 5 8 1" stroke="${c.eye}" stroke-width="2" fill="none" stroke-linecap="round"/>
+      ${crown}${blocks}${racket}${globe}`;
+  }
+  return petWrapSVG(L, size, bg, deco, body);
+}
+
+function renderBeeSVG(level, fillPct, size, opts) {
+  opts = opts || {};
+  const sil = !!opts.silhouette, L = Math.max(1, level | 0);
+  const pal = { fur:'#facc15', stripe:'#1f2937', wing:'#e0f2fe', wingLine:'#60a5fa', line:'#713f12', eye:'#2a1d3d',
+                blush:'#fda4af', sprout:'#22c55e', sproutLine:'#166534', seed:'#a16207', soil:'#92400e',
+                petal:'#a78bfa', petalLine:'#6d28d9', center:'#fef3c7', bottle:'#fef3c7', iodine:'#7c2d12',
+                crown:'#fbbf24', star:'#fde68a', egg:'#fefce8', spot:'#facc15' };
+  const c = sil ? petSilPalette(pal) : pal;
+  const bg = petRingBG(fillPct, '#fde047', sil);
+  const deco = petCommonDeco(L, opts.stars, c.star, sil);
+  let body;
+  if (L === 1) {
+    body = petEggBody(c, `
+      <path d="M90 80 q-6 -12 -12 -14" stroke="${c.stripe}" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+      <path d="M110 80 q6 -12 12 -14" stroke="${c.stripe}" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+      <circle cx="78" cy="66" r="4" fill="${c.stripe}"/><circle cx="122" cy="66" r="4" fill="${c.stripe}"/>`);
+  } else {
+    // Lv3〜：ふたばの はちうえ（はつが）
+    const sprout = L >= 3 ? `<g>
+        <path d="M30 162 h36 l-5 20 h-26 z" fill="${c.soil}" stroke="${c.line}" stroke-width="1.8" stroke-linejoin="round"/>
+        <path d="M48 162 v-16" stroke="${c.sproutLine}" stroke-width="2.4" stroke-linecap="round"/>
+        <ellipse cx="40" cy="144" rx="9" ry="5" fill="${c.sprout}" stroke="${c.sproutLine}" stroke-width="1.5" transform="rotate(-20 40 144)"/>
+        <ellipse cx="56" cy="144" rx="9" ry="5" fill="${c.sprout}" stroke="${c.sproutLine}" stroke-width="1.5" transform="rotate(20 56 144)"/>
+      </g>` : '';
+    // Lv4〜：アサガオの はな
+    const flower = L >= 4 ? `<g>
+        <path d="M152 162 v18" stroke="${c.sproutLine}" stroke-width="2.4" stroke-linecap="round"/>
+        <path d="M134 130 q18 -10 36 0 l-12 30 h-12 z" fill="${c.petal}" stroke="${c.petalLine}" stroke-width="2" stroke-linejoin="round"/>
+        <ellipse cx="152" cy="131" rx="18" ry="6" fill="${c.petal}" stroke="${c.petalLine}" stroke-width="2"/>
+        <ellipse cx="152" cy="131" rx="6" ry="2.4" fill="${c.center}"/>
+      </g>` : '';
+    // Lv5〜：ヨウ素液の びん
+    const bottle = L >= 5 ? `<g>
+        <rect x="160" y="164" width="18" height="18" rx="3" fill="${c.bottle}" stroke="${c.line}" stroke-width="1.6"/>
+        <rect x="160" y="172" width="18" height="10" rx="2" fill="${c.iodine}" opacity="0.8"/>
+        <rect x="164" y="156" width="10" height="9" rx="2" fill="${c.stripe}"/>
+      </g>` : '';
+    const crown = L >= 6 ? `<path d="M84 78 L88 62 L96 72 L100 58 L104 72 L112 62 L116 78 Z" fill="${c.crown}" stroke="${c.line}" stroke-width="1.6" stroke-linejoin="round"/>` : '';
+    body = `
+      <ellipse cx="70" cy="128" rx="22" ry="14" fill="${c.wing}" stroke="${c.wingLine}" stroke-width="2" opacity="0.9" transform="rotate(-30 70 128)"/>
+      <ellipse cx="130" cy="128" rx="22" ry="14" fill="${c.wing}" stroke="${c.wingLine}" stroke-width="2" opacity="0.9" transform="rotate(30 130 128)"/>
+      <path d="M100 178 l-5 8 h10 z" fill="${c.stripe}"/>
+      <ellipse cx="100" cy="150" rx="30" ry="28" fill="${c.fur}" stroke="${c.line}" stroke-width="3"/>
+      <path d="M72 144 q28 8 56 0 v8 q-28 8 -56 0 z M74 162 q26 8 52 0 v6 q-26 8 -52 0 z" fill="${c.stripe}"/>
+      <path d="M90 90 q-6 -14 -14 -16" stroke="${c.stripe}" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+      <path d="M110 90 q6 -14 14 -16" stroke="${c.stripe}" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+      <circle cx="76" cy="74" r="4.5" fill="${c.stripe}"/><circle cx="124" cy="74" r="4.5" fill="${c.stripe}"/>
+      <circle cx="100" cy="112" r="26" fill="${c.fur}" stroke="${c.line}" stroke-width="2.5"/>
+      <ellipse cx="80" cy="120" rx="6" ry="4" fill="${c.blush}" opacity="0.75"/>
+      <ellipse cx="120" cy="120" rx="6" ry="4" fill="${c.blush}" opacity="0.75"/>
+      ${petEyes(c, sil, 90, 110, 109, 4.2)}
+      <path d="M100 120 q-5 6 -10 1 M100 120 q5 6 10 1" stroke="${c.eye}" stroke-width="2" fill="none" stroke-linecap="round"/>
+      ${crown}${sprout}${flower}${bottle}`;
+  }
+  return petWrapSVG(L, size, bg, deco, body);
+}
+
+function renderPigSVG(level, fillPct, size, opts) {
+  opts = opts || {};
+  const sil = !!opts.silhouette, L = Math.max(1, level | 0);
+  const pal = { fur:'#fbcfe8', belly:'#fdf2f8', ear:'#f9a8d4', snout:'#f9a8d4', nostril:'#be185d', line:'#9d174d', eye:'#2a1d3d',
+                blush:'#f472b6', imo:'#a21caf', imoIn:'#fde68a', mikan:'#fb923c', leaf:'#22c55e', leafLine:'#166534',
+                cup:'#ffffff', tea:'#65a30d', map:'#dcfce7', mapLine:'#15803d', pin:'#ef4444',
+                crown:'#fbbf24', star:'#fde68a', egg:'#fdf2f8', spot:'#f9a8d4' };
+  const c = sil ? petSilPalette(pal) : pal;
+  const bg = petRingBG(fillPct, '#86efac', sil);
+  const deco = petCommonDeco(L, opts.stars, c.star, sil);
+  let body;
+  if (L === 1) {
+    body = petEggBody(c, `
+      <path d="M80 84 l2 -14 l12 8 z" fill="${c.ear}" stroke="${c.line}" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M120 84 l-2 -14 l-12 8 z" fill="${c.ear}" stroke="${c.line}" stroke-width="2" stroke-linejoin="round"/>`);
+  } else {
+    // Lv3〜：さつまいも（鹿児島）
+    const imo = L >= 3 ? `<g transform="rotate(-20 48 166)">
+        <ellipse cx="48" cy="166" rx="20" ry="9" fill="${c.imo}" stroke="${c.line}" stroke-width="1.6"/>
+        <path d="M30 166 q-6 0 -8 -4 M66 166 q6 0 8 4" stroke="${c.imo}" stroke-width="2" fill="none"/>
+      </g>` : '';
+    // Lv4〜：みかん（和歌山）
+    const mikan = L >= 4 ? `<g>
+        <circle cx="156" cy="168" r="11" fill="${c.mikan}" stroke="${c.line}" stroke-width="1.6"/>
+        <ellipse cx="160" cy="156" rx="5" ry="2.6" fill="${c.leaf}" stroke="${c.leafLine}" stroke-width="1" transform="rotate(-25 160 156)"/>
+      </g>` : '';
+    // Lv5〜：日本地図に ピン
+    const map = L >= 5 ? `<g transform="rotate(8 150 132)">
+        <rect x="132" y="116" width="38" height="32" rx="3" fill="${c.map}" stroke="${c.mapLine}" stroke-width="1.8"/>
+        <path d="M160 120 q4 4 0 8 q-6 4 -8 10 q-6 4 -12 2 q4 -4 8 -6 q6 -6 12 -14 z" fill="${c.mapLine}" opacity="0.7"/>
+        <circle cx="142" cy="140" r="3" fill="${c.pin}"/><circle cx="160" cy="124" r="3" fill="${c.pin}"/>
+      </g>` : '';
+    const crown = L >= 6 ? `<path d="M84 82 L88 66 L96 76 L100 62 L104 76 L112 66 L116 82 Z" fill="${c.crown}" stroke="${c.line}" stroke-width="1.6" stroke-linejoin="round"/>` : '';
+    body = `
+      <path d="M132 150 q10 -2 8 -8 q-4 -4 -6 2 q-2 6 6 4" fill="none" stroke="${c.line}" stroke-width="2.2" stroke-linecap="round"/>
+      <ellipse cx="100" cy="148" rx="34" ry="29" fill="${c.fur}" stroke="${c.line}" stroke-width="3"/>
+      <ellipse cx="100" cy="155" rx="20" ry="17" fill="${c.belly}"/>
+      <ellipse cx="84" cy="175" rx="9" ry="5" fill="${c.ear}" stroke="${c.line}" stroke-width="1.8"/>
+      <ellipse cx="116" cy="175" rx="9" ry="5" fill="${c.ear}" stroke="${c.line}" stroke-width="1.8"/>
+      <circle cx="100" cy="113" r="27" fill="${c.fur}" stroke="${c.line}" stroke-width="2.5"/>
+      <path d="M76 98 l-2 -18 l18 8 z" fill="${c.ear}" stroke="${c.line}" stroke-width="2.2" stroke-linejoin="round"/>
+      <path d="M124 98 l2 -18 l-18 8 z" fill="${c.ear}" stroke="${c.line}" stroke-width="2.2" stroke-linejoin="round"/>
+      <ellipse cx="100" cy="122" rx="12" ry="8.5" fill="${c.snout}" stroke="${c.line}" stroke-width="2"/>
+      <ellipse cx="95.5" cy="122" rx="2.2" ry="3.2" fill="${c.nostril}"/>
+      <ellipse cx="104.5" cy="122" rx="2.2" ry="3.2" fill="${c.nostril}"/>
+      <ellipse cx="79" cy="120" rx="5.5" ry="3.5" fill="${c.blush}" opacity="0.6"/>
+      <ellipse cx="121" cy="120" rx="5.5" ry="3.5" fill="${c.blush}" opacity="0.6"/>
+      ${petEyes(c, sil, 89, 111, 106, 4)}
+      <path d="M94 133 q6 4 12 0" stroke="${c.eye}" stroke-width="2" fill="none" stroke-linecap="round"/>
+      ${crown}${imo}${mikan}${map}`;
+  }
+  return petWrapSVG(L, size, bg, deco, body);
+}
+
 // ============================================================
 // ホームの育成カード
 // ============================================================
@@ -1477,4 +1776,9 @@ window.CHARS = {
   bear: renderBearSVG,
   cow: renderCowSVG,
   koala: renderKoalaSVG,
+  dog: renderDogSVG,
+  cheetah: renderCheetahSVG,
+  lion: renderLionSVG,
+  bee: renderBeeSVG,
+  pig: renderPigSVG,
 };

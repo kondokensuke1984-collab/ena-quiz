@@ -33,6 +33,11 @@ export const PERSONA: Record<CharKey, { type: Persona; tag: string }> = {
   bear: { type: 'yasashi', tag: 'クマ〜' },
   cow: { type: 'nonbiri', tag: 'モ〜' },
   koala: { type: 'nonbiri', tag: 'ユー♪' },
+  dog: { type: 'shikkari', tag: 'ワン！' },
+  cheetah: { type: 'genki', tag: 'ビュン！' },
+  lion: { type: 'genki', tag: 'ガオ！' },
+  bee: { type: 'yasashi', tag: 'ブン♪' },
+  pig: { type: 'nonbiri', tag: 'ブ〜' },
 };
 
 export interface TalkCtx {
@@ -166,6 +171,12 @@ const TRIVIA: Record<string, string[]> = {
     'まめちしき！ にほんには 47の とどうふけんが あるよ',
     'まめちしき！ ちずの「〒」は ゆうびんきょく',
     'まめちしき！ にほんで いちばん おおきい みずうみは びわこ',
+  ],  eigo: [
+    'まめちしき！ 40は forty。u は いれないよ',
+    'まめちしき！ くにの なまえは おおもじで かくよ。Japan！',
+    'まめちしき！ ふちの ある ぼうしは hat、ない ぼうしは cap',
+    'まめちしき！ てぶくろは 2つで 1くみ。だから gloves',
+    'まめちしき！ 13は thirteen、30は thirty',
   ],
 };
 const TRIVIA_ANY = [
