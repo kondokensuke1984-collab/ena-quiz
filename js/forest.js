@@ -13,12 +13,12 @@
 // ============================================================
 const FOREST_W = 34, FOREST_H = 26;
 const FOREST_ENC_MIN = 4;                                   // たたかいの あと この歩数は 出ない
-const FOREST_ENC = { '.': 0.05, '"': 0.10, 'T': 0.12, 'o': 0.07, 'r': 0.03, 's': 0.07, 'c': 0.08 };   // 1歩ごとの 出やすさ（みち・はしは 出ない。o r おしろ・s うみべ・c うみの どうくつ）
+const FOREST_ENC = { '.': 0.05, '"': 0.10, 'T': 0.12, 'o': 0.07, 'r': 0.03, 's': 0.07, 'c': 0.08, 'v': 0.08 };   // 1歩ごとの 出やすさ（みち・はしは 出ない。o r おしろ・s うみべ・c うみの どうくつ・v かざん）
 const FOREST_STEP = 0.2;                                    // 1マス あるく 秒
 const FOREST_BOSS_DAILY = 5, FOREST_BOSS_FIRST = 10;
 const FOREST_BOSS_CHAR = 'bear', FOREST_BOSS_NAME = 'もりのぬし ビッグベア';
 const FOREST_GUARD_NAME = 'どうくつの ばんにん';
-const FOREST_WALK = '.";T=Borscah';                          // あるける マス（o いしの ゆか・r じゅうたん は おしろ、s すなはま・c どうくつの ゆか）
+const FOREST_WALK = '.";T=Borscahve';                        // あるける マス（o いしの ゆか・r じゅうたん は おしろ、s すなはま・c どうくつ・v かざんの ゆか・e かざんの はし）
 // 🏰 おしろに はいる じょうけん（かぎ ＋ 島の たてもの ＋ これまでに たおした モンスター）
 const FOREST_CASTLE_BUILD = 7, FOREST_CASTLE_KILLS = 30;
 let fz = null;          // いまの ちず（森＝forestBuild／おしろ＝forestCastleMap。fz.area で わかる）
@@ -26,13 +26,23 @@ let fzField = null;     // その日の 森の ちず（おしろから もど�
 let forestMsg = '';
 let forestMapOpen = false;
 let forestUnits = null;         // 森で出す単元（data/forest_units.json）。空・読めないときは制限なし
+let forestPeriods = [];         // きかん げんてい（{from, to, units}。テスト まえ など）。その日は units より こちらが かつ
 fetch('data/forest_units.json', { cache: 'no-cache' }).then(r => r.json())
-  .then(j => { if (Array.isArray(j.units) && j.units.length) forestUnits = j.units; }).catch(() => {});
+  .then(j => {
+    if (Array.isArray(j.units) && j.units.length) forestUnits = j.units;
+    if (Array.isArray(j.periods)) forestPeriods = j.periods;
+  }).catch(() => {});
+function forestTodayUnits() {
+  const d = new Date(), ymd = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  const p = forestPeriods.find(p => p.from <= ymd && ymd <= p.to && Array.isArray(p.units) && p.units.length);
+  return p ? p.units : forestUnits;
+}
 function forestPool() {
-  if (!forestUnits) return QUESTIONS.slice();
+  const units = forestTodayUnits();
+  if (!units) return QUESTIONS.slice();
   const pool = QUESTIONS.filter(q => {
     const su = SUBJECTS[q.subject] || {};
-    return forestUnits.includes(su.parent || q.subject);
+    return units.includes(su.parent || q.subject);
   });
   return pool.length ? pool : QUESTIONS.slice();
 }
@@ -244,8 +254,38 @@ const SEACAVE_ROWS = [
   'GGGGGGGYGGGGGGG',
 ];
 const SEACAVE_SPOTS = { start: [7, 10], boss: [7, 1], exit: [7, 11] };
+// ── 🌋 マグマの かざん（さばくの アジトが へいわに なると ヘリで いける）──
+// 記号：g かざんの いわかべ　v かざんの ゆか　e いしの はし　m マグマ　i こおりの クリスタル（3つ）
+//       d かざんのぬし フレイムドラゴン　W ぽかぽかおんせん　$ たからばこ　P たてふだ　z ヘリポート（アジトへ）
+const VOLCANO_ROWS = [
+  'ggggggggggggggggggg',
+  'ggggmmmvvdvvmmmgggg',
+  'gggmmmmvvvvvmmmmggg',
+  'ggmmmmmmvvvmmmmmmgg',
+  'ggmmmmmmmmmmmmmmmgg',
+  'gg$vvvmmmmmmmvvv$gg',
+  'ggvvvvvvvvvvvvvvvgg',
+  'ggvvggvvvivvvggvvgg',
+  'ggvvggvvvvvvvggvvgg',
+  'ggvvvvvmmmmmvvvvvgg',
+  'ggvivvvmmmmmvvvivgg',
+  'ggvvvvvvvvvvvvvvvgg',
+  'gggvvWvvvevvv$vvggg',
+  'ggggvvvvPevvvvvgggg',
+  'gggggggggzggggggggg',
+];
+const VOLCANO_SPOTS = { start: [9, 13], boss: [9, 1], exit: [9, 14], fromVolcano: [12, 2] };
+const VOLCANO_CRYSTALS = [[3, 10], [15, 10], [9, 7]];
+const VOLCANO_BRIDGE = [[9, 4], [9, 5]];
+const VOLCANO_VILLAGERS = [
+  [6, 11, 'fm_maguma', 'マグマだいおう「ぽかぽか おんせんの おゆかげんは ぼくに まかせて！」'],
+  [12, 11, 'fm_maguma2', 'プラズママグマ「あおい ほのおで かざんの みちを きれいに てらして いるよ」'],
+  [4, 6, 'fm_tokage', 'サラマンダー「しっぽの 火で やきいもを つくると ほくほくで おいしいよ！」'],
+  [14, 6, 'fm_tokage2', 'ダイヤサラマンダー「かざんの いわの なかから キラキラの いしを みつけたんだ」'],
+  [8, 2, 'fm_hinotori', 'フェニックス「フレイムドラゴンさまが にこにこ してる。かざんが へいわに なったね！」'],
+];
 
-// きまった かたちの ちず（おしろ・うみべ・うみの どうくつ）
+// きまった かたちの ちず（おしろ・うみべ・うみの どうくつ・かざん）
 function forestFixedMap(rows, area, start, outside) {
   const W = rows[0].length, H = rows.length;
   const t = rows.join('').split('');
@@ -260,6 +300,14 @@ function forestVillagers(m, list, on) {
   return m;
 }
 function forestCastleMap() { return forestVillagers(forestFixedMap(CASTLE_ROWS, 'castle', CASTLE_SPOTS.start, 'H'), CASTLE_VILLAGERS, save.forestPeace); }
+function forestVolcanoPeace() { return !!save.volcanoPeace; }      // 🕊 かざんのぬしを たおして かざんが へいわに なった（ずっと）
+function forestVolcanoCrystals() { const f = save.forest; if (!Array.isArray(f.vc)) f.vc = []; return f.vc; }
+function forestVolcanoBridgeOn() { return forestVolcanoPeace() || forestVolcanoCrystals().length >= VOLCANO_CRYSTALS.length; }
+function forestVolcanoMap() {
+  const m = forestFixedMap(VOLCANO_ROWS, 'volcano', VOLCANO_SPOTS.start, 'g');
+  if (forestVolcanoBridgeOn()) VOLCANO_BRIDGE.forEach(([x, y]) => { m.t[y * m.W + x] = 'e'; });
+  return forestVillagers(m, VOLCANO_VILLAGERS, forestVolcanoPeace());
+}
 function forestArea() { return fz ? fz.area : 'field'; }
 function forestInCastle() { return forestArea() === 'castle'; }
 function forestInside() { return forestArea() !== 'field'; }      // きまった かたちの ちず（さいしょから ぜんぶ 見える）
@@ -273,7 +321,8 @@ function forestRunaways() {
   if (typeof FOREST_MOBS === 'undefined') return [];
   const ks = (forestPeace() ? FOREST_MOBS.castle || [] : [])
     .concat(forestUmiPeace() ? (FOREST_MOBS.beach || []).concat(FOREST_MOBS.seacave || []) : [])
-    .concat(forestBasePeace() ? FOREST_MOBS.base || [] : []);
+    .concat(forestBasePeace() ? FOREST_MOBS.base || [] : [])
+    .concat(forestVolcanoPeace() ? FOREST_MOBS.volcano || [] : []);
   return ks.filter(k => !forestEvo()[k]);
 }
 function forestRunawayHome() { return forestUmiPeace() ? 'east' : 'seacave'; }
@@ -292,7 +341,8 @@ function forestIsRunaway(k) { return forestRunaways().includes(k) || (k === FORE
 function forestMusic() {
   const a = forestArea();
   return a === 'castle' ? (forestPeace() ? 'peace' : 'castle') : a === 'beach' ? 'beach' : a === 'seacave' ? (forestUmiPeace() ? 'peace' : 'seacave')
-    : a === 'base' ? (forestBasePeace() ? 'peace' : 'base') : 'field';
+    : a === 'base' ? (forestBasePeace() ? 'peace' : 'base')
+    : a === 'volcano' ? (forestVolcanoPeace() ? 'peace' : 'volcano') : 'field';
 }
 
 // 🏰 おしろに はいる じょうけん
@@ -331,6 +381,17 @@ function forestCastleTodo() {
 // 🎯 いま めざす ところ（画面の 上の「つぎに やること」と、光る ！の 場所）
 function forestGoal() {
   const f = save.forest, a = forestArea(), today = todayKey();
+  if (a === 'volcano') {
+    if (forestVolcanoPeace() && f.volcanoDay !== today) return { at: VOLCANO_SPOTS.boss, h: 2.8, text: '🕊 へいわな かざん。おくの フレイムドラゴンに 2かい はなしかけると しょうぶ！' };
+    if (f.volcanoDay === today) return { at: VOLCANO_SPOTS.exit, h: 1.8, text: '🌋 きょうの かざんは クリア！ ヘリで さばくの まちへ もどろう' };
+    if (!forestVolcanoBridgeOn()) {
+      const vc = forestVolcanoCrystals();
+      const left = VOLCANO_CRYSTALS.map((c, i) => [c, i]).filter(([, i]) => !vc.includes(i))
+        .sort((p, q) => Math.abs(p[0][0] - f.x) + Math.abs(p[0][1] - f.y) - Math.abs(q[0][0] - f.x) - Math.abs(q[0][1] - f.y));
+      return { at: [left[0][0][0], left[0][0][1]], h: 2.0, text: '🎯 こおりの クリスタルを さわって マグマの はしを つくろう！（' + vc.length + ' / ' + VOLCANO_CRYSTALS.length + '）' };
+    }
+    return { at: VOLCANO_SPOTS.boss, h: 2.8, text: '🎯 マグマの はしを わたって、おくの かざんのぬしを たおそう！' };
+  }
   if (a === 'base') return forestBaseGoal();
   if (a === 'seacave') {
     if (forestUmiPeace() && f.umiDay !== today) return { at: SEACAVE_SPOTS.boss, h: 2.6, text: '🕊 へいわな どうくつ。おくの オオダコに 2かい はなしかけると しょうぶ！' };
@@ -365,8 +426,9 @@ function forestState() {
   if (old.day !== d || old.v !== 2) {
     save.forest = {
       v: 2, day: d, x: FOREST_SPOTS.start[0], y: FOREST_SPOTS.start[1], dir: 'down', since: 0,
-      seen: '', opened: [], key: false, tower: false, area: 'field', mimic: false,
+      seen: '', opened: [], key: false, tower: false, area: 'field', mimic: false, vc: [],
       bossDay: old.bossDay || '', bossEver: !!old.bossEver, umiDay: old.umiDay || '',
+      baseDay: old.baseDay || '', volcanoDay: old.volcanoDay || '',
     };
     persist();
   }
@@ -379,6 +441,7 @@ function forestLoad() {
   fz = a === 'castle' ? forestCastleMap()
     : a === 'beach' ? forestBaseBeachFix(forestVillagers(forestFixedMap(BEACH_ROWS, 'beach', BEACH_SPOTS.start, '~'), BEACH_VILLAGERS, save.umiPeace))
     : a === 'base' ? forestBaseMap()
+    : a === 'volcano' ? forestVolcanoMap()
     : a === 'seacave' ? forestVillagers(forestFixedMap(SEACAVE_ROWS, 'seacave', SEACAVE_SPOTS.start, 'G'), SEACAVE_VILLAGERS, save.umiPeace)
     : fzField;
   if (fz !== fzField) fz.day = f.day;
@@ -402,8 +465,8 @@ function forestSeen(x, y) {
   const f = save.forest;
   return f.tower || (f.seen || '')[y * FOREST_W + x] === '1';
 }
-// あけた たからばこ（おしろ 'c:x,y'・うみべ 'b:x,y'・うみの どうくつ 's:x,y' で 森と わける）
-function forestChestPrefix() { return { castle: 'c:', beach: 'b:', seacave: 's:', base: 'a:' }[forestArea()] || ''; }
+// あけた たからばこ（おしろ 'c:x,y'・うみべ 'b:x,y'・うみの どうくつ 's:x,y'・かざん 'v:x,y' で 森と わける）
+function forestChestPrefix() { return { castle: 'c:', beach: 'b:', seacave: 's:', base: 'a:', volcano: 'v:' }[forestArea()] || ''; }
 function forestChestKey(x, y) { return forestChestPrefix() + x + ',' + y; }
 function forestChestOpened(x, y) { return (save.forest.opened || []).includes(forestChestKey(x, y)); }
 
@@ -434,7 +497,8 @@ function enterForest() {
   forestLoad();
   forestMapOpen = false;
   persist();
-  forestShow(forestArea() === 'beach' ? 'うみべに もどってきた。' : forestArea() === 'seacave' ? 'うみの どうくつに もどってきた。'
+  forestShow(forestArea() === 'volcano' ? 'マグマの かざんに もどってきた。'
+    : forestArea() === 'beach' ? 'うみべに もどってきた。' : forestArea() === 'seacave' ? 'うみの どうくつに もどってきた。'
     : forestInBase() ? (forestBasePeace() ? 'さばくの まちに もどってきた。' : '🏜 アジトに もどってきた。みつからないように…')
     : forestInCastle() ? 'おしろの なかに もどってきた。'
     : save.forest.key ? 'もりに もどってきた。おしろへ いこう！' : 'もりに はいった。どうくつの ばんにんが しろの かぎを もっているらしい…');
@@ -450,6 +514,7 @@ function forestWarps() {
     { area: 'beach', icon: '🌊', name: 'うみべ', pos: BEACH_SPOTS.start, dir: 'up', on: forestPeace(), lock: 'もりのぬしを おしろで たおすと えらべるよ', msg: '🌊 うみべに きた。' },
     { area: 'seacave', icon: '🕳', name: 'うみの どうくつ', pos: SEACAVE_SPOTS.start, dir: 'up', on: forestUmiPeace(), lock: 'うみのぬしを たおすと えらべるよ', msg: '🕳 うみの どうくつに きた。' },
     { area: 'base', icon: '🏜', name: 'さばくの アジト', pos: BASE_SPOTS.start, dir: 'up', on: forestUmiPeace(), lock: 'うみのぬしを たおすと えらべるよ', msg: '' },
+    { area: 'volcano', icon: '🌋', name: 'マグマの かざん', pos: VOLCANO_SPOTS.start, dir: 'up', on: forestBasePeace(), lock: 'さばくの アジトを クリアすると えらべるよ', msg: '🌋 マグマの かざんに きた。' },
   ];
 }
 function forestWarpOpen(onEnter) {
@@ -555,9 +620,12 @@ function forestHud() {
   const f = save.forest;
   forestBaseHudButtons();
   if (forestInBase()) { document.getElementById('fz-items').textContent = forestBaseHudText(); document.getElementById('fz-goal').textContent = forestGoal().text; return; }
+  const volInfo = forestArea() === 'volcano'
+    ? (forestVolcanoPeace() ? '🕊 へいわな かざん　' : '🌋 マグマの かざん　❄️ クリスタル ' + forestVolcanoCrystals().length + ' / ' + VOLCANO_CRYSTALS.length + '　')
+    : '';
   document.getElementById('fz-items').textContent =
     (f.key ? '🗝 しろの かぎ　' : '') + (f.tower ? '🗺 ちずが ぜんぶ わかる　' : '') +
-    ({ castle: forestPeace() ? '🕊 へいわな おしろ　' : '🏰 おしろの なか　', beach: '🌊 うみべ　', seacave: '🕳 うみの どうくつ　' }[forestArea()] || '') +
+    (volInfo || ({ castle: forestPeace() ? '🕊 へいわな おしろ　' : '🏰 おしろの なか　', beach: '🌊 うみべ　', seacave: '🕳 うみの どうくつ　' }[forestArea()] || '')) +
     '📦 たからばこ ' + (f.opened || []).filter(o => { const pre = forestChestPrefix(); return pre ? o.startsWith(pre) : !o.includes(':'); }).length + ' / ' + fz.chests.length;
   document.getElementById('fz-goal').textContent = forestGoal().text;
 }
@@ -580,9 +648,10 @@ function forestDrawMap() {
   if (!forestMapOpen) { box.innerHTML = ''; return; }
   box.innerHTML = '<div class="fz-mapwrap" onclick="toggleForestMap()">' +
     '<div class="panel" style="text-align:center;" onclick="event.stopPropagation()">' +
-      '<b>🗺️ ' + ({ castle: 'おしろ', beach: 'うみべ', seacave: 'うみの どうくつ' }[forestArea()] || 'まよいの森') + 'の ちず</b>' +
+      '<b>🗺️ ' + ({ castle: 'おしろ', beach: 'うみべ', seacave: 'うみの どうくつ', base: 'さばくの アジト', volcano: 'マグマの かざん' }[forestArea()] || 'まよいの森') + 'の ちず</b>' +
       '<canvas id="fz-mini" class="fz-mini"></canvas>' +
-      (forestArea() === 'beach' ? '<div style="font-size:11px; color:#64748b;">🔴 ルナ　🟡 いま いく ところ　🕳 うみの どうくつ　🪜 おしろへ　📦 たからばこ　🌴 やしの き</div>'
+      (forestArea() === 'volcano' ? '<div style="font-size:11px; color:#64748b;">🔴 ルナ　🟡 いま いく ところ　🐉 かざんのぬし　❄️ クリスタル　⛲ おんせん　📦 たからばこ　🚁 ヘリ</div>'
+      : forestArea() === 'beach' ? '<div style="font-size:11px; color:#64748b;">🔴 ルナ　🟡 いま いく ところ　🕳 うみの どうくつ　🪜 おしろへ　📦 たからばこ　🌴 やしの き</div>'
       : forestArea() === 'seacave' ? '<div style="font-size:11px; color:#64748b;">🔴 ルナ　🟡 いま いく ところ　🐙 うみのぬし　📦 たからばこ　🪜 でぐち</div>'
       : forestInCastle()
         ? '<div style="font-size:11px; color:#64748b;">🔴 ルナ　🟡 いま いく ところ　👑 おうざ　📦 たからばこ　⛲ いずみ　🚪 でぐち</div>'
@@ -606,10 +675,12 @@ const FOREST_COLOR = { '#': '#14532d', '^': '#8d7b68', '~': '#3b82f6', 'X': '#9c
   // うみべ・うみの どうくつ
   's': '#fde68a', 'k': '#78716c', 'p': '#fde68a', 'U': '#1c1917', 'E': '#a8a29e', 'G': '#1e293b', 'c': '#475569', 'Q': '#475569', 'Y': '#a8a29e',
   // さばくの アジト
-  'a': '#e6c07b', 'w': '#78716c', 'b': '#a16207', 'h': '#84cc16', 'J': '#475569', 'A': '#e6c07b', 'O': '#e6c07b', 'Z': '#374151', 'u': '#3b82f6' };
+  'a': '#e6c07b', 'w': '#78716c', 'b': '#a16207', 'h': '#84cc16', 'J': '#475569', 'A': '#e6c07b', 'O': '#e6c07b', 'Z': '#374151', 'u': '#3b82f6',
+  // マグマの かざん
+  'v': '#5c3a30', 'e': '#a8a29e', 'g': '#291d1a', 'm': '#f97316', 'i': '#38bdf8', 'd': '#5c3a30', 'z': '#374151' };
 const FOREST_EMOJI = { '#': '🌲', '^': '⛰️', 'T': '🌳', 'X': '', 'K': '🏰', 'C': '🕳️', 'R': '🗼', 'W': '⛲', 'F': '⛺', 'P': '🪧', '$': '📦',
   'L': '🔥', 'N': '👑', 'D': '🚪', 'M': '📦', 'I': '🏛️', 'V': '😊', 'k': '🪨', 'p': '🌴', 'U': '🕳️', 'E': '🪜', 'Q': '🐙', 'Y': '🪜',
-  'h': '🌾', 'J': '🔒', 'A': '📦', 'O': '🕶️', 'Z': '🚁', 'u': '🚤' };
+  'h': '🌾', 'J': '🔒', 'A': '📦', 'O': '🕶️', 'Z': '🚁', 'u': '🚤', 'i': '❄️', 'd': '🐉', 'z': '🚁' };
 // ちず（ちいさい）と、WebGL が ない 端末の 画面を 2D で かく
 function forestPaint2D(g, ox, oy, cols, rows, k, mini) {
   const f = save.forest;
@@ -619,16 +690,16 @@ function forestPaint2D(g, ox, oy, cols, rows, k, mini) {
     const inMap = x >= 0 && y >= 0 && x < fz.W && y < fz.H;
     const castle = forestInCastle();
     let t = forestTile(x, y);
-    if ((t === '$' || t === 'M') && forestChestOpened(x, y)) t = castle ? 'o' : forestArea() === 'beach' ? 's' : forestArea() === 'seacave' ? 'c' : '.';
+    if ((t === '$' || t === 'M') && forestChestOpened(x, y)) t = castle ? 'o' : forestArea() === 'beach' ? 's' : forestArea() === 'seacave' ? 'c' : forestArea() === 'volcano' ? 'v' : '.';
     if (t === 'S' && !forestPeace()) t = 'H';     // へいわに なるまでは ただの かべ
     if (t === 'S') t = 'D';
     const seen = !mini || !inMap || forestSeen(x, y);
-    const floorC = { castle: FOREST_COLOR.o, beach: FOREST_COLOR.s, seacave: FOREST_COLOR.c, base: FOREST_COLOR.a }[forestArea()];
+    const floorC = { castle: FOREST_COLOR.o, beach: FOREST_COLOR.s, seacave: FOREST_COLOR.c, base: FOREST_COLOR.a, volcano: FOREST_COLOR.v }[forestArea()];
     g.fillStyle = !seen ? '#0f172a' : floorC && '$MWV'.includes(t) ? floorC : t === '~' && forestArea() === 'seacave' ? '#0ea5e9' : FOREST_COLOR[t] || '#86d36b';
     g.fillRect(c * k, r * k, k + 0.5, k + 0.5);
     if (!seen) continue;
     const e = FOREST_EMOJI[t];
-    if (e && (!mini || 'KCRW$NDMLUEQYpJAOZu'.includes(t))) {
+    if (e && (!mini || 'KCRW$NDMLUEQYpJAOZuidz'.includes(t))) {
       g.font = Math.round(k * (mini ? 1.25 : 0.8)) + 'px sans-serif';
       g.fillText(e, c * k + k / 2, r * k + k / 2 + 1);
     }
@@ -695,8 +766,9 @@ function forestArrive() {
   forestStepN++;
   f.since = (f.since || 0) + 1;
   forestReveal();
-  const calm = forestInCastle() && forestPeace() || (forestArea() === 'beach' || forestArea() === 'seacave') && forestUmiPeace();
-  const rate = calm ? 0 : FOREST_ENC[forestTile(f.x, f.y)] || 0;   // 🕊 へいわな おしろ・うみでは でない
+  const calm = forestInCastle() && forestPeace() || (forestArea() === 'beach' || forestArea() === 'seacave') && forestUmiPeace()
+    || forestArea() === 'volcano' && forestVolcanoPeace();
+  const rate = calm ? 0 : FOREST_ENC[forestTile(f.x, f.y)] || 0;   // 🕊 へいわな おしろ・うみ・かざんでは でない
   if (f.since >= FOREST_ENC_MIN && Math.random() < rate) {
     persist();
     return forestEncounter(() => startForestBattle('mob'));
@@ -718,7 +790,7 @@ function forestInteract(x, y, t) {
     save.hp = maxHp(); persist(); forestHud();
     forestFx('heal');
     if (typeof fmJingle === 'function') fmJingle('heal');
-    return forestSay('⛲ いずみの みずを のんだ。HP が ぜんかいふく した！');
+    return forestSay(forestArea() === 'volcano' ? '♨️ ぽかぽか おんせんで ひとやすみ。HP が ぜんかいふく した！' : '⛲ いずみの みずを のんだ。HP が ぜんかいふく した！');
   }
   if (t === 'R') {
     if (f.tower) return forestSay('🗼 ものみのとう。もりが ぜんぶ みわたせる。');
@@ -793,11 +865,41 @@ function forestInteract(x, y, t) {
     forestSay('🐙 うみのぬしが あらわれた！');
     return forestEncounter(() => startForestBattle('umi'));
   }
+  // 🌋 マグマの かざん
+  if (t === 'z') return forestGoArea('base', VOLCANO_SPOTS.fromVolcano, 'down', '🚁 ヘリで さばくの まちに もどった。');
+  if (t === 'i') {
+    const idx = VOLCANO_CRYSTALS.findIndex(([cx, cy]) => cx === x && cy === y);
+    const vc = forestVolcanoCrystals();
+    if (forestVolcanoPeace() || idx < 0 || vc.includes(idx)) return forestSay('❄️ こおりの クリスタルが すずしく ひかっている。');
+    vc.push(idx);
+    persist(); forestLoad(); forestHud(); forestDrawMap();
+    forestFx('heal');
+    if (typeof fmJingle === 'function') fmJingle('chest');
+    return forestSay(forestVolcanoBridgeOn()
+      ? '❄️ 3つの クリスタルが ひかって、おくの マグマが かたまり いしの はしが できた！ かざんのぬしへ いこう！'
+      : '❄️ こおりの クリスタルが ひかった！（' + vc.length + ' / ' + VOLCANO_CRYSTALS.length + '）あと ' + (VOLCANO_CRYSTALS.length - vc.length) + 'こ！');
+  }
+  if (t === 'd') {
+    if (forestVolcanoPeace()) {
+      if (f.volcanoDay === todayKey()) return forestSay('🐉 フレイムドラゴン「いつも ありがとう。おんせんで ゆっくり あたたまって いってね」');
+      if (!forestNushiAsk) { forestNushiAsk = true; return forestSay('🐉 フレイムドラゴン「かざんを へいわに してくれて ありがとう！ また うでだめしを するかい？（もう いちど はなしかけると しょうぶ）」'); }
+    } else if (f.volcanoDay === todayKey()) return forestSay('🐉 かざんのぬしは もう たおしたよ。また あした あおう！');
+    forestNushiAsk = false;
+    persist();
+    forestSay('🐉 かざんのぬし フレイムドラゴンが ほのおを ふきあげた！');
+    return forestEncounter(() => startForestBattle('volcano'));
+  }
+  if (t === 'm') {
+    if (VOLCANO_BRIDGE.some(([bx, by]) => bx === x && by === y)) return forestSay('🔥 マグマが あつくて わたれない！ 3つの「❄️ こおりの クリスタル」を さわると はしが できるよ。');
+    return forestSay('🔥 マグマが ぐつぐつ にえている。あつくて わたれない！');
+  }
+  if (t === 'g') return forestSay('ごつごつした かざんの いわかべだ。すこし あたたかい。');
   if (t === 'k') return forestSay('ごつごつした いわだ。');
   if (t === 'p') return forestSay('🌴 やしの きだ。みが なっている。');
   if (t === 'G') return forestSay('つめたい いわの かべだ。しずくが ぽたぽた おちてくる。');
   if (t === 'I') return forestSay('りっぱな はしらだ。');
   if (t === 'L') return forestSay('🔥 たいまつが ゆらゆら もえている。');
+  if (t === 'P' && forestArea() === 'volcano') return forestSay('🪧 たてふだ「❄️ 3つの こおりの クリスタルを さわると、マグマが かたまって おくへ わたれるよ／⬇ ヘリポート」');
   if (t === 'P' && forestArea() === 'beach') return forestSay('🪧 たてふだ「➚ うみの どうくつ（うみのぬしが いるらしい）／⬇ おしろへ もどる かいだん」');
   if (t === 'P') return forestSay('🪧 たてふだ「⬆ どうくつ（ばんにんが かぎを もっている）／➡ はし・おしろ（もりのぬし）／⬇ キャンプ」');
   if (t === 'F') return forestSay('⛺ キャンプの テント。「🏃 でる」で もりを でられるよ。');
@@ -1174,6 +1276,19 @@ async function forest3DInit() {
       tako.center.set(0.5, 0.05); tako.scale.set(2.0, 2.0, 1);
       tako.position.set(SEACAVE_SPOTS.boss[0], 0.05, SEACAVE_SPOTS.boss[1] + 0.4);
       scene.add(tako);
+    });
+  }
+  // 🐲 マグマの かざんの おくの かざんのぬし（その日 たおすまで 見える）
+  let dragon = null;
+  if (typeof FOREST_VOLCANO_KEY !== 'undefined') {
+    forestSvgCanvas(CHARS[FOREST_VOLCANO_KEY](6, 100, 256, {}), 256).then(cv => {
+      if (!cv) return;
+      const tex = new THREE.CanvasTexture(cv); tex.colorSpace = THREE.SRGBColorSpace;
+      dragon = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, alphaTest: 0.1, depthTest: false, depthWrite: false }));
+      dragon.renderOrder = 5;
+      dragon.center.set(0.5, 0.05); dragon.scale.set(2.15, 2.15, 1);
+      dragon.position.set(VOLCANO_SPOTS.boss[0], 0.05, VOLCANO_SPOTS.boss[1] + 0.42);
+      scene.add(dragon);
     });
   }
   // ちずの 上に たつ キャラの え（まちの ひと など。world に いれるので ちずを つくりなおすと きえる）
@@ -1567,6 +1682,83 @@ async function forest3DInit() {
     });
   }
 
+  // 🌋 マグマの かざん（あかい そら・マグマの かわ・いわの はし・こおりの クリスタル・おんせん・ヘリ）
+  function buildVolcano() {
+    const calm = forestVolcanoPeace();
+    const sky = calm ? 0xfdba74 : 0x3b0a0a;
+    scene.background = new THREE.Color(sky); scene.fog = new THREE.Fog(sky, 15, 29);
+    hemi.intensity = calm ? 1.3 : 1.0; hemi.color.set(calm ? 0xfff7ed : 0xfca5a5); hemi.groundColor.set(calm ? 0x7c2d12 : 0x450a0a);
+    sun.intensity = calm ? 1.45 : 0.75;
+    water.visible = false;
+    const rnd = forestRand(forestSeed('volcano'));
+    const floor = [], walls = [], magma = [], bridge = [], rocks = [], flames = [];
+    const vc = forestVolcanoCrystals();
+    const walk = (x, y) => FOREST_WALK.includes(fz.get(x, y)) || '$WPidVz'.includes(fz.get(x, y));
+    const R = 4;
+    for (let y = -R; y < fz.H + R; y++) for (let x = -R; x < fz.W + R; x++) {
+      const t = fz.get(x, y);
+      if (t === 'g') {
+        const low = walk(x, y - 1), h = low ? 0.42 : 1.55 + rnd() * 0.45;
+        walls.push([M(x, h / 2 - 0.15, y, 1.02, h, 1.02), col(['#291d1d', '#3b2323', '#1f1616'][Math.floor(rnd() * 3)], rnd, 0.06)]);
+        if (!low && rnd() < 0.35) rocks.push([M(x + (rnd() - 0.5) * 0.4, h - 0.1, y + (rnd() - 0.5) * 0.4, 0.5, 0.4, 0.5, rnd() * 3), col('#451a1a', rnd)]);
+        continue;
+      }
+      if (t === 'm') {
+        magma.push([M(x, -0.22, y, 1, 0.24, 1), col(calm ? '#fb923c' : (x + y) % 2 ? '#ea580c' : '#dc2626', rnd, 0.08)]);
+        if (rnd() < 0.38) {
+          const fl = new THREE.Mesh(new THREE.ConeGeometry(0.14, 0.34, 6), new THREE.MeshBasicMaterial({ color: rnd() < 0.5 ? 0xfef08a : 0xfb923c }));
+          const fy = -0.02 + rnd() * 0.06;
+          fl.position.set(x + (rnd() - 0.5) * 0.5, fy, y + (rnd() - 0.5) * 0.5); fl.userData.base = fy; world.add(fl); flames.push(fl);
+        }
+        continue;
+      }
+      if (t === 'e') {
+        magma.push([M(x, -0.26, y, 1, 0.2, 1), col('#ea580c', rnd, 0.06)]);
+        bridge.push([M(x, -0.05, y, 0.92, 0.18, 0.96), col('#a8a29e', rnd, 0.04)]);
+        continue;
+      }
+      floor.push([M(x, -0.15, y, 1, 0.3, 1), col((x + y) % 2 ? '#573a32' : '#4a302a', rnd, 0.05)]);
+      if (t === 'v' && rnd() < 0.08) rocks.push([M(x + (rnd() - 0.5) * 0.6, 0.05, y + (rnd() - 0.5) * 0.6, 0.3, 0.22, 0.3, rnd() * 3), col('#78350f', rnd)]);
+      if (t === 'i') {
+        const idx = VOLCANO_CRYSTALS.findIndex(([cx, cy]) => cx === x && cy === y);
+        const on = calm || vc.includes(idx);
+        const base = new THREE.Mesh(new THREE.CylinderGeometry(0.36, 0.42, 0.14, 6), mat({ color: 0x475569 }));
+        base.position.set(x, 0.07, y); world.add(base);
+        const cr = new THREE.Mesh(new THREE.OctahedronGeometry(0.34, 0), new THREE.MeshLambertMaterial({
+          color: on ? 0x67e8f9 : 0x94a3b8, emissive: on ? 0x06b6d4 : 0x1e293b, emissiveIntensity: on ? 0.85 : 0.25
+        }));
+        cr.scale.set(0.85, 1.45, 0.85); cr.position.set(x, 0.55, y); world.add(cr);
+        if (on) { const pl = new THREE.PointLight(0x67e8f9, 4, 4.5, 1.4); pl.position.set(x, 1.0, y); world.add(pl); }
+      }
+      if (t === '$') chestAt(x, y);
+      if (t === 'W') springAt(x, y);
+      if (t === 'P') {
+        const post = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.75, 0.1), mat({ color: 0x78350f })); post.position.set(x, 0.37, y); world.add(post);
+        const board = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.36, 0.06), mat({ color: 0xd6a35c })); board.position.set(x, 0.66, y + 0.04); world.add(board);
+      }
+      if (t === 'z') {
+        const pad = new THREE.Mesh(new THREE.CircleGeometry(0.95, 24), mat({ color: 0x334155 })); pad.rotation.x = -Math.PI / 2; pad.position.set(x, 0.02, y); world.add(pad);
+        const H = new THREE.Mesh(new THREE.PlaneGeometry(1.2, 1.2), new THREE.MeshBasicMaterial({ map: textTex('H', '#facc15', 100), transparent: true })); H.rotation.x = -Math.PI / 2; H.position.set(x, 0.03, y); world.add(H);
+        const heli = new THREE.Group(); heli.position.set(x, 0.05, y + 0.15);
+        const bodyM = mat({ color: 0x2563eb });
+        const bd = new THREE.Mesh(new THREE.SphereGeometry(0.5, 12, 8), bodyM); bd.scale.set(0.9, 0.75, 1.25); bd.position.y = 0.55; bd.castShadow = true; heli.add(bd);
+        const win = new THREE.Mesh(new THREE.SphereGeometry(0.3, 10, 6), mat({ color: 0x7dd3fc })); win.position.set(0, 0.62, -0.38); win.scale.set(1, 0.8, 0.7); heli.add(win);
+        const tail = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.12, 1.1), bodyM); tail.position.set(0, 0.62, 0.95); heli.add(tail);
+        const rotor = new THREE.Group(); rotor.position.y = 1.0;
+        [0, Math.PI / 2].forEach(r => { const bl = new THREE.Mesh(new THREE.BoxGeometry(2.3, 0.03, 0.12), mat({ color: 0x1f2937 })); bl.rotation.y = r; rotor.add(bl); });
+        heli.add(rotor); world.add(heli); world.userData.rotor = rotor;
+      }
+      if (t === 'V') { const v = (fz.villagers || []).find(([vx, vy]) => vx === x && vy === y); if (v) standSprite(v[2], x, y, 1.25); }
+    }
+    inst(new THREE.BoxGeometry(1, 1, 1), mat(), floor);
+    inst(new THREE.BoxGeometry(1, 1, 1), mat(), walls, true);
+    inst(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshLambertMaterial({ emissive: 0x9a3412, emissiveIntensity: 0.45 }), magma);
+    inst(new THREE.BoxGeometry(1, 1, 1), mat(), bridge);
+    inst(new THREE.DodecahedronGeometry(0.5, 0), mat(), rocks, true);
+    [[5, 4], [13, 4], [9, 10]].forEach(([x, y]) => { const pl = new THREE.PointLight(0xfb923c, 5, 6, 1.4); pl.position.set(x, 1.2, y); world.add(pl); });
+    world.userData.flames = flames;
+  }
+
   function build() {
     while (world.children.length) { const c = world.children.pop(); if (c.geometry) c.geometry.dispose(); }
     sparkles.length = 0; chestLids = {};
@@ -1576,6 +1768,7 @@ async function forest3DInit() {
     if (fz.area === 'beach') return buildBeach();
     if (fz.area === 'seacave') return buildSeacave();
     if (fz.area === 'base') return buildBase();
+    if (fz.area === 'volcano') return buildVolcano();
     scene.background = SKY_FIELD; scene.fog = new THREE.Fog(SKY, 17, 32);
     hemi.intensity = 1.15; hemi.color.set(0xe0f2fe); hemi.groundColor.set(0x3f6212);
     sun.intensity = 1.6;
@@ -1680,7 +1873,7 @@ async function forest3DInit() {
     world.userData.fire = fire;
     world.userData.castle = castle;
   }
-  const buildKey = () => fz.day + fz.area + (forestPeace() ? ':peace' : '') + (forestUmiPeace() ? ':umi' : '') + (fz.area === 'base' ? forestBaseKey() : '');   // 🕊 へいわに なったら つくりなおす
+  const buildKey = () => fz.day + fz.area + (forestPeace() ? ':peace' : '') + (forestUmiPeace() ? ':umi' : '') + (forestVolcanoPeace() ? ':vol' : '') + (fz.area === 'volcano' ? ':vc' + forestVolcanoCrystals().join('') : '') + (fz.area === 'base' ? forestBaseKey() : '');   // 🕊 へいわに なったら つくりなおす
   build();
   let builtDay = buildKey();
 
@@ -1769,6 +1962,7 @@ async function forest3DInit() {
       if (golem) golem.visible = !f.key && fz.area === 'field';   // どうくつの ばんにんは もりだけ（うみべ・どうくつに うつりこまない）
       if (nushi) nushi.visible = fz.area === 'castle' && (forestPeace() || f.bossDay !== todayKey());   // 🕊 へいわに なったら ずっと おうざに いる
       if (tako) tako.visible = fz.area === 'seacave' && (forestUmiPeace() || f.umiDay !== todayKey());   // 🕊 へいわに なったら ずっと いる
+      if (dragon) dragon.visible = fz.area === 'volcano' && (forestVolcanoPeace() || f.volcanoDay !== todayKey());   // 🕊 へいわに なったら ずっと いる
       if (fz.area === 'base') drawBase(t);
       const inBox = forestBaseBoxOn();   // 📦 ダンボールを かぶっている ときは ルナの かわりに はこ
       boxMesh.visible = inBox; hero.visible = !inBox;
@@ -1885,7 +2079,7 @@ function forestDexOpen(pick) {
 function forestDexClose() { const w = document.getElementById('fz-dex'); if (w) w.remove(); }
 
 // ── たたかい（rpg.html の戦いを そのまま つかう）──
-// kind：'mob' ふつう／'guard' どうくつの ばんにん／'boss' もりのぬし
+// kind：'mob' ふつう／'guard' どうくつの ばんにん／'boss' もりのぬし／'umi' うみのぬし／'volcano' かざんのぬし
 function forestPick(a) { return a[Math.floor(Math.random() * a.length)]; }
 function startForestBattle(kind, who) {
   if (kind === true) kind = 'boss';
@@ -1894,12 +2088,14 @@ function startForestBattle(kind, who) {
   if (save.hp <= 0) save.hp = maxHp();
   const area = forestArea(), inside = area !== 'field';
   const east = !inside && forestEast(f.x, f.y);
-  const n = kind === 'boss' || kind === 'umi' || kind === 'base' ? 8 : kind === 'guard' ? 4 : kind === 'mimic' || inside ? 3 : 2 + (east || Math.random() < 0.3 ? 1 : 0);
-  // モンスター（js/forest_monsters.js）。川の むこうは 色ちがいの つよい なかま、おしろ・うみべ・どうくつは その ばしょの モンスター
+  const isBoss = kind === 'boss' || kind === 'umi' || kind === 'base' || kind === 'volcano';
+  const n = isBoss ? 8 : kind === 'guard' ? 4 : kind === 'mimic' || inside ? 3 : 2 + (east || Math.random() < 0.3 ? 1 : 0);
+  // モンスター（js/forest_monsters.js）。川の むこうは 色ちがいの つよい なかま、おしろ・うみべ・どうくつ・かざんは その ばしょの モンスター
   const mobs = typeof FOREST_MOBS !== 'undefined' ? FOREST_MOBS[inside && FOREST_MOBS[area] ? area : east ? 'east' : 'west'] : MONSTER_POOL;
   const char = kind === 'patrol' && who ? who
     : kind === 'lock' ? FOREST_LOCK_KEY
     : kind === 'base' ? FOREST_KAGE_KEY
+    : kind === 'volcano' && typeof FOREST_VOLCANO_KEY !== 'undefined' ? FOREST_VOLCANO_KEY
     : kind === 'umi' && typeof FOREST_UMI_KEY !== 'undefined' ? FOREST_UMI_KEY
     : kind === 'boss' ? (typeof FOREST_NUSHI_KEY !== 'undefined' ? FOREST_NUSHI_KEY : FOREST_BOSS_CHAR)
     : kind === 'guard' && typeof FOREST_GUARD_KEY !== 'undefined' ? FOREST_GUARD_KEY
@@ -1913,13 +2109,13 @@ function startForestBattle(kind, who) {
     queue: shuffle(forestPool()).slice(0, n), idx: 0,
     maxHp: n * DMG_HIT, hp: n * DMG_HIT, streak: 0, correct: 0, medals: 0, answered: false,
     tt: null, ttMedals: 0, ttIn: 0, ttAnswered: 0,
-    forest: { kind, boss: kind === 'boss' || kind === 'umi' || kind === 'base', label: kind === 'boss' ? '🏰 もりのぬし' : kind === 'umi' ? '🐙 うみのぬし' : kind === 'guard' ? '🕳 どうくつ'
+    forest: { kind, boss: isBoss, label: kind === 'boss' ? '🏰 もりのぬし' : kind === 'umi' ? '🐙 うみのぬし' : kind === 'volcano' ? '🐲 かざんのぬし' : kind === 'guard' ? '🕳 どうくつ'
       : kind === 'base' ? '🕶 アジトの だんちょう' : kind === 'lock' ? '🔐 ろうやの ロック' : area === 'base' ? '🏜 さばくの アジト'
-      : kind === 'mimic' ? (area === 'seacave' ? '🕳 どうくつの たからばこ' : area === 'field' ? '🌲 もりの たからばこ' : '🏰 おしろの たからばこ') : area === 'castle' ? '🏰 おしろの なか' : area === 'beach' ? '🌊 うみべ' : area === 'seacave' ? '🕳 うみの どうくつ'
+      : kind === 'mimic' ? (area === 'seacave' ? '🕳 どうくつの たからばこ' : area === 'field' ? '🌲 もりの たからばこ' : '🏰 おしろの たからばこ') : area === 'castle' ? '🏰 おしろの なか' : area === 'beach' ? '🌊 うみべ' : area === 'seacave' ? '🕳 うみの どうくつ' : area === 'volcano' ? '🌋 マグマの かざん'
       : east ? '🌲 まよいの森（かわむこう）' : '🌲 まよいの森' }
   };
   persist();
-  if (typeof fmPlay === 'function') fmPlay(kind === 'boss' || kind === 'umi' || kind === 'base' ? 'boss' : 'battle');
+  if (typeof fmPlay === 'function') fmPlay(isBoss ? 'boss' : 'battle');
   renderBattle();
   setMsg(bt.name + ' が あらわれた！');
   showScreen('battle');
@@ -1936,8 +2132,8 @@ function medalForest(key, n) {
 }
 
 function forestEndBattle(win) {
-  const f = save.forest, kind = bt.forest.kind || (bt.forest.boss ? 'boss' : 'mob'), boss = kind === 'boss' || kind === 'umi' || kind === 'base';
-  let lvUps = 0, bonus = 0, first = false, gotKey = false, peaceNew = false, umiPeaceNew = false;
+  const f = save.forest, kind = bt.forest.kind || (bt.forest.boss ? 'boss' : 'mob'), boss = kind === 'boss' || kind === 'umi' || kind === 'base' || kind === 'volcano';
+  let lvUps = 0, bonus = 0, first = false, gotKey = false, peaceNew = false, umiPeaceNew = false, volcanoPeaceNew = false;
   questLogDay(d => { d.battles++; if (win) d.wins++; });
   let dexNew = false, evolved = null, evoBonus = 0;
   if (win && kind !== 'lock') {   // 🔐 ロックは ずかんに のせない
@@ -1964,11 +2160,20 @@ function forestEndBattle(win) {
     }
     // 🕊 うみのぬしを はじめて たおすと、うみべ・どうくつが ずっと へいわに なる
     if (kind === 'umi' && !save.umiPeace) { save.umiPeace = true; umiPeaceNew = true; }
+    // 🕊 かざんのぬしを はじめて たおすと、かざんが ずっと へいわに なる
+    if (kind === 'volcano' && !save.volcanoPeace) { save.volcanoPeace = true; volcanoPeaceNew = true; }
     // 🐙 うみのぬし：その日 はじめて たおすと🪙5、その月 はじめてなら🪙10（台帳 <月>|umi:日付 ／ <月>|umi:first）
     if (kind === 'umi' && f.umiDay !== todayKey()) {
       f.umiDay = todayKey();
       bonus += medalForest('umi:' + todayKey(), FOREST_BOSS_DAILY);
       if (!loadMedalLedger().units[MEDAL_MONTH + '|umi:first']) bonus += medalForest('umi:first', FOREST_BOSS_FIRST);
+      bt.medals += bonus;
+    }
+    // 🐲 かざんのぬし：その日 はじめて たおすと🪙5、その月 はじめてなら🪙10（台帳 <月>|volcano:日付 ／ <月>|volcano:first）
+    if (kind === 'volcano' && f.volcanoDay !== todayKey()) {
+      f.volcanoDay = todayKey();
+      bonus += medalForest('volcano:' + todayKey(), FOREST_BOSS_DAILY);
+      if (!loadMedalLedger().units[MEDAL_MONTH + '|volcano:first']) bonus += medalForest('volcano:first', FOREST_BOSS_FIRST);
       bt.medals += bonus;
     }
     if (kind === 'boss' && f.bossDay !== todayKey()) {
@@ -2001,7 +2206,7 @@ function forestEndBattle(win) {
     CHARS[bt.char](6, 100, 130, { silhouette: sil }) + '</div>';
   document.getElementById('result-body').innerHTML =
     (win
-      ? '<div style="font-size:21px; font-weight:800; color:#16a34a;">' + (baseOut && baseOut.title || (kind === 'umi' ? '🐙 うみのぬしを たおした！' : kind === 'boss' ? '👑 もりのぬしを たおした！' : bt.name + ' を やっつけた！')) + '</div>' + art(false)
+      ? '<div style="font-size:21px; font-weight:800; color:#16a34a;">' + (baseOut && baseOut.title || (kind === 'volcano' ? '🐲 かざんのぬしを たおした！' : kind === 'umi' ? '🐙 うみのぬしを たおした！' : kind === 'boss' ? '👑 もりのぬしを たおした！' : bt.name + ' を やっつけた！')) + '</div>' + art(false)
       : wiped
       ? '<div style="font-size:21px; font-weight:800; color:#b91c1c;">めのまえが まっくらに なった…</div>' + art(true) +
         '<div style="font-size:13px; color:#64748b;">' + (inBase ? 'アジトの いりぐちに もどされた' : 'もりの キャンプに もどされた') + '。HP は はんぶん かいふく。</div>'
@@ -2018,13 +2223,16 @@ function forestEndBattle(win) {
     (win && !evolved && forestDex()[bt.char] === FOREST_PAL_NEED ? '<div style="margin-top:6px; font-size:14px; font-weight:800; color:#0369a1;">🤝 ' + esc(CHAR_NAME[bt.char]) + ' を ずかんから なかまに できるよ！</div>' : '') +
     (evolved ? '<div style="margin-top:6px; font-size:14px; font-weight:800; color:#0369a1;">🤝 ずかんから なかまに できるよ！</div>' : '') +
     (gotKey ? '<div style="margin-top:6px; font-size:15px; font-weight:800; color:#b45309;">🗝 しろの かぎを てに いれた！</div>' : '') +
-    (bonus ? '<div style="margin-top:6px; font-size:15px; font-weight:800; color:#15803d;">' + (kind === 'umi' ? '🌊 うみのぬし' : '🌲 もりのぬし') + ' ボーナス 🪙+' + bonus + '</div>' : '') +
+    (bonus ? '<div style="margin-top:6px; font-size:15px; font-weight:800; color:#15803d;">' + (kind === 'volcano' ? '🌋 かざんのぬし' : kind === 'umi' ? '🌊 うみのぬし' : '🌲 もりのぬし') + ' ボーナス 🪙+' + bonus + '</div>' : '') +
     (peaceNew ? '<div style="margin-top:8px; padding:10px; border-radius:14px; background:#fef9c3; font-size:15px; font-weight:800; color:#a16207; line-height:1.6;">' +
         '🕊 おしろが へいわに なった！<br>おうざのまの みぎに ひみつの とびらが ひらいた…<br>' +
         '<span style="font-size:13px;">🏰 しまに「おしろの もけい」が とどくよ！</span></div>' : '') +
     (umiPeaceNew ? '<div style="margin-top:8px; padding:10px; border-radius:14px; background:#e0f2fe; font-size:15px; font-weight:800; color:#0369a1; line-height:1.6;">' +
         '🕊 うみが へいわに なった！<br>うみべと どうくつの モンスターが まちの ひとに なったよ' +
         (forestRunaways().length || forestMimicRunaway() ? '<br><span style="font-size:13px;">🏃 まだ しんか して いない モンスターは もりの かわの むこうへ にげたみたい</span>' : '') + '</div>' : '') +
+    (volcanoPeaceNew ? '<div style="margin-top:8px; padding:10px; border-radius:14px; background:#ffedd5; font-size:15px; font-weight:800; color:#c2410c; line-height:1.6;">' +
+        '🕊 かざんが へいわに なった！<br>マグマの かざんの モンスターが まちの ひとに なったよ' +
+        (forestRunaways().length ? '<br><span style="font-size:13px;">🏃 まだ しんか して いない モンスターは もりの かわの むこうへ にげたみたい</span>' : '') + '</div>' : '') +
     (first ? '<div style="margin-top:4px; font-size:13px; font-weight:800; color:#b45309;">🏆 しまに「もりの トロフィー」が とどくよ！</div>' : '') +
     '<div style="margin-top:8px; font-size:15px; font-weight:800; color:#b45309;">🪙 アンリノメダル +' + bt.medals + ' 枚' +
       '<div style="font-size:11.5px; color:#94a3b8; font-weight:700; margin-top:3px;">もっているメダル ' + medalTotal() + ' 枚（しまの ショップで つかえるよ）</div>' +
@@ -2032,7 +2240,9 @@ function forestEndBattle(win) {
 
   forestMsg = baseOut && baseOut.msg ? baseOut.msg : win ? (peaceNew ? '🕊 おしろが へいわに なった！ おうざのまの みぎの ひみつの とびらから うみべへ いけるよ'
       : umiPeaceNew ? '🕊 うみが へいわに なった！ うみべと どうくつに まちの ひとが いるよ'
+      : volcanoPeaceNew ? '🕊 かざんが へいわに なった！ マグマの かざんに まちの ひとが いるよ'
       : evolved ? '✨ ' + CHAR_NAME[evolved] + ' が ずかんに のった！ 📖で みてみよう。'
+      : kind === 'volcano' ? '🐲 かざんのぬしを たおした！ きょうの かざんは クリア！'
       : kind === 'umi' ? '🐙 うみのぬしを たおした！ きょうの うみは クリア！'
       : boss ? '👑 もりのぬしを たおした！ きょうの もりは クリア！'
       : gotKey ? '🗝 しろの かぎを てに いれた！ 川の むこうの おしろへ いこう。'

@@ -1,1 +1,4 @@
-{ "units": ["nougyou3", "menseki10", "chokuho10", "hoshi10", "keiyoushi10", "wariai10", "suiri10", "fukushi10", "hoshi10b", "hibi10"] }
+{ "units": ["nougyou3", "menseki10", "chokuho10", "hoshi10", "keiyoushi10", "wariai10", "suiri10", "fukushi10", "hoshi10b", "hibi10"],
+  "periods": [
+    { "from": "2026-10-23", "to": "2026-10-26", "note": "4科演習（10/26）の はんいだけ", "units": ["chokuho10", "wariai10", "hoshi10", "hoshi10b", "keiyoushi10", "fukushi10", "nougyou3", "nougyou4"] }
+  ] }
