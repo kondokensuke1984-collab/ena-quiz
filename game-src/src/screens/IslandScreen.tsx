@@ -36,8 +36,8 @@ import { pickLesson, type Lesson } from '../lib/lesson';
 import { buildLetters } from '../lib/letters';
 import { photoMonthOf } from '../lib/items';
 import type { Area, Planet, Pos } from '../types';
-import { EastGround, earthAge, MarsGround, MoonGround, PLANET_CFG, RoomGround, SchoolGround, SCHOOL_DESKS, SCHOOL_HITS } from '../components/AreaStages';
-import { planetStoneSpot, STONE_FOOD } from '../lib/space';
+import { EastGround, earthAge, MarsGround, MoonGround, SunGround, SUN_HITS, PLANET_CFG, RoomGround, SchoolGround, SCHOOL_DESKS, SCHOOL_HITS, trophyAt, certAt, gameAt, GAME_SPOT } from '../components/AreaStages';
+import { planetStoneSpot, STONE_FOOD, SUN_TITLE } from '../lib/space';
 import { MochiUsagi, Usu } from '../components/MochiUsagiSVG';
 import { USAGI_AREAS, USAGI_KEY, USAGI_NAME, USAGI_SPOT, USU_SPOT, usagiLine } from '../lib/usagi';
 import type { CharKey } from '../lib/chars';
@@ -53,9 +53,12 @@ import { ArborModal } from '../components/ArborModal';
 import { SpaceTripModal } from '../components/SpaceTripModal';
 import { OrganModal } from '../components/OrganModal';
 import { MicroscopeModal } from '../components/MicroscopeModal';
+import { LibraryModal, type BookId } from '../components/LibraryModal';
 import { TransferModal } from '../components/TransferModal';
 import { StampModal } from './island/StampModal';
 import { MailModal } from './island/MailModal';
+import { IkenModal } from './island/IkenModal';
+import { IKEN_POS } from '../lib/iken';
 import { costumeOf, halloweenNight, isHalloween } from '../lib/events';
 import { FARM_BOX, isRipe, stageOf } from '../lib/farm';
 import { soccerCups } from '../lib/soccer';
@@ -126,7 +129,7 @@ const SOUND_LABEL: Record<SoundMode, string> = { sfx: '🔊 こうかおん', al
 const MAX_ON_ISLAND = 7;
 // おうちの中に ついてきた子の 立ち位置
 const HOUSE_SPAWNS: Pos[] = [{ x: 0.32, y: 0.72 }, { x: 0.42, y: 0.8 }, { x: 0.3, y: 0.86 }, { x: 0.5, y: 0.74 }];
-const AREA_TITLE: Record<Area, string> = { main: '🏝 アンリノ島', east: '🌸 はなばたけの しま', house: '🏠 おうちの なか', school: '🏫 しまの がっこう', moon: PLANET_CFG.moon.title, mars: PLANET_CFG.mars.title };   // 教科キャラを一度に出す数のめやす（主役＋あそびに来る住人）
+const AREA_TITLE: Record<Area, string> = { main: '🏝 アンリノ島', east: '🌸 はなばたけの しま', house: '🏠 おうちの なか', school: '🏫 しまの がっこう', moon: PLANET_CFG.moon.title, mars: PLANET_CFG.mars.title, sun: PLANET_CFG.sun.title };   // 教科キャラを一度に出す数のめやす（主役＋あそびに来る住人）
 
 /** カメラ（main だけ）：主人公を まんなかに、世界の はしで とめる。px */
 function camTarget(p: Pos): Pos {
@@ -143,7 +146,7 @@ function todayKey(): string {
 
 type ModalKind =
   | 'feed' | 'roster' | 'stamp' | 'mail' | 'fish' | 'farm' | 'stars' | 'detective' | 'moonView'
-  | 'imo' | 'arbor' | 'spaceGo' | 'spaceDex' | 'desk' | 'organ' | 'micro' | 'transfer' | 'board' | 'opening';
+  | 'imo' | 'arbor' | 'spaceGo' | 'spaceDex' | 'library' | 'desk' | 'organ' | 'micro' | 'transfer' | 'board' | 'opening' | 'iken';
 
 /** むきと あしだけ かわる しゅじんこう（島の 画面ぜんぶを かきなおさない） */
 function PosedKid({ poseRef, subRef, ...rest }: {
@@ -186,6 +189,8 @@ export function IslandScreen() {
   const [mode, setMode] = useState<Mode>({ kind: 'walk' });
   // ひらいている まど（同時に 2つは ひらかない）
   const [modal, setModal] = useState<ModalKind | null>(null);
+  /** としょかんで ひらいている ずかん */
+  const [book, setBook] = useState<BookId | null>(null);
   const [order, setOrder] = useState('');
   const [walking, setWalking] = useState(false);
   const [pref3d, setPref3d] = useState(() => { try { return localStorage.getItem(PREF_3D) !== '0'; } catch { return true; } });
@@ -237,9 +242,10 @@ export function IslandScreen() {
     : save.area === 'school' && !save.buildings.includes('bd_school') ? 'main'
     : save.area === 'east' && !save.buildings.includes('bd_bridge') ? 'main'
     : save.area === 'moon' && !(save.buildings.includes('bd_rocket') && save.space.dex.includes('moon')) ? 'main'
-    : save.area === 'mars' && !(save.buildings.includes('bd_rocket') && save.space.dex.includes('mars') && marsOk) ? 'east' : save.area;
-  /** 月・火星（ロケットで おりて あるける ほし） */
-  const planet: Planet | null = area === 'moon' || area === 'mars' ? area : null;
+    : save.area === 'mars' && !(save.buildings.includes('bd_rocket') && save.space.dex.includes('mars') && marsOk) ? 'east'
+    : save.area === 'sun' && !(save.buildings.includes('bd_rocket') && save.space.dex.includes('sun')) ? 'east' : save.area;
+  /** 月・火星・たいよう（ロケットで いって あるける ところ。たいようは せいれいに へんしんして あるく） */
+  const planet: Planet | null = area === 'moon' || area === 'mars' || area === 'sun' ? area : null;
   const pcfg = planet ? PLANET_CFG[planet] : null;
   const indoor = area === 'house' || area === 'school';
   const want3d = area === 'main' && pref3d && HAS_WEBGL;
@@ -280,6 +286,8 @@ export function IslandScreen() {
         f.level > 1 && heartsOf(save.friendsPlay[f.char]?.pts ?? 0) >= FOLLOW_HEARTS && !save.friendsPlay[f.char]?.followOff);
     }
     if (area === 'east') return vis;
+    // たいよう：へんしん できるのは じぶんだけ（なかまは しまで おるすばん）
+    if (area === 'sun') return [];
     // 月：ついてくる子（♥3）と 主役が いっしょに のってくる（たまごは おるすばん）
     if (area === 'moon' || area === 'mars') {
       const fol = [...cur, ...vis].filter((f) => f.level > 1 && heartsOf(save.friendsPlay[f.char]?.pts ?? 0) >= FOLLOW_HEARTS && !save.friendsPlay[f.char]?.followOff);
@@ -736,6 +744,10 @@ export function IslandScreen() {
     // キャラ・たからばこ・ポストの上を タップしたら、歩かずに反応する
     if (area === 'main' && showChest && dist(raw, { x: CHEST_POS.x, y: CHEST_POS.y - 0.03 }) < 0.06) { openChest(); return; }
     if (area === 'main' && dist(raw, { x: MAIL_POS.x, y: MAIL_POS.y - 0.05 }) < 0.06) { setModal('mail'); return; }
+    if (area === 'main' && dist(raw, { x: IKEN_POS.x, y: IKEN_POS.y - 0.045 }) < 0.05) { sfx('letter'); setModal('iken'); return; }
+    if (area === 'house' && gameAt(raw)) { sfx('letter'); location.href = '/sora/?from=island'; return; }
+    const trophy = area === 'house' ? (trophyAt(raw) ?? certAt(raw)) : undefined;
+    if (trophy) { sfx('letter'); g.showToast(trophy.toast); return; }
     if (area === 'house') {
       const hit = placedHere.find((q) => (q.id === 'in_desk' || q.id === 'in_bed') && dist(raw, { x: q.x, y: q.y - 0.04 }) < 0.08);
       if (hit?.id === 'in_desk') { setModal('desk'); return; }
@@ -757,6 +769,7 @@ export function IslandScreen() {
       if (moonStone && dist(raw, { x: moonStone.x, y: moonStone.y - 0.02 }) < 0.06) { pickStone(); return; }
       if (dist(raw, { x: DOORS.moonRocket.x + 0.03, y: DOORS.moonRocket.y - 0.2 }) < 0.1) { goHomeFromMoon(); return; }
       const hit = (pcfg.hits as readonly { id: string; x: number; y: number; r: number; text: string }[]).find((h) => dist(raw, h) < h.r);
+      if (hit && planet === 'sun') { tapSunHit(hit); return; }
       if (hit) { sfx('letter'); g.showToast(planet === 'moon' && hit.id === 'earth' ? earthText() : hit.text); return; }
     }
     if (usagiHere && dist(raw, { x: usagiPos.current.x, y: usagiPos.current.y - 0.07 }) < 0.07) { tapUsagi(); return; }
@@ -786,13 +799,13 @@ export function IslandScreen() {
     if (area === 'east' && save.buildings.includes('bd_arbor') && dist(raw, { x: ARBOR_SPOT.x, y: ARBOR_SPOT.y - 0.05 }) < 0.09) { setModal('arbor'); return; }
     if (area === 'east' && save.buildings.includes('bd_rocket') && dist(raw, { x: BUILDING_SPOTS.bd_rocket.x, y: BUILDING_SPOTS.bd_rocket.y - 0.1 }) < 0.09) { setModal('spaceGo'); return; }
     if (area === 'east' && save.buildings.includes('bd_base') && dist(raw, { x: BUILDING_SPOTS.bd_base.x, y: BUILDING_SPOTS.bd_base.y - 0.05 }) < 0.08) { setModal('spaceDex'); return; }
-    if (area === 'east' && save.buildings.includes('bd_planet') && dist(raw, { x: BUILDING_SPOTS.bd_planet.x, y: BUILDING_SPOTS.bd_planet.y - 0.05 }) < 0.08) { setModal('stars'); return; }
+    if (area === 'east' && save.buildings.includes('bd_planet') && dist(raw, { x: BUILDING_SPOTS.bd_planet.x, y: BUILDING_SPOTS.bd_planet.y - 0.05 }) < 0.08) { setModal('library'); return; }
     tapTarget.current = p;
   };
 
   // 🌕🔴 きょうの いし（ほしごとに 1日1こ。ひろったら きえる）
   pcfgRef.current = pcfg;
-  const moonStone = planet && save.space[planet === 'moon' ? 'moonStone' : 'marsStone'] !== day ? planetStoneSpot(planet, day) : null;
+  const moonStone = planet && save.space[planet === 'moon' ? 'moonStone' : planet === 'mars' ? 'marsStone' : 'sunStone'] !== day ? planetStoneSpot(planet, day) : null;
   // 月・火星に いる あいだは うちゅうの BGM（音の設定が off なら 鳴らない）
   useEffect(() => {
     if (!planet) return;
@@ -809,6 +822,25 @@ export function IslandScreen() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [save.area, area]);
   const pickStone = () => { if (planet && g.pickPlanetStone(planet, day)) g.showToast(`${pcfg!.stone}を みつけた！ うちゅうしょく +${STONE_FOOD[planet]}`); };
+  // ☀️ たいようで みつけた もの（ぜんぶで しょうごう）
+  const sunSeen = save.space.sunSeen.filter((id) => SUN_HITS.some((h) => h.id === id)).length;
+  const tapSunHit = (hit: { id: string; text: string }) => {
+    const r = g.seeSun(hit.id, SUN_HITS.length);
+    sfx(r.isNew ? 'chest' : 'letter');
+    g.showToast(r.done
+      ? `${hit.text}　🎉 ぜんぶ みつけた！ しょうごう「${SUN_TITLE}」`
+      : r.isNew ? `${hit.text}（みつけた ${sunSeen + 1}/${SUN_HITS.length}）` : hit.text);
+  };
+  // ☀️ たいように ついたら へんしんの ひかり
+  const [henshin, setHenshin] = useState(false);
+  useEffect(() => {
+    if (area !== 'sun') return;
+    setHenshin(true);
+    g.showToast('✨ へんしん！ たいようの せいれいに なった！ ほんとうの たいようは あつすぎて だれも ちかづけないよ');
+    const t = window.setTimeout(() => setHenshin(false), 1800);
+    return () => window.clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [area]);
   const goHomeFromMoon = () => { sfx('launch'); travel('east', ENTRY.eastFromMoon); };
   const moonJump = () => { moonJumpAt.current = performance.now(); friends.forEach((f, i) => window.setTimeout(() => setJump({ id: f.id, key: Date.now() + i }), 120 + i * 150)); };
   const earthText = () => {
@@ -942,6 +974,7 @@ export function IslandScreen() {
   const pp = playerPos.current;
   const nearDoorIn = area === 'main' && save.buildings.includes('bd_house') && dist(pp, DOORS.mainToHouse) <= 0.09;
   const nearDoorOut = area === 'house' && dist(pp, DOORS.houseToMain) <= 0.12;
+  const nearGame = area === 'house' && dist(pp, GAME_SPOT) <= 0.1;
   const nearSchoolIn = area === 'main' && save.buildings.includes('bd_school') && dist(pp, DOORS.mainToSchool) <= 0.09;
   const nearSchoolOut = area === 'school' && dist(pp, DOORS.schoolToMain) <= 0.12;
   const nearBridgeGo = area === 'main' && hasBridge && dist(pp, DOORS.mainToEast) <= 0.1;
@@ -975,7 +1008,7 @@ export function IslandScreen() {
   const nearArbor = nearEastBd('bd_arbor');
   const nearRocket = nearEastBd('bd_rocket');
   const nearBase = nearEastBd('bd_base');
-  const nearPlanet = nearEastBd('bd_planet');
+  const nearLibrary = nearEastBd('bd_planet');   // としょかん（もと プラネタリウム）
   // やきいもやさんの おきゃくさん：となりの しまに いる子（いなければ たまごでない なかま）
   const imoCustomers = useMemo(() => {
     const here = friends.filter((f) => f.level > 1);
@@ -1137,6 +1170,23 @@ export function IslandScreen() {
           ) : (
             <path d="M20 -62 L34 -56 L20 -50" fill="#94a3b8" stroke="#4c1d95" strokeWidth="2" />
           )}
+        </g>
+      ),
+    });
+
+    // 🗳️ いけんばこ（ポストの となり）
+    if (area === 'main') list.push({
+      id: '@iken',
+      y: IKEN_POS.y,
+      node: (
+        <g key="@iken" transform={`translate(${IKEN_POS.x * ISLAND_W} ${IKEN_POS.y * ISLAND_H})`} style={{ pointerEvents: 'none' }}>
+          <ellipse cx="0" cy="2" rx="18" ry="5" fill="rgba(0,0,0,0.2)" />
+          <rect x="-3" y="-30" width="6" height="30" fill="#92400e" stroke="#4c1d95" strokeWidth="2" />
+          <rect x="-19" y="-58" width="38" height="30" rx="4" fill="#38bdf8" stroke="#4c1d95" strokeWidth="2.4" />
+          <path d="M-22 -58 L0 -70 L22 -58 Z" fill="#0369a1" stroke="#4c1d95" strokeWidth="2.2" strokeLinejoin="round" />
+          <rect x="-10" y="-52" width="20" height="4" rx="2" fill="#0c4a6e" />
+          <text x="0" y="-34" fontSize="10" fontWeight="900" textAnchor="middle" fill="#fff">いけん</text>
+          <path d="M8 -66 l10 -12 l3 2 l-10 12 z" fill="#fde047" stroke="#4c1d95" strokeWidth="1.6" />
         </g>
       ),
     });
@@ -1303,8 +1353,20 @@ export function IslandScreen() {
       y: playerPos.current.y,
       node: (
         <g key="@player" ref={playerNodeRef} transform={`translate(${playerPos.current.x * ISLAND_W} ${playerPos.current.y * ISLAND_H})`}>
+          {area === 'sun' && (
+            // ☀️ たいようの せいれい：うしろの ひかりの わ・ほのおの ぎざぎざ
+            <g pointerEvents="none" transform="translate(0 -62)">
+              <circle r="80" fill="rgba(254,240,138,0.4)" className="twinkle" />
+              <g className="sun-aura">
+                {Array.from({ length: 12 }, (_, i) => (
+                  <path key={i} d={i % 2 ? 'M-10 -64 Q0 -84 0 -98 Q4 -82 10 -64 Z' : 'M-8 -64 L0 -84 L8 -64 Z'} fill={i % 2 ? '#f97316' : '#fbbf24'} stroke="#c2410c" strokeWidth="1.6" transform={`rotate(${i * 30})`} />
+                ))}
+              </g>
+              <circle r="62" fill="none" stroke="#fef3c7" strokeWidth="4" opacity="0.85" />
+            </g>
+          )}
           <foreignObject x={-60} y={-132} width={120} height={144} style={{ overflow: 'visible', pointerEvents: 'none' }}>
-            <div className="flex h-full w-full items-end justify-center">
+            <div className="flex h-full w-full items-end justify-center" style={area === 'sun' ? { filter: 'sepia(0.85) saturate(2.6) hue-rotate(-14deg) brightness(1.12) drop-shadow(0 0 10px #fde047)' } : undefined}>
               {save.player && (
                 <PosedKid
                   poseRef={kidPose}
@@ -1320,6 +1382,19 @@ export function IslandScreen() {
               )}
             </div>
           </foreignObject>
+          {area === 'sun' && (
+            // ほのおの かんむり と ひかりの つぶ
+            <g pointerEvents="none">
+              <g transform="translate(0 -122)" className="twinkle">
+                {[-24, -12, 0, 12, 24].map((x, i) => (
+                  <path key={x} d={`M${x - 8} 0 Q${x - 6} ${-14 - (i % 2 ? 0 : 8)} ${x} ${-26 - (i === 2 ? 10 : 0)} Q${x + 6} ${-14 - (i % 2 ? 0 : 8)} ${x + 8} 0 Z`} fill={i === 2 ? '#fde047' : '#fb923c'} stroke="#c2410c" strokeWidth="2" />
+                ))}
+              </g>
+              {[[-52, -100], [50, -84], [-44, -30], [56, -20]].map(([x, y], i) => (
+                <text key={i} x={x} y={y} fontSize="16" textAnchor="middle" className="twinkle" style={{ animationDelay: `${-i * 0.4}s` }}>✨</text>
+              ))}
+            </g>
+          )}
         </g>
       ),
     });
@@ -1368,6 +1443,7 @@ export function IslandScreen() {
   act(nearBridgeGo, 'eastGo', '🌉 となりの しまへ', () => travel('east', ENTRY.east));
   act(nearBridgeBack, 'eastBack', '🌉 もとの しまへ', () => travel('main', ENTRY.mainFromEast));
   act(nearSoccer, 'soccer', '⚽ サッカーを する', () => { location.href = '/soccer/'; });
+  act(nearGame, 'sora', '🎮 ゲームを する', () => { location.href = '/sora/?from=island'; });
   act(nearMonster, 'feed', '🍚 ごはん', () => (monster.stage === 'egg' || foods.length ? setModal('feed') : g.showToast('ごはんが ないよ。ショップで かおう', 'ng')));
   act(nearChest, 'chest', '🎁 たからばこを あける', openChest, false);
   act(nearMail, 'mail', `💌 てがみを よむ${unread > 0 ? `（${unread}）` : ''}`, () => setModal('mail'), false);
@@ -1379,10 +1455,10 @@ export function IslandScreen() {
   act(nearArbor, 'arbor', '🍁 あずまやで ひとやすみ', () => setModal('arbor'));
   act(nearRocket, 'rocket', '🚀 うちゅうへ いく', () => setModal('spaceGo'));
   act(nearBase, 'base', '🛰️ うちゅうずかん', () => setModal('spaceDex'));
-  act(nearPlanet, 'planet', '🪐 ほしぞらを みる', () => setModal('stars'));
+  act(nearLibrary, 'library', '📚 としょかんに はいる', () => setModal('library'));
   act(!!planet && dist(pp, DOORS.moonRocket) <= 0.12, 'moonHome', '🚀 しまに かえる', goHomeFromMoon);
   act(!!moonStone && dist(pp, moonStone) <= 0.08, 'moonStone', `${pcfg?.stone}を ひろう`, pickStone);
-  act(!!planet, 'moonJump', '🦘 ジャンプ', moonJump, false);
+  act(!!planet, 'moonJump', planet === 'sun' ? '✨ ふわっと とぶ' : '🦘 ジャンプ', moonJump, false);
   const nearUsagi = usagiHere && dist(pp, usagiPos.current) <= 0.13;
   act(nearUsagi, 'usagiTalk', '🐰 うさぎと はなす', tapUsagi);
   act(nearUsagi, 'usagiGift', '🎁 うさぎに あげる', () => setGiftFor(usagiFriend), false);
@@ -1542,11 +1618,14 @@ export function IslandScreen() {
           {area === 'east' && <EastGround tod={tod} />}
           {area === 'moon' && <MoonGround moonAge={moonAge} />}
           {area === 'mars' && <MarsGround />}
+          {area === 'sun' && <SunGround />}
           {planet && <g ref={footRef} pointerEvents="none" />}
           {moonStone && (
             <g transform={`translate(${moonStone.x * ISLAND_W} ${moonStone.y * ISLAND_H})`} pointerEvents="none">
-              <circle r="26" fill={planet === 'mars' ? 'rgba(254,215,170,0.5)' : 'rgba(253,224,71,0.35)'} className="twinkle" />
-              <path d="M-14 4 L-8 -10 L6 -13 L15 -2 L9 9 L-6 10 Z" fill={planet === 'mars' ? '#ef4444' : '#fde68a'} stroke={planet === 'mars' ? '#7f1d1d' : '#a16207'} strokeWidth="2.5" />
+              <circle r="26" fill={planet === 'mars' ? 'rgba(254,215,170,0.5)' : planet === 'sun' ? 'rgba(255,255,255,0.55)' : 'rgba(253,224,71,0.35)'} className="twinkle" />
+              {planet === 'sun'
+                ? <circle r="11" fill="#fffbeb" stroke="#f59e0b" strokeWidth="2.5" />
+                : <path d="M-14 4 L-8 -10 L6 -13 L15 -2 L9 9 L-6 10 Z" fill={planet === 'mars' ? '#ef4444' : '#fde68a'} stroke={planet === 'mars' ? '#7f1d1d' : '#a16207'} strokeWidth="2.5" />}
               <text y="-20" fontSize="16" textAnchor="middle">✨</text>
             </g>
           )}
@@ -1638,6 +1717,7 @@ export function IslandScreen() {
           </div>
         )}
         <div className={`pointer-events-none absolute inset-0 bg-indigo-950 transition-opacity duration-300 ${fade ? 'opacity-100' : 'opacity-0'}`} />
+        {henshin && <div className="sun-henshin pointer-events-none absolute inset-0" />}
         {mode.kind !== 'walk' && (
           <div className="pointer-events-none absolute inset-x-0 top-2 text-center text-[12px] font-black text-white drop-shadow">
             {mode.kind === 'place' ? 'おきたい ばしょを タップ' : 'うごかす さきを タップ'}
@@ -1670,7 +1750,7 @@ export function IslandScreen() {
                 : area === 'school'
                 ? 'こくばん・テレビ・けいじばん・おともだちを タップしてみよう'
                 : pcfg
-                ? pcfg.hint
+                ? planet === 'sun' ? `${pcfg.hint}（みつけた ${sunSeen}/${SUN_HITS.length}）` : pcfg.hint
                 : area === 'east'
                 ? save.buildings.includes('bd_rocket')
                   ? 'ロケットを タップすると うちゅうりょこうに いけるよ。ひだりの はしで もとの しまに もどれるよ'
@@ -1859,6 +1939,17 @@ export function IslandScreen() {
       {modal === 'moonView' && <MoonViewModal onClose={() => setModal(null)} />}
       {modal === 'imo' && <YakiimoModal customers={imoCustomers} onClose={() => setModal(null)} />}
       {modal === 'arbor' && <ArborModal friends={imoCustomers} studied={studied} onClose={() => setModal(null)} />}
+      {modal === 'library' && <LibraryModal onOpen={setBook} onClose={() => { setBook(null); setModal(null); }} />}
+      {modal === 'library' && book && (() => {
+        const close = () => setBook(null);
+        return book === 'stars' ? <StarsModal dexOnly onClose={close} />
+          : book === 'fish' ? <FishingModal dexOnly ctx={{ tod, weather, month: seasonNow() }} studied={studied} onClose={close} />
+          : book === 'farm' ? <FarmModal dexOnly stages={farmStages} studied={studied} onClose={close} />
+          : book === 'micro' ? <MicroscopeModal dexOnly studied={studied} onClose={close} />
+          : book === 'space' ? <SpaceTripModal dexOnly tab="dex" studied={studied} crew={imoCustomers} onClose={close} />
+          : book === 'arbor' ? <ArborModal dexOnly friends={imoCustomers} studied={studied} onClose={close} />
+          : <YakiimoModal dexOnly customers={imoCustomers} onClose={close} />;
+      })()}
       {(modal === 'spaceGo' || modal === 'spaceDex') && <SpaceTripModal tab={modal === 'spaceGo' ? 'go' : 'dex'} studied={studied} crew={imoCustomers} onClose={() => setModal(null)} marsOk={marsOk} onWalk={(to) => { setModal(null); travel(to, ENTRY[to]); }} />}
 
       {/* ── 🌲 まよいの森へ（クエストの ページに うつる）── */}
@@ -2038,6 +2129,7 @@ export function IslandScreen() {
 
       {modal === 'stamp' && <StampModal nowD={nowD} ym={ym} stamps={stamps} onClose={() => setModal(null)} />}
       {modal === 'mail' && <MailModal friends={snap.friends} onClose={() => setModal(null)} />}
+      {modal === 'iken' && <IkenModal onClose={() => setModal(null)} />}
 
       {modal === 'roster' && (
         <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/60 p-3" onClick={() => { setModal(null); setSecretOpen(false); }}>

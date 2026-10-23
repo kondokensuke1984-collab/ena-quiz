@@ -10,13 +10,14 @@ import { BUILDING_SPOTS } from '../BuildingSVG';
 import { DOORS, SOCCER_PITCH, MAIN_WALK_ELLIPSE } from '../../lib/island';
 import { FARM_BOX, FARM_POS, plotPos } from '../../lib/farm';
 import { FOREST_ISLET, MOSHI_ISLET, SEASON_SPOTS } from '../IslandStage';
+import { IKEN_POS } from '../../lib/iken';
 import {
   GRASS_H, GROUND, curve, curved, fx, fz, groundH, grassE, sandE, projectCurved, toPos, toon, toonNew, part, boxG,
   windowMat, lampMat, blobShadow, glowMat, rng, PX, outlineMat, seeThru, bakeStatic,
 } from './common';
 import { loadArt, signArt, emojiArt, type ArtSpec, type SpriteArt } from './sprites';
 import {
-  buildingModel, mailbox, chest as chestModel, forest, rock, flowers, grassTufts, pumpkin, xmasTree, kadomatsu, acorn,
+  buildingModel, mailbox, ikenBox, chest as chestModel, forest, rock, flowers, grassTufts, pumpkin, xmasTree, kadomatsu, acorn,
   type Model, type TreeSpot,
 } from './models';
 
@@ -378,7 +379,7 @@ export class IslandEngine {
       clear.push({ x: fx(s), z: fz(s) - 3, r });
     }
     for (const d of Object.values(DOORS)) clear.push({ x: fx(d), z: fz(d), r: 6 });
-    clear.push({ x: fx(MAIL_POS), z: fz(MAIL_POS), r: 5 }, { x: fx(CHEST_POS), z: fz(CHEST_POS), r: 5 });
+    clear.push({ x: fx(MAIL_POS), z: fz(MAIL_POS), r: 5 }, { x: fx(CHEST_POS), z: fz(CHEST_POS), r: 5 }, { x: fx(IKEN_POS), z: fz(IKEN_POS), r: 4 });
     for (const [x, y] of SEASON_SPOTS) clear.push({ x: x * PX, z: y * PX, r: 4.5 });
     const P = SOCCER_PITCH;
     const inRect = (x: number, z: number, x0: number, x1: number, z0: number, z1: number, m: number) => x > x0 - m && x < x1 + m && z > z0 - m && z < z1 + m;
@@ -474,6 +475,9 @@ export class IslandEngine {
     this.addModel('deco', this.deco, this.mail, fx(MAIL_POS), fz(MAIL_POS));
     this.addHit('deco', this.mail.obj, { x: MAIL_POS.x, y: MAIL_POS.y - 0.05 });
     this.mail.setFlag(this.ui.unread > 0);
+    const iken = ikenBox();
+    this.addModel('deco', this.deco, iken, fx(IKEN_POS), fz(IKEN_POS));
+    this.addHit('deco', iken.obj, { x: IKEN_POS.x, y: IKEN_POS.y - 0.045 });
     this.chestM = chestModel();
     this.addModel('deco', this.deco, this.chestM, fx(CHEST_POS), fz(CHEST_POS));
     this.addHit('deco', this.chestM.obj, { x: CHEST_POS.x, y: CHEST_POS.y - 0.03 });

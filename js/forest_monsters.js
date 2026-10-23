@@ -356,6 +356,67 @@ const FMON_DRAW = {
     fmonShine('M54 116 C54 106 60 100 70 100') +
     '<circle cx="100" cy="146" r="11" fill="' + FMON_INK + '"/><path d="M95 152 L91 172 L109 172 L105 152 Z" fill="' + FMON_INK + '"/>' +
     fmonEye(70, 128, 9, 1) + fmonEye(130, 128, 9, -1),
+  // 🌋 マグマの かざん ──
+  // 🔥 マグマろん（あたまに かこうの ある ようがんモンスター）
+  maguma: (p) =>
+    '<path d="M100 48 C82 32 88 12 100 4 C112 12 118 32 100 48 Z" fill="' + p[2] + '"/>' +
+    '<path d="M32 182 C22 142 38 106 60 94 C58 72 74 56 100 56 C126 56 142 72 140 94 C162 106 178 142 168 182 Q152 190 136 182 Q118 190 100 182 Q82 190 64 182 Q48 190 32 182 Z" fill="' + p[0] + '"/>' +
+    '<path d="M76 58 Q100 68 124 58 L116 42 Q100 50 84 42 Z" fill="' + p[1] + '"/>' +
+    '<path d="M48 142 Q74 156 96 142 M152 138 Q128 154 108 140 M66 168 Q100 178 134 168" fill="none" stroke="' + p[2] + '" stroke-width="5"/>' +
+    '<circle cx="26" cy="112" r="14" fill="' + p[0] + '"/><circle cx="174" cy="112" r="14" fill="' + p[0] + '"/>' +
+    '<circle cx="24" cy="82" r="6" fill="' + p[2] + '"/><circle cx="176" cy="80" r="7" fill="' + p[2] + '"/>' +
+    fmonShine('M54 116 C58 98 68 84 82 76') +
+    fmonEye(80, 108, 12, 1, p[1]) + fmonEye(120, 108, 12, -1, p[1]) +
+    '<path d="M74 136 L86 128 L100 138 L114 128 L126 136 L118 154 L100 146 L82 154 Z" fill="' + p[2] + '"/>',
+  // 🦎 ほのおトカゲ（エリマキと しっぽの ほのお）
+  tokage: (p) =>
+    '<path d="M132 164 C166 160 184 134 176 102 C164 124 150 138 128 146 Z" fill="' + p[0] + '"/>' +
+    '<path d="M176 108 C156 92 164 62 180 46 C194 64 196 92 176 108 Z" fill="' + p[2] + '"/>' +
+    '<path d="M176 102 C166 90 170 74 178 64 C186 74 186 90 176 102 Z" fill="' + p[1] + '" stroke="none"/>' +
+    '<path d="M50 86 L28 68 L52 66 L38 42 L66 52 L70 28 L90 48 L104 26 L114 48 L136 34 L128 60 Z" fill="' + p[2] + '"/>' +
+    '<path d="M66 164 L54 188 L80 188 L84 166 Z M126 164 L138 188 L112 188 L108 166 Z" fill="' + p[0] + '"/>' +
+    '<ellipse cx="96" cy="140" rx="44" ry="38" fill="' + p[0] + '"/><ellipse cx="94" cy="146" rx="26" ry="24" fill="' + p[1] + '"/>' +
+    '<path d="M78 142 L110 142 M80 156 L108 156" fill="none" stroke-width="3" opacity=".45"/>' +
+    '<path d="M54 126 C34 122 26 134 34 144 C44 146 52 140 58 136" fill="' + p[0] + '"/>' +
+    '<path d="M54 84 C54 52 132 52 132 84 C132 106 114 116 92 116 C66 116 54 104 54 84 Z" fill="' + p[0] + '"/>' +
+    fmonShine('M66 76 C70 64 80 58 92 56') +
+    fmonEye(76, 82, 10, 1) + fmonEye(108, 82, 10, -1) +
+    '<path d="M68 102 Q92 110 116 102" fill="none"/><path d="M74 104 L78 114 L84 104 M102 104 L106 114 L112 104" fill="#fff" stroke-width="3"/>',
+  // 🦅 ひのとり（もえる つばさと 3ぼんの おばね）
+  hinotori: (p) =>
+    '<path d="M88 148 C72 170 60 186 48 192 C70 188 86 176 96 154 Z M112 148 C128 170 140 186 152 192 C130 188 114 176 104 154 Z" fill="' + p[2] + '"/>' +
+    '<path d="M96 150 L100 194 L104 150 Z" fill="' + p[1] + '"/>' +
+    '<path d="M68 112 C36 74 12 76 6 102 C22 100 28 112 22 126 C38 118 48 126 48 140 C60 128 70 130 74 140 Z" fill="' + p[0] + '"/>' +
+    '<path d="M132 112 C164 74 188 76 194 102 C178 100 172 112 178 126 C162 118 152 126 152 140 C140 128 130 130 126 140 Z" fill="' + p[0] + '"/>' +
+    '<path d="M66 116 C46 94 28 96 22 110 C36 110 46 118 52 128 Z M134 116 C154 94 172 96 178 110 C164 110 154 118 148 128 Z" fill="' + p[1] + '" stroke-width="3"/>' +
+    '<path d="M86 154 L78 176 M114 154 L122 176" fill="none" stroke="#f59e0b" stroke-width="6"/>' +
+    '<ellipse cx="100" cy="122" rx="34" ry="36" fill="' + p[0] + '"/>' +
+    '<path d="M82 116 Q100 132 118 116 Q110 144 100 148 Q90 144 82 116 Z" fill="' + p[1] + '"/>' +
+    '<path d="M88 52 C80 28 92 14 100 6 C108 14 120 28 112 52 Z" fill="' + p[1] + '"/>' +
+    '<circle cx="100" cy="76" r="28" fill="' + p[0] + '"/>' +
+    fmonShine('M80 66 C84 56 92 52 100 52') +
+    fmonEye(85, 72, 9, 1, p[2]) + fmonEye(115, 72, 9, -1, p[2]) +
+    '<path d="M90 84 L100 100 L110 84 Q100 80 90 84 Z" fill="#facc15"/>',
+  // 🐉 かざんのぬし フレイムドラゴン
+  karyu: (p) =>
+    '<ellipse cx="100" cy="106" rx="96" ry="86" fill="rgba(249,115,22,.24)" stroke="none"/>' +
+    '<path d="M66 96 C30 44 6 52 4 88 C18 82 26 94 22 112 C38 102 48 110 48 128 C58 116 68 120 72 130 Z" fill="' + p[2] + '"/>' +
+    '<path d="M134 96 C170 44 194 52 196 88 C182 82 174 94 178 112 C162 102 152 110 152 128 C142 116 132 120 128 130 Z" fill="' + p[2] + '"/>' +
+    '<path d="M62 102 C38 66 20 72 16 94 C30 92 38 102 40 116 C50 108 58 112 64 120 Z M138 102 C162 66 180 72 184 94 C170 92 162 102 160 116 C150 108 142 112 136 120 Z" fill="' + p[1] + '" stroke-width="3"/>' +
+    '<path d="M136 168 C172 168 190 142 184 112 C174 134 158 146 138 148 Z" fill="' + p[0] + '"/>' +
+    '<path d="M184 114 C172 100 178 82 188 72 C196 84 196 102 184 114 Z" fill="#fde047"/>' +
+    '<path d="M62 162 L50 190 L84 190 L86 166 Z M138 162 L150 190 L116 190 L114 166 Z" fill="' + p[0] + '"/>' +
+    '<path d="M54 102 C46 140 54 176 100 176 C146 176 154 140 146 102 Z" fill="' + p[0] + '"/>' +
+    '<ellipse cx="100" cy="144" rx="32" ry="30" fill="' + p[1] + '"/>' +
+    '<path d="M74 134 L126 134 M72 148 L128 148 M78 162 L122 162" fill="none" stroke-width="3" opacity=".5"/>' +
+    '<circle cx="100" cy="116" r="10" fill="#fef08a" stroke-width="4"/>' +
+    '<path d="M70 48 L44 10 L84 36 Z M130 48 L156 10 L116 36 Z" fill="' + p[1] + '"/>' +
+    '<path d="M90 40 L100 10 L110 40 Z" fill="#facc15"/>' +
+    '<path d="M58 68 C56 34 144 34 142 68 C142 94 124 106 100 106 C76 106 58 94 58 68 Z" fill="' + p[0] + '"/>' +
+    fmonShine('M68 58 C72 48 82 42 94 40') +
+    '<path d="M76 86 Q100 80 124 86 Q120 102 100 102 Q80 102 76 86 Z" fill="#7f1d1d"/>' +
+    '<path d="M82 86 L86 95 L90 85 M110 85 L114 95 L118 86" fill="#fff" stroke-width="2.5"/>' +
+    fmonEye(80, 64, 11, 1, '#facc15') + fmonEye(120, 64, 11, -1, '#facc15'),
 };
 
 // key → [かたち, いろ（[からだ, こい色, アクセント, …]）, なまえ]
@@ -411,6 +472,13 @@ const FOREST_MONSTERS = {
   fm_drone2:    ['drone', ['#fca5a5', '#7f1d1d', '#fde047'], 'レッドドローン'],
   fm_light:     ['light', ['#a8a29e', '#57534e', '#fef08a'], 'サーチライトロボ'],
   fm_kage:      ['kage', ['#3b2f5c', '#1e1b2e', '#facc15'], 'かげの だんちょう'],
+  // マグマの かざん
+  fm_maguma:    ['maguma', ['#f97316', '#dc2626', '#fef08a'], 'マグマろん'],
+  fm_maguma2:   ['maguma', ['#7c3aed', '#3b0764', '#38bdf8'], 'あおびマグマ'],
+  fm_tokage:    ['tokage', ['#ef4444', '#fde047', '#f97316'], 'ほのおトカゲ'],
+  fm_tokage2:   ['tokage', ['#334155', '#f97316', '#facc15'], 'くろいわトカゲ'],
+  fm_hinotori:  ['hinotori', ['#f97316', '#fde047', '#dc2626'], 'ひのとり'],
+  fm_volcano_nushi: ['karyu', ['#dc2626', '#fde047', '#f97316'], 'かざんのぬし フレイムドラゴン'],
   // どうくつ・ぬし
   fm_golem:     ['golem', ['#a8a29e', '#78716c', '#22d3ee', '#4d7c0f'], 'いわゴーレム'],
   fm_nushi:     ['nushi', ['#5b3a1f', '#c8a27a', '#4d7c0f'], 'もりのぬし グランベア'],
@@ -426,10 +494,13 @@ const FOREST_MOBS = {
   seacave: ['fm_kani2', 'fm_kurage2', 'fm_utsubo', 'fm_utsubo2'],
   // さばくの アジト（みはり。ランダムには でない。js/forest_base.js の みはりに みつかると たたかう）
   base: ['fm_heitai', 'fm_heitai2', 'fm_drone', 'fm_drone2', 'fm_light'],
+  // マグマの かざん（さばくの アジトが へいわに なると ヘリで いける）
+  volcano: ['fm_maguma', 'fm_maguma2', 'fm_tokage', 'fm_tokage2', 'fm_hinotori'],
 };
 const FOREST_MIMIC_KEY = 'fm_mimic', FOREST_UMI_KEY = 'fm_umi_nushi';
 const FOREST_GUARD_KEY = 'fm_golem', FOREST_NUSHI_KEY = 'fm_nushi';
 const FOREST_KAGE_KEY = 'fm_kage', FOREST_LOCK_KEY = 'fm_lock';
+const FOREST_VOLCANO_KEY = 'fm_volcano_nushi';
 Object.entries(FOREST_MONSTERS).forEach(([key, [shape, pal, name]]) => {
   CHARS[key] = (lv, fill, size, opts) => fmonSvg(size || 160, FMON_DRAW[shape](pal), opts && opts.silhouette);
   CHAR_NAME[key] = name;
@@ -486,6 +557,12 @@ const FOREST_MONSTER_INFO = {
   fm_drone2:    'あかい ドローン。みつけると すぐに あかい ランプが ピカピカ ひかる。',
   fm_light:     'あたまの ライトで よるの アジトを てらす ロボ。くさむらの なかは てらせない。',
   fm_kage:      'さばくの アジトの だんちょう。サングラスの おくの めを みた ものは いない。',
+  fm_maguma:    'ぐつぐつ にえる マグマから うまれた モンスター。おこると あたまの かこうから 火が でる。',
+  fm_maguma2:   'あおい ほのおを もやす めずらしい マグマ。ふつうの マグマより ずっと あつい。',
+  fm_tokage:    'かざんの いわばを ちょろちょろ はしる トカゲ。しっぽの ほのおが げんきの しるし。',
+  fm_tokage2:   'かたい くろいわの ウロコを もつ トカゲ。マグマの なかも すいすい およげる。',
+  fm_hinotori:  'ほのおの つばさで かざんの そらを とぶ とり。とおった あとに キラキラと ひのこが まう。',
+  fm_volcano_nushi: 'マグマの かざんの おくに すむ 大きな ドラゴン。かざんの エネルギーを まもっている。',
 };
 // ずかんの ならび と ばしょ
 const FOREST_DEX_ORDER = [
@@ -500,6 +577,8 @@ const FOREST_DEX_ORDER = [
   [FOREST_UMI_KEY, 'うみの どうくつ'],
   ...FOREST_MOBS.base.map(k => [k, 'さばくの アジト']),
   [FOREST_KAGE_KEY, 'さばくの アジト'],
+  ...FOREST_MOBS.volcano.map(k => [k, 'マグマの かざん']),
+  [FOREST_VOLCANO_KEY, 'マグマの かざん'],
 ];
 
 // ============================================================
@@ -512,7 +591,7 @@ const FOREST_EVO_NEED = 5, FOREST_EVO_MEDAL = 3;
 const FMON_CROWN_AT = {
   puru: [100, 74], kinoko: [100, 64], koumori: [100, 68], donguri: [100, 58], hachi: [100, 86], ookami: [100, 72],
   woody: [100, 58], yoroi: [100, 62], knight: [100, 50], madou: [100, 92], candle: [100, 84], mimic: [100, 24],
-  soldier: [100, 62], drone: [100, 74], light: [100, 30],
+  soldier: [100, 62], drone: [100, 74], light: [100, 30], maguma: [100, 62], tokage: [92, 54], hinotori: [100, 48],
   kani: [100, 104], kurage: [100, 62], hitode: [100, 30], utsubo: [92, 38], obake: [100, 54], hebi: [100, 50], hana: [100, 26], imomushi: [146, 68], chibidora: [100, 50],
 };
 function fmonEvo(shape, pal) {
@@ -576,6 +655,11 @@ const FOREST_EVOS = {
   fm_drone:     ['drone', ['#e2e8f0', '#0ea5e9', '#a7f3d0'], 'ステルスドローン'],
   fm_drone2:    ['drone', ['#f87171', '#450a0a', '#fb923c'], 'ジェットドローン'],
   fm_light:     ['light', ['#fde68a', '#b45309', '#ffffff'], 'ゴールドライトロボ'],
+  fm_maguma:    ['maguma', ['#ef4444', '#7f1d1d', '#fde047'], 'マグマだいおう'],
+  fm_maguma2:   ['maguma', ['#2563eb', '#1e1b4b', '#a5f3fc'], 'プラズママグマ'],
+  fm_tokage:    ['tokage', ['#f59e0b', '#fef08a', '#ef4444'], 'サラマンダー'],
+  fm_tokage2:   ['tokage', ['#dc2626', '#fde047', '#38bdf8'], 'ダイヤサラマンダー'],
+  fm_hinotori:  ['hinotori', ['#facc15', '#ffffff', '#f43f5e'], 'フェニックス'],
 };
 Object.entries(FOREST_EVOS).forEach(([key, [shape, pal, name]]) => {
   CHARS[key + '_evo'] = (lv, fill, size, opts) => fmonSvg(size || 160, fmonEvo(shape, pal), opts && opts.silhouette);
@@ -624,5 +708,10 @@ Object.assign(FOREST_MONSTER_INFO, {
   fm_drone_evo:     'おとも なく とぶ ドローン。すがたが すけて みえにくい。',
   fm_drone2_evo:    'ジェットで びゅんと とぶ ドローン。はやすぎて じぶんでも とまれない。',
   fm_light_evo:     'きんいろに ひかる ライトロボ。よるの さばくを ひるまの ように てらす。',
+  fm_maguma_evo:    'マグマろんの おうさま。おんせんの おゆを ちょうどいい あつさに してくれる。',
+  fm_maguma2_evo:   'ほしの ちからを もつ あおい マグマ。くらい かざんを きれいに てらす。',
+  fm_tokage_evo:    'ほのおを まとう サラマンダー。しっぽの 火で やきいもを つくるのが とくい。',
+  fm_tokage2_evo:   'ウロコが 宝石の ように かがやく サラマンダー。かざんの たからものを しっている。',
+  fm_hinotori_evo:  'でんせつの とり フェニックス。みた ひとには いい ことが あると いわれている。',
 });
 FOREST_DEX_ORDER.push(...Object.keys(FOREST_EVOS).map(k => [k + '_evo', '✨ しんか']));

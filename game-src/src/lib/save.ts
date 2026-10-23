@@ -55,7 +55,7 @@ export function freshSave(now = Date.now()): SaveV1 {
     micro: { dex: [], day: '', today: 0, ready: false },
     imo: { dex: [], day: '', served: 0 },
     arbor: { dex: [], day: '', gathered: 0, rested: false, tea: false, talked: 0 },
-    space: { dex: [], day: '', trips: 0, moonStone: '', marsStone: '' },
+    space: { dex: [], day: '', trips: 0, moonStone: '', marsStone: '', sunStone: '', sunSeen: [] },
     usagi: { talked: '', home: false },
     talk: { day: '', talked: [], req: null, done: false },
   };
@@ -127,7 +127,7 @@ export function loadSave(): SaveV1 {
       today: typeof s.micro?.today === 'number' ? s.micro!.today : 0,
       ready: s.micro?.ready === true,
     },
-    area: s.area === 'east' || s.area === 'house' || s.area === 'school' || s.area === 'moon' || s.area === 'mars' ? s.area : 'main',
+    area: s.area === 'east' || s.area === 'house' || s.area === 'school' || s.area === 'moon' || s.area === 'mars' || s.area === 'sun' ? s.area : 'main',
     room: { ...f.room, ...obj(s.room, {}) },
     fish: {
       ...f.fish,
@@ -165,6 +165,8 @@ export function loadSave(): SaveV1 {
       trips: typeof s.space?.trips === 'number' ? s.space!.trips : 0,
       moonStone: typeof s.space?.moonStone === 'string' ? s.space!.moonStone : '',
       marsStone: typeof s.space?.marsStone === 'string' ? s.space!.marsStone : '',
+      sunStone: typeof s.space?.sunStone === 'string' ? s.space!.sunStone : '',
+      sunSeen: Array.isArray(s.space?.sunSeen) ? s.space!.sunSeen.filter((x) => typeof x === 'string') : [],
     },
     usagi: {
       talked: typeof s.usagi?.talked === 'string' ? s.usagi!.talked : '',

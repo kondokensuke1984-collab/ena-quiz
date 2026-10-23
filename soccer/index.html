@@ -413,7 +413,7 @@ h2 { margin: 0; font-size: 20px; font-weight: 900; }
   <div class="board">
     <div class="tm"><i style="background:#1fa055"></i><span>緑ヶ丘</span></div>
     <div class="sc" id="hudScore">0 - 0</div>
-    <div class="tm"><span id="hudRival">ライバルFC</span><i id="hudRivalColor" style="background:#e2463c"></i></div>
+    <div class="tm"><span id="hudRival">布田</span><i id="hudRivalColor" style="background:#f4f4f4"></i></div>
     <div class="clk" id="hudClock">前半 00:00</div>
   </div>
   <div id="caption"><b>実況</b><span></span></div>
@@ -433,7 +433,7 @@ h2 { margin: 0; font-size: 20px; font-weight: 900; }
   <div id="pad">
     <button class="btn" id="btnY"></button>
     <button class="btn" id="btnR"></button>
-    <button class="btn" id="btnS">🌟<small>オボサイド</small></button>
+    <button class="btn" id="btnS">🌟<small id="btnSLabel">オボサイド</small></button>
     <button class="btn" id="btnB"></button>
     <button class="btn" id="btnA"></button>
   </div>
@@ -534,7 +534,7 @@ h2 { margin: 0; font-size: 20px; font-weight: 900; }
     <div class="panel">
       <div id="resCup"></div>
       <div class="verdict" id="verdict"></div>
-      <div class="score"><div class="t g">緑ヶ丘</div><div class="n" id="resScore">0 - 0</div><div class="t r" id="resRival">ライバルFC</div></div>
+      <div class="score"><div class="t g">緑ヶ丘</div><div class="n" id="resScore">0 - 0</div><div class="t r" id="resRival">布田</div></div>
       <div class="pkres" id="resPk"></div>
       <div class="stats" id="stats"></div>
       <div id="resTerms"></div>
@@ -599,24 +599,24 @@ h2 { margin: 0; font-size: 20px; font-weight: 900; }
 // position: "GK" / "DF" / "MF" / "FW"　yomi: 実況での読み方　hair: 0〜4 の髪型
 // ================================================================
 const MEMBERS = [
-  { name: "たすく", number: 1, position: "GK", skill: "save" },
-  { name: "とあ", number: 2, position: "DF", skill: "defense" },
-  { name: "げん", number: 3, position: "MF", skill: "pass" },
-  { name: "としひろ", number: 4, position: "FW", skill: "shoot" },
-  { name: "ゆう", number: 6, position: "MF", skill: "dribble" },
-  { name: "がく", number: 7, position: "FW", skill: "speed" },
-  { name: "おう", number: 8, position: "DF", skill: "stamina" },
-  { name: "あやと", number: 9, position: "MF", skill: "pass" },
-  { name: "はると", number: 10, position: "FW", skill: "shoot" },
-  { name: "たくと", number: 11, position: "DF", skill: "defense" },
-  { name: "ごろう", number: 12, position: "MF", skill: "stamina" },
-  { name: "こうき", number: 13, position: "FW", skill: "speed" },
-  { name: "かずま", number: 14, position: "DF", skill: "header" },
-  { name: "こうせい", number: 15, position: "MF", skill: "dribble" },
-  { name: "あさひ", number: 16, position: "FW", skill: "header" },
-  { name: "ゆうや", number: 17, position: "DF", skill: "speed" },
-  { name: "しょうたろう", number: 18, position: "MF", skill: "pass" },
-  { name: "勇誠", number: 24, position: "DF", skill: "header", yomi: "ゆうせい", special: "obo" },
+  { name: "はると", number: 15, position: "FW", skill: "shoot" },
+  { name: "たすく", number: 16, position: "GK", skill: "save" },
+  { name: "とあ", number: 17, position: "DF", skill: "defense" },
+  { name: "たくと", number: 18, position: "DF", skill: "defense" },
+  { name: "ごろう", number: 19, position: "MF", skill: "stamina" },
+  { name: "としひろ", number: 20, position: "FW", skill: ["shoot", "pass"] },
+  { name: "げん", number: 22, position: "MF", skill: ["shoot", "speed"] },
+  { name: "こうき", number: 23, position: "FW", skill: "speed" },
+  { name: "勇誠", number: 24, position: "DF", skill: "defense", yomi: "ゆうせい", special: "obo" },
+  { name: "ゆう", number: 25, position: "MF", skill: "dribble" },
+  { name: "がく", number: 26, position: "FW", skill: "speed" },
+  { name: "かずま", number: 27, position: "DF", skill: "header" },
+  { name: "おう", number: 28, position: "DF", skill: "stamina" },
+  { name: "こうせい", number: 29, position: "MF", skill: "dribble" },
+  { name: "あやと", number: 31, position: "MF", skill: "shoot" },
+  { name: "あさひ", number: 32, position: "FW", skill: "header" },
+  { name: "ゆうや", number: 33, position: "DF", skill: "speed" },
+  { name: "しょうたろう", number: 34, position: "MF", skill: "pass" },
 ];
 // とくい（1人1つ。その子だけ少し強くなる。弱くする能力はない）。相手チームには つけない
 const SKILLS = {
@@ -629,34 +629,58 @@ const SKILLS = {
   header: { icon: "🦅", label: "ヘディング", line: "ヘディングが とくい" },
   save: { icon: "🧤", label: "セーブ", line: "キーパーが とくい" },
 };
-const has = (p, id) => !!p && p.team === 0 && p.skill === id;
+// とくいは 1つ（"shoot"）でも 複数（["shoot", "pass"]）でも書ける
+const skillsOf = (x) => (x ? (Array.isArray(x) ? x : [x]) : []).filter((k) => SKILLS[k]);
+const has = (p, id) => !!p && skillsOf(p.skill).includes(id);
 // 必殺技（その子だけ。1試合2回まで）
-const SPECIALS = { obo: { icon: "🌟", label: "オボサイド" } };
+const SPECIALS = { obo: { icon: "🌟", label: "オボサイド・オボガード" } };
 const OBO_FILL = [70, 95];    // ゲージが たまる秒数（1回目・2回目）
 const OBO_TIME = 1.6;         // つづく秒数
+const OBOG_TIME = 4.5;        // オボガード（まもりの必殺技）のつづく秒数。ゲージはオボサイドと同じ・1試合2回まで
 // とくいが 効いたとき、ヒントで 1回 教える（端末ごと 3回まで）
-function skillTip(p) { if (p && p.team === 0 && SKILLS[p.skill]) tip("skill_" + p.skill, `${SKILLS[p.skill].icon} ${p.name}は ${SKILLS[p.skill].line}！`, null, true); }
+function skillTip(p, id) { if (p && p.team === 0 && has(p, id)) tip("skill_" + id, `${SKILLS[id].icon} ${p.name}は ${SKILLS[id].line}！`, null, true); }
 // どこで動いているか。ANRINO 版は scripts/anrino_export.py が "anrino" に書きかえる（しあいけん・休けいは ANRINO 版だけ）
 const SITE = "anrino";
 const TEAM_NAME = "緑ヶ丘";
-// 相手チーム（str: 強さの上げ下げ。0 が今までのライバルFC。plan: 攻め方 build/wing/through/long の割合）
+// 相手チーム（str: 強さの上げ下げ。0 が「ふつうに強い」。＋は もっと強い。plan: 攻め方 build/wing/through/long の割合）
+// 弱い順。stars は 5段階。選手の skill は 書いた子だけ（GA FC の 44番＝ドリブル）
 const TEAMS = [
-  { id: "sora", name: "青空キッズ", form: "331", style: "パスでつなぐ", stars: 1, str: -1.2, plan: [0.6, 0.2, 0.12, 0.08], radar: "#7fb4ff",
-    kit: { jersey: "#2f6fe0", trim: "#ffffff", shorts: "#ffffff", socks: "#2f6fe0", num: "#ffffff" },
-    players: [{ name: "ツバメ", number: 1 }, { name: "ヒバリ", number: 2 }, { name: "カモメ", number: 3 }, { name: "スズメ", number: 4 },
-      { name: "メジロ", number: 6 }, { name: "インコ", number: 8 }, { name: "ハヤブサ", number: 10 }, { name: "ツル", number: 11 }] },
-  { id: "yamaneko", name: "ヤマネコFC", form: "232", style: "サイドから攻める", stars: 2, str: -0.6, plan: [0.2, 0.6, 0.12, 0.08], radar: "#ffa24a",
-    kit: { jersey: "#f07a1f", trim: "#ffffff", shorts: "#1b2a4a", socks: "#f07a1f", num: "#ffffff" },
-    players: [{ name: "ヤマネコ", number: 1 }, { name: "クロネコ", number: 2 }, { name: "トラネコ", number: 3 }, { name: "ミケ", number: 4 },
-      { name: "シャム", number: 6 }, { name: "ペルシャ", number: 8 }, { name: "チーター", number: 10 }, { name: "ピューマ", number: 11 }] },
-  { id: "inazuma", name: "イナズマSC", form: "322", style: "うらへ一気に走る", stars: 3, str: -0.25, plan: [0.15, 0.15, 0.4, 0.3], radar: "#d6d8e6",
+  { id: "jindaiji", name: "FC深大寺", form: "331", style: "パスでつなぐ", stars: 1, str: -1.2, plan: [0.6, 0.2, 0.12, 0.08], radar: "#6cc6f0",
+    kit: { jersey: "#6cc6f0", trim: "#ffffff", shorts: "#ffffff", socks: "#6cc6f0", num: "#ffffff" },
+    players: [{ name: "ダルマ", number: 1 }, { name: "ソバ", number: 2 }, { name: "ウドン", number: 3 }, { name: "モナカ", number: 4 },
+      { name: "ダンゴ", number: 6 }, { name: "ミソ", number: 8 }, { name: "ワサビ", number: 10 }, { name: "ユズ", number: 11 }] },
+  { id: "chofu1", name: "調布一小", form: "331", style: "パスでつなぐ", stars: 1, str: -0.9, plan: [0.5, 0.3, 0.12, 0.08], radar: "#ffd400",
+    kit: { jersey: "#ffd400", trim: "#1b2a4a", shorts: "#1b2a4a", socks: "#ffd400", num: "#1b2a4a" },
+    players: [{ name: "タロウ", number: 1 }, { name: "ジロウ", number: 2 }, { name: "サブロ", number: 3 }, { name: "シロウ", number: 4 },
+      { name: "ゴロウ", number: 6 }, { name: "ロクタ", number: 8 }, { name: "ナナミ", number: 10 }, { name: "ハチロウ", number: 11 }] },
+  { id: "fuda", name: "布田", form: "331", style: "なんでもできる", stars: 3, str: -0.1, plan: [0.3, 0.3, 0.23, 0.17], radar: "#f4f4f4",
+    kit: { jersey: "#f4f4f4", trim: "#1b2a4a", shorts: "#ffffff", socks: "#f4f4f4", num: "#1b2a4a" },
+    players: [{ name: "ヒデ", number: 1 }, { name: "マサ", number: 2 }, { name: "ケン", number: 3 }, { name: "ダイ", number: 4 },
+      { name: "ソウ", number: 6 }, { name: "リク", number: 8 }, { name: "カイ", number: 10 }, { name: "ヤマト", number: 11 }] },
+  { id: "acget", name: "A.C.GET", form: "322", style: "うらへ一気に走る", stars: 2, str: -0.35, plan: [0.15, 0.15, 0.4, 0.3], radar: "#c9ccd8",
     kit: { jersey: "#26272f", trim: "#ffd400", shorts: "#26272f", socks: "#ffd400", num: "#ffd400" },
-    players: [{ name: "カミナリ", number: 1 }, { name: "アラシ", number: 2 }, { name: "ツムジ", number: 3 }, { name: "アラレ", number: 4 },
-      { name: "ハヤテ", number: 6 }, { name: "スコール", number: 8 }, { name: "イナズマ", number: 10 }, { name: "タツマキ", number: 11 }] },
-  { id: "rival", name: "ライバルFC", form: "331", style: "なんでもできる", stars: 4, str: 0, plan: [0.3, 0.3, 0.23, 0.17], radar: "#ff5c52",
-    kit: { jersey: "#e2463c", trim: "#ffffff", shorts: "#1b2a4a", socks: "#e2463c", num: "#ffffff" },
-    players: [{ name: "ライオン", number: 1 }, { name: "トラ", number: 2 }, { name: "クマ", number: 3 }, { name: "サイ", number: 4 },
-      { name: "ゴリラ", number: 6 }, { name: "ヒョウ", number: 8 }, { name: "オオカミ", number: 10 }, { name: "ワシ", number: 11 }] },
+    players: [{ name: "ゲンキ", number: 1 }, { name: "ハヤト", number: 2 }, { name: "ショウ", number: 3 }, { name: "ジン", number: 4 },
+      { name: "レオ", number: 6 }, { name: "タイガ", number: 8 }, { name: "ルイ", number: 10 }, { name: "アキラ", number: 11 }] },
+  { id: "yakumo", name: "八雲台ドラゴン", form: "232", style: "サイドから攻める", stars: 2, str: -0.35, plan: [0.2, 0.6, 0.12, 0.08], radar: "#ffa24a",
+    kit: { jersey: "#f07a1f", trim: "#ffffff", shorts: "#1b2a4a", socks: "#f07a1f", num: "#ffffff" },
+    players: [{ name: "リュウ", number: 1 }, { name: "ホムラ", number: 2 }, { name: "ライゴ", number: 3 }, { name: "カエン", number: 4 },
+      { name: "ゲンブ", number: 6 }, { name: "スイリュウ", number: 8 }, { name: "ダイチ", number: 10 }, { name: "ゴウキ", number: 11 }] },
+  { id: "wakaba", name: "若葉SC", form: "232", style: "サイドから攻める", stars: 4, str: 0.1, plan: [0.2, 0.5, 0.2, 0.1], radar: "#a6e22e",
+    kit: { jersey: "#a6e22e", trim: "#ffffff", shorts: "#14532d", socks: "#a6e22e", num: "#14532d" },
+    players: [{ name: "ケヤキ", number: 1 }, { name: "ナラ", number: 2 }, { name: "カシ", number: 3 }, { name: "モミ", number: 4 },
+      { name: "スギ", number: 6 }, { name: "ヒノキ", number: 8 }, { name: "クスノキ", number: 10 }, { name: "サクラ", number: 11 }] },
+  { id: "kitanodai", name: "北ノ台キッカーズ", form: "421", style: "がっちり守って反撃", stars: 4, str: 0.3, plan: [0.3, 0.2, 0.3, 0.2], radar: "#7fb4ff",
+    kit: { jersey: "#2f6fe0", trim: "#ffffff", shorts: "#ffffff", socks: "#2f6fe0", num: "#ffffff" },
+    players: [{ name: "ホクト", number: 1 }, { name: "ゲンタ", number: 2 }, { name: "コウダイ", number: 3 }, { name: "テツヤ", number: 4 },
+      { name: "ダイスケ", number: 6 }, { name: "ヨウタ", number: 8 }, { name: "ショウタ", number: 10 }, { name: "リョウガ", number: 11 }] },
+  { id: "gafc", name: "GA FC", form: "331", style: "ドリブルでつなぐ", stars: 5, str: 0.55, plan: [0.5, 0.2, 0.2, 0.1], radar: "#ff9aa2",
+    kit: { jersey: "#a3141f", trim: "#111111", shorts: "#111111", socks: "#a3141f", num: "#ffffff" },
+    players: [{ name: "ガイ", number: 1 }, { name: "ジョー", number: 2 }, { name: "ケイタ", number: 3 }, { name: "ミナト", number: 4 },
+      { name: "ソウタ", number: 6 }, { name: "タケル", number: 44, skill: "dribble" }, { name: "ユウマ", number: 10 }, { name: "レン", number: 11 }] },
+  { id: "eagles", name: "イーグルス", form: "331", style: "なんでもできる", stars: 5, str: 0.9, plan: [0.3, 0.3, 0.23, 0.17], radar: "#ff5c52",
+    kit: { jersey: "#ff3b2f", trim: "#ffffff", shorts: "#1b2a4a", socks: "#ff3b2f", num: "#ffffff" },
+    players: [{ name: "ワシオ", number: 1 }, { name: "タカヒロ", number: 2 }, { name: "ツバサ", number: 3 }, { name: "ハヤテ", number: 4 },
+      { name: "ソラ", number: 6 }, { name: "ヒカル", number: 8 }, { name: "ライト", number: 10 }, { name: "ジュン", number: 11 }] },
 ];
 const ROUND_LABELS = ["1回戦", "準決勝", "決勝"];
 const TEAM_SIZE = 8;
@@ -1141,11 +1165,13 @@ const memberLook = (m, asGK) => makeLook(m, 0, asGK ?? m.position === "GK");
 let picked = [];
 let gkIndex = null;
 let diffLevel = 1;
-let matchMode = "single", rivalId = "rival";
+let matchMode = "single", rivalId = "fuda";
 let cup = null;   // 大会中： { round: 0〜2, opp: [チームid×3], res: [true/false…] }
 const teamById = (id) => TEAMS.find((t) => t.id === id);
-function currentRival() { return teamById(cup ? cup.opp[cup.round] : rivalId) || TEAMS[TEAMS.length - 1]; }
-function newCup() { cup = { round: 0, opp: ["sora", Math.random() < 0.5 ? "yamaneko" : "inazuma", "rival"], res: [] }; }
+function currentRival() { return teamById(cup ? cup.opp[cup.round] : rivalId) || teamById("eagles"); }
+// 大会：1回戦＝弱いチーム、準決勝＝まあまあ、決勝＝強いチーム（それぞれの中からランダム）
+const CUP_POOLS = [["jindaiji", "chofu1"], ["fuda", "acget", "yakumo"], ["wakaba", "kitanodai", "gafc", "eagles"]];
+function newCup() { cup = { round: 0, opp: CUP_POOLS.map((a) => a[Math.floor(Math.random() * a.length)]), res: [] }; }
 // 大会の勝ち上がり表（res: 結果の配列、now: 今の試合）
 function bracketEl(opp, res, now) {
   const box = document.createElement("div"); box.className = "bracket";
@@ -1154,7 +1180,7 @@ function bracketEl(opp, res, now) {
     const st = document.createElement("div");
     st.className = "st" + (res[i] === true ? " win" : res[i] === false ? " lose" : i === now ? " now" : "");
     st.append(document.createTextNode(lb));
-    const sm = document.createElement("small"); sm.textContent = opp ? (teamById(opp[i]) || {}).name : (i === 1 ? "？？？" : teamById(i === 0 ? "sora" : "rival").name);
+    const sm = document.createElement("small"); sm.textContent = opp ? (teamById(opp[i]) || {}).name : "？？？";
     st.append(sm); box.append(st);
   });
   return box;
@@ -1201,7 +1227,7 @@ function buildOpp() {
     sw.style.background = `linear-gradient(180deg, ${t.kit.jersey} 0 62%, ${t.kit.shorts} 62% 100%)`;
     sw.style.boxShadow = `inset 0 0 0 2px ${t.kit.trim}`;
     const tx = document.createElement("span"); tx.append(document.createTextNode(t.name));
-    const sm = document.createElement("small"); const em = document.createElement("em"); em.textContent = "★".repeat(t.stars) + "☆".repeat(4 - t.stars);
+    const sm = document.createElement("small"); const em = document.createElement("em"); em.textContent = "★".repeat(t.stars) + "☆".repeat(5 - t.stars);
     sm.append(em, document.createTextNode(t.style)); tx.append(sm);
     b.append(sw, tx);
     b.onclick = () => { rivalId = t.id; SFX.ui(); buildOpp(); };
@@ -1225,7 +1251,7 @@ function buildGrid() {
     const nm = document.createElement("div"); nm.className = "nm"; nm.textContent = m.name;
     const pos = document.createElement("div"); pos.className = "pos"; pos.textContent = posLabel(m.position);
     b.append(img, tag, nm, pos);
-    if (SKILLS[m.skill]) { const sk = document.createElement("div"); sk.className = "skill"; sk.textContent = `${SKILLS[m.skill].icon} ${SKILLS[m.skill].label}`; b.append(sk); }
+    for (const k of skillsOf(m.skill)) { const sk = document.createElement("div"); sk.className = "skill"; sk.textContent = `${SKILLS[k].icon} ${SKILLS[k].label}`; b.append(sk); }
     if (SPECIALS[m.special]) { const sp = document.createElement("div"); sp.className = "skill special"; sp.textContent = `必殺 ${SPECIALS[m.special].label}`; b.append(sp); }
     if (on) {
       const mark = document.createElement("span");
@@ -1766,28 +1792,52 @@ function animatePlayer(p, t) {
   m.rotation.y = Math.atan2(p.fx, p.fz);
   const run = p.run || 0, ph = p.ph, s = Math.sin(ph);
   const [lL, lR] = u.legs, [aL, aR] = u.arms;
-  // ふつうの走り
-  u.body.position.set(0, Math.abs(Math.sin(ph)) * 0.05 * run, 0);
-  u.body.rotation.set(0.14 * run, 0, 0);
-  lL.thigh.rotation.set(-s * 0.75 * run, 0, 0); lR.thigh.rotation.set(s * 0.75 * run, 0, 0);
-  lL.knee.rotation.x = (0.15 + Math.max(0, s)) * 0.9 * run; lR.knee.rotation.x = (0.15 + Math.max(0, -s)) * 0.9 * run;
-  aL.sh.rotation.set(s * 0.7 * run, 0, -0.12); aR.sh.rotation.set(-s * 0.7 * run, 0, 0.12);
-  aL.el.rotation.x = aR.el.rotation.x = -0.4 - 0.5 * run;
-  u.chest.rotation.set(0, Math.sin(ph) * 0.12 * run, 0);
-  u.head.rotation.set(0, 0, 0);
+  // ふつうの走り：スピードで前かがみ・腕ふり・体のひねりが大きくなる。曲がるときは内がわへ かたむき、止まるときは のけぞる
+  const dtA = Math.max(0.001, Math.min(0.1, t - (p.animT ?? t)));
+  const psi = m.rotation.y; let dpsi = psi - (p.animPsi ?? psi); dpsi = Math.atan2(Math.sin(dpsi), Math.cos(dpsi));
+  p.animT = t; p.animPsi = psi;
+  p.turnSm = (p.turnSm || 0) + (clamp(dpsi / dtA, -8, 8) - (p.turnSm || 0)) * 0.15;
+  const rs = p.runSm = (p.runSm ?? run) + (run - (p.runSm ?? run)) * 0.18;
+  const brake = Math.max(0, rs - run);
+  u.body.position.set(0, Math.abs(Math.sin(ph)) * (0.03 + 0.05 * run), 0);
+  u.body.rotation.set(0.06 + 0.2 * rs - brake * 0.9, 0, -clamp(p.turnSm * 0.05, -0.28, 0.28) * Math.min(1, run * 1.2));
+  lL.thigh.rotation.set(-s * 0.8 * run, 0, 0); lR.thigh.rotation.set(s * 0.8 * run, 0, 0);
+  lL.knee.rotation.x = (0.15 + Math.max(0, s)) * 0.95 * run; lR.knee.rotation.x = (0.15 + Math.max(0, -s)) * 0.95 * run;
+  aL.sh.rotation.set(s * 0.95 * run, 0, -0.12 - 0.1 * run); aR.sh.rotation.set(-s * 0.95 * run, 0, 0.12 + 0.1 * run);
+  aL.el.rotation.x = aR.el.rotation.x = -0.4 - 0.7 * run;
+  u.chest.rotation.set(0, Math.sin(ph) * 0.2 * run, 0);
+  u.head.rotation.set(-0.1 * rs, 0, 0);
+  const gm = game, bb = gm && gm.ball;
+  // シュートの「ため」：ボタンを押している間、けり足を うしろへ引き、うでを ひろげる
+  if (gm && gm.charge > 0.02 && gm.controlled === p && bb.owner === p && !p.isGK && p.kickT <= 0) {
+    const c = gm.charge;
+    lR.thigh.rotation.x = 0.25 + 0.75 * c; lR.knee.rotation.x = 0.4 + 1.0 * c; lL.thigh.rotation.x = -0.15; lL.knee.rotation.x = 0.25;
+    aL.sh.rotation.set(-0.2, 0, -0.5 - 0.6 * c); aR.sh.rotation.set(0.2, 0, 0.5 + 0.6 * c);
+    u.body.rotation.x = -0.05 * c; u.chest.rotation.y = -0.25 * c;
+  }
+  // 受けとめる（トラップ）：足を出して、ひざでボールのいきおいを吸い、すこし しずむ
+  if (p.trapT > 0) {
+    const k = Math.sin(Math.PI * clamp(1 - p.trapT / 0.32, 0, 1));
+    lR.thigh.rotation.x = -0.7 * k; lR.knee.rotation.x = 0.8 * k; lL.knee.rotation.x = 0.45 * k;
+    u.body.position.y -= 0.07 * k; u.body.rotation.x += 0.1 * k;
+    aL.sh.rotation.set(-0.2 * k, 0, -0.6 * k); aR.sh.rotation.set(-0.2 * k, 0, 0.6 * k);
+  }
   if (p.kickT > 0) {
-    const k = Math.sin(Math.PI * (1 - p.kickT / 0.26));
-    lR.thigh.rotation.x = -1.3 * k + 0.4 * (1 - k); lR.knee.rotation.x = 0.9 * (1 - k);
+    // 足を まえへ ふりぬく（さいしょにすばやく、あとはゆっくり もどる）。つよく けるほど 大きく
+    const u0 = 1 - p.kickT / 0.26, pw = p.kickPw ?? 0.5;
+    const sw = u0 < 0.25 ? u0 / 0.25 : 1 - (u0 - 0.25) / 0.75 * 0.85;
+    lR.thigh.rotation.x = (0.4 - 1.5 * (0.8 + 0.5 * pw) * sw) * 1; lR.knee.rotation.x = 0.9 * (1 - sw) + 0.1;
     lL.thigh.rotation.x = 0.15; lL.knee.rotation.x = 0.2;
-    aL.sh.rotation.set(-0.3, 0, -0.9 * k); aR.sh.rotation.set(0.4, 0, 0.5 * k);
-    u.body.rotation.x = -0.12 * k;
+    aL.sh.rotation.set(-0.3, 0, -0.9 * sw - 0.2); aR.sh.rotation.set(0.4, 0, 0.5 * sw + 0.2);
+    u.body.rotation.x = -0.1 * sw * (0.6 + pw); u.chest.rotation.y = 0.3 * sw * (0.5 + pw);
   }
   if (p.slide > 0 && p.sliding) {
     u.body.rotation.x = -1.15; u.body.position.y = 0.32;
     lR.thigh.rotation.x = -0.25; lL.thigh.rotation.x = -0.6; lL.knee.rotation.x = 0.9; lR.knee.rotation.x = 0;
     aL.sh.rotation.set(0.6, 0, -1.1); aR.sh.rotation.set(0.6, 0, 1.1);
   }
-  if (p.holding) { aL.sh.rotation.set(-1.2, 0, 0.25); aR.sh.rotation.set(-1.2, 0, -0.25); aL.el.rotation.x = aR.el.rotation.x = -0.5; }
+  if (p.holding && isThrowIn(p)) { aL.sh.rotation.set(-2.9, 0, 0.2); aR.sh.rotation.set(-2.9, 0, -0.2); aL.el.rotation.x = aR.el.rotation.x = -0.3; }
+  else if (p.holding) { aL.sh.rotation.set(-1.2, 0, 0.25); aR.sh.rotation.set(-1.2, 0, -0.25); aL.el.rotation.x = aR.el.rotation.x = -0.5; }
   if (p.diveT > 0) {
     const k = Math.min(1, (0.6 - p.diveT) / 0.18);
     const ry = m.rotation.y;
@@ -1797,14 +1847,31 @@ function animatePlayer(p, t) {
     aL.sh.rotation.set(0, 0, -2.6 * k); aR.sh.rotation.set(0, 0, 2.6 * k);
   }
   if (p.celebrate > 0) {
-    u.body.position.y = Math.abs(Math.sin(t * 8)) * 0.32; u.body.rotation.x = -0.1;
-    aL.sh.rotation.set(-2.9, 0, -0.35); aR.sh.rotation.set(-2.9, 0, 0.35); aL.el.rotation.x = aR.el.rotation.x = 0;
+    const cv = p.celebV ??= hashStr(p.name + "#" + p.num + "c") % 4;
+    if (cv === 1) {   // ひざで すべる
+      u.body.position.y = 0.2; u.body.rotation.x = -0.45; lL.thigh.rotation.x = -0.4; lL.knee.rotation.x = 1.2; lR.thigh.rotation.x = 0.7; lR.knee.rotation.x = 1.4;
+      aL.sh.rotation.set(-2.6, 0, -0.9); aR.sh.rotation.set(-2.6, 0, 0.9); aL.el.rotation.x = aR.el.rotation.x = 0;
+    } else if (cv === 2) {   // ひこうきのように うでを ひろげて はしる
+      u.body.position.y = Math.abs(Math.sin(t * 6)) * 0.08; u.body.rotation.set(0.12, 0, Math.sin(t * 3) * 0.12);
+      aL.sh.rotation.set(0, 0, -1.55); aR.sh.rotation.set(0, 0, 1.55); aL.el.rotation.x = aR.el.rotation.x = 0;
+    } else if (cv === 3) {   // ガッツポーズ（かた手を つよく ふる）
+      u.body.position.y = Math.abs(Math.sin(t * 7)) * 0.2; u.body.rotation.x = 0.1;
+      aR.sh.rotation.set(-2.5 + Math.sin(t * 14) * 0.25, 0, 0.5); aR.el.rotation.x = -1.3;
+      aL.sh.rotation.set(0.3, 0, -0.25); aL.el.rotation.x = -1.0;
+    } else {
+      u.body.position.y = Math.abs(Math.sin(t * 8)) * 0.32; u.body.rotation.x = -0.1;
+      aL.sh.rotation.set(-2.9, 0, -0.35); aR.sh.rotation.set(-2.9, 0, 0.35); aL.el.rotation.x = aR.el.rotation.x = 0;
+    }
   }
   if (p.headT > 0) {
     const k = Math.sin(Math.PI * clamp(1 - p.headT / 0.5, 0, 1));
-    u.body.position.y += k * 0.42;
-    lL.knee.rotation.x = lR.knee.rotation.x = 0.6 * k; lL.thigh.rotation.x = lR.thigh.rotation.x = -0.2 * k;
-    aL.sh.rotation.set(-0.4, 0, -0.9 * k); aR.sh.rotation.set(-0.4, 0, 0.9 * k);
+    const u1 = clamp(1 - p.headT / 0.5, 0, 1);
+    u.body.position.y += k * 0.42 - (u1 < 0.15 ? 0.06 * Math.sin(Math.PI * u1 / 0.15) : 0);
+    // 空中：いったん のけぞって、ボールに あたる ところで 首と体を ぐっと まえへ
+    u.body.rotation.x += u1 < 0.5 ? -0.4 * Math.sin(Math.PI * u1 * 2) : 0.35 * Math.sin(Math.PI * (u1 - 0.5) * 2);
+    u.head.rotation.x = u1 > 0.4 && u1 < 0.8 ? 0.55 * Math.sin(Math.PI * (u1 - 0.4) / 0.4) : -0.15 * k;
+    lR.knee.rotation.x = 1.0 * k; lL.knee.rotation.x = 0.5 * k; lR.thigh.rotation.x = -0.5 * k; lL.thigh.rotation.x = 0.2 * k;
+    aL.sh.rotation.set(-0.4, 0, -1.0 * k); aR.sh.rotation.set(-0.4, 0, 1.0 * k);
   }
   if (p.nodT > 0) { u.head.rotation.x = 0.55 * Math.sin(Math.PI * (1 - p.nodT / 0.25)); u.chest.rotation.x = 0.2; }
   if (p.stun > 0) { u.body.rotation.z = Math.sin(t * 22) * 0.12; u.head.rotation.z = Math.sin(t * 15) * 0.2; }
@@ -1814,6 +1881,12 @@ function animatePlayer(p, t) {
     aL.sh.rotation.set(-0.5, 0, -1.2); aR.sh.rotation.set(-0.5, 0, 1.2);
     lL.thigh.rotation.x = -0.3; lR.thigh.rotation.x = 0.1; lL.knee.rotation.x = 0.6; lR.knee.rotation.x = 0.2;
   }
+  // ポーズの切りかえを なめらかに：いまの形を 目標の形へ すばやく近づける（ぱっと変わらない）
+  const sl = u.slots || (u.slots = [[u.body.position, "y"], ...[u.body, u.chest, u.head, aL.sh, aR.sh].flatMap((o) => ["x", "y", "z"].map((k) => [o.rotation, k])),
+    ...[lL.thigh, lL.knee, lR.thigh, lR.knee, aL.el, aR.el].map((o) => [o.rotation, "x"])]);
+  const bl = p.bl || (p.bl = new Float32Array(sl.length));
+  const kb = p.blInit ? 1 - Math.exp(-dtA * 26) : 1; p.blInit = true;
+  for (let i = 0; i < sl.length; i++) { const [o, key] = sl[i]; const v = o[key]; bl[i] = i === 0 && !Number.isFinite(bl[i]) ? v : bl[i] + (v - bl[i]) * kb; if (kb === 1) bl[i] = v; o[key] = bl[i]; }
   // 表情は かわったときだけ 絵を ずらす
   const fi = faceOf(p, t);
   if (fi !== u.faceIdx) { u.faceIdx = fi; u.faceTex.offset.x = fi / FACE_N; }
@@ -1899,7 +1972,7 @@ function makePlayer(team, slot, info, kit, form) {
     name: info.name, num: info.number, yomi: info.yomi, look: makeLook(info, team, s.role === "GK", kit),
     baseX: s.x * dir, baseZ: s.z * dir,
     x: s.x * dir, z: s.z * dir, vx: 0, vz: 0, fx: dir, fz: 0,
-    speed: BASE_SPEED * roleSpeed * (team === 0 && info.skill === "speed" ? 1.08 : 1), skill: team === 0 ? info.skill : undefined,
+    speed: BASE_SPEED * roleSpeed * (team === 0 && skillsOf(info.skill).includes("speed") ? 1.08 : 1), skill: info.skill,
     special: team === 0 ? info.special : undefined, oboT: 0,
     stun: 0, slide: 0, slideCd: 0, sliding: false, tackling: 0, noPick: 0, hold: 0, think: 0, goals: 0,
     ph: Math.random() * 6, run: 0, kickT: 0, celebrate: 0, diveT: 0, diveDir: 0, holding: false, receiving: 0,
@@ -1973,7 +2046,7 @@ function kickoff(team) {
   for (const p of g.all) {
     p.x = p.isGK ? p.baseX : (p.team === 0 ? Math.min(p.baseX, -1.5) : Math.max(p.baseX, 1.5));
     p.z = p.baseZ; p.vx = p.vz = 0;
-    p.stun = p.slide = p.noPick = p.hold = p.celebrate = p.kickT = p.diveT = p.oboT = 0; p.holding = false; p.stamina = 1; p.tired = false;
+    p.stun = p.slide = p.noPick = p.hold = p.celebrate = p.kickT = p.diveT = p.oboT = p.guardT = 0; p.runup = null; p.runDone = false; p.holding = false; p.stamina = 1; p.tired = false;
     p.fx = p.dir; p.fz = 0;
   }
   const taker = g.teams[team][7];
@@ -2147,6 +2220,7 @@ function update(dt) {
 
   updateControl(dt);
   oboCharge(dt);
+  guardTick(dt);
   const chasers = [chaserOf(0), chaserOf(1)];
   for (const p of g.all) {
     // スタミナ：ダッシュしていなければ回復（止まっているとはやく戻る）
@@ -2155,10 +2229,10 @@ function update(dt) {
     if (p.tired && p.stamina >= 0.4) p.tired = false;
     p.noPick = Math.max(0, p.noPick - dt);
     if (p.oboT > 0 && p !== g.controlled) p.oboT = 0;
-    p.slideCd = Math.max(0, p.slideCd - dt);
+    p.slideCd = Math.max(0, p.slideCd - dt); p.trapT = Math.max(0, (p.trapT || 0) - dt);
     p.receiving = Math.max(0, p.receiving - dt);
     p.headT = Math.max(0, p.headT - dt); p.headCd = Math.max(0, p.headCd - dt); p.nodT = Math.max(0, p.nodT - dt);
-    p.holding = b.owner === p && p.isGK;
+    p.holding = b.owner === p && (p.isGK || isThrowIn(p));
     // 高いボールが来たらジャンプ
     if (!p.isGK && !b.owner && p.headT <= 0 && p.headCd <= 0 && b.y > 1.5 && b.vy < 2 && p.stun <= 0 && p.slide <= 0 && canHead(p, b)) {
       const fx = b.x + b.vx * 0.22, fz = b.z + b.vz * 0.22;
@@ -2195,21 +2269,51 @@ function keepAwayFromKeeper() {
 }
 
 // フリーキック・スローイン・コーナー・ゴールキック・キックオフ：けるまで相手は近づけず、うばえない
+// 助走：フリーキック・コーナーキックは、ボールから数歩さがって、走りこんでから ける
+const RUNUP_TIME = 0.6, RUNUP_DIST = 3.2;
+const runupOn = (p) => !!(p && p.runup && game.setHold && game.setHold.taker === p);
+function runupGate(p, fn) {
+  const g = game, h = g.setHold;
+  if (runupOn(p)) return true;                 // 助走中は ふたたび けらない
+  if (!h || h.taker !== p || p.isGK || p.runDone || (h.label !== "フリーキック" && h.label !== "コーナーキック")) return false;
+  // ボールから 狙う方向と 反対へ さがる
+  const gx = p.dir * HL;
+  let dx = (h.label === "コーナーキック" ? gx - p.dir * 8 : gx) - h.x, dz = -h.z;
+  const dd = Math.hypot(dx, dz) || 1; dx /= dd; dz /= dd;
+  const sx = clamp(h.x - dx * RUNUP_DIST, -HL - 2.5, HL + 2.5), sz = clamp(h.z - dz * RUNUP_DIST, -HW - 2.5, HW + 2.5);
+  p.runup = { t: 0, sx, sz, ex: h.x, ez: h.z, fn };
+  p.x = sx; p.z = sz; p.fx = dx; p.fz = dz;
+  return true;
+}
+function runupStep(p, h, dt) {
+  const r = p.runup; r.t += dt;
+  const u = Math.min(1, r.t / RUNUP_TIME), e = u;   // 一定の速さで走る
+  p.x = r.sx + (r.ex - r.sx) * e; p.z = r.sz + (r.ez - r.sz) * e;
+  p.vx = (r.ex - r.sx) / RUNUP_TIME; p.vz = (r.ez - r.sz) / RUNUP_TIME;
+  if (u >= 1) {
+    p.x = h.x; p.z = h.z; p.vx = p.vz = 0;
+    const fn = r.fn; p.runup = null; p.runDone = true;
+    try { fn(); } finally { p.runDone = false; }
+  }
+}
 function holdSetPiece(dt) {
   const g = game, h = g.setHold, b = g.ball;
   if (!h) return;
-  if (b.owner !== h.taker) { g.setHold = null; return; }
+  if (b.owner !== h.taker) { g.setHold = null; h.taker.runup = null; return; }
   h.t += dt;
   const p = h.taker;
-  p.x = h.x; p.z = h.z; p.vx = p.vz = 0;
+  if (p.runup) runupStep(p, h, dt);
+  else { p.x = h.x; p.z = h.z; p.vx = p.vz = 0; }
+  if (b.owner !== p) return;
   for (const q of g.teams[1 - p.team]) {
     if (q.isGK) continue;
     const dx = q.x - h.x, dz = q.z - h.z, d = Math.hypot(dx, dz);
     if (d < h.r) { const k = h.r / (d || 1); q.x = h.x + (d ? dx : -p.dir) * k; q.z = h.z + dz * k; }
   }
-  if (p.team === 0 && !p.isGK && h.label !== "キックオフ") tip("setpiece", `${h.label}！ 相手は はなれて まってるよ。向きをきめて パスかシュート`);
+  if (p.team === 0 && !p.isGK && h.label === "スローイン") tip("setpiece", "スローイン！ 手で 投げ入れるよ。向きをきめて パスボタン", "btnA", true);
+  else if (p.team === 0 && !p.isGK && h.label !== "キックオフ") tip("setpiece", `${h.label}！ 相手は はなれて まってるよ。向きをきめて パスかシュート`);
   // けらないまま止まらないように（15秒で自動パス）
-  if (h.t > 15 && p === g.controlled) pass(p, false, false);
+  if (h.t > 15 && p === g.controlled) { if (isThrowIn(p)) throwIn(p, false); else pass(p, false, false); }
 }
 
 // ---------------- ヒント（技の案内。1つの端末で同じヒントは3回まで） ----------------
@@ -2246,7 +2350,11 @@ function integratePlayers(dt) {
     p.x = clamp(p.x + p.vx * dt, -HL - 3, HL + 3);
     p.z = clamp(p.z + p.vz * dt, -HW - 2.5, HW + 2.5);
     const sp = Math.hypot(p.vx, p.vz);
-    if (sp > 0.6 && p.slide <= 0 && p.diveT <= 0) { p.fx += (p.vx / sp - p.fx) * 0.35; p.fz += (p.vz / sp - p.fz) * 0.35; const n = Math.hypot(p.fx, p.fz) || 1; p.fx /= n; p.fz /= n; }
+    if (p.isGK && p.slide <= 0 && p.diveT <= 0 && g.ball.owner !== p && !p.celebrate) {
+      // キーパーは 動いていても いつもボールの方を向く（横や後ろに動いても 背中を向けない）
+      const bx = g.ball.x - p.x, bz = g.ball.z - p.z, bd = Math.hypot(bx, bz);
+      if (bd > 0.5) { p.fx += (bx / bd - p.fx) * 0.35; p.fz += (bz / bd - p.fz) * 0.35; const n = Math.hypot(p.fx, p.fz) || 1; p.fx /= n; p.fz /= n; }
+    } else if (sp > 0.6 && p.slide <= 0 && p.diveT <= 0) { p.fx += (p.vx / sp - p.fx) * 0.35; p.fz += (p.vz / sp - p.fz) * 0.35; const n = Math.hypot(p.fx, p.fz) || 1; p.fx /= n; p.fz /= n; }
     p.ph += sp * dt * 1.55;
     p.run = Math.min(1.2, sp / 5.5);
   }
@@ -2262,6 +2370,9 @@ function updateControl(dt) {
   // 自分のゴールに近いときは、キーパーにも切りかえられる
   const danger = Math.hypot(b.x + HL, b.z) < 24;
   if (b.owner && b.owner.team === 0) { g.controlled = b.owner; g.gkManual = b.owner.isGK; return; }
+  // 守っているとき：金のボタンで、操作していなくても 勇誠が オボガードを出す
+  if (input.press.s && guardReady()) { g.controlled = g.obo.p; g.gkManual = false; startGuard(g.obo.p); return; }
+  if (g.obo && g.obo.p.guardT > 0 && !g.pk) { g.controlled = g.obo.p; g.gkManual = false; return; }
   if (!b.owner && b.passTo && b.passTo.team === 0) { g.controlled = b.passTo; return; }
   const tgt = { x: b.x + b.vx * 0.3, z: b.z + b.vz * 0.3 };
   const nearest = (exclude, withGK) => {
@@ -2330,6 +2441,9 @@ function moveTo(p, tx, tz, factor = 1) {
   p.vx = dx / d * s; p.vz = dz / d * s;
 }
 
+// ゴールキック：いちばん強くけっても、ボールが とまる場所は 34mくらい先（ハーフラインを ちょっと こえる ところ）まで
+const isGoalKick = (p) => !!(game.setHold && game.setHold.label === "ゴールキック" && game.setHold.taker === p);
+function goalKickShot(pw) { pw = clamp(pw, 0, 1); return { v: 5.5 + 5.2 * pw, loft: 3 + 2.6 * pw }; }
 function humanGK(p, dt) {
   const g = game, b = g.ball;
   const d = readDir();
@@ -2353,6 +2467,7 @@ function humanGK(p, dt) {
       const pw = Math.max(0.2, g.charge); g.charge = -1;
       const ax = d.mag > 0.3 ? d.x / d.mag : p.dir, az = d.mag > 0.3 ? d.z / d.mag : 0;
       const len = 22 + pw * 30;
+      if (isGoalKick(p)) { const gk = goalKickShot(pw); kick(p, p.x + ax * len, p.z + az * len, gk.v, gk.loft); return; }
       kick(p, p.x + ax * len, p.z + az * len, len / 1.35, 6 + pw * 5);
       return;
     }
@@ -2378,18 +2493,20 @@ function human(p, dt) {
   const g = game, b = g.ball;
   const d = readDir();
   const own = b.owner === p;
+  if (runupOn(p)) { g.charge = -1; return; }   // 助走中は 走りこみに まかせる
   if (p.oboT > 0) return oboRun(p, dt, d);
-  if (own && input.press.s && oboReady(p)) return startObo(p, d);
+  if (input.press.s && oboReady(p)) return own ? startObo(p, d) : startGuard(p);
   const dash = useDash(p, dt);
-  let sp = p.speed * (dash ? 1.6 : 1) * (own ? 0.9 : 1.02);
+  let sp = p.speed * (dash ? 1.6 : 1) * (own ? 0.9 : 1.02) * (p.guardT > 0 ? 1.3 : 1);
   // パスを受ける選手は、ボールが届くまで自動でボールへ向かう（スティックを倒したままでも離れない）
   if (!own && b.passTo === p && !b.owner && p.receiving > 0) { moveTo(p, ...meetPoint(b, 0.25), dash ? 1.3 : 1.05); }
   else if (!b.owner && d.mag < 0.3 && g.clock - (p.headBtnT ?? -9) < 1.2 && b.y > 1) { const [mx, mz] = meetPoint(b, 0); if (Math.hypot(mx - p.x, mz - p.z) < 2.5) moveTo(p, mx, mz, 1.1); else { p.vx = d.x * sp; p.vz = d.z * sp; } }
   else { p.vx = d.x * sp; p.vz = d.z * sp; }
   if (d.mag > 0.15) { p.fx = d.x / d.mag; p.fz = d.z / d.mag; }
-  if (own && g.setHold && g.setHold.taker === p) { p.vx = p.vz = 0; }
+  if (own && g.setHold && g.setHold.taker === p && !runupOn(p)) { p.vx = p.vz = 0; }
   p.dashing = dash && own && !g.setHold;
   if (own) {
+    if (isThrowIn(p)) { g.charge = -1; if (input.press.a || input.press.y) return throwIn(p, true); return; }
     if (input.press.a && g.setPiece === "corner") return cross(p);
     if (input.press.a) return pass(p, false, true);
     if (input.press.y && inCrossZone(p)) return cross(p);
@@ -2406,7 +2523,8 @@ function human(p, dt) {
 // ---------------- 必殺技「オボサイド」（勇誠だけ。ゲージがたまったら、相手を一気に ぬき去る） ----------------
 function oboReady(p) {
   const g = game, o = g.obo;
-  return !!(o && p.special === "obo" && p === g.controlled && g.ball.owner === p && o.used < OBO_FILL.length && o.charge >= 1
+  const ow = g.ball.owner;
+  return !!(o && p.special === "obo" && p === g.controlled && (ow === p || (ow && ow.team === 1 && !ow.isGK && !(p.guardT > 0))) && o.used < OBO_FILL.length && o.charge >= 1
     && g.phase === "play" && !g.setHold && !g.pk);
 }
 // 毎フレーム：ゲージをためる
@@ -2414,10 +2532,11 @@ function oboCharge(dt) {
   const g = game, o = g.obo;
   if (!o || o.used >= OBO_FILL.length || g.phase !== "play") return;
   const p = o.p, b = g.ball;
+  if (p.guardT > 0) p.guardT = Math.max(0, p.guardT - dt);
   const k = b.owner === p ? 2 : 1;     // 持っているときは はやく たまる
   const was = o.charge;
   o.charge = Math.min(1, o.charge + dt * k / OBO_FILL[o.used]);
-  if (was < 1 && o.charge >= 1) { SFX.obo(true); tip("obo", `🌟 ${p.name}の 必殺技 オボサイドが つかえる！ ボールを持って 金のボタン`, "btnS", true); }
+  if (was < 1 && o.charge >= 1) { SFX.obo(true); tip("obo", `🌟 ${p.name}の 必殺技が つかえる！ ボールを持って＝オボサイド、相手が持っているとき＝オボガード（金のボタン）`, "btnS", true); }
 }
 function startObo(p, d) {
   const g = game, o = g.obo, b = g.ball;
@@ -2431,6 +2550,34 @@ function startObo(p, d) {
   SFX.obo(false); SFX.cheer(false);
   sayF(o.used === 1 ? "obo1" : pick(["obo1", "obo2"]), 2);
   for (let i = 0; i < 16; i++) g.oboFx.push({ x: p.x, z: p.z, t: 0.8, a: rand(0, 6.28), r: rand(0.3, 1.4) });
+}
+// オボガード：まもりの必殺技。しばらく 足がはやくなり、近くの相手からボールをうばい、相手のシュートを よわくする
+function guardReady() {
+  const g = game, o = g.obo, ow = g.ball.owner;
+  return !!(o && o.used < OBO_FILL.length && o.charge >= 1 && !(o.p.guardT > 0) && ow && ow.team === 1 && !ow.isGK && g.phase === "play" && !g.setHold && !g.pk);
+}
+function startGuard(p) {
+  const g = game, o = g.obo;
+  o.used++; o.charge = 0; o.lastT = g.clock;
+  p.guardT = OBOG_TIME; p.stamina = 1; p.tired = false;
+  banner("必殺！ オボガード！", "obo");
+  bannerTimer = setTimeout(hideBanner, 1800);
+  SFX.obo(false); SFX.cheer(false);
+  sayF("obog1", 2, "出たー！ 勇誠の必殺技、オボガード！");
+  for (let i = 0; i < 16; i++) g.oboFx.push({ x: p.x, z: p.z, t: 0.8, a: rand(0, 6.28), r: rand(0.3, 1.4), blue: true });
+}
+const guardOn = () => { const o = game && game.obo; return !!(o && o.p.guardT > 0); };
+// 毎フレーム：オボガード中、近くでボールを持つ相手からうばう
+function guardTick(dt) {
+  const g = game, o = g.obo;
+  if (!o || !(o.p.guardT > 0) || g.phase !== "play" || g.setHold) return;
+  const p = o.p, b = g.ball;
+  if (Math.random() < dt * 20) g.oboFx.push({ x: p.x, z: p.z, t: 0.5, a: rand(0, 6.28), r: rand(0, 0.6), blue: true });
+  const ow = b.owner;
+  if (ow && ow.team === 1 && !ow.isGK && dist(p, ow) < 2.6) {
+    steal(p, ow); ow.fallT = 1.0; ow.stun = 0.9;
+    sayF("obog2", 1, "オボガードで ボールをうばった！");
+  }
 }
 function oboRun(p, dt, d) {
   const g = game, b = g.ball;
@@ -2463,7 +2610,7 @@ function useDash(p, dt) {
   if (!input.held.r || p.tired) return false;
   if (readDir().mag < 0.2 && !(b.passTo === p && !b.owner)) return false;
   p.stamina = Math.max(0, p.stamina - dt * 0.3 * (has(p, "stamina") ? 0.55 : 1));
-  if (has(p, "stamina") && p.stamina < 0.5) skillTip(p);
+  if (has(p, "stamina") && p.stamina < 0.5) skillTip(p, "stamina");
   p.dashUse = true;
   if (p.stamina <= 0) {
     p.tired = true;
@@ -2494,7 +2641,7 @@ function kick(p, tx, tz, speed, loft = 0.4) {
   b.x = p.x + dx / d * 0.55; b.z = p.z + dz / d * 0.55; b.y = BALL_R + 0.02;
   b.vx = dx / d * speed; b.vz = dz / d * speed; b.vy = loft;
   b.last = p; b.shot = false; b.gkTried = null; b.passTo = null; b.headShot = false; b.heads = 0;
-  p.noPick = 0.3; p.hold = 0; p.kickT = 0.26; p.holding = false;
+  p.noPick = 0.3; p.hold = 0; p.kickT = 0.26; p.holding = false; p.kickPw = clamp((speed - 8) / 26, 0.2, 1);
   p.fx = dx / d; p.fz = dz / d;
   (speed > 22 ? SFX.shot : SFX.pass)();
 }
@@ -2550,12 +2697,13 @@ function groundPass(p, best, through) {
   const pk = has(p, "pass") ? 1.1 : 1;   // パスが とくいな子は 速くて とられにくい
   if (d > 24 && !through) kick(p, tx, tz, d / 1.25, 6.2);
   else kick(p, tx, tz, Math.min(30, passSpeed(d, through) * pk), 0.3);
-  if (pk > 1 && through) skillTip(p);
+  if (pk > 1 && through) skillTip(p, "pass");
   g.ball.passTo = best;
   learn(through ? "through" : "pass");
   best.receiving = Math.max(1.6, passTime(d, passSpeed(d, through)) + 0.4);
 }
 function pass(p, through, byHuman) {
+  if (runupGate(p, () => pass(p, through, byHuman))) return;
   const g = game;
   const { best, ax, az } = choosePass(p, through, byHuman);
   if (!best) { kick(p, p.x + ax * 14, p.z + az * 14, passSpeed(14, false)); return; }
@@ -2563,15 +2711,18 @@ function pass(p, through, byHuman) {
 }
 
 function shoot(p, power, aimZ) {
+  if (runupGate(p, () => shoot(p, power, aimZ))) return;
   const g = game, b = g.ball;
   const gx = p.dir * (HL + 0.5);
   const dGoal = Math.hypot(gx - p.x, p.z);
   const sk = has(p, "shoot");
-  const err = (0.4 + dGoal * 0.06 + power * 0.9) * (sk ? 0.7 : 1) * (p.team === 1 ? g.diff.aim : 1);
+  const guarded = p.team === 1 && guardOn();   // オボガード中：相手のシュートは よわく、ねらいも大きくずれる
+  const err = (0.4 + dGoal * 0.06 + power * 0.9) * (sk ? 0.7 : 1) * (p.team === 1 ? g.diff.aim : 1) * (guarded ? 2.6 : 1);
   const baseZ = p.team === 0 ? clamp(aimZ * 2.6, -2.3, 2.3) : rand(-2, 2);
   const tz = baseZ + rand(-err, err);
-  kick(p, gx, tz, (19 + power * 13) * (sk ? 1.12 : 1), 1.2 + power * 5.2 + rand(-0.4, 0.4));
-  if (sk) skillTip(p);
+  kick(p, gx, tz, (19 + power * 13) * (sk ? 1.12 : 1) * (guarded ? 0.55 : 1), 1.2 + power * 5.2 + rand(-0.4, 0.4));
+  if (guarded) { banner("オボガード！ シュートをおさえた！", "small"); bannerTimer = setTimeout(hideBanner, 1400); }
+  if (sk) skillTip(p, "shoot");
   b.shot = true; b.power = power;
   g.stats.shots[p.team]++; p.nShot++;
   learn("shoot");
@@ -2711,6 +2862,7 @@ function boxSpot(p, owner) {
 const inBoxOf = (team, x, z) => { const gx = (team === 0 ? 1 : -1) * HL; return Math.abs(gx - x) < PEN_D + 2 && Math.abs(z) < PEN_HW; };
 // ゴール前へ高いボール（頭の高さでとどく）
 function cross(p) {
+  if (runupGate(p, () => cross(p))) return;
   const g = game, gx = p.dir * HL;
   let target = null, bs = -1e9;
   let tx = gx - p.dir * rand(6, 9), tz = rand(-3, 3);
@@ -2757,7 +2909,7 @@ function doHeader(q) {
     const far = dGoal >= 17;   // 遠めの ヘディングシュートは 強く、少し ぶれる
     tz = (human ? clamp(d0.z * 2.2, -2.2, 2.2) : rand(-2, 2)) + (jumped ? rand(-0.5, 0.5) : rand(-0.9, 0.9)) + (far ? rand(-0.4, 0.4) : 0);
     tx = gx + q.dir * 0.5; speed = ((jumped ? rand(16, 19) : rand(13, 17)) + (far ? 2 : 0)) * (has(q, "header") ? 1.12 : 1); vy = jumped ? rand(-1.6, 0.4) + (far ? 0.8 : 0) : rand(-1.5, 1.2);
-    if (has(q, "header")) skillTip(q);
+    if (has(q, "header")) skillTip(q, "header");
   } else if (ownD < 22) {
     kind = "clear"; tx = q.x + q.dir * 18; tz = q.z + (Math.sign(q.z) || 1) * 7; speed = 15; vy = 5;
   } else {
@@ -2787,11 +2939,12 @@ function ownerAI(p, dt) {
   let press = 1e9;
   for (const o of g.teams[1 - p.team]) { if (o.isGK) continue; press = Math.min(press, dist(o, p)); }
   // コーナーキックはゴール前へ
-  if (g.setPiece === "corner" && b.last === g.setPieceTaker) { p.vx = p.vz = 0; if (p.hold > 0.8) cross(p); return; }
+  if (g.setPiece === "corner" && b.last === g.setPieceTaker) { if (!runupOn(p)) p.vx = p.vz = 0; if (p.hold > 0.8) cross(p); return; }
   if (g.setHold && g.setHold.taker === p) {
-    p.vx = p.vz = 0;
+    if (!runupOn(p)) p.vx = p.vz = 0;
     if (p.hold > 0.9) {
       if (g.setHold.label === "フリーキック" && dGoal < g.diff.shootRange + 3 && Math.abs(p.z) < 12 && Math.random() < 0.5) return shoot(p, rand(0.45, 0.85), 0);
+      if (isThrowIn(p)) return throwIn(p, false);
       return pass(p, Math.random() < 0.25, false);
     }
     return;
@@ -2858,7 +3011,8 @@ function gkAI(p, dt) {
         const tx = tgt ? tgt.x + rand(-3, 3) : p.x + p.dir * 30, tz = tgt ? tgt.z + rand(-4, 4) : rand(-10, 10);
         const len = clamp(Math.hypot(tx - p.x, tz - p.z), 18, 45);
         const a = Math.atan2(tz - p.z, tx - p.x);
-        kick(p, p.x + Math.cos(a) * len, p.z + Math.sin(a) * len, len / 1.35, 5 + len * 0.08);
+        if (isGoalKick(p)) { const gk = goalKickShot((len - 18) / 27); kick(p, p.x + Math.cos(a) * len, p.z + Math.sin(a) * len, gk.v, gk.loft); }
+        else kick(p, p.x + Math.cos(a) * len, p.z + Math.sin(a) * len, len / 1.35, 5 + len * 0.08);
       }
       else pass(p, false, false);
     }
@@ -2887,11 +3041,33 @@ function gkAI(p, dt) {
 }
 
 // ---------------- ボール ----------------
+// スローイン：タッチラインの外から、両手で 頭の上から 投げ入れる（シュートはできない。パスだけ）
+const isThrowIn = (p) => !!(game && game.setHold && game.setHold.label === "スローイン" && game.setHold.taker === p && game.ball.owner === p);
+function throwIn(p, byHuman) {
+  const g = game, b = g.ball;
+  const { best, ax, az } = choosePass(p, false, byHuman);
+  let tx, tz, v;
+  if (best) {
+    [tx, tz] = passPoint(p, best, false);
+    const d = Math.hypot(tx - p.x, tz - p.z);
+    if (d > 22) { tx = p.x + (tx - p.x) / d * 22; tz = p.z + (tz - p.z) / d * 22; }
+    const dd = Math.min(d, 22);
+    v = clamp(passSpeed(dd, false) * 0.75, 8, 17);
+    g.ball.passTo = best; best.receiving = Math.max(1.6, passTime(dd, v) + 0.4);
+  } else { tx = p.x + ax * 10; tz = p.z + az * 10; v = 9; }
+  kick(p, tx, tz, v, 3.2);
+  b.y = 1.9;
+  learn("pass");
+}
 function placeBallAtOwner(dt) {
   const b = game.ball, o = b.owner;
-  const off = o.dashing ? 0.9 : 0.55;
+  // ドリブル：走っているときは 足でボールを まえへ つついて、ひろう（2歩に1回）
+  if (runupOn(o)) { b.x = o.runup.ex; b.z = o.runup.ez; b.y = BALL_R; b.vx = b.vz = b.vy = 0; return; }
+  const off = (o.dashing ? 0.9 : 0.55) + (!o.isGK && !o.holding ? 0.2 * Math.max(0, Math.sin(o.ph * 2 - 0.8)) * Math.min(1, (o.run || 0) * 1.5) : 0);
   b.x = o.x + o.fx * off; b.z = o.z + o.fz * off;
-  b.y = o.holding ? 1.0 : BALL_R; b.vx = o.vx; b.vz = o.vz; b.vy = 0;
+  const thr = o.holding && isThrowIn(o);
+  if (thr) { b.x = o.x; b.z = o.z; }
+  b.y = thr ? 2.0 : o.holding ? 1.0 : BALL_R; b.vx = o.vx; b.vz = o.vz; b.vy = 0;
 }
 function ballFree(dt) {
   const b = game.ball;
@@ -2988,8 +3164,15 @@ function updateBall(dt) {
       save = clamp(save, 0.08, 0.92);
       if (Math.random() > save) return;
       SFX.glove(); learn("save"); cand.nSave++;
-      if (has(cand, "save")) skillTip(cand);
+      if (has(cand, "save")) skillTip(cand, "save");
       if (cand.team === 0) { sayM(cand, "save", 1); SFX.cheer(false); } else { sayF(pick(["cpu_save1", "cpu_save2"]), 1); SFX.ooh(); }
+      if (b.power > 0.45 && Math.random() < 0.4) {
+        // ゴールの外へ はじき出す → コーナーキック
+        const s = cand.team === 0 ? -1 : 1;
+        b.last = cand; b.shot = false; b.x = s * (HL + 0.4); b.z = (b.z >= 0 ? 1 : -1) * (GHW + 2); b.vx = b.vz = b.vy = 0; b.y = BALL_R;
+        caption(cand.team === 0 ? "はじき出した！ 相手のコーナーキック" : "はじき出された！ コーナーキック");
+        return outOfPlay("end");
+      }
       if (b.power > 0.55 && Math.random() < 0.55) {
         // はじく
         b.vx = -b.vx * 0.25 + cand.dir * 3; b.vz = rand(-9, 9); b.vy = 3.5; b.shot = false; b.last = cand; cand.noPick = 0.5;
@@ -3001,6 +3184,7 @@ function updateBall(dt) {
     if (Math.random() > 0.04) return;
   }
   const prev = b.last, highBall = b.y > 0.5;
+  if (!cand.isGK && !b.owner) cand.trapT = 0.32;   // 受けとめる動き
   b.owner = cand; b.last = cand; b.shot = false; b.immune = cand.isGK ? 0 : 0.3; b.vy = 0; b.passTo = null; b.heads = 0;
   b.ownT = 0; b.said = false; b.saidChance = false;
   cand.hold = 0; cand.think = 0.2; cand.receiving = 0;
@@ -3127,7 +3311,7 @@ function steal(q, o) {
   const b = game.ball;
   const wasSlide = q.slide > 0 && q.sliding;
   learn(wasSlide ? "sliding" : "tackle");
-  if (has(q, "defense")) skillTip(q);
+  if (has(q, "defense")) skillTip(q, "defense");
   if (q.team === 0) game.counterT = game.clock;
   b.owner = q; b.last = q; b.immune = 0.7; b.passTo = null; b.ownT = 0; b.said = false; b.saidChance = false; q.nSteal++;
   o.stun = 0.55; o.vx = o.vz = 0;
@@ -3528,7 +3712,7 @@ function updateHUD() {
     const [sx, sy, vis] = toScreen(c.x, 2.05, c.z);
     cur.style.display = vis ? "block" : "none";
     cur.style.left = sx + "px"; cur.style.top = sy + "px";
-    setText(cur.querySelector(".nm"), `${SKILLS[c.skill] ? SKILLS[c.skill].icon + " " : ""}${c.num} ${c.name}`);
+    setText(cur.querySelector(".nm"), `${skillsOf(c.skill).map((k) => SKILLS[k].icon).join("")}${skillsOf(c.skill).length ? " " : ""}${c.num} ${c.name}`);
     const sta = cur.querySelector(".sta");
     if (c.stamina < 0.995 && !g.pk) {
       sta.style.display = "block";
@@ -3569,7 +3753,8 @@ function updateHUD() {
     else { set("btnA", "きりかえ"); if (key.endsWith("hs")) set("btnB", "シュート", "ヘディング"); else if (key.endsWith("h")) set("btnB", "ジャンプ", "ヘディング"); else set("btnB", "スライ", "ディング"); set("btnY", "うばう"); set("btnR", "ダッシュ"); }
   }
   $("btnR").classList.toggle("tired", !!(g.controlled && g.controlled.tired));
-  $("btnS").classList.toggle("ready", !!(g.controlled && oboReady(g.controlled)));
+  $("btnS").classList.toggle("ready", !!(g.controlled && oboReady(g.controlled)) || guardReady());
+  $("btnSLabel").textContent = g.ball.owner && g.ball.owner.team === 1 ? "オボガード" : "オボサイド";
   const toast = $("termToast"), tid = g.termToast && !g.pk ? g.termToast.id + "+" + g.termToast.more : "";
   if (toast.dataset.id !== tid) {
     toast.dataset.id = tid; toast.innerHTML = "";
@@ -3783,7 +3968,7 @@ const TERMS = [
   { id: "goal", word: "ゴール", read: "ゴール", cat: "rule", desc: "ボールが ゴールの わくの 中に、ゴールラインを ぜんぶ こえて 入ると 1点。", game: "シュートで ねらおう！", fig: { v: "h", z: "goal", d: [[118, 46, "g"], [156, 58, "K"]], b: [121, 47], a: [[122, 47, 160, 44, "s"]] } },
   { id: "touchline", word: "タッチライン", read: "タッチライン", cat: "rule", desc: "ピッチの 長い ほうの 横の 線。ボールが ここから 出ると スローインに なる。", fig: { v: "f", z: "touch", b: [60, 1] } },
   { id: "goalline", word: "ゴールライン", read: "ゴールライン", cat: "rule", desc: "ゴールが ある 短い ほうの 線。ここから 出ると ゴールキックか コーナーキックに なる。", fig: { v: "f", z: "gline", b: [159, 18] } },
-  { id: "throwin", word: "スローイン", read: "スローイン", cat: "rule", desc: "ボールが タッチラインから 出たら、さいごに さわらなかった チームが、両手で 頭の うしろから 投げ入れる。", game: "このゲームでは 足で 入れるけど、本当は 手で 投げるよ。", fig: { v: "h", z: "touch", d: [[70, 3, "g"], [84, 22, "g"], [92, 30, "r"]], b: [70, 1], a: [[71, 4, 83, 20, "p", -6]] } },
+  { id: "throwin", word: "スローイン", read: "スローイン", cat: "rule", desc: "ボールが タッチラインから 出たら、さいごに さわらなかった チームが、両手で 頭の うしろから 投げ入れる。", game: "このゲームでも 手で 投げ入れるよ。パスのボタンで 味方へ。", fig: { v: "h", z: "touch", d: [[70, 3, "g"], [84, 22, "g"], [92, 30, "r"]], b: [70, 1], a: [[71, 4, 83, 20, "p", -6]] } },
   { id: "corner", word: "コーナーキック", read: "コーナーキック", cat: "rule", desc: "守っている チームが さいごに さわって ゴールラインから 出たら、攻めている チームが すみ（コーナー）から ける。", game: "ゴール前に 味方が 入るよ。高い ボールで ねらおう。", fig: { v: "h", d: [[158, 3, "g"], [146, 44, "g"], [140, 58, "g"], [148, 52, "r"], [142, 40, "r"], [156, 50, "K"]], b: [158, 1], a: [[157, 4, 146, 42, "p", 10]] } },
   { id: "goalkick", word: "ゴールキック", read: "ゴールキック", cat: "rule", desc: "攻めている チームが さいごに さわって ゴールラインから 出たら、守る チームが ゴールエリアから ける。", fig: { v: "f", z: "ga", d: [[5, 50, "k"], [40, 30, "g"], [60, 40, "r"]], b: [9, 50], a: [[10, 50, 40, 30, "p", -10]] } },
   { id: "freekick", word: "フリーキック", read: "フリーキック", cat: "rule", desc: "ファウルを された チームが、その 場所から ボールを 止めて ける。相手は 少し はなれて いないと いけない。", game: "相手は 白い わの 外で まってるよ。", fig: { v: "h", d: [[96, 50, "g"], [114, 41, "r"], [114, 47, "r"], [114, 53, "r"], [156, 50, "K"]], b: [100, 50], a: [[101, 49, 160, 44, "s", -14]] } },
@@ -4089,13 +4274,15 @@ function drawFx(dt) {
   game.confetti = game.confetti.filter((c) => c.life > 0);
   // オボサイドの 金の光（足もとの 光と、通ったあとの 光の粒）
   const op = game.obo && game.obo.p;
-  if (op && op.oboT > 0) {
+  if (op && (op.oboT > 0 || op.guardT > 0)) {
+    const bl = !(op.oboT > 0);
     const [sx, sy, vis] = toScreen(op.x, 0.05, op.z), [, hy] = toScreen(op.x, 1.6, op.z);
     if (vis) {
       const R = Math.max(30, (sy - hy) * 1.1) * (1 + Math.sin(game.clock * 30) * 0.08);
       fxc.save(); fxc.globalCompositeOperation = "lighter";
       const gr = fxc.createRadialGradient(sx, sy - R * 0.3, 0, sx, sy - R * 0.3, R);
-      gr.addColorStop(0, "rgba(255,245,190,.75)"); gr.addColorStop(0.45, "rgba(255,200,40,.45)"); gr.addColorStop(1, "rgba(255,140,0,0)");
+      if (bl) { gr.addColorStop(0, "rgba(200,240,255,.75)"); gr.addColorStop(0.45, "rgba(70,170,255,.45)"); gr.addColorStop(1, "rgba(20,90,255,0)"); }
+      else { gr.addColorStop(0, "rgba(255,245,190,.75)"); gr.addColorStop(0.45, "rgba(255,200,40,.45)"); gr.addColorStop(1, "rgba(255,140,0,0)"); }
       fxc.fillStyle = gr; fxc.beginPath(); fxc.arc(sx, sy - R * 0.3, R, 0, 6.29); fxc.fill(); fxc.restore();
     }
   }
@@ -4213,12 +4400,16 @@ function startMatch() {
 // きろく（この端末に保存）
 // ================================================================
 const REC_KEY = "mg-records-v1";
-function emptyRecords() { return { v: 1, games: 0, win: 0, draw: 0, loss: 0, pkWin: 0, pkLoss: 0, gf: 0, ga: 0, players: {}, history: [] }; }
+function emptyRecords() { return { v: 1, games: 0, win: 0, draw: 0, loss: 0, pkWin: 0, pkLoss: 0, gf: 0, ga: 0, players: {}, history: [], moved: NUM_BATCHES.map((nb) => nb.id) }; }
 // 背番号を かえた人の 記録を 引っこす（古い番号 → 新しい番号。新しい番号に まだ 記録が ないときだけ）
 const NUM_MOVES = [["5", "24"]];
+// まとめて かえたとき（入れかわる番号があるので いっせいに 引っこす。1回だけ＝moved に id を のこす）
+const NUM_BATCHES = [{ id: "20261018", map: { "1": "16", "2": "17", "3": "22", "4": "20", "6": "25", "7": "26", "8": "28", "9": "31", "10": "15", "11": "18", "12": "19", "13": "23", "14": "27", "15": "29", "16": "32", "17": "33", "18": "34" } }];
 function loadRecords() {
   try { const r = JSON.parse(localStorage.getItem(REC_KEY) || "null"); if (r && r.v === 1) { const e = Object.assign(emptyRecords(), r); if (!e.players || typeof e.players !== "object") e.players = {}; if (!Array.isArray(e.history)) e.history = [];
     for (const [a, b] of NUM_MOVES) if (e.players[a] && !e.players[b] && !MEMBERS.some((m) => String(m.number) === a)) { e.players[b] = e.players[a]; delete e.players[a]; for (const h of e.history) if (Array.isArray(h.sc)) h.sc = h.sc.map((n) => String(n) === a ? Number(b) : n); saveRecords(e); }
+    e.moved = Array.isArray(r.moved) ? r.moved.slice() : [];
+    for (const nb of NUM_BATCHES) if (!e.moved.includes(nb.id)) { const to = (k) => nb.map[String(k)] || String(k); const pl = {}; for (const k of Object.keys(e.players)) pl[to(k)] = e.players[k]; e.players = pl; for (const h of e.history) if (Array.isArray(h.sc)) h.sc = h.sc.map((n) => Number(to(n))); e.moved.push(nb.id); saveRecords(e); }
     return e; } } catch (e) {}
   return emptyRecords();
 }

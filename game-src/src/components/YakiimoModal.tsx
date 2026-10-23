@@ -28,9 +28,10 @@ function newCustomer(list: Friend[], not?: string): Customer | null {
   return { f, n, line: pickOne(ORDER_LINES).replace('{n}', String(n)) };
 }
 
-export function YakiimoModal({ customers, onClose }: { customers: Friend[]; onClose(): void }) {
+/** dexOnly＝としょかんから ひらく（ずかんだけ みせる） */
+export function YakiimoModal({ customers, onClose, dexOnly = false }: { customers: Friend[]; onClose(): void; dexOnly?: boolean }) {
   const g = useGame();
-  const [tab, setTab] = useState<'bake' | 'shop' | 'dex'>('bake');
+  const [tab, setTab] = useState<'bake' | 'shop' | 'dex'>(dexOnly ? 'dex' : 'bake');
   const raw = g.save.inventory.gf_rawimo ?? 0;
   const baked = g.save.inventory.gf_imo ?? 0;
 
@@ -110,7 +111,7 @@ export function YakiimoModal({ customers, onClose }: { customers: Friend[]; onCl
     <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/60 p-3" onClick={phase.kind === 'baking' ? undefined : onClose}>
       <div className="panel max-h-[88vh] w-full max-w-[440px] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
         <div className="mb-1 text-[14px] font-black text-ink">🍠 やきいもやさん</div>
-        <div className="mb-2 flex gap-1.5">
+        <div className={`mb-2 flex gap-1.5 ${dexOnly ? 'hidden' : ''}`}>
           {tabs.map((t) => (
             <button
               key={t.id}

@@ -24,9 +24,10 @@ function ConstellationArt({ c, size = 140 }: { c: Constellation; size?: number }
   );
 }
 
-export function StarsModal({ onClose }: { onClose(): void }) {
+/** dexOnly＝としょかんから ひらく（ずかんだけ みせる） */
+export function StarsModal({ onClose, dexOnly = false }: { onClose(): void; dexOnly?: boolean }) {
   const g = useGame();
-  const [tab, setTab] = useState<'hayami' | 'tonight' | 'dex'>('hayami');
+  const [tab, setTab] = useState<'hayami' | 'tonight' | 'dex'>(dexOnly ? 'dex' : 'hayami');
   const [result, setResult] = useState<{ constellation: Constellation; isNew: boolean; reward: string | null } | null>(null);
 
   const dex = g.save.stars.dex;
@@ -41,7 +42,7 @@ export function StarsModal({ onClose }: { onClose(): void }) {
   return (
     <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/60 p-3" onClick={onClose}>
       <div className="panel max-h-[88vh] w-full max-w-[440px] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-        <div className="mb-2 flex gap-1.5">
+        <div className={`mb-2 flex gap-1.5 ${dexOnly ? 'hidden' : ''}`}>
           {(['hayami', 'tonight', 'dex'] as const).map((t) => (
             <button
               key={t}

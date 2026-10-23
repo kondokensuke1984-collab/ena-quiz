@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 210" width="560" height="210" font-family="Hiragino Sans, Hiragino Kaku Gothic ProN, sans-serif">
+<rect width="100%" height="100%" fill="#fff"/>
+<text x="280.0" y="24" font-size="18" font-weight="bold" text-anchor="middle" fill="#111">図書室で借りた本の冊数（冊）</text>
+<rect x="20" y="36" width="520" height="44" fill="#e0f2fe"/>
+<text x="90.0" y="65" font-size="20" text-anchor="middle" fill="#111" font-weight="bold"></text>
+<text x="226.5" y="65" font-size="20" text-anchor="middle" fill="#111" font-weight="bold">4月</text>
+<text x="359.5" y="65" font-size="20" text-anchor="middle" fill="#111" font-weight="bold">5月</text>
+<text x="483.0" y="65" font-size="20" text-anchor="middle" fill="#111" font-weight="bold">6月</text>
+<text x="90.0" y="109" font-size="20" text-anchor="middle" fill="#111" font-weight="bold">1組</text>
+<text x="226.5" y="109" font-size="20" text-anchor="middle" fill="#111">32</text>
+<text x="359.5" y="109" font-size="20" text-anchor="middle" fill="#111">35</text>
+<text x="483.0" y="109" font-size="20" text-anchor="middle" fill="#111">41</text>
+<text x="90.0" y="153" font-size="20" text-anchor="middle" fill="#111" font-weight="bold">2組</text>
+<text x="226.5" y="153" font-size="20" text-anchor="middle" fill="#111">28</text>
+<text x="359.5" y="153" font-size="20" text-anchor="middle" fill="#111">30</text>
+<text x="483.0" y="153" font-size="20" text-anchor="middle" fill="#111">44</text>
+<text x="90.0" y="197" font-size="20" text-anchor="middle" fill="#111" font-weight="bold">3組</text>
+<text x="226.5" y="197" font-size="20" text-anchor="middle" fill="#111">36</text>
+<text x="359.5" y="197" font-size="20" text-anchor="middle" fill="#111">40</text>
+<text x="483.0" y="197" font-size="20" text-anchor="middle" fill="#111">47</text>
+<line x1="20" y1="36" x2="540" y2="36" stroke="#334155" stroke-width="2"/>
+<line x1="20" y1="80" x2="540" y2="80" stroke="#334155" stroke-width="2"/>
+<line x1="20" y1="124" x2="540" y2="124" stroke="#334155" stroke-width="1"/>
+<line x1="20" y1="168" x2="540" y2="168" stroke="#334155" stroke-width="1"/>
+<line x1="20" y1="212" x2="540" y2="212" stroke="#334155" stroke-width="2"/>
+<line x1="20" y1="36" x2="20" y2="212" stroke="#334155" stroke-width="2"/>
+<line x1="160" y1="36" x2="160" y2="212" stroke="#334155" stroke-width="2"/>
+<line x1="293" y1="36" x2="293" y2="212" stroke="#334155" stroke-width="1"/>
+<line x1="426" y1="36" x2="426" y2="212" stroke="#334155" stroke-width="1"/>
+<line x1="540" y1="36" x2="540" y2="212" stroke="#334155" stroke-width="2"/>
+</svg>

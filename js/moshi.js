@@ -6,6 +6,7 @@
 //     t.kakoMax＝過去問の 上限、t.balance＝単元ごとに じゅんばんに 1問ずつ（過去問も ふつうも）、t.note＝はじめの 画面の せつめい。
 //     t.pass＝メダルの ライン（％・なければ 80）、t.limitMin＝せいげん じかん（分）。やすんでも 時計は すすむ・すぎても おわらせず しらせるだけ（メールに オーバーを かく）。
 //     ひらいている もしが 2つ以上なら えらぶ画面（moshiRenderPick）。
+//     t.double＝その日に うけた 回だけ 8わり いじょうで メダル 2ばい・8わり みまんでも ふつうの 数（まるつけが つぎの日でも、うけた日で きまる）。
 //     t.qfile＝もし だけの 問題ファイル（例 data/moshi_sansu9final.json）。問題に month を つけない＝クイズの 苦手に 入らない。
 //   ・範囲（covers の単元とその子）から 教科ごとに 20問。算数・理科は えらぶ・入力を先に、足りないぶんだけ 自己採点。
 //     国語・社会（MOSHI_MIX_CATS）は えらぶ問題が 少ないので 区別せずに 全部から ランダム。
@@ -78,8 +79,18 @@ function moshiActiveAll(tests, today) {
 /** そのテストの メダルの ライン（％）。れんしゅうもしは t.pass で かえられる */
 function moshiPass(t) { return (t && t.pass) || MOSHI_PASS; }
 function moshiPassWari(t) { return moshiPass(t) / 10 + 'わり'; }
+/** t.double＝その日（'YYYY-MM-DD'）に うけた 回だけ メダル 2ばい。day＝うけた日（moshiDayKey の形・なければ きょう） */
+function moshiDouble(t, day) {
+  if (!t || !t.double) return false;
+  const [y, m, d] = t.double.split('-').map(Number);
+  return (day || moshiDayKey(moshiToday())) === y + '-' + m + '-' + d;
+}
 /** そのテストで 8わりのときの メダル（れんしゅうもしは reward を もつ） */
-function moshiReward(t, lv) { return (t && t.reward) || MOSHI_LEVELS[lv].reward; }
+//   pct＝その回の 点（まだ なければ 8わりの とき）。2ばいの 日は 8わり いじょう＝2ばい・8わり みまんでも ふつうの 数
+function moshiReward(t, lv, day, pct) { return ((t && t.reward) || MOSHI_LEVELS[lv].reward) * (moshiDouble2(t, day, pct) ? 2 : 1); }
+function moshiDouble2(t, day, pct) { return moshiDouble(t, day) && (pct == null || pct >= moshiPass(t)); }
+/** 「きょうだけ 2ばい」の しるし */
+function moshiDoubleTag(t, day) { return moshiDouble(t, day) ? '（✨きょうだけ 2ばい！' + moshiPassWari(t) + ' みまんでも ふつうの メダル）' : ''; }
 /** そのテストで えらべる レベル */
 function moshiLevels(t) { return (t && Array.isArray(t.levels) && t.levels.length) ? t.levels.filter(l => MOSHI_LEVELS[l]) : ['normal', 'kako']; }
 
@@ -110,10 +121,10 @@ function moshiMedalKey(t, lv) { return t.month + '|moshi:' + t.key + MOSHI_LEVEL
 /** そのテスト・レベルで これまでに もらった 合計 */
 function moshiMedalSum(t, lv) { return Number(loadMedalLedger().units[moshiMedalKey(t, lv)]) || 0; }
 /** 8わりを こえるたびに 同じキーへ 足しこむ（台帳は へらさない） */
-function moshiGrantMedal(t, lv) {
+function moshiGrantMedal(t, lv, day, pct) {
   const led = loadMedalLedger();
   const k = moshiMedalKey(t, lv);
-  led.units[k] = (Number(led.units[k]) || 0) + moshiReward(t, lv);
+  led.units[k] = (Number(led.units[k]) || 0) + moshiReward(t, lv, day, pct);
   saveMedalLedger(led);
   return true;
 }
@@ -204,7 +215,7 @@ function moshiRenderPick() {
     return '<button class="btn-main" style="margin-top:10px; background:' + bg + '; text-align:left; padding:12px 15px;" onclick="moshiOpenTest(\'' + esc(t.key) + '\')">' +
         '<div style="font-size:17px;">' + (t.icon ? t.icon + ' ' : t.extra ? '🎯 ' : '📝 ') + esc(t.name) + '</div>' +
         '<div style="font-size:12px; font-weight:700; opacity:.92; margin-top:2px;">' + when +
-          (t.limitMin ? '・⏱' + t.limitMin + 'ぷん' : '') + '・' + moshiPassWari(t) + 'で 🪙' + moshiLevels(t).map(l => moshiReward(t, l)).join('／') + (st ? '・' + st : '') + '</div>' +
+          (t.limitMin ? '・⏱' + t.limitMin + 'ぷん' : '') + '・' + moshiPassWari(t) + 'で 🪙' + moshiLevels(t).map(l => moshiReward(t, l)).join('／') + moshiDoubleTag(t) + (st ? '・' + st : '') + '</div>' +
       '</button>';
   }).join('');
   root.innerHTML =
@@ -330,7 +341,7 @@ function renderMoshi() {
     return '<button class="btn-main" style="margin-top:10px; background:' + bg + '; text-align:left; padding:12px 15px;" onclick="moshiStart(\'' + lv + '\')" ' + (total ? '' : 'disabled') + '>' +
         '<div style="font-size:17px;">' + L.icon + ' ' + (moshiLevels(t).length > 1 ? L.label + '<span style="font-size:12px; opacity:.85;">（' + L.sub + '）</span>' : 'はじめる') + '</div>' +
         '<div style="font-size:12px; font-weight:700; opacity:.92; margin-top:2px;">' + total + 'もん' + (kako ? '（かこもん ' + kako + 'もん いり）' : '') + (t.limitMin ? '・' + t.limitMin + 'ぷん' : '') +
-          '・' + moshiPassWari(t) + 'で 🪙' + moshiReward(t, lv) + (sum ? '（もらった ごうけい 🪙' + sum + '）' : '') + (bestBy[lv] ? '・さいこう ' + bestBy[lv] + '％' : '') + '</div>' +
+          '・' + moshiPassWari(t) + 'で 🪙' + moshiReward(t, lv) + moshiDoubleTag(t) + (sum ? '（もらった ごうけい 🪙' + sum + '）' : '') + (bestBy[lv] ? '・さいこう ' + bestBy[lv] + '％' : '') + '</div>' +
       '</button>';
   };
   const catsAll = {};
@@ -350,7 +361,7 @@ function renderMoshi() {
       '</div>' +
       (mz.msg ? '<div style="color:#dc2626; font-weight:700; margin-top:8px;">' + esc(mz.msg) + '</div>' : '') +
       (a && !a.finished ? '<button class="btn-main" style="margin-top:14px;" onclick="moshiResume()">▶ つづきから（' + MOSHI_LEVELS[moshiLv(a)].label + '・' + Math.min(a.i + 1, a.ids.length) + '/' + a.ids.length + '）</button>' +
-           (mz.open && moshiLevels(t).length > 1 ? '<button class="btn-main" style="margin-top:8px; background:rgba(99,102,241,.12); color:#4c1d95; box-shadow:none;" onclick="moshiDiscard()">🔄 やめて レベルを えらびなおす</button>' : '')
+           (mz.open && moshiLevels(t).length > 1 ? '<button class="btn-main" style="margin-top:8px; background:rgba(99,102,241,.12); color:#4c1d95; box-shadow:none;" onclick="moshiDiscard()">🔄 やめて レベルを えらびなおす</button>' : '<button class="btn-main" style="margin-top:8px; background:transparent; color:#b91c1c; box-shadow:none; font-size:13px;" onclick="moshiQuit()">🚪 やむをえず やめる（この回は なかったことに）</button>')
        : a && a.finished ? '<button class="btn-main" style="margin-top:14px;" onclick="moshiResume()">📝 まるつけ まち（' + moshiPending().length + 'もん）</button>'
        : mz.open ? (moshiLevels(t).length > 1 ? '<div style="font-size:13px; font-weight:800; margin-top:12px; color:#4c1d95;">レベルを えらんでね</div>' : '') +
            moshiLevels(t).map(lvCard).join('') : '') +
@@ -430,7 +441,8 @@ function moshiRenderQ() {
         (moshiHand(q) || typeof toggleRpgMemo !== 'function' ? '' : '<button class="btn" style="' + navBtn + '" onclick="toggleRpgMemo()" title="計算メモ">✏️ メモ</button>') +
       '</div>' +
     '</div>' +
-    '<button class="btn-main" style="margin-top:12px; background:rgba(255,255,255,.16); box-shadow:none;" onclick="moshiPause()">⏸ やすむ（つづきは あとで）</button>';
+    '<button class="btn-main" style="margin-top:12px; background:rgba(255,255,255,.16); box-shadow:none;" onclick="moshiPause()">⏸ やすむ（つづきは あとで）</button>' +
+    '<button class="btn-main" style="margin-top:8px; background:transparent; color:#fecaca; box-shadow:none; font-size:13px;" onclick="moshiQuit()">🚪 やむをえず やめる（この回は なかったことに）</button>';
   const host = document.getElementById('scr-moshi');
   const sheet = document.getElementById('psg-sheet');
   if (sheet && sheet.parentElement !== host) { host.appendChild(sheet); host.appendChild(document.getElementById('psg-open')); }
@@ -555,6 +567,7 @@ function moshiRenderCheck() {
       '<button class="btn-main" style="margin-top:14px; background:linear-gradient(135deg,#22c55e,#16a34a);" onclick="moshiFinish()">✅ おわる（まるつけへ）</button>' +
       '<button class="btn-main" style="margin-top:8px; background:rgba(99,102,241,.12); color:#4c1d95; box-shadow:none;" onclick="moshiJump(' + (a.ids.length - 1) + ')">◀ さいごの もんだいに もどる</button>' +
       '<button class="btn-main" style="margin-top:8px; background:rgba(99,102,241,.12); color:#4c1d95; box-shadow:none;" onclick="moshiPause()">⏸ やすむ（つづきは あとで）</button>' +
+      '<button class="btn-main" style="margin-top:8px; background:transparent; color:#b91c1c; box-shadow:none; font-size:13px;" onclick="moshiQuit()">🚪 やむをえず やめる（この回は なかったことに）</button>' +
     '</div>';
   moshiClockStart();
 }
@@ -569,6 +582,22 @@ function moshiDiscard() {
   r.atts = r.atts.filter(x => x.id !== a.id);
   moshiSave(db);
   mz.att = null; mz.msg = ''; mz.view = 'intro';
+  renderMoshi();
+}
+
+/** やむをえず やめる：とちゅうの 回を けして なかったことに（答え・時間は のこさない・メールも 送らない・メダルなし）。
+ *  まるつけ・苦手・きろくは おわった ときにしか 書かないので、atts から けせば なにも のこらない */
+function moshiQuit() {
+  const a = mz.att;
+  if (!a || a.finished) return;
+  const n = Object.keys(a.ans || {}).length;
+  if (!confirm('ほんとうに やめる？\n' + (n ? 'こたえた ' + n + 'もんも ' : '') + 'この回は なかったことに なって、メールも 送らないよ。\nつぎは さいしょから（もんだいも かわるよ）')) return;
+  moshiClockStop();
+  if (typeof hideRpgMemo === 'function') { hideRpgMemo(); mz.memoQ = null; }
+  const db = moshiLoad(), r = moshiRec(db, mz.test.key);
+  r.atts = r.atts.filter(x => x.id !== a.id);
+  moshiSave(db);
+  mz.att = null; mz.msg = 'この回は やめたよ。また できるときに やろうね'; mz.view = 'intro';
   renderMoshi();
 }
 
@@ -659,7 +688,7 @@ async function moshiSendMail() {
       '<div style="background:#fef3c7; border-radius:12px; padding:12px 14px; margin-bottom:14px;">' +
         '<div>まるつけコード</div><div style="font-size:30px; font-weight:800; letter-spacing:6px;">' + code + '</div>' +
         '<div style="font-size:12px;">子どもの端末の「もしの しま」→「📝 まるつけ（おうちの人）」でこのコードを入れ、下の答えを見ながら ○× をつけてください。' +
-        moshiPass(t) / 10 + '割以上で アンリノメダル ' + moshiReward(t, moshiLv(a)) + '枚（' + moshiPass(t) / 10 + '割をこえるたび）。コードはこの回だけ使えます。</div>' +
+        moshiPass(t) / 10 + '割以上で アンリノメダル ' + moshiReward(t, moshiLv(a), a.day) + '枚' + (moshiDouble(t, a.day) ? '（この日だけ2倍。' + moshiPass(t) / 10 + '割未満でも ' + moshiReward(t, moshiLv(a), a.day, 0) + '枚）' : '') + '（' + moshiPass(t) / 10 + '割をこえるたび）。コードはこの回だけ使えます。</div>' +
       '</div>' + items : '') +
     '<p style="font-size:11px; color:#9ca3af;">ANRINOアプリ（もしの しま）自動送信</p></body></html>';
   const subject = pend.length ? '📝 もしの しま（' + t.name + ' ' + (d.getMonth() + 1) + '/' + d.getDate() + '・' + MOSHI_LEVELS[moshiLv(a)].label + '）まるつけのおねがい'
@@ -717,7 +746,7 @@ function moshiResultMailHtml() {
     '<div style="background:' + (pass ? '#dcfce7' : '#fef3c7') + '; border-radius:12px; padding:12px 14px; margin-bottom:12px;">' +
       '<div style="font-size:28px; font-weight:800; color:' + (pass ? '#16a34a' : '#b45309') + ';">' + a.pct + '％</div>' +
       '<div>' + sc.n + '問中 ' + sc.ok + '問 正解' + (pass ? '（' + moshiPass(t) / 10 + '割たっせい）' : '') + '</div>' +
-      (a.reward === 'new' ? '<div>アンリノメダル +' + moshiReward(t, moshiLv(a)) + '枚</div>' : '') +
+      (a.reward === 'new' ? '<div>アンリノメダル +' + moshiReward(t, moshiLv(a), a.day, a.pct) + '枚' + (moshiDouble2(t, a.day, a.pct) ? '（2倍）' : '') + '</div>' : '') +
     '</div>' +
     '<table style="border-collapse:collapse; border:1px solid #e5e7eb; margin-bottom:10px;"><tr style="background:#ede9fe;"><th style="padding:5px 10px;">教科</th><th style="padding:5px 10px;">正解</th></tr>' + catRows + '</table>' +
     (moshiTimeLine(a) ? '<p>⏱ ' + moshiTimeLine(a) + '</p>' : '') +
@@ -775,7 +804,8 @@ function moshiRenderEnd() {
     head = '<div style="font-size:40px;">' + (pass ? '🎉' : '💪') + '</div>' +
       '<div style="font-size:26px; font-weight:800; color:' + (pass ? '#16a34a' : '#b45309') + ';">' + a.pct + '％</div>' +
       '<div style="font-size:14px; font-weight:700;">' + sc.n + 'もん中 ' + sc.ok + 'もん せいかい</div>' +
-      (a.reward === 'new' ? '<div style="font-size:18px; font-weight:800; color:#b45309; margin-top:8px;">🪙 アンリノメダル +' + moshiReward(mz.test, moshiLv(a)) + ' まい！</div>' +
+      (a.reward === 'new' ? '<div style="font-size:18px; font-weight:800; color:#b45309; margin-top:8px;">🪙 アンリノメダル +' + moshiReward(mz.test, moshiLv(a), a.day, a.pct) + ' まい！' + (moshiDouble2(mz.test, a.day, a.pct) ? '（✨2ばい）' : '') + '</div>' +
+          (pass ? '' : '<div style="font-size:12.5px; color:#b45309; font-weight:800;">' + moshiPassWari(mz.test) + ' いじょうなら 2ばい だったよ！</div>') +
           '<div style="font-size:11.5px; color:#94a3b8;">もっているメダル ' + medalTotal() + ' まい（しまの ショップで つかえるよ）</div>'
        : pass ? '<div style="font-size:13px; color:#16a34a; font-weight:800; margin-top:6px;">' + moshiPassWari(mz.test) + ' たっせい！</div>'
        : '<div style="font-size:13px; color:#b45309; font-weight:800; margin-top:6px;">あと ' + Math.max(1, Math.ceil(sc.n * moshiPass(mz.test) / 100) - sc.ok) + 'もんで ' + moshiPassWari(mz.test) + '！　また ちょうせん しよう</div>');
@@ -884,7 +914,7 @@ function moshiFinalize() {
   const sc = moshiScore();
   a.pct = sc.n ? Math.floor(sc.ok / sc.n * 100) : 0;
   a.score = { ok: sc.ok, n: sc.n };
-  a.reward = a.pct >= moshiPass(mz.test) && moshiGrantMedal(mz.test, moshiLv(a)) ? 'new' : '';
+  a.reward = (a.pct >= moshiPass(mz.test) || moshiDouble(mz.test, a.day)) && moshiGrantMedal(mz.test, moshiLv(a), a.day, a.pct) ? 'new' : '';   // 2ばいの 日は 8わり みまんでも ふつうの 数
   // クイズの「⚠️ 苦手」とつなぐ：× は 苦手に入れる（3回で 超苦手）、○ は クエストと同じく 苦手から外す
   if (typeof quizLinkRecord === 'function') a.ids.forEach(id => { const q = mz.qs[id]; if (q) quizLinkRecord(!!(a.ans[id] && a.ans[id].ok), q); });
   moshiPersist();

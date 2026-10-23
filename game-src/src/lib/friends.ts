@@ -59,8 +59,13 @@ export function readFriends(): FriendsSnapshot {
     if (typeof o.cat !== 'string' || !(char in CHAR_NAMES)) continue;   // 知らないキャラは出さない
     const fill = Number(o.fill);
     const month = typeof o.month === 'string' ? o.month : legacyMonth;
+    // 同じ月・同じ教科に2体いることがある（2年生：九九のピヨタと算数のカメきち＝どちらも 202610:sansu）。
+    // id が かぶると React の key が かさなり、描きなおすたびに 絵が ふえる → 2体めからは char を つける
+    const baseId = `${month}:${o.cat}`;
+    const id = out.some((x) => x.id === baseId) ? `${baseId}:${char}` : baseId;
+    if (out.some((x) => x.id === id)) continue;   // まったく同じ子が2回 書かれていたら1回だけ
     out.push({
-      id: `${month}:${o.cat}`,
+      id,
       month,
       monthLabel: typeof o.monthLabel === 'string' ? o.monthLabel : '',
       cat: o.cat,

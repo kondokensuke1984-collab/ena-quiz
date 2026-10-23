@@ -98,7 +98,8 @@ export const ITEMS: Item[] = [
   { id: 'bd_arbor',  kind: 'building', name: 'もみじの あずまや',   emoji: '🍁', price: 600, desc: 'となりの しまに たつ。みんなで ひとやすみ', once: true },
   // うちゅうセット（となりの しまに たつ。10月 理科「月の位置と見え方」の つづき）
   { id: 'bd_base',   kind: 'building', name: 'うちゅうきち',       emoji: '🛰️', price: 700,  desc: 'となりの しまに たつ。🚀ロケットも ついてくる！ うちゅうずかんと うちゅうりょこう', once: true },
-  { id: 'bd_planet', kind: 'building', name: 'プラネタリウム',     emoji: '🪐', price: 800,  desc: 'となりの しまに たつ。ひるでも ほしぞらが みられる', once: true },
+  // bd_planet は もと プラネタリウム（てんもんだいと かぶるので 2026-10-20 に としょかんへ。id は セーブの ため そのまま）
+  { id: 'bd_planet', kind: 'building', name: 'としょかん',         emoji: '📚', price: 800,  desc: 'となりの しまに たつ。しまの ずかんが ぜんぶ ならぶ', once: true },
   { id: 'bd_rocket', kind: 'building', name: 'ロケット',           emoji: '🚀', price: 1000, desc: 'となりの しまに たつ。つきや わくせいへ うちゅうりょこう！', once: true },
 
   // ── 季節の品（その月のあいだだけ 並ぶ。かったものは ずっと つかえる）──
@@ -195,8 +196,8 @@ export const ITEMS: Item[] = [
 ];
 
 /** その場所に置ける家具か */
-export function placeableIn(item: Item | undefined, area: 'main' | 'east' | 'house' | 'school' | 'moon' | 'mars'): boolean {
-  if (!item || area === 'moon' || area === 'mars') return false;
+export function placeableIn(item: Item | undefined, area: 'main' | 'east' | 'house' | 'school' | 'moon' | 'mars' | 'sun'): boolean {
+  if (!item || area === 'moon' || area === 'mars' || area === 'sun') return false;
   if (item.anywhere) return item.kind === 'furniture' || item.kind === 'indoor';
   if (area === 'school') return item.kind === 'classroom';
   if (area === 'house' && item.alsoHouse) return true;
@@ -262,8 +263,9 @@ export function expansionOf(buildings: string[]): number {
 /** 教科キャラの だいすきなもの（ポイント2倍） */
 export const FAVORITE: Record<string, string> = {
   mochiusa: 'gf_dango',   // 🐰 もちつきうさぎ（月）
-  tanuki: 'gf_dango', owl: 'gf_book', parrot: 'gf_berry', rabbit: 'gf_flower', bear: 'gf_cookie', cow: 'gf_apple', koala: 'gf_flower',
+  tanuki: 'gf_dango', owl: 'gf_book', parrot: 'gf_berry', rabbit: 'gf_flower', bear: 'gf_cookie', cow: 'gf_apple', koala: 'gf_flower', giraffe: 'gf_book', chick: 'gf_berry', mouse: 'gf_cookie',
   dog: 'gf_book', cheetah: 'gf_berry', lion: 'gf_cookie', bee: 'gf_flower', pig: 'gf_apple',
+  otter: 'gf_book', tiger: 'gf_cookie',
 };
 export const GIFTS_PER_DAY = 3;
 /** ♥が1つ増える なかよしポイント */

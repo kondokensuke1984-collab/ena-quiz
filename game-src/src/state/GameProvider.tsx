@@ -28,7 +28,7 @@ import { ORGAN_TITLE, SONGS } from '../lib/songs';
 import { IMO_BY_ID, IMO_PER_DAY, IMO_REWARDS } from '../lib/yakiimo';
 import { ARBOR_REWARDS, GATHER_PER_DAY, TALK_PER_DAY, arborToday, rollLeaf, type Leaf } from '../lib/arbor';
 import { USAGI_KEY } from '../lib/usagi';
-import { DEST_BY_ID, DESTS, SPACE_REWARDS, SPACE_TITLE, STONE_FOOD, TRIPS_PER_DAY, TRIPS_STUDY_BONUS, openDests } from '../lib/space';
+import { DEST_BY_ID, DESTS, SPACE_REWARDS, SPACE_TITLE, STONE_FOOD, SUN_TITLE, TRIPS_PER_DAY, TRIPS_STUDY_BONUS, openDests } from '../lib/space';
 import { MICRO_TITLE, PLANKTON, PLANKTON_PER_DAY, PLANKTON_REWARDS, PLANKTON_STUDY_BONUS } from '../lib/plankton';
 
 /** プレゼントの結果。IslandScreen がハートとふきだしを出すのに使う */
@@ -165,6 +165,8 @@ export interface GameApi {
   openChest(day: string): string | null;
   /** 🌕🔴 月・火星で いしを ひろう（ほしごとに 1日1回・うちゅうしょく STONE_FOOD）。ひろえたら true */
   pickPlanetStone(planet: Planet, day: string): boolean;
+  /** ☀️ たいようで みつけた ものを きろく。ぜんぶ（total）そろったら しょうごう */
+  seeSun(id: string, total: number): { isNew: boolean; done: boolean };
   /** 🐰 もちつきうさぎと はなす。その日 はじめてなら なかよし +1 して あたらしい ♥の かずを かえす（2かいめ いこうは null） */
   talkUsagi(day: string): { heartsBefore: number; heartsAfter: number } | null;
   /** 🐰 ちきゅうに つれていく（true）／月で まっててもらう（false） */
@@ -686,7 +688,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     setUsagiHome: (home) => setSave((s) => ({ ...s, usagi: { ...s.usagi, home } })),
 
     pickPlanetStone: (planet, day) => {
-      const key = planet === 'moon' ? 'moonStone' : 'marsStone';
+      const key = planet === 'moon' ? 'moonStone' : planet === 'mars' ? 'marsStone' : 'sunStone';
       if (saveRef.current.space[key] === day) return false;
       setSave((s) => (s.space[key] === day ? s : {
         ...s,
@@ -695,6 +697,18 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       }));
       sfx('chest');
       return true;
+    },
+
+    seeSun: (id, total) => {
+      const seen = saveRef.current.space.sunSeen;
+      if (seen.includes(id)) return { isNew: false, done: false };
+      const done = seen.length + 1 >= total;
+      setSave((s) => (s.space.sunSeen.includes(id) ? s : {
+        ...s,
+        space: { ...s.space, sunSeen: [...s.space.sunSeen, id] },
+        titles: done && !s.titles.includes(SUN_TITLE) ? [...s.titles, SUN_TITLE] : s.titles,
+      }));
+      return { isNew: true, done };
     },
 
     deliverLetters: (letters, marks, gifts = []) => {

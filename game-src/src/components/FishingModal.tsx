@@ -15,9 +15,10 @@ type Phase =
 
 const stars = (n: number) => '★'.repeat(n) + '☆'.repeat(3 - n);
 
-export function FishingModal({ ctx, studied, onClose }: { ctx: FishCtx; studied: boolean; onClose(): void }) {
+/** dexOnly＝としょかんから ひらく（ずかんだけ みせる） */
+export function FishingModal({ ctx, studied, onClose, dexOnly = false }: { ctx: FishCtx; studied: boolean; onClose(): void; dexOnly?: boolean }) {
   const g = useGame();
-  const [tab, setTab] = useState<'fish' | 'dex'>('fish');
+  const [tab, setTab] = useState<'fish' | 'dex'>(dexOnly ? 'dex' : 'fish');
   const [phase, setPhase] = useState<Phase>({ kind: 'ready' });
   const cursor = useRef(0);
   const cursorEl = useRef<HTMLDivElement | null>(null);
@@ -77,7 +78,7 @@ export function FishingModal({ ctx, studied, onClose }: { ctx: FishCtx; studied:
   return (
     <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/60 p-3" onClick={onClose}>
       <div className="panel max-h-[88vh] w-full max-w-[440px] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-        <div className="mb-2 flex gap-1.5">
+        <div className={`mb-2 flex gap-1.5 ${dexOnly ? 'hidden' : ''}`}>
           {(['fish', 'dex'] as const).map((t) => (
             <button
               key={t}

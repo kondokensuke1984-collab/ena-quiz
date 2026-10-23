@@ -98,6 +98,186 @@ const FLOOR: Record<string, () => React.ReactNode> = {
   ),
 };
 
+// 🏆 ほんものの ゆうしょう トロフィー（緑ヶ丘SC・2026-10-18）。おうちの かべの かざりだな。タップで せつめい
+// ゆうしょう するたびに ここへ 1つ たす（かべに ならぶ。6こまで）。banner＝たれまく、l1〜l3＝きんの プレート、toast＝タップの ことば
+export const TROPHIES = [
+  { id: '20261018', banner: '初優勝！', l1: 'サッカーがもっと好きになる', l2: '少年少女大会2026', l3: '2026.10.18　緑ヶ丘SC 優勝',
+    toast: '🏆 しゅく はつゆうしょう！ 10がつ 18にちの たいかいで、みどりがおか SC が ゆうしょうしたよ！' },
+];
+// 1つの たなは 1000×750 の (272〜528, 58〜388) の 絵を 0.38ばい（よこ 97・たて 125）。ならぶ ばしょ（うえの まんなか）は まんなか→ひだり→みぎ、2だんめも おなじ
+const TROPHY_SCALE = 0.38;
+const TROPHY_SLOTS = [[400, 100], [290, 100], [510, 100], [400, 245], [290, 245], [510, 245]];
+export function trophyAt(p: { x: number; y: number }) {
+  return TROPHIES.slice(0, TROPHY_SLOTS.length).find((_, i) => {
+    const [cx, top] = TROPHY_SLOTS[i];
+    return p.x * 1000 >= cx - 50 && p.x * 1000 <= cx + 50 && p.y * 750 >= top && p.y * 750 <= top + 128;
+  });
+}
+function TrophyShelf({ t, i }: { t: typeof TROPHIES[number]; i: number }) {
+  const [cx, top] = TROPHY_SLOTS[i];
+  return (
+    <g transform={`translate(${cx} ${top}) scale(${TROPHY_SCALE}) translate(-400 -58)`}>
+      <defs>
+        <radialGradient id="tsGlow" cx=".5" cy=".55" r=".6"><stop offset="0" stopColor="#fef9c3" stopOpacity=".45" /><stop offset="1" stopColor="#fef9c3" stopOpacity="0" /></radialGradient>
+        <linearGradient id="tsGold" x1="0" x2="1"><stop offset="0" stopColor="#b8860b" /><stop offset=".45" stopColor="#ffe27a" /><stop offset=".6" stopColor="#f2c230" /><stop offset="1" stopColor="#a87708" /></linearGradient>
+      </defs>
+      {/* かざりだな（おくは みどりの ぬの） */}
+      <rect x="272" y="58" width="256" height="248" rx="14" fill="#7c2d12" />
+      <rect x="284" y="70" width="232" height="226" rx="8" fill="#166534" />
+      <rect x="284" y="70" width="232" height="226" rx="8" fill="url(#tsGlow)" />
+      {/* 「祝 初優勝」の たれまく */}
+      <path d="M306 78 H494 V104 L482 114 L470 104 H330 L318 114 L306 104 Z" fill="#c8102e" stroke="#7f1d1d" strokeWidth="2" />
+      <circle cx="342" cy="92" r="11" fill="#fff" stroke="#fcd34d" strokeWidth="2" />
+      <text x="342" y="97" fontSize="14" fontWeight="900" textAnchor="middle" fill="#c8102e">祝</text>
+      <text x="418" y="99" fontSize="18" fontWeight="900" textAnchor="middle" fill="#fff" letterSpacing="2">{t.banner}</text>
+      {/* トロフィー */}
+      <g transform="translate(330 118) scale(2.05)">
+        <path d="M14 12 C2 12 2 34 20 38" fill="none" stroke="#c99a14" strokeWidth="4.5" strokeLinecap="round" />
+        <path d="M54 12 C66 12 66 34 48 38" fill="none" stroke="#c99a14" strokeWidth="4.5" strokeLinecap="round" />
+        <path d="M12 6 H56 V18 C56 34 46 44 34 44 C22 44 12 34 12 18 Z" fill="url(#tsGold)" stroke="#8a6206" strokeWidth="1.2" />
+        <path d="M34 13 l2.6 5.4 5.9.8 -4.3 4.1 1 5.8 -5.2-2.8 -5.2 2.8 1-5.8 -4.3-4.1 5.9-.8z" fill="#fff8d8" />
+        <path d="M18 10 V18 C18 26 21 32 25 36" fill="none" stroke="#fffbe6" strokeWidth="1.6" strokeLinecap="round" opacity=".8" />
+        <rect x="30" y="44" width="8" height="10" fill="url(#tsGold)" stroke="#8a6206" strokeWidth="1" />
+        <path d="M22 54 H46 L49 62 H19 Z" fill="url(#tsGold)" stroke="#8a6206" strokeWidth="1.2" />
+        <rect x="15" y="62" width="38" height="14" rx="2" fill="#1f7a3a" stroke="#145228" strokeWidth="1.2" />
+        <rect x="22" y="66" width="24" height="6" rx="1" fill="#e8c34a" />
+      </g>
+      {/* サッカーボール */}
+      <g transform="translate(476 272)">
+        <ellipse cx="0" cy="14" rx="16" ry="4" fill="rgba(0,0,0,0.25)" />
+        <circle r="15" fill="#fff" stroke="#1d2b22" strokeWidth="2" />
+        <path d="M0 -6 l5.7 4.1 -2.2 6.7 h-7 l-2.2 -6.7 z" fill="#1d2b22" />
+        <path d="M0 -6 V-14.6 M5.7 -1.9 L13.6 -4.6 M3.5 4.8 L8.6 12 M-3.5 4.8 L-8.6 12 M-5.7 -1.9 L-13.6 -4.6" stroke="#1d2b22" strokeWidth="1.6" />
+        <path d="M-5 -14 L0 -14.8 L5 -14 M12 -8 L14 -3 M9.5 11 L13 6.5 M-9.5 11 L-13 6.5 M-12 -8 L-14 -3" stroke="#1d2b22" strokeWidth="3.2" strokeLinecap="round" fill="none" />
+      </g>
+      {/* たな いた */}
+      <rect x="276" y="288" width="248" height="16" rx="4" fill="#92400e" stroke="#7c2d12" strokeWidth="2" />
+      {/* きんの プレート */}
+      <rect x="282" y="310" width="236" height="78" rx="6" fill="#fcd34d" stroke="#b45309" strokeWidth="2.5" />
+      <rect x="288" y="316" width="224" height="66" rx="4" fill="none" stroke="#b45309" strokeWidth="1" opacity=".6" />
+      <text x="400" y="336" fontSize="16" fontWeight="900" textAnchor="middle" fill="#3a2c00">{t.l1}</text>
+      <text x="400" y="356" fontSize="16" fontWeight="900" textAnchor="middle" fill="#3a2c00">{t.l2}</text>
+      <text x="400" y="376" fontSize="14" fontWeight="900" textAnchor="middle" fill="#14532d">{t.l3}</text>
+      {/* きらきら */}
+      {[[312, 140], [500, 132], [318, 250], [498, 214], [440, 124]].map(([x, y], i) => (
+        <path key={i} d={`M${x} ${y - 8} l2.4 5.6 5.6 2.4 -5.6 2.4 -2.4 5.6 -2.4 -5.6 -5.6 -2.4 5.6 -2.4 z`} fill="#fef08a" className="twinkle" />
+      ))}
+    </g>
+  );
+}
+
+// 📜 ほんものの しょうじょう（緑ヶ丘シルバー・2026-10-19）。まどの みぎの かべに がくで かざる。タップで せつめい
+// もらうたびに 1つ たす（2まいまで）。rank＝「第2位」など、medal＝きん/ぎん/どう、l1〜l2＝たいかい、team＝チーム、date＝ひづけ
+export const CERTS = [
+  { id: 'c20261019', rank: '第2位', medal: 'silver' as const, team: '緑ヶ丘シルバー', l1: '2026年度', l2: '2年生秋季大会',
+    toast: '📜 しょうじょう！ 2026ねんど 2ねんせい しゅうき たいかいで、みどりがおか シルバーが 2いに なったよ！' },
+];
+// 1まいの がくは 200×270 の 絵を 0.5ばい（よこ 100・たて 135）。まどの みぎ、うえ→した
+const CERT_SCALE = 0.5;
+const CERT_SLOTS = [[876, 92], [876, 244]];
+const CERT_MEDAL = { gold: ['#fde047', '#ca8a04'], silver: ['#f1f5f9', '#94a3b8'], bronze: ['#fdba74', '#b45309'] };
+export function certAt(p: { x: number; y: number }) {
+  return CERTS.slice(0, CERT_SLOTS.length).find((_, i) => {
+    const [x, y] = CERT_SLOTS[i];
+    return p.x * 1000 >= x && p.x * 1000 <= x + 100 && p.y * 750 >= y && p.y * 750 <= y + 135;
+  });
+}
+function CertFrame({ c, i }: { c: typeof CERTS[number]; i: number }) {
+  const [x, y] = CERT_SLOTS[i];
+  const [m1, m2] = CERT_MEDAL[c.medal];
+  return (
+    <g transform={`translate(${x} ${y}) scale(${CERT_SCALE})`}>
+      {/* ひも と くぎ */}
+      <path d="M60 4 L100 -18 L140 4" fill="none" stroke="#78350f" strokeWidth="3" />
+      <circle cx="100" cy="-18" r="5" fill="#a16207" />
+      {/* がく（きんの ふち） */}
+      <rect x="0" y="0" width="200" height="270" rx="4" fill="#b8860b" stroke="#78350f" strokeWidth="3" />
+      <rect x="8" y="8" width="184" height="254" fill="#fde68a" />
+      {/* かみ と もようの わく */}
+      <rect x="14" y="14" width="172" height="242" fill="#fffdf5" />
+      <rect x="22" y="22" width="156" height="226" fill="none" stroke="#c9a227" strokeWidth="3" />
+      <rect x="27" y="27" width="146" height="216" fill="none" stroke="#c9a227" strokeWidth="1" />
+      {[[22, 22], [178, 22], [22, 248], [178, 248]].map(([cx, cy], k) => <circle key={k} cx={cx} cy={cy} r="5" fill="#c9a227" />)}
+      {/* もじ */}
+      <text x="100" y="68" fontSize="34" fontWeight="900" textAnchor="middle" fill="#1f2937" letterSpacing="10">賞状</text>
+      <text x="100" y="114" fontSize="36" fontWeight="900" textAnchor="middle" fill="#b91c1c">{c.rank}</text>
+      <text x="100" y="148" fontSize="21" fontWeight="900" textAnchor="middle" fill="#14532d">{c.team}</text>
+      <text x="100" y="176" fontSize="14" fontWeight="700" textAnchor="middle" fill="#374151">{c.l1}</text>
+      <text x="100" y="194" fontSize="14" fontWeight="700" textAnchor="middle" fill="#374151">{c.l2}</text>
+      {/* はんこ */}
+      <rect x="138" y="208" width="26" height="26" rx="3" fill="none" stroke="#dc2626" strokeWidth="2.5" />
+      <text x="151" y="227" fontSize="15" fontWeight="900" textAnchor="middle" fill="#dc2626">印</text>
+      {/* メダルの シール */}
+      <g transform="translate(56 222)">
+        <path d="M-10 4 L-16 30 L-7 25 L-2 32 L2 8 Z M10 4 L16 30 L7 25 L2 32 L-2 8 Z" fill="#2563eb" />
+        <circle r="16" fill={m1} stroke={m2} strokeWidth="3" />
+        <text y="6" fontSize="16" fontWeight="900" textAnchor="middle" fill={m2}>{c.rank.replace(/\D/g, '')}</text>
+      </g>
+      {[[34, 40], [168, 92], [40, 196]].map(([sx, sy], k) => (
+        <path key={k} d={`M${sx} ${sy - 7} l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2 z`} fill="#fde047" className="twinkle" />
+      ))}
+    </g>
+  );
+}
+
+// 🎮 まどの したの ゲームコーナー（2026-10-19）。テレビ＋むかしの ゲームき（なまえ・マークは かかない）。
+// テレビか ゲームきを タップ、または ちかくで「ゲームを する」→ /sora/（コロンのそらとび。あそべる きまりは ゲームの がわで みる）
+export const GAME_HIT = { x0: 0.6, x1: 0.84, y0: 0.34, y1: 0.62 };
+export const GAME_SPOT = { x: 0.72, y: 0.62 };
+export function gameAt(p: { x: number; y: number }) {
+  return p.x >= GAME_HIT.x0 && p.x <= GAME_HIT.x1 && p.y >= GAME_HIT.y0 && p.y <= GAME_HIT.y1;
+}
+function GameCorner() {
+  const px = (x: number, y: number, w: number, h: number, c: string, k?: string) => <rect key={k} x={x} y={y} width={w} height={h} fill={c} />;
+  return (
+    <g>
+      {/* テレビだい */}
+      <rect x="606" y="372" width="228" height="58" rx="6" fill="#92400e" stroke="#5b2a0a" strokeWidth="3" />
+      <rect x="606" y="372" width="228" height="9" rx="4" fill="#b45309" />
+      <path d="M720 384 V424" stroke="#5b2a0a" strokeWidth="2" />
+      <circle cx="710" cy="404" r="3" fill="#fcd34d" /><circle cx="730" cy="404" r="3" fill="#fcd34d" />
+      {/* テレビ */}
+      <rect x="690" y="364" width="60" height="10" rx="3" fill="#1f2937" />
+      <rect x="636" y="256" width="168" height="112" rx="12" fill="#374151" stroke="#111827" strokeWidth="4" />
+      <rect x="648" y="268" width="144" height="88" rx="5" fill="#7dd3fc" />
+      {/* がめんの なか：コロンのそらとび */}
+      <g transform="translate(648 268)">
+        {px(10, 14, 22, 6, '#fff')}{px(14, 10, 12, 4, '#fff')}{px(100, 20, 26, 6, '#fff')}{px(106, 16, 12, 4, '#fff')}
+        <ellipse cx="26" cy="74" rx="24" ry="30" fill="#5cc84a" stroke="#1d5a1d" strokeWidth="1.5" />
+        <ellipse cx="118" cy="74" rx="18" ry="20" fill="#5cc84a" stroke="#1d5a1d" strokeWidth="1.5" />
+        {px(0, 72, 144, 16, '#ec8a30')}{px(0, 72, 144, 3, '#ffd6a6')}
+        {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => px(4 + i * 16, 78, 6, 2, '#b85614', 'g' + i))}
+        {px(58, 42, 11, 11, '#f5b014')}{px(61, 45, 5, 5, '#fff')}
+        {[0, 1, 2].map((i) => <ellipse key={'c' + i} cx={86 + i * 10} cy={30} rx="3" ry="4.5" fill="#f8d040" stroke="#9a5a08" strokeWidth="1" className="twinkle" />)}
+        {/* コロン（はっぱで きんの しっぽ。そらを とんでいる） */}
+        <g transform="translate(34 34)">
+          {px(-7, 11, 7, 4, '#ffd23a')}{px(-9, 13, 3, 3, '#fff')}
+          {px(0, 0, 2, 4, '#6b3a1e')}{px(10, 0, 2, 4, '#6b3a1e')}
+          {px(-2, 4, 16, 4, '#f5a571')}{px(-2, 8, 16, 2, '#fbe6c8')}{px(2, 5, 1, 2, '#2a1a10')}{px(9, 5, 1, 2, '#2a1a10')}
+          {px(1, 10, 10, 7, '#f5a571')}{px(5, 1, 3, 2, '#2f9e3a')}
+        </g>
+      </g>
+      <rect x="648" y="268" width="144" height="88" rx="5" fill="none" stroke="#fff" strokeOpacity=".25" strokeWidth="3" />
+      <circle cx="786" cy="362" r="2.5" fill="#22c55e" />
+      {/* ゲームき（ゆかの うえ） */}
+      <path d="M688 446 C 700 452 740 450 748 456" fill="none" stroke="#374151" strokeWidth="2.5" />
+      <path d="M684 440 C 676 380 664 380 666 372" fill="none" stroke="#374151" strokeWidth="2" />
+      <rect x="640" y="424" width="56" height="30" rx="7" fill="#d4d4dc" stroke="#6b7280" strokeWidth="2" />
+      <rect x="646" y="418" width="44" height="12" rx="4" fill="#b8b8c4" stroke="#6b7280" strokeWidth="1.5" />
+      <rect x="654" y="411" width="28" height="11" rx="2" fill="#f97316" stroke="#9a3412" strokeWidth="1.5" />
+      <circle cx="668" cy="416" r="3" fill="#ffe2b0" />
+      <rect x="646" y="438" width="10" height="5" rx="2" fill="#7c3aed" /><rect x="680" y="438" width="10" height="5" rx="2" fill="#7c3aed" />
+      {/* コントローラー */}
+      <g transform="translate(748 446)">
+        <rect x="0" y="0" width="58" height="22" rx="11" fill="#d4d4dc" stroke="#6b7280" strokeWidth="2" />
+        <path d="M10 9 h4 v-4 h4 v4 h4 v4 h-4 v4 h-4 v-4 h-4 z" fill="#374151" />
+        <circle cx="44" cy="7" r="3" fill="#3b82f6" /><circle cx="50" cy="11" r="3" fill="#ef4444" />
+        <circle cx="38" cy="11" r="3" fill="#22c55e" /><circle cx="44" cy="15" r="3" fill="#facc15" />
+      </g>
+    </g>
+  );
+}
+
 const WINDOW_SKY: Record<TimeOfDay, string> = { day: '#7dd3fc', evening: '#fdba74', night: '#1e1b4b' };
 
 function RoomGroundBase({ wall, floor, tod, moonAge, sleeping }: {
@@ -122,6 +302,9 @@ function RoomGroundBase({ wall, floor, tod, moonAge, sleeping }: {
         <path d="M120 0 L120 170 M0 85 L240 85" stroke="#78350f" strokeWidth="8" />
         <path d="M-14 -8 Q 60 60 -10 180 L-24 180 L-24 -8 Z M254 -8 Q 180 60 250 180 L264 180 L264 -8 Z" fill="#f472b6" opacity="0.85" />
       </g>
+      {TROPHIES.slice(0, TROPHY_SLOTS.length).map((t, i) => <TrophyShelf key={t.id} t={t} i={i} />)}
+      {CERTS.slice(0, CERT_SLOTS.length).map((c, i) => <CertFrame key={c.id} c={c} i={i} />)}
+      <GameCorner />
       {/* ドア（ここから そとへ） */}
       <g transform="translate(80 170)">
         <rect x="0" y="0" width="120" height="232" rx="10" fill="#b45309" stroke="#4c1d95" strokeWidth="4" />
@@ -396,10 +579,114 @@ function MarsGroundBase() {
 }
 export const MarsGround = React.memo(MarsGroundBase);
 
+// ── ☀️ たいようの ひょうめん（ロケットで ちかづいて「たいようの せいれい」に へんしんして あるく）──
+// ほんとうの たいようは あつすぎて だれも ちかづけない。せいれいだから あるける、という おはなし。かいせつは ほんものの すうじ
+export const SUN_HITS: { id: string; x: number; y: number; r: number; text: string }[] = [
+  { id: 'spot', x: 0.33, y: 0.62, r: 0.07, text: '⚫ これが こくてん（黒点）。まわり（やく 6000℃）より ひくい やく 4000℃ なので、くろく みえるんだ。こくてんの うごきで、たいようが やく 1かげつで ひとまわり（じてん）して いると わかるよ。' },
+  { id: 'granule', x: 0.16, y: 0.82, r: 0.08, text: '🟡 つぶつぶ もようは、したから あつい ガスが わきあがって くる あと。ひとつぶの おおきさは やく 1000km！ 10ぷんくらいで きえて、また あたらしい つぶが できるよ。' },
+  { id: 'prom', x: 0.22, y: 0.31, r: 0.09, text: '🔥 プロミネンスは、たいようの ふちから ふきだした ガスの アーチ。ちきゅうが いくつも はいるほど おおきいよ。かいきにっしょくの ときに あかく みえるんだ。' },
+  { id: 'flare', x: 0.7, y: 0.35, r: 0.07, text: '💥 フレアは たいようの ひょうめんの だいばくはつ。とびだした つぶが ちきゅうに とどくと、オーロラが でたり、でんぱが とどきにくく なったり するよ。' },
+  { id: 'corona', x: 0.5, y: 0.16, r: 0.1, text: '🌫️ たいようの そとがわを つつむ うすい ガスが コロナ。100まん℃いじょうも あるのに、ふだんは まぶしくて みえない。かいきにっしょくの ときだけ しろく かがやいて みえるよ。' },
+  { id: 'core', x: 0.56, y: 0.79, r: 0.07, text: '✨ この ずっと したが たいようの ちゅうしん。やく 1600まん℃ で、すいそが くっついて ヘリウムに かわる（かくゆうごう）ときに、ひかりと ねつが うまれて いるよ。' },
+  { id: 'earth', x: 0.9, y: 0.1, r: 0.05, text: '🌍 あの ちいさな あおい てんが ちきゅう！ たいようの はばは ちきゅうの やく 109ばい。ここの ひかりは 8ぷん20びょうで ちきゅうに とどいて、月も この ひかりを はねかえして ひかって いるんだ。' },
+];
+/** つぶつぶ もよう（粒状斑）の 1つずつ：x, y, はば（じめんの 上に ならべる。きまった ならび） */
+const SUN_GRANULES: [number, number, number][] = (() => {
+  const out: [number, number, number][] = [];
+  let seed = 7;
+  const rnd = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
+  for (let row = 0; row < 9; row++) {
+    const y = ISLAND_H * 0.45 + row * 38;
+    const w = 26 + row * 3;   // てまえほど おおきく
+    for (let x = (row % 2) * w * 0.5; x < ISLAND_W + w; x += w * 1.15) out.push([x + rnd() * 8, y + rnd() * 10, w * (0.85 + rnd() * 0.3)]);
+  }
+  return out;
+})();
+
+function SunGroundBase() {
+  const H = ISLAND_H, W = ISLAND_W;
+  return (
+    <>
+      <defs>
+        <radialGradient id="sunCorona" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#fff7ed" stopOpacity="0.9" />
+          <stop offset="35%" stopColor="#fde68a" stopOpacity="0.35" />
+          <stop offset="100%" stopColor="#1e1b4b" stopOpacity="0" />
+        </radialGradient>
+        <linearGradient id="sunSurf" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#fde047" />
+          <stop offset="55%" stopColor="#fb923c" />
+          <stop offset="100%" stopColor="#ea580c" />
+        </linearGradient>
+        <radialGradient id="sunCore" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#ffffff" />
+          <stop offset="45%" stopColor="#fef08a" />
+          <stop offset="100%" stopColor="#f97316" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+      <rect x="0" y="0" width={W} height={H} fill="#0f0a1e" />
+      {MOON_STARS.slice(0, 18).map(([x, y], i) => <circle key={i} cx={x} cy={y * 0.45} r="1.2" fill="#fff" opacity="0.5" />)}
+      {/* コロナ */}
+      <ellipse cx={W / 2} cy={H * 0.46} rx={W * 0.8} ry={H * 0.42} fill="url(#sunCorona)" />
+      {/* コロナの すじ（やわらかく ひろがる） */}
+      {[-62, -34, -8, 20, 48, 70].map((a, i) => (
+        <path key={a} d={`M${W / 2 + a * 4} ${H * 0.42} q${a * 2} -110 ${a * 5} -${220 + (i % 2) * 60}`} stroke="#fde68a" strokeWidth={36 - (i % 3) * 8} opacity="0.1" strokeLinecap="round" fill="none" />
+      ))}
+      <text x={SUN_HITS[4].x * W} y={SUN_HITS[4].y * H} fontSize="13" fontWeight="900" textAnchor="middle" fill="#fef3c7" opacity="0.85">コロナ</text>
+      {/* とおくの ちきゅう（とても ちいさい） */}
+      <g transform={`translate(${SUN_HITS[6].x * W} ${SUN_HITS[6].y * H})`}>
+        <circle r="9" fill="rgba(96,165,250,0.3)" className="twinkle" />
+        <circle r="3" fill="#60a5fa" />
+        <text y="24" fontSize="12" fontWeight="900" textAnchor="middle" fill="#dbeafe">ちきゅう</text>
+      </g>
+      {/* プロミネンス（ふちから ふきだす ガスの アーチ） */}
+      <g transform={`translate(${SUN_HITS[2].x * W} ${H * 0.42})`}>
+        <path d="M-70 0 C -80 -150, 60 -170, 50 0" fill="none" stroke="#f43f5e" strokeWidth="16" strokeLinecap="round" opacity="0.85" />
+        <path d="M-70 0 C -80 -150, 60 -170, 50 0" fill="none" stroke="#fda4af" strokeWidth="5" strokeLinecap="round" />
+        <path d="M-20 0 C -10 -80, 70 -90, 80 0" fill="none" stroke="#fb7185" strokeWidth="9" strokeLinecap="round" opacity="0.7" />
+      </g>
+      {/* じめん（ひょうめん）。ふちは まるく カーブ */}
+      <path d={`M0 ${H * 0.46} Q ${W / 2} ${H * 0.36} ${W} ${H * 0.46} L${W} ${H} L0 ${H} Z`} fill="url(#sunSurf)" />
+      <path d={`M0 ${H * 0.46} Q ${W / 2} ${H * 0.36} ${W} ${H * 0.46}`} fill="none" stroke="#fffbeb" strokeWidth="5" opacity="0.9" />
+      {/* つぶつぶ もよう */}
+      <g opacity="0.55">
+        {SUN_GRANULES.map(([x, y, w], i) => (
+          <ellipse key={i} cx={x} cy={y} rx={w / 2} ry={w * 0.32} fill="#fef08a" stroke="#c2410c" strokeWidth="1.6" opacity={0.5 + (i % 3) * 0.15} />
+        ))}
+      </g>
+      {/* フレア（ばくはつ） */}
+      <g transform={`translate(${SUN_HITS[3].x * W} ${SUN_HITS[3].y * H})`}>
+        <circle r="34" fill="#fffbeb" opacity="0.55" className="twinkle" />
+        <path d="M0 -40 L9 -12 L38 -14 L14 4 L26 32 L0 14 L-26 32 L-14 4 L-38 -14 L-9 -12 Z" fill="#fff" stroke="#f59e0b" strokeWidth="3" />
+      </g>
+      {/* こくてん（大・小） */}
+      {[[SUN_HITS[0].x * W, SUN_HITS[0].y * H, 46], [SUN_HITS[0].x * W + 80, SUN_HITS[0].y * H + 34, 22]].map(([x, y, r], i) => (
+        <g key={'s' + i}>
+          <ellipse cx={x} cy={y} rx={r} ry={r * 0.45} fill="#b45309" opacity="0.75" />
+          <ellipse cx={x} cy={y} rx={r * 0.55} ry={r * 0.25} fill="#1c1917" />
+        </g>
+      ))}
+      {/* ちゅうしんへ つづく ひかり */}
+      <g transform={`translate(${SUN_HITS[5].x * W} ${SUN_HITS[5].y * H})`}>
+        <ellipse rx="44" ry="18" fill="url(#sunCore)" className="twinkle" />
+        <ellipse rx="22" ry="8" fill="#fff" opacity="0.9" />
+      </g>
+      {/* ちかくで まっている ロケット（ねつを ふせぐ たて つき） */}
+      <g transform={`translate(${0.85 * W} ${0.5 * H})`}>
+        <BuildingSVG id="bd_rocket" />
+        <path d="M-40 -150 Q0 -175 40 -150 L36 -140 Q0 -162 -36 -140 Z" fill="#e5e7eb" stroke="#475569" strokeWidth="2.5" />
+      </g>
+    </>
+  );
+}
+export const SunGround = React.memo(SunGroundBase);
+
 /** ほしごとの せってい（IslandScreen が つかう） */
 export const PLANET_CFG = {
   moon: { title: '🌕 つき', hits: MOON_HITS, stone: '🪨 つきの いし', hop: 26, jump: 120, jumpMs: 1300, jumpClass: 'moon-jump', foot: 'rgba(71,85,105,0.55)',
     hint: 'クレーター・はた・ちきゅうを タップしてみよう。ロケットで しまに かえれるよ' },
   mars: { title: '🔴 かせい', hits: MARS_HITS, stone: '🔴 かせいの いし', hop: 18, jump: 80, jumpMs: 1000, jumpClass: 'mars-jump', foot: 'rgba(124,45,18,0.5)',
     hint: 'オリンポスさん・フォボス・ローバーを タップしてみよう。ロケットで しまに かえれるよ' },
+  sun: { title: '☀️ たいよう', hits: SUN_HITS, stone: '✨ ひかりの たま', hop: 10, jump: 100, jumpMs: 1200, jumpClass: 'moon-jump', foot: 'rgba(255,251,235,0.8)',
+    hint: 'たいようの せいれいに なって たんけん！ こくてん・つぶつぶ・プロミネンス・フレア・コロナ・ちゅうしん・ちきゅうを さがして タップしよう' },
 } as const;

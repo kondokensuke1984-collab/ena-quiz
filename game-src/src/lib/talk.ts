@@ -38,6 +38,11 @@ export const PERSONA: Record<CharKey, { type: Persona; tag: string }> = {
   lion: { type: 'genki', tag: 'ガオ！' },
   bee: { type: 'yasashi', tag: 'ブン♪' },
   pig: { type: 'nonbiri', tag: 'ブ〜' },
+  giraffe: { type: 'shikkari', tag: 'コトッ♪' },
+  chick: { type: 'genki', tag: 'ピヨッ！' },
+  mouse: { type: 'shikkari', tag: 'チュー！' },
+  otter: { type: 'genki', tag: 'Hello！' },
+  tiger: { type: 'shikkari', tag: 'ガオッ！' },
 };
 
 export interface TalkCtx {

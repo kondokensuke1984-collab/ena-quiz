@@ -165,6 +165,16 @@ const FM_SONGS = {
       ['bell', 'r.16 r.12 G6.4  r.16 r.12 B5.4  r.16 r.12 G6.4  r.16 D6.8 B5.8', 0.3]],
     drums: ['k...h...k.h.h...', 'k...h...k.h.h.hh'],
   },
+  // 🌋 マグマの かざん：あつく もえあがる ビート（ニ短調）
+  volcano: {
+    bpm: 136, pad: 0.5, bass: 'drive', gain: 0.9,
+    chords: '| Dm | Gm | C | A | Dm | Bb | Gm A | Dm |',
+    lead: [['brass',
+      'D5.4 F5.2 A5.2 D6.6 C6.2  Bb5.4 A5.4 G5.8  E5.4 G5.2 C6.2 E6.6 D6.2  C#6.8 E6.4 A5.4 ' +
+      'F6.4 E6.2 D6.2 A5.4 F5.4  G5.4 Bb5.4 D6.8  E6.4 D6.4 C#6.4 A5.4  D6.12 r.4', 0.85],
+      ['horn', 'A4.8 F4.8  G4.8 D4.8  G4.8 E4.8  A4.16  A4.8 F4.8  Bb4.8 F4.8  G4.8 A4.8  D4.16', 0.55]],
+    drums: ['x.h.s.hkx.h.s.h.', 'x.h.s.hkx.x.s.hr'],
+  },
   // ❗ みはりに みつかった！
   alert: { bpm: 180, loop: false, lead: [['brass', 'C6.2 r.1 C6.2 r.1 C6.2 r.1 Eb6.10'], ['lead', 'G5.2 r.1 G5.2 r.1 G5.2 r.1 Bb5.10', 0.7]], drums: ['x..x..x.r.......'] },
   // 🚁 さくせん せいこう！（ファンファーレ。1かいだけ）

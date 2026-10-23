@@ -18,9 +18,10 @@ function Chip({ ok, children }: { ok: boolean | 'slow'; children: React.ReactNod
   return <span className={`rounded-full px-2 py-0.5 text-[10px] font-black ${cls}`}>{children}</span>;
 }
 
-export function FarmModal({ stages, studied, onClose }: { stages: number[]; studied: boolean; onClose(): void }) {
+/** dexOnly＝としょかんから ひらく（ずかんだけ みせる） */
+export function FarmModal({ stages, studied, onClose, dexOnly = false }: { stages: number[]; studied: boolean; onClose(): void; dexOnly?: boolean }) {
   const g = useGame();
-  const [tab, setTab] = useState<'plots' | 'dex'>('plots');
+  const [tab, setTab] = useState<'plots' | 'dex'>(dexOnly ? 'dex' : 'plots');
   const [view, setView] = useState<View | null>(null);
   const seeds = ITEMS.filter((i) => i.kind === 'seed' && (g.save.inventory[i.id] ?? 0) > 0);
   const ferts = ITEMS.filter((i) => i.kind === 'fert' && (g.save.inventory[i.id] ?? 0) > 0);
@@ -116,7 +117,7 @@ export function FarmModal({ stages, studied, onClose }: { stages: number[]; stud
       <div className="panel max-h-[88vh] w-full max-w-[440px] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
         <div className="mb-2 flex items-center gap-2">
           <div className="flex-1 text-[14px] font-black text-ink">🌱 はたけ</div>
-          <button className={`rounded-full px-3 py-1 text-[11px] font-black ${tab === 'plots' ? 'bg-emerald-500 text-white' : 'bg-white text-ink shadow'}`} onClick={() => setTab('plots')}>うね</button>
+          <button className={`rounded-full px-3 py-1 text-[11px] font-black ${dexOnly ? 'hidden' : ''} ${tab === 'plots' ? 'bg-emerald-500 text-white' : 'bg-white text-ink shadow'}`} onClick={() => setTab('plots')}>うね</button>
           <button className={`rounded-full px-3 py-1 text-[11px] font-black ${tab === 'dex' ? 'bg-emerald-500 text-white' : 'bg-white text-ink shadow'}`} onClick={() => setTab('dex')}>📖 ずかん {dexN}/{PLANTS.length}</button>
         </div>
 

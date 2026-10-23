@@ -311,8 +311,13 @@ function forestBaseInteract(x, y, t) {
     return true;
   }
   if (t === 'Z') {
-    if (peace) { forestSay('🚁 ヘリが ゆっくり やすんでいる。'); return true; }
-    if (b.done) { forestSay('✅ きょうの さくせんは せいこうずみ！ ボートで かえろう'); return true; }
+    if (peace) {
+      forestGoArea('volcano', VOLCANO_SPOTS.start, 'up',
+        forestVolcanoPeace() ? '🚁 ヘリで へいわな マグマの かざんに ついた！'
+        : '🚁 ヘリで マグマの かざんに ついた！ 3つの こおりの クリスタルを さわって おくへ すすもう');
+      return true;
+    }
+    if (b.done) { forestSay('✅ きょうの さくせんは せいこうずみ！ ヘリで マグマの かざんへ いこう'); return true; }
     if (!b.boss) { forestSay('🚁 ヘリポートだ。だんちょうを たおすと ヘリが むかえに くる。'); return true; }
     forestBaseComplete();
     return true;
@@ -409,7 +414,7 @@ function forestBaseComplete() {
       : rank === 'A' ? '<div style="font-size:13px; color:#0369a1; font-weight:800;">いちども みつからないと S ランク！</div>'
       : '<div style="font-size:13px; color:#64748b; font-weight:800;">くさや ダンボールで かくれると ランクが あがるよ</div>') +
     (medals ? '<div style="margin-top:8px; font-size:16px; font-weight:800; color:#b45309;">🪙 アンリノメダル +' + medals + ' 枚</div>' : '') +
-    (peaceNew ? '<div style="margin-top:8px; padding:10px; border-radius:14px; background:#fef9c3; font-size:14px; font-weight:800; color:#a16207; line-height:1.6;">🕊 アジトが へいわな さばくの まちに なった！<br><span style="font-size:12.5px;">みはりたちも まちの ひとに なったよ</span></div>' : '') +
+    (peaceNew ? '<div style="margin-top:8px; padding:10px; border-radius:14px; background:#fef9c3; font-size:14px; font-weight:800; color:#a16207; line-height:1.6;">🕊 アジトが へいわな さばくの まちに なった！<br><span style="font-size:12.5px;">🚁 ヘリポートから「🌋 マグマの かざん」へ いけるよ！</span></div>' : '') +
     '<button class="btn-main" style="margin-top:12px;" onclick="forestBaseCompleteClose()">つづける</button>' +
   '</div>';
   document.body.appendChild(w);
@@ -420,7 +425,7 @@ function forestBaseCompleteClose() {
   forestLoad();
   if (typeof fmPlay === 'function') fmPlay(forestMusic());
   forestHud(); forestDrawMap();
-  forestSay(forestBasePeace() ? '🕊 へいわな さばくの まちに なった！ ボートで うみべへ かえれるよ' : '✅ さくせん せいこう！');
+  forestSay(forestBasePeace() ? '🕊 へいわな さばくの まちに なった！ めのまえの ヘリで マグマの かざんへ いけるよ' : '✅ さくせん せいこう！');
 }
 
 // ── 🦉 むせん（タップで つぎへ）──
@@ -462,8 +467,9 @@ function forestBaseBoxToggle() {
 function forestBaseGoal() {
   const b = forestBaseState();
   if (forestBasePeace()) {
+    if (typeof forestVolcanoPeace === 'function' && !forestVolcanoPeace()) return { at: BASE_SPOTS.heli, h: 2.6, text: '🚁 おくの ヘリポートから マグマの かざんへ とんで いこう！' };
     if (save.forest.baseDay !== todayKey()) return { at: BASE_SPOTS.boss, h: 2.4, text: '🕊 へいわな さばくの まち。だんちょうに 2かい はなしかけると しょうぶ！' };
-    return { at: BASE_SPOTS.boat, h: 1.4, text: '🕊 へいわな さばくの まち。ボートで うみべに かえれるよ' };
+    return { at: BASE_SPOTS.heli, h: 2.6, text: '🕊 へいわな さばくの まち。ヘリで かざん、ボートで うみべに いけるよ' };
   }
   if (b.done) return { at: BASE_SPOTS.boat, h: 1.4, text: '✅ さくせん せいこう！ ボートで うみべへ かえろう' };
   if (b.boss) return { at: BASE_SPOTS.heli, h: 2.6, text: '🚁 ヘリポートへ いそげ！' };

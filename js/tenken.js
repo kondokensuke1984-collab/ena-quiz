@@ -48,14 +48,14 @@ const TENKEN = { on: /[?&]tenken=1(&|$)/.test(location.search), freeze: false, g
     b.id = 'tk-btn'; b.textContent = '🔧 点検モード';
     b.onclick = tenkenOpen;
     document.body.appendChild(b);
-    // #base：ひらいたら すぐ アジトの さくせんへ（もんだいの よみこみを まってから）
-    if (location.hash === '#base') {
-      const t0 = Date.now();
+    // #base／#volcano：ひらいたら すぐ その ステージへ（もんだいの よみこみを まってから）
+    if (location.hash === '#base' || location.hash === '#volcano') {
+      const t0 = Date.now(), h = location.hash;
       const iv = setInterval(() => {
         const ready = typeof STAGES !== 'undefined' && STAGES.length && typeof tenkenBase === 'function' && document.getElementById('title-hero') && document.getElementById('title-hero').innerHTML;
         if (!ready && Date.now() - t0 < 15000) return;
         clearInterval(iv);
-        if (ready) tenkenBase(false);
+        if (ready) { if (h === '#volcano') tenkenVolcano(false); else tenkenBase(false); }
       }, 200);
     }
   });
@@ -74,6 +74,10 @@ function tenkenOpen() {
     (inBattle ? '<div class="tk-h">⚔️ たたかい</div>' +
       '<button class="tk" onclick="tenkenWin(true)">🏆 かったことに する</button>' +
       '<button class="tk" onclick="tenkenWin(false)">💥 まけたことに する</button>' : '') +
+    '<div class="tk-h">🌋 マグマの かざん</div>' +
+    '<button class="tk" onclick="tenkenVolcano(false)">▶ かざんの いりぐちから（クリスタル 0こ）</button>' +
+    '<button class="tk" onclick="tenkenVolcano(\'boss\')">▶ クリスタル 3こ そろえて ぬしの まえへ</button>' +
+    '<button class="tk" onclick="tenkenVolcano(\'peace\')">▶ へいわに なった あとの かざん</button>' +
     '<div class="tk-h">🏜 さばくの アジト</div>' +
     '<button class="tk" onclick="tenkenBase(false)">▶ さくせんを さいしょから（むせんから）</button>' +
     '<button class="tk" onclick="tenkenBase(\'boss\')">▶ 3にん たすけた ところから（だんちょうの まえ）</button>' +
@@ -101,7 +105,7 @@ function tenkenWin(win) {
 // 森に はいって いなければ はいる（ぜんぶの ステージを ひらいた ことに する）
 function tenkenForest() {
   if (!save) startGame();
-  save.forestPeace = true; save.umiPeace = true;
+  save.forestPeace = true; save.umiPeace = true; save.basePeace = true;
   if (!document.querySelector('#scr-forest.on')) enterForest();
   forestWarpClose();
   ['fz-brief', 'fz-mission', 'fz-dex'].forEach(id => { const e = document.getElementById(id); if (e) e.remove(); });
@@ -122,4 +126,16 @@ function tenkenBase(step) {
   }
   persist();
   forestBaseGo();
+}
+function tenkenVolcano(step) {
+  tenkenClose();
+  tenkenForest();
+  const f = save.forest;
+  save.volcanoPeace = step === 'peace';
+  delete f.volcanoDay;
+  f.vc = step === 'boss' || step === 'peace' ? [0, 1, 2] : [];
+  persist();
+  if (step === 'boss') return forestGoArea('volcano', [9, 2], 'up', '🔧 点検：めのまえの かざんのぬしを しらべると しょうぶ');
+  if (step === 'peace') return forestGoArea('volcano', VOLCANO_SPOTS.start, 'up', '🔧 点検：🕊 へいわに なった マグマの かざん');
+  forestGoArea('volcano', VOLCANO_SPOTS.start, 'up', '🌋 マグマの かざんへ ようこそ！ 3つの こおりの クリスタルを しらべよう。');
 }

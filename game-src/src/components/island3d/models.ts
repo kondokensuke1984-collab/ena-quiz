@@ -253,6 +253,18 @@ export function mailbox(): Model & { setFlag(up: boolean): void } {
   };
 }
 
+/** 🗳️ いけんばこ（水いろの はこに やね） */
+export function ikenBox(): Model {
+  const g = new THREE.Group();
+  g.add(part(boxG(0.6, 3, 0.6), toon(C.wood), 0, 1.5, 0));
+  g.add(part(boxG(3.2, 2.4, 2.2), toon(0x38bdf8), 0, 4.2, 0));
+  g.add(part(new THREE.ConeGeometry(2.4, 1.2, 4).rotateY(Math.PI / 4), toon(0x0369a1), 0, 6.0, 0));
+  g.add(part(boxG(1.6, 0.25, 0.2), toon(0x0c4a6e), 0, 4.9, 1.12, false));
+  g.add(part(boxG(0.9, 1.2, 0.1), toon(0xfde047), 0.4, 5.6, 0.2, false));
+  g.add(blobShadow(2, 1.3));
+  return { obj: g };
+}
+
 export function chest(): Model {
   const g = new THREE.Group();
   g.userData.dyn = true;

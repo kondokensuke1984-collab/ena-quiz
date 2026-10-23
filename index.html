@@ -991,7 +991,7 @@ body {
 .manual-master-btn {
   display: none;
   width: 100%;
-  margin-top: 8px;
+  margin: 10px 0 4px;
   padding: 12px;
   background: linear-gradient(135deg, #fef9c3, #fde68a);
   border: 2px solid #f59e0b;
@@ -1462,6 +1462,8 @@ body {
 .tag-shosu-calc  { background: #fce7f3; color: #be185d; }
 .tag-yakusu  { background: #ffedd5; color: #c2410c; }
 .tag-kuku    { background: #dcfce7; color: #15803d; }
+.tag-eitan   { background: #fef3c7; color: #92400e; }
+.tag-g2sansu { background: #fce7f3; color: #be185d; }
 .tag-baisu  { background: #e0f2fe; color: #0369a1; }
 .tag-shobun  { background: #fef9c3; color: #a16207; }
 .tag-tekisei1 { background: #ede9fe; color: #5b21b6; }
@@ -1657,6 +1659,12 @@ body {
 .cv-shield-top, .cv-shield-bottom { position: absolute; left: 0; right: 0; z-index: 2; }
 .cv-shield-top { top: 0; height: 24%; } .cv-shield-bottom { bottom: 0; height: 24%; }
 .cv-shield-br { position: absolute; right: 0; bottom: 0; width: 42%; height: 20%; z-index: 2; }
+/* 一時停止中：動画の絵は見えたまま、YouTubeのタイトル・ロゴの場所だけ黒でかくす */
+.cv-paused .cv-shield-top, .cv-paused .cv-shield-bottom, .cv-paused .cv-shield-br { background: #000; }
+.cv-paused .cv-shield-top { height: 15%; } .cv-paused .cv-shield-bottom { height: 13%; } .cv-paused .cv-shield-br { height: 13%; }
+.cv-pause-mark { position: absolute; top: 50%; left: 50%; width: 64px; height: 64px; margin: -32px 0 0 -32px; z-index: 4; display: none;
+  border-radius: 50%; background: rgba(30,27,75,0.55); color: #fff; font-size: 30px; line-height: 64px; text-align: center; pointer-events: none; }
+.cv-paused .cv-pause-mark { display: block; }
 .cv-panel { position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: 3; display: flex; flex-direction: column; align-items: center; justify-content: center;
   background: #000 center / cover no-repeat; }
 .cv-panel::before { content: ''; position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: rgba(30,27,75,0.62); }
@@ -2086,6 +2094,13 @@ body.sp-drawing { -webkit-user-select: none; user-select: none; }
 .island-top-title { font-size:20px; font-weight:800; }
 .island-top .island-top-sub { font-size:12px; font-weight:700; color:#fff; opacity:.95; }
 .island-btn-emoji { font-size: 24px; line-height: 1; }
+/* 🍃 コロンのそらとび（/sora/）への入口。その日 100もん といたら ひらく */
+.sora-top { background:linear-gradient(135deg,#f97316,#facc15); box-shadow:0 4px 12px rgba(249,115,22,.35); }
+.sora-top .sora-btn-text { font-size: 12px; font-weight: 700; color: #fff; opacity: .95; }
+.sora-bar { width: 100%; box-sizing: border-box; margin: 0 0 12px; padding: 10px 16px; }
+.sora-face { width: 48px; height: 48px; border-radius: 50%; flex: none; box-shadow: 0 0 0 3px rgba(255,255,255,.85); }
+.sora-bar .sora-face { width: 40px; height: 40px; }
+.sora-bar .island-top-title { font-size: 17px; }
 .island-btn-text  { font-size: 11px; font-weight: 800; color: #ecfdf5; }
 .medal-bar-coin  { font-size: 26px; line-height: 1; }
 .medal-bar-num   { font-size: 22px; font-weight: 900; color: #fff7ed; }
@@ -2148,6 +2163,10 @@ body.sp-drawing { -webkit-user-select: none; user-select: none; }
     <span class="island-top-emoji">🏝</span>
     <span class="island-top-body"><span class="island-top-title">島へいく</span><span class="island-top-sub island-btn-text">タップして島へ</span></span>
   </a>
+  <a class="island-top sora-top" href="/sora/">
+    <img class="sora-face" src="/images/colon_face.png" alt="コロン" width="48" height="48">
+    <span class="island-top-body"><span class="island-top-title">コロンのそらとび</span><span class="sora-btn-text">きょう 100もん といたら あそべる</span></span>
+  </a>
   <div class="mascot-wrap">
     <div class="mascot-bubble">
       <div class="bubble-text" id="mascot-quote"></div>
@@ -2176,6 +2195,11 @@ body.sp-drawing { -webkit-user-select: none; user-select: none; }
       <div class="school-label">建築</div>
       <div class="school-desc">けんちく</div>
     </a>
+    <div class="school-card" onclick="selectSchool('eng')">
+      <div class="school-emoji">🔤</div>
+      <div class="school-label">英語</div>
+      <div class="school-desc">えいご</div>
+    </div>
   </div>
   <div style="margin-top:24px;text-align:center">
     <button onclick="showMigration()" style="background:none;border:none;color:#aaa;font-size:0.75rem;cursor:pointer;text-decoration:underline">データ引き継ぎ</button>
@@ -2265,6 +2289,10 @@ body.sp-drawing { -webkit-user-select: none; user-select: none; }
     <button class="medal-bar" id="medal-bar" onclick="showDexScreen()"></button>
     <a class="island-btn" href="/game/" onclick="goIsland(event)"><span class="island-btn-emoji">🏝</span><span class="island-btn-text">島へいく</span></a>
   </div>
+  <a class="island-top sora-top sora-bar" href="/sora/">
+    <img class="sora-face" src="/images/colon_face.png" alt="コロン" width="48" height="48">
+    <span class="island-top-body"><span class="island-top-title">コロンのそらとび</span><span class="sora-btn-text">きょう 100もん といたら あそべる</span></span>
+  </a>
   <div class="subject-grid" id="subject-grid"></div>
   <button class="share-btn" id="kid-advice-card" onclick="showKidAdvice()" style="display:none;background:linear-gradient(135deg,#fde68a,#fbbf24);color:#78350f;"></button>
   <div id="home-main-actions">
@@ -2320,6 +2348,8 @@ body.sp-drawing { -webkit-user-select: none; user-select: none; }
       <div class="feedback-answer" id="feedback-answer"></div>
       <img id="feedback-image" style="display:none;max-width:100%;border-radius:8px;margin-bottom:6px;" alt="">
       <div class="feedback-explanation" id="feedback-explanation" style="display:none"></div>
+      <!-- ⭐もう完璧は「次の問題へ」から はなして、解説のすぐ下に置く（まちがえて押さないように） -->
+      <button class="manual-master-btn" id="manual-master-btn" style="display:none" onclick="toggleMaster()">⭐ もう完璧にする</button>
       <div class="memo-area" id="memo-area" style="display:none">
         <div class="memo-label">📝 メモ（AIで分かったことを書いてね）</div>
         <textarea class="memo-textarea" id="memo-textarea" placeholder="ここにメモしよう！"></textarea>
@@ -2330,7 +2360,6 @@ body.sp-drawing { -webkit-user-select: none; user-select: none; }
       <button class="prev-btn" id="prev-btn" style="display:none" onclick="prevQuestion()">← 前の問題</button>
       <button class="next-btn" id="next-btn" style="display:none;flex:1" onclick="nextQuestion()">次の問題へ →</button>
     </div>
-    <button class="manual-master-btn" id="manual-master-btn" style="display:none" onclick="toggleMaster()">⭐ もう完璧にする</button>
     <button class="ai-btn" id="ai-btn" onclick="openAiModal()">🤖 AIにもっと詳しく聞く</button>
   </div>
 </div>
@@ -2558,8 +2587,11 @@ const MONTHS = {
   'eikoh_l9':  { label: 'Lesson 9',   fullLabel: '第6回 小テスト', emoji: '📓', desc: 'Lesson 9',      comingSoon: false, school: 'eikoh' },
   'eikoh_kiso2026': { label: '基礎コン2026夏', fullLabel: '基礎コン 2026夏', emoji: '☀️', desc: '国語・算数・英語・理科・社会', comingSoon: false, school: 'eikoh' },
   'eikoh_term10': { label: '10月ターム', fullLabel: '10月タームテスト', emoji: '🎯', desc: '10/16 英語 Lesson 19〜22／基礎コン2026冬', comingSoon: false, school: 'eikoh', islandMonth: '202610' },
-  'g2_kuku':   { label: '九九',       fullLabel: '2年生 九九',    emoji: '✖️', desc: 'かけ算九九',      comingSoon: false, school: 'g2' },
-  'g2_kanji':  { label: '漢字',       fullLabel: '2年生 漢字',    emoji: '📗', desc: 'かん字の読み・書き', comingSoon: false, school: 'g2' },
+  'g2_kuku':   { label: '九九',       fullLabel: '2年生 九九',    emoji: '✖️', desc: 'かけ算九九',      comingSoon: false, school: 'g2', islandMonth: '202610' },
+  'g2_sansu':  { label: '算数',       fullLabel: '2年生 算数',    emoji: '📐', desc: 'たし算・ひき算・時計・長さ・かさ・図形', comingSoon: false, school: 'g2', islandMonth: '202610' },
+  'g2_kanji':  { label: '漢字',       fullLabel: '2年生 漢字',    emoji: '📗', desc: 'かん字の読み・書き', comingSoon: false, school: 'g2', islandMonth: '202610' },
+  'eng_sho34': { label: '3・4年',   fullLabel: '小学校の英単語 3・4年', emoji: '🐶', desc: 'かず・いろ・どうぶつ・たべもの・からだ・曜日・天気・スポーツ・文ぼうぐ', comingSoon: false, school: 'eng', islandMonth: '202610' },
+  'eng_sho56': { label: '5・6年',   fullLabel: '小学校の英単語 5・6年', emoji: '🏫', desc: '月・教科・学校・家族・しごと・服・動作・ようす・まち・行事・1日', comingSoon: false, school: 'eng', islandMonth: '202610' },
 };
 
 // ============================================================
@@ -2910,6 +2942,18 @@ const SUBJECTS = {
   kuku_7:   { label: '7のだん', icon: '7️⃣', tag: 'tag-kuku', category: 'sansu', month: 'g2_kuku', parent: 'kuku' },
   kuku_8:   { label: '8のだん', icon: '8️⃣', tag: 'tag-kuku', category: 'sansu', month: 'g2_kuku', parent: 'kuku' },
   kuku_9:   { label: '9のだん', icon: '9️⃣', tag: 'tag-kuku', category: 'sansu', month: 'g2_kuku', parent: 'kuku' },
+  g2_keisan:     { label: 'たし算・ひき算・数', icon: '➕', tag: 'tag-g2sansu', category: 'sansu', month: 'g2_sansu', isGroup: true },
+  g2_tasizan2:   { label: '2けたのたし算',     icon: '➕', tag: 'tag-g2sansu', category: 'sansu', month: 'g2_sansu', parent: 'g2_keisan' },
+  g2_hikizan2:   { label: '2けたのひき算',     icon: '➖', tag: 'tag-g2sansu', category: 'sansu', month: 'g2_sansu', parent: 'g2_keisan' },
+  g2_ookina:     { label: '1000までの数',      icon: '🔢', tag: 'tag-g2sansu', category: 'sansu', month: 'g2_sansu', parent: 'g2_keisan' },
+  g2_tokei_tani: { label: '時計・長さ・かさ',  icon: '🕐', tag: 'tag-g2sansu', category: 'sansu', month: 'g2_sansu', isGroup: true },
+  g2_tokei:      { label: '時こくと時間',      icon: '🕐', tag: 'tag-g2sansu', category: 'sansu', month: 'g2_sansu', parent: 'g2_tokei_tani' },
+  g2_nagasa:     { label: '長さ(cm・mm)',      icon: '📏', tag: 'tag-g2sansu', category: 'sansu', month: 'g2_sansu', parent: 'g2_tokei_tani' },
+  g2_kasa:       { label: 'かさ(L・dL)',       icon: '🥛', tag: 'tag-g2sansu', category: 'sansu', month: 'g2_sansu', parent: 'g2_tokei_tani' },
+  g2_zukei_kuku: { label: '図形・かけ算応用',  icon: '📐', tag: 'tag-g2sansu', category: 'sansu', month: 'g2_sansu', isGroup: true },
+  g2_zukei:      { label: '三角形と四角形',    icon: '📐', tag: 'tag-g2sansu', category: 'sansu', month: 'g2_sansu', parent: 'g2_zukei_kuku' },
+  g2_kuku_bun:   { label: 'かけ算の文章題',    icon: '🍎', tag: 'tag-g2sansu', category: 'sansu', month: 'g2_sansu', parent: 'g2_zukei_kuku' },
+  g2_bunsu_hyo:  { label: '分数・表とグラフ',  icon: '📊', tag: 'tag-g2sansu', category: 'sansu', month: 'g2_sansu', parent: 'g2_zukei_kuku' },
   g2kanji: { label: 'かん字の読み', icon: '🖍️', tag: 'tag-kanji', category: 'kokugo', month: 'g2_kanji', isGroup: true },
   g2kanji_shizen: { label: 'しぜん①', icon: '🌳', tag: 'tag-kanji', category: 'kokugo', month: 'g2_kanji', parent: 'g2kanji' },
   g2kanji_shizen2: { label: 'しぜん②', icon: '🌳', tag: 'tag-kanji', category: 'kokugo', month: 'g2_kanji', parent: 'g2kanji' },
@@ -2930,6 +2974,67 @@ const SUBJECTS = {
   g2kaki: { label: 'かん字の書き', icon: '✏️', tag: 'tag-kanji', category: 'kokugo', month: 'g2_kanji', isGroup: true },
   g2kaki_hiro3: { label: 'ひろば③', icon: '👪', tag: 'tag-kanji', category: 'kokugo', month: 'g2_kanji', parent: 'g2kaki' },
   g2kaki_hiro3_test: { label: 'テスト', icon: '📝', tag: 'tag-kanji', category: 'kokugo', month: 'g2_kanji', parent: 'g2kaki', testOf: 'g2kaki_hiro3' },
+  // ===== 英語 小学校の英単語 =====
+  et_kazu: { label: 'かず', icon: '🔢', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho34', isGroup: true },
+  et_kazu_imi: { label: 'いみ', icon: '💬', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho34', parent: 'et_kazu' },
+  et_kazu_ei: { label: '英語で', icon: '🔤', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho34', parent: 'et_kazu' },
+  et_iro: { label: 'いろ・かたち', icon: '🎨', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho34', isGroup: true },
+  et_iro_imi: { label: 'いみ', icon: '💬', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho34', parent: 'et_iro' },
+  et_iro_ei: { label: '英語で', icon: '🔤', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho34', parent: 'et_iro' },
+  et_doubutsu: { label: 'どうぶつ', icon: '🐶', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho34', isGroup: true },
+  et_doubutsu_imi: { label: 'いみ', icon: '💬', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho34', parent: 'et_doubutsu' },
+  et_doubutsu_ei: { label: '英語で', icon: '🔤', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho34', parent: 'et_doubutsu' },
+  et_tabemono: { label: 'たべもの', icon: '🍎', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho34', isGroup: true },
+  et_tabemono_imi: { label: 'いみ', icon: '💬', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho34', parent: 'et_tabemono' },
+  et_tabemono_ei: { label: '英語で', icon: '🔤', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho34', parent: 'et_tabemono' },
+  et_karada: { label: 'からだ', icon: '👀', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho34', isGroup: true },
+  et_karada_imi: { label: 'いみ', icon: '💬', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho34', parent: 'et_karada' },
+  et_karada_ei: { label: '英語で', icon: '🔤', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho34', parent: 'et_karada' },
+  et_youbi: { label: '曜日', icon: '📅', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho34', isGroup: true },
+  et_youbi_imi: { label: 'いみ', icon: '💬', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho34', parent: 'et_youbi' },
+  et_youbi_ei: { label: '英語で', icon: '🔤', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho34', parent: 'et_youbi' },
+  et_tenki: { label: '天気・季節', icon: '☀️', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho34', isGroup: true },
+  et_tenki_imi: { label: 'いみ', icon: '💬', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho34', parent: 'et_tenki' },
+  et_tenki_ei: { label: '英語で', icon: '🔤', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho34', parent: 'et_tenki' },
+  et_sports: { label: 'スポーツ', icon: '⚽', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho34', isGroup: true },
+  et_sports_imi: { label: 'いみ', icon: '💬', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho34', parent: 'et_sports' },
+  et_sports_ei: { label: '英語で', icon: '🔤', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho34', parent: 'et_sports' },
+  et_bunbougu: { label: '文ぼうぐ', icon: '✏️', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho34', isGroup: true },
+  et_bunbougu_imi: { label: 'いみ', icon: '💬', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho34', parent: 'et_bunbougu' },
+  et_bunbougu_ei: { label: '英語で', icon: '🔤', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho34', parent: 'et_bunbougu' },
+  et_tsuki: { label: '月', icon: '🗓️', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho56', isGroup: true },
+  et_tsuki_imi: { label: 'いみ', icon: '💬', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho56', parent: 'et_tsuki' },
+  et_tsuki_ei: { label: '英語で', icon: '🔤', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho56', parent: 'et_tsuki' },
+  et_kyouka: { label: '教科', icon: '📚', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho56', isGroup: true },
+  et_kyouka_imi: { label: 'いみ', icon: '💬', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho56', parent: 'et_kyouka' },
+  et_kyouka_ei: { label: '英語で', icon: '🔤', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho56', parent: 'et_kyouka' },
+  et_gakkou: { label: '学校', icon: '🏫', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho56', isGroup: true },
+  et_gakkou_imi: { label: 'いみ', icon: '💬', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho56', parent: 'et_gakkou' },
+  et_gakkou_ei: { label: '英語で', icon: '🔤', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho56', parent: 'et_gakkou' },
+  et_kazoku: { label: '家族', icon: '👪', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho56', isGroup: true },
+  et_kazoku_imi: { label: 'いみ', icon: '💬', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho56', parent: 'et_kazoku' },
+  et_kazoku_ei: { label: '英語で', icon: '🔤', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho56', parent: 'et_kazoku' },
+  et_shigoto: { label: 'しごと', icon: '👩‍⚕️', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho56', isGroup: true },
+  et_shigoto_imi: { label: 'いみ', icon: '💬', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho56', parent: 'et_shigoto' },
+  et_shigoto_ei: { label: '英語で', icon: '🔤', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho56', parent: 'et_shigoto' },
+  et_fuku: { label: '服', icon: '👕', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho56', isGroup: true },
+  et_fuku_imi: { label: 'いみ', icon: '💬', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho56', parent: 'et_fuku' },
+  et_fuku_ei: { label: '英語で', icon: '🔤', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho56', parent: 'et_fuku' },
+  et_doushi: { label: '動作', icon: '🏃', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho56', isGroup: true },
+  et_doushi_imi: { label: 'いみ', icon: '💬', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho56', parent: 'et_doushi' },
+  et_doushi_ei: { label: '英語で', icon: '🔤', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho56', parent: 'et_doushi' },
+  et_yousu: { label: 'ようす', icon: '😊', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho56', isGroup: true },
+  et_yousu_imi: { label: 'いみ', icon: '💬', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho56', parent: 'et_yousu' },
+  et_yousu_ei: { label: '英語で', icon: '🔤', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho56', parent: 'et_yousu' },
+  et_machi: { label: 'まち', icon: '🏙️', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho56', isGroup: true },
+  et_machi_imi: { label: 'いみ', icon: '💬', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho56', parent: 'et_machi' },
+  et_machi_ei: { label: '英語で', icon: '🔤', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho56', parent: 'et_machi' },
+  et_gyouji: { label: '行事', icon: '🎂', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho56', isGroup: true },
+  et_gyouji_imi: { label: 'いみ', icon: '💬', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho56', parent: 'et_gyouji' },
+  et_gyouji_ei: { label: '英語で', icon: '🔤', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho56', parent: 'et_gyouji' },
+  et_ichinichi: { label: '1日', icon: '⏰', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho56', isGroup: true },
+  et_ichinichi_imi: { label: 'いみ', icon: '💬', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho56', parent: 'et_ichinichi' },
+  et_ichinichi_ei: { label: '英語で', icon: '🔤', tag: 'tag-eitan', category: 'eigo', month: 'eng_sho56', parent: 'et_ichinichi' },
 };
 
 // ============================================================
@@ -18094,6 +18199,2207 @@ const QUESTIONS = [
     options:KANYOU_OPTS, answer:3,
     explanation:'「道草を食う」は、目的地へ行く途中でほかのことに時間を使ってしまうこと。' },
 
+  // ===== 英語 小学校の英単語（eng_sho34・eng_sho56）gen_eitan.py で作成 =====
+  { id:'et34_kazu_i01', subject:'et_kazu_imi', month:'eng_sho34',
+    q:'かず 1\n"one" の意味はどれですか？',
+    options:['12','30','1','8'], answer:2,
+    explanation:'one ＝ 1' },
+  { id:'et34_kazu_e01', subject:'et_kazu_ei', month:'eng_sho34',
+    q:'かず 1\n「1」を英語で言うと、どれですか？',
+    options:['four','one','three','six'], answer:1,
+    explanation:'one ＝ 1' },
+  { id:'et34_kazu_i02', subject:'et_kazu_imi', month:'eng_sho34',
+    q:'かず 2\n"two" の意味はどれですか？',
+    options:['4','20','9','2'], answer:3,
+    explanation:'two ＝ 2' },
+  { id:'et34_kazu_e02', subject:'et_kazu_ei', month:'eng_sho34',
+    q:'かず 2\n「2」を英語で言うと、どれですか？',
+    options:['fifty','eight','six','two'], answer:3,
+    explanation:'two ＝ 2' },
+  { id:'et34_kazu_i03', subject:'et_kazu_imi', month:'eng_sho34',
+    q:'かず 3\n"three" の意味はどれですか？',
+    options:['10','3','5','30'], answer:1,
+    explanation:'three ＝ 3' },
+  { id:'et34_kazu_e03', subject:'et_kazu_ei', month:'eng_sho34',
+    q:'かず 3\n「3」を英語で言うと、どれですか？',
+    options:['twelve','four','three','thirty'], answer:2,
+    explanation:'three ＝ 3' },
+  { id:'et34_kazu_i04', subject:'et_kazu_imi', month:'eng_sho34',
+    q:'かず 4\n"four" の意味はどれですか？',
+    options:['4','8','30','50'], answer:0,
+    explanation:'four ＝ 4' },
+  { id:'et34_kazu_e04', subject:'et_kazu_ei', month:'eng_sho34',
+    q:'かず 4\n「4」を英語で言うと、どれですか？',
+    options:['eleven','seven','six','four'], answer:3,
+    explanation:'four ＝ 4' },
+  { id:'et34_kazu_i05', subject:'et_kazu_imi', month:'eng_sho34',
+    q:'かず 5\n"five" の意味はどれですか？',
+    options:['4','5','8','3'], answer:1,
+    explanation:'five ＝ 5' },
+  { id:'et34_kazu_e05', subject:'et_kazu_ei', month:'eng_sho34',
+    q:'かず 5\n「5」を英語で言うと、どれですか？',
+    options:['fifty','five','fifteen','one'], answer:1,
+    explanation:'five ＝ 5' },
+  { id:'et34_kazu_i06', subject:'et_kazu_imi', month:'eng_sho34',
+    q:'かず 6\n"six" の意味はどれですか？',
+    options:['6','100','8','15'], answer:0,
+    explanation:'six ＝ 6' },
+  { id:'et34_kazu_e06', subject:'et_kazu_ei', month:'eng_sho34',
+    q:'かず 6\n「6」を英語で言うと、どれですか？',
+    options:['thirty','six','thirteen','twenty'], answer:1,
+    explanation:'six ＝ 6' },
+  { id:'et34_kazu_i07', subject:'et_kazu_imi', month:'eng_sho34',
+    q:'かず 7\n"seven" の意味はどれですか？',
+    options:['50','1','7','8'], answer:2,
+    explanation:'seven ＝ 7' },
+  { id:'et34_kazu_e07', subject:'et_kazu_ei', month:'eng_sho34',
+    q:'かず 7\n「7」を英語で言うと、どれですか？',
+    options:['thirteen','two','six','seven'], answer:3,
+    explanation:'seven ＝ 7' },
+  { id:'et34_kazu_i08', subject:'et_kazu_imi', month:'eng_sho34',
+    q:'かず 8\n"eight" の意味はどれですか？',
+    options:['50','8','40','30'], answer:1,
+    explanation:'eight ＝ 8\ngh は読まない（エイト）。' },
+  { id:'et34_kazu_e08', subject:'et_kazu_ei', month:'eng_sho34',
+    q:'かず 8\n「8」を英語で言うと、どれですか？',
+    options:['eight','thirteen','ten','fifty'], answer:0,
+    explanation:'eight ＝ 8\ngh は読まない（エイト）。' },
+  { id:'et34_kazu_i09', subject:'et_kazu_imi', month:'eng_sho34',
+    q:'かず 9\n"nine" の意味はどれですか？',
+    options:['8','9','100','15'], answer:1,
+    explanation:'nine ＝ 9' },
+  { id:'et34_kazu_e09', subject:'et_kazu_ei', month:'eng_sho34',
+    q:'かず 9\n「9」を英語で言うと、どれですか？',
+    options:['three','nine','thirty','ten'], answer:1,
+    explanation:'nine ＝ 9' },
+  { id:'et34_kazu_i10', subject:'et_kazu_imi', month:'eng_sho34',
+    q:'かず 10\n"ten" の意味はどれですか？',
+    options:['3','15','10','50'], answer:2,
+    explanation:'ten ＝ 10' },
+  { id:'et34_kazu_e10', subject:'et_kazu_ei', month:'eng_sho34',
+    q:'かず 10\n「10」を英語で言うと、どれですか？',
+    options:['ten','five','thirty','one'], answer:0,
+    explanation:'ten ＝ 10' },
+  { id:'et34_kazu_i11', subject:'et_kazu_imi', month:'eng_sho34',
+    q:'かず 11\n"eleven" の意味はどれですか？',
+    options:['15','11','40','2'], answer:1,
+    explanation:'eleven ＝ 11' },
+  { id:'et34_kazu_e11', subject:'et_kazu_ei', month:'eng_sho34',
+    q:'かず 11\n「11」を英語で言うと、どれですか？',
+    options:['fifty','eleven','ten','twenty'], answer:1,
+    explanation:'eleven ＝ 11' },
+  { id:'et34_kazu_i12', subject:'et_kazu_imi', month:'eng_sho34',
+    q:'かず 12\n"twelve" の意味はどれですか？',
+    options:['7','2','12','3'], answer:2,
+    explanation:'twelve ＝ 12\n12 は twelve。twoteen とは言わない。' },
+  { id:'et34_kazu_e12', subject:'et_kazu_ei', month:'eng_sho34',
+    q:'かず 12\n「12」を英語で言うと、どれですか？',
+    options:['twelve','thirteen','two','seven'], answer:0,
+    explanation:'twelve ＝ 12\n12 は twelve。twoteen とは言わない。' },
+  { id:'et34_kazu_i13', subject:'et_kazu_imi', month:'eng_sho34',
+    q:'かず 13\n"thirteen" の意味はどれですか？',
+    options:['6','4','10','13'], answer:3,
+    explanation:'thirteen ＝ 13\n-teen は 13〜19。30 の thirty とまちがえない。' },
+  { id:'et34_kazu_e13', subject:'et_kazu_ei', month:'eng_sho34',
+    q:'かず 13\n「13」を英語で言うと、どれですか？',
+    options:['thirteen','thirty','six','eleven'], answer:0,
+    explanation:'thirteen ＝ 13\n-teen は 13〜19。30 の thirty とまちがえない。' },
+  { id:'et34_kazu_i14', subject:'et_kazu_imi', month:'eng_sho34',
+    q:'かず 14\n"fifteen" の意味はどれですか？',
+    options:['2','15','7','40'], answer:1,
+    explanation:'fifteen ＝ 15\nfive → fifteen。v が f にかわる。' },
+  { id:'et34_kazu_e14', subject:'et_kazu_ei', month:'eng_sho34',
+    q:'かず 14\n「15」を英語で言うと、どれですか？',
+    options:['fifteen','thirty','three','nine'], answer:0,
+    explanation:'fifteen ＝ 15\nfive → fifteen。v が f にかわる。' },
+  { id:'et34_kazu_i15', subject:'et_kazu_imi', month:'eng_sho34',
+    q:'かず 15\n"twenty" の意味はどれですか？',
+    options:['20','15','11','2'], answer:0,
+    explanation:'twenty ＝ 20\n-ty は 20・30…の「〜十」。' },
+  { id:'et34_kazu_e15', subject:'et_kazu_ei', month:'eng_sho34',
+    q:'かず 15\n「20」を英語で言うと、どれですか？',
+    options:['six','four','five','twenty'], answer:3,
+    explanation:'twenty ＝ 20\n-ty は 20・30…の「〜十」。' },
+  { id:'et34_kazu_i16', subject:'et_kazu_imi', month:'eng_sho34',
+    q:'かず 16\n"thirty" の意味はどれですか？',
+    options:['30','8','100','1'], answer:0,
+    explanation:'thirty ＝ 30\n13 thirteen と 30 thirty をまちがえない。' },
+  { id:'et34_kazu_e16', subject:'et_kazu_ei', month:'eng_sho34',
+    q:'かず 16\n「30」を英語で言うと、どれですか？',
+    options:['fifty','twelve','thirty','four'], answer:2,
+    explanation:'thirty ＝ 30\n13 thirteen と 30 thirty をまちがえない。' },
+  { id:'et34_kazu_i17', subject:'et_kazu_imi', month:'eng_sho34',
+    q:'かず 17\n"forty" の意味はどれですか？',
+    options:['6','4','40','2'], answer:2,
+    explanation:'forty ＝ 40\nfour（4）だが forty（40）は u が入らない。' },
+  { id:'et34_kazu_e17', subject:'et_kazu_ei', month:'eng_sho34',
+    q:'かず 17\n「40」を英語で言うと、どれですか？',
+    options:['four','forty','eight','fifty'], answer:1,
+    explanation:'forty ＝ 40\nfour（4）だが forty（40）は u が入らない。' },
+  { id:'et34_kazu_i18', subject:'et_kazu_imi', month:'eng_sho34',
+    q:'かず 18\n"fifty" の意味はどれですか？',
+    options:['50','13','9','3'], answer:0,
+    explanation:'fifty ＝ 50\nfive → fifty。' },
+  { id:'et34_kazu_e18', subject:'et_kazu_ei', month:'eng_sho34',
+    q:'かず 18\n「50」を英語で言うと、どれですか？',
+    options:['fifteen','one','six','fifty'], answer:3,
+    explanation:'fifty ＝ 50\nfive → fifty。' },
+  { id:'et34_kazu_i19', subject:'et_kazu_imi', month:'eng_sho34',
+    q:'かず 19\n"one hundred" の意味はどれですか？',
+    options:['100','6','1','9'], answer:0,
+    explanation:'one hundred ＝ 100' },
+  { id:'et34_kazu_e19', subject:'et_kazu_ei', month:'eng_sho34',
+    q:'かず 19\n「100」を英語で言うと、どれですか？',
+    options:['eight','fifteen','thirteen','one hundred'], answer:3,
+    explanation:'one hundred ＝ 100' },
+  { id:'et34_iro_i01', subject:'et_iro_imi', month:'eng_sho34',
+    q:'いろ・かたち 1\n"red" の意味はどれですか？',
+    options:['星','三角','赤','丸'], answer:2,
+    explanation:'red ＝ 赤' },
+  { id:'et34_iro_e01', subject:'et_iro_ei', month:'eng_sho34',
+    q:'いろ・かたち 1\n「赤」を英語で言うと、どれですか？',
+    options:['pink','square','red','black'], answer:2,
+    explanation:'red ＝ 赤' },
+  { id:'et34_iro_i02', subject:'et_iro_imi', month:'eng_sho34',
+    q:'いろ・かたち 2\n"blue" の意味はどれですか？',
+    options:['四角（正方形）','緑','星','青'], answer:3,
+    explanation:'blue ＝ 青' },
+  { id:'et34_iro_e02', subject:'et_iro_ei', month:'eng_sho34',
+    q:'いろ・かたち 2\n「青」を英語で言うと、どれですか？',
+    options:['blue','yellow','black','brown'], answer:0,
+    explanation:'blue ＝ 青' },
+  { id:'et34_iro_i03', subject:'et_iro_imi', month:'eng_sho34',
+    q:'いろ・かたち 3\n"yellow" の意味はどれですか？',
+    options:['ピンク','黄色','丸','オレンジ色'], answer:1,
+    explanation:'yellow ＝ 黄色' },
+  { id:'et34_iro_e03', subject:'et_iro_ei', month:'eng_sho34',
+    q:'いろ・かたち 3\n「黄色」を英語で言うと、どれですか？',
+    options:['green','yellow','blue','circle'], answer:1,
+    explanation:'yellow ＝ 黄色' },
+  { id:'et34_iro_i04', subject:'et_iro_imi', month:'eng_sho34',
+    q:'いろ・かたち 4\n"green" の意味はどれですか？',
+    options:['緑','四角（正方形）','黒','丸'], answer:0,
+    explanation:'green ＝ 緑' },
+  { id:'et34_iro_e04', subject:'et_iro_ei', month:'eng_sho34',
+    q:'いろ・かたち 4\n「緑」を英語で言うと、どれですか？',
+    options:['green','pink','circle','yellow'], answer:0,
+    explanation:'green ＝ 緑' },
+  { id:'et34_iro_i05', subject:'et_iro_imi', month:'eng_sho34',
+    q:'いろ・かたち 5\n"white" の意味はどれですか？',
+    options:['白','星','オレンジ色','黄色'], answer:0,
+    explanation:'white ＝ 白' },
+  { id:'et34_iro_e05', subject:'et_iro_ei', month:'eng_sho34',
+    q:'いろ・かたち 5\n「白」を英語で言うと、どれですか？',
+    options:['square','brown','purple','white'], answer:3,
+    explanation:'white ＝ 白' },
+  { id:'et34_iro_i06', subject:'et_iro_imi', month:'eng_sho34',
+    q:'いろ・かたち 6\n"black" の意味はどれですか？',
+    options:['ハート','黒','ピンク','丸'], answer:1,
+    explanation:'black ＝ 黒' },
+  { id:'et34_iro_e06', subject:'et_iro_ei', month:'eng_sho34',
+    q:'いろ・かたち 6\n「黒」を英語で言うと、どれですか？',
+    options:['star','purple','black','yellow'], answer:2,
+    explanation:'black ＝ 黒' },
+  { id:'et34_iro_i07', subject:'et_iro_imi', month:'eng_sho34',
+    q:'いろ・かたち 7\n"pink" の意味はどれですか？',
+    options:['ピンク','茶色','黒','むらさき'], answer:0,
+    explanation:'pink ＝ ピンク' },
+  { id:'et34_iro_e07', subject:'et_iro_ei', month:'eng_sho34',
+    q:'いろ・かたち 7\n「ピンク」を英語で言うと、どれですか？',
+    options:['white','brown','orange','pink'], answer:3,
+    explanation:'pink ＝ ピンク' },
+  { id:'et34_iro_i08', subject:'et_iro_imi', month:'eng_sho34',
+    q:'いろ・かたち 8\n"orange" の意味はどれですか？',
+    options:['オレンジ色','むらさき','青','白'], answer:0,
+    explanation:'orange ＝ オレンジ色\nくだものの「オレンジ」も orange。' },
+  { id:'et34_iro_e08', subject:'et_iro_ei', month:'eng_sho34',
+    q:'いろ・かたち 8\n「オレンジ色」を英語で言うと、どれですか？',
+    options:['blue','heart','orange','brown'], answer:2,
+    explanation:'orange ＝ オレンジ色\nくだものの「オレンジ」も orange。' },
+  { id:'et34_iro_i09', subject:'et_iro_imi', month:'eng_sho34',
+    q:'いろ・かたち 9\n"purple" の意味はどれですか？',
+    options:['むらさき','黒','三角','青'], answer:0,
+    explanation:'purple ＝ むらさき' },
+  { id:'et34_iro_e09', subject:'et_iro_ei', month:'eng_sho34',
+    q:'いろ・かたち 9\n「むらさき」を英語で言うと、どれですか？',
+    options:['purple','orange','heart','square'], answer:0,
+    explanation:'purple ＝ むらさき' },
+  { id:'et34_iro_i10', subject:'et_iro_imi', month:'eng_sho34',
+    q:'いろ・かたち 10\n"brown" の意味はどれですか？',
+    options:['むらさき','茶色','丸','青'], answer:1,
+    explanation:'brown ＝ 茶色' },
+  { id:'et34_iro_e10', subject:'et_iro_ei', month:'eng_sho34',
+    q:'いろ・かたち 10\n「茶色」を英語で言うと、どれですか？',
+    options:['heart','brown','orange','purple'], answer:1,
+    explanation:'brown ＝ 茶色' },
+  { id:'et34_iro_i11', subject:'et_iro_imi', month:'eng_sho34',
+    q:'いろ・かたち 11\n"circle" の意味はどれですか？',
+    options:['ハート','黄色','丸','茶色'], answer:2,
+    explanation:'circle ＝ 丸' },
+  { id:'et34_iro_e11', subject:'et_iro_ei', month:'eng_sho34',
+    q:'いろ・かたち 11\n「丸」を英語で言うと、どれですか？',
+    options:['yellow','circle','pink','square'], answer:1,
+    explanation:'circle ＝ 丸' },
+  { id:'et34_iro_i12', subject:'et_iro_imi', month:'eng_sho34',
+    q:'いろ・かたち 12\n"square" の意味はどれですか？',
+    options:['四角（正方形）','三角','黒','赤'], answer:0,
+    explanation:'square ＝ 四角（正方形）' },
+  { id:'et34_iro_e12', subject:'et_iro_ei', month:'eng_sho34',
+    q:'いろ・かたち 12\n「四角（正方形）」を英語で言うと、どれですか？',
+    options:['square','pink','yellow','black'], answer:0,
+    explanation:'square ＝ 四角（正方形）' },
+  { id:'et34_iro_i13', subject:'et_iro_imi', month:'eng_sho34',
+    q:'いろ・かたち 13\n"triangle" の意味はどれですか？',
+    options:['むらさき','ハート','黒','三角'], answer:3,
+    explanation:'triangle ＝ 三角' },
+  { id:'et34_iro_e13', subject:'et_iro_ei', month:'eng_sho34',
+    q:'いろ・かたち 13\n「三角」を英語で言うと、どれですか？',
+    options:['brown','triangle','star','heart'], answer:1,
+    explanation:'triangle ＝ 三角' },
+  { id:'et34_iro_i14', subject:'et_iro_imi', month:'eng_sho34',
+    q:'いろ・かたち 14\n"star" の意味はどれですか？',
+    options:['赤','星','緑','ハート'], answer:1,
+    explanation:'star ＝ 星' },
+  { id:'et34_iro_e14', subject:'et_iro_ei', month:'eng_sho34',
+    q:'いろ・かたち 14\n「星」を英語で言うと、どれですか？',
+    options:['heart','star','white','square'], answer:1,
+    explanation:'star ＝ 星' },
+  { id:'et34_iro_i15', subject:'et_iro_imi', month:'eng_sho34',
+    q:'いろ・かたち 15\n"heart" の意味はどれですか？',
+    options:['青','むらさき','ハート','四角（正方形）'], answer:2,
+    explanation:'heart ＝ ハート' },
+  { id:'et34_iro_e15', subject:'et_iro_ei', month:'eng_sho34',
+    q:'いろ・かたち 15\n「ハート」を英語で言うと、どれですか？',
+    options:['triangle','green','orange','heart'], answer:3,
+    explanation:'heart ＝ ハート' },
+  { id:'et34_doubutsu_i01', subject:'et_doubutsu_imi', month:'eng_sho34',
+    q:'どうぶつ 1\n"dog" の意味はどれですか？',
+    options:['パンダ','うさぎ','ねこ','犬'], answer:3,
+    explanation:'dog ＝ 犬' },
+  { id:'et34_doubutsu_e01', subject:'et_doubutsu_ei', month:'eng_sho34',
+    q:'どうぶつ 1\n「犬」を英語で言うと、どれですか？',
+    options:['pig','horse','sheep','dog'], answer:3,
+    explanation:'dog ＝ 犬' },
+  { id:'et34_doubutsu_i02', subject:'et_doubutsu_imi', month:'eng_sho34',
+    q:'どうぶつ 2\n"cat" の意味はどれですか？',
+    options:['魚','ゾウ','ねこ','鳥'], answer:2,
+    explanation:'cat ＝ ねこ' },
+  { id:'et34_doubutsu_e02', subject:'et_doubutsu_ei', month:'eng_sho34',
+    q:'どうぶつ 2\n「ねこ」を英語で言うと、どれですか？',
+    options:['snake','fish','monkey','cat'], answer:3,
+    explanation:'cat ＝ ねこ' },
+  { id:'et34_doubutsu_i03', subject:'et_doubutsu_imi', month:'eng_sho34',
+    q:'どうぶつ 3\n"bird" の意味はどれですか？',
+    options:['コアラ','鳥','うさぎ','犬'], answer:1,
+    explanation:'bird ＝ 鳥' },
+  { id:'et34_doubutsu_e03', subject:'et_doubutsu_ei', month:'eng_sho34',
+    q:'どうぶつ 3\n「鳥」を英語で言うと、どれですか？',
+    options:['cow','koala','bird','cat'], answer:2,
+    explanation:'bird ＝ 鳥' },
+  { id:'et34_doubutsu_i04', subject:'et_doubutsu_imi', month:'eng_sho34',
+    q:'どうぶつ 4\n"rabbit" の意味はどれですか？',
+    options:['鳥','ねこ','ゾウ','うさぎ'], answer:3,
+    explanation:'rabbit ＝ うさぎ' },
+  { id:'et34_doubutsu_e04', subject:'et_doubutsu_ei', month:'eng_sho34',
+    q:'どうぶつ 4\n「うさぎ」を英語で言うと、どれですか？',
+    options:['snake','horse','rabbit','mouse'], answer:2,
+    explanation:'rabbit ＝ うさぎ' },
+  { id:'et34_doubutsu_i05', subject:'et_doubutsu_imi', month:'eng_sho34',
+    q:'どうぶつ 5\n"bear" の意味はどれですか？',
+    options:['くま','馬','ネズミ','ぶた'], answer:0,
+    explanation:'bear ＝ くま' },
+  { id:'et34_doubutsu_e05', subject:'et_doubutsu_ei', month:'eng_sho34',
+    q:'どうぶつ 5\n「くま」を英語で言うと、どれですか？',
+    options:['lion','sheep','bear','koala'], answer:2,
+    explanation:'bear ＝ くま' },
+  { id:'et34_doubutsu_i06', subject:'et_doubutsu_imi', month:'eng_sho34',
+    q:'どうぶつ 6\n"lion" の意味はどれですか？',
+    options:['ねこ','馬','カエル','ライオン'], answer:3,
+    explanation:'lion ＝ ライオン' },
+  { id:'et34_doubutsu_e06', subject:'et_doubutsu_ei', month:'eng_sho34',
+    q:'どうぶつ 6\n「ライオン」を英語で言うと、どれですか？',
+    options:['dog','lion','horse','fish'], answer:1,
+    explanation:'lion ＝ ライオン' },
+  { id:'et34_doubutsu_i07', subject:'et_doubutsu_imi', month:'eng_sho34',
+    q:'どうぶつ 7\n"tiger" の意味はどれですか？',
+    options:['魚','トラ','コアラ','ペンギン'], answer:1,
+    explanation:'tiger ＝ トラ' },
+  { id:'et34_doubutsu_e07', subject:'et_doubutsu_ei', month:'eng_sho34',
+    q:'どうぶつ 7\n「トラ」を英語で言うと、どれですか？',
+    options:['lion','rabbit','tiger','cow'], answer:2,
+    explanation:'tiger ＝ トラ' },
+  { id:'et34_doubutsu_i08', subject:'et_doubutsu_imi', month:'eng_sho34',
+    q:'どうぶつ 8\n"elephant" の意味はどれですか？',
+    options:['牛','馬','ねこ','ゾウ'], answer:3,
+    explanation:'elephant ＝ ゾウ' },
+  { id:'et34_doubutsu_e08', subject:'et_doubutsu_ei', month:'eng_sho34',
+    q:'どうぶつ 8\n「ゾウ」を英語で言うと、どれですか？',
+    options:['rabbit','sheep','elephant','pig'], answer:2,
+    explanation:'elephant ＝ ゾウ' },
+  { id:'et34_doubutsu_i09', subject:'et_doubutsu_imi', month:'eng_sho34',
+    q:'どうぶつ 9\n"monkey" の意味はどれですか？',
+    options:['うさぎ','鳥','サル','魚'], answer:2,
+    explanation:'monkey ＝ サル' },
+  { id:'et34_doubutsu_e09', subject:'et_doubutsu_ei', month:'eng_sho34',
+    q:'どうぶつ 9\n「サル」を英語で言うと、どれですか？',
+    options:['cat','snake','lion','monkey'], answer:3,
+    explanation:'monkey ＝ サル' },
+  { id:'et34_doubutsu_i10', subject:'et_doubutsu_imi', month:'eng_sho34',
+    q:'どうぶつ 10\n"panda" の意味はどれですか？',
+    options:['ひつじ','ヘビ','パンダ','くま'], answer:2,
+    explanation:'panda ＝ パンダ' },
+  { id:'et34_doubutsu_e10', subject:'et_doubutsu_ei', month:'eng_sho34',
+    q:'どうぶつ 10\n「パンダ」を英語で言うと、どれですか？',
+    options:['panda','monkey','tiger','penguin'], answer:0,
+    explanation:'panda ＝ パンダ' },
+  { id:'et34_doubutsu_i11', subject:'et_doubutsu_imi', month:'eng_sho34',
+    q:'どうぶつ 11\n"horse" の意味はどれですか？',
+    options:['馬','ライオン','くま','ゾウ'], answer:0,
+    explanation:'horse ＝ 馬' },
+  { id:'et34_doubutsu_e11', subject:'et_doubutsu_ei', month:'eng_sho34',
+    q:'どうぶつ 11\n「馬」を英語で言うと、どれですか？',
+    options:['frog','snake','mouse','horse'], answer:3,
+    explanation:'horse ＝ 馬' },
+  { id:'et34_doubutsu_i12', subject:'et_doubutsu_imi', month:'eng_sho34',
+    q:'どうぶつ 12\n"cow" の意味はどれですか？',
+    options:['牛','犬','コアラ','ペンギン'], answer:0,
+    explanation:'cow ＝ 牛' },
+  { id:'et34_doubutsu_e12', subject:'et_doubutsu_ei', month:'eng_sho34',
+    q:'どうぶつ 12\n「牛」を英語で言うと、どれですか？',
+    options:['monkey','cow','tiger','cat'], answer:1,
+    explanation:'cow ＝ 牛' },
+  { id:'et34_doubutsu_i13', subject:'et_doubutsu_imi', month:'eng_sho34',
+    q:'どうぶつ 13\n"pig" の意味はどれですか？',
+    options:['犬','コアラ','ぶた','魚'], answer:2,
+    explanation:'pig ＝ ぶた' },
+  { id:'et34_doubutsu_e13', subject:'et_doubutsu_ei', month:'eng_sho34',
+    q:'どうぶつ 13\n「ぶた」を英語で言うと、どれですか？',
+    options:['sheep','rabbit','pig','fish'], answer:2,
+    explanation:'pig ＝ ぶた' },
+  { id:'et34_doubutsu_i14', subject:'et_doubutsu_imi', month:'eng_sho34',
+    q:'どうぶつ 14\n"mouse" の意味はどれですか？',
+    options:['パンダ','うさぎ','馬','ネズミ'], answer:3,
+    explanation:'mouse ＝ ネズミ' },
+  { id:'et34_doubutsu_e14', subject:'et_doubutsu_ei', month:'eng_sho34',
+    q:'どうぶつ 14\n「ネズミ」を英語で言うと、どれですか？',
+    options:['mouse','bear','pig','cow'], answer:0,
+    explanation:'mouse ＝ ネズミ' },
+  { id:'et34_doubutsu_i15', subject:'et_doubutsu_imi', month:'eng_sho34',
+    q:'どうぶつ 15\n"fish" の意味はどれですか？',
+    options:['うさぎ','コアラ','魚','牛'], answer:2,
+    explanation:'fish ＝ 魚' },
+  { id:'et34_doubutsu_e15', subject:'et_doubutsu_ei', month:'eng_sho34',
+    q:'どうぶつ 15\n「魚」を英語で言うと、どれですか？',
+    options:['fish','cow','penguin','panda'], answer:0,
+    explanation:'fish ＝ 魚' },
+  { id:'et34_doubutsu_i16', subject:'et_doubutsu_imi', month:'eng_sho34',
+    q:'どうぶつ 16\n"frog" の意味はどれですか？',
+    options:['カエル','ペンギン','犬','鳥'], answer:0,
+    explanation:'frog ＝ カエル' },
+  { id:'et34_doubutsu_e16', subject:'et_doubutsu_ei', month:'eng_sho34',
+    q:'どうぶつ 16\n「カエル」を英語で言うと、どれですか？',
+    options:['mouse','bird','dog','frog'], answer:3,
+    explanation:'frog ＝ カエル' },
+  { id:'et34_doubutsu_i17', subject:'et_doubutsu_imi', month:'eng_sho34',
+    q:'どうぶつ 17\n"snake" の意味はどれですか？',
+    options:['サル','ねこ','コアラ','ヘビ'], answer:3,
+    explanation:'snake ＝ ヘビ' },
+  { id:'et34_doubutsu_e17', subject:'et_doubutsu_ei', month:'eng_sho34',
+    q:'どうぶつ 17\n「ヘビ」を英語で言うと、どれですか？',
+    options:['snake','lion','sheep','dog'], answer:0,
+    explanation:'snake ＝ ヘビ' },
+  { id:'et34_doubutsu_i18', subject:'et_doubutsu_imi', month:'eng_sho34',
+    q:'どうぶつ 18\n"sheep" の意味はどれですか？',
+    options:['ひつじ','犬','カエル','うさぎ'], answer:0,
+    explanation:'sheep ＝ ひつじ' },
+  { id:'et34_doubutsu_e18', subject:'et_doubutsu_ei', month:'eng_sho34',
+    q:'どうぶつ 18\n「ひつじ」を英語で言うと、どれですか？',
+    options:['sheep','cow','dog','tiger'], answer:0,
+    explanation:'sheep ＝ ひつじ' },
+  { id:'et34_doubutsu_i19', subject:'et_doubutsu_imi', month:'eng_sho34',
+    q:'どうぶつ 19\n"penguin" の意味はどれですか？',
+    options:['牛','ペンギン','ぶた','カエル'], answer:1,
+    explanation:'penguin ＝ ペンギン' },
+  { id:'et34_doubutsu_e19', subject:'et_doubutsu_ei', month:'eng_sho34',
+    q:'どうぶつ 19\n「ペンギン」を英語で言うと、どれですか？',
+    options:['rabbit','bird','penguin','bear'], answer:2,
+    explanation:'penguin ＝ ペンギン' },
+  { id:'et34_doubutsu_i20', subject:'et_doubutsu_imi', month:'eng_sho34',
+    q:'どうぶつ 20\n"koala" の意味はどれですか？',
+    options:['犬','ライオン','コアラ','鳥'], answer:2,
+    explanation:'koala ＝ コアラ' },
+  { id:'et34_doubutsu_e20', subject:'et_doubutsu_ei', month:'eng_sho34',
+    q:'どうぶつ 20\n「コアラ」を英語で言うと、どれですか？',
+    options:['cow','koala','pig','lion'], answer:1,
+    explanation:'koala ＝ コアラ' },
+  { id:'et34_tabemono_i01', subject:'et_tabemono_imi', month:'eng_sho34',
+    q:'たべもの 1\n"apple" の意味はどれですか？',
+    options:['りんご','たまねぎ','にんじん','牛にゅう'], answer:0,
+    explanation:'apple ＝ りんご' },
+  { id:'et34_tabemono_e01', subject:'et_tabemono_ei', month:'eng_sho34',
+    q:'たべもの 1\n「りんご」を英語で言うと、どれですか？',
+    options:['lemon','juice','apple','onion'], answer:2,
+    explanation:'apple ＝ りんご' },
+  { id:'et34_tabemono_i02', subject:'et_tabemono_imi', month:'eng_sho34',
+    q:'たべもの 2\n"banana" の意味はどれですか？',
+    options:['レモン','ケーキ','ぶどう','バナナ'], answer:3,
+    explanation:'banana ＝ バナナ' },
+  { id:'et34_tabemono_e02', subject:'et_tabemono_ei', month:'eng_sho34',
+    q:'たべもの 2\n「バナナ」を英語で言うと、どれですか？',
+    options:['lemon','banana','onion','rice'], answer:1,
+    explanation:'banana ＝ バナナ' },
+  { id:'et34_tabemono_i03', subject:'et_tabemono_imi', month:'eng_sho34',
+    q:'たべもの 3\n"strawberry" の意味はどれですか？',
+    options:['りんご','メロン','いちご','バナナ'], answer:2,
+    explanation:'strawberry ＝ いちご' },
+  { id:'et34_tabemono_e03', subject:'et_tabemono_ei', month:'eng_sho34',
+    q:'たべもの 3\n「いちご」を英語で言うと、どれですか？',
+    options:['tomato','strawberry','potato','banana'], answer:1,
+    explanation:'strawberry ＝ いちご' },
+  { id:'et34_tabemono_i04', subject:'et_tabemono_imi', month:'eng_sho34',
+    q:'たべもの 4\n"grapes" の意味はどれですか？',
+    options:['ぶどう','牛にゅう','トマト','バナナ'], answer:0,
+    explanation:'grapes ＝ ぶどう\nぶどうは ふつう ふさで grapes（s がつく）。' },
+  { id:'et34_tabemono_e04', subject:'et_tabemono_ei', month:'eng_sho34',
+    q:'たべもの 4\n「ぶどう」を英語で言うと、どれですか？',
+    options:['potato','grapes','lemon','apple'], answer:1,
+    explanation:'grapes ＝ ぶどう\nぶどうは ふつう ふさで grapes（s がつく）。' },
+  { id:'et34_tabemono_i05', subject:'et_tabemono_imi', month:'eng_sho34',
+    q:'たべもの 5\n"melon" の意味はどれですか？',
+    options:['メロン','ジュース','ぶどう','じゃがいも'], answer:0,
+    explanation:'melon ＝ メロン' },
+  { id:'et34_tabemono_e05', subject:'et_tabemono_ei', month:'eng_sho34',
+    q:'たべもの 5\n「メロン」を英語で言うと、どれですか？',
+    options:['melon','peach','rice','apple'], answer:0,
+    explanation:'melon ＝ メロン' },
+  { id:'et34_tabemono_i06', subject:'et_tabemono_imi', month:'eng_sho34',
+    q:'たべもの 6\n"peach" の意味はどれですか？',
+    options:['牛にゅう','もも','ジュース','トマト'], answer:1,
+    explanation:'peach ＝ もも' },
+  { id:'et34_tabemono_e06', subject:'et_tabemono_ei', month:'eng_sho34',
+    q:'たべもの 6\n「もも」を英語で言うと、どれですか？',
+    options:['peach','egg','cake','rice'], answer:0,
+    explanation:'peach ＝ もも' },
+  { id:'et34_tabemono_i07', subject:'et_tabemono_imi', month:'eng_sho34',
+    q:'たべもの 7\n"lemon" の意味はどれですか？',
+    options:['さくらんぼ','レモン','ケーキ','バナナ'], answer:1,
+    explanation:'lemon ＝ レモン' },
+  { id:'et34_tabemono_e07', subject:'et_tabemono_ei', month:'eng_sho34',
+    q:'たべもの 7\n「レモン」を英語で言うと、どれですか？',
+    options:['cake','potato','lemon','tomato'], answer:2,
+    explanation:'lemon ＝ レモン' },
+  { id:'et34_tabemono_i08', subject:'et_tabemono_imi', month:'eng_sho34',
+    q:'たべもの 8\n"cherry" の意味はどれですか？',
+    options:['牛にゅう','りんご','さくらんぼ','水'], answer:2,
+    explanation:'cherry ＝ さくらんぼ' },
+  { id:'et34_tabemono_e08', subject:'et_tabemono_ei', month:'eng_sho34',
+    q:'たべもの 8\n「さくらんぼ」を英語で言うと、どれですか？',
+    options:['water','apple','milk','cherry'], answer:3,
+    explanation:'cherry ＝ さくらんぼ' },
+  { id:'et34_tabemono_i09', subject:'et_tabemono_imi', month:'eng_sho34',
+    q:'たべもの 9\n"rice" の意味はどれですか？',
+    options:['もも','ぶどう','ごはん（米）','さくらんぼ'], answer:2,
+    explanation:'rice ＝ ごはん（米）' },
+  { id:'et34_tabemono_e09', subject:'et_tabemono_ei', month:'eng_sho34',
+    q:'たべもの 9\n「ごはん（米）」を英語で言うと、どれですか？',
+    options:['carrot','apple','peach','rice'], answer:3,
+    explanation:'rice ＝ ごはん（米）' },
+  { id:'et34_tabemono_i10', subject:'et_tabemono_imi', month:'eng_sho34',
+    q:'たべもの 10\n"bread" の意味はどれですか？',
+    options:['ぶどう','パン','もも','ジュース'], answer:1,
+    explanation:'bread ＝ パン' },
+  { id:'et34_tabemono_e10', subject:'et_tabemono_ei', month:'eng_sho34',
+    q:'たべもの 10\n「パン」を英語で言うと、どれですか？',
+    options:['cake','tomato','banana','bread'], answer:3,
+    explanation:'bread ＝ パン' },
+  { id:'et34_tabemono_i11', subject:'et_tabemono_imi', month:'eng_sho34',
+    q:'たべもの 11\n"egg" の意味はどれですか？',
+    options:['じゃがいも','ジュース','ごはん（米）','たまご'], answer:3,
+    explanation:'egg ＝ たまご' },
+  { id:'et34_tabemono_e11', subject:'et_tabemono_ei', month:'eng_sho34',
+    q:'たべもの 11\n「たまご」を英語で言うと、どれですか？',
+    options:['egg','bread','apple','onion'], answer:0,
+    explanation:'egg ＝ たまご' },
+  { id:'et34_tabemono_i12', subject:'et_tabemono_imi', month:'eng_sho34',
+    q:'たべもの 12\n"milk" の意味はどれですか？',
+    options:['水','牛にゅう','バナナ','さくらんぼ'], answer:1,
+    explanation:'milk ＝ 牛にゅう' },
+  { id:'et34_tabemono_e12', subject:'et_tabemono_ei', month:'eng_sho34',
+    q:'たべもの 12\n「牛にゅう」を英語で言うと、どれですか？',
+    options:['onion','milk','cake','apple'], answer:1,
+    explanation:'milk ＝ 牛にゅう' },
+  { id:'et34_tabemono_i13', subject:'et_tabemono_imi', month:'eng_sho34',
+    q:'たべもの 13\n"juice" の意味はどれですか？',
+    options:['ケーキ','トマト','ジュース','ごはん（米）'], answer:2,
+    explanation:'juice ＝ ジュース' },
+  { id:'et34_tabemono_e13', subject:'et_tabemono_ei', month:'eng_sho34',
+    q:'たべもの 13\n「ジュース」を英語で言うと、どれですか？',
+    options:['rice','strawberry','potato','juice'], answer:3,
+    explanation:'juice ＝ ジュース' },
+  { id:'et34_tabemono_i14', subject:'et_tabemono_imi', month:'eng_sho34',
+    q:'たべもの 14\n"water" の意味はどれですか？',
+    options:['バナナ','水','ぶどう','ケーキ'], answer:1,
+    explanation:'water ＝ 水' },
+  { id:'et34_tabemono_e14', subject:'et_tabemono_ei', month:'eng_sho34',
+    q:'たべもの 14\n「水」を英語で言うと、どれですか？',
+    options:['ice cream','cake','bread','water'], answer:3,
+    explanation:'water ＝ 水' },
+  { id:'et34_tabemono_i15', subject:'et_tabemono_imi', month:'eng_sho34',
+    q:'たべもの 15\n"cake" の意味はどれですか？',
+    options:['トマト','アイスクリーム','ケーキ','たまねぎ'], answer:2,
+    explanation:'cake ＝ ケーキ' },
+  { id:'et34_tabemono_e15', subject:'et_tabemono_ei', month:'eng_sho34',
+    q:'たべもの 15\n「ケーキ」を英語で言うと、どれですか？',
+    options:['milk','tomato','lemon','cake'], answer:3,
+    explanation:'cake ＝ ケーキ' },
+  { id:'et34_tabemono_i16', subject:'et_tabemono_imi', month:'eng_sho34',
+    q:'たべもの 16\n"ice cream" の意味はどれですか？',
+    options:['アイスクリーム','いちご','たまご','にんじん'], answer:0,
+    explanation:'ice cream ＝ アイスクリーム' },
+  { id:'et34_tabemono_e16', subject:'et_tabemono_ei', month:'eng_sho34',
+    q:'たべもの 16\n「アイスクリーム」を英語で言うと、どれですか？',
+    options:['lemon','melon','ice cream','juice'], answer:2,
+    explanation:'ice cream ＝ アイスクリーム' },
+  { id:'et34_tabemono_i17', subject:'et_tabemono_imi', month:'eng_sho34',
+    q:'たべもの 17\n"tomato" の意味はどれですか？',
+    options:['メロン','たまねぎ','トマト','アイスクリーム'], answer:2,
+    explanation:'tomato ＝ トマト' },
+  { id:'et34_tabemono_e17', subject:'et_tabemono_ei', month:'eng_sho34',
+    q:'たべもの 17\n「トマト」を英語で言うと、どれですか？',
+    options:['bread','tomato','carrot','water'], answer:1,
+    explanation:'tomato ＝ トマト' },
+  { id:'et34_tabemono_i18', subject:'et_tabemono_imi', month:'eng_sho34',
+    q:'たべもの 18\n"potato" の意味はどれですか？',
+    options:['ぶどう','レモン','にんじん','じゃがいも'], answer:3,
+    explanation:'potato ＝ じゃがいも' },
+  { id:'et34_tabemono_e18', subject:'et_tabemono_ei', month:'eng_sho34',
+    q:'たべもの 18\n「じゃがいも」を英語で言うと、どれですか？',
+    options:['water','cake','potato','lemon'], answer:2,
+    explanation:'potato ＝ じゃがいも' },
+  { id:'et34_tabemono_i19', subject:'et_tabemono_imi', month:'eng_sho34',
+    q:'たべもの 19\n"carrot" の意味はどれですか？',
+    options:['アイスクリーム','メロン','りんご','にんじん'], answer:3,
+    explanation:'carrot ＝ にんじん' },
+  { id:'et34_tabemono_e19', subject:'et_tabemono_ei', month:'eng_sho34',
+    q:'たべもの 19\n「にんじん」を英語で言うと、どれですか？',
+    options:['carrot','cherry','cake','rice'], answer:0,
+    explanation:'carrot ＝ にんじん' },
+  { id:'et34_tabemono_i20', subject:'et_tabemono_imi', month:'eng_sho34',
+    q:'たべもの 20\n"onion" の意味はどれですか？',
+    options:['もも','たまねぎ','アイスクリーム','いちご'], answer:1,
+    explanation:'onion ＝ たまねぎ' },
+  { id:'et34_tabemono_e20', subject:'et_tabemono_ei', month:'eng_sho34',
+    q:'たべもの 20\n「たまねぎ」を英語で言うと、どれですか？',
+    options:['cherry','grapes','tomato','onion'], answer:3,
+    explanation:'onion ＝ たまねぎ' },
+  { id:'et34_karada_i01', subject:'et_karada_imi', month:'eng_sho34',
+    q:'からだ 1\n"head" の意味はどれですか？',
+    options:['頭','口','顔','あし（太ももから足首）'], answer:0,
+    explanation:'head ＝ 頭' },
+  { id:'et34_karada_e01', subject:'et_karada_ei', month:'eng_sho34',
+    q:'からだ 1\n「頭」を英語で言うと、どれですか？',
+    options:['head','eye','ear','face'], answer:0,
+    explanation:'head ＝ 頭' },
+  { id:'et34_karada_i02', subject:'et_karada_imi', month:'eng_sho34',
+    q:'からだ 2\n"face" の意味はどれですか？',
+    options:['耳','手','うで','顔'], answer:3,
+    explanation:'face ＝ 顔' },
+  { id:'et34_karada_e02', subject:'et_karada_ei', month:'eng_sho34',
+    q:'からだ 2\n「顔」を英語で言うと、どれですか？',
+    options:['nose','face','mouth','shoulder'], answer:1,
+    explanation:'face ＝ 顔' },
+  { id:'et34_karada_i03', subject:'et_karada_imi', month:'eng_sho34',
+    q:'からだ 3\n"eye" の意味はどれですか？',
+    options:['目','頭','かた','耳'], answer:0,
+    explanation:'eye ＝ 目' },
+  { id:'et34_karada_e03', subject:'et_karada_ei', month:'eng_sho34',
+    q:'からだ 3\n「目」を英語で言うと、どれですか？',
+    options:['eye','leg','head','knee'], answer:0,
+    explanation:'eye ＝ 目' },
+  { id:'et34_karada_i04', subject:'et_karada_imi', month:'eng_sho34',
+    q:'からだ 4\n"ear" の意味はどれですか？',
+    options:['目','鼻','耳','手'], answer:2,
+    explanation:'ear ＝ 耳' },
+  { id:'et34_karada_e04', subject:'et_karada_ei', month:'eng_sho34',
+    q:'からだ 4\n「耳」を英語で言うと、どれですか？',
+    options:['knee','arm','ear','leg'], answer:2,
+    explanation:'ear ＝ 耳' },
+  { id:'et34_karada_i05', subject:'et_karada_imi', month:'eng_sho34',
+    q:'からだ 5\n"nose" の意味はどれですか？',
+    options:['かた','口','うで','鼻'], answer:3,
+    explanation:'nose ＝ 鼻' },
+  { id:'et34_karada_e05', subject:'et_karada_ei', month:'eng_sho34',
+    q:'からだ 5\n「鼻」を英語で言うと、どれですか？',
+    options:['nose','mouth','face','arm'], answer:0,
+    explanation:'nose ＝ 鼻' },
+  { id:'et34_karada_i06', subject:'et_karada_imi', month:'eng_sho34',
+    q:'からだ 6\n"mouth" の意味はどれですか？',
+    options:['頭','足（足首から下）','口','かた'], answer:2,
+    explanation:'mouth ＝ 口' },
+  { id:'et34_karada_e06', subject:'et_karada_ei', month:'eng_sho34',
+    q:'からだ 6\n「口」を英語で言うと、どれですか？',
+    options:['mouth','leg','foot','face'], answer:0,
+    explanation:'mouth ＝ 口' },
+  { id:'et34_karada_i07', subject:'et_karada_imi', month:'eng_sho34',
+    q:'からだ 7\n"hand" の意味はどれですか？',
+    options:['手','うで','かた','ひざ'], answer:0,
+    explanation:'hand ＝ 手' },
+  { id:'et34_karada_e07', subject:'et_karada_ei', month:'eng_sho34',
+    q:'からだ 7\n「手」を英語で言うと、どれですか？',
+    options:['foot','hand','ear','shoulder'], answer:1,
+    explanation:'hand ＝ 手' },
+  { id:'et34_karada_i08', subject:'et_karada_imi', month:'eng_sho34',
+    q:'からだ 8\n"arm" の意味はどれですか？',
+    options:['顔','かた','頭','うで'], answer:3,
+    explanation:'arm ＝ うで' },
+  { id:'et34_karada_e08', subject:'et_karada_ei', month:'eng_sho34',
+    q:'からだ 8\n「うで」を英語で言うと、どれですか？',
+    options:['leg','arm','hand','ear'], answer:1,
+    explanation:'arm ＝ うで' },
+  { id:'et34_karada_i09', subject:'et_karada_imi', month:'eng_sho34',
+    q:'からだ 9\n"leg" の意味はどれですか？',
+    options:['あし（太ももから足首）','ひざ','目','顔'], answer:0,
+    explanation:'leg ＝ あし（太ももから足首）\n足首から下は foot。' },
+  { id:'et34_karada_e09', subject:'et_karada_ei', month:'eng_sho34',
+    q:'からだ 9\n「あし（太ももから足首）」を英語で言うと、どれですか？',
+    options:['shoulder','foot','leg','head'], answer:2,
+    explanation:'leg ＝ あし（太ももから足首）\n足首から下は foot。' },
+  { id:'et34_karada_i10', subject:'et_karada_imi', month:'eng_sho34',
+    q:'からだ 10\n"foot" の意味はどれですか？',
+    options:['頭','手','目','足（足首から下）'], answer:3,
+    explanation:'foot ＝ 足（足首から下）\n2つなら feet。' },
+  { id:'et34_karada_e10', subject:'et_karada_ei', month:'eng_sho34',
+    q:'からだ 10\n「足（足首から下）」を英語で言うと、どれですか？',
+    options:['shoulder','leg','foot','hand'], answer:2,
+    explanation:'foot ＝ 足（足首から下）\n2つなら feet。' },
+  { id:'et34_karada_i11', subject:'et_karada_imi', month:'eng_sho34',
+    q:'からだ 11\n"shoulder" の意味はどれですか？',
+    options:['うで','ひざ','かた','顔'], answer:2,
+    explanation:'shoulder ＝ かた' },
+  { id:'et34_karada_e11', subject:'et_karada_ei', month:'eng_sho34',
+    q:'からだ 11\n「かた」を英語で言うと、どれですか？',
+    options:['ear','nose','shoulder','leg'], answer:2,
+    explanation:'shoulder ＝ かた' },
+  { id:'et34_karada_i12', subject:'et_karada_imi', month:'eng_sho34',
+    q:'からだ 12\n"knee" の意味はどれですか？',
+    options:['ひざ','目','顔','あし（太ももから足首）'], answer:0,
+    explanation:'knee ＝ ひざ\nk は読まない（ニー）。' },
+  { id:'et34_karada_e12', subject:'et_karada_ei', month:'eng_sho34',
+    q:'からだ 12\n「ひざ」を英語で言うと、どれですか？',
+    options:['ear','head','eye','knee'], answer:3,
+    explanation:'knee ＝ ひざ\nk は読まない（ニー）。' },
+  { id:'et34_youbi_i01', subject:'et_youbi_imi', month:'eng_sho34',
+    q:'曜日 1\n"Sunday" の意味はどれですか？',
+    options:['水曜日','日曜日','金曜日','木曜日'], answer:1,
+    explanation:'Sunday ＝ 日曜日\n曜日は大文字で始める。' },
+  { id:'et34_youbi_e01', subject:'et_youbi_ei', month:'eng_sho34',
+    q:'曜日 1\n「日曜日」を英語で言うと、どれですか？',
+    options:['Monday','Saturday','Sunday','Friday'], answer:2,
+    explanation:'Sunday ＝ 日曜日\n曜日は大文字で始める。' },
+  { id:'et34_youbi_i02', subject:'et_youbi_imi', month:'eng_sho34',
+    q:'曜日 2\n"Monday" の意味はどれですか？',
+    options:['金曜日','木曜日','月曜日','水曜日'], answer:2,
+    explanation:'Monday ＝ 月曜日\n曜日は大文字で始める。' },
+  { id:'et34_youbi_e02', subject:'et_youbi_ei', month:'eng_sho34',
+    q:'曜日 2\n「月曜日」を英語で言うと、どれですか？',
+    options:['Tuesday','Monday','Saturday','Sunday'], answer:1,
+    explanation:'Monday ＝ 月曜日\n曜日は大文字で始める。' },
+  { id:'et34_youbi_i03', subject:'et_youbi_imi', month:'eng_sho34',
+    q:'曜日 3\n"Tuesday" の意味はどれですか？',
+    options:['水曜日','土曜日','金曜日','火曜日'], answer:3,
+    explanation:'Tuesday ＝ 火曜日\nつづり注意：Tu-es-day。' },
+  { id:'et34_youbi_e03', subject:'et_youbi_ei', month:'eng_sho34',
+    q:'曜日 3\n「火曜日」を英語で言うと、どれですか？',
+    options:['Wednesday','Tuesday','Saturday','Monday'], answer:1,
+    explanation:'Tuesday ＝ 火曜日\nつづり注意：Tu-es-day。' },
+  { id:'et34_youbi_i04', subject:'et_youbi_imi', month:'eng_sho34',
+    q:'曜日 4\n"Wednesday" の意味はどれですか？',
+    options:['日曜日','水曜日','金曜日','月曜日'], answer:1,
+    explanation:'Wednesday ＝ 水曜日\nd を読まない（ウェンズデイ）。つづり注意。' },
+  { id:'et34_youbi_e04', subject:'et_youbi_ei', month:'eng_sho34',
+    q:'曜日 4\n「水曜日」を英語で言うと、どれですか？',
+    options:['Wednesday','Saturday','Friday','Tuesday'], answer:0,
+    explanation:'Wednesday ＝ 水曜日\nd を読まない（ウェンズデイ）。つづり注意。' },
+  { id:'et34_youbi_i05', subject:'et_youbi_imi', month:'eng_sho34',
+    q:'曜日 5\n"Thursday" の意味はどれですか？',
+    options:['日曜日','金曜日','木曜日','水曜日'], answer:2,
+    explanation:'Thursday ＝ 木曜日\nTuesday（火）と まちがえやすい。Th が木曜日。' },
+  { id:'et34_youbi_e05', subject:'et_youbi_ei', month:'eng_sho34',
+    q:'曜日 5\n「木曜日」を英語で言うと、どれですか？',
+    options:['Sunday','Friday','Thursday','Saturday'], answer:2,
+    explanation:'Thursday ＝ 木曜日\nTuesday（火）と まちがえやすい。Th が木曜日。' },
+  { id:'et34_youbi_i06', subject:'et_youbi_imi', month:'eng_sho34',
+    q:'曜日 6\n"Friday" の意味はどれですか？',
+    options:['月曜日','金曜日','日曜日','水曜日'], answer:1,
+    explanation:'Friday ＝ 金曜日' },
+  { id:'et34_youbi_e06', subject:'et_youbi_ei', month:'eng_sho34',
+    q:'曜日 6\n「金曜日」を英語で言うと、どれですか？',
+    options:['Saturday','Wednesday','Sunday','Friday'], answer:3,
+    explanation:'Friday ＝ 金曜日' },
+  { id:'et34_youbi_i07', subject:'et_youbi_imi', month:'eng_sho34',
+    q:'曜日 7\n"Saturday" の意味はどれですか？',
+    options:['月曜日','木曜日','金曜日','土曜日'], answer:3,
+    explanation:'Saturday ＝ 土曜日' },
+  { id:'et34_youbi_e07', subject:'et_youbi_ei', month:'eng_sho34',
+    q:'曜日 7\n「土曜日」を英語で言うと、どれですか？',
+    options:['Saturday','Monday','Sunday','Friday'], answer:0,
+    explanation:'Saturday ＝ 土曜日' },
+  { id:'et34_tenki_i01', subject:'et_tenki_imi', month:'eng_sho34',
+    q:'天気・季節 1\n"sunny" の意味はどれですか？',
+    options:['秋','晴れの','くもりの','暑い'], answer:1,
+    explanation:'sunny ＝ 晴れの' },
+  { id:'et34_tenki_e01', subject:'et_tenki_ei', month:'eng_sho34',
+    q:'天気・季節 1\n「晴れの」を英語で言うと、どれですか？',
+    options:['sunny','hot','snowy','rainy'], answer:0,
+    explanation:'sunny ＝ 晴れの' },
+  { id:'et34_tenki_i02', subject:'et_tenki_imi', month:'eng_sho34',
+    q:'天気・季節 2\n"rainy" の意味はどれですか？',
+    options:['すずしい','春','雨の','あたたかい'], answer:2,
+    explanation:'rainy ＝ 雨の' },
+  { id:'et34_tenki_e02', subject:'et_tenki_ei', month:'eng_sho34',
+    q:'天気・季節 2\n「雨の」を英語で言うと、どれですか？',
+    options:['rainy','sunny','snowy','hot'], answer:0,
+    explanation:'rainy ＝ 雨の' },
+  { id:'et34_tenki_i03', subject:'et_tenki_imi', month:'eng_sho34',
+    q:'天気・季節 3\n"cloudy" の意味はどれですか？',
+    options:['くもりの','暑い','あたたかい','すずしい'], answer:0,
+    explanation:'cloudy ＝ くもりの' },
+  { id:'et34_tenki_e03', subject:'et_tenki_ei', month:'eng_sho34',
+    q:'天気・季節 3\n「くもりの」を英語で言うと、どれですか？',
+    options:['summer','fall','cloudy','hot'], answer:2,
+    explanation:'cloudy ＝ くもりの' },
+  { id:'et34_tenki_i04', subject:'et_tenki_imi', month:'eng_sho34',
+    q:'天気・季節 4\n"snowy" の意味はどれですか？',
+    options:['すずしい','晴れの','冬','雪の'], answer:3,
+    explanation:'snowy ＝ 雪の' },
+  { id:'et34_tenki_e04', subject:'et_tenki_ei', month:'eng_sho34',
+    q:'天気・季節 4\n「雪の」を英語で言うと、どれですか？',
+    options:['cloudy','cool','spring','snowy'], answer:3,
+    explanation:'snowy ＝ 雪の' },
+  { id:'et34_tenki_i05', subject:'et_tenki_imi', month:'eng_sho34',
+    q:'天気・季節 5\n"windy" の意味はどれですか？',
+    options:['くもりの','風の強い','すずしい','冬'], answer:1,
+    explanation:'windy ＝ 風の強い' },
+  { id:'et34_tenki_e05', subject:'et_tenki_ei', month:'eng_sho34',
+    q:'天気・季節 5\n「風の強い」を英語で言うと、どれですか？',
+    options:['cloudy','summer','cold','windy'], answer:3,
+    explanation:'windy ＝ 風の強い' },
+  { id:'et34_tenki_i06', subject:'et_tenki_imi', month:'eng_sho34',
+    q:'天気・季節 6\n"hot" の意味はどれですか？',
+    options:['あたたかい','暑い','寒い','晴れの'], answer:1,
+    explanation:'hot ＝ 暑い' },
+  { id:'et34_tenki_e06', subject:'et_tenki_ei', month:'eng_sho34',
+    q:'天気・季節 6\n「暑い」を英語で言うと、どれですか？',
+    options:['winter','cloudy','hot','warm'], answer:2,
+    explanation:'hot ＝ 暑い' },
+  { id:'et34_tenki_i07', subject:'et_tenki_imi', month:'eng_sho34',
+    q:'天気・季節 7\n"cold" の意味はどれですか？',
+    options:['寒い','冬','すずしい','雪の'], answer:0,
+    explanation:'cold ＝ 寒い' },
+  { id:'et34_tenki_e07', subject:'et_tenki_ei', month:'eng_sho34',
+    q:'天気・季節 7\n「寒い」を英語で言うと、どれですか？',
+    options:['cloudy','snowy','summer','cold'], answer:3,
+    explanation:'cold ＝ 寒い' },
+  { id:'et34_tenki_i08', subject:'et_tenki_imi', month:'eng_sho34',
+    q:'天気・季節 8\n"warm" の意味はどれですか？',
+    options:['あたたかい','寒い','冬','春'], answer:0,
+    explanation:'warm ＝ あたたかい' },
+  { id:'et34_tenki_e08', subject:'et_tenki_ei', month:'eng_sho34',
+    q:'天気・季節 8\n「あたたかい」を英語で言うと、どれですか？',
+    options:['warm','snowy','sunny','hot'], answer:0,
+    explanation:'warm ＝ あたたかい' },
+  { id:'et34_tenki_i09', subject:'et_tenki_imi', month:'eng_sho34',
+    q:'天気・季節 9\n"cool" の意味はどれですか？',
+    options:['春','秋','冬','すずしい'], answer:3,
+    explanation:'cool ＝ すずしい\n「かっこいい」の意味もある。' },
+  { id:'et34_tenki_e09', subject:'et_tenki_ei', month:'eng_sho34',
+    q:'天気・季節 9\n「すずしい」を英語で言うと、どれですか？',
+    options:['warm','summer','cool','spring'], answer:2,
+    explanation:'cool ＝ すずしい\n「かっこいい」の意味もある。' },
+  { id:'et34_tenki_i10', subject:'et_tenki_imi', month:'eng_sho34',
+    q:'天気・季節 10\n"spring" の意味はどれですか？',
+    options:['春','冬','秋','夏'], answer:0,
+    explanation:'spring ＝ 春' },
+  { id:'et34_tenki_e10', subject:'et_tenki_ei', month:'eng_sho34',
+    q:'天気・季節 10\n「春」を英語で言うと、どれですか？',
+    options:['spring','summer','cool','sunny'], answer:0,
+    explanation:'spring ＝ 春' },
+  { id:'et34_tenki_i11', subject:'et_tenki_imi', month:'eng_sho34',
+    q:'天気・季節 11\n"summer" の意味はどれですか？',
+    options:['寒い','すずしい','春','夏'], answer:3,
+    explanation:'summer ＝ 夏' },
+  { id:'et34_tenki_e11', subject:'et_tenki_ei', month:'eng_sho34',
+    q:'天気・季節 11\n「夏」を英語で言うと、どれですか？',
+    options:['summer','cool','winter','cold'], answer:0,
+    explanation:'summer ＝ 夏' },
+  { id:'et34_tenki_i12', subject:'et_tenki_imi', month:'eng_sho34',
+    q:'天気・季節 12\n"fall" の意味はどれですか？',
+    options:['くもりの','夏','暑い','秋'], answer:3,
+    explanation:'fall ＝ 秋\nautumn とも言う。' },
+  { id:'et34_tenki_e12', subject:'et_tenki_ei', month:'eng_sho34',
+    q:'天気・季節 12\n「秋」を英語で言うと、どれですか？',
+    options:['cloudy','fall','cool','hot'], answer:1,
+    explanation:'fall ＝ 秋\nautumn とも言う。' },
+  { id:'et34_tenki_i13', subject:'et_tenki_imi', month:'eng_sho34',
+    q:'天気・季節 13\n"winter" の意味はどれですか？',
+    options:['冬','風の強い','秋','すずしい'], answer:0,
+    explanation:'winter ＝ 冬' },
+  { id:'et34_tenki_e13', subject:'et_tenki_ei', month:'eng_sho34',
+    q:'天気・季節 13\n「冬」を英語で言うと、どれですか？',
+    options:['cold','winter','snowy','summer'], answer:1,
+    explanation:'winter ＝ 冬' },
+  { id:'et34_sports_i01', subject:'et_sports_imi', month:'eng_sho34',
+    q:'スポーツ 1\n"soccer" の意味はどれですか？',
+    options:['サッカー','テニス','野球','バスケットボール'], answer:0,
+    explanation:'soccer ＝ サッカー' },
+  { id:'et34_sports_e01', subject:'et_sports_ei', month:'eng_sho34',
+    q:'スポーツ 1\n「サッカー」を英語で言うと、どれですか？',
+    options:['dodgeball','baseball','soccer','basketball'], answer:2,
+    explanation:'soccer ＝ サッカー' },
+  { id:'et34_sports_i02', subject:'et_sports_imi', month:'eng_sho34',
+    q:'スポーツ 2\n"baseball" の意味はどれですか？',
+    options:['バドミントン','野球','サッカー','たっきゅう'], answer:1,
+    explanation:'baseball ＝ 野球' },
+  { id:'et34_sports_e02', subject:'et_sports_ei', month:'eng_sho34',
+    q:'スポーツ 2\n「野球」を英語で言うと、どれですか？',
+    options:['basketball','baseball','soccer','swimming'], answer:1,
+    explanation:'baseball ＝ 野球' },
+  { id:'et34_sports_i03', subject:'et_sports_imi', month:'eng_sho34',
+    q:'スポーツ 3\n"basketball" の意味はどれですか？',
+    options:['サッカー','水泳','ドッジボール','バスケットボール'], answer:3,
+    explanation:'basketball ＝ バスケットボール' },
+  { id:'et34_sports_e03', subject:'et_sports_ei', month:'eng_sho34',
+    q:'スポーツ 3\n「バスケットボール」を英語で言うと、どれですか？',
+    options:['tennis','basketball','rugby','soccer'], answer:1,
+    explanation:'basketball ＝ バスケットボール' },
+  { id:'et34_sports_i04', subject:'et_sports_imi', month:'eng_sho34',
+    q:'スポーツ 4\n"tennis" の意味はどれですか？',
+    options:['テニス','バドミントン','ドッジボール','ラグビー'], answer:0,
+    explanation:'tennis ＝ テニス' },
+  { id:'et34_sports_e04', subject:'et_sports_ei', month:'eng_sho34',
+    q:'スポーツ 4\n「テニス」を英語で言うと、どれですか？',
+    options:['swimming','tennis','table tennis','badminton'], answer:1,
+    explanation:'tennis ＝ テニス' },
+  { id:'et34_sports_i05', subject:'et_sports_imi', month:'eng_sho34',
+    q:'スポーツ 5\n"volleyball" の意味はどれですか？',
+    options:['たっきゅう','ラグビー','バレーボール','ドッジボール'], answer:2,
+    explanation:'volleyball ＝ バレーボール' },
+  { id:'et34_sports_e05', subject:'et_sports_ei', month:'eng_sho34',
+    q:'スポーツ 5\n「バレーボール」を英語で言うと、どれですか？',
+    options:['volleyball','swimming','dodgeball','baseball'], answer:0,
+    explanation:'volleyball ＝ バレーボール' },
+  { id:'et34_sports_i06', subject:'et_sports_imi', month:'eng_sho34',
+    q:'スポーツ 6\n"swimming" の意味はどれですか？',
+    options:['野球','バドミントン','水泳','サッカー'], answer:2,
+    explanation:'swimming ＝ 水泳' },
+  { id:'et34_sports_e06', subject:'et_sports_ei', month:'eng_sho34',
+    q:'スポーツ 6\n「水泳」を英語で言うと、どれですか？',
+    options:['table tennis','swimming','tennis','badminton'], answer:1,
+    explanation:'swimming ＝ 水泳' },
+  { id:'et34_sports_i07', subject:'et_sports_imi', month:'eng_sho34',
+    q:'スポーツ 7\n"table tennis" の意味はどれですか？',
+    options:['たっきゅう','バレーボール','サッカー','テニス'], answer:0,
+    explanation:'table tennis ＝ たっきゅう\n「テーブルでするテニス」。' },
+  { id:'et34_sports_e07', subject:'et_sports_ei', month:'eng_sho34',
+    q:'スポーツ 7\n「たっきゅう」を英語で言うと、どれですか？',
+    options:['dodgeball','tennis','soccer','table tennis'], answer:3,
+    explanation:'table tennis ＝ たっきゅう\n「テーブルでするテニス」。' },
+  { id:'et34_sports_i08', subject:'et_sports_imi', month:'eng_sho34',
+    q:'スポーツ 8\n"badminton" の意味はどれですか？',
+    options:['ラグビー','バドミントン','バスケットボール','サッカー'], answer:1,
+    explanation:'badminton ＝ バドミントン' },
+  { id:'et34_sports_e08', subject:'et_sports_ei', month:'eng_sho34',
+    q:'スポーツ 8\n「バドミントン」を英語で言うと、どれですか？',
+    options:['rugby','tennis','badminton','volleyball'], answer:2,
+    explanation:'badminton ＝ バドミントン' },
+  { id:'et34_sports_i09', subject:'et_sports_imi', month:'eng_sho34',
+    q:'スポーツ 9\n"dodgeball" の意味はどれですか？',
+    options:['野球','ドッジボール','サッカー','バレーボール'], answer:1,
+    explanation:'dodgeball ＝ ドッジボール' },
+  { id:'et34_sports_e09', subject:'et_sports_ei', month:'eng_sho34',
+    q:'スポーツ 9\n「ドッジボール」を英語で言うと、どれですか？',
+    options:['rugby','soccer','dodgeball','table tennis'], answer:2,
+    explanation:'dodgeball ＝ ドッジボール' },
+  { id:'et34_sports_i10', subject:'et_sports_imi', month:'eng_sho34',
+    q:'スポーツ 10\n"rugby" の意味はどれですか？',
+    options:['水泳','たっきゅう','テニス','ラグビー'], answer:3,
+    explanation:'rugby ＝ ラグビー' },
+  { id:'et34_sports_e10', subject:'et_sports_ei', month:'eng_sho34',
+    q:'スポーツ 10\n「ラグビー」を英語で言うと、どれですか？',
+    options:['baseball','table tennis','swimming','rugby'], answer:3,
+    explanation:'rugby ＝ ラグビー' },
+  { id:'et34_bunbougu_i01', subject:'et_bunbougu_imi', month:'eng_sho34',
+    q:'文ぼうぐ 1\n"pencil" の意味はどれですか？',
+    options:['えんぴつ','はさみ','のり','つくえ'], answer:0,
+    explanation:'pencil ＝ えんぴつ' },
+  { id:'et34_bunbougu_e01', subject:'et_bunbougu_ei', month:'eng_sho34',
+    q:'文ぼうぐ 1\n「えんぴつ」を英語で言うと、どれですか？',
+    options:['pencil case','textbook','notebook','pencil'], answer:3,
+    explanation:'pencil ＝ えんぴつ' },
+  { id:'et34_bunbougu_i02', subject:'et_bunbougu_imi', month:'eng_sho34',
+    q:'文ぼうぐ 2\n"pen" の意味はどれですか？',
+    options:['ペン','えんぴつ','消しゴム','はさみ'], answer:0,
+    explanation:'pen ＝ ペン' },
+  { id:'et34_bunbougu_e02', subject:'et_bunbougu_ei', month:'eng_sho34',
+    q:'文ぼうぐ 2\n「ペン」を英語で言うと、どれですか？',
+    options:['notebook','ruler','glue','pen'], answer:3,
+    explanation:'pen ＝ ペン' },
+  { id:'et34_bunbougu_i03', subject:'et_bunbougu_imi', month:'eng_sho34',
+    q:'文ぼうぐ 3\n"eraser" の意味はどれですか？',
+    options:['かばん','消しゴム','のり','えんぴつ'], answer:1,
+    explanation:'eraser ＝ 消しゴム' },
+  { id:'et34_bunbougu_e03', subject:'et_bunbougu_ei', month:'eng_sho34',
+    q:'文ぼうぐ 3\n「消しゴム」を英語で言うと、どれですか？',
+    options:['pencil case','glue','eraser','textbook'], answer:2,
+    explanation:'eraser ＝ 消しゴム' },
+  { id:'et34_bunbougu_i04', subject:'et_bunbougu_imi', month:'eng_sho34',
+    q:'文ぼうぐ 4\n"ruler" の意味はどれですか？',
+    options:['ペン','はさみ','いす','じょうぎ'], answer:3,
+    explanation:'ruler ＝ じょうぎ' },
+  { id:'et34_bunbougu_e04', subject:'et_bunbougu_ei', month:'eng_sho34',
+    q:'文ぼうぐ 4\n「じょうぎ」を英語で言うと、どれですか？',
+    options:['pen','ruler','chair','notebook'], answer:1,
+    explanation:'ruler ＝ じょうぎ' },
+  { id:'et34_bunbougu_i05', subject:'et_bunbougu_imi', month:'eng_sho34',
+    q:'文ぼうぐ 5\n"notebook" の意味はどれですか？',
+    options:['つくえ','のり','ノート','教科書'], answer:2,
+    explanation:'notebook ＝ ノート' },
+  { id:'et34_bunbougu_e05', subject:'et_bunbougu_ei', month:'eng_sho34',
+    q:'文ぼうぐ 5\n「ノート」を英語で言うと、どれですか？',
+    options:['notebook','scissors','desk','bag'], answer:0,
+    explanation:'notebook ＝ ノート' },
+  { id:'et34_bunbougu_i06', subject:'et_bunbougu_imi', month:'eng_sho34',
+    q:'文ぼうぐ 6\n"textbook" の意味はどれですか？',
+    options:['教科書','いす','はさみ','ペン'], answer:0,
+    explanation:'textbook ＝ 教科書' },
+  { id:'et34_bunbougu_e06', subject:'et_bunbougu_ei', month:'eng_sho34',
+    q:'文ぼうぐ 6\n「教科書」を英語で言うと、どれですか？',
+    options:['chair','textbook','scissors','notebook'], answer:1,
+    explanation:'textbook ＝ 教科書' },
+  { id:'et34_bunbougu_i07', subject:'et_bunbougu_imi', month:'eng_sho34',
+    q:'文ぼうぐ 7\n"desk" の意味はどれですか？',
+    options:['ノート','いす','消しゴム','つくえ'], answer:3,
+    explanation:'desk ＝ つくえ' },
+  { id:'et34_bunbougu_e07', subject:'et_bunbougu_ei', month:'eng_sho34',
+    q:'文ぼうぐ 7\n「つくえ」を英語で言うと、どれですか？',
+    options:['desk','scissors','glue','pen'], answer:0,
+    explanation:'desk ＝ つくえ' },
+  { id:'et34_bunbougu_i08', subject:'et_bunbougu_imi', month:'eng_sho34',
+    q:'文ぼうぐ 8\n"chair" の意味はどれですか？',
+    options:['かばん','いす','教科書','ノート'], answer:1,
+    explanation:'chair ＝ いす' },
+  { id:'et34_bunbougu_e08', subject:'et_bunbougu_ei', month:'eng_sho34',
+    q:'文ぼうぐ 8\n「いす」を英語で言うと、どれですか？',
+    options:['bag','chair','scissors','textbook'], answer:1,
+    explanation:'chair ＝ いす' },
+  { id:'et34_bunbougu_i09', subject:'et_bunbougu_imi', month:'eng_sho34',
+    q:'文ぼうぐ 9\n"bag" の意味はどれですか？',
+    options:['かばん','消しゴム','ペン','筆箱'], answer:0,
+    explanation:'bag ＝ かばん' },
+  { id:'et34_bunbougu_e09', subject:'et_bunbougu_ei', month:'eng_sho34',
+    q:'文ぼうぐ 9\n「かばん」を英語で言うと、どれですか？',
+    options:['chair','scissors','textbook','bag'], answer:3,
+    explanation:'bag ＝ かばん' },
+  { id:'et34_bunbougu_i10', subject:'et_bunbougu_imi', month:'eng_sho34',
+    q:'文ぼうぐ 10\n"pencil case" の意味はどれですか？',
+    options:['いす','筆箱','消しゴム','のり'], answer:1,
+    explanation:'pencil case ＝ 筆箱' },
+  { id:'et34_bunbougu_e10', subject:'et_bunbougu_ei', month:'eng_sho34',
+    q:'文ぼうぐ 10\n「筆箱」を英語で言うと、どれですか？',
+    options:['textbook','pencil case','pencil','eraser'], answer:1,
+    explanation:'pencil case ＝ 筆箱' },
+  { id:'et34_bunbougu_i11', subject:'et_bunbougu_imi', month:'eng_sho34',
+    q:'文ぼうぐ 11\n"scissors" の意味はどれですか？',
+    options:['ペン','教科書','はさみ','じょうぎ'], answer:2,
+    explanation:'scissors ＝ はさみ' },
+  { id:'et34_bunbougu_e11', subject:'et_bunbougu_ei', month:'eng_sho34',
+    q:'文ぼうぐ 11\n「はさみ」を英語で言うと、どれですか？',
+    options:['scissors','desk','glue','eraser'], answer:0,
+    explanation:'scissors ＝ はさみ' },
+  { id:'et34_bunbougu_i12', subject:'et_bunbougu_imi', month:'eng_sho34',
+    q:'文ぼうぐ 12\n"glue" の意味はどれですか？',
+    options:['のり','ペン','かばん','消しゴム'], answer:0,
+    explanation:'glue ＝ のり' },
+  { id:'et34_bunbougu_e12', subject:'et_bunbougu_ei', month:'eng_sho34',
+    q:'文ぼうぐ 12\n「のり」を英語で言うと、どれですか？',
+    options:['pen','pencil','glue','pencil case'], answer:2,
+    explanation:'glue ＝ のり' },
+  { id:'et56_tsuki_i01', subject:'et_tsuki_imi', month:'eng_sho56',
+    q:'月 1\n"January" の意味はどれですか？',
+    options:['7月','1月','3月','6月'], answer:1,
+    explanation:'January ＝ 1月\n月の名前は大文字で始める。' },
+  { id:'et56_tsuki_e01', subject:'et_tsuki_ei', month:'eng_sho56',
+    q:'月 1\n「1月」を英語で言うと、どれですか？',
+    options:['February','April','January','October'], answer:2,
+    explanation:'January ＝ 1月\n月の名前は大文字で始める。' },
+  { id:'et56_tsuki_i02', subject:'et_tsuki_imi', month:'eng_sho56',
+    q:'月 2\n"February" の意味はどれですか？',
+    options:['5月','12月','6月','2月'], answer:3,
+    explanation:'February ＝ 2月\nつづり注意：Feb-ru-ary。' },
+  { id:'et56_tsuki_e02', subject:'et_tsuki_ei', month:'eng_sho56',
+    q:'月 2\n「2月」を英語で言うと、どれですか？',
+    options:['April','June','September','February'], answer:3,
+    explanation:'February ＝ 2月\nつづり注意：Feb-ru-ary。' },
+  { id:'et56_tsuki_i03', subject:'et_tsuki_imi', month:'eng_sho56',
+    q:'月 3\n"March" の意味はどれですか？',
+    options:['10月','2月','3月','7月'], answer:2,
+    explanation:'March ＝ 3月' },
+  { id:'et56_tsuki_e03', subject:'et_tsuki_ei', month:'eng_sho56',
+    q:'月 3\n「3月」を英語で言うと、どれですか？',
+    options:['June','March','April','July'], answer:1,
+    explanation:'March ＝ 3月' },
+  { id:'et56_tsuki_i04', subject:'et_tsuki_imi', month:'eng_sho56',
+    q:'月 4\n"April" の意味はどれですか？',
+    options:['10月','4月','12月','2月'], answer:1,
+    explanation:'April ＝ 4月' },
+  { id:'et56_tsuki_e04', subject:'et_tsuki_ei', month:'eng_sho56',
+    q:'月 4\n「4月」を英語で言うと、どれですか？',
+    options:['March','April','September','February'], answer:1,
+    explanation:'April ＝ 4月' },
+  { id:'et56_tsuki_i05', subject:'et_tsuki_imi', month:'eng_sho56',
+    q:'月 5\n"May" の意味はどれですか？',
+    options:['6月','7月','5月','2月'], answer:2,
+    explanation:'May ＝ 5月' },
+  { id:'et56_tsuki_e05', subject:'et_tsuki_ei', month:'eng_sho56',
+    q:'月 5\n「5月」を英語で言うと、どれですか？',
+    options:['July','January','May','November'], answer:2,
+    explanation:'May ＝ 5月' },
+  { id:'et56_tsuki_i06', subject:'et_tsuki_imi', month:'eng_sho56',
+    q:'月 6\n"June" の意味はどれですか？',
+    options:['2月','5月','6月','4月'], answer:2,
+    explanation:'June ＝ 6月\nJuly（7月）と まちがえやすい。' },
+  { id:'et56_tsuki_e06', subject:'et_tsuki_ei', month:'eng_sho56',
+    q:'月 6\n「6月」を英語で言うと、どれですか？',
+    options:['June','December','October','July'], answer:0,
+    explanation:'June ＝ 6月\nJuly（7月）と まちがえやすい。' },
+  { id:'et56_tsuki_i07', subject:'et_tsuki_imi', month:'eng_sho56',
+    q:'月 7\n"July" の意味はどれですか？',
+    options:['1月','10月','7月','2月'], answer:2,
+    explanation:'July ＝ 7月\nJune（6月）と まちがえやすい。' },
+  { id:'et56_tsuki_e07', subject:'et_tsuki_ei', month:'eng_sho56',
+    q:'月 7\n「7月」を英語で言うと、どれですか？',
+    options:['July','May','November','March'], answer:0,
+    explanation:'July ＝ 7月\nJune（6月）と まちがえやすい。' },
+  { id:'et56_tsuki_i08', subject:'et_tsuki_imi', month:'eng_sho56',
+    q:'月 8\n"August" の意味はどれですか？',
+    options:['9月','10月','8月','6月'], answer:2,
+    explanation:'August ＝ 8月' },
+  { id:'et56_tsuki_e08', subject:'et_tsuki_ei', month:'eng_sho56',
+    q:'月 8\n「8月」を英語で言うと、どれですか？',
+    options:['January','August','February','May'], answer:1,
+    explanation:'August ＝ 8月' },
+  { id:'et56_tsuki_i09', subject:'et_tsuki_imi', month:'eng_sho56',
+    q:'月 9\n"September" の意味はどれですか？',
+    options:['2月','10月','9月','7月'], answer:2,
+    explanation:'September ＝ 9月' },
+  { id:'et56_tsuki_e09', subject:'et_tsuki_ei', month:'eng_sho56',
+    q:'月 9\n「9月」を英語で言うと、どれですか？',
+    options:['February','September','June','May'], answer:1,
+    explanation:'September ＝ 9月' },
+  { id:'et56_tsuki_i10', subject:'et_tsuki_imi', month:'eng_sho56',
+    q:'月 10\n"October" の意味はどれですか？',
+    options:['3月','5月','10月','6月'], answer:2,
+    explanation:'October ＝ 10月' },
+  { id:'et56_tsuki_e10', subject:'et_tsuki_ei', month:'eng_sho56',
+    q:'月 10\n「10月」を英語で言うと、どれですか？',
+    options:['March','May','August','October'], answer:3,
+    explanation:'October ＝ 10月' },
+  { id:'et56_tsuki_i11', subject:'et_tsuki_imi', month:'eng_sho56',
+    q:'月 11\n"November" の意味はどれですか？',
+    options:['12月','9月','11月','6月'], answer:2,
+    explanation:'November ＝ 11月' },
+  { id:'et56_tsuki_e11', subject:'et_tsuki_ei', month:'eng_sho56',
+    q:'月 11\n「11月」を英語で言うと、どれですか？',
+    options:['March','August','November','May'], answer:2,
+    explanation:'November ＝ 11月' },
+  { id:'et56_tsuki_i12', subject:'et_tsuki_imi', month:'eng_sho56',
+    q:'月 12\n"December" の意味はどれですか？',
+    options:['8月','12月','5月','1月'], answer:1,
+    explanation:'December ＝ 12月' },
+  { id:'et56_tsuki_e12', subject:'et_tsuki_ei', month:'eng_sho56',
+    q:'月 12\n「12月」を英語で言うと、どれですか？',
+    options:['June','September','December','November'], answer:2,
+    explanation:'December ＝ 12月' },
+  { id:'et56_kyouka_i01', subject:'et_kyouka_imi', month:'eng_sho56',
+    q:'教科 1\n"Japanese" の意味はどれですか？',
+    options:['図工','英語','社会','国語'], answer:3,
+    explanation:'Japanese ＝ 国語\n「日本語・日本人」の意味もある。' },
+  { id:'et56_kyouka_e01', subject:'et_kyouka_ei', month:'eng_sho56',
+    q:'教科 1\n「国語」を英語で言うと、どれですか？',
+    options:['arts and crafts','science','home economics','Japanese'], answer:3,
+    explanation:'Japanese ＝ 国語\n「日本語・日本人」の意味もある。' },
+  { id:'et56_kyouka_i02', subject:'et_kyouka_imi', month:'eng_sho56',
+    q:'教科 2\n"math" の意味はどれですか？',
+    options:['書写（習字）','理科','算数','体育'], answer:2,
+    explanation:'math ＝ 算数' },
+  { id:'et56_kyouka_e02', subject:'et_kyouka_ei', month:'eng_sho56',
+    q:'教科 2\n「算数」を英語で言うと、どれですか？',
+    options:['math','science','social studies','calligraphy'], answer:0,
+    explanation:'math ＝ 算数' },
+  { id:'et56_kyouka_i03', subject:'et_kyouka_imi', month:'eng_sho56',
+    q:'教科 3\n"science" の意味はどれですか？',
+    options:['国語','社会','書写（習字）','理科'], answer:3,
+    explanation:'science ＝ 理科' },
+  { id:'et56_kyouka_e03', subject:'et_kyouka_ei', month:'eng_sho56',
+    q:'教科 3\n「理科」を英語で言うと、どれですか？',
+    options:['music','P.E.','science','home economics'], answer:2,
+    explanation:'science ＝ 理科' },
+  { id:'et56_kyouka_i04', subject:'et_kyouka_imi', month:'eng_sho56',
+    q:'教科 4\n"social studies" の意味はどれですか？',
+    options:['社会','算数','音楽','体育'], answer:0,
+    explanation:'social studies ＝ 社会' },
+  { id:'et56_kyouka_e04', subject:'et_kyouka_ei', month:'eng_sho56',
+    q:'教科 4\n「社会」を英語で言うと、どれですか？',
+    options:['music','social studies','calligraphy','Japanese'], answer:1,
+    explanation:'social studies ＝ 社会' },
+  { id:'et56_kyouka_i05', subject:'et_kyouka_imi', month:'eng_sho56',
+    q:'教科 5\n"English" の意味はどれですか？',
+    options:['音楽','理科','英語','社会'], answer:2,
+    explanation:'English ＝ 英語' },
+  { id:'et56_kyouka_e05', subject:'et_kyouka_ei', month:'eng_sho56',
+    q:'教科 5\n「英語」を英語で言うと、どれですか？',
+    options:['English','Japanese','calligraphy','arts and crafts'], answer:0,
+    explanation:'English ＝ 英語' },
+  { id:'et56_kyouka_i06', subject:'et_kyouka_imi', month:'eng_sho56',
+    q:'教科 6\n"music" の意味はどれですか？',
+    options:['音楽','体育','書写（習字）','家庭科'], answer:0,
+    explanation:'music ＝ 音楽' },
+  { id:'et56_kyouka_e06', subject:'et_kyouka_ei', month:'eng_sho56',
+    q:'教科 6\n「音楽」を英語で言うと、どれですか？',
+    options:['music','home economics','math','science'], answer:0,
+    explanation:'music ＝ 音楽' },
+  { id:'et56_kyouka_i07', subject:'et_kyouka_imi', month:'eng_sho56',
+    q:'教科 7\n"P.E." の意味はどれですか？',
+    options:['家庭科','国語','体育','理科'], answer:2,
+    explanation:'P.E. ＝ 体育\nphysical education の略。' },
+  { id:'et56_kyouka_e07', subject:'et_kyouka_ei', month:'eng_sho56',
+    q:'教科 7\n「体育」を英語で言うと、どれですか？',
+    options:['English','home economics','science','P.E.'], answer:3,
+    explanation:'P.E. ＝ 体育\nphysical education の略。' },
+  { id:'et56_kyouka_i08', subject:'et_kyouka_imi', month:'eng_sho56',
+    q:'教科 8\n"arts and crafts" の意味はどれですか？',
+    options:['国語','書写（習字）','図工','理科'], answer:2,
+    explanation:'arts and crafts ＝ 図工' },
+  { id:'et56_kyouka_e08', subject:'et_kyouka_ei', month:'eng_sho56',
+    q:'教科 8\n「図工」を英語で言うと、どれですか？',
+    options:['science','arts and crafts','social studies','P.E.'], answer:1,
+    explanation:'arts and crafts ＝ 図工' },
+  { id:'et56_kyouka_i09', subject:'et_kyouka_imi', month:'eng_sho56',
+    q:'教科 9\n"home economics" の意味はどれですか？',
+    options:['家庭科','理科','書写（習字）','国語'], answer:0,
+    explanation:'home economics ＝ 家庭科' },
+  { id:'et56_kyouka_e09', subject:'et_kyouka_ei', month:'eng_sho56',
+    q:'教科 9\n「家庭科」を英語で言うと、どれですか？',
+    options:['English','social studies','home economics','arts and crafts'], answer:2,
+    explanation:'home economics ＝ 家庭科' },
+  { id:'et56_kyouka_i10', subject:'et_kyouka_imi', month:'eng_sho56',
+    q:'教科 10\n"calligraphy" の意味はどれですか？',
+    options:['理科','書写（習字）','図工','音楽'], answer:1,
+    explanation:'calligraphy ＝ 書写（習字）' },
+  { id:'et56_kyouka_e10', subject:'et_kyouka_ei', month:'eng_sho56',
+    q:'教科 10\n「書写（習字）」を英語で言うと、どれですか？',
+    options:['music','social studies','home economics','calligraphy'], answer:3,
+    explanation:'calligraphy ＝ 書写（習字）' },
+  { id:'et56_gakkou_i01', subject:'et_gakkou_imi', month:'eng_sho56',
+    q:'学校 1\n"school" の意味はどれですか？',
+    options:['学校','生徒','体育館','図書館（図書室）'], answer:0,
+    explanation:'school ＝ 学校' },
+  { id:'et56_gakkou_e01', subject:'et_gakkou_ei', month:'eng_sho56',
+    q:'学校 1\n「学校」を英語で言うと、どれですか？',
+    options:['gym','classroom','school','student'], answer:2,
+    explanation:'school ＝ 学校' },
+  { id:'et56_gakkou_i02', subject:'et_gakkou_imi', month:'eng_sho56',
+    q:'学校 2\n"classroom" の意味はどれですか？',
+    options:['体育館','教室','校長先生','理科室'], answer:1,
+    explanation:'classroom ＝ 教室' },
+  { id:'et56_gakkou_e02', subject:'et_gakkou_ei', month:'eng_sho56',
+    q:'学校 2\n「教室」を英語で言うと、どれですか？',
+    options:['playground','nurse\'s office','principal','classroom'], answer:3,
+    explanation:'classroom ＝ 教室' },
+  { id:'et56_gakkou_i03', subject:'et_gakkou_imi', month:'eng_sho56',
+    q:'学校 3\n"library" の意味はどれですか？',
+    options:['保健室','校長先生','教室','図書館（図書室）'], answer:3,
+    explanation:'library ＝ 図書館（図書室）' },
+  { id:'et56_gakkou_e03', subject:'et_gakkou_ei', month:'eng_sho56',
+    q:'学校 3\n「図書館（図書室）」を英語で言うと、どれですか？',
+    options:['nurse\'s office','library','student','teacher'], answer:1,
+    explanation:'library ＝ 図書館（図書室）' },
+  { id:'et56_gakkou_i04', subject:'et_gakkou_imi', month:'eng_sho56',
+    q:'学校 4\n"gym" の意味はどれですか？',
+    options:['校庭','理科室','体育館','生徒'], answer:2,
+    explanation:'gym ＝ 体育館' },
+  { id:'et56_gakkou_e04', subject:'et_gakkou_ei', month:'eng_sho56',
+    q:'学校 4\n「体育館」を英語で言うと、どれですか？',
+    options:['science room','music room','friend','gym'], answer:3,
+    explanation:'gym ＝ 体育館' },
+  { id:'et56_gakkou_i05', subject:'et_gakkou_imi', month:'eng_sho56',
+    q:'学校 5\n"music room" の意味はどれですか？',
+    options:['体育館','教室','音楽室','友だち'], answer:2,
+    explanation:'music room ＝ 音楽室' },
+  { id:'et56_gakkou_e05', subject:'et_gakkou_ei', month:'eng_sho56',
+    q:'学校 5\n「音楽室」を英語で言うと、どれですか？',
+    options:['teacher','gym','music room','school'], answer:2,
+    explanation:'music room ＝ 音楽室' },
+  { id:'et56_gakkou_i06', subject:'et_gakkou_imi', month:'eng_sho56',
+    q:'学校 6\n"science room" の意味はどれですか？',
+    options:['友だち','理科室','生徒','校庭'], answer:1,
+    explanation:'science room ＝ 理科室' },
+  { id:'et56_gakkou_e06', subject:'et_gakkou_ei', month:'eng_sho56',
+    q:'学校 6\n「理科室」を英語で言うと、どれですか？',
+    options:['nurse\'s office','science room','student','friend'], answer:1,
+    explanation:'science room ＝ 理科室' },
+  { id:'et56_gakkou_i07', subject:'et_gakkou_imi', month:'eng_sho56',
+    q:'学校 7\n"playground" の意味はどれですか？',
+    options:['図書館（図書室）','校庭','音楽室','体育館'], answer:1,
+    explanation:'playground ＝ 校庭' },
+  { id:'et56_gakkou_e07', subject:'et_gakkou_ei', month:'eng_sho56',
+    q:'学校 7\n「校庭」を英語で言うと、どれですか？',
+    options:['friend','science room','classroom','playground'], answer:3,
+    explanation:'playground ＝ 校庭' },
+  { id:'et56_gakkou_i08', subject:'et_gakkou_imi', month:'eng_sho56',
+    q:'学校 8\n"teacher" の意味はどれですか？',
+    options:['先生','校庭','体育館','教室'], answer:0,
+    explanation:'teacher ＝ 先生' },
+  { id:'et56_gakkou_e08', subject:'et_gakkou_ei', month:'eng_sho56',
+    q:'学校 8\n「先生」を英語で言うと、どれですか？',
+    options:['principal','nurse\'s office','playground','teacher'], answer:3,
+    explanation:'teacher ＝ 先生' },
+  { id:'et56_gakkou_i09', subject:'et_gakkou_imi', month:'eng_sho56',
+    q:'学校 9\n"student" の意味はどれですか？',
+    options:['生徒','友だち','先生','図書館（図書室）'], answer:0,
+    explanation:'student ＝ 生徒' },
+  { id:'et56_gakkou_e09', subject:'et_gakkou_ei', month:'eng_sho56',
+    q:'学校 9\n「生徒」を英語で言うと、どれですか？',
+    options:['nurse\'s office','science room','teacher','student'], answer:3,
+    explanation:'student ＝ 生徒' },
+  { id:'et56_gakkou_i10', subject:'et_gakkou_imi', month:'eng_sho56',
+    q:'学校 10\n"friend" の意味はどれですか？',
+    options:['保健室','友だち','理科室','教室'], answer:1,
+    explanation:'friend ＝ 友だち\nつづり注意：fr-ie-nd（i が先）。' },
+  { id:'et56_gakkou_e10', subject:'et_gakkou_ei', month:'eng_sho56',
+    q:'学校 10\n「友だち」を英語で言うと、どれですか？',
+    options:['classroom','gym','library','friend'], answer:3,
+    explanation:'friend ＝ 友だち\nつづり注意：fr-ie-nd（i が先）。' },
+  { id:'et56_gakkou_i11', subject:'et_gakkou_imi', month:'eng_sho56',
+    q:'学校 11\n"principal" の意味はどれですか？',
+    options:['校長先生','図書館（図書室）','友だち','理科室'], answer:0,
+    explanation:'principal ＝ 校長先生' },
+  { id:'et56_gakkou_e11', subject:'et_gakkou_ei', month:'eng_sho56',
+    q:'学校 11\n「校長先生」を英語で言うと、どれですか？',
+    options:['library','school','principal','student'], answer:2,
+    explanation:'principal ＝ 校長先生' },
+  { id:'et56_gakkou_i12', subject:'et_gakkou_imi', month:'eng_sho56',
+    q:'学校 12\n"nurse\'s office" の意味はどれですか？',
+    options:['理科室','保健室','音楽室','校長先生'], answer:1,
+    explanation:'nurse\'s office ＝ 保健室' },
+  { id:'et56_gakkou_e12', subject:'et_gakkou_ei', month:'eng_sho56',
+    q:'学校 12\n「保健室」を英語で言うと、どれですか？',
+    options:['teacher','school','nurse\'s office','classroom'], answer:2,
+    explanation:'nurse\'s office ＝ 保健室' },
+  { id:'et56_kazoku_i01', subject:'et_kazoku_imi', month:'eng_sho56',
+    q:'家族 1\n"father" の意味はどれですか？',
+    options:['祖父（おじいさん）','父','家族','男の子'], answer:1,
+    explanation:'father ＝ 父' },
+  { id:'et56_kazoku_e01', subject:'et_kazoku_ei', month:'eng_sho56',
+    q:'家族 1\n「父」を英語で言うと、どれですか？',
+    options:['family','grandmother','girl','father'], answer:3,
+    explanation:'father ＝ 父' },
+  { id:'et56_kazoku_i02', subject:'et_kazoku_imi', month:'eng_sho56',
+    q:'家族 2\n"mother" の意味はどれですか？',
+    options:['姉・妹','母','祖母（おばあさん）','父'], answer:1,
+    explanation:'mother ＝ 母' },
+  { id:'et56_kazoku_e02', subject:'et_kazoku_ei', month:'eng_sho56',
+    q:'家族 2\n「母」を英語で言うと、どれですか？',
+    options:['mother','baby','boy','brother'], answer:0,
+    explanation:'mother ＝ 母' },
+  { id:'et56_kazoku_i03', subject:'et_kazoku_imi', month:'eng_sho56',
+    q:'家族 3\n"brother" の意味はどれですか？',
+    options:['母','兄・弟','姉・妹','父'], answer:1,
+    explanation:'brother ＝ 兄・弟' },
+  { id:'et56_kazoku_e03', subject:'et_kazoku_ei', month:'eng_sho56',
+    q:'家族 3\n「兄・弟」を英語で言うと、どれですか？',
+    options:['grandmother','mother','father','brother'], answer:3,
+    explanation:'brother ＝ 兄・弟' },
+  { id:'et56_kazoku_i04', subject:'et_kazoku_imi', month:'eng_sho56',
+    q:'家族 4\n"sister" の意味はどれですか？',
+    options:['祖母（おばあさん）','赤ちゃん','家族','姉・妹'], answer:3,
+    explanation:'sister ＝ 姉・妹' },
+  { id:'et56_kazoku_e04', subject:'et_kazoku_ei', month:'eng_sho56',
+    q:'家族 4\n「姉・妹」を英語で言うと、どれですか？',
+    options:['baby','sister','mother','boy'], answer:1,
+    explanation:'sister ＝ 姉・妹' },
+  { id:'et56_kazoku_i05', subject:'et_kazoku_imi', month:'eng_sho56',
+    q:'家族 5\n"grandfather" の意味はどれですか？',
+    options:['祖父（おじいさん）','兄・弟','家族','赤ちゃん'], answer:0,
+    explanation:'grandfather ＝ 祖父（おじいさん）' },
+  { id:'et56_kazoku_e05', subject:'et_kazoku_ei', month:'eng_sho56',
+    q:'家族 5\n「祖父（おじいさん）」を英語で言うと、どれですか？',
+    options:['grandmother','grandfather','girl','baby'], answer:1,
+    explanation:'grandfather ＝ 祖父（おじいさん）' },
+  { id:'et56_kazoku_i06', subject:'et_kazoku_imi', month:'eng_sho56',
+    q:'家族 6\n"grandmother" の意味はどれですか？',
+    options:['赤ちゃん','父','祖母（おばあさん）','家族'], answer:2,
+    explanation:'grandmother ＝ 祖母（おばあさん）' },
+  { id:'et56_kazoku_e06', subject:'et_kazoku_ei', month:'eng_sho56',
+    q:'家族 6\n「祖母（おばあさん）」を英語で言うと、どれですか？',
+    options:['grandfather','grandmother','baby','father'], answer:1,
+    explanation:'grandmother ＝ 祖母（おばあさん）' },
+  { id:'et56_kazoku_i07', subject:'et_kazoku_imi', month:'eng_sho56',
+    q:'家族 7\n"family" の意味はどれですか？',
+    options:['家族','祖父（おじいさん）','赤ちゃん','父'], answer:0,
+    explanation:'family ＝ 家族' },
+  { id:'et56_kazoku_e07', subject:'et_kazoku_ei', month:'eng_sho56',
+    q:'家族 7\n「家族」を英語で言うと、どれですか？',
+    options:['grandmother','boy','grandfather','family'], answer:3,
+    explanation:'family ＝ 家族' },
+  { id:'et56_kazoku_i08', subject:'et_kazoku_imi', month:'eng_sho56',
+    q:'家族 8\n"baby" の意味はどれですか？',
+    options:['姉・妹','赤ちゃん','母','女の子'], answer:1,
+    explanation:'baby ＝ 赤ちゃん' },
+  { id:'et56_kazoku_e08', subject:'et_kazoku_ei', month:'eng_sho56',
+    q:'家族 8\n「赤ちゃん」を英語で言うと、どれですか？',
+    options:['baby','brother','girl','sister'], answer:0,
+    explanation:'baby ＝ 赤ちゃん' },
+  { id:'et56_kazoku_i09', subject:'et_kazoku_imi', month:'eng_sho56',
+    q:'家族 9\n"boy" の意味はどれですか？',
+    options:['赤ちゃん','兄・弟','祖父（おじいさん）','男の子'], answer:3,
+    explanation:'boy ＝ 男の子' },
+  { id:'et56_kazoku_e09', subject:'et_kazoku_ei', month:'eng_sho56',
+    q:'家族 9\n「男の子」を英語で言うと、どれですか？',
+    options:['baby','brother','boy','sister'], answer:2,
+    explanation:'boy ＝ 男の子' },
+  { id:'et56_kazoku_i10', subject:'et_kazoku_imi', month:'eng_sho56',
+    q:'家族 10\n"girl" の意味はどれですか？',
+    options:['女の子','祖母（おばあさん）','赤ちゃん','母'], answer:0,
+    explanation:'girl ＝ 女の子' },
+  { id:'et56_kazoku_e10', subject:'et_kazoku_ei', month:'eng_sho56',
+    q:'家族 10\n「女の子」を英語で言うと、どれですか？',
+    options:['boy','girl','mother','grandfather'], answer:1,
+    explanation:'girl ＝ 女の子' },
+  { id:'et56_shigoto_i01', subject:'et_shigoto_imi', month:'eng_sho56',
+    q:'しごと 1\n"doctor" の意味はどれですか？',
+    options:['農家の人','科学者','医者','消防士'], answer:2,
+    explanation:'doctor ＝ 医者' },
+  { id:'et56_shigoto_e01', subject:'et_shigoto_ei', month:'eng_sho56',
+    q:'しごと 1\n「医者」を英語で言うと、どれですか？',
+    options:['vet','doctor','astronaut','police officer'], answer:1,
+    explanation:'doctor ＝ 医者' },
+  { id:'et56_shigoto_i02', subject:'et_shigoto_imi', month:'eng_sho56',
+    q:'しごと 2\n"nurse" の意味はどれですか？',
+    options:['花屋さん','科学者','看護師','医者'], answer:2,
+    explanation:'nurse ＝ 看護師' },
+  { id:'et56_shigoto_e02', subject:'et_shigoto_ei', month:'eng_sho56',
+    q:'しごと 2\n「看護師」を英語で言うと、どれですか？',
+    options:['doctor','astronaut','nurse','zookeeper'], answer:2,
+    explanation:'nurse ＝ 看護師' },
+  { id:'et56_shigoto_i03', subject:'et_shigoto_imi', month:'eng_sho56',
+    q:'しごと 3\n"pilot" の意味はどれですか？',
+    options:['消防士','医者','パイロット','じゅう医'], answer:2,
+    explanation:'pilot ＝ パイロット' },
+  { id:'et56_shigoto_e03', subject:'et_shigoto_ei', month:'eng_sho56',
+    q:'しごと 3\n「パイロット」を英語で言うと、どれですか？',
+    options:['cook','firefighter','pilot','singer'], answer:2,
+    explanation:'pilot ＝ パイロット' },
+  { id:'et56_shigoto_i04', subject:'et_shigoto_imi', month:'eng_sho56',
+    q:'しごと 4\n"police officer" の意味はどれですか？',
+    options:['消防士','料理人','警察官','花屋さん'], answer:2,
+    explanation:'police officer ＝ 警察官' },
+  { id:'et56_shigoto_e04', subject:'et_shigoto_ei', month:'eng_sho56',
+    q:'しごと 4\n「警察官」を英語で言うと、どれですか？',
+    options:['florist','baker','zookeeper','police officer'], answer:3,
+    explanation:'police officer ＝ 警察官' },
+  { id:'et56_shigoto_i05', subject:'et_shigoto_imi', month:'eng_sho56',
+    q:'しごと 5\n"firefighter" の意味はどれですか？',
+    options:['農家の人','料理人','消防士','花屋さん'], answer:2,
+    explanation:'firefighter ＝ 消防士' },
+  { id:'et56_shigoto_e05', subject:'et_shigoto_ei', month:'eng_sho56',
+    q:'しごと 5\n「消防士」を英語で言うと、どれですか？',
+    options:['florist','firefighter','cook','singer'], answer:1,
+    explanation:'firefighter ＝ 消防士' },
+  { id:'et56_shigoto_i06', subject:'et_shigoto_imi', month:'eng_sho56',
+    q:'しごと 6\n"singer" の意味はどれですか？',
+    options:['農家の人','消防士','歌手','パイロット'], answer:2,
+    explanation:'singer ＝ 歌手' },
+  { id:'et56_shigoto_e06', subject:'et_shigoto_ei', month:'eng_sho56',
+    q:'しごと 6\n「歌手」を英語で言うと、どれですか？',
+    options:['baker','zookeeper','police officer','singer'], answer:3,
+    explanation:'singer ＝ 歌手' },
+  { id:'et56_shigoto_i07', subject:'et_shigoto_imi', month:'eng_sho56',
+    q:'しごと 7\n"farmer" の意味はどれですか？',
+    options:['歌手','警察官','消防士','農家の人'], answer:3,
+    explanation:'farmer ＝ 農家の人' },
+  { id:'et56_shigoto_e07', subject:'et_shigoto_ei', month:'eng_sho56',
+    q:'しごと 7\n「農家の人」を英語で言うと、どれですか？',
+    options:['zookeeper','farmer','vet','nurse'], answer:1,
+    explanation:'farmer ＝ 農家の人' },
+  { id:'et56_shigoto_i08', subject:'et_shigoto_imi', month:'eng_sho56',
+    q:'しごと 8\n"baker" の意味はどれですか？',
+    options:['花屋さん','パン屋さん','じゅう医','科学者'], answer:1,
+    explanation:'baker ＝ パン屋さん' },
+  { id:'et56_shigoto_e08', subject:'et_shigoto_ei', month:'eng_sho56',
+    q:'しごと 8\n「パン屋さん」を英語で言うと、どれですか？',
+    options:['cook','florist','baker','zookeeper'], answer:2,
+    explanation:'baker ＝ パン屋さん' },
+  { id:'et56_shigoto_i09', subject:'et_shigoto_imi', month:'eng_sho56',
+    q:'しごと 9\n"florist" の意味はどれですか？',
+    options:['宇宙飛行士','じゅう医','消防士','花屋さん'], answer:3,
+    explanation:'florist ＝ 花屋さん' },
+  { id:'et56_shigoto_e09', subject:'et_shigoto_ei', month:'eng_sho56',
+    q:'しごと 9\n「花屋さん」を英語で言うと、どれですか？',
+    options:['florist','farmer','scientist','vet'], answer:0,
+    explanation:'florist ＝ 花屋さん' },
+  { id:'et56_shigoto_i10', subject:'et_shigoto_imi', month:'eng_sho56',
+    q:'しごと 10\n"vet" の意味はどれですか？',
+    options:['動物園の飼育員','じゅう医','警察官','パン屋さん'], answer:1,
+    explanation:'vet ＝ じゅう医\n動物のお医者さん。' },
+  { id:'et56_shigoto_e10', subject:'et_shigoto_ei', month:'eng_sho56',
+    q:'しごと 10\n「じゅう医」を英語で言うと、どれですか？',
+    options:['firefighter','cook','vet','zookeeper'], answer:2,
+    explanation:'vet ＝ じゅう医\n動物のお医者さん。' },
+  { id:'et56_shigoto_i11', subject:'et_shigoto_imi', month:'eng_sho56',
+    q:'しごと 11\n"astronaut" の意味はどれですか？',
+    options:['動物園の飼育員','医者','科学者','宇宙飛行士'], answer:3,
+    explanation:'astronaut ＝ 宇宙飛行士' },
+  { id:'et56_shigoto_e11', subject:'et_shigoto_ei', month:'eng_sho56',
+    q:'しごと 11\n「宇宙飛行士」を英語で言うと、どれですか？',
+    options:['astronaut','nurse','scientist','florist'], answer:0,
+    explanation:'astronaut ＝ 宇宙飛行士' },
+  { id:'et56_shigoto_i12', subject:'et_shigoto_imi', month:'eng_sho56',
+    q:'しごと 12\n"scientist" の意味はどれですか？',
+    options:['動物園の飼育員','医者','科学者','パイロット'], answer:2,
+    explanation:'scientist ＝ 科学者' },
+  { id:'et56_shigoto_e12', subject:'et_shigoto_ei', month:'eng_sho56',
+    q:'しごと 12\n「科学者」を英語で言うと、どれですか？',
+    options:['pilot','scientist','police officer','firefighter'], answer:1,
+    explanation:'scientist ＝ 科学者' },
+  { id:'et56_shigoto_i13', subject:'et_shigoto_imi', month:'eng_sho56',
+    q:'しごと 13\n"zookeeper" の意味はどれですか？',
+    options:['宇宙飛行士','警察官','動物園の飼育員','パイロット'], answer:2,
+    explanation:'zookeeper ＝ 動物園の飼育員' },
+  { id:'et56_shigoto_e13', subject:'et_shigoto_ei', month:'eng_sho56',
+    q:'しごと 13\n「動物園の飼育員」を英語で言うと、どれですか？',
+    options:['pilot','zookeeper','farmer','vet'], answer:1,
+    explanation:'zookeeper ＝ 動物園の飼育員' },
+  { id:'et56_shigoto_i14', subject:'et_shigoto_imi', month:'eng_sho56',
+    q:'しごと 14\n"cook" の意味はどれですか？',
+    options:['消防士','警察官','花屋さん','料理人'], answer:3,
+    explanation:'cook ＝ 料理人\n「料理する」の意味もある。' },
+  { id:'et56_shigoto_e14', subject:'et_shigoto_ei', month:'eng_sho56',
+    q:'しごと 14\n「料理人」を英語で言うと、どれですか？',
+    options:['scientist','cook','baker','pilot'], answer:1,
+    explanation:'cook ＝ 料理人\n「料理する」の意味もある。' },
+  { id:'et56_fuku_i01', subject:'et_fuku_imi', month:'eng_sho56',
+    q:'服 1\n"hat" の意味はどれですか？',
+    options:['くつ','Tシャツ','くつした','ぼうし'], answer:3,
+    explanation:'hat ＝ ぼうし' },
+  { id:'et56_fuku_e01', subject:'et_fuku_ei', month:'eng_sho56',
+    q:'服 1\n「ぼうし」を英語で言うと、どれですか？',
+    options:['watch','jacket','gloves','hat'], answer:3,
+    explanation:'hat ＝ ぼうし' },
+  { id:'et56_fuku_i02', subject:'et_fuku_imi', month:'eng_sho56',
+    q:'服 2\n"T-shirt" の意味はどれですか？',
+    options:['ぼうし','かさ','Tシャツ','上着（ジャケット）'], answer:2,
+    explanation:'T-shirt ＝ Tシャツ' },
+  { id:'et56_fuku_e02', subject:'et_fuku_ei', month:'eng_sho56',
+    q:'服 2\n「Tシャツ」を英語で言うと、どれですか？',
+    options:['T-shirt','jacket','umbrella','glasses'], answer:0,
+    explanation:'T-shirt ＝ Tシャツ' },
+  { id:'et56_fuku_i03', subject:'et_fuku_imi', month:'eng_sho56',
+    q:'服 3\n"sweater" の意味はどれですか？',
+    options:['ズボン','セーター','上着（ジャケット）','かさ'], answer:1,
+    explanation:'sweater ＝ セーター' },
+  { id:'et56_fuku_e03', subject:'et_fuku_ei', month:'eng_sho56',
+    q:'服 3\n「セーター」を英語で言うと、どれですか？',
+    options:['pants','sweater','T-shirt','skirt'], answer:1,
+    explanation:'sweater ＝ セーター' },
+  { id:'et56_fuku_i04', subject:'et_fuku_imi', month:'eng_sho56',
+    q:'服 4\n"jacket" の意味はどれですか？',
+    options:['セーター','うで時計','ズボン','上着（ジャケット）'], answer:3,
+    explanation:'jacket ＝ 上着（ジャケット）' },
+  { id:'et56_fuku_e04', subject:'et_fuku_ei', month:'eng_sho56',
+    q:'服 4\n「上着（ジャケット）」を英語で言うと、どれですか？',
+    options:['jacket','pants','skirt','socks'], answer:0,
+    explanation:'jacket ＝ 上着（ジャケット）' },
+  { id:'et56_fuku_i05', subject:'et_fuku_imi', month:'eng_sho56',
+    q:'服 5\n"pants" の意味はどれですか？',
+    options:['かさ','上着（ジャケット）','ズボン','くつ'], answer:2,
+    explanation:'pants ＝ ズボン' },
+  { id:'et56_fuku_e05', subject:'et_fuku_ei', month:'eng_sho56',
+    q:'服 5\n「ズボン」を英語で言うと、どれですか？',
+    options:['sweater','pants','jacket','hat'], answer:1,
+    explanation:'pants ＝ ズボン' },
+  { id:'et56_fuku_i06', subject:'et_fuku_imi', month:'eng_sho56',
+    q:'服 6\n"skirt" の意味はどれですか？',
+    options:['手ぶくろ','くつ','くつした','スカート'], answer:3,
+    explanation:'skirt ＝ スカート' },
+  { id:'et56_fuku_e06', subject:'et_fuku_ei', month:'eng_sho56',
+    q:'服 6\n「スカート」を英語で言うと、どれですか？',
+    options:['watch','pants','skirt','hat'], answer:2,
+    explanation:'skirt ＝ スカート' },
+  { id:'et56_fuku_i07', subject:'et_fuku_imi', month:'eng_sho56',
+    q:'服 7\n"shoes" の意味はどれですか？',
+    options:['ズボン','かさ','セーター','くつ'], answer:3,
+    explanation:'shoes ＝ くつ\n2つで1組なので s がつく。' },
+  { id:'et56_fuku_e07', subject:'et_fuku_ei', month:'eng_sho56',
+    q:'服 7\n「くつ」を英語で言うと、どれですか？',
+    options:['hat','shoes','sweater','glasses'], answer:1,
+    explanation:'shoes ＝ くつ\n2つで1組なので s がつく。' },
+  { id:'et56_fuku_i08', subject:'et_fuku_imi', month:'eng_sho56',
+    q:'服 8\n"socks" の意味はどれですか？',
+    options:['ズボン','Tシャツ','くつ','くつした'], answer:3,
+    explanation:'socks ＝ くつした' },
+  { id:'et56_fuku_e08', subject:'et_fuku_ei', month:'eng_sho56',
+    q:'服 8\n「くつした」を英語で言うと、どれですか？',
+    options:['glasses','socks','umbrella','jacket'], answer:1,
+    explanation:'socks ＝ くつした' },
+  { id:'et56_fuku_i09', subject:'et_fuku_imi', month:'eng_sho56',
+    q:'服 9\n"gloves" の意味はどれですか？',
+    options:['かさ','Tシャツ','手ぶくろ','ぼうし'], answer:2,
+    explanation:'gloves ＝ 手ぶくろ' },
+  { id:'et56_fuku_e09', subject:'et_fuku_ei', month:'eng_sho56',
+    q:'服 9\n「手ぶくろ」を英語で言うと、どれですか？',
+    options:['skirt','hat','glasses','gloves'], answer:3,
+    explanation:'gloves ＝ 手ぶくろ' },
+  { id:'et56_fuku_i10', subject:'et_fuku_imi', month:'eng_sho56',
+    q:'服 10\n"umbrella" の意味はどれですか？',
+    options:['ぼうし','セーター','かさ','Tシャツ'], answer:2,
+    explanation:'umbrella ＝ かさ' },
+  { id:'et56_fuku_e10', subject:'et_fuku_ei', month:'eng_sho56',
+    q:'服 10\n「かさ」を英語で言うと、どれですか？',
+    options:['pants','glasses','T-shirt','umbrella'], answer:3,
+    explanation:'umbrella ＝ かさ' },
+  { id:'et56_fuku_i11', subject:'et_fuku_imi', month:'eng_sho56',
+    q:'服 11\n"glasses" の意味はどれですか？',
+    options:['セーター','めがね','手ぶくろ','かさ'], answer:1,
+    explanation:'glasses ＝ めがね' },
+  { id:'et56_fuku_e11', subject:'et_fuku_ei', month:'eng_sho56',
+    q:'服 11\n「めがね」を英語で言うと、どれですか？',
+    options:['T-shirt','watch','glasses','pants'], answer:2,
+    explanation:'glasses ＝ めがね' },
+  { id:'et56_fuku_i12', subject:'et_fuku_imi', month:'eng_sho56',
+    q:'服 12\n"watch" の意味はどれですか？',
+    options:['上着（ジャケット）','かさ','スカート','うで時計'], answer:3,
+    explanation:'watch ＝ うで時計\n「見る」の意味もある。' },
+  { id:'et56_fuku_e12', subject:'et_fuku_ei', month:'eng_sho56',
+    q:'服 12\n「うで時計」を英語で言うと、どれですか？',
+    options:['gloves','T-shirt','glasses','watch'], answer:3,
+    explanation:'watch ＝ うで時計\n「見る」の意味もある。' },
+  { id:'et56_doushi_i01', subject:'et_doushi_imi', month:'eng_sho56',
+    q:'動作 1\n"run" の意味はどれですか？',
+    options:['歩く','乗る','走る','行く'], answer:2,
+    explanation:'run ＝ 走る' },
+  { id:'et56_doushi_e01', subject:'et_doushi_ei', month:'eng_sho56',
+    q:'動作 1\n「走る」を英語で言うと、どれですか？',
+    options:['swim','sleep','run','ride'], answer:2,
+    explanation:'run ＝ 走る' },
+  { id:'et56_doushi_i02', subject:'et_doushi_imi', month:'eng_sho56',
+    q:'動作 2\n"walk" の意味はどれですか？',
+    options:['歩く','食べる','（スポーツ・楽器を）する','歌う'], answer:0,
+    explanation:'walk ＝ 歩く' },
+  { id:'et56_doushi_e02', subject:'et_doushi_ei', month:'eng_sho56',
+    q:'動作 2\n「歩く」を英語で言うと、どれですか？',
+    options:['read','sing','see','walk'], answer:3,
+    explanation:'walk ＝ 歩く' },
+  { id:'et56_doushi_i03', subject:'et_doushi_imi', month:'eng_sho56',
+    q:'動作 3\n"swim" の意味はどれですか？',
+    options:['読む','行く','泳ぐ','おどる'], answer:2,
+    explanation:'swim ＝ 泳ぐ' },
+  { id:'et56_doushi_e03', subject:'et_doushi_ei', month:'eng_sho56',
+    q:'動作 3\n「泳ぐ」を英語で言うと、どれですか？',
+    options:['like','swim','ride','drink'], answer:1,
+    explanation:'swim ＝ 泳ぐ' },
+  { id:'et56_doushi_i04', subject:'et_doushi_imi', month:'eng_sho56',
+    q:'動作 4\n"jump" の意味はどれですか？',
+    options:['とぶ（ジャンプする）','ねる','読む','書く'], answer:0,
+    explanation:'jump ＝ とぶ（ジャンプする）' },
+  { id:'et56_doushi_e04', subject:'et_doushi_ei', month:'eng_sho56',
+    q:'動作 4\n「とぶ（ジャンプする）」を英語で言うと、どれですか？',
+    options:['want','jump','run','walk'], answer:1,
+    explanation:'jump ＝ とぶ（ジャンプする）' },
+  { id:'et56_doushi_i05', subject:'et_doushi_imi', month:'eng_sho56',
+    q:'動作 5\n"eat" の意味はどれですか？',
+    options:['食べる','ほしい','歌う','勉強する'], answer:0,
+    explanation:'eat ＝ 食べる' },
+  { id:'et56_doushi_e05', subject:'et_doushi_ei', month:'eng_sho56',
+    q:'動作 5\n「食べる」を英語で言うと、どれですか？',
+    options:['run','eat','study','dance'], answer:1,
+    explanation:'eat ＝ 食べる' },
+  { id:'et56_doushi_i06', subject:'et_doushi_imi', month:'eng_sho56',
+    q:'動作 6\n"drink" の意味はどれですか？',
+    options:['食べる','飲む','おどる','読む'], answer:1,
+    explanation:'drink ＝ 飲む' },
+  { id:'et56_doushi_e06', subject:'et_doushi_ei', month:'eng_sho56',
+    q:'動作 6\n「飲む」を英語で言うと、どれですか？',
+    options:['play','drink','write','read'], answer:1,
+    explanation:'drink ＝ 飲む' },
+  { id:'et56_doushi_i07', subject:'et_doushi_imi', month:'eng_sho56',
+    q:'動作 7\n"sing" の意味はどれですか？',
+    options:['おどる','ほしい','とぶ（ジャンプする）','歌う'], answer:3,
+    explanation:'sing ＝ 歌う' },
+  { id:'et56_doushi_e07', subject:'et_doushi_ei', month:'eng_sho56',
+    q:'動作 7\n「歌う」を英語で言うと、どれですか？',
+    options:['study','swim','sing','write'], answer:2,
+    explanation:'sing ＝ 歌う' },
+  { id:'et56_doushi_i08', subject:'et_doushi_imi', month:'eng_sho56',
+    q:'動作 8\n"dance" の意味はどれですか？',
+    options:['歌う','（スポーツ・楽器を）する','見る','おどる'], answer:3,
+    explanation:'dance ＝ おどる' },
+  { id:'et56_doushi_e08', subject:'et_doushi_ei', month:'eng_sho56',
+    q:'動作 8\n「おどる」を英語で言うと、どれですか？',
+    options:['drink','write','dance','swim'], answer:2,
+    explanation:'dance ＝ おどる' },
+  { id:'et56_doushi_i09', subject:'et_doushi_imi', month:'eng_sho56',
+    q:'動作 9\n"read" の意味はどれですか？',
+    options:['ほしい','走る','読む','勉強する'], answer:2,
+    explanation:'read ＝ 読む' },
+  { id:'et56_doushi_e09', subject:'et_doushi_ei', month:'eng_sho56',
+    q:'動作 9\n「読む」を英語で言うと、どれですか？',
+    options:['write','drink','read','see'], answer:2,
+    explanation:'read ＝ 読む' },
+  { id:'et56_doushi_i10', subject:'et_doushi_imi', month:'eng_sho56',
+    q:'動作 10\n"write" の意味はどれですか？',
+    options:['好きだ','書く','行く','食べる'], answer:1,
+    explanation:'write ＝ 書く\nw は読まない（ライト）。' },
+  { id:'et56_doushi_e10', subject:'et_doushi_ei', month:'eng_sho56',
+    q:'動作 10\n「書く」を英語で言うと、どれですか？',
+    options:['write','swim','sing','walk'], answer:0,
+    explanation:'write ＝ 書く\nw は読まない（ライト）。' },
+  { id:'et56_doushi_i11', subject:'et_doushi_imi', month:'eng_sho56',
+    q:'動作 11\n"study" の意味はどれですか？',
+    options:['勉強する','とぶ（ジャンプする）','走る','行く'], answer:0,
+    explanation:'study ＝ 勉強する' },
+  { id:'et56_doushi_e11', subject:'et_doushi_ei', month:'eng_sho56',
+    q:'動作 11\n「勉強する」を英語で言うと、どれですか？',
+    options:['see','study','run','read'], answer:1,
+    explanation:'study ＝ 勉強する' },
+  { id:'et56_doushi_i12', subject:'et_doushi_imi', month:'eng_sho56',
+    q:'動作 12\n"sleep" の意味はどれですか？',
+    options:['ねる','勉強する','飲む','歩く'], answer:0,
+    explanation:'sleep ＝ ねる' },
+  { id:'et56_doushi_e12', subject:'et_doushi_ei', month:'eng_sho56',
+    q:'動作 12\n「ねる」を英語で言うと、どれですか？',
+    options:['swim','sleep','write','eat'], answer:1,
+    explanation:'sleep ＝ ねる' },
+  { id:'et56_doushi_i13', subject:'et_doushi_imi', month:'eng_sho56',
+    q:'動作 13\n"see" の意味はどれですか？',
+    options:['とぶ（ジャンプする）','見る','泳ぐ','勉強する'], answer:1,
+    explanation:'see ＝ 見る' },
+  { id:'et56_doushi_e13', subject:'et_doushi_ei', month:'eng_sho56',
+    q:'動作 13\n「見る」を英語で言うと、どれですか？',
+    options:['want','go','run','see'], answer:3,
+    explanation:'see ＝ 見る' },
+  { id:'et56_doushi_i14', subject:'et_doushi_imi', month:'eng_sho56',
+    q:'動作 14\n"go" の意味はどれですか？',
+    options:['読む','行く','とぶ（ジャンプする）','泳ぐ'], answer:1,
+    explanation:'go ＝ 行く' },
+  { id:'et56_doushi_e14', subject:'et_doushi_ei', month:'eng_sho56',
+    q:'動作 14\n「行く」を英語で言うと、どれですか？',
+    options:['drink','swim','want','go'], answer:3,
+    explanation:'go ＝ 行く' },
+  { id:'et56_doushi_i15', subject:'et_doushi_imi', month:'eng_sho56',
+    q:'動作 15\n"like" の意味はどれですか？',
+    options:['走る','好きだ','乗る','泳ぐ'], answer:1,
+    explanation:'like ＝ 好きだ' },
+  { id:'et56_doushi_e15', subject:'et_doushi_ei', month:'eng_sho56',
+    q:'動作 15\n「好きだ」を英語で言うと、どれですか？',
+    options:['see','sleep','like','swim'], answer:2,
+    explanation:'like ＝ 好きだ' },
+  { id:'et56_doushi_i16', subject:'et_doushi_imi', month:'eng_sho56',
+    q:'動作 16\n"want" の意味はどれですか？',
+    options:['おどる','食べる','ほしい','書く'], answer:2,
+    explanation:'want ＝ ほしい' },
+  { id:'et56_doushi_e16', subject:'et_doushi_ei', month:'eng_sho56',
+    q:'動作 16\n「ほしい」を英語で言うと、どれですか？',
+    options:['see','read','like','want'], answer:3,
+    explanation:'want ＝ ほしい' },
+  { id:'et56_doushi_i17', subject:'et_doushi_imi', month:'eng_sho56',
+    q:'動作 17\n"play" の意味はどれですか？',
+    options:['（スポーツ・楽器を）する','ほしい','走る','行く'], answer:0,
+    explanation:'play ＝ （スポーツ・楽器を）する' },
+  { id:'et56_doushi_e17', subject:'et_doushi_ei', month:'eng_sho56',
+    q:'動作 17\n「（スポーツ・楽器を）する」を英語で言うと、どれですか？',
+    options:['dance','play','eat','swim'], answer:1,
+    explanation:'play ＝ （スポーツ・楽器を）する' },
+  { id:'et56_doushi_i18', subject:'et_doushi_imi', month:'eng_sho56',
+    q:'動作 18\n"ride" の意味はどれですか？',
+    options:['おどる','勉強する','食べる','乗る'], answer:3,
+    explanation:'ride ＝ 乗る' },
+  { id:'et56_doushi_e18', subject:'et_doushi_ei', month:'eng_sho56',
+    q:'動作 18\n「乗る」を英語で言うと、どれですか？',
+    options:['see','run','sleep','ride'], answer:3,
+    explanation:'ride ＝ 乗る' },
+  { id:'et56_yousu_i01', subject:'et_yousu_imi', month:'eng_sho56',
+    q:'ようす 1\n"big" の意味はどれですか？',
+    options:['強い','ねむい','大きい','小さい'], answer:2,
+    explanation:'big ＝ 大きい' },
+  { id:'et56_yousu_e01', subject:'et_yousu_ei', month:'eng_sho56',
+    q:'ようす 1\n「大きい」を英語で言うと、どれですか？',
+    options:['short','hungry','big','delicious'], answer:2,
+    explanation:'big ＝ 大きい' },
+  { id:'et56_yousu_i02', subject:'et_yousu_imi', month:'eng_sho56',
+    q:'ようす 2\n"small" の意味はどれですか？',
+    options:['つかれた','古い','大きい','小さい'], answer:3,
+    explanation:'small ＝ 小さい' },
+  { id:'et56_yousu_e02', subject:'et_yousu_ei', month:'eng_sho56',
+    q:'ようす 2\n「小さい」を英語で言うと、どれですか？',
+    options:['sad','tired','short','small'], answer:3,
+    explanation:'small ＝ 小さい' },
+  { id:'et56_yousu_i03', subject:'et_yousu_imi', month:'eng_sho56',
+    q:'ようす 3\n"long" の意味はどれですか？',
+    options:['速い','長い','短い','つかれた'], answer:1,
+    explanation:'long ＝ 長い' },
+  { id:'et56_yousu_e03', subject:'et_yousu_ei', month:'eng_sho56',
+    q:'ようす 3\n「長い」を英語で言うと、どれですか？',
+    options:['long','short','tall','hungry'], answer:0,
+    explanation:'long ＝ 長い' },
+  { id:'et56_yousu_i04', subject:'et_yousu_imi', month:'eng_sho56',
+    q:'ようす 4\n"short" の意味はどれですか？',
+    options:['短い','長い','楽しい','新しい'], answer:0,
+    explanation:'short ＝ 短い\n「背が低い」の意味もある。' },
+  { id:'et56_yousu_e04', subject:'et_yousu_ei', month:'eng_sho56',
+    q:'ようす 4\n「短い」を英語で言うと、どれですか？',
+    options:['short','kind','tall','delicious'], answer:0,
+    explanation:'short ＝ 短い\n「背が低い」の意味もある。' },
+  { id:'et56_yousu_i05', subject:'et_yousu_imi', month:'eng_sho56',
+    q:'ようす 5\n"tall" の意味はどれですか？',
+    options:['小さい','背が高い','古い','大きい'], answer:1,
+    explanation:'tall ＝ 背が高い' },
+  { id:'et56_yousu_e05', subject:'et_yousu_ei', month:'eng_sho56',
+    q:'ようす 5\n「背が高い」を英語で言うと、どれですか？',
+    options:['cute','happy','old','tall'], answer:3,
+    explanation:'tall ＝ 背が高い' },
+  { id:'et56_yousu_i06', subject:'et_yousu_imi', month:'eng_sho56',
+    q:'ようす 6\n"new" の意味はどれですか？',
+    options:['新しい','とてもおいしい','親切な','古い'], answer:0,
+    explanation:'new ＝ 新しい' },
+  { id:'et56_yousu_e06', subject:'et_yousu_ei', month:'eng_sho56',
+    q:'ようす 6\n「新しい」を英語で言うと、どれですか？',
+    options:['fast','sad','new','small'], answer:2,
+    explanation:'new ＝ 新しい' },
+  { id:'et56_yousu_i07', subject:'et_yousu_imi', month:'eng_sho56',
+    q:'ようす 7\n"old" の意味はどれですか？',
+    options:['親切な','強い','悲しい','古い'], answer:3,
+    explanation:'old ＝ 古い\n「年をとった」の意味もある。' },
+  { id:'et56_yousu_e07', subject:'et_yousu_ei', month:'eng_sho56',
+    q:'ようす 7\n「古い」を英語で言うと、どれですか？',
+    options:['tired','hungry','old','new'], answer:2,
+    explanation:'old ＝ 古い\n「年をとった」の意味もある。' },
+  { id:'et56_yousu_i08', subject:'et_yousu_imi', month:'eng_sho56',
+    q:'ようす 8\n"happy" の意味はどれですか？',
+    options:['うれしい','美しい','かわいい','悲しい'], answer:0,
+    explanation:'happy ＝ うれしい' },
+  { id:'et56_yousu_e08', subject:'et_yousu_ei', month:'eng_sho56',
+    q:'ようす 8\n「うれしい」を英語で言うと、どれですか？',
+    options:['beautiful','big','happy','kind'], answer:2,
+    explanation:'happy ＝ うれしい' },
+  { id:'et56_yousu_i09', subject:'et_yousu_imi', month:'eng_sho56',
+    q:'ようす 9\n"sad" の意味はどれですか？',
+    options:['悲しい','長い','とてもおいしい','小さい'], answer:0,
+    explanation:'sad ＝ 悲しい' },
+  { id:'et56_yousu_e09', subject:'et_yousu_ei', month:'eng_sho56',
+    q:'ようす 9\n「悲しい」を英語で言うと、どれですか？',
+    options:['happy','short','big','sad'], answer:3,
+    explanation:'sad ＝ 悲しい' },
+  { id:'et56_yousu_i10', subject:'et_yousu_imi', month:'eng_sho56',
+    q:'ようす 10\n"hungry" の意味はどれですか？',
+    options:['おなかがすいた','長い','ねむい','悲しい'], answer:0,
+    explanation:'hungry ＝ おなかがすいた' },
+  { id:'et56_yousu_e10', subject:'et_yousu_ei', month:'eng_sho56',
+    q:'ようす 10\n「おなかがすいた」を英語で言うと、どれですか？',
+    options:['tall','big','kind','hungry'], answer:3,
+    explanation:'hungry ＝ おなかがすいた' },
+  { id:'et56_yousu_i11', subject:'et_yousu_imi', month:'eng_sho56',
+    q:'ようす 11\n"sleepy" の意味はどれですか？',
+    options:['つかれた','うれしい','ねむい','親切な'], answer:2,
+    explanation:'sleepy ＝ ねむい' },
+  { id:'et56_yousu_e11', subject:'et_yousu_ei', month:'eng_sho56',
+    q:'ようす 11\n「ねむい」を英語で言うと、どれですか？',
+    options:['sleepy','cute','sad','kind'], answer:0,
+    explanation:'sleepy ＝ ねむい' },
+  { id:'et56_yousu_i12', subject:'et_yousu_imi', month:'eng_sho56',
+    q:'ようす 12\n"tired" の意味はどれですか？',
+    options:['つかれた','小さい','速い','背が高い'], answer:0,
+    explanation:'tired ＝ つかれた' },
+  { id:'et56_yousu_e12', subject:'et_yousu_ei', month:'eng_sho56',
+    q:'ようす 12\n「つかれた」を英語で言うと、どれですか？',
+    options:['small','tall','tired','strong'], answer:2,
+    explanation:'tired ＝ つかれた' },
+  { id:'et56_yousu_i13', subject:'et_yousu_imi', month:'eng_sho56',
+    q:'ようす 13\n"beautiful" の意味はどれですか？',
+    options:['強い','短い','長い','美しい'], answer:3,
+    explanation:'beautiful ＝ 美しい' },
+  { id:'et56_yousu_e13', subject:'et_yousu_ei', month:'eng_sho56',
+    q:'ようす 13\n「美しい」を英語で言うと、どれですか？',
+    options:['beautiful','fast','cute','happy'], answer:0,
+    explanation:'beautiful ＝ 美しい' },
+  { id:'et56_yousu_i14', subject:'et_yousu_imi', month:'eng_sho56',
+    q:'ようす 14\n"cute" の意味はどれですか？',
+    options:['楽しい','かわいい','ねむい','小さい'], answer:1,
+    explanation:'cute ＝ かわいい' },
+  { id:'et56_yousu_e14', subject:'et_yousu_ei', month:'eng_sho56',
+    q:'ようす 14\n「かわいい」を英語で言うと、どれですか？',
+    options:['small','cute','old','beautiful'], answer:1,
+    explanation:'cute ＝ かわいい' },
+  { id:'et56_yousu_i15', subject:'et_yousu_imi', month:'eng_sho56',
+    q:'ようす 15\n"delicious" の意味はどれですか？',
+    options:['かわいい','小さい','楽しい','とてもおいしい'], answer:3,
+    explanation:'delicious ＝ とてもおいしい' },
+  { id:'et56_yousu_e15', subject:'et_yousu_ei', month:'eng_sho56',
+    q:'ようす 15\n「とてもおいしい」を英語で言うと、どれですか？',
+    options:['hungry','delicious','fun','small'], answer:1,
+    explanation:'delicious ＝ とてもおいしい' },
+  { id:'et56_yousu_i16', subject:'et_yousu_imi', month:'eng_sho56',
+    q:'ようす 16\n"fun" の意味はどれですか？',
+    options:['速い','つかれた','悲しい','楽しい'], answer:3,
+    explanation:'fun ＝ 楽しい' },
+  { id:'et56_yousu_e16', subject:'et_yousu_ei', month:'eng_sho56',
+    q:'ようす 16\n「楽しい」を英語で言うと、どれですか？',
+    options:['cute','tired','sleepy','fun'], answer:3,
+    explanation:'fun ＝ 楽しい' },
+  { id:'et56_yousu_i17', subject:'et_yousu_imi', month:'eng_sho56',
+    q:'ようす 17\n"kind" の意味はどれですか？',
+    options:['親切な','強い','背が高い','小さい'], answer:0,
+    explanation:'kind ＝ 親切な' },
+  { id:'et56_yousu_e17', subject:'et_yousu_ei', month:'eng_sho56',
+    q:'ようす 17\n「親切な」を英語で言うと、どれですか？',
+    options:['old','short','kind','small'], answer:2,
+    explanation:'kind ＝ 親切な' },
+  { id:'et56_yousu_i18', subject:'et_yousu_imi', month:'eng_sho56',
+    q:'ようす 18\n"strong" の意味はどれですか？',
+    options:['古い','小さい','強い','美しい'], answer:2,
+    explanation:'strong ＝ 強い' },
+  { id:'et56_yousu_e18', subject:'et_yousu_ei', month:'eng_sho56',
+    q:'ようす 18\n「強い」を英語で言うと、どれですか？',
+    options:['old','strong','sleepy','fun'], answer:1,
+    explanation:'strong ＝ 強い' },
+  { id:'et56_yousu_i19', subject:'et_yousu_imi', month:'eng_sho56',
+    q:'ようす 19\n"fast" の意味はどれですか？',
+    options:['古い','長い','大きい','速い'], answer:3,
+    explanation:'fast ＝ 速い' },
+  { id:'et56_yousu_e19', subject:'et_yousu_ei', month:'eng_sho56',
+    q:'ようす 19\n「速い」を英語で言うと、どれですか？',
+    options:['fast','kind','new','sleepy'], answer:0,
+    explanation:'fast ＝ 速い' },
+  { id:'et56_machi_i01', subject:'et_machi_imi', month:'eng_sho56',
+    q:'まち 1\n"park" の意味はどれですか？',
+    options:['駅','神社','海','公園'], answer:3,
+    explanation:'park ＝ 公園' },
+  { id:'et56_machi_e01', subject:'et_machi_ei', month:'eng_sho56',
+    q:'まち 1\n「公園」を英語で言うと、どれですか？',
+    options:['castle','park','restaurant','post office'], answer:1,
+    explanation:'park ＝ 公園' },
+  { id:'et56_machi_i02', subject:'et_machi_imi', month:'eng_sho56',
+    q:'まち 2\n"station" の意味はどれですか？',
+    options:['海','城','公園','駅'], answer:3,
+    explanation:'station ＝ 駅' },
+  { id:'et56_machi_e02', subject:'et_machi_ei', month:'eng_sho56',
+    q:'まち 2\n「駅」を英語で言うと、どれですか？',
+    options:['station','house','temple','museum'], answer:0,
+    explanation:'station ＝ 駅' },
+  { id:'et56_machi_i03', subject:'et_machi_imi', month:'eng_sho56',
+    q:'まち 3\n"hospital" の意味はどれですか？',
+    options:['寺','病院','神社','動物園'], answer:1,
+    explanation:'hospital ＝ 病院' },
+  { id:'et56_machi_e03', subject:'et_machi_ei', month:'eng_sho56',
+    q:'まち 3\n「病院」を英語で言うと、どれですか？',
+    options:['bookstore','museum','station','hospital'], answer:3,
+    explanation:'hospital ＝ 病院' },
+  { id:'et56_machi_i04', subject:'et_machi_imi', month:'eng_sho56',
+    q:'まち 4\n"post office" の意味はどれですか？',
+    options:['神社','公園','郵便局','スーパーマーケット'], answer:2,
+    explanation:'post office ＝ 郵便局' },
+  { id:'et56_machi_e04', subject:'et_machi_ei', month:'eng_sho56',
+    q:'まち 4\n「郵便局」を英語で言うと、どれですか？',
+    options:['restaurant','post office','bookstore','shrine'], answer:1,
+    explanation:'post office ＝ 郵便局' },
+  { id:'et56_machi_i05', subject:'et_machi_imi', month:'eng_sho56',
+    q:'まち 5\n"zoo" の意味はどれですか？',
+    options:['動物園','博物館（美術館）','城','郵便局'], answer:0,
+    explanation:'zoo ＝ 動物園' },
+  { id:'et56_machi_e05', subject:'et_machi_ei', month:'eng_sho56',
+    q:'まち 5\n「動物園」を英語で言うと、どれですか？',
+    options:['zoo','sea','post office','supermarket'], answer:0,
+    explanation:'zoo ＝ 動物園' },
+  { id:'et56_machi_i06', subject:'et_machi_imi', month:'eng_sho56',
+    q:'まち 6\n"aquarium" の意味はどれですか？',
+    options:['博物館（美術館）','駅','動物園','水族館'], answer:3,
+    explanation:'aquarium ＝ 水族館' },
+  { id:'et56_machi_e06', subject:'et_machi_ei', month:'eng_sho56',
+    q:'まち 6\n「水族館」を英語で言うと、どれですか？',
+    options:['shrine','bookstore','aquarium','house'], answer:2,
+    explanation:'aquarium ＝ 水族館' },
+  { id:'et56_machi_i07', subject:'et_machi_imi', month:'eng_sho56',
+    q:'まち 7\n"museum" の意味はどれですか？',
+    options:['レストラン','博物館（美術館）','本屋','動物園'], answer:1,
+    explanation:'museum ＝ 博物館（美術館）' },
+  { id:'et56_machi_e07', subject:'et_machi_ei', month:'eng_sho56',
+    q:'まち 7\n「博物館（美術館）」を英語で言うと、どれですか？',
+    options:['river','castle','aquarium','museum'], answer:3,
+    explanation:'museum ＝ 博物館（美術館）' },
+  { id:'et56_machi_i08', subject:'et_machi_imi', month:'eng_sho56',
+    q:'まち 8\n"restaurant" の意味はどれですか？',
+    options:['寺','スーパーマーケット','レストラン','海'], answer:2,
+    explanation:'restaurant ＝ レストラン' },
+  { id:'et56_machi_e08', subject:'et_machi_ei', month:'eng_sho56',
+    q:'まち 8\n「レストラン」を英語で言うと、どれですか？',
+    options:['restaurant','house','park','post office'], answer:0,
+    explanation:'restaurant ＝ レストラン' },
+  { id:'et56_machi_i09', subject:'et_machi_imi', month:'eng_sho56',
+    q:'まち 9\n"supermarket" の意味はどれですか？',
+    options:['病院','公園','寺','スーパーマーケット'], answer:3,
+    explanation:'supermarket ＝ スーパーマーケット' },
+  { id:'et56_machi_e09', subject:'et_machi_ei', month:'eng_sho56',
+    q:'まち 9\n「スーパーマーケット」を英語で言うと、どれですか？',
+    options:['park','supermarket','aquarium','river'], answer:1,
+    explanation:'supermarket ＝ スーパーマーケット' },
+  { id:'et56_machi_i10', subject:'et_machi_imi', month:'eng_sho56',
+    q:'まち 10\n"bookstore" の意味はどれですか？',
+    options:['川','駅','本屋','博物館（美術館）'], answer:2,
+    explanation:'bookstore ＝ 本屋' },
+  { id:'et56_machi_e10', subject:'et_machi_ei', month:'eng_sho56',
+    q:'まち 10\n「本屋」を英語で言うと、どれですか？',
+    options:['house','hospital','bookstore','sea'], answer:2,
+    explanation:'bookstore ＝ 本屋' },
+  { id:'et56_machi_i11', subject:'et_machi_imi', month:'eng_sho56',
+    q:'まち 11\n"house" の意味はどれですか？',
+    options:['病院','動物園','家','橋'], answer:2,
+    explanation:'house ＝ 家' },
+  { id:'et56_machi_e11', subject:'et_machi_ei', month:'eng_sho56',
+    q:'まち 11\n「家」を英語で言うと、どれですか？',
+    options:['house','restaurant','temple','hospital'], answer:0,
+    explanation:'house ＝ 家' },
+  { id:'et56_machi_i12', subject:'et_machi_imi', month:'eng_sho56',
+    q:'まち 12\n"bridge" の意味はどれですか？',
+    options:['病院','郵便局','博物館（美術館）','橋'], answer:3,
+    explanation:'bridge ＝ 橋' },
+  { id:'et56_machi_e12', subject:'et_machi_ei', month:'eng_sho56',
+    q:'まち 12\n「橋」を英語で言うと、どれですか？',
+    options:['bridge','hospital','house','river'], answer:0,
+    explanation:'bridge ＝ 橋' },
+  { id:'et56_machi_i13', subject:'et_machi_imi', month:'eng_sho56',
+    q:'まち 13\n"river" の意味はどれですか？',
+    options:['公園','動物園','川','スーパーマーケット'], answer:2,
+    explanation:'river ＝ 川' },
+  { id:'et56_machi_e13', subject:'et_machi_ei', month:'eng_sho56',
+    q:'まち 13\n「川」を英語で言うと、どれですか？',
+    options:['post office','river','hospital','zoo'], answer:1,
+    explanation:'river ＝ 川' },
+  { id:'et56_machi_i14', subject:'et_machi_imi', month:'eng_sho56',
+    q:'まち 14\n"mountain" の意味はどれですか？',
+    options:['山','寺','博物館（美術館）','川'], answer:0,
+    explanation:'mountain ＝ 山' },
+  { id:'et56_machi_e14', subject:'et_machi_ei', month:'eng_sho56',
+    q:'まち 14\n「山」を英語で言うと、どれですか？',
+    options:['house','mountain','castle','bookstore'], answer:1,
+    explanation:'mountain ＝ 山' },
+  { id:'et56_machi_i15', subject:'et_machi_imi', month:'eng_sho56',
+    q:'まち 15\n"sea" の意味はどれですか？',
+    options:['駅','水族館','海','動物園'], answer:2,
+    explanation:'sea ＝ 海' },
+  { id:'et56_machi_e15', subject:'et_machi_ei', month:'eng_sho56',
+    q:'まち 15\n「海」を英語で言うと、どれですか？',
+    options:['mountain','sea','temple','bookstore'], answer:1,
+    explanation:'sea ＝ 海' },
+  { id:'et56_machi_i16', subject:'et_machi_imi', month:'eng_sho56',
+    q:'まち 16\n"castle" の意味はどれですか？',
+    options:['橋','水族館','城','山'], answer:2,
+    explanation:'castle ＝ 城' },
+  { id:'et56_machi_e16', subject:'et_machi_ei', month:'eng_sho56',
+    q:'まち 16\n「城」を英語で言うと、どれですか？',
+    options:['sea','restaurant','castle','house'], answer:2,
+    explanation:'castle ＝ 城' },
+  { id:'et56_machi_i17', subject:'et_machi_imi', month:'eng_sho56',
+    q:'まち 17\n"temple" の意味はどれですか？',
+    options:['駅','城','博物館（美術館）','寺'], answer:3,
+    explanation:'temple ＝ 寺' },
+  { id:'et56_machi_e17', subject:'et_machi_ei', month:'eng_sho56',
+    q:'まち 17\n「寺」を英語で言うと、どれですか？',
+    options:['temple','castle','river','station'], answer:0,
+    explanation:'temple ＝ 寺' },
+  { id:'et56_machi_i18', subject:'et_machi_imi', month:'eng_sho56',
+    q:'まち 18\n"shrine" の意味はどれですか？',
+    options:['神社','郵便局','水族館','スーパーマーケット'], answer:0,
+    explanation:'shrine ＝ 神社' },
+  { id:'et56_machi_e18', subject:'et_machi_ei', month:'eng_sho56',
+    q:'まち 18\n「神社」を英語で言うと、どれですか？',
+    options:['shrine','aquarium','station','bookstore'], answer:0,
+    explanation:'shrine ＝ 神社' },
+  { id:'et56_gyouji_i01', subject:'et_gyouji_imi', month:'eng_sho56',
+    q:'行事 1\n"birthday" の意味はどれですか？',
+    options:['音楽会','運動会','たんじょう日','元日'], answer:2,
+    explanation:'birthday ＝ たんじょう日' },
+  { id:'et56_gyouji_e01', subject:'et_gyouji_ei', month:'eng_sho56',
+    q:'行事 1\n「たんじょう日」を英語で言うと、どれですか？',
+    options:['birthday','school trip','New Year\'s Day','entrance ceremony'], answer:0,
+    explanation:'birthday ＝ たんじょう日' },
+  { id:'et56_gyouji_i02', subject:'et_gyouji_imi', month:'eng_sho56',
+    q:'行事 2\n"New Year\'s Day" の意味はどれですか？',
+    options:['遠足','夏休み','音楽会','元日'], answer:3,
+    explanation:'New Year\'s Day ＝ 元日' },
+  { id:'et56_gyouji_e02', subject:'et_gyouji_ei', month:'eng_sho56',
+    q:'行事 2\n「元日」を英語で言うと、どれですか？',
+    options:['music festival','New Year\'s Day','entrance ceremony','field trip'], answer:1,
+    explanation:'New Year\'s Day ＝ 元日' },
+  { id:'et56_gyouji_i03', subject:'et_gyouji_imi', month:'eng_sho56',
+    q:'行事 3\n"Christmas" の意味はどれですか？',
+    options:['運動会','たんじょう日','クリスマス','卒業式'], answer:2,
+    explanation:'Christmas ＝ クリスマス' },
+  { id:'et56_gyouji_e03', subject:'et_gyouji_ei', month:'eng_sho56',
+    q:'行事 3\n「クリスマス」を英語で言うと、どれですか？',
+    options:['New Year\'s Day','Christmas','music festival','summer vacation'], answer:1,
+    explanation:'Christmas ＝ クリスマス' },
+  { id:'et56_gyouji_i04', subject:'et_gyouji_imi', month:'eng_sho56',
+    q:'行事 4\n"summer vacation" の意味はどれですか？',
+    options:['入学式','修学旅行','夏休み','クリスマス'], answer:2,
+    explanation:'summer vacation ＝ 夏休み' },
+  { id:'et56_gyouji_e04', subject:'et_gyouji_ei', month:'eng_sho56',
+    q:'行事 4\n「夏休み」を英語で言うと、どれですか？',
+    options:['Christmas','sports day','New Year\'s Day','summer vacation'], answer:3,
+    explanation:'summer vacation ＝ 夏休み' },
+  { id:'et56_gyouji_i05', subject:'et_gyouji_imi', month:'eng_sho56',
+    q:'行事 5\n"school trip" の意味はどれですか？',
+    options:['入学式','音楽会','遠足','修学旅行'], answer:3,
+    explanation:'school trip ＝ 修学旅行' },
+  { id:'et56_gyouji_e05', subject:'et_gyouji_ei', month:'eng_sho56',
+    q:'行事 5\n「修学旅行」を英語で言うと、どれですか？',
+    options:['sports day','school trip','field trip','music festival'], answer:1,
+    explanation:'school trip ＝ 修学旅行' },
+  { id:'et56_gyouji_i06', subject:'et_gyouji_imi', month:'eng_sho56',
+    q:'行事 6\n"sports day" の意味はどれですか？',
+    options:['元日','運動会','修学旅行','たんじょう日'], answer:1,
+    explanation:'sports day ＝ 運動会' },
+  { id:'et56_gyouji_e06', subject:'et_gyouji_ei', month:'eng_sho56',
+    q:'行事 6\n「運動会」を英語で言うと、どれですか？',
+    options:['sports day','school trip','music festival','birthday'], answer:0,
+    explanation:'sports day ＝ 運動会' },
+  { id:'et56_gyouji_i07', subject:'et_gyouji_imi', month:'eng_sho56',
+    q:'行事 7\n"music festival" の意味はどれですか？',
+    options:['遠足','修学旅行','運動会','音楽会'], answer:3,
+    explanation:'music festival ＝ 音楽会' },
+  { id:'et56_gyouji_e07', subject:'et_gyouji_ei', month:'eng_sho56',
+    q:'行事 7\n「音楽会」を英語で言うと、どれですか？',
+    options:['entrance ceremony','summer vacation','New Year\'s Day','music festival'], answer:3,
+    explanation:'music festival ＝ 音楽会' },
+  { id:'et56_gyouji_i08', subject:'et_gyouji_imi', month:'eng_sho56',
+    q:'行事 8\n"field trip" の意味はどれですか？',
+    options:['入学式','音楽会','元日','遠足'], answer:3,
+    explanation:'field trip ＝ 遠足' },
+  { id:'et56_gyouji_e08', subject:'et_gyouji_ei', month:'eng_sho56',
+    q:'行事 8\n「遠足」を英語で言うと、どれですか？',
+    options:['summer vacation','graduation ceremony','music festival','field trip'], answer:3,
+    explanation:'field trip ＝ 遠足' },
+  { id:'et56_gyouji_i09', subject:'et_gyouji_imi', month:'eng_sho56',
+    q:'行事 9\n"graduation ceremony" の意味はどれですか？',
+    options:['夏休み','音楽会','卒業式','入学式'], answer:2,
+    explanation:'graduation ceremony ＝ 卒業式' },
+  { id:'et56_gyouji_e09', subject:'et_gyouji_ei', month:'eng_sho56',
+    q:'行事 9\n「卒業式」を英語で言うと、どれですか？',
+    options:['graduation ceremony','sports day','Christmas','New Year\'s Day'], answer:0,
+    explanation:'graduation ceremony ＝ 卒業式' },
+  { id:'et56_gyouji_i10', subject:'et_gyouji_imi', month:'eng_sho56',
+    q:'行事 10\n"entrance ceremony" の意味はどれですか？',
+    options:['運動会','入学式','修学旅行','たんじょう日'], answer:1,
+    explanation:'entrance ceremony ＝ 入学式' },
+  { id:'et56_gyouji_e10', subject:'et_gyouji_ei', month:'eng_sho56',
+    q:'行事 10\n「入学式」を英語で言うと、どれですか？',
+    options:['birthday','Christmas','graduation ceremony','entrance ceremony'], answer:3,
+    explanation:'entrance ceremony ＝ 入学式' },
+  { id:'et56_ichinichi_i01', subject:'et_ichinichi_imi', month:'eng_sho56',
+    q:'1日 1\n"morning" の意味はどれですか？',
+    options:['昨日','夕方','夕ごはん','朝'], answer:3,
+    explanation:'morning ＝ 朝' },
+  { id:'et56_ichinichi_e01', subject:'et_ichinichi_ei', month:'eng_sho56',
+    q:'1日 1\n「朝」を英語で言うと、どれですか？',
+    options:['afternoon','tomorrow','morning','today'], answer:2,
+    explanation:'morning ＝ 朝' },
+  { id:'et56_ichinichi_i02', subject:'et_ichinichi_imi', month:'eng_sho56',
+    q:'1日 2\n"afternoon" の意味はどれですか？',
+    options:['ねる（ふとんに入る）','午後','起きる','昨日'], answer:1,
+    explanation:'afternoon ＝ 午後' },
+  { id:'et56_ichinichi_e02', subject:'et_ichinichi_ei', month:'eng_sho56',
+    q:'1日 2\n「午後」を英語で言うと、どれですか？',
+    options:['tomorrow','afternoon','evening','yesterday'], answer:1,
+    explanation:'afternoon ＝ 午後' },
+  { id:'et56_ichinichi_i03', subject:'et_ichinichi_imi', month:'eng_sho56',
+    q:'1日 3\n"evening" の意味はどれですか？',
+    options:['朝','今日','夕方','明日'], answer:2,
+    explanation:'evening ＝ 夕方' },
+  { id:'et56_ichinichi_e03', subject:'et_ichinichi_ei', month:'eng_sho56',
+    q:'1日 3\n「夕方」を英語で言うと、どれですか？',
+    options:['tomorrow','dinner','today','evening'], answer:3,
+    explanation:'evening ＝ 夕方' },
+  { id:'et56_ichinichi_i04', subject:'et_ichinichi_imi', month:'eng_sho56',
+    q:'1日 4\n"night" の意味はどれですか？',
+    options:['ねる（ふとんに入る）','夕ごはん','今日','夜'], answer:3,
+    explanation:'night ＝ 夜\ngh は読まない（ナイト）。' },
+  { id:'et56_ichinichi_e04', subject:'et_ichinichi_ei', month:'eng_sho56',
+    q:'1日 4\n「夜」を英語で言うと、どれですか？',
+    options:['night','tomorrow','today','lunch'], answer:0,
+    explanation:'night ＝ 夜\ngh は読まない（ナイト）。' },
+  { id:'et56_ichinichi_i05', subject:'et_ichinichi_imi', month:'eng_sho56',
+    q:'1日 5\n"breakfast" の意味はどれですか？',
+    options:['朝ごはん','朝','午後','昨日'], answer:0,
+    explanation:'breakfast ＝ 朝ごはん' },
+  { id:'et56_ichinichi_e05', subject:'et_ichinichi_ei', month:'eng_sho56',
+    q:'1日 5\n「朝ごはん」を英語で言うと、どれですか？',
+    options:['go to bed','breakfast','lunch','morning'], answer:1,
+    explanation:'breakfast ＝ 朝ごはん' },
+  { id:'et56_ichinichi_i06', subject:'et_ichinichi_imi', month:'eng_sho56',
+    q:'1日 6\n"lunch" の意味はどれですか？',
+    options:['夕ごはん','今日','ねる（ふとんに入る）','昼ごはん'], answer:3,
+    explanation:'lunch ＝ 昼ごはん' },
+  { id:'et56_ichinichi_e06', subject:'et_ichinichi_ei', month:'eng_sho56',
+    q:'1日 6\n「昼ごはん」を英語で言うと、どれですか？',
+    options:['dinner','lunch','breakfast','get up'], answer:1,
+    explanation:'lunch ＝ 昼ごはん' },
+  { id:'et56_ichinichi_i07', subject:'et_ichinichi_imi', month:'eng_sho56',
+    q:'1日 7\n"dinner" の意味はどれですか？',
+    options:['夕方','夕ごはん','朝ごはん','昨日'], answer:1,
+    explanation:'dinner ＝ 夕ごはん' },
+  { id:'et56_ichinichi_e07', subject:'et_ichinichi_ei', month:'eng_sho56',
+    q:'1日 7\n「夕ごはん」を英語で言うと、どれですか？',
+    options:['tomorrow','dinner','breakfast','morning'], answer:1,
+    explanation:'dinner ＝ 夕ごはん' },
+  { id:'et56_ichinichi_i08', subject:'et_ichinichi_imi', month:'eng_sho56',
+    q:'1日 8\n"today" の意味はどれですか？',
+    options:['夕方','今日','夕ごはん','午後'], answer:1,
+    explanation:'today ＝ 今日' },
+  { id:'et56_ichinichi_e08', subject:'et_ichinichi_ei', month:'eng_sho56',
+    q:'1日 8\n「今日」を英語で言うと、どれですか？',
+    options:['today','tomorrow','lunch','breakfast'], answer:0,
+    explanation:'today ＝ 今日' },
+  { id:'et56_ichinichi_i09', subject:'et_ichinichi_imi', month:'eng_sho56',
+    q:'1日 9\n"tomorrow" の意味はどれですか？',
+    options:['今日','明日','起きる','ねる（ふとんに入る）'], answer:1,
+    explanation:'tomorrow ＝ 明日' },
+  { id:'et56_ichinichi_e09', subject:'et_ichinichi_ei', month:'eng_sho56',
+    q:'1日 9\n「明日」を英語で言うと、どれですか？',
+    options:['dinner','morning','tomorrow','afternoon'], answer:2,
+    explanation:'tomorrow ＝ 明日' },
+  { id:'et56_ichinichi_i10', subject:'et_ichinichi_imi', month:'eng_sho56',
+    q:'1日 10\n"yesterday" の意味はどれですか？',
+    options:['昨日','起きる','午後','夜'], answer:0,
+    explanation:'yesterday ＝ 昨日' },
+  { id:'et56_ichinichi_e10', subject:'et_ichinichi_ei', month:'eng_sho56',
+    q:'1日 10\n「昨日」を英語で言うと、どれですか？',
+    options:['morning','yesterday','breakfast','get up'], answer:1,
+    explanation:'yesterday ＝ 昨日' },
+  { id:'et56_ichinichi_i11', subject:'et_ichinichi_imi', month:'eng_sho56',
+    q:'1日 11\n"get up" の意味はどれですか？',
+    options:['起きる','夜','明日','午後'], answer:0,
+    explanation:'get up ＝ 起きる' },
+  { id:'et56_ichinichi_e11', subject:'et_ichinichi_ei', month:'eng_sho56',
+    q:'1日 11\n「起きる」を英語で言うと、どれですか？',
+    options:['lunch','get up','morning','today'], answer:1,
+    explanation:'get up ＝ 起きる' },
+  { id:'et56_ichinichi_i12', subject:'et_ichinichi_imi', month:'eng_sho56',
+    q:'1日 12\n"go to bed" の意味はどれですか？',
+    options:['午後','ねる（ふとんに入る）','夕方','昨日'], answer:1,
+    explanation:'go to bed ＝ ねる（ふとんに入る）' },
+  { id:'et56_ichinichi_e12', subject:'et_ichinichi_ei', month:'eng_sho56',
+    q:'1日 12\n「ねる（ふとんに入る）」を英語で言うと、どれですか？',
+    options:['go to bed','evening','lunch','breakfast'], answer:0,
+    explanation:'go to bed ＝ ねる（ふとんに入る）' },
   // ===== 2年生 九九（g2_kuku）=====
   { id:'g2kk_11', subject:'kuku_1', month:'g2_kuku', type:'input',
     q:'1 × 1 ＝ ？', answer:'1',
@@ -19036,6 +21342,298 @@ const QUESTIONS = [
     q:'【　】の ことばを かん字で 書こう。\n【しょうがっこう】の 【ちかく】。（おくりがなも 書こう）',
     answer:'小学校・近く',
     explanation:'【しょうがっこう】→「小学校」、【ちかく】→「近く」\n「近く」は「く」を おくりがなで 書くよ。\n「近」は「辶（しんにょう）」。しんにょうは 最後に 書く。\nはんたいの ことば：遠く（とおく）' },
+  // ===== 2年生 算数（g2_sansu）90問 =====
+  // 1. 2けたのたし算（g2_tasizan2）
+  { id:'g2ss_001', subject:'g2_tasizan2', month:'g2_sansu', type:'input',
+    q:'つぎの 計算を しよう。\n34 ＋ 25 ＝ ？', answer:'59',
+    explanation:'一の位は 4 ＋ 5 ＝ 9、十の位は 3 ＋ 2 ＝ 5。\nあわせて 59 だよ。' },
+  { id:'g2ss_002', subject:'g2_tasizan2', month:'g2_sansu', type:'input',
+    q:'つぎの 計算を しよう。\n46 ＋ 7 ＝ ？', answer:'53',
+    explanation:'一の位は 6 ＋ 7 ＝ 13。十の位に 1 くり上がって 4 ＋ 1 ＝ 5。\n答えは 53 だよ。' },
+  { id:'g2ss_003', subject:'g2_tasizan2', month:'g2_sansu', type:'input',
+    q:'つぎの 計算を しよう。\n28 ＋ 35 ＝ ？', answer:'63',
+    explanation:'一の位は 8 ＋ 5 ＝ 13 で、十の位に 1 くり上がるよ。\n十の位は 2 ＋ 3 ＋ 1 ＝ 6 だから、答えは 63。' },
+  { id:'g2ss_004', subject:'g2_tasizan2', month:'g2_sansu', type:'input',
+    q:'つぎの 計算を しよう。\n47 ＋ 33 ＝ ？', answer:'80',
+    explanation:'一の位は 7 ＋ 3 ＝ 10。一の位は 0 に なって、十の位に 1 くり上がるよ。\n十の位は 4 ＋ 3 ＋ 1 ＝ 8 で、答えは 80。' },
+  { id:'g2ss_005', subject:'g2_tasizan2', month:'g2_sansu', type:'input',
+    q:'つぎの 計算を しよう。\n58 ＋ 64 ＝ ？', answer:'122',
+    explanation:'一の位は 8 ＋ 4 ＝ 12（十の位に 1 くり上がる）。\n十の位は 5 ＋ 6 ＋ 1 ＝ 12（百の位に 1 くり上がる）。\n答えは 122 だよ。' },
+  { id:'g2ss_006', subject:'g2_tasizan2', month:'g2_sansu', type:'input',
+    q:'つぎの 計算を しよう。\n76 ＋ 49 ＝ ？', answer:'125',
+    explanation:'一の位は 6 ＋ 9 ＝ 15（1 くり上がる）。\n十の位は 7 ＋ 4 ＋ 1 ＝ 12。\n答えは 125 だよ。' },
+  { id:'g2ss_007', subject:'g2_tasizan2', month:'g2_sansu', type:'input',
+    q:'3つの 数の たし算を しよう。\n32 ＋ 18 ＋ 25 ＝ ？', answer:'75',
+    explanation:'先に 32 ＋ 18 を 計算すると 50 に なって かんたん！\n50 ＋ 25 ＝ 75 だよ。' },
+  { id:'g2ss_008', subject:'g2_tasizan2', month:'g2_sansu', type:'input',
+    q:'くふうして 計算しよう。\n27 ＋ 19 ＋ 11 ＝ ？', answer:'57',
+    explanation:'後ろの 19 ＋ 11 を 先に たすと 30 に なるよ。\n27 ＋ 30 ＝ 57。切りの よい 数を つくると 計算しやすいね！' },
+  { id:'g2ss_009', subject:'g2_tasizan2', month:'g2_sansu', type:'input',
+    q:'赤い 色紙が 38まい、青い 色紙が 26まい あります。\nあわせて 何まい ありますか？', answer:'64',
+    explanation:'式：38 ＋ 26\n一の位は 8 ＋ 6 ＝ 14、十の位は 3 ＋ 2 ＋ 1 ＝ 6。\nあわせて 64まい だよ。' },
+  { id:'g2ss_010', subject:'g2_tasizan2', month:'g2_sansu', type:'input',
+    q:'本を きのう 45ページ、きょう 39ページ 読みました。\n2日間で あわせて 何ページ 読みましたか？', answer:'84',
+    explanation:'式：45 ＋ 39\n一の位は 5 ＋ 9 ＝ 14、十の位は 4 ＋ 3 ＋ 1 ＝ 8。\nあわせて 84ページ 読んだよ。' },
+  // 2. 2けたのひき算（g2_hikizan2）
+  { id:'g2ss_011', subject:'g2_hikizan2', month:'g2_sansu', type:'input',
+    q:'つぎの 計算を しよう。\n68 － 25 ＝ ？', answer:'43',
+    explanation:'一の位は 8 － 5 ＝ 3、十の位は 6 － 2 ＝ 4。\n答えは 43 だよ。' },
+  { id:'g2ss_012', subject:'g2_hikizan2', month:'g2_sansu', type:'input',
+    q:'つぎの 計算を しよう。\n52 － 8 ＝ ？', answer:'44',
+    explanation:'一の位の 2 から 8 は ひけないので、十の位から 1 くり下げるよ。\n12 － 8 ＝ 4、十の位は 4 に なって、答えは 44。' },
+  { id:'g2ss_013', subject:'g2_hikizan2', month:'g2_sansu', type:'input',
+    q:'つぎの 計算を しよう。\n63 － 27 ＝ ？', answer:'36',
+    explanation:'十の位から 1 くり下げて、一の位は 13 － 7 ＝ 6。\n十の位は 5 － 2 ＝ 3。\n答えは 36 だよ。' },
+  { id:'g2ss_014', subject:'g2_hikizan2', month:'g2_sansu', type:'input',
+    q:'つぎの 計算を しよう。\n80 － 34 ＝ ？', answer:'46',
+    explanation:'一の位は 10 － 4 ＝ 6。\n十の位は 1 くり下げたので 7 － 3 ＝ 4。\n答えは 46 だよ。' },
+  { id:'g2ss_015', subject:'g2_hikizan2', month:'g2_sansu', type:'input',
+    q:'つぎの 計算を しよう。\n100 － 48 ＝ ？', answer:'52',
+    explanation:'百の位から くり下げると、十の位が 9、一の位が 10 に なるよ。\n一の位は 10 － 8 ＝ 2、十の位は 9 － 4 ＝ 5 で、答えは 52。' },
+  { id:'g2ss_016', subject:'g2_hikizan2', month:'g2_sansu', type:'input',
+    q:'つぎの 計算を しよう。\n105 － 38 ＝ ？', answer:'67',
+    explanation:'一の位は 15 － 8 ＝ 7。\n十の位は 百の位から くり下げたので 9 － 3 ＝ 6。\n答えは 67 だよ。' },
+  { id:'g2ss_017', subject:'g2_hikizan2', month:'g2_sansu', type:'input',
+    q:'つぎの 計算を しよう。\n132 － 56 ＝ ？', answer:'76',
+    explanation:'一の位は 12 － 6 ＝ 6。\n十の位は 12 － 5 ＝ 7。\n答えは 76 だよ。' },
+  { id:'g2ss_018', subject:'g2_hikizan2', month:'g2_sansu', type:'input',
+    q:'つぎの 計算を しよう。\n75 － 23 － 17 ＝ ？', answer:'35',
+    explanation:'75 － 23 ＝ 52、52 － 17 ＝ 35。\n（ひく 数の 23 ＋ 17 ＝ 40 を まとめて、75 － 40 ＝ 35 と 考えても OK！）' },
+  { id:'g2ss_019', subject:'g2_hikizan2', month:'g2_sansu', type:'input',
+    q:'どんぐりが 72こ ありました。工作で 28こ つかうと、のこりは 何こに なりますか？', answer:'44',
+    explanation:'式：72 － 28\n一の位は 12 － 8 ＝ 4、十の位は 6 － 2 ＝ 4。\nのこりは 44こ だよ。' },
+  { id:'g2ss_020', subject:'g2_hikizan2', month:'g2_sansu', type:'input',
+    q:'こうえんに こどもが 61人 います。そのうち 男の子が 34人 です。女の子は 何人 いますか？', answer:'27',
+    explanation:'式：61 － 34\n一の位は 11 － 4 ＝ 7、十の位は 5 － 3 ＝ 2。\n女の子は 27人 だよ。' },
+  // 3. 1000までの数（g2_ookina）
+  { id:'g2ss_021', subject:'g2_ookina', month:'g2_sansu', type:'input',
+    q:'100を 4こ、10を 6こ、1を 8こ あつめた 数は いくつ？', answer:'468',
+    explanation:'百の位が 4、十の位が 6、一の位が 8 で「468（四百六十八）」だよ。' },
+  { id:'g2ss_022', subject:'g2_ookina', month:'g2_sansu', type:'input',
+    q:'100を 7こ、1を 5こ あつめた 数は いくつ？\n（十の位に 気を つけよう）', answer:'705',
+    explanation:'10が 0こ だから、十の位に「0」を 書いて「705（七百五）」に なるよ。' },
+  { id:'g2ss_023', subject:'g2_ookina', month:'g2_sansu', type:'input',
+    q:'10を 24こ あつめた 数は いくつ？', answer:'240',
+    explanation:'10を 10こで 100、20こで 200、あと 4こで 40。\nあわせて 240 だよ。' },
+  { id:'g2ss_024', subject:'g2_ookina', month:'g2_sansu', type:'input',
+    q:'100を 10こ あつめた 数は いくつ？', answer:'1000',
+    explanation:'100が 10こ あつまると「1000（千・せん）」に なるよ。' },
+  { id:'g2ss_025', subject:'g2_ookina', month:'g2_sansu', type:'input',
+    q:'1000を 10こ あつめた 数は いくつ？', answer:'10000',
+    explanation:'1000が 10こ あつまると「10000（一万・いちまん）」に なるよ。' },
+  { id:'g2ss_026', subject:'g2_ookina', month:'g2_sansu', type:'input',
+    q:'999より 1 大きい 数は いくつ？', answer:'1000',
+    explanation:'999の つぎの 数は 1000（千）だよ。' },
+  { id:'g2ss_027', subject:'g2_ookina', month:'g2_sansu', type:'input',
+    q:'1000より 10 小さい 数は いくつ？', answer:'990',
+    explanation:'1000から 10 もどると 990 だよ。' },
+  { id:'g2ss_028', subject:'g2_ookina', month:'g2_sansu', type:'input',
+    q:'つぎの 計算を しよう。\n500 ＋ 300 ＝ ？', answer:'800',
+    explanation:'100が（5 ＋ 3）こで 8こ分 だから、800 だよ。' },
+  { id:'g2ss_029', subject:'g2_ookina', month:'g2_sansu', type:'input',
+    q:'つぎの 計算を しよう。\n1200 － 400 ＝ ？', answer:'800',
+    explanation:'100が 12こから 4こ ひくと 8こ分 のこるので、800 だよ。' },
+  { id:'g2ss_030', subject:'g2_ookina', month:'g2_sansu',
+    q:'つぎの 4つの 数の うち、いちばん 大きい 数は どれ？',
+    options:['689','698','702','699'], answer:2,
+    explanation:'まず いちばん 上の「百の位」を くらべるよ。\n702 だけ 百の位が 7 なので、702 が いちばん 大きい！' },
+  // 4. 時こくと時間（g2_tokei）
+  { id:'g2ss_031', subject:'g2_tokei', month:'g2_sansu', type:'input',
+    q:'1時間は 何分 ですか？', answer:'60',
+    explanation:'時計の 長い はりが 1周すると 60分。\n1時間 ＝ 60分 だよ。' },
+  { id:'g2ss_032', subject:'g2_tokei', month:'g2_sansu', type:'input',
+    q:'1日は 何時間 ですか？', answer:'24',
+    explanation:'午前 12時間と 午後 12時間を あわせて、1日 ＝ 24時間 だよ。' },
+  { id:'g2ss_033', subject:'g2_tokei', month:'g2_sansu',
+    q:'おひるの 12時の ことを、べつの 言い方で なんという？',
+    options:['正午（しょうご）','午前0時','真夜中（まよなか）','夕方（ゆうがた）'], answer:0,
+    explanation:'おひるの 12時は「正午（しょうご）」と いうよ。\n正午より 前が「午前」、後が「午後」だね。' },
+  { id:'g2ss_034', subject:'g2_tokei', month:'g2_sansu', type:'input',
+    q:'9時10分の 30分後の 時こくは、9時何分 ですか？', answer:'40',
+    explanation:'10分 ＋ 30分 ＝ 40分。\n9時40分 に なるよ。' },
+  { id:'g2ss_035', subject:'g2_tokei', month:'g2_sansu', type:'input',
+    q:'2時40分の 20分後の 時こくは、何時ちょうど ですか？', answer:'3',
+    explanation:'40分 ＋ 20分 ＝ 60分（1時間）。\n2時から 1時間 すすんで「3時」ちょうどに なるよ。' },
+  { id:'g2ss_036', subject:'g2_tokei', month:'g2_sansu', type:'input',
+    q:'10時ちょうど から 10時45分 までの あいだの 時間は 何分間 ですか？', answer:'45',
+    explanation:'10時00分から 10時45分まで だから、45分間 だよ。' },
+  { id:'g2ss_037', subject:'g2_tokei', month:'g2_sansu', type:'input',
+    q:'3時50分 から 4時20分 までの あいだの 時間は 何分間 ですか？', answer:'30',
+    explanation:'3時50分から 4時までが 10分間、4時から 4時20分までが 20分間。\nあわせて 10 ＋ 20 ＝ 30分間 だよ。' },
+  { id:'g2ss_038', subject:'g2_tokei', month:'g2_sansu', type:'input',
+    q:'午前11時 から 午後1時 までの あいだの 時間は 何時間 ですか？', answer:'2',
+    explanation:'午前11時から 正午（12時）までが 1時間、正午から 午後1時までが 1時間。\nあわせて 2時間 だよ。' },
+  { id:'g2ss_039', subject:'g2_tokei', month:'g2_sansu', type:'input',
+    q:'8時ちょうど より 15分前の 時こくは、7時何分 ですか？', answer:'45',
+    explanation:'60分 － 15分 ＝ 45分。\n7時45分 だよ。' },
+  { id:'g2ss_040', subject:'g2_tokei', month:'g2_sansu', type:'input',
+    q:'1時間20分は、ぜんぶで 何分 ですか？', answer:'80',
+    explanation:'1時間 ＝ 60分 だから、60分 ＋ 20分 ＝ 80分 だよ。' },
+  // 5. 長さ(cm・mm)（g2_nagasa）
+  { id:'g2ss_041', subject:'g2_nagasa', month:'g2_sansu', type:'input',
+    q:'1cm（センチメートル）は 何mm（ミリメートル）ですか？', answer:'10',
+    explanation:'ものさしの 1cm の あいだには、1mm の めもりが 10こ あるね。\n1cm ＝ 10mm だよ。' },
+  { id:'g2ss_042', subject:'g2_nagasa', month:'g2_sansu', type:'input',
+    q:'3cm 5mm は、ぜんぶで 何mm ですか？', answer:'35',
+    explanation:'3cm ＝ 30mm だから、30mm ＋ 5mm ＝ 35mm だよ。' },
+  { id:'g2ss_043', subject:'g2_nagasa', month:'g2_sansu', type:'input',
+    q:'60mm は 何cm ですか？', answer:'6',
+    explanation:'10mm ＝ 1cm だから、60mm ＝ 6cm だよ。' },
+  { id:'g2ss_044', subject:'g2_nagasa', month:'g2_sansu', type:'input',
+    q:'1m（メートル）は 何cm（センチメートル）ですか？', answer:'100',
+    explanation:'1cm が 100こ分 で 1m（メートル）。\n1m ＝ 100cm だよ。' },
+  { id:'g2ss_045', subject:'g2_nagasa', month:'g2_sansu', type:'input',
+    q:'1m 25cm は、ぜんぶで 何cm ですか？', answer:'125',
+    explanation:'1m ＝ 100cm だから、100cm ＋ 25cm ＝ 125cm だよ。' },
+  { id:'g2ss_046', subject:'g2_nagasa', month:'g2_sansu', type:'input',
+    q:'4cm ＋ 3cm 8mm ＝ 7cm □mm\n□に あてはまる 数を 書こう。', answer:'8',
+    explanation:'cm 同士を たすと 4cm ＋ 3cm ＝ 7cm、mm は 8mm のまま。\n7cm 8mm だよ。' },
+  { id:'g2ss_047', subject:'g2_nagasa', month:'g2_sansu', type:'input',
+    q:'8cm 6mm － 2cm 4mm ＝ 6cm □mm\n□に あてはまる 数を 書こう。', answer:'2',
+    explanation:'cm 同士は 8 － 2 ＝ 6cm、mm 同士は 6 － 4 ＝ 2mm。\n6cm 2mm だよ。' },
+  { id:'g2ss_048', subject:'g2_nagasa', month:'g2_sansu', type:'input',
+    q:'5cm の テープから 7mm きり取りました。のこりは 何mm ですか？', answer:'43',
+    explanation:'5cm ＝ 50mm に なおして 計算しよう。\n50mm － 7mm ＝ 43mm（4cm 3mm）だよ。' },
+  { id:'g2ss_049', subject:'g2_nagasa', month:'g2_sansu',
+    q:'あたらしい えんぴつ 1本の 長さに いちばん 近い ものは どれ？',
+    options:['15mm','15cm','15m','150cm'], answer:1,
+    explanation:'えんぴつ 1本の 長さは だいたい 15cm くらいだね。\n（15mm は 1cm 5mm で みじかすぎ、15m は とても 長いよ）' },
+  { id:'g2ss_050', subject:'g2_nagasa', month:'g2_sansu',
+    q:'学校の きょうしつの たての 長さに いちばん 近い ものは どれ？',
+    options:['8mm','8cm','8m','800m'], answer:2,
+    explanation:'きょうしつの 長さは だいたい 8m（800cm）くらいだよ。' },
+  // 6. かさ(L・dL)（g2_kasa）
+  { id:'g2ss_051', subject:'g2_kasa', month:'g2_sansu', type:'input',
+    q:'1L（リットル）は 何dL（デシリットル）ですか？', answer:'10',
+    explanation:'1dL ます 10ぱい分で 1L。\n1L ＝ 10dL だよ。' },
+  { id:'g2ss_052', subject:'g2_kasa', month:'g2_sansu', type:'input',
+    q:'1L（リットル）は 何mL（ミリリットル）ですか？', answer:'1000',
+    explanation:'牛乳パック（1L）は 1000mL と 書かれて いるね。\n1L ＝ 1000mL だよ。' },
+  { id:'g2ss_053', subject:'g2_kasa', month:'g2_sansu', type:'input',
+    q:'1dL（デシリットル）は 何mL（ミリリットル）ですか？', answer:'100',
+    explanation:'1L ＝ 1000mL の 10分の1 だから、1dL ＝ 100mL だよ。' },
+  { id:'g2ss_054', subject:'g2_kasa', month:'g2_sansu', type:'input',
+    q:'2L 4dL は、ぜんぶで 何dL ですか？', answer:'24',
+    explanation:'2L ＝ 20dL だから、20dL ＋ 4dL ＝ 24dL だよ。' },
+  { id:'g2ss_055', subject:'g2_kasa', month:'g2_sansu', type:'input',
+    q:'30dL は 何L ですか？', answer:'3',
+    explanation:'10dL ＝ 1L だから、30dL ＝ 3L だよ。' },
+  { id:'g2ss_056', subject:'g2_kasa', month:'g2_sansu', type:'input',
+    q:'3L 2dL ＋ 1L 5dL ＝ 4L □dL\n□に あてはまる 数を 書こう。', answer:'7',
+    explanation:'L 同士は 3 ＋ 1 ＝ 4L、dL 同士は 2 ＋ 5 ＝ 7dL。\n4L 7dL だよ。' },
+  { id:'g2ss_057', subject:'g2_kasa', month:'g2_sansu', type:'input',
+    q:'水が 6dL 入った ペットボトルに、4dL たすと 何L に なりますか？', answer:'1',
+    explanation:'6dL ＋ 4dL ＝ 10dL。\n10dL ＝ 1L だから、答えは 1L だよ。' },
+  { id:'g2ss_058', subject:'g2_kasa', month:'g2_sansu', type:'input',
+    q:'1L 入りの ジュースから 3dL のみました。のこりは 何dL ですか？', answer:'7',
+    explanation:'1L ＝ 10dL に なおして、10dL － 3dL ＝ 7dL だよ。' },
+  { id:'g2ss_059', subject:'g2_kasa', month:'g2_sansu',
+    q:'給食に 出る 小さな 牛にゅうパック 1本の かさに いちばん 近い ものは どれ？',
+    options:['200mL','200L','2mL','20L'], answer:0,
+    explanation:'給食の 牛にゅうは 1本 200mL（2dL）だね。' },
+  { id:'g2ss_060', subject:'g2_kasa', month:'g2_sansu',
+    q:'おうちの おふろに 入れる 水の かさに いちばん 近い ものは どれ？',
+    options:['200mL','20dL','200L','2L'], answer:2,
+    explanation:'おふろには だいたい 200L くらいの 水が 入るよ。' },
+  // 7. 三角形と四角形・はこの形（g2_zukei）
+  { id:'g2ss_061', subject:'g2_zukei', month:'g2_sansu',
+    q:'3本の まっすぐな 線（直線）で かこまれた 形を なんという？',
+    options:['三角形（さんかくけい）','四角形（しかくけい）','円（まる）','長方形（ちょうほうけい）'], answer:0,
+    explanation:'3本の 直線で かこまれた 形は「三角形」、4本の 直線で かこまれた 形は「四角形」だよ。' },
+  { id:'g2ss_062', subject:'g2_zukei', month:'g2_sansu', type:'input',
+    q:'四角形には、「へん」と「ちょう点（かどの 点）」が それぞれ いくつ ありますか？', answer:'4',
+    explanation:'四角形には、へんが 4つ、ちょう点も 4つ あるよ。' },
+  { id:'g2ss_063', subject:'g2_zukei', month:'g2_sansu',
+    q:'紙を 半分に おり、ぴったり かさなるように もう一度 半分に おったときに できる かどの 形を なんという？',
+    options:['直角（ちょっかく）','三角形','たいら','まんなか'], answer:0,
+    explanation:'ノートの かどや、三角じょうぎの いちばん 大きな かどの 形を「直角（ちょっかく）」と いうよ。' },
+  { id:'g2ss_064', subject:'g2_zukei', month:'g2_sansu',
+    q:'4つの かどが すべて 直角に なっている 四角形を なんという？',
+    options:['長方形（ちょうほうけい）','直角三角形','五角形','さんかく'], answer:0,
+    explanation:'4つの かどが すべて 直角の 四角形は「長方形（ちょうほうけい）」だよ。\n向かい合う へんの 長さが おなじに なって いるね。' },
+  { id:'g2ss_065', subject:'g2_zukei', month:'g2_sansu',
+    q:'4つの かどが すべて 直角で、4つの へんの 長さも すべて おなじ 四角形を なんという？',
+    options:['正方形（せいほうけい）','直角三角形','三角形','まる'], answer:0,
+    explanation:'4つの かどが すべて 直角で、4つの へんの 長さが すべて おなじ 四角形は「正方形（せいほうけい）」だよ。' },
+  { id:'g2ss_066', subject:'g2_zukei', month:'g2_sansu', type:'input',
+    q:'たてが 4cm、よこが 7cm の 長方形が あります。\n向かい合う もう 1本の よこの へんの 長さは 何cm ですか？', answer:'7',
+    explanation:'長方形は 向かい合う へんの 長さが おなじ だから、よこの へんは 7cm だよ。' },
+  { id:'g2ss_067', subject:'g2_zukei', month:'g2_sansu', type:'input',
+    q:'1つの へんが 5cm の 正方形が あります。\nまわりの 4つの へんの 長さを ぜんぶ あわせると 何cm ですか？', answer:'20',
+    explanation:'正方形は 4つの へんが すべて 5cm だから、5 × 4 ＝ 20cm だよ。' },
+  { id:'g2ss_068', subject:'g2_zukei', month:'g2_sansu', type:'input',
+    q:'さいころや ティッシュの「はこの 形」には、たいらな「面（めん）」が ぜんぶで いくつ ありますか？', answer:'6',
+    explanation:'上・下・前・うしろ・左・右で、面は ぜんぶで 6つ あるよ（さいころの 目も 1〜6 までだね）。' },
+  { id:'g2ss_069', subject:'g2_zukei', month:'g2_sansu', type:'input',
+    q:'「はこの 形」には、「へん（ひご）」が ぜんぶで いくつ ありますか？', answer:'12',
+    explanation:'上に 4本、下に 4本、たての はしらが 4本。\n4 × 3 ＝ 12本 の へんが あるよ。' },
+  { id:'g2ss_070', subject:'g2_zukei', month:'g2_sansu', type:'input',
+    q:'「はこの 形」には、「ちょう点（かど・ねんど玉）」が ぜんぶで いくつ ありますか？', answer:'8',
+    explanation:'上の 4つの かどと、下の 4つの かどを あわせて、ちょう点は 8つ あるよ。' },
+  // 8. かけ算の文章題（g2_kuku_bun）
+  { id:'g2ss_071', subject:'g2_kuku_bun', month:'g2_sansu', type:'input',
+    q:'1さらに りんごが 4こずつ のって います。\n6さらでは ぜんぶで 何こ ありますか？', answer:'24',
+    explanation:'「1つ分の 数 × いくつ分」で 4 × 6 ＝ 24。\nぜんぶで 24こ だよ。' },
+  { id:'g2ss_072', subject:'g2_kuku_bun', month:'g2_sansu', type:'input',
+    q:'1はこに ケーキが 3こずつ 入って います。\n8はこでは ぜんぶで 何こ ありますか？', answer:'24',
+    explanation:'式：3 × 8 ＝ 24\n「さん ぱ にじゅうし」で 24こ だよ。' },
+  { id:'g2ss_073', subject:'g2_kuku_bun', month:'g2_sansu', type:'input',
+    q:'こどもが 7人 います。1人に 色えんぴつを 5本ずつ くばると、ぜんぶで 何本 いりますか？', answer:'35',
+    explanation:'1人に 5本ずつ 7人分 だから、式は 5 × 7 ＝ 35。\nぜんぶで 35本 いるよ。' },
+  { id:'g2ss_074', subject:'g2_kuku_bun', month:'g2_sansu', type:'input',
+    q:'1さつに 9まい シールが はれる ノートが 4さつ あります。\nシールは ぜんぶで 何まい はれますか？', answer:'36',
+    explanation:'式：9 × 4 ＝ 36\n「く し さんじゅうろく」で 36まい だよ。' },
+  { id:'g2ss_075', subject:'g2_kuku_bun', month:'g2_sansu', type:'input',
+    q:'赤い リボンの 長さは 6cm です。青い リボンは 赤い リボンの 3ばいの 長さです。\n青い リボンは 何cm ですか？', answer:'18',
+    explanation:'6cm の 3ばい だから、6 × 3 ＝ 18。\n青い リボンは 18cm だよ。' },
+  { id:'g2ss_076', subject:'g2_kuku_bun', month:'g2_sansu', type:'input',
+    q:'□に あてはまる 数を 書こう。\n□ × 6 ＝ 42', answer:'7',
+    explanation:'6の だんを 思いだそう。「ろく しち しじゅうに（6 × 7 ＝ 42）」「しち ろく しじゅうに（7 × 6 ＝ 42）」だから、□は 7 だよ。' },
+  { id:'g2ss_077', subject:'g2_kuku_bun', month:'g2_sansu', type:'input',
+    q:'□に あてはまる 数を 書こう。\n8 × □ ＝ 56', answer:'7',
+    explanation:'8の だんで「はち しち ごじゅうろく（8 × 7 ＝ 56）」だから、□は 7 だよ。' },
+  { id:'g2ss_078', subject:'g2_kuku_bun', month:'g2_sansu', type:'input',
+    q:'□に あてはまる 数を 書こう。\n9 × □ ＝ 63', answer:'7',
+    explanation:'9の だんで「く しち ろくじゅうさん（9 × 7 ＝ 63）」だから、□は 7 だよ。' },
+  { id:'g2ss_079', subject:'g2_kuku_bun', month:'g2_sansu', type:'input',
+    q:'長いすが 5きゃく あります。1きゃくに 4人ずつ すわり、あと 3人 立って います。\nこどもは ぜんぶで 何人 いますか？', answer:'23',
+    explanation:'すわって いる 人は 4 × 5 ＝ 20人。\n立って いる 3人を たして、20 ＋ 3 ＝ 23人 だよ。' },
+  { id:'g2ss_080', subject:'g2_kuku_bun', month:'g2_sansu', type:'input',
+    q:'1こ 8円の あめを 6こ 買い、50円玉を 出しました。\nおつりは 何円 ですか？', answer:'2',
+    explanation:'あめの 代金は 8 × 6 ＝ 48円。\n50 － 48 ＝ 2 だから、おつりは 2円 だよ。' },
+  // 9. 分数・表とグラフ（g2_bunsu_hyo）
+  { id:'g2ss_081', subject:'g2_bunsu_hyo', month:'g2_sansu',
+    q:'1枚の ピザを、おなじ 大きさに 2つに 分けた 1つ分を、もとの 大きさの なんという？',
+    options:['二分の一（1/2）','四分の一（1/4）','三分の一（1/3）','2ばい'], answer:0,
+    explanation:'おなじ 大きさに 2つに 分けた 1つ分（半分）を「二分の一（1/2）」と いうよ。' },
+  { id:'g2ss_082', subject:'g2_bunsu_hyo', month:'g2_sansu',
+    q:'1本の テープを、おなじ 長さに 4つに 分けた 1つ分を、もとの 長さの なんという？',
+    options:['四分の一（1/4）','二分の一（1/2）','八分の一（1/8）','4ばい'], answer:0,
+    explanation:'おなじ 長さに 4つに 分けた 1つ分を「四分の一（1/4）」と いうよ。' },
+  { id:'g2ss_083', subject:'g2_bunsu_hyo', month:'g2_sansu', type:'input',
+    q:'12こ ある いちごの 二分の一（1/2・半分）は 何こ ですか？', answer:'6',
+    explanation:'12こを 2つに おなじ 数ずつ 分けると、6 ＋ 6 ＝ 12 だから 6こ だよ。' },
+  { id:'g2ss_084', subject:'g2_bunsu_hyo', month:'g2_sansu', type:'input',
+    q:'8cm の テープの 四分の一（1/4）の 長さは 何cm ですか？', answer:'2',
+    explanation:'2cm が 4つ分で 8cm（2 × 4 ＝ 8）だから、四分の一は 2cm だよ。' },
+  { id:'g2ss_085', subject:'g2_bunsu_hyo', month:'g2_sansu', type:'input',
+    q:'もとの 長さの 二分の一（1/2）が 5cm の テープが あります。\nもとの テープの 長さは 何cm ですか？', answer:'10',
+    explanation:'半分が 5cm だから、もとの 長さは 2ばいの 5 × 2 ＝ 10cm だよ。' },
+  { id:'g2ss_086', subject:'g2_bunsu_hyo', month:'g2_sansu', type:'input',
+    q:'クラスの すきな くだものを しらべたら、りんご 8人、みかん 12人、バナナ 5人 でした。\nぜんぶで 何人に しらべましたか？', answer:'25',
+    explanation:'8 ＋ 12 ＝ 20、20 ＋ 5 ＝ 25。\nぜんぶで 25人 だよ。' },
+  { id:'g2ss_087', subject:'g2_bunsu_hyo', month:'g2_sansu', type:'input',
+    q:'すきな くだものを しらべたら、りんご 8人、みかん 12人、バナナ 5人 でした。\nみかんが すきな 人は、バナナが すきな 人より 何人 多いですか？', answer:'7',
+    explanation:'式：12 － 5 ＝ 7\n7人 多いよ。' },
+  { id:'g2ss_088', subject:'g2_bunsu_hyo', month:'g2_sansu', type:'input',
+    q:'図書室で かりた 本の 数は、月よう日 6さつ、火よう日 9さつ、水よう日 5さつ でした。\n3日間で ぜんぶで 何さつ かりましたか？', answer:'20',
+    explanation:'6 ＋ 9 ＋ 5 ＝ 20さつ だよ。' },
+  { id:'g2ss_089', subject:'g2_bunsu_hyo', month:'g2_sansu', type:'input',
+    q:'□に あてはまる 数を 書こう。\n□ ＋ 24 ＝ 60', answer:'36',
+    explanation:'ぜんぶの 60 から 24 を ひけば □が わかるよ。\n60 － 24 ＝ 36 だよ。' },
+  { id:'g2ss_090', subject:'g2_bunsu_hyo', month:'g2_sansu', type:'input',
+    q:'□に あてはまる 数を 書こう。\n□ － 18 ＝ 35', answer:'53',
+    explanation:'18 を ひいて のこりが 35 だから、もとの 数は 35 ＋ 18 ＝ 53 だよ。' },
 ];
 
 // 基本問題番号ルックアップ
@@ -19363,13 +21961,17 @@ function publishIslandFriends() {
     const nowYm = String(d.getFullYear()) + String(d.getMonth() + 1).padStart(2, '0');
     // 栄光（りの）の島には 栄光の月の子が来る。栄光の月は MONTHS の islandMonth（島での月）に のせる
     const school = readIslandSchool() || state.selectedSchool;
-    const isleMonth = m => school === 'eikoh' ? ((MONTHS[m] || {}).school === 'eikoh' && (MONTHS[m] || {}).islandMonth) || ''
-                                              : (/^\d{6}$/.test(m) && m >= ISLAND_FIRST_MONTH ? m : '');
+    // 英語（school:'eng'）の子は、どの がっこうの 島にも 来る（英語を といた子だけ。下の got）
+    const isleMonth = m => ((MONTHS[m] || {}).school === 'eng') ? ((MONTHS[m] || {}).islandMonth || '')
+      : (school === 'eikoh' || school === 'g2')
+      ? ((MONTHS[m] || {}).school === school && (MONTHS[m] || {}).islandMonth) || ''
+      : (/^\d{6}$/.test(m) && m >= ISLAND_FIRST_MONTH ? m : '');
     const months = Object.keys(MONTH_CAT_PET).filter(m => isleMonth(m)).sort((a, b) => isleMonth(a).localeCompare(isleMonth(b)));
     const friends = [];
     months.forEach(qMonth => {
       const month = isleMonth(qMonth);
-      dexEntries(qMonth).filter(e => e.cat).forEach(e => {
+      const isEng = (MONTHS[qMonth] || {}).school === 'eng';
+      dexEntries(qMonth).filter(e => e.cat && (!isEng || e.got)).forEach(e => {
         const char = islandCharKey(e.cfg);
         if (!char) return;
         friends.push({
@@ -19434,6 +22036,67 @@ function renderIslandBtn() {
   const left = kenchikuUnlockedToday() ? 0 : ISLAND_UNLOCK_CATS - unitCatsToday().length;
   document.querySelectorAll('.island-btn-text').forEach(el => {
     el.textContent = left > 0 ? `🔒 あと${left}教科` : (el.classList.contains('island-top-sub') ? 'タップして島へ' : '島へいく');
+  });
+  try { renderSoraBtn(); } catch (e) {}
+}
+
+// ── 🍃 コロンのそらとび（/sora/）：その日に ぜんぶの月で SORA_NEED もん といたら 20ぷん。
+//   20ぷん たったら、とまった ときから あたらしく SORA_MORE もん といたら また 20ぷん（あそんだ じかんは ゲームが ena_sora_play_v1 に かく）。
+//   島の 主人公が けんすけ・みつき の 端末は いつでも・じかん むせいげん（ゲームの がわ sora/index.html と 同じ きまり）
+const SORA_NEED = 100;
+const SORA_MORE = 50;
+const SORA_MIN = 20;
+const SORA_FREE = { kensuke: 'けんすけ', mitsuki: 'みつき' };
+const SORA_ONEDAY = { yusei: ['2026-10-20', 'ゆうせい'] };   // その日だけ いつでも（ゲームの がわ GATE.oneday と 同じ）
+function answeredToday() {
+  const d = new Date().toLocaleDateString('ja-JP').replace(/\//g,'-');
+  let n = 0;
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i) || '';
+    if (!k.startsWith('ena_daily_') || !k.endsWith('_' + d)) continue;
+    try { n += Number(JSON.parse(localStorage.getItem(k) || '{}').answered) || 0; } catch(e) {}
+  }
+  return n;
+}
+// とくべつ（〜SORA_EXTRA_UNTIL）：100もんの かわりに、適性検査Ⅰ・Ⅱの 単元を 8わり いじょうで さいごまで（きょうの units に tekisei*）
+//   または もしの しまを さいごまで やりとげた（ena_moshi_v1 の きょうの finished）でも はじめの 20ぷん（ゲームの がわ extraToday と 同じ）
+const SORA_EXTRA_UNTIL = '2026-10-24';
+function soraExtraToday() {
+  if (todayStr() > SORA_EXTRA_UNTIL) return false;
+  const d = new Date().toLocaleDateString('ja-JP').replace(/\//g,'-');
+  if (unitCatsTodayEntries(d).some(([u]) => /^tekisei[12]/.test(u))) return true;
+  const t = new Date(), mday = t.getFullYear() + '-' + (t.getMonth() + 1) + '-' + t.getDate();
+  try {
+    const db = JSON.parse(localStorage.getItem('ena_moshi_v1') || '{}') || {};
+    return Object.values(db.tests || {}).some(r => (r && r.atts || []).some(a => a && a.finished && a.day === mday));
+  } catch(e) { return false; }
+}
+function unitCatsTodayEntries(d) {
+  const out = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i) || '';
+    if (!k.startsWith('ena_daily_') || !k.endsWith('_' + d)) continue;
+    try { Object.entries(JSON.parse(localStorage.getItem(k) || '{}').units || {}).forEach(e => out.push(e)); } catch(e) {}
+  }
+  return out;
+}
+function renderSoraBtn() {
+  let player = null, log = { done: 0, sec: 0, base: 0 };
+  const day = new Date().toLocaleDateString('ja-JP').replace(/\//g,'-');
+  try { player = (JSON.parse(localStorage.getItem('ena_island_save_v1') || '{}') || {}).player || null; } catch(e) {}
+  try { const o = JSON.parse(localStorage.getItem('ena_sora_play_v1') || '{}'); if (o && o.day === day) log = { done: Number(o.done) || 0, sec: Number(o.sec) || 0, base: Number(o.base) || 0 }; } catch(e) {}
+  const od = SORA_ONEDAY[player], oneday = od && od[0] === day;
+  const free = SORA_FREE[player] || (oneday ? od[1] : null);
+  const n = answeredToday();
+  const need = log.done ? log.base + SORA_MORE : SORA_NEED;
+  const left = Math.max(0, need - n);
+  const special = !log.done && n < need && soraExtraToday();
+  const mins = Math.max(1, Math.ceil((SORA_MIN * 60 - log.sec) / 60));
+  document.querySelectorAll('.sora-btn-text').forEach(el => {
+    el.textContent = free ? (oneday ? `${free}は きょうだけ あそべる！` : `${free}は いつでも あそべる`)
+      : (n >= need || special) ? `タップして あそぶ（のこり ${mins}ぷん）`
+      : log.done > 0 ? `🔒 また あと ${left}もん といたら あそべる`
+      : `🔒 あと ${left}もん といたら あそべる` + (todayStr() <= SORA_EXTRA_UNTIL ? '（10/24までは 適性検査 8わり・もしの しま でも OK）' : '');
   });
 }
 
@@ -20838,9 +23501,11 @@ function checkInputAnswer(userInput, correctAnswer) {
   const u = parseFractionVal(userInput);
   const c = parseFractionVal(correctAnswer);
   if (u !== null && c !== null) return Math.abs(u - c) < 0.000001;
-  // 文字の答え：空白をとり、カタカナはひらがなにそろえてくらべる（2年生のかん字の読みなど）
-  const norm = s => String(s).replace(/[\s　]/g, '').replace(/[ァ-ヶ]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0x60));
-  return norm(userInput) === norm(correctAnswer);
+  // 文字の答え：全角は半角に（Ｉ ｃａｎ→I can）、空白をとり、カタカナはひらがなにそろえてくらべる（2年生のかん字の読みなど）
+  const norm = s => String(s).normalize('NFKC').replace(/[\s　]/g, '').replace(/[ァ-ヶ]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0x60));
+  // 手書きで「I」が l や | になりやすいので、1文字だけの単語の l と | は I として読む（l can / l'm など）
+  const fixI = s => String(s).normalize('NFKC').replace(/\|/g, 'I').replace(/(^|[^A-Za-z])l(?![A-Za-z])/g, '$1I');
+  return norm(userInput) === norm(correctAnswer) || norm(fixI(userInput)) === norm(correctAnswer);
 }
 
 // ============================================================
@@ -21501,6 +24166,48 @@ function petCfg() { return PETS[state.selectedMonth] || PETS['202609']; }
 
 // 教科ごとのキャラ設定。その月・その教科の問題の⭐で育つ（保存は月×教科ごと）
 const CAT_CHARS = {
+  lucky: {
+    title:    '🦦 ラッコのラッキー',
+    short:    'ラッキー',
+    render:   (lv, fill, size, o) => renderOtterSVG(lv, fill, size, o),
+    phases:   ['🥚','🦦','🔤','📖','🎧'],
+    shard:    '🔤 ABCブロック',
+    complete: 'ぜんぶ完璧！3・4年の英単語を ぜんぶ 言えるよ🎧',
+    grew:     d => `🔤 新しい問題が${d}問！また英単語を おぼえよう`,
+    grewNew:  d => `🆕 新しい問題が${d}問ふえたよ！`,
+    starKick: '🎧 ぜんぶ完璧！',
+    starSub:  '3・4年の英単語を ぜんぶ 言えるよ！',
+    dexNote:  'をぜんぶ完璧にするたびに、ラッキーに★が1つ増えるよ！',
+    levels: [
+      { ratio:0,    name:'たまごのラッキー',     hint:'たまごの中で、one, two, three… と かぞえているよ' },
+      { ratio:0.12, name:'こラッコのラッキー',   hint:'うみに ぷかぷか。red, blue, yellow!' },
+      { ratio:0.30, name:'ABCのラッキー',        hint:'ABCブロックを つんで あそんでいるよ' },
+      { ratio:0.53, name:'えほんのラッキー',     hint:'えいごの えほんで、dog・cat・apple を よめる！' },
+      { ratio:0.76, name:'リスニングのラッキー', hint:'ヘッドホンで、えいごの 音を ききとれる' },
+      { ratio:1.00, name:'えいごの王さまラッキー', hint:'かんむりをかぶった、3・4年の英単語マスター！' },
+    ],
+  },
+  taiga: {
+    title:    '🐯 トラのタイガ',
+    short:    'タイガ',
+    render:   (lv, fill, size, o) => renderTigerSVG(lv, fill, size, o),
+    phases:   ['🥚','🐯','📘','💬','🎤'],
+    shard:    '📘 じしょの ページ',
+    complete: 'ぜんぶ完璧！5・6年の英単語を ぜんぶ 言えるよ🎤',
+    grew:     d => `📘 新しい問題が${d}問！また英単語を おぼえよう`,
+    grewNew:  d => `🆕 新しい問題が${d}問ふえたよ！`,
+    starKick: '🎤 ぜんぶ完璧！',
+    starSub:  '5・6年の英単語を ぜんぶ 言えるよ！',
+    dexNote:  'をぜんぶ完璧にするたびに、タイガに★が1つ増えるよ！',
+    levels: [
+      { ratio:0,    name:'たまごのタイガ',       hint:'たまごの中で、January, February… と つぶやいているよ' },
+      { ratio:0.12, name:'こトラのタイガ',       hint:'しまもようが はえてきた。math・science・music!' },
+      { ratio:0.30, name:'じしょのタイガ',       hint:'ABCじしょで、ことばの いみを しらべられる' },
+      { ratio:0.53, name:'あいさつのタイガ',     hint:'Hello! Nice to meet you. だれとでも なかよし' },
+      { ratio:0.76, name:'スピーチのタイガ',     hint:'マイクを もって、しょうらいの ゆめを えいごで はなせる' },
+      { ratio:1.00, name:'えいごの王タイガ',     hint:'かんむりをかぶった、5・6年の英単語マスター！' },
+    ],
+  },
   ponta: {
     title:    '🍃 たぬきのぽんた',
     short:    'ぽんた',
@@ -21921,6 +24628,69 @@ const CAT_CHARS = {
       { ratio:1.00, name:'まきばの王モモ',       hint:'かんむりをかぶった、日本の農業マスター！' },
     ],
   },
+  kotoha: {
+    title:    '🦒 キリンのコトハ',
+    short:    'コトハ',
+    render:   (lv, fill, size, o) => renderGiraffeSVG(lv, fill, size, o),
+    phases:   ['🥚','🦒','📖','🖌️','💬'],
+    shard:    '📖 ことばのページ',
+    complete: 'ぜんぶ完璧！ことばの本が完成したよ💬',
+    grew:     d => `📖 新しい問題が${d}問！また ことばを集めよう`,
+    grewNew:  d => `🆕 新しい問題が${d}問ふえたよ！`,
+    starKick: '💬 ぜんぶ完璧！',
+    starSub:  'ことばの本が完成したよ！',
+    dexNote:  'をぜんぶ完璧にするたびに、コトハに★が1つ増えるよ！',
+    levels: [
+      { ratio:0,    name:'たまごのコトハ',       hint:'たまごの中で、ことばのおとを聞いているよ' },
+      { ratio:0.12, name:'こキリンのコトハ',     hint:'首をのばして、ことばをさがしはじめた' },
+      { ratio:0.30, name:'ほんのコトハ',         hint:'形容詞の本を読んで、ようすを言いあらわせるよ' },
+      { ratio:0.53, name:'ふでのコトハ',         hint:'ふでを持って、副詞のつかいかたを書いている' },
+      { ratio:0.76, name:'ぶんしょうはかせコトハ', hint:'めがねをかけて、文章の主張を言いあてる！' },
+      { ratio:1.00, name:'ことばの女王コトハ',   hint:'かんむりをかぶった、10月国語マスター！' },
+    ],
+  },
+  piyota: {
+    title:    '🐥 ひよこのピヨタ',
+    short:    'ピヨタ',
+    render:   (lv, fill, size, o) => renderChickSVG(lv, fill, size, o),
+    phases:   ['🥚','🐥','🃏','🔢','🏅'],
+    shard:    '🔢 九九のカード',
+    complete: 'ぜんぶ完璧！九九を ぜんぶ言えるよ🏅',
+    grew:     d => `🔢 新しい問題が${d}問！また九九をとなえよう`,
+    grewNew:  d => `🆕 新しい問題が${d}問ふえたよ！`,
+    starKick: '🏆 ぜんぶ完璧！',
+    starSub:  '九九を ぜんぶ言えるようになったよ！',
+    dexNote:  'をぜんぶ完璧にするたびに、ピヨタに★が1つ増えるよ！',
+    levels: [
+      { ratio:0, name:'たまごのピヨタ', hint:'たまごの中で、九九のリズムを聞いているよ' },
+      { ratio:0.12, name:'ひよこのピヨタ', hint:'から つきのまま、1のだん 2のだん と はじめた' },
+      { ratio:0.3, name:'カードのピヨタ', hint:'かけ算カードを めくって れんしゅう中！' },
+      { ratio:0.53, name:'ならびのピヨタ', hint:'●を ならべて、かけ算のしくみが わかってきた' },
+      { ratio:0.76, name:'くくはかせピヨタ', hint:'どの だんも すらすら！81まで あと少し' },
+      { ratio:1.0, name:'くくの王ピヨタ', hint:'かんむりをかぶった、九九マスター！' },
+    ],
+  },
+  chuuko: {
+    title:    '🐭 ねずみのチューコ',
+    short:    'チューコ',
+    render:   (lv, fill, size, o) => renderMouseSVG(lv, fill, size, o),
+    phases:   ['🥚','🐭','✏️','📓','💮'],
+    shard:    '📓 かん字ノート',
+    complete: 'ぜんぶ完璧！かん字が ぜんぶ読めて書けるよ💮',
+    grew:     d => `📓 新しい問題が${d}問！また かん字を書こう`,
+    grewNew:  d => `🆕 新しい問題が${d}問ふえたよ！`,
+    starKick: '🏆 ぜんぶ完璧！',
+    starSub:  'かん字が ぜんぶ読めて書けるよ！',
+    dexNote:  'をぜんぶ完璧にするたびに、チューコに★が1つ増えるよ！',
+    levels: [
+      { ratio:0, name:'たまごのチューコ', hint:'たまごの中で、かん字の形を思いうかべているよ' },
+      { ratio:0.12, name:'こねずみのチューコ', hint:'えんぴつを持って、かん字をなぞりはじめた' },
+      { ratio:0.3, name:'ノートのチューコ', hint:'ノートに「字」と書けたよ！' },
+      { ratio:0.53, name:'カードのチューコ', hint:'かん字カードで、読みと書きをおぼえている' },
+      { ratio:0.76, name:'はなまるチューコ', hint:'はなまるが ふえてきた！かん字にくわしい' },
+      { ratio:1.0, name:'かん字の女王チューコ', hint:'かんむりをかぶった、2年生のかん字マスター！' },
+    ],
+  },
   yuuka: {
     title:    '🐨 コアラのユーカ',
     short:    'ユーカ',
@@ -22047,6 +24817,27 @@ const CAT_CHARS = {
       { ratio:1.00, name:'さんちの王ブブ',       hint:'かんむりをかぶった、日本の さんちマスター！' },
     ],
   },
+  kamekichi_g2: {
+    title:    '🐢 かめのカメきち',
+    short:    'カメきち',
+    render:   (lv, fill, size, o) => renderTurtleSVG(lv, fill, size, o),
+    phases:   ['🥚','🐢','🕐','📏','📐'],
+    shard:    '📐 ものさしと時計',
+    complete: 'ぜんぶ完璧！2年生の算数が ぜんぶとけるよ📐',
+    grew:     d => `📐 新しい問題が${d}問！また算数にチャレンジしよう`,
+    grewNew:  d => `🆕 新しい問題が${d}問ふえたよ！`,
+    starKick: '🏆 ぜんぶ完璧！',
+    starSub:  '2年生の算数を ぜんぶマスターしたよ！',
+    dexNote:  'をぜんぶ完璧にするたびに、カメきちに★が1つ増えるよ！',
+    levels: [
+      { ratio:0,    name:'たまごのカメきち',     hint:'たまごの中で、数を1・2・3…とかぞえているよ' },
+      { ratio:0.12, name:'こがめのカメきち',     hint:'2けたの たし算・ひき算を 筆算で書きはじめた' },
+      { ratio:0.30, name:'とけいのカメきち',     hint:'時計を 見て、何時何分・何分後が わかるようになった！' },
+      { ratio:0.53, name:'ものさしのカメきち',   hint:'cm・mm・m や L・dL の単位も すらすら！' },
+      { ratio:0.76, name:'ずけいはかせカメきち', hint:'直角・長方形・正方形や かけ算の文章題も へっちゃら' },
+      { ratio:1.00, name:'さんすうの王カメきち', hint:'かんむりをかぶった、2年生の算数マスター！' },
+    ],
+  },
 };
 
 // 育成の対象（ctx）。ctx を省略するとルナ（その月の全教科）として動く
@@ -22065,7 +24856,12 @@ const MONTH_CAT_PET = {
   '202606': { shakai: 'maimai', rika: 'ahi',       kokugo: 'risumaru', sansu: 'kamekichi' },
   '202607': { shakai: 'konta',   rika: 'doruru'     },
   '202609': { shakai: 'ponta',   rika: 'hou',   kokugo: 'piko', sansu: 'mimi' },
-  '202610': { shakai: 'momo',  rika: 'tsukimi', sansu: 'yuuka' },
+  '202610': { shakai: 'momo',  rika: 'tsukimi', kokugo: 'kotoha', sansu: 'yuuka' },
+  'g2_kuku':  { sansu: 'piyota' },
+  'g2_sansu': { sansu: 'kamekichi_g2' },
+  'g2_kanji': { kokugo: 'chuuko' },
+  'eng_sho34': { eigo: 'lucky' },
+  'eng_sho56': { eigo: 'taiga' },
   'eikoh_kiso2026': { shakai: 'zoumaru', rika: 'harry', kokugo: 'panko', sansu: 'hamuta' },
   'eikoh_term10':   { kokugo: 'shiba', sansu: 'chita', eigo: 'leo', rika: 'honey', shakai: 'bubu' },
 };
@@ -23913,7 +26709,295 @@ function renderPigSVG(level, fillPct, size, opts) {
   return petWrapSVG(L, size, bg, deco, body);
 }
 
+function renderGiraffeSVG(level, fillPct, size, opts) {
+  opts = opts || {};
+  const sil = !!opts.silhouette, L = Math.max(1, level | 0);
+  const pal = { fur:'#fcd34d', belly:'#fef3c7', spot:'#b45309', horn:'#92400e', line:'#78350f', eye:'#2a1d3d',
+                blush:'#fda4af', scarf:'#ef4444', scarfLine:'#991b1b', book:'#3b82f6', bookLine:'#1e3a8a', page:'#ffffff',
+                brush:'#a16207', ink:'#1f2937', glass:'#1e3a8a', bub:'#ffffff', bubLine:'#6366f1', bubText:'#4338ca',
+                crown:'#fbbf24', star:'#fde68a', egg:'#fef9c3' };
+  const c = sil ? petSilPalette(pal) : pal;
+  const bg = petRingBG(fillPct, '#fbbf24', sil);
+  const deco = petCommonDeco(L, opts.stars, c.star, sil);
+  let body;
+  if (L === 1) {
+    body = petEggBody(c, `
+      <rect x="95" y="68" width="4" height="12" rx="2" fill="${c.horn}"/><circle cx="97" cy="67" r="4" fill="${c.horn}"/>
+      <rect x="105" y="68" width="4" height="12" rx="2" fill="${c.horn}"/><circle cx="107" cy="67" r="4" fill="${c.horn}"/>`);
+  } else {
+    // Lv2〜：ことばの スカーフ
+    const scarf = L >= 2 ? `<g>
+        <path d="M86 132 q14 8 28 0 l0 9 q-14 8 -28 0 z" fill="${c.scarf}" stroke="${c.scarfLine}" stroke-width="1.8" stroke-linejoin="round"/>
+        <path d="M108 140 l6 16 l-9 -3 z" fill="${c.scarf}" stroke="${c.scarfLine}" stroke-width="1.6" stroke-linejoin="round"/>
+      </g>` : '';
+    // Lv3〜：ほん
+    const book = L >= 3 ? `<g transform="rotate(-12 54 168)">
+        <rect x="36" y="154" width="36" height="26" rx="3" fill="${c.book}" stroke="${c.bookLine}" stroke-width="2"/>
+        <rect x="40" y="158" width="28" height="18" rx="2" fill="${c.page}"/>
+        <path d="M54 158 v18 M44 164 h7 M44 169 h7 M57 164 h7 M57 169 h7" stroke="${c.bookLine}" stroke-width="1.2" fill="none"/>
+      </g>` : '';
+    // Lv4〜：ふで
+    const brush = L >= 4 ? `<g transform="rotate(30 150 160)">
+        <rect x="146" y="136" width="7" height="34" rx="3" fill="${c.brush}" stroke="${c.line}" stroke-width="1.6"/>
+        <path d="M146 170 l3.5 12 l3.5 -12 z" fill="${c.ink}"/>
+      </g>` : '';
+    // Lv5〜：めがね ＋ ふきだし「あ」
+    const glasses = L >= 5 ? `<g fill="none" stroke="${c.glass}" stroke-width="2">
+        <circle cx="90" cy="98" r="8"/><circle cx="110" cy="98" r="8"/><path d="M98 98 h4"/>
+      </g>
+      <g>
+        <path d="M128 70 h28 a6 6 0 0 1 6 6 v14 a6 6 0 0 1 -6 6 h-18 l-8 8 l1 -8 a6 6 0 0 1 -3 -6 v-14 a6 6 0 0 1 0 0 z" fill="${c.bub}" stroke="${c.bubLine}" stroke-width="1.8" stroke-linejoin="round"/>
+        <text x="145" y="92" text-anchor="middle" font-size="16" font-weight="700" fill="${c.bubText}" font-family="sans-serif">あ</text>
+      </g>` : '';
+    const crown = L >= 6 ? `<path d="M88 74 L91 60 L97 68 L100 56 L103 68 L109 60 L112 74 Z" fill="${c.crown}" stroke="${c.line}" stroke-width="1.6" stroke-linejoin="round"/>` : '';
+    body = `
+      <path d="M130 156 q12 -4 10 -12 q-6 -2 -8 6" fill="none" stroke="${c.line}" stroke-width="2.2" stroke-linecap="round"/>
+      <ellipse cx="100" cy="158" rx="33" ry="24" fill="${c.fur}" stroke="${c.line}" stroke-width="3"/>
+      <ellipse cx="100" cy="164" rx="19" ry="14" fill="${c.belly}"/>
+      <circle cx="82" cy="150" r="5" fill="${c.spot}" opacity="0.8"/><circle cx="118" cy="152" r="6" fill="${c.spot}" opacity="0.8"/>
+      <rect x="85" y="176" width="9" height="12" rx="3" fill="${c.fur}" stroke="${c.line}" stroke-width="1.8"/>
+      <rect x="106" y="176" width="9" height="12" rx="3" fill="${c.fur}" stroke="${c.line}" stroke-width="1.8"/>
+      <rect x="90" y="112" width="20" height="40" rx="9" fill="${c.fur}" stroke="${c.line}" stroke-width="2.6"/>
+      <circle cx="98" cy="128" r="4" fill="${c.spot}" opacity="0.8"/><circle cx="104" cy="142" r="3.6" fill="${c.spot}" opacity="0.8"/>
+      <rect x="86.5" y="62" width="4" height="14" rx="2" fill="${c.horn}"/><circle cx="88.5" cy="61" r="4.2" fill="${c.horn}"/>
+      <rect x="109.5" y="62" width="4" height="14" rx="2" fill="${c.horn}"/><circle cx="111.5" cy="61" r="4.2" fill="${c.horn}"/>
+      <ellipse cx="76" cy="86" rx="7" ry="4.5" fill="${c.fur}" stroke="${c.line}" stroke-width="2" transform="rotate(-25 76 86)"/>
+      <ellipse cx="124" cy="86" rx="7" ry="4.5" fill="${c.fur}" stroke="${c.line}" stroke-width="2" transform="rotate(25 124 86)"/>
+      <ellipse cx="100" cy="97" rx="25" ry="23" fill="${c.fur}" stroke="${c.line}" stroke-width="2.6"/>
+      <circle cx="82" cy="84" r="4" fill="${c.spot}" opacity="0.8"/><circle cx="119" cy="83" r="3.4" fill="${c.spot}" opacity="0.8"/>
+      <ellipse cx="100" cy="108" rx="13" ry="9" fill="${c.belly}"/>
+      <ellipse cx="80" cy="106" rx="5" ry="3.2" fill="${c.blush}" opacity="0.75"/>
+      <ellipse cx="120" cy="106" rx="5" ry="3.2" fill="${c.blush}" opacity="0.75"/>
+      ${petEyes(c, sil, 90, 110, 98, 4)}
+      <circle cx="95.5" cy="107" r="1.7" fill="${c.eye}"/><circle cx="104.5" cy="107" r="1.7" fill="${c.eye}"/>
+      <path d="M95 112 q5 4 10 0" stroke="${c.eye}" stroke-width="2" fill="none" stroke-linecap="round"/>
+      ${scarf}${glasses}${crown}${book}${brush}`;
+  }
+  return petWrapSVG(L, size, bg, deco, body);
+}
+
+function renderChickSVG(level, fillPct, size, opts) {
+  opts = opts || {};
+  const sil = !!opts.silhouette, L = Math.max(1, level | 0);
+  const pal = { fur:'#fde047', belly:'#fef9c3', beak:'#fb923c', foot:'#fb923c', line:'#a16207', eye:'#2a1d3d',
+                blush:'#fda4af', shell:'#fffbeb', card:'#ffffff', cardLine:'#16a34a', num:'#15803d', dot:'#f97316',
+                medal:'#fbbf24', ribbon:'#ef4444', crown:'#fbbf24', star:'#fde68a', egg:'#fef9c3', spot:'#fcd34d' };
+  const c = sil ? petSilPalette(pal) : pal;
+  const bg = petRingBG(fillPct, '#facc15', sil);
+  const deco = petCommonDeco(L, opts.stars, c.star, sil);
+  let body;
+  if (L === 1) {
+    body = petEggBody(c, `
+      <path d="M96 70 q-4 -10 -10 -8 M100 70 q0 -12 0 -14 M104 70 q4 -10 10 -8" stroke="${c.line}" stroke-width="2.4" fill="none" stroke-linecap="round"/>`);
+  } else {
+    // Lv2〜：たまごのから ぼうし
+    const shell = L >= 2 ? `<path d="M80 92 l6 -8 l5 7 l5 -9 l4 9 l5 -7 l6 8 l5 -6 l0 8 z" fill="${c.shell}" stroke="${c.line}" stroke-width="1.8" stroke-linejoin="round" transform="translate(-0 -4)"/>` : '';
+    // Lv3〜：かけ算カード
+    const card = L >= 3 ? `<g transform="rotate(-10 52 164)">
+        <rect x="32" y="148" width="40" height="30" rx="4" fill="${c.card}" stroke="${c.cardLine}" stroke-width="2"/>
+        <text x="52" y="170" text-anchor="middle" font-size="16" font-weight="700" fill="${c.num}" font-family="sans-serif">3×3</text>
+      </g>` : '';
+    // Lv4〜：●の ならび（3×3）
+    const dots = L >= 4 ? `<g transform="translate(138 138)">
+        <rect x="-4" y="-4" width="40" height="40" rx="5" fill="#fff7ed" stroke="${c.line}" stroke-width="1.6"/>
+        ${[0,1,2].map(i=>[0,1,2].map(j=>`<circle cx="${6+j*12}" cy="${6+i*12}" r="4" fill="${c.dot}"/>`).join('')).join('')}
+      </g>` : '';
+    // Lv5〜：81のメダル
+    const medal = L >= 5 ? `<g>
+        <path d="M92 138 l-5 14 M108 138 l5 14" stroke="${c.ribbon}" stroke-width="5"/>
+        <circle cx="100" cy="158" r="12" fill="${c.medal}" stroke="${c.line}" stroke-width="1.8"/>
+        <text x="100" y="163" text-anchor="middle" font-size="13" font-weight="700" fill="${c.line}" font-family="sans-serif">81</text>
+      </g>` : '';
+    const crown = L >= 6 ? `<path d="M85 84 L89 68 L96 78 L100 64 L104 78 L111 68 L115 84 Z" fill="${c.crown}" stroke="${c.line}" stroke-width="1.6" stroke-linejoin="round"/>` : '';
+    body = `
+      <ellipse cx="68" cy="140" rx="10" ry="16" fill="${c.fur}" stroke="${c.line}" stroke-width="2.2" transform="rotate(25 68 140)"/>
+      <ellipse cx="132" cy="140" rx="10" ry="16" fill="${c.fur}" stroke="${c.line}" stroke-width="2.2" transform="rotate(-25 132 140)"/>
+      <ellipse cx="100" cy="142" rx="34" ry="32" fill="${c.fur}" stroke="${c.line}" stroke-width="3"/>
+      <ellipse cx="100" cy="152" rx="21" ry="20" fill="${c.belly}"/>
+      <path d="M88 174 v8 M80 182 h16 M112 174 v8 M104 182 h16" stroke="${c.foot}" stroke-width="3" stroke-linecap="round"/>
+      <path d="M96 86 q-4 -12 -10 -10 M100 86 q0 -14 0 -16 M104 86 q4 -12 10 -10" stroke="${c.line}" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+      <circle cx="100" cy="112" r="27" fill="${c.fur}" stroke="${c.line}" stroke-width="2.5"/>
+      <ellipse cx="78" cy="120" rx="5.5" ry="3.5" fill="${c.blush}" opacity="0.75"/>
+      <ellipse cx="122" cy="120" rx="5.5" ry="3.5" fill="${c.blush}" opacity="0.75"/>
+      ${petEyes(c, sil, 89, 111, 108, 4)}
+      <path d="M93 117 l7 9 l7 -9 q-7 -4 -14 0 z" fill="${c.beak}" stroke="${c.line}" stroke-width="1.6" stroke-linejoin="round"/>
+      ${shell}${crown}${card}${dots}${medal}`;
+  }
+  return petWrapSVG(L, size, bg, deco, body);
+}
+
+function renderMouseSVG(level, fillPct, size, opts) {
+  opts = opts || {};
+  const sil = !!opts.silhouette, L = Math.max(1, level | 0);
+  const pal = { fur:'#d6d3d1', belly:'#fafaf9', ear:'#fda4af', line:'#57534e', eye:'#2a1d3d', nose:'#f472b6',
+                blush:'#fda4af', pencil:'#facc15', pencilTip:'#78350f', lead:'#374151', note:'#fff7ed', noteLine:'#ea580c',
+                card:'#ffffff', cardLine:'#7c3aed', kan:'#6d28d9', hana:'#ef4444', hanaIn:'#fde047',
+                crown:'#fbbf24', star:'#fde68a', egg:'#f5f5f4', spot:'#e7e5e4' };
+  const c = sil ? petSilPalette(pal) : pal;
+  const bg = petRingBG(fillPct, '#a78bfa', sil);
+  const deco = petCommonDeco(L, opts.stars, c.star, sil);
+  let body;
+  if (L === 1) {
+    body = petEggBody(c, `
+      <circle cx="82" cy="80" r="11" fill="${c.fur}" stroke="${c.line}" stroke-width="2"/><circle cx="82" cy="80" r="6" fill="${c.ear}"/>
+      <circle cx="118" cy="80" r="11" fill="${c.fur}" stroke="${c.line}" stroke-width="2"/><circle cx="118" cy="80" r="6" fill="${c.ear}"/>`);
+  } else {
+    // Lv2〜：えんぴつ（みみに かけて）
+    const pencil = L >= 2 ? `<g transform="rotate(-20 126 86)">
+        <rect x="118" y="66" width="7" height="30" rx="2" fill="${c.pencil}" stroke="${c.line}" stroke-width="1.4"/>
+        <path d="M118 96 l3.5 8 l3.5 -8 z" fill="${c.pencilTip}"/>
+      </g>` : '';
+    // Lv3〜：ノート「字」
+    const note = L >= 3 ? `<g transform="rotate(-10 52 166)">
+        <rect x="32" y="148" width="40" height="32" rx="3" fill="${c.note}" stroke="${c.noteLine}" stroke-width="2"/>
+        <text x="52" y="172" text-anchor="middle" font-size="20" font-weight="700" fill="${c.noteLine}" font-family="sans-serif">字</text>
+      </g>` : '';
+    // Lv4〜：かん字カード「山」
+    const kan = L >= 4 ? `<g transform="rotate(8 152 160)">
+        <rect x="134" y="142" width="36" height="36" rx="4" fill="${c.card}" stroke="${c.cardLine}" stroke-width="2"/>
+        <text x="152" y="170" text-anchor="middle" font-size="22" font-weight="700" fill="${c.kan}" font-family="sans-serif">山</text>
+      </g>` : '';
+    // Lv5〜：はなまる
+    const hana = L >= 5 ? `<g transform="translate(150 96)">
+        ${[0,1,2,3,4,5,6,7].map(i=>`<circle cx="${(Math.cos(i*Math.PI/4)*9).toFixed(1)}" cy="${(Math.sin(i*Math.PI/4)*9).toFixed(1)}" r="4.2" fill="none" stroke="${c.hana}" stroke-width="1.8"/>`).join('')}
+        <circle r="5" fill="${c.hanaIn}" stroke="${c.hana}" stroke-width="1.6"/>
+      </g>` : '';
+    const crown = L >= 6 ? `<path d="M86 78 L90 62 L97 72 L100 58 L103 72 L110 62 L114 78 Z" fill="${c.crown}" stroke="${c.line}" stroke-width="1.6" stroke-linejoin="round"/>` : '';
+    body = `
+      <path d="M130 156 q16 0 18 -14 q0 -8 -8 -6" fill="none" stroke="${c.ear}" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="78" cy="90" r="13" fill="${c.fur}" stroke="${c.line}" stroke-width="2.2"/><circle cx="78" cy="90" r="7" fill="${c.ear}"/>
+      <circle cx="122" cy="90" r="13" fill="${c.fur}" stroke="${c.line}" stroke-width="2.2"/><circle cx="122" cy="90" r="7" fill="${c.ear}"/>
+      <ellipse cx="100" cy="146" rx="32" ry="30" fill="${c.fur}" stroke="${c.line}" stroke-width="3"/>
+      <ellipse cx="100" cy="154" rx="19" ry="18" fill="${c.belly}"/>
+      <ellipse cx="84" cy="175" rx="9" ry="5" fill="${c.ear}" stroke="${c.line}" stroke-width="1.8"/>
+      <ellipse cx="116" cy="175" rx="9" ry="5" fill="${c.ear}" stroke="${c.line}" stroke-width="1.8"/>
+      <ellipse cx="100" cy="114" rx="27" ry="25" fill="${c.fur}" stroke="${c.line}" stroke-width="2.5"/>
+      <ellipse cx="80" cy="122" rx="5.5" ry="3.5" fill="${c.blush}" opacity="0.75"/>
+      <ellipse cx="120" cy="122" rx="5.5" ry="3.5" fill="${c.blush}" opacity="0.75"/>
+      ${petEyes(c, sil, 90, 110, 110, 4)}
+      <ellipse cx="100" cy="121" rx="3.6" ry="2.8" fill="${c.nose}"/>
+      <path d="M100 124 q-4 5 -8 1 M100 124 q4 5 8 1" stroke="${c.eye}" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M86 124 l-12 -2 M86 127 l-12 3 M114 124 l12 -2 M114 127 l12 3" stroke="${c.line}" stroke-width="1.2" stroke-linecap="round"/>
+      ${pencil}${crown}${note}${kan}${hana}`;
+  }
+  return petWrapSVG(L, size, bg, deco, body);
+}
+
 // ============================================================
+// ラッコのラッキー（英語 小学校の英単語 3・4年）：ABCブロック → えほん → ヘッドホン
+function renderOtterSVG(level, fillPct, size, opts) {
+  opts = opts || {};
+  const sil = !!opts.silhouette, L = Math.max(1, level | 0);
+  const pal = { fur:'#a16207', face:'#fef3c7', belly:'#d6b48a', line:'#78350f', eye:'#2a1d3d',
+                nose:'#3f2a1d', blush:'#fda4af', blockA:'#ef4444', blockB:'#3b82f6', blockC:'#22c55e',
+                book:'#fde68a', bookLine:'#b45309', phone:'#7c3aed', crown:'#fbbf24', star:'#fde68a',
+                egg:'#fef9c3', spot:'#d6b48a' };
+  const c = sil ? petSilPalette(pal) : pal;
+  const bg = petRingBG(fillPct, '#fbbf24', sil);
+  const deco = petCommonDeco(L, opts.stars, c.star, sil);
+  let body;
+  if (L === 1) {
+    body = petEggBody(c, `
+      <circle cx="84" cy="78" r="7" fill="${c.fur}" stroke="${c.line}" stroke-width="2"/>
+      <circle cx="116" cy="78" r="7" fill="${c.fur}" stroke="${c.line}" stroke-width="2"/>`);
+  } else {
+    const blk = (x, y, col, ch) => `<rect x="${x}" y="${y}" width="20" height="20" rx="3" fill="${col}" stroke="${c.line}" stroke-width="1.6"/>
+        <text x="${x + 10}" y="${y + 15}" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle">${ch}</text>`;
+    const blocks = L >= 3 ? `<g>${blk(26, 150, c.blockA, 'A')}${blk(48, 150, c.blockB, 'B')}${blk(37, 128, c.blockC, 'C')}</g>` : '';
+    const book = L >= 4 ? `<g transform="rotate(10 152 146)">
+        <rect x="132" y="128" width="40" height="32" rx="3" fill="${c.book}" stroke="${c.bookLine}" stroke-width="2"/>
+        <path d="M152 128 v32" stroke="${c.bookLine}" stroke-width="1.6"/>
+        <circle cx="142" cy="141" r="5" fill="${c.blockA}"/><path d="M142 136 l2 -3" stroke="${c.blockC}" stroke-width="1.6"/>
+        <text x="162" y="146" font-size="9" font-weight="bold" fill="${c.bookLine}" text-anchor="middle">A</text>
+      </g>` : '';
+    const phones = L >= 5 ? `<g>
+        <path d="M76 108 q24 -34 48 0" fill="none" stroke="${c.phone}" stroke-width="4" stroke-linecap="round"/>
+        <rect x="70" y="104" width="10" height="16" rx="4" fill="${c.phone}" stroke="${c.line}" stroke-width="1.4"/>
+        <rect x="120" y="104" width="10" height="16" rx="4" fill="${c.phone}" stroke="${c.line}" stroke-width="1.4"/>
+      </g>` : '';
+    const crown = L >= 6 ? `<path d="M84 86 L88 70 L96 80 L100 66 L104 80 L112 70 L116 86 Z" fill="${c.crown}" stroke="${c.line}" stroke-width="1.6" stroke-linejoin="round"/>` : '';
+    body = `
+      <ellipse cx="100" cy="148" rx="33" ry="30" fill="${c.fur}" stroke="${c.line}" stroke-width="3"/>
+      <ellipse cx="100" cy="154" rx="20" ry="19" fill="${c.belly}"/>
+      <path d="M128 164 q22 8 18 -10" fill="none" stroke="${c.line}" stroke-width="9" stroke-linecap="round"/>
+      <path d="M128 164 q22 8 18 -10" fill="none" stroke="${c.fur}" stroke-width="6" stroke-linecap="round"/>
+      <ellipse cx="86" cy="175" rx="10" ry="5" fill="${c.fur}" stroke="${c.line}" stroke-width="1.8"/>
+      <ellipse cx="114" cy="175" rx="10" ry="5" fill="${c.fur}" stroke="${c.line}" stroke-width="1.8"/>
+      <circle cx="78" cy="92" r="7" fill="${c.fur}" stroke="${c.line}" stroke-width="2"/>
+      <circle cx="122" cy="92" r="7" fill="${c.fur}" stroke="${c.line}" stroke-width="2"/>
+      <circle cx="100" cy="112" r="27" fill="${c.fur}" stroke="${c.line}" stroke-width="2.5"/>
+      <ellipse cx="100" cy="118" rx="20" ry="16" fill="${c.face}"/>
+      <ellipse cx="80" cy="122" rx="5" ry="3.5" fill="${c.blush}" opacity="0.75"/>
+      <ellipse cx="120" cy="122" rx="5" ry="3.5" fill="${c.blush}" opacity="0.75"/>
+      ${petEyes(c, sil, 90, 110, 108, 4)}
+      <ellipse cx="100" cy="117" rx="4.5" ry="3" fill="${c.nose}"/>
+      <path d="M100 120 q-4 5 -8 1 M100 120 q4 5 8 1" stroke="${c.eye}" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M84 118 h-10 M84 122 h-9 M116 118 h10 M116 122 h9" stroke="${c.line}" stroke-width="1.2" stroke-linecap="round"/>
+      <ellipse cx="88" cy="140" rx="7" ry="5" fill="${c.fur}" stroke="${c.line}" stroke-width="1.6"/>
+      <ellipse cx="112" cy="140" rx="7" ry="5" fill="${c.fur}" stroke="${c.line}" stroke-width="1.6"/>
+      ${phones}${crown}${blocks}${book}`;
+  }
+  return petWrapSVG(L, size, bg, deco, body);
+}
+
+// トラのタイガ（英語 小学校の英単語 5・6年）：じしょ → Hello! のふきだし → マイク
+function renderTigerSVG(level, fillPct, size, opts) {
+  opts = opts || {};
+  const sil = !!opts.silhouette, L = Math.max(1, level | 0);
+  const pal = { fur:'#fb923c', belly:'#fff7ed', stripe:'#431407', line:'#7c2d12', eye:'#2a1d3d',
+                nose:'#be185d', blush:'#fda4af', dict:'#2563eb', dictPage:'#ffffff', bubble:'#ffffff',
+                bubbleLine:'#0369a1', mic:'#475569', crown:'#fbbf24', star:'#fde68a',
+                egg:'#ffedd5', spot:'#fb923c' };
+  const c = sil ? petSilPalette(pal) : pal;
+  const bg = petRingBG(fillPct, '#fb923c', sil);
+  const deco = petCommonDeco(L, opts.stars, c.star, sil);
+  let body;
+  if (L === 1) {
+    body = petEggBody(c, `
+      <path d="M88 70 l-6 -12 l12 6 z" fill="${c.fur}" stroke="${c.line}" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M112 70 l6 -12 l-12 6 z" fill="${c.fur}" stroke="${c.line}" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M92 100 h16 M90 112 h20" stroke="${c.stripe}" stroke-width="3" stroke-linecap="round" opacity="0.5"/>`);
+  } else {
+    const dict = L >= 3 ? `<g transform="rotate(-8 44 150)">
+        <rect x="24" y="132" width="38" height="36" rx="3" fill="${c.dict}" stroke="${c.line}" stroke-width="1.8"/>
+        <rect x="58" y="134" width="5" height="32" fill="${c.dictPage}" stroke="${c.line}" stroke-width="1"/>
+        <text x="41" y="148" font-size="8" font-weight="bold" fill="#fff" text-anchor="middle">ABC</text>
+        <text x="41" y="160" font-size="6" fill="#fff" text-anchor="middle">じしょ</text>
+      </g>` : '';
+    const bubble = L >= 4 ? `<g>
+        <rect x="128" y="64" width="54" height="26" rx="10" fill="${c.bubble}" stroke="${c.bubbleLine}" stroke-width="2"/>
+        <path d="M136 90 l-6 10 l14 -10" fill="${c.bubble}" stroke="${c.bubbleLine}" stroke-width="2" stroke-linejoin="round"/>
+        <text x="155" y="82" font-size="11" font-weight="bold" fill="${c.bubbleLine}" text-anchor="middle">Hello!</text>
+      </g>` : '';
+    const mic = L >= 5 ? `<g>
+        <path d="M140 170 l12 -24" stroke="${c.mic}" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="154" cy="142" r="8" fill="${c.mic}" stroke="${c.line}" stroke-width="1.6"/>
+        <path d="M150 139 h8 M150 143 h8" stroke="#cbd5e1" stroke-width="1.2"/>
+      </g>` : '';
+    const crown = L >= 6 ? `<path d="M84 88 L88 72 L96 82 L100 68 L104 82 L112 72 L116 88 Z" fill="${c.crown}" stroke="${c.line}" stroke-width="1.6" stroke-linejoin="round"/>` : '';
+    body = `
+      <path d="M128 166 q26 4 22 -22" fill="none" stroke="${c.line}" stroke-width="9" stroke-linecap="round"/>
+      <path d="M128 166 q26 4 22 -22" fill="none" stroke="${c.fur}" stroke-width="6" stroke-linecap="round"/>
+      <ellipse cx="100" cy="148" rx="32" ry="29" fill="${c.fur}" stroke="${c.line}" stroke-width="3"/>
+      <ellipse cx="100" cy="154" rx="19" ry="18" fill="${c.belly}"/>
+      <path d="M70 140 h9 M70 152 h8 M130 140 h-9 M130 152 h-8" stroke="${c.stripe}" stroke-width="3" stroke-linecap="round"/>
+      <ellipse cx="86" cy="175" rx="10" ry="5" fill="${c.fur}" stroke="${c.line}" stroke-width="1.8"/>
+      <ellipse cx="114" cy="175" rx="10" ry="5" fill="${c.fur}" stroke="${c.line}" stroke-width="1.8"/>
+      <path d="M78 96 l-4 -16 l16 8 z" fill="${c.fur}" stroke="${c.line}" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M122 96 l4 -16 l-16 8 z" fill="${c.fur}" stroke="${c.line}" stroke-width="2" stroke-linejoin="round"/>
+      <circle cx="100" cy="112" r="27" fill="${c.fur}" stroke="${c.line}" stroke-width="2.5"/>
+      <ellipse cx="100" cy="122" rx="15" ry="11" fill="${c.belly}"/>
+      <path d="M100 86 v8 M93 88 l2 6 M107 88 l-2 6 M74 108 h7 M75 116 h6 M126 108 h-7 M125 116 h-6" stroke="${c.stripe}" stroke-width="2.6" stroke-linecap="round"/>
+      <ellipse cx="80" cy="122" rx="5" ry="3.5" fill="${c.blush}" opacity="0.75"/>
+      <ellipse cx="120" cy="122" rx="5" ry="3.5" fill="${c.blush}" opacity="0.75"/>
+      ${petEyes(c, sil, 90, 110, 108, 4)}
+      <path d="M96 117 h8 l-4 4 z" fill="${c.nose}" stroke="${c.line}" stroke-width="1" stroke-linejoin="round"/>
+      <path d="M100 121 q-4 5 -8 1 M100 121 q4 5 8 1" stroke="${c.eye}" stroke-width="2" fill="none" stroke-linecap="round"/>
+      ${crown}${dict}${bubble}${mic}`;
+  }
+  return petWrapSVG(L, size, bg, deco, body);
+}
+
 // ホームの育成カード
 // ============================================================
 function renderPetCard() {
@@ -24075,15 +27159,21 @@ function checkPetLevelUp(ctx) {
   pet.lastTotal = total;
   savePet(pet, ctx);
 
-  if (newStar && (pet.comps || 0) >= 2) { showLevelUp(ctx.cfg.levels.length, n, 'star', ctx); return true; }
-  if (leveled) { showLevelUp(newLv, n, 'level', ctx); return true; }
+  // サービスメダル：進化1回 30枚・ぜんぶ完璧 100枚（台帳のキーで1回ずつ。かさねてもらえない）
+  let bonus = 0;
+  if (leveled) bonus += medalEvolution(ctx, 'lv' + newLv, MEDAL_EVOLVE);
+  if (newStar) bonus += medalEvolution(ctx, 'perfect', MEDAL_PERFECT);
+
+  if (newStar && (pet.comps || 0) >= 2) { showLevelUp(ctx.cfg.levels.length, n, 'star', ctx, bonus); return true; }
+  if (leveled) { showLevelUp(newLv, n, 'level', ctx, bonus); return true; }
+  if (bonus) { showLevelUp(ctx.cfg.levels.length, n, 'level', ctx, bonus); return true; }
   return false;
 }
 
-function showLevelUp(level, n, kind, ctx) {
+function showLevelUp(level, n, kind, ctx, bonus) {
   // 表示中なら、閉じたあとに順番に見せる
   if (document.getElementById('levelup-overlay').classList.contains('show')) {
-    (window._levelupQueue = window._levelupQueue || []).push([level, n, kind, ctx]);
+    (window._levelupQueue = window._levelupQueue || []).push([level, n, kind, ctx, bonus]);
     return;
   }
   ctx = petCtx(ctx);
@@ -24098,6 +27188,7 @@ function showLevelUp(level, n, kind, ctx) {
   document.getElementById('levelup-sub').textContent =
     isStar ? `⭐もう完璧 ${n}/${I.total}問　${I.cfg.starSub}`
            : `Lv.${level} ／ ⭐もう完璧 ${n}問　${def.hint}`;
+  if (bonus) document.getElementById('levelup-sub').textContent += `　🪙 サービスメダル ${bonus}枚プレゼント！`;
   document.getElementById('levelup-overlay').classList.add('show');
   clearTimeout(window._levelupTimer);
   window._levelupTimer = setTimeout(hideLevelUp, 5000);
@@ -24209,6 +27300,19 @@ function medalUndoWeakCorrect(q) {
   state.weakShown = n;   // 押しなおして正解にしたら またもらえるように
 }
 
+// 🎁 サービスメダル：キャラが進化するたび 30枚、ぜんぶ完璧にすると 100枚（2026-10-18）
+//   台帳の units に '<月>|evo:<教科>:<lv3 など / perfect>' を残す＝同じ進化で2回もらえない。
+//   これより前の進化は さかのぼってあげない（はじめるのは 今日から）
+const MEDAL_EVOLVE = 30, MEDAL_PERFECT = 100;
+function medalEvolution(ctx, what, amount) {
+  const key = state.selectedMonth + '|evo:' + ((ctx && ctx.cat) || 'month') + ':' + what;
+  const led = loadMedalLedger();
+  if (led.units[key]) return 0;
+  led.units[key] = amount;
+  saveMedalLedger(led);
+  return amount;
+}
+
 // この機能より前に正解ずみだった問題のぶんを、あとから取り込む
 function medalSyncFirstCorrect() {
   const led = loadMedalLedger();
@@ -24316,7 +27420,7 @@ function medalFromServer() {
   return kenchikuPulling;
 }
 // 最初の画面の「島へいく」：建築であずけたメダルがあれば うけとってから（2.5秒まで待つ）島へ
-//   ISLAND_VIDEO の動画を まだ さいごまで見ていなければ、島へいく まえに 動画が はじまる（とじたら 島へ）
+//   ISLAND_VIDEOS の動画を まだ さいごまで見ていなければ、島へいく まえに 動画が はじまる（とじたら 島へ）
 function goIsland(ev) {
   ev.preventDefault();
   const pull = medalFromServer();
@@ -24953,6 +28057,12 @@ const CHANNEL_VIDEOS = [
     subject:'shobun9', month:'202609' },
   { id:'BltqmgGVyW4', title:'【小4理科】星はなぜ動く？犯人は地球だった！｜ずんだもん探偵と星の動き',
     subject:'hoshi10', month:'202610' },
+  { id:'JD3YvKL-25k', title:'【小4社会】日本の農業5｜開拓と干拓のちがいは？ 客土・暗きょ排水・スマート農業まで',
+    subject:'nougyou5', month:'202610' },
+  { id:'bVQj74rUL2g', title:'【小4理科】北極星は1等星じゃない！？5倍で探せ！｜ずんだもん探偵と星の動き2',
+    subject:'hoshi10b', month:'202610' },
+  { id:'eN0H9huVJdk', title:'【小4算数】割合｜消えた全体をさがせ！わる？かける？もとにする量の求め方｜ずんだもん探偵',
+    subject:'wariai10', month:'202610' },
 ];
 // ── 開いたら自動で おすすめ動画 ──
 //   id を入れると、アプリを開いたときに「ふくしゅう どうがだよ！」の案内が出る（見るまで、1日1回）。
@@ -25002,25 +28112,40 @@ function autoVideoShow() {
 //   止められた ブラウザでは まん中の ▶ を タップ）。とじると そのまま 島へ。
 //   さいごまで見たら もう出ない。とちゅうで とじたら その日は もう出ず、つぎの日に また出る。
 //   検証：localhost で ?islandvideo=<id> を つけると 期間・きろくに 関係なく 出る
-const ISLAND_VIDEO = {
-  id: 'BltqmgGVyW4',                         // ← 投稿した動画の video_id（星の動き1）
-  from: '2026-10-13', until: '2026-10-31',
-};
+//   上から じゅんに見て、さいしょに 出せる 動画を 出す。school を書くと その子だけ（ena＝あんり・eikoh＝りの・g2＝ゆうせい）。
+//   must: true … さいごまで見るまで 島へ いけない（とちゅうで とじると アプリに もどる。島へいく たびに また出る）
+const ISLAND_VIDEOS = [
+  { id: 'eN0H9huVJdk',                       // 割合「消えた全体をさがせ」の video_id（もしの しま 10/26 で まちがえた ところ）
+    school: 'ena', must: true, from: '2026-10-21', until: '2026-10-31' },
+  { id: 'bVQj74rUL2g',                       // 星の動き2
+    from: '2026-10-13', until: '2026-10-31' },
+];
 let _islandAfter = null;   // 動画を とじたら よぶ（島へ いく）
 function islandVideoGate(go) {
-  let id = ISLAND_VIDEO.id, force = false;
-  if (/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) {
-    const q = new URLSearchParams(location.search).get('islandvideo'); if (q) { id = q; force = true; }
-  }
-  if (!id || !channelVideo(id)) return false;
   const d = new Date(), today = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
   const iso = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
-  if (!force && (iso < ISLAND_VIDEO.from || iso > ISLAND_VIDEO.until)) return false;
+  const school = state.selectedSchool || readIslandSchool();
+  const seen = (key) => { try { return localStorage.getItem(key); } catch (e) { return null; } };
+  let pick = null, force = false;
+  if (/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) {
+    const q = new URLSearchParams(location.search).get('islandvideo');
+    if (q) { pick = ISLAND_VIDEOS.find(v => v.id === q) || { id: q }; force = true; }
+  }
+  if (!pick) pick = ISLAND_VIDEOS.find(v => {
+    if (!v.id || !channelVideo(v.id)) return false;
+    if (iso < v.from || iso > v.until) return false;
+    if (v.school && v.school !== school) return false;
+    const st = seen('ena_islandvideo_' + v.id);
+    return st !== 'watched' && (v.must || st !== today);   // must は その日 とじても また出る
+  });
+  if (!pick || !channelVideo(pick.id)) return false;
+  const id = pick.id;
   const key = 'ena_islandvideo_' + id;
-  try { const st = localStorage.getItem(key); if (!force && (st === 'watched' || st === today)) return false; } catch (e) {}
-  try { localStorage.setItem(key, today); } catch (e) {}     // とちゅうで とじても きょうは もう出さない
+  if (!force && seen(key) === 'watched') return false;
+  try { localStorage.setItem(key, today); } catch (e) {}     // とちゅうで とじても きょうは もう出さない（must いがい）
   _islandAfter = () => { _islandAfter = null; go(); };
   _islandAfter.key = key;
+  _islandAfter.must = !!pick.must;
   if (!openChannelVideo(id, { auto: true, prefix: '🏝 島へいく まえに みよう！ ' })) { _islandAfter = null; return false; }
   return true;
 }
@@ -25098,6 +28223,7 @@ function openChannelVideo(id, opt) {
       <div class="cv-shield-top" id="cv-shield-top" hidden></div>
       <div class="cv-shield-bottom" id="cv-shield-bottom" hidden></div>
       <div class="cv-shield-br" id="cv-shield-br" hidden></div>
+      <div class="cv-pause-mark">▶</div>
       <div class="cv-panel" id="cv-panel" style="background-image:url('https://i.ytimg.com/vi/${v.id}/hqdefault.jpg')">
         <div class="cv-panel-msg" id="cv-panel-msg">よみこみ中…</div>
         <div class="cv-panel-btns" id="cv-panel-btns"></div>
@@ -25227,17 +28353,33 @@ function cvNoCaptions() {
 function cvShowPanel(kind) {
   const panel = document.getElementById('cv-panel');
   if (!panel) return;
+  cvPausedClass(false);
   const msg = document.getElementById('cv-panel-msg');
   const btns = document.getElementById('cv-panel-btns');
   const B = (label, fn, main) => `<button class="${main ? 'cv-pbtn-main' : 'cv-pbtn-sub'}" onclick="${fn}">${label}</button>`;
   const close = B('✕ とじる', 'closeVideoModal()', false);
   if (kind === 'start')  { msg.textContent = '';                             btns.innerHTML = B('▶ 再生する', 'cvPlay()', true); }
-  if (kind === 'paused') { msg.textContent = '一時停止中';                   btns.innerHTML = B('▶ つづきから見る', 'cvPlay()', true) + (_islandAfter ? B('🏝 島へいく', 'closeVideoModal()', false) : close); }
+  if (kind === 'paused') { msg.textContent = '一時停止中';                   btns.innerHTML = B('▶ つづきから見る', 'cvPlay()', true) + (_islandAfter && !_islandAfter.must ? B('🏝 島へいく', 'closeVideoModal()', false) : close); }
+  if (kind === 'error' && _islandAfter) _islandAfter.failed = true;   // 再生できない端末では must でも 島へ とおす
   if (kind === 'ended' && _islandAfter) { msg.textContent = 'さいごまで見たね！'; btns.innerHTML = B('🏝 島へいく', 'closeVideoModal()', true) + B('🔁 もう一度見る', 'cvReplay()', false); }
   else if (kind === 'ended')  { msg.textContent = 'さいごまで見たね！';           btns.innerHTML = B('🔁 もう一度見る', 'cvReplay()', true) + close; }
   if (kind === 'error')  { const ver = cvBrowserVer(); msg.textContent = 'このiPadでは動画を読みこめませんでした' + (ver ? '（' + ver + '）' : ''); btns.innerHTML = close; }
   if (kind === 'tap')    { panel.hidden = true; return; }
   panel.hidden = false;
+}
+
+// 一時停止：パネルでかくさず、止まった絵を見せる（タップで再開）
+function cvPausedClass(on) {
+  const st = document.getElementById('cv-stage');
+  if (st) st.className = on ? 'cv-stage cv-paused' : 'cv-stage';
+}
+function cvPausedView() {
+  cvSetShield(true);
+  document.getElementById('cv-shield-top').hidden = false;
+  document.getElementById('cv-shield-bottom').hidden = false;
+  document.getElementById('cv-shield-br').hidden = false;
+  cvPausedClass(true);
+  document.getElementById('cv-panel').hidden = true;
 }
 
 function cvSetShield(full) {
@@ -25255,9 +28397,10 @@ function cvOnState(st) {
     cvNoCaptions();
     clearTimeout(_cv.tapTimer);
     cvSetShield(true);
+    cvPausedClass(false);
     document.getElementById('cv-panel').hidden = true;
   } else if (st === 2) {
-    cvShowPanel('paused');
+    cvPausedView();
   } else if (st === 0) {
     if (_islandAfter) { try { localStorage.setItem(_islandAfter.key, 'watched'); } catch (e) {} }
     cvShowPanel('ended');
@@ -25361,7 +28504,12 @@ function closeVideoModal(e) {
   const body = document.getElementById('video-modal-body');
   body.innerHTML = '';
   document.getElementById('video-modal-overlay').classList.remove('open');
-  if (_islandAfter) _islandAfter();   // 島へいく まえの 動画だったら、とじたら 島へ
+  if (!_islandAfter) return;
+  // must の動画を とちゅうで とじたら 島へは いかない（さいごまで 見たら いける）
+  let done = false;
+  try { done = localStorage.getItem(_islandAfter.key) === 'watched'; } catch (e) {}
+  if (_islandAfter.must && !done && !_islandAfter.failed) { _islandAfter = null; alert('🏝 この 動画を さいごまで 見たら 島へ いけるよ！'); return; }
+  _islandAfter();   // 島へいく まえの 動画だったら、とじたら 島へ
 }
 
 // ============================================================
@@ -25452,13 +28600,14 @@ const TEST_KEYS = {
         { label: '適性検査Ⅱ（思考力）', key: 'tekisei2' },
       ]},
     { key: '4ka_1026', name: '4科演習（10/26）', month: '202610',
-      covers: ['nougyou3','nougyou4'],
+      covers: ['chokuho10','wariai10','hoshi10','hoshi10b','keiyoushi10','fukushi10','nougyou3','nougyou4'],
       rangeItems: [
-        { label: '立方体と直方体', key: null, category: 'sansu' },
-        { label: '割合の表し方', key: null, category: 'sansu' },
-        { label: '星の動き１・２', key: null, category: 'rika' },
-        { label: '形容詞', key: null, category: 'kokugo' },
-        { label: '副詞', key: null, category: 'kokugo' },
+        { label: '立方体と直方体', key: 'chokuho10' },
+        { label: '割合の表し方', key: 'wariai10' },
+        { label: '星の動き１', key: 'hoshi10' },
+        { label: '星の動き２', key: 'hoshi10b' },
+        { label: '形容詞', key: 'keiyoushi10' },
+        { label: '副詞', key: 'fukushi10' },
         { label: '日本の農業３', key: 'nougyou3' },
         { label: '日本の農業４', key: 'nougyou4' },
       ]},
@@ -25577,6 +28726,29 @@ const MOSHI_EXTRA = [
   { key: '4ka1005_rikasha', name: '4科演習 たいさく（理科・社会）', month: '202609', from: '2026-10-04', date: '2026-10-05',
     covers: ['tsuki1', 'tsuki2', 'nougyou1', 'nougyou2'], levels: ['normal', 'kako'], perCat: 20, limitMin: 40, kakoMax: 3,
     icon: '🏆', bg: 'linear-gradient(135deg,#f97316,#dc2626)', note: '10/5の 4科演習の はんい' },
+  // 10/26 4科演習の たいさく（4ka_1026 の はんいを 2つに わけた もの・10/5 と 同じ 形）
+  // double＝その日に うけた 回だけ メダル 2ばい（10/20 ケンさん）
+  { key: '4ka1026_kokusan', name: '4科演習 たいさく（国語・算数）', month: '202610', from: '2026-10-20', date: '2026-10-26', double: '2026-10-20',
+    covers: ['chokuho10', 'wariai10', 'keiyoushi10', 'fukushi10'], levels: ['normal', 'kako'], perCat: 20, limitMin: 50, kakoMax: 3,
+    icon: '🏆', bg: 'linear-gradient(135deg,#f97316,#dc2626)', note: '10/26の 4科演習の はんい' },
+  { key: '4ka1026_rikasha', name: '4科演習 たいさく（理科・社会）', month: '202610', from: '2026-10-20', date: '2026-10-26',
+    covers: ['hoshi10', 'hoshi10b', 'nougyou3', 'nougyou4'], levels: ['normal', 'kako'], perCat: 20, limitMin: 40, kakoMax: 3,
+    icon: '🏆', bg: 'linear-gradient(135deg,#f97316,#dc2626)', note: '10/26の 4科演習の はんい' },
+  // 栄光（りの）10月ターム。基礎コン冬だけ（5教科）と、基礎コン いがい（算数8単元・英語 Lesson 19〜22）の 2つ（10/23 ケンさん）
+  { key: 'kifuyu10moshi', name: '基礎コン冬もし', month: 'eikoh_term10', from: '2026-10-23', date: '2026-10-23',
+    covers: ['kifuyu_kok', 'kifuyu_san', 'kifuyu_eng', 'kifuyu_rik', 'kifuyu_sha'], levels: ['normal'], perCat: 20, balance: true,
+    icon: '⛄', bg: 'linear-gradient(135deg,#38bdf8,#6366f1)', note: '基礎コン冬の はんいから まんべんなく' },
+  { key: 'eikoh10moshi', name: '10月タームもし（基礎コン いがい）', month: 'eikoh_term10', from: '2026-10-23', date: '2026-10-31',
+    covers: ['heikin', 'tanryo', 'hayasa1', 'hayasa2', 'heikou', 'sankaku', 'daikei', 'iroiro25', 'eigo'], levels: ['normal'], perCat: 20, balance: true,
+    icon: '🎯', bg: 'linear-gradient(135deg,#10b981,#0d9488)', note: '算数（平均〜いろいろな形）と 英語 Lesson 19〜22' },
+  // 10/24 都立中チャレンジの もし（アンリ）。適性Ⅰ・Ⅱを わけた・もし専用の 新しい問題（data/moshi_toritsu1024_t1/_t2.json）（10/23 ケンさん）
+  // 記述・作文が 多く 自己採点なので 7わりで メダル
+  { key: 'toritsu1024_t1', name: '都立中もし 適性Ⅰ（読解・作文）', month: '202610', from: '2026-10-23', date: '2026-10-24',
+    covers: ['toritsu1024_t1'], qfile: 'data/moshi_toritsu1024_t1.json', reward: 120, pass: 70, levels: ['normal'], perCat: 6,
+    limitMin: 45, icon: '🏯', bg: 'linear-gradient(135deg,#8b5cf6,#db2777)', note: '本番と 同じ 45ぷん・読解と 作文' },
+  { key: 'toritsu1024_t2', name: '都立中もし 適性Ⅱ（思考力）', month: '202610', from: '2026-10-23', date: '2026-10-24',
+    covers: ['toritsu1024_t2'], qfile: 'data/moshi_toritsu1024_t2.json', reward: 120, pass: 70, levels: ['normal'], perCat: 6,
+    limitMin: 45, icon: '🧩', bg: 'linear-gradient(135deg,#06b6d4,#2563eb)', note: '本番と 同じ 45ぷん・資料・きまり・時こく・かげ' },
 ];
 function getTestDate(key) { return localStorage.getItem('ena_test_' + key) || DEFAULT_TEST_DATES[key] || ''; }
 function setTestDate(key, val) { localStorage.setItem('ena_test_' + key, val); }

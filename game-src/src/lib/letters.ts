@@ -48,6 +48,19 @@ export interface LetterResult {
 
 const monthNum = (ym: string) => Number(ym.slice(4));
 
+/** 1かいだけ とどける おしらせ（あたらしい しくみが できたとき）。id は かえない。ルナから とどく */
+const NEWS: { id: string; title: string; body: string }[] = [
+  {
+    id: 'iken-2026-10',
+    title: '🗳️ いけんばこが できたよ！',
+    body: `しまの ポストの となりに、みずいろの「いけんばこ」を おいたよ。
+「こうしてほしい」「これ たのしい！」を かいて いれると、しまに くる みんなが よめるよ。
+みんなの いけんも よめるから、のぞいてみてね。
+なまえや がっこう、すんでいる ところは かかないでね。
+ルナより`,
+  },
+];
+
 export function buildLetters(marks: LetterMarks, x: LetterInput): LetterResult {
   const now = x.now ?? new Date();
   const to = x.playerName ? `${x.playerName}へ\n` : '';
@@ -61,6 +74,7 @@ export function buildLetters(marks: LetterMarks, x: LetterInput): LetterResult {
     month: marks.month,
     detective: marks.detective,
     moshi: marks.moshi,
+    news: marks.news,
   };
   const out: Letter[] = [];
   const gifts: string[] = [];
@@ -188,6 +202,13 @@ ${names(olds)}と とった しゃしんを おくるよ。
 テストの はんいの もんだいに ちょうせんして、8わり こえるたびに メダル！\nふつうは 🪙80まい、かこもん いりの チャレンジは 🪙120まい だよ。
 ルナより`));
     next.moshi = [...(next.moshi ?? []), mo.key].slice(-12);
+  }
+
+  // おしらせ：まだ とどけていない ものを 1かいずつ
+  for (const n of NEWS) {
+    if ((next.news ?? []).includes(n.id)) continue;
+    out.push(mk(LUNA.from, LUNA.fromName, n.title, to + n.body));
+    next.news = [...(next.news ?? []), n.id];
   }
 
   // 日曜日：その週の まとめ（1週間に1回）

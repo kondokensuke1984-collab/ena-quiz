@@ -79,7 +79,7 @@ export const DESTS: SpaceDest[] = [
     ],
   },
   {
-    id: 'sun', name: 'たいよう（とおくから みるだけ）', emoji: '☀️', far: 'やく 1おく5000まん km', color: '#fb923c',
+    id: 'sun', name: 'たいよう', emoji: '☀️', far: 'やく 1おく5000まん km', color: '#fb923c',
     facts: [
       'たいようは じぶんで ひかる「こうせい」。月や わくせいは じぶんで ひからないよ。',
       'たいようの ちょっけいは ちきゅうの やく 109ばい。',
@@ -136,8 +136,11 @@ const STONE_SPOTS = [
   { x: 0.18, y: 0.82 }, { x: 0.3, y: 0.56 }, { x: 0.47, y: 0.86 }, { x: 0.5, y: 0.62 },
   { x: 0.9, y: 0.84 }, { x: 0.12, y: 0.6 }, { x: 0.68, y: 0.86 }, { x: 0.38, y: 0.72 },
 ];
-export function planetStoneSpot(planet: 'moon' | 'mars', day: string): { x: number; y: number } {
+export function planetStoneSpot(planet: 'moon' | 'mars' | 'sun', day: string): { x: number; y: number } {
   return STONE_SPOTS[hash(planet === 'moon' ? `stone|${day}` : `${planet}|stone|${day}`) % STONE_SPOTS.length];
 }
-/** いしの ごほうび（🥫うちゅうしょく）。火星は ノルマの ごほうびなので おおめ */
-export const STONE_FOOD: Record<'moon' | 'mars', number> = { moon: 1, mars: 2 };
+/** いしの ごほうび（🥫うちゅうしょく）。火星は ノルマの ごほうびなので おおめ。たいようは ひかりの たま */
+export const STONE_FOOD: Record<'moon' | 'mars' | 'sun', number> = { moon: 1, mars: 2, sun: 2 };
+
+/** ☀️ たいようの せいれい：たいようで みつけた ものが ぜんぶ そろうと もらえる しょうごう */
+export const SUN_TITLE = 'たいようの せいれい';

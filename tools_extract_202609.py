@@ -67,7 +67,7 @@ with open(os.path.join(ROOT, 'data/quest_months.json'), 'w', encoding='utf-8') a
 #   学校の月が かわったら ここを なおして 回す。
 SCHOOL_QUEST = {
     'eikoh': {'label': '10月ターム', 'months': ['eikoh_term10']},
-    'g2':    {'label': '2年生',     'months': ['g2_kuku', 'g2_kanji']},
+    'g2':    {'label': '2年生',     'months': ['g2_kuku', 'g2_sansu', 'g2_kanji']},
 }
 school_months = sum((v['months'] for v in SCHOOL_QUEST.values()), [])
 js4 = os.path.join(SP, '_f.js')

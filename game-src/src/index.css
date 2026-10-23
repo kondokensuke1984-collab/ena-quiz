@@ -239,3 +239,9 @@ body {
 }
 /* 右上（空の ところ）。下だと はたけの かんばんなど 島の ものに かさなる */
 .i3d-toggle { position: absolute; right: 8px; top: 8px; z-index: 3; }
+
+/* ☀️ たいようの せいれい：へんしんの ひかり・せなかの ほのおの わ */
+.sun-henshin { background: radial-gradient(circle at 50% 60%, rgba(255,255,255,0.95), rgba(253,224,71,0.7) 35%, rgba(249,115,22,0) 75%); animation: sun-henshin 1.8s ease-out forwards; }
+@keyframes sun-henshin { 0% { opacity: 0; transform: scale(0.3); } 25% { opacity: 1; transform: scale(1.1); } 100% { opacity: 0; transform: scale(1.4); } }
+.sun-aura { animation: sun-aura 8s linear infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes sun-aura { to { transform: rotate(360deg); } }

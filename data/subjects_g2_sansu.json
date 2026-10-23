@@ -1,0 +1,98 @@
+{
+"g2_keisan": {
+"label": "たし算・ひき算・数",
+"icon": "➕",
+"tag": "tag-g2sansu",
+"category": "sansu",
+"month": "g2_sansu",
+"isGroup": true
+},
+"g2_tasizan2": {
+"label": "2けたのたし算",
+"icon": "➕",
+"tag": "tag-g2sansu",
+"category": "sansu",
+"month": "g2_sansu",
+"parent": "g2_keisan"
+},
+"g2_hikizan2": {
+"label": "2けたのひき算",
+"icon": "➖",
+"tag": "tag-g2sansu",
+"category": "sansu",
+"month": "g2_sansu",
+"parent": "g2_keisan"
+},
+"g2_ookina": {
+"label": "1000までの数",
+"icon": "🔢",
+"tag": "tag-g2sansu",
+"category": "sansu",
+"month": "g2_sansu",
+"parent": "g2_keisan"
+},
+"g2_tokei_tani": {
+"label": "時計・長さ・かさ",
+"icon": "🕐",
+"tag": "tag-g2sansu",
+"category": "sansu",
+"month": "g2_sansu",
+"isGroup": true
+},
+"g2_tokei": {
+"label": "時こくと時間",
+"icon": "🕐",
+"tag": "tag-g2sansu",
+"category": "sansu",
+"month": "g2_sansu",
+"parent": "g2_tokei_tani"
+},
+"g2_nagasa": {
+"label": "長さ(cm・mm)",
+"icon": "📏",
+"tag": "tag-g2sansu",
+"category": "sansu",
+"month": "g2_sansu",
+"parent": "g2_tokei_tani"
+},
+"g2_kasa": {
+"label": "かさ(L・dL)",
+"icon": "🥛",
+"tag": "tag-g2sansu",
+"category": "sansu",
+"month": "g2_sansu",
+"parent": "g2_tokei_tani"
+},
+"g2_zukei_kuku": {
+"label": "図形・かけ算応用",
+"icon": "📐",
+"tag": "tag-g2sansu",
+"category": "sansu",
+"month": "g2_sansu",
+"isGroup": true
+},
+"g2_zukei": {
+"label": "三角形と四角形",
+"icon": "📐",
+"tag": "tag-g2sansu",
+"category": "sansu",
+"month": "g2_sansu",
+"parent": "g2_zukei_kuku"
+},
+"g2_kuku_bun": {
+"label": "かけ算の文章題",
+"icon": "🍎",
+"tag": "tag-g2sansu",
+"category": "sansu",
+"month": "g2_sansu",
+"parent": "g2_zukei_kuku"
+},
+"g2_bunsu_hyo": {
+"label": "分数・表とグラフ",
+"icon": "📊",
+"tag": "tag-g2sansu",
+"category": "sansu",
+"month": "g2_sansu",
+"parent": "g2_zukei_kuku"
+}
+}

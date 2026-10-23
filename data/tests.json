@@ -51,6 +51,12 @@
    "month": "202610",
    "date": "2026-10-26",
    "covers": [
+    "chokuho10",
+    "wariai10",
+    "hoshi10",
+    "hoshi10b",
+    "keiyoushi10",
+    "fukushi10",
     "nougyou3",
     "nougyou4"
    ]
@@ -190,6 +196,149 @@
    "icon": "🏆",
    "bg": "linear-gradient(135deg,#f97316,#dc2626)",
    "note": "10/5の 4科演習の はんい"
+  },
+  {
+   "extra": true,
+   "key": "4ka1026_kokusan",
+   "name": "4科演習 たいさく（国語・算数）",
+   "month": "202610",
+   "from": "2026-10-20",
+   "date": "2026-10-26",
+   "double": "2026-10-20",
+   "covers": [
+    "chokuho10",
+    "wariai10",
+    "keiyoushi10",
+    "fukushi10"
+   ],
+   "levels": [
+    "normal",
+    "kako"
+   ],
+   "perCat": 20,
+   "limitMin": 50,
+   "kakoMax": 3,
+   "icon": "🏆",
+   "bg": "linear-gradient(135deg,#f97316,#dc2626)",
+   "note": "10/26の 4科演習の はんい"
+  },
+  {
+   "extra": true,
+   "key": "4ka1026_rikasha",
+   "name": "4科演習 たいさく（理科・社会）",
+   "month": "202610",
+   "from": "2026-10-20",
+   "date": "2026-10-26",
+   "covers": [
+    "hoshi10",
+    "hoshi10b",
+    "nougyou3",
+    "nougyou4"
+   ],
+   "levels": [
+    "normal",
+    "kako"
+   ],
+   "perCat": 20,
+   "limitMin": 40,
+   "kakoMax": 3,
+   "icon": "🏆",
+   "bg": "linear-gradient(135deg,#f97316,#dc2626)",
+   "note": "10/26の 4科演習の はんい"
+  },
+  {
+   "extra": true,
+   "key": "kifuyu10moshi",
+   "name": "基礎コン冬もし",
+   "month": "eikoh_term10",
+   "from": "2026-10-23",
+   "date": "2026-10-23",
+   "covers": [
+    "kifuyu_kok",
+    "kifuyu_san",
+    "kifuyu_eng",
+    "kifuyu_rik",
+    "kifuyu_sha"
+   ],
+   "levels": [
+    "normal"
+   ],
+   "perCat": 20,
+   "balance": true,
+   "icon": "⛄",
+   "bg": "linear-gradient(135deg,#38bdf8,#6366f1)",
+   "note": "基礎コン冬の はんいから まんべんなく"
+  },
+  {
+   "extra": true,
+   "key": "eikoh10moshi",
+   "name": "10月タームもし（基礎コン いがい）",
+   "month": "eikoh_term10",
+   "from": "2026-10-23",
+   "date": "2026-10-31",
+   "covers": [
+    "heikin",
+    "tanryo",
+    "hayasa1",
+    "hayasa2",
+    "heikou",
+    "sankaku",
+    "daikei",
+    "iroiro25",
+    "eigo"
+   ],
+   "levels": [
+    "normal"
+   ],
+   "perCat": 20,
+   "balance": true,
+   "icon": "🎯",
+   "bg": "linear-gradient(135deg,#10b981,#0d9488)",
+   "note": "算数（平均〜いろいろな形）と 英語 Lesson 19〜22"
+  },
+  {
+   "extra": true,
+   "key": "toritsu1024_t1",
+   "name": "都立中もし 適性Ⅰ（読解・作文）",
+   "month": "202610",
+   "from": "2026-10-23",
+   "date": "2026-10-24",
+   "covers": [
+    "toritsu1024_t1"
+   ],
+   "qfile": "data/moshi_toritsu1024_t1.json",
+   "reward": 120,
+   "pass": 70,
+   "levels": [
+    "normal"
+   ],
+   "perCat": 6,
+   "limitMin": 45,
+   "icon": "🏯",
+   "bg": "linear-gradient(135deg,#8b5cf6,#db2777)",
+   "note": "本番と 同じ 45ぷん・読解と 作文"
+  },
+  {
+   "extra": true,
+   "key": "toritsu1024_t2",
+   "name": "都立中もし 適性Ⅱ（思考力）",
+   "month": "202610",
+   "from": "2026-10-23",
+   "date": "2026-10-24",
+   "covers": [
+    "toritsu1024_t2"
+   ],
+   "qfile": "data/moshi_toritsu1024_t2.json",
+   "reward": 120,
+   "pass": 70,
+   "levels": [
+    "normal"
+   ],
+   "perCat": 6,
+   "limitMin": 45,
+   "icon": "🧩",
+   "bg": "linear-gradient(135deg,#06b6d4,#2563eb)",
+   "note": "本番と 同じ 45ぷん・資料・きまり・時こく・かげ"
   }
  ]
 }

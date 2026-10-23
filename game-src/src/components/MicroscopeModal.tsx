@@ -22,10 +22,11 @@ function shuffle<T>(a: T[]): T[] {
   return b;
 }
 
-export function MicroscopeModal({ studied, onClose }: { studied: boolean; onClose: () => void }) {
+/** dexOnly＝としょかんから ひらく（ずかんだけ みせる） */
+export function MicroscopeModal({ studied, onClose, dexOnly = false }: { studied: boolean; onClose: () => void; dexOnly?: boolean }) {
   const g = useGame();
   const dex = g.save.micro.dex;
-  const [phase, setPhase] = useState<Phase>('water');
+  const [phase, setPhase] = useState<Phase>(dexOnly ? 'dex' : 'water');
   const [water, setWater] = useState<WaterId>('tank');
 
   const left = g.microLeft(studied);
@@ -37,7 +38,7 @@ export function MicroscopeModal({ studied, onClose }: { studied: boolean; onClos
         <div className="mb-2 flex items-center justify-between">
           <div className="text-[14px] font-black text-ink">🔬 けんびきょう</div>
           <button
-            className={`rounded-lg px-2 py-1 text-[11px] font-black ${phase === 'dex' ? 'bg-violet-600 text-white' : 'bg-violet-100 text-violet-800'}`}
+            className={`rounded-lg px-2 py-1 text-[11px] font-black ${dexOnly ? 'hidden' : ''} ${phase === 'dex' ? 'bg-violet-600 text-white' : 'bg-violet-100 text-violet-800'}`}
             onClick={() => setPhase(phase === 'dex' ? 'water' : 'dex')}
           >
             📗 ずかん {dex.length}/{PLANKTON.length}

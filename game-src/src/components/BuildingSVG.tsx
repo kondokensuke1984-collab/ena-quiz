@@ -181,22 +181,37 @@ function SpaceBase() {
   );
 }
 
-function Planetarium() {
+/** としょかん（bd_planet）。レンガの かべ・はしら・三角やね・ひらいた本の かんばん */
+function Library() {
   return (
     <g>
       {shadow(62)}
-      <rect x="-56" y="-30" width="112" height="30" rx="4" fill="#ede9fe" {...S} />
-      <path d="M-50 -30 a50 46 0 0 1 100 0 Z" fill="#f8fafc" {...S} />
-      <path d="M-34 -62 Q0 -50 34 -62" fill="none" stroke="#c4b5fd" strokeWidth="2" />
-      <rect x="-12" y="-24" width="24" height="24" rx="3" fill="#4338ca" {...S} />
-      {[[-38, -18], [30, -18]].map(([x, y], i) => <rect key={i} x={x} y={y} width="10" height="10" rx="2" fill="#a5b4fc" {...S} strokeWidth={1.8} />)}
-      {/* どせいの かんばん */}
-      <g transform="translate(0 -88)">
-        <circle r="13" fill="#fde68a" {...S} />
-        <ellipse rx="24" ry="6" fill="none" stroke="#f59e0b" strokeWidth="3.4" transform="rotate(-18)" />
+      {/* かいだん */}
+      <rect x="-30" y="-6" width="60" height="6" fill="#d6d3d1" {...S} strokeWidth={1.8} />
+      {/* かべ */}
+      <rect x="-54" y="-58" width="108" height="52" rx="2" fill="#c2410c" {...S} />
+      {[-46, -34, -22].map((y) => <path key={y} d={`M-54 ${y} H54`} stroke="#9a3412" strokeWidth="1.2" opacity="0.5" />)}
+      {/* はしら */}
+      {[-40, 40].map((x) => <rect key={x} x={x - 5} y="-58" width="10" height="52" fill="#fef3c7" {...S} strokeWidth={1.8} />)}
+      {/* やね */}
+      <path d="M-62 -58 L0 -92 L62 -58 Z" fill="#1e3a8a" {...S} />
+      <path d="M-46 -62 L0 -86 L46 -62" fill="none" stroke="#3b82f6" strokeWidth="2" />
+      {/* まど（本だなが みえる） */}
+      {[-24, 14].map((x) => (
+        <g key={x}>
+          <rect x={x} y="-50" width="10" height="16" rx="2" fill="#fde68a" {...S} strokeWidth={1.8} />
+          <path d={`M${x} -42 H${x + 10}`} stroke="#92400e" strokeWidth="1.2" />
+        </g>
+      ))}
+      {/* とびら */}
+      <path d="M-11 -6 V-28 a11 11 0 0 1 22 0 V-6 Z" fill="#7c2d12" {...S} />
+      <circle cx="6" cy="-16" r="1.6" fill="#fde047" />
+      {/* ひらいた 本の かんばん */}
+      <g transform="translate(0 -106)">
+        <path d="M0 -2 Q-10 -9 -22 -6 V10 Q-10 7 0 13 Z" fill="#f8fafc" {...S} strokeWidth={2} />
+        <path d="M0 -2 Q10 -9 22 -6 V10 Q10 7 0 13 Z" fill="#f8fafc" {...S} strokeWidth={2} />
+        <path d="M-17 0 Q-10 -2 -5 1 M-17 5 Q-10 3 -5 6 M5 1 Q10 -2 17 0 M5 6 Q10 3 17 5" fill="none" stroke="#94a3b8" strokeWidth="1.2" />
       </g>
-      <circle cx="-30" cy="-58" r="2" fill="#fde047" className="twinkle" />
-      <circle cx="34" cy="-50" r="2" fill="#fde047" className="twinkle" style={{ animationDelay: '-0.8s' }} />
     </g>
   );
 }
@@ -226,7 +241,7 @@ function Rocket() {
 
 const DRAW: Record<string, () => React.ReactNode> = {
   bd_base: SpaceBase,
-  bd_planet: Planetarium,
+  bd_planet: Library,
   bd_rocket: Rocket,
   bd_imo: ImoCart,
   bd_arbor: Arbor,

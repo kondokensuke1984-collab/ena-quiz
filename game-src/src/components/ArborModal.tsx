@@ -19,9 +19,10 @@ const pickOne = <T,>(list: T[]): T => list[Math.floor(Math.random() * list.lengt
 
 type TalkState = { f: Friend; l: (Lesson & { id: string }) | null; show: boolean; loading: boolean; done: null | { correct: boolean; heart: boolean } };
 
-export function ArborModal({ friends, studied, onClose }: { friends: Friend[]; studied: boolean; onClose(): void }) {
+/** dexOnly＝としょかんから ひらく（ずかんだけ みせる） */
+export function ArborModal({ friends, studied, onClose, dexOnly = false }: { friends: Friend[]; studied: boolean; onClose(): void; dexOnly?: boolean }) {
   const g = useGame();
-  const [tab, setTab] = useState<Tab>('rest');
+  const [tab, setTab] = useState<Tab>(dexOnly ? 'leaf' : 'rest');
   const night = isNight();
   const today = arborToday(g.save.arbor, dateKey());
   const playerName = g.save.player ? PALETTES[g.save.player].name : '';
@@ -78,7 +79,7 @@ export function ArborModal({ friends, studied, onClose }: { friends: Friend[]; s
     <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/60 p-3" onClick={onClose}>
       <div className="panel max-h-[88vh] w-full max-w-[440px] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
         <div className="mb-1 text-[14px] font-black text-ink">🍁 もみじの あずまや</div>
-        <div className="mb-2 flex gap-1">
+        <div className={`mb-2 flex gap-1 ${dexOnly ? 'hidden' : ''}`}>
           {tabs.map((t) => (
             <button
               key={t.id}

@@ -1,0 +1,872 @@
+[
+{
+"id": "g2ss_001",
+"subject": "g2_tasizan2",
+"month": "g2_sansu",
+"type": "input",
+"q": "つぎの 計算を しよう。\n34 ＋ 25 ＝ ？",
+"answer": "59",
+"explanation": "一の位は 4 ＋ 5 ＝ 9、十の位は 3 ＋ 2 ＝ 5。\nあわせて 59 だよ。"
+},
+{
+"id": "g2ss_002",
+"subject": "g2_tasizan2",
+"month": "g2_sansu",
+"type": "input",
+"q": "つぎの 計算を しよう。\n46 ＋ 7 ＝ ？",
+"answer": "53",
+"explanation": "一の位は 6 ＋ 7 ＝ 13。十の位に 1 くり上がって 4 ＋ 1 ＝ 5。\n答えは 53 だよ。"
+},
+{
+"id": "g2ss_003",
+"subject": "g2_tasizan2",
+"month": "g2_sansu",
+"type": "input",
+"q": "つぎの 計算を しよう。\n28 ＋ 35 ＝ ？",
+"answer": "63",
+"explanation": "一の位は 8 ＋ 5 ＝ 13 で、十の位に 1 くり上がるよ。\n十の位は 2 ＋ 3 ＋ 1 ＝ 6 だから、答えは 63。"
+},
+{
+"id": "g2ss_004",
+"subject": "g2_tasizan2",
+"month": "g2_sansu",
+"type": "input",
+"q": "つぎの 計算を しよう。\n47 ＋ 33 ＝ ？",
+"answer": "80",
+"explanation": "一の位は 7 ＋ 3 ＝ 10。一の位は 0 に なって、十の位に 1 くり上がるよ。\n十の位は 4 ＋ 3 ＋ 1 ＝ 8 で、答えは 80。"
+},
+{
+"id": "g2ss_005",
+"subject": "g2_tasizan2",
+"month": "g2_sansu",
+"type": "input",
+"q": "つぎの 計算を しよう。\n58 ＋ 64 ＝ ？",
+"answer": "122",
+"explanation": "一の位は 8 ＋ 4 ＝ 12（十の位に 1 くり上がる）。\n十の位は 5 ＋ 6 ＋ 1 ＝ 12（百の位に 1 くり上がる）。\n答えは 122 だよ。"
+},
+{
+"id": "g2ss_006",
+"subject": "g2_tasizan2",
+"month": "g2_sansu",
+"type": "input",
+"q": "つぎの 計算を しよう。\n76 ＋ 49 ＝ ？",
+"answer": "125",
+"explanation": "一の位は 6 ＋ 9 ＝ 15（1 くり上がる）。\n十の位は 7 ＋ 4 ＋ 1 ＝ 12。\n答えは 125 だよ。"
+},
+{
+"id": "g2ss_007",
+"subject": "g2_tasizan2",
+"month": "g2_sansu",
+"type": "input",
+"q": "3つの 数の たし算を しよう。\n32 ＋ 18 ＋ 25 ＝ ？",
+"answer": "75",
+"explanation": "先に 32 ＋ 18 を 計算すると 50 に なって かんたん！\n50 ＋ 25 ＝ 75 だよ。"
+},
+{
+"id": "g2ss_008",
+"subject": "g2_tasizan2",
+"month": "g2_sansu",
+"type": "input",
+"q": "くふうして 計算しよう。\n27 ＋ 19 ＋ 11 ＝ ？",
+"answer": "57",
+"explanation": "後ろの 19 ＋ 11 を 先に たすと 30 に なるよ。\n27 ＋ 30 ＝ 57。切りの よい 数を つくると 計算しやすいね！"
+},
+{
+"id": "g2ss_009",
+"subject": "g2_tasizan2",
+"month": "g2_sansu",
+"type": "input",
+"q": "赤い 色紙が 38まい、青い 色紙が 26まい あります。\nあわせて 何まい ありますか？",
+"answer": "64",
+"explanation": "式：38 ＋ 26\n一の位は 8 ＋ 6 ＝ 14、十の位は 3 ＋ 2 ＋ 1 ＝ 6。\nあわせて 64まい だよ。"
+},
+{
+"id": "g2ss_010",
+"subject": "g2_tasizan2",
+"month": "g2_sansu",
+"type": "input",
+"q": "本を きのう 45ページ、きょう 39ページ 読みました。\n2日間で あわせて 何ページ 読みましたか？",
+"answer": "84",
+"explanation": "式：45 ＋ 39\n一の位は 5 ＋ 9 ＝ 14、十の位は 4 ＋ 3 ＋ 1 ＝ 8。\nあわせて 84ページ 読んだよ。"
+},
+{
+"id": "g2ss_011",
+"subject": "g2_hikizan2",
+"month": "g2_sansu",
+"type": "input",
+"q": "つぎの 計算を しよう。\n68 － 25 ＝ ？",
+"answer": "43",
+"explanation": "一の位は 8 － 5 ＝ 3、十の位は 6 － 2 ＝ 4。\n答えは 43 だよ。"
+},
+{
+"id": "g2ss_012",
+"subject": "g2_hikizan2",
+"month": "g2_sansu",
+"type": "input",
+"q": "つぎの 計算を しよう。\n52 － 8 ＝ ？",
+"answer": "44",
+"explanation": "一の位の 2 から 8 は ひけないので、十の位から 1 くり下げるよ。\n12 － 8 ＝ 4、十の位は 4 に なって、答えは 44。"
+},
+{
+"id": "g2ss_013",
+"subject": "g2_hikizan2",
+"month": "g2_sansu",
+"type": "input",
+"q": "つぎの 計算を しよう。\n63 － 27 ＝ ？",
+"answer": "36",
+"explanation": "十の位から 1 くり下げて、一の位は 13 － 7 ＝ 6。\n十の位は 5 － 2 ＝ 3。\n答えは 36 だよ。"
+},
+{
+"id": "g2ss_014",
+"subject": "g2_hikizan2",
+"month": "g2_sansu",
+"type": "input",
+"q": "つぎの 計算を しよう。\n80 － 34 ＝ ？",
+"answer": "46",
+"explanation": "一の位は 10 － 4 ＝ 6。\n十の位は 1 くり下げたので 7 － 3 ＝ 4。\n答えは 46 だよ。"
+},
+{
+"id": "g2ss_015",
+"subject": "g2_hikizan2",
+"month": "g2_sansu",
+"type": "input",
+"q": "つぎの 計算を しよう。\n100 － 48 ＝ ？",
+"answer": "52",
+"explanation": "百の位から くり下げると、十の位が 9、一の位が 10 に なるよ。\n一の位は 10 － 8 ＝ 2、十の位は 9 － 4 ＝ 5 で、答えは 52。"
+},
+{
+"id": "g2ss_016",
+"subject": "g2_hikizan2",
+"month": "g2_sansu",
+"type": "input",
+"q": "つぎの 計算を しよう。\n105 － 38 ＝ ？",
+"answer": "67",
+"explanation": "一の位は 15 － 8 ＝ 7。\n十の位は 百の位から くり下げたので 9 － 3 ＝ 6。\n答えは 67 だよ。"
+},
+{
+"id": "g2ss_017",
+"subject": "g2_hikizan2",
+"month": "g2_sansu",
+"type": "input",
+"q": "つぎの 計算を しよう。\n132 － 56 ＝ ？",
+"answer": "76",
+"explanation": "一の位は 12 － 6 ＝ 6。\n十の位は 12 － 5 ＝ 7。\n答えは 76 だよ。"
+},
+{
+"id": "g2ss_018",
+"subject": "g2_hikizan2",
+"month": "g2_sansu",
+"type": "input",
+"q": "つぎの 計算を しよう。\n75 － 23 － 17 ＝ ？",
+"answer": "35",
+"explanation": "75 － 23 ＝ 52、52 － 17 ＝ 35。\n（ひく 数の 23 ＋ 17 ＝ 40 を まとめて、75 － 40 ＝ 35 と 考えても OK！）"
+},
+{
+"id": "g2ss_019",
+"subject": "g2_hikizan2",
+"month": "g2_sansu",
+"type": "input",
+"q": "どんぐりが 72こ ありました。工作で 28こ つかうと、のこりは 何こに なりますか？",
+"answer": "44",
+"explanation": "式：72 － 28\n一の位は 12 － 8 ＝ 4、十の位は 6 － 2 ＝ 4。\nのこりは 44こ だよ。"
+},
+{
+"id": "g2ss_020",
+"subject": "g2_hikizan2",
+"month": "g2_sansu",
+"type": "input",
+"q": "こうえんに こどもが 61人 います。そのうち 男の子が 34人 です。女の子は 何人 いますか？",
+"answer": "27",
+"explanation": "式：61 － 34\n一の位は 11 － 4 ＝ 7、十の位は 5 － 3 ＝ 2。\n女の子は 27人 だよ。"
+},
+{
+"id": "g2ss_021",
+"subject": "g2_ookina",
+"month": "g2_sansu",
+"type": "input",
+"q": "100を 4こ、10を 6こ、1を 8こ あつめた 数は いくつ？",
+"answer": "468",
+"explanation": "百の位が 4、十の位が 6、一の位が 8 で「468（四百六十八）」だよ。"
+},
+{
+"id": "g2ss_022",
+"subject": "g2_ookina",
+"month": "g2_sansu",
+"type": "input",
+"q": "100を 7こ、1を 5こ あつめた 数は いくつ？\n（十の位に 気を つけよう）",
+"answer": "705",
+"explanation": "10が 0こ だから、十の位に「0」を 書いて「705（七百五）」に なるよ。"
+},
+{
+"id": "g2ss_023",
+"subject": "g2_ookina",
+"month": "g2_sansu",
+"type": "input",
+"q": "10を 24こ あつめた 数は いくつ？",
+"answer": "240",
+"explanation": "10を 10こで 100、20こで 200、あと 4こで 40。\nあわせて 240 だよ。"
+},
+{
+"id": "g2ss_024",
+"subject": "g2_ookina",
+"month": "g2_sansu",
+"type": "input",
+"q": "100を 10こ あつめた 数は いくつ？",
+"answer": "1000",
+"explanation": "100が 10こ あつまると「1000（千・せん）」に なるよ。"
+},
+{
+"id": "g2ss_025",
+"subject": "g2_ookina",
+"month": "g2_sansu",
+"type": "input",
+"q": "1000を 10こ あつめた 数は いくつ？",
+"answer": "10000",
+"explanation": "1000が 10こ あつまると「10000（一万・いちまん）」に なるよ。"
+},
+{
+"id": "g2ss_026",
+"subject": "g2_ookina",
+"month": "g2_sansu",
+"type": "input",
+"q": "999より 1 大きい 数は いくつ？",
+"answer": "1000",
+"explanation": "999の つぎの 数は 1000（千）だよ。"
+},
+{
+"id": "g2ss_027",
+"subject": "g2_ookina",
+"month": "g2_sansu",
+"type": "input",
+"q": "1000より 10 小さい 数は いくつ？",
+"answer": "990",
+"explanation": "1000から 10 もどると 990 だよ。"
+},
+{
+"id": "g2ss_028",
+"subject": "g2_ookina",
+"month": "g2_sansu",
+"type": "input",
+"q": "つぎの 計算を しよう。\n500 ＋ 300 ＝ ？",
+"answer": "800",
+"explanation": "100が（5 ＋ 3）こで 8こ分 だから、800 だよ。"
+},
+{
+"id": "g2ss_029",
+"subject": "g2_ookina",
+"month": "g2_sansu",
+"type": "input",
+"q": "つぎの 計算を しよう。\n1200 － 400 ＝ ？",
+"answer": "800",
+"explanation": "100が 12こから 4こ ひくと 8こ分 のこるので、800 だよ。"
+},
+{
+"id": "g2ss_030",
+"subject": "g2_ookina",
+"month": "g2_sansu",
+"q": "つぎの 4つの 数の うち、いちばん 大きい 数は どれ？",
+"options": [
+"689",
+"698",
+"702",
+"699"
+],
+"answer": 2,
+"explanation": "まず いちばん 上の「百の位」を くらべるよ。\n702 だけ 百の位が 7 なので、702 が いちばん 大きい！"
+},
+{
+"id": "g2ss_031",
+"subject": "g2_tokei",
+"month": "g2_sansu",
+"type": "input",
+"q": "1時間は 何分 ですか？",
+"answer": "60",
+"explanation": "時計の 長い はりが 1周すると 60分。\n1時間 ＝ 60分 だよ。"
+},
+{
+"id": "g2ss_032",
+"subject": "g2_tokei",
+"month": "g2_sansu",
+"type": "input",
+"q": "1日は 何時間 ですか？",
+"answer": "24",
+"explanation": "午前 12時間と 午後 12時間を あわせて、1日 ＝ 24時間 だよ。"
+},
+{
+"id": "g2ss_033",
+"subject": "g2_tokei",
+"month": "g2_sansu",
+"q": "おひるの 12時の ことを、べつの 言い方で なんという？",
+"options": [
+"正午（しょうご）",
+"午前0時",
+"真夜中（まよなか）",
+"夕方（ゆうがた）"
+],
+"answer": 0,
+"explanation": "おひるの 12時は「正午（しょうご）」と いうよ。\n正午より 前が「午前」、後が「午後」だね。"
+},
+{
+"id": "g2ss_034",
+"subject": "g2_tokei",
+"month": "g2_sansu",
+"type": "input",
+"q": "9時10分の 30分後の 時こくは、9時何分 ですか？",
+"answer": "40",
+"explanation": "10分 ＋ 30分 ＝ 40分。\n9時40分 に なるよ。"
+},
+{
+"id": "g2ss_035",
+"subject": "g2_tokei",
+"month": "g2_sansu",
+"type": "input",
+"q": "2時40分の 20分後の 時こくは、何時ちょうど ですか？",
+"answer": "3",
+"explanation": "40分 ＋ 20分 ＝ 60分（1時間）。\n2時から 1時間 すすんで「3時」ちょうどに なるよ。"
+},
+{
+"id": "g2ss_036",
+"subject": "g2_tokei",
+"month": "g2_sansu",
+"type": "input",
+"q": "10時ちょうど から 10時45分 までの あいだの 時間は 何分間 ですか？",
+"answer": "45",
+"explanation": "10時00分から 10時45分まで だから、45分間 だよ。"
+},
+{
+"id": "g2ss_037",
+"subject": "g2_tokei",
+"month": "g2_sansu",
+"type": "input",
+"q": "3時50分 から 4時20分 までの あいだの 時間は 何分間 ですか？",
+"answer": "30",
+"explanation": "3時50分から 4時までが 10分間、4時から 4時20分までが 20分間。\nあわせて 10 ＋ 20 ＝ 30分間 だよ。"
+},
+{
+"id": "g2ss_038",
+"subject": "g2_tokei",
+"month": "g2_sansu",
+"type": "input",
+"q": "午前11時 から 午後1時 までの あいだの 時間は 何時間 ですか？",
+"answer": "2",
+"explanation": "午前11時から 正午（12時）までが 1時間、正午から 午後1時までが 1時間。\nあわせて 2時間 だよ。"
+},
+{
+"id": "g2ss_039",
+"subject": "g2_tokei",
+"month": "g2_sansu",
+"type": "input",
+"q": "8時ちょうど より 15分前の 時こくは、7時何分 ですか？",
+"answer": "45",
+"explanation": "60分 － 15分 ＝ 45分。\n7時45分 だよ。"
+},
+{
+"id": "g2ss_040",
+"subject": "g2_tokei",
+"month": "g2_sansu",
+"type": "input",
+"q": "1時間20分は、ぜんぶで 何分 ですか？",
+"answer": "80",
+"explanation": "1時間 ＝ 60分 だから、60分 ＋ 20分 ＝ 80分 だよ。"
+},
+{
+"id": "g2ss_041",
+"subject": "g2_nagasa",
+"month": "g2_sansu",
+"type": "input",
+"q": "1cm（センチメートル）は 何mm（ミリメートル）ですか？",
+"answer": "10",
+"explanation": "ものさしの 1cm の あいだには、1mm の めもりが 10こ あるね。\n1cm ＝ 10mm だよ。"
+},
+{
+"id": "g2ss_042",
+"subject": "g2_nagasa",
+"month": "g2_sansu",
+"type": "input",
+"q": "3cm 5mm は、ぜんぶで 何mm ですか？",
+"answer": "35",
+"explanation": "3cm ＝ 30mm だから、30mm ＋ 5mm ＝ 35mm だよ。"
+},
+{
+"id": "g2ss_043",
+"subject": "g2_nagasa",
+"month": "g2_sansu",
+"type": "input",
+"q": "60mm は 何cm ですか？",
+"answer": "6",
+"explanation": "10mm ＝ 1cm だから、60mm ＝ 6cm だよ。"
+},
+{
+"id": "g2ss_044",
+"subject": "g2_nagasa",
+"month": "g2_sansu",
+"type": "input",
+"q": "1m（メートル）は 何cm（センチメートル）ですか？",
+"answer": "100",
+"explanation": "1cm が 100こ分 で 1m（メートル）。\n1m ＝ 100cm だよ。"
+},
+{
+"id": "g2ss_045",
+"subject": "g2_nagasa",
+"month": "g2_sansu",
+"type": "input",
+"q": "1m 25cm は、ぜんぶで 何cm ですか？",
+"answer": "125",
+"explanation": "1m ＝ 100cm だから、100cm ＋ 25cm ＝ 125cm だよ。"
+},
+{
+"id": "g2ss_046",
+"subject": "g2_nagasa",
+"month": "g2_sansu",
+"type": "input",
+"q": "4cm ＋ 3cm 8mm ＝ 7cm □mm\n□に あてはまる 数を 書こう。",
+"answer": "8",
+"explanation": "cm 同士を たすと 4cm ＋ 3cm ＝ 7cm、mm は 8mm のまま。\n7cm 8mm だよ。"
+},
+{
+"id": "g2ss_047",
+"subject": "g2_nagasa",
+"month": "g2_sansu",
+"type": "input",
+"q": "8cm 6mm － 2cm 4mm ＝ 6cm □mm\n□に あてはまる 数を 書こう。",
+"answer": "2",
+"explanation": "cm 同士は 8 － 2 ＝ 6cm、mm 同士は 6 － 4 ＝ 2mm。\n6cm 2mm だよ。"
+},
+{
+"id": "g2ss_048",
+"subject": "g2_nagasa",
+"month": "g2_sansu",
+"type": "input",
+"q": "5cm の テープから 7mm きり取りました。のこりは 何mm ですか？",
+"answer": "43",
+"explanation": "5cm ＝ 50mm に なおして 計算しよう。\n50mm － 7mm ＝ 43mm（4cm 3mm）だよ。"
+},
+{
+"id": "g2ss_049",
+"subject": "g2_nagasa",
+"month": "g2_sansu",
+"q": "あたらしい えんぴつ 1本の 長さに いちばん 近い ものは どれ？",
+"options": [
+"15mm",
+"15cm",
+"15m",
+"150cm"
+],
+"answer": 1,
+"explanation": "えんぴつ 1本の 長さは だいたい 15cm くらいだね。\n（15mm は 1cm 5mm で みじかすぎ、15m は とても 長いよ）"
+},
+{
+"id": "g2ss_050",
+"subject": "g2_nagasa",
+"month": "g2_sansu",
+"q": "学校の きょうしつの たての 長さに いちばん 近い ものは どれ？",
+"options": [
+"8mm",
+"8cm",
+"8m",
+"800m"
+],
+"answer": 2,
+"explanation": "きょうしつの 長さは だいたい 8m（800cm）くらいだよ。"
+},
+{
+"id": "g2ss_051",
+"subject": "g2_kasa",
+"month": "g2_sansu",
+"type": "input",
+"q": "1L（リットル）は 何dL（デシリットル）ですか？",
+"answer": "10",
+"explanation": "1dL ます 10ぱい分で 1L。\n1L ＝ 10dL だよ。"
+},
+{
+"id": "g2ss_052",
+"subject": "g2_kasa",
+"month": "g2_sansu",
+"type": "input",
+"q": "1L（リットル）は 何mL（ミリリットル）ですか？",
+"answer": "1000",
+"explanation": "牛乳パック（1L）は 1000mL と 書かれて いるね。\n1L ＝ 1000mL だよ。"
+},
+{
+"id": "g2ss_053",
+"subject": "g2_kasa",
+"month": "g2_sansu",
+"type": "input",
+"q": "1dL（デシリットル）は 何mL（ミリリットル）ですか？",
+"answer": "100",
+"explanation": "1L ＝ 1000mL の 10分の1 だから、1dL ＝ 100mL だよ。"
+},
+{
+"id": "g2ss_054",
+"subject": "g2_kasa",
+"month": "g2_sansu",
+"type": "input",
+"q": "2L 4dL は、ぜんぶで 何dL ですか？",
+"answer": "24",
+"explanation": "2L ＝ 20dL だから、20dL ＋ 4dL ＝ 24dL だよ。"
+},
+{
+"id": "g2ss_055",
+"subject": "g2_kasa",
+"month": "g2_sansu",
+"type": "input",
+"q": "30dL は 何L ですか？",
+"answer": "3",
+"explanation": "10dL ＝ 1L だから、30dL ＝ 3L だよ。"
+},
+{
+"id": "g2ss_056",
+"subject": "g2_kasa",
+"month": "g2_sansu",
+"type": "input",
+"q": "3L 2dL ＋ 1L 5dL ＝ 4L □dL\n□に あてはまる 数を 書こう。",
+"answer": "7",
+"explanation": "L 同士は 3 ＋ 1 ＝ 4L、dL 同士は 2 ＋ 5 ＝ 7dL。\n4L 7dL だよ。"
+},
+{
+"id": "g2ss_057",
+"subject": "g2_kasa",
+"month": "g2_sansu",
+"type": "input",
+"q": "水が 6dL 入った ペットボトルに、4dL たすと 何L に なりますか？",
+"answer": "1",
+"explanation": "6dL ＋ 4dL ＝ 10dL。\n10dL ＝ 1L だから、答えは 1L だよ。"
+},
+{
+"id": "g2ss_058",
+"subject": "g2_kasa",
+"month": "g2_sansu",
+"type": "input",
+"q": "1L 入りの ジュースから 3dL のみました。のこりは 何dL ですか？",
+"answer": "7",
+"explanation": "1L ＝ 10dL に なおして、10dL － 3dL ＝ 7dL だよ。"
+},
+{
+"id": "g2ss_059",
+"subject": "g2_kasa",
+"month": "g2_sansu",
+"q": "給食に 出る 小さな 牛にゅうパック 1本の かさに いちばん 近い ものは どれ？",
+"options": [
+"200mL",
+"200L",
+"2mL",
+"20L"
+],
+"answer": 0,
+"explanation": "給食の 牛にゅうは 1本 200mL（2dL）だね。"
+},
+{
+"id": "g2ss_060",
+"subject": "g2_kasa",
+"month": "g2_sansu",
+"q": "おうちの おふろに 入れる 水の かさに いちばん 近い ものは どれ？",
+"options": [
+"200mL",
+"20dL",
+"200L",
+"2L"
+],
+"answer": 2,
+"explanation": "おふろには だいたい 200L くらいの 水が 入るよ。"
+},
+{
+"id": "g2ss_061",
+"subject": "g2_zukei",
+"month": "g2_sansu",
+"q": "3本の まっすぐな 線（直線）で かこまれた 形を なんという？",
+"options": [
+"三角形（さんかくけい）",
+"四角形（しかくけい）",
+"円（まる）",
+"長方形（ちょうほうけい）"
+],
+"answer": 0,
+"explanation": "3本の 直線で かこまれた 形は「三角形」、4本の 直線で かこまれた 形は「四角形」だよ。"
+},
+{
+"id": "g2ss_062",
+"subject": "g2_zukei",
+"month": "g2_sansu",
+"type": "input",
+"q": "四角形には、「へん」と「ちょう点（かどの 点）」が それぞれ いくつ ありますか？",
+"answer": "4",
+"explanation": "四角形には、へんが 4つ、ちょう点も 4つ あるよ。"
+},
+{
+"id": "g2ss_063",
+"subject": "g2_zukei",
+"month": "g2_sansu",
+"q": "紙を 半分に おり、ぴったり かさなるように もう一度 半分に おったときに できる かどの 形を なんという？",
+"options": [
+"直角（ちょっかく）",
+"三角形",
+"たいら",
+"まんなか"
+],
+"answer": 0,
+"explanation": "ノートの かどや、三角じょうぎの いちばん 大きな かどの 形を「直角（ちょっかく）」と いうよ。"
+},
+{
+"id": "g2ss_064",
+"subject": "g2_zukei",
+"month": "g2_sansu",
+"q": "4つの かどが すべて 直角に なっている 四角形を なんという？",
+"options": [
+"長方形（ちょうほうけい）",
+"直角三角形",
+"五角形",
+"さんかく"
+],
+"answer": 0,
+"explanation": "4つの かどが すべて 直角の 四角形は「長方形（ちょうほうけい）」だよ。\n向かい合う へんの 長さが おなじに なって いるね。"
+},
+{
+"id": "g2ss_065",
+"subject": "g2_zukei",
+"month": "g2_sansu",
+"q": "4つの かどが すべて 直角で、4つの へんの 長さも すべて おなじ 四角形を なんという？",
+"options": [
+"正方形（せいほうけい）",
+"直角三角形",
+"三角形",
+"まる"
+],
+"answer": 0,
+"explanation": "4つの かどが すべて 直角で、4つの へんの 長さが すべて おなじ 四角形は「正方形（せいほうけい）」だよ。"
+},
+{
+"id": "g2ss_066",
+"subject": "g2_zukei",
+"month": "g2_sansu",
+"type": "input",
+"q": "たてが 4cm、よこが 7cm の 長方形が あります。\n向かい合う もう 1本の よこの へんの 長さは 何cm ですか？",
+"answer": "7",
+"explanation": "長方形は 向かい合う へんの 長さが おなじ だから、よこの へんは 7cm だよ。"
+},
+{
+"id": "g2ss_067",
+"subject": "g2_zukei",
+"month": "g2_sansu",
+"type": "input",
+"q": "1つの へんが 5cm の 正方形が あります。\nまわりの 4つの へんの 長さを ぜんぶ あわせると 何cm ですか？",
+"answer": "20",
+"explanation": "正方形は 4つの へんが すべて 5cm だから、5 × 4 ＝ 20cm だよ。"
+},
+{
+"id": "g2ss_068",
+"subject": "g2_zukei",
+"month": "g2_sansu",
+"type": "input",
+"q": "さいころや ティッシュの「はこの 形」には、たいらな「面（めん）」が ぜんぶで いくつ ありますか？",
+"answer": "6",
+"explanation": "上・下・前・うしろ・左・右で、面は ぜんぶで 6つ あるよ（さいころの 目も 1〜6 までだね）。"
+},
+{
+"id": "g2ss_069",
+"subject": "g2_zukei",
+"month": "g2_sansu",
+"type": "input",
+"q": "「はこの 形」には、「へん（ひご）」が ぜんぶで いくつ ありますか？",
+"answer": "12",
+"explanation": "上に 4本、下に 4本、たての はしらが 4本。\n4 × 3 ＝ 12本 の へんが あるよ。"
+},
+{
+"id": "g2ss_070",
+"subject": "g2_zukei",
+"month": "g2_sansu",
+"type": "input",
+"q": "「はこの 形」には、「ちょう点（かど・ねんど玉）」が ぜんぶで いくつ ありますか？",
+"answer": "8",
+"explanation": "上の 4つの かどと、下の 4つの かどを あわせて、ちょう点は 8つ あるよ。"
+},
+{
+"id": "g2ss_071",
+"subject": "g2_kuku_bun",
+"month": "g2_sansu",
+"type": "input",
+"q": "1さらに りんごが 4こずつ のって います。\n6さらでは ぜんぶで 何こ ありますか？",
+"answer": "24",
+"explanation": "「1つ分の 数 × いくつ分」で 4 × 6 ＝ 24。\nぜんぶで 24こ だよ。"
+},
+{
+"id": "g2ss_072",
+"subject": "g2_kuku_bun",
+"month": "g2_sansu",
+"type": "input",
+"q": "1はこに ケーキが 3こずつ 入って います。\n8はこでは ぜんぶで 何こ ありますか？",
+"answer": "24",
+"explanation": "式：3 × 8 ＝ 24\n「さん ぱ にじゅうし」で 24こ だよ。"
+},
+{
+"id": "g2ss_073",
+"subject": "g2_kuku_bun",
+"month": "g2_sansu",
+"type": "input",
+"q": "こどもが 7人 います。1人に 色えんぴつを 5本ずつ くばると、ぜんぶで 何本 いりますか？",
+"answer": "35",
+"explanation": "1人に 5本ずつ 7人分 だから、式は 5 × 7 ＝ 35。\nぜんぶで 35本 いるよ。"
+},
+{
+"id": "g2ss_074",
+"subject": "g2_kuku_bun",
+"month": "g2_sansu",
+"type": "input",
+"q": "1さつに 9まい シールが はれる ノートが 4さつ あります。\nシールは ぜんぶで 何まい はれますか？",
+"answer": "36",
+"explanation": "式：9 × 4 ＝ 36\n「く し さんじゅうろく」で 36まい だよ。"
+},
+{
+"id": "g2ss_075",
+"subject": "g2_kuku_bun",
+"month": "g2_sansu",
+"type": "input",
+"q": "赤い リボンの 長さは 6cm です。青い リボンは 赤い リボンの 3ばいの 長さです。\n青い リボンは 何cm ですか？",
+"answer": "18",
+"explanation": "6cm の 3ばい だから、6 × 3 ＝ 18。\n青い リボンは 18cm だよ。"
+},
+{
+"id": "g2ss_076",
+"subject": "g2_kuku_bun",
+"month": "g2_sansu",
+"type": "input",
+"q": "□に あてはまる 数を 書こう。\n□ × 6 ＝ 42",
+"answer": "7",
+"explanation": "6の だんを 思いだそう。「ろく しち しじゅうに（6 × 7 ＝ 42）」「しち ろく しじゅうに（7 × 6 ＝ 42）」だから、□は 7 だよ。"
+},
+{
+"id": "g2ss_077",
+"subject": "g2_kuku_bun",
+"month": "g2_sansu",
+"type": "input",
+"q": "□に あてはまる 数を 書こう。\n8 × □ ＝ 56",
+"answer": "7",
+"explanation": "8の だんで「はち しち ごじゅうろく（8 × 7 ＝ 56）」だから、□は 7 だよ。"
+},
+{
+"id": "g2ss_078",
+"subject": "g2_kuku_bun",
+"month": "g2_sansu",
+"type": "input",
+"q": "□に あてはまる 数を 書こう。\n9 × □ ＝ 63",
+"answer": "7",
+"explanation": "9の だんで「く しち ろくじゅうさん（9 × 7 ＝ 63）」だから、□は 7 だよ。"
+},
+{
+"id": "g2ss_079",
+"subject": "g2_kuku_bun",
+"month": "g2_sansu",
+"type": "input",
+"q": "長いすが 5きゃく あります。1きゃくに 4人ずつ すわり、あと 3人 立って います。\nこどもは ぜんぶで 何人 いますか？",
+"answer": "23",
+"explanation": "すわって いる 人は 4 × 5 ＝ 20人。\n立って いる 3人を たして、20 ＋ 3 ＝ 23人 だよ。"
+},
+{
+"id": "g2ss_080",
+"subject": "g2_kuku_bun",
+"month": "g2_sansu",
+"type": "input",
+"q": "1こ 8円の あめを 6こ 買い、50円玉を 出しました。\nおつりは 何円 ですか？",
+"answer": "2",
+"explanation": "あめの 代金は 8 × 6 ＝ 48円。\n50 － 48 ＝ 2 だから、おつりは 2円 だよ。"
+},
+{
+"id": "g2ss_081",
+"subject": "g2_bunsu_hyo",
+"month": "g2_sansu",
+"q": "1枚の ピザを、おなじ 大きさに 2つに 分けた 1つ分を、もとの 大きさの なんという？",
+"options": [
+"二分の一（1/2）",
+"四分の一（1/4）",
+"三分の一（1/3）",
+"2ばい"
+],
+"answer": 0,
+"explanation": "おなじ 大きさに 2つに 分けた 1つ分（半分）を「二分の一（1/2）」と いうよ。"
+},
+{
+"id": "g2ss_082",
+"subject": "g2_bunsu_hyo",
+"month": "g2_sansu",
+"q": "1本の テープを、おなじ 長さに 4つに 分けた 1つ分を、もとの 長さの なんという？",
+"options": [
+"四分の一（1/4）",
+"二分の一（1/2）",
+"八分の一（1/8）",
+"4ばい"
+],
+"answer": 0,
+"explanation": "おなじ 長さに 4つに 分けた 1つ分を「四分の一（1/4）」と いうよ。"
+},
+{
+"id": "g2ss_083",
+"subject": "g2_bunsu_hyo",
+"month": "g2_sansu",
+"type": "input",
+"q": "12こ ある いちごの 二分の一（1/2・半分）は 何こ ですか？",
+"answer": "6",
+"explanation": "12こを 2つに おなじ 数ずつ 分けると、6 ＋ 6 ＝ 12 だから 6こ だよ。"
+},
+{
+"id": "g2ss_084",
+"subject": "g2_bunsu_hyo",
+"month": "g2_sansu",
+"type": "input",
+"q": "8cm の テープの 四分の一（1/4）の 長さは 何cm ですか？",
+"answer": "2",
+"explanation": "2cm が 4つ分で 8cm（2 × 4 ＝ 8）だから、四分の一は 2cm だよ。"
+},
+{
+"id": "g2ss_085",
+"subject": "g2_bunsu_hyo",
+"month": "g2_sansu",
+"type": "input",
+"q": "もとの 長さの 二分の一（1/2）が 5cm の テープが あります。\nもとの テープの 長さは 何cm ですか？",
+"answer": "10",
+"explanation": "半分が 5cm だから、もとの 長さは 2ばいの 5 × 2 ＝ 10cm だよ。"
+},
+{
+"id": "g2ss_086",
+"subject": "g2_bunsu_hyo",
+"month": "g2_sansu",
+"type": "input",
+"q": "クラスの すきな くだものを しらべたら、りんご 8人、みかん 12人、バナナ 5人 でした。\nぜんぶで 何人に しらべましたか？",
+"answer": "25",
+"explanation": "8 ＋ 12 ＝ 20、20 ＋ 5 ＝ 25。\nぜんぶで 25人 だよ。"
+},
+{
+"id": "g2ss_087",
+"subject": "g2_bunsu_hyo",
+"month": "g2_sansu",
+"type": "input",
+"q": "すきな くだものを しらべたら、りんご 8人、みかん 12人、バナナ 5人 でした。\nみかんが すきな 人は、バナナが すきな 人より 何人 多いですか？",
+"answer": "7",
+"explanation": "式：12 － 5 ＝ 7\n7人 多いよ。"
+},
+{
+"id": "g2ss_088",
+"subject": "g2_bunsu_hyo",
+"month": "g2_sansu",
+"type": "input",
+"q": "図書室で かりた 本の 数は、月よう日 6さつ、火よう日 9さつ、水よう日 5さつ でした。\n3日間で ぜんぶで 何さつ かりましたか？",
+"answer": "20",
+"explanation": "6 ＋ 9 ＋ 5 ＝ 20さつ だよ。"
+},
+{
+"id": "g2ss_089",
+"subject": "g2_bunsu_hyo",
+"month": "g2_sansu",
+"type": "input",
+"q": "□に あてはまる 数を 書こう。\n□ ＋ 24 ＝ 60",
+"answer": "36",
+"explanation": "ぜんぶの 60 から 24 を ひけば □が わかるよ。\n60 － 24 ＝ 36 だよ。"
+},
+{
+"id": "g2ss_090",
+"subject": "g2_bunsu_hyo",
+"month": "g2_sansu",
+"type": "input",
+"q": "□に あてはまる 数を 書こう。\n□ － 18 ＝ 35",
+"answer": "53",
+"explanation": "18 を ひいて のこりが 35 だから、もとの 数は 35 ＋ 18 ＝ 53 だよ。"
+}
+]
