@@ -1,0 +1,162 @@
+{
+"kifuyu_kok": {
+"label": "基礎コン冬",
+"icon": "⛄",
+"tag": "tag-kifuyu",
+"category": "kokugo",
+"month": "eikoh_202611",
+"isGroup": true
+},
+"kifuyu_kanji": {
+"label": "漢字",
+"icon": "✍️",
+"tag": "tag-kifuyu",
+"category": "kokugo",
+"month": "eikoh_202611",
+"parent": "kifuyu_kok"
+},
+"kifuyu_yomi": {
+"label": "読み",
+"icon": "📖",
+"tag": "tag-kifuyu",
+"category": "kokugo",
+"month": "eikoh_202611",
+"parent": "kifuyu_kok"
+},
+"kifuyu_keigo": {
+"label": "敬語",
+"icon": "🙇",
+"tag": "tag-kifuyu",
+"category": "kokugo",
+"month": "eikoh_202611",
+"parent": "kifuyu_kok"
+},
+"kifuyu_san": {
+"label": "基礎コン冬",
+"icon": "⛄",
+"tag": "tag-kifuyu",
+"category": "sansu",
+"month": "eikoh_202611",
+"isGroup": true
+},
+"kifuyu_keisan": {
+"label": "計算",
+"icon": "🔢",
+"tag": "tag-kifuyu",
+"category": "sansu",
+"month": "eikoh_202611",
+"parent": "kifuyu_san"
+},
+"kifuyu_bunsho": {
+"label": "文章題",
+"icon": "📝",
+"tag": "tag-kifuyu",
+"category": "sansu",
+"month": "eikoh_202611",
+"parent": "kifuyu_san"
+},
+"kifuyu_menseki": {
+"label": "面積",
+"icon": "📐",
+"tag": "tag-kifuyu",
+"category": "sansu",
+"month": "eikoh_202611",
+"parent": "kifuyu_san"
+},
+"kifuyu_eng": {
+"label": "基礎コン冬",
+"icon": "⛄",
+"tag": "tag-kifuyu",
+"category": "eigo",
+"month": "eikoh_202611",
+"isGroup": true
+},
+"kifuyu_imi": {
+"label": "意味",
+"icon": "💬",
+"tag": "tag-kifuyu",
+"category": "eigo",
+"month": "eikoh_202611",
+"parent": "kifuyu_eng"
+},
+"kifuyu_spell": {
+"label": "つづり",
+"icon": "🔤",
+"tag": "tag-kifuyu",
+"category": "eigo",
+"month": "eikoh_202611",
+"parent": "kifuyu_eng"
+},
+"kifuyu_rik": {
+"label": "基礎コン冬",
+"icon": "⛄",
+"tag": "tag-kifuyu",
+"category": "rika",
+"month": "eikoh_202611",
+"isGroup": true
+},
+"kifuyu_hatsuga": {
+"label": "発芽",
+"icon": "🌱",
+"tag": "tag-kifuyu",
+"category": "rika",
+"month": "eikoh_202611",
+"parent": "kifuyu_rik"
+},
+"kifuyu_tane": {
+"label": "種子",
+"icon": "🫘",
+"tag": "tag-kifuyu",
+"category": "rika",
+"month": "eikoh_202611",
+"parent": "kifuyu_rik"
+},
+"kifuyu_hana": {
+"label": "花",
+"icon": "🌼",
+"tag": "tag-kifuyu",
+"category": "rika",
+"month": "eikoh_202611",
+"parent": "kifuyu_rik"
+},
+"kifuyu_sha": {
+"label": "基礎コン冬",
+"icon": "⛄",
+"tag": "tag-kifuyu",
+"category": "shakai",
+"month": "eikoh_202611",
+"isGroup": true
+},
+"kifuyu_yasai": {
+"label": "野菜",
+"icon": "🥬",
+"tag": "tag-kifuyu",
+"category": "shakai",
+"month": "eikoh_202611",
+"parent": "kifuyu_sha"
+},
+"kifuyu_kudamono": {
+"label": "果物",
+"icon": "🍎",
+"tag": "tag-kifuyu",
+"category": "shakai",
+"month": "eikoh_202611",
+"parent": "kifuyu_sha"
+},
+"kifuyu_chikusan": {
+"label": "畜産・米",
+"icon": "🐄",
+"tag": "tag-kifuyu",
+"category": "shakai",
+"month": "eikoh_202611",
+"parent": "kifuyu_sha"
+},
+"kifuyu_minato": {
+"label": "港・平野",
+"icon": "🚢",
+"tag": "tag-kifuyu",
+"category": "shakai",
+"month": "eikoh_202611",
+"parent": "kifuyu_sha"
+}
+}

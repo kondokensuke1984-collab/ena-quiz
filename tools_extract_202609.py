@@ -66,7 +66,7 @@ with open(os.path.join(ROOT, 'data/quest_months.json'), 'w', encoding='utf-8') a
 #   quest_schools.json の月を まとめて クエスト（ステージ・ぬし・森・タイムトライアル）にする。ena は quest_months.json のまま。
 #   学校の月が かわったら ここを なおして 回す。
 SCHOOL_QUEST = {
-    'eikoh': {'label': '10月ターム', 'months': ['eikoh_term10']},
+    'eikoh': {'label': '10月ターム・11月', 'months': ['eikoh_term10', 'eikoh_202611']},
     'g2':    {'label': '2年生',     'months': ['g2_kuku', 'g2_sansu', 'g2_kanji']},
 }
 school_months = sum((v['months'] for v in SCHOOL_QUEST.values()), [])

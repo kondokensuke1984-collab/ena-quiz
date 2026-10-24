@@ -1,0 +1,3317 @@
+[
+{
+"id": "kf_kj01",
+"subject": "kifuyu_kanji",
+"month": "eikoh_202611",
+"q": "漢字01\n「かこ」にはもどれない。\n「かこ」を漢字で書くと？",
+"options": [
+"化去",
+"課去",
+"過居",
+"過去"
+],
+"answer": 3,
+"explanation": "過去（かこ）：すぎさった時のこと。「過」は「すぎる」、「去」は「さる」。"
+},
+{
+"id": "kf_yo01",
+"subject": "kifuyu_yomi",
+"month": "eikoh_202611",
+"type": "input",
+"q": "漢字01 読み\n【過去】にはもどれない。\n【　】の漢字の読みをひらがなで書きなさい。",
+"answer": "かこ",
+"explanation": "過去 ＝ かこ\nすぎさった時のこと。「過」は「すぎる」、「去」は「さる」。"
+},
+{
+"id": "kf_kj02",
+"subject": "kifuyu_kanji",
+"month": "eikoh_202611",
+"q": "漢字02\n「けいせい」が逆転した。\n「けいせい」を漢字で書くと？",
+"options": [
+"形勢",
+"型勢",
+"計勢",
+"形成"
+],
+"answer": 0,
+"explanation": "形勢（けいせい）：物事のなりゆき・ようす。「形成（かたちづくること）」と同じ読みなので注意。"
+},
+{
+"id": "kf_yo02",
+"subject": "kifuyu_yomi",
+"month": "eikoh_202611",
+"type": "input",
+"q": "漢字02 読み\n【形勢】が逆転した。\n【　】の漢字の読みをひらがなで書きなさい。",
+"answer": "けいせい",
+"explanation": "形勢 ＝ けいせい\n物事のなりゆき・ようす。「形成（かたちづくること）」と同じ読みなので注意。"
+},
+{
+"id": "kf_kj02b",
+"subject": "kifuyu_kanji",
+"month": "eikoh_202611",
+"q": "漢字02\n形勢が「ぎゃくてん」した。\n「ぎゃくてん」を漢字で書くと？",
+"options": [
+"逆転",
+"逆点",
+"逆展",
+"虐転"
+],
+"answer": 0,
+"explanation": "逆転（ぎゃくてん）：それまでと反対になること。「転」は「ころがる・うつる」。"
+},
+{
+"id": "kf_yo02b",
+"subject": "kifuyu_yomi",
+"month": "eikoh_202611",
+"type": "input",
+"q": "漢字02 読み\n形勢が【逆転】した。\n【　】の漢字の読みをひらがなで書きなさい。",
+"answer": "ぎゃくてん",
+"explanation": "逆転 ＝ ぎゃくてん\nそれまでと反対になること。「転」は「ころがる・うつる」。"
+},
+{
+"id": "kf_kj03",
+"subject": "kifuyu_kanji",
+"month": "eikoh_202611",
+"q": "漢字03\nケーキを「きんとう」に分ける。\n「きんとう」を漢字で書くと？",
+"options": [
+"金等",
+"均答",
+"均等",
+"近等"
+],
+"answer": 2,
+"explanation": "均等（きんとう）：どれも同じで差がないこと。「均」は「ひとしい」。"
+},
+{
+"id": "kf_yo03",
+"subject": "kifuyu_yomi",
+"month": "eikoh_202611",
+"type": "input",
+"q": "漢字03 読み\nケーキを【均等】に分ける。\n【　】の漢字の読みをひらがなで書きなさい。",
+"answer": "きんとう",
+"explanation": "均等 ＝ きんとう\nどれも同じで差がないこと。「均」は「ひとしい」。"
+},
+{
+"id": "kf_kj04",
+"subject": "kifuyu_kanji",
+"month": "eikoh_202611",
+"q": "漢字04\n気持ちを歌で「ひょうげん」する。\n「ひょうげん」を漢字で書くと？",
+"options": [
+"標現",
+"表験",
+"表見",
+"表現"
+],
+"answer": 3,
+"explanation": "表現（ひょうげん）：気持ちや考えを形にしてあらわすこと。「現」は「あらわれる」。"
+},
+{
+"id": "kf_yo04",
+"subject": "kifuyu_yomi",
+"month": "eikoh_202611",
+"type": "input",
+"q": "漢字04 読み\n気持ちを歌で【表現】する。\n【　】の漢字の読みをひらがなで書きなさい。",
+"answer": "ひょうげん",
+"explanation": "表現 ＝ ひょうげん\n気持ちや考えを形にしてあらわすこと。「現」は「あらわれる」。"
+},
+{
+"id": "kf_kj05",
+"subject": "kifuyu_kanji",
+"month": "eikoh_202611",
+"q": "漢字05\n商品を「じゅんじょ」よくならべる。\n「じゅんじょ」を漢字で書くと？",
+"options": [
+"順除",
+"準序",
+"順序",
+"順叙"
+],
+"answer": 2,
+"explanation": "順序（じゅんじょ）：物事のならぶ順番。「序」も「じゅんばん」の意味。"
+},
+{
+"id": "kf_yo05",
+"subject": "kifuyu_yomi",
+"month": "eikoh_202611",
+"type": "input",
+"q": "漢字05 読み\n商品を【順序】よくならべる。\n【　】の漢字の読みをひらがなで書きなさい。",
+"answer": "じゅんじょ",
+"explanation": "順序 ＝ じゅんじょ\n物事のならぶ順番。「序」も「じゅんばん」の意味。"
+},
+{
+"id": "kf_kj06",
+"subject": "kifuyu_kanji",
+"month": "eikoh_202611",
+"q": "漢字06\n「ぞうきばやし」を通りぬける。\n「ぞうきばやし」を漢字で書くと？",
+"options": [
+"象木林",
+"増木林",
+"雑木林",
+"雑気林"
+],
+"answer": 2,
+"explanation": "雑木林（ぞうきばやし）：いろいろな木がまじって生えている林。「雑」は「ぞう」と読むのがポイント（「ざつ」ではない）。"
+},
+{
+"id": "kf_yo06",
+"subject": "kifuyu_yomi",
+"month": "eikoh_202611",
+"type": "input",
+"q": "漢字06 読み\n【雑木林】を通りぬける。\n【　】の漢字の読みをひらがなで書きなさい。",
+"answer": "ぞうきばやし",
+"explanation": "雑木林 ＝ ぞうきばやし\nいろいろな木がまじって生えている林。「雑」は「ぞう」と読むのがポイント（「ざつ」ではない）。"
+},
+{
+"id": "kf_kj07",
+"subject": "kifuyu_kanji",
+"month": "eikoh_202611",
+"q": "漢字07\n読書は「ちしき」を豊富にする。\n「ちしき」を漢字で書くと？",
+"options": [
+"知識",
+"地識",
+"知織",
+"知職"
+],
+"answer": 0,
+"explanation": "知識（ちしき）：知っていること。「識」は「ごんべん」。「織（いとへん）」「職（みみへん）」と区別する。"
+},
+{
+"id": "kf_yo07",
+"subject": "kifuyu_yomi",
+"month": "eikoh_202611",
+"type": "input",
+"q": "漢字07 読み\n読書は【知識】を豊富にする。\n【　】の漢字の読みをひらがなで書きなさい。",
+"answer": "ちしき",
+"explanation": "知識 ＝ ちしき\n知っていること。「識」は「ごんべん」。「織（いとへん）」「職（みみへん）」と区別する。"
+},
+{
+"id": "kf_kj07b",
+"subject": "kifuyu_kanji",
+"month": "eikoh_202611",
+"q": "漢字07\n読書は知識を「ほうふ」にする。\n「ほうふ」を漢字で書くと？",
+"options": [
+"豊副",
+"豊富",
+"方富",
+"豊府"
+],
+"answer": 1,
+"explanation": "豊富（ほうふ）：たくさんあること。「豊」は「ゆたか」、「富」は「とむ」。"
+},
+{
+"id": "kf_yo07b",
+"subject": "kifuyu_yomi",
+"month": "eikoh_202611",
+"type": "input",
+"q": "漢字07 読み\n読書は知識を【豊富】にする。\n【　】の漢字の読みをひらがなで書きなさい。",
+"answer": "ほうふ",
+"explanation": "豊富 ＝ ほうふ\nたくさんあること。「豊」は「ゆたか」、「富」は「とむ」。"
+},
+{
+"id": "kf_kj08",
+"subject": "kifuyu_kanji",
+"month": "eikoh_202611",
+"q": "漢字08\n望遠鏡で星を「かんそく」する。\n「かんそく」を漢字で書くと？",
+"options": [
+"観側",
+"観則",
+"観測",
+"勧測"
+],
+"answer": 2,
+"explanation": "観測（かんそく）：ようすを注意して見て、はかること。「測」は「さんずい」（はかる）。「則」「側」と区別する。"
+},
+{
+"id": "kf_yo08",
+"subject": "kifuyu_yomi",
+"month": "eikoh_202611",
+"type": "input",
+"q": "漢字08 読み\n望遠鏡で星を【観測】する。\n【　】の漢字の読みをひらがなで書きなさい。",
+"answer": "かんそく",
+"explanation": "観測 ＝ かんそく\nようすを注意して見て、はかること。「測」は「さんずい」（はかる）。「則」「側」と区別する。"
+},
+{
+"id": "kf_kj09",
+"subject": "kifuyu_kanji",
+"month": "eikoh_202611",
+"q": "漢字09\n旅行の「にってい」を決める。\n「にってい」を漢字で書くと？",
+"options": [
+"日呈",
+"日程",
+"日提",
+"日定"
+],
+"answer": 1,
+"explanation": "日程（にってい）：毎日の予定。「程」は「のぎへん」。"
+},
+{
+"id": "kf_yo09",
+"subject": "kifuyu_yomi",
+"month": "eikoh_202611",
+"type": "input",
+"q": "漢字09 読み\n旅行の【日程】を決める。\n【　】の漢字の読みをひらがなで書きなさい。",
+"answer": "にってい",
+"explanation": "日程 ＝ にってい\n毎日の予定。「程」は「のぎへん」。"
+},
+{
+"id": "kf_kj10",
+"subject": "kifuyu_kanji",
+"month": "eikoh_202611",
+"q": "漢字10\n日記をつけるのを「しゅうかん」にする。\n「しゅうかん」を漢字で書くと？",
+"options": [
+"習間",
+"週慣",
+"習慣",
+"習貫"
+],
+"answer": 2,
+"explanation": "習慣（しゅうかん）：くりかえすうちに身についたこと。「慣」は「なれる」（りっしんべん）。"
+},
+{
+"id": "kf_yo10",
+"subject": "kifuyu_yomi",
+"month": "eikoh_202611",
+"type": "input",
+"q": "漢字10 読み\n日記をつけるのを【習慣】にする。\n【　】の漢字の読みをひらがなで書きなさい。",
+"answer": "しゅうかん",
+"explanation": "習慣 ＝ しゅうかん\nくりかえすうちに身についたこと。「慣」は「なれる」（りっしんべん）。"
+},
+{
+"id": "kf_kj11",
+"subject": "kifuyu_kanji",
+"month": "eikoh_202611",
+"q": "漢字11\n学校へピアノを「きふ」した。\n「きふ」を漢字で書くと？",
+"options": [
+"寄付",
+"奇付",
+"記付",
+"寄府"
+],
+"answer": 0,
+"explanation": "寄付（きふ）：お金や物をさし出すこと。「寄」は「よせる」。"
+},
+{
+"id": "kf_yo11",
+"subject": "kifuyu_yomi",
+"month": "eikoh_202611",
+"type": "input",
+"q": "漢字11 読み\n学校へピアノを【寄付】した。\n【　】の漢字の読みをひらがなで書きなさい。",
+"answer": "きふ",
+"explanation": "寄付 ＝ きふ\nお金や物をさし出すこと。「寄」は「よせる」。"
+},
+{
+"id": "kf_kj12",
+"subject": "kifuyu_kanji",
+"month": "eikoh_202611",
+"q": "漢字12\n「きゅうきゅうしゃ」が通る。\n「きゅうきゅうしゃ」を漢字で書くと？",
+"options": [
+"球急車",
+"救級車",
+"求急車",
+"救急車"
+],
+"answer": 3,
+"explanation": "救急車（きゅうきゅうしゃ）：「救」は「すくう」。「求（もとめる）」「球（たま）」と区別する。"
+},
+{
+"id": "kf_yo12",
+"subject": "kifuyu_yomi",
+"month": "eikoh_202611",
+"type": "input",
+"q": "漢字12 読み\n【救急車】が通る。\n【　】の漢字の読みをひらがなで書きなさい。",
+"answer": "きゅうきゅうしゃ",
+"explanation": "救急車 ＝ きゅうきゅうしゃ\n「救」は「すくう」。「求（もとめる）」「球（たま）」と区別する。"
+},
+{
+"id": "kf_kj13",
+"subject": "kifuyu_kanji",
+"month": "eikoh_202611",
+"q": "漢字13\n太平洋を「こうかい」する。\n「こうかい」を漢字で書くと？",
+"options": [
+"航悔",
+"後海",
+"港海",
+"航海"
+],
+"answer": 3,
+"explanation": "航海（こうかい）：船で海をわたること。「航」は「ふねへん」。"
+},
+{
+"id": "kf_yo13",
+"subject": "kifuyu_yomi",
+"month": "eikoh_202611",
+"type": "input",
+"q": "漢字13 読み\n太平洋を【航海】する。\n【　】の漢字の読みをひらがなで書きなさい。",
+"answer": "こうかい",
+"explanation": "航海 ＝ こうかい\n船で海をわたること。「航」は「ふねへん」。"
+},
+{
+"id": "kf_kj14",
+"subject": "kifuyu_kanji",
+"month": "eikoh_202611",
+"q": "漢字14\n「にがおえ」をかく。\n「にがおえ」を漢字で書くと？",
+"options": [
+"似顔絵",
+"以顔絵",
+"似顔会",
+"似願絵"
+],
+"answer": 0,
+"explanation": "似顔絵（にがおえ）：その人の顔ににせてかいた絵。「似」は「にる」（にんべん）。"
+},
+{
+"id": "kf_yo14",
+"subject": "kifuyu_yomi",
+"month": "eikoh_202611",
+"type": "input",
+"q": "漢字14 読み\n【似顔絵】をかく。\n【　】の漢字の読みをひらがなで書きなさい。",
+"answer": "にがおえ",
+"explanation": "似顔絵 ＝ にがおえ\nその人の顔ににせてかいた絵。「似」は「にる」（にんべん）。"
+},
+{
+"id": "kf_kj15",
+"subject": "kifuyu_kanji",
+"month": "eikoh_202611",
+"q": "漢字15\n大臣を「ごえい」する。\n「ごえい」を漢字で書くと？",
+"options": [
+"護衛",
+"誤衛",
+"護営",
+"語衛"
+],
+"answer": 0,
+"explanation": "護衛（ごえい）：人につきそってまもること。「護」も「衛」も「まもる」の意味。"
+},
+{
+"id": "kf_yo15",
+"subject": "kifuyu_yomi",
+"month": "eikoh_202611",
+"type": "input",
+"q": "漢字15 読み\n大臣を【護衛】する。\n【　】の漢字の読みをひらがなで書きなさい。",
+"answer": "ごえい",
+"explanation": "護衛 ＝ ごえい\n人につきそってまもること。「護」も「衛」も「まもる」の意味。"
+},
+{
+"id": "kf_kj16",
+"subject": "kifuyu_kanji",
+"month": "eikoh_202611",
+"q": "漢字16\nパーティーに「しょうたい」された。\n「しょうたい」を漢字で書くと？",
+"options": [
+"招体",
+"招対",
+"紹待",
+"招待"
+],
+"answer": 3,
+"explanation": "招待（しょうたい）：客としてまねくこと。「招」は「まねく」（てへん）。「紹（いとへん）」と区別する。"
+},
+{
+"id": "kf_yo16",
+"subject": "kifuyu_yomi",
+"month": "eikoh_202611",
+"type": "input",
+"q": "漢字16 読み\nパーティーに【招待】された。\n【　】の漢字の読みをひらがなで書きなさい。",
+"answer": "しょうたい",
+"explanation": "招待 ＝ しょうたい\n客としてまねくこと。「招」は「まねく」（てへん）。「紹（いとへん）」と区別する。"
+},
+{
+"id": "kf_kj17",
+"subject": "kifuyu_kanji",
+"month": "eikoh_202611",
+"q": "漢字17\n会社を「そしき」する。\n「そしき」を漢字で書くと？",
+"options": [
+"祖織",
+"組職",
+"組織",
+"組識"
+],
+"answer": 2,
+"explanation": "組織（そしき）：人や物を集めてまとまりをつくること。「織」は「いとへん」（おる）。"
+},
+{
+"id": "kf_yo17",
+"subject": "kifuyu_yomi",
+"month": "eikoh_202611",
+"type": "input",
+"q": "漢字17 読み\n会社を【組織】する。\n【　】の漢字の読みをひらがなで書きなさい。",
+"answer": "そしき",
+"explanation": "組織 ＝ そしき\n人や物を集めてまとまりをつくること。「織」は「いとへん」（おる）。"
+},
+{
+"id": "kf_kj18",
+"subject": "kifuyu_kanji",
+"month": "eikoh_202611",
+"q": "漢字18\n兄はサッカーが「とくい」だ。\n「とくい」を漢字で書くと？",
+"options": [
+"得異",
+"得意",
+"特意",
+"徳意"
+],
+"answer": 1,
+"explanation": "得意（とくい）：じょうずで自信があること。「得」は「える」（ぎょうにんべん）。"
+},
+{
+"id": "kf_yo18",
+"subject": "kifuyu_yomi",
+"month": "eikoh_202611",
+"type": "input",
+"q": "漢字18 読み\n兄はサッカーが【得意】だ。\n【　】の漢字の読みをひらがなで書きなさい。",
+"answer": "とくい",
+"explanation": "得意 ＝ とくい\nじょうずで自信があること。「得」は「える」（ぎょうにんべん）。"
+},
+{
+"id": "kf_kj19",
+"subject": "kifuyu_kanji",
+"month": "eikoh_202611",
+"q": "漢字19\nマスクでかぜを「よぼう」する。\n「よぼう」を漢字で書くと？",
+"options": [
+"予坊",
+"余防",
+"予防",
+"予房"
+],
+"answer": 2,
+"explanation": "予防（よぼう）：前もってふせぐこと。「防」は「ふせぐ」（こざとへん）。"
+},
+{
+"id": "kf_yo19",
+"subject": "kifuyu_yomi",
+"month": "eikoh_202611",
+"type": "input",
+"q": "漢字19 読み\nマスクでかぜを【予防】する。\n【　】の漢字の読みをひらがなで書きなさい。",
+"answer": "よぼう",
+"explanation": "予防 ＝ よぼう\n前もってふせぐこと。「防」は「ふせぐ」（こざとへん）。"
+},
+{
+"id": "kf_kj20",
+"subject": "kifuyu_kanji",
+"month": "eikoh_202611",
+"q": "漢字20\nアメリカに「りゅうがく」する。\n「りゅうがく」を漢字で書くと？",
+"options": [
+"留学",
+"流学",
+"留楽",
+"溜学"
+],
+"answer": 0,
+"explanation": "留学（りゅうがく）：外国にとどまって勉強すること。「留」は「とめる・とどまる」。"
+},
+{
+"id": "kf_yo20",
+"subject": "kifuyu_yomi",
+"month": "eikoh_202611",
+"type": "input",
+"q": "漢字20 読み\nアメリカに【留学】する。\n【　】の漢字の読みをひらがなで書きなさい。",
+"answer": "りゅうがく",
+"explanation": "留学 ＝ りゅうがく\n外国にとどまって勉強すること。「留」は「とめる・とどまる」。"
+},
+{
+"id": "kf_kj21",
+"subject": "kifuyu_kanji",
+"month": "eikoh_202611",
+"q": "漢字21\nかごの中で鳥が「あばれる」。\n「あばれる」を漢字で書くと？",
+"options": [
+"暴れる",
+"爆れる",
+"募れる",
+"幕れる"
+],
+"answer": 0,
+"explanation": "暴れる（あばれる）：「暴」の訓読みは「あばれる」。音読みは「ぼう」（暴風・乱暴）。"
+},
+{
+"id": "kf_yo21",
+"subject": "kifuyu_yomi",
+"month": "eikoh_202611",
+"type": "input",
+"q": "漢字21 読み\nかごの中で鳥が【暴れる】。\n【　】の漢字の読みをひらがなで書きなさい。",
+"answer": "あばれる",
+"explanation": "暴れる ＝ あばれる\n「暴」の訓読みは「あばれる」。音読みは「ぼう」（暴風・乱暴）。"
+},
+{
+"id": "kf_kj22",
+"subject": "kifuyu_kanji",
+"month": "eikoh_202611",
+"q": "漢字22\n「よろこんで」出かける。\n「よろこんで」を漢字で書くと？",
+"options": [
+"喜んで",
+"善んで",
+"樹んで",
+"吉んで"
+],
+"answer": 0,
+"explanation": "喜んで（よろこんで）：「喜」の訓読みは「よろこぶ」。送りがなは「喜ぶ」。"
+},
+{
+"id": "kf_yo22",
+"subject": "kifuyu_yomi",
+"month": "eikoh_202611",
+"type": "input",
+"q": "漢字22 読み\n【喜んで】出かける。\n【　】の漢字の読みをひらがなで書きなさい。",
+"answer": "よろこんで",
+"explanation": "喜んで ＝ よろこんで\n「喜」の訓読みは「よろこぶ」。送りがなは「喜ぶ」。"
+},
+{
+"id": "kf_kj23",
+"subject": "kifuyu_kanji",
+"month": "eikoh_202611",
+"q": "漢字23\n手をあらい「せいけつ」にしよう。\n「せいけつ」を漢字で書くと？",
+"options": [
+"晴潔",
+"清潔",
+"清結",
+"精潔"
+],
+"answer": 1,
+"explanation": "清潔（せいけつ）：よごれがなく、きれいなこと。「清」も「潔」も「さんずい」（水できれいにするイメージ）。"
+},
+{
+"id": "kf_yo23",
+"subject": "kifuyu_yomi",
+"month": "eikoh_202611",
+"type": "input",
+"q": "漢字23 読み\n手をあらい【清潔】にしよう。\n【　】の漢字の読みをひらがなで書きなさい。",
+"answer": "せいけつ",
+"explanation": "清潔 ＝ せいけつ\nよごれがなく、きれいなこと。「清」も「潔」も「さんずい」（水できれいにするイメージ）。"
+},
+{
+"id": "kf_kj24",
+"subject": "kifuyu_kanji",
+"month": "eikoh_202611",
+"q": "漢字24\n高い「こころざし」を持つ。\n「こころざし」を漢字で書くと？",
+"options": [
+"恵",
+"志",
+"誌",
+"忘"
+],
+"answer": 1,
+"explanation": "志（こころざし）：「志」一字で「こころざし」。送りがなはつけない（動詞なら「志す」）。"
+},
+{
+"id": "kf_yo24",
+"subject": "kifuyu_yomi",
+"month": "eikoh_202611",
+"type": "input",
+"q": "漢字24 読み\n高い【志】を持つ。\n【　】の漢字の読みをひらがなで書きなさい。",
+"answer": "こころざし",
+"explanation": "志 ＝ こころざし\n「志」一字で「こころざし」。送りがなはつけない（動詞なら「志す」）。"
+},
+{
+"id": "kf_kj25",
+"subject": "kifuyu_kanji",
+"month": "eikoh_202611",
+"q": "漢字25\nパソコンの「けんしゅう」をする。\n「けんしゅう」を漢字で書くと？",
+"options": [
+"研集",
+"研習",
+"検修",
+"研修"
+],
+"answer": 3,
+"explanation": "研修（けんしゅう）：仕事などに必要なことを学ぶこと。「修」は「おさめる」。"
+},
+{
+"id": "kf_yo25",
+"subject": "kifuyu_yomi",
+"month": "eikoh_202611",
+"type": "input",
+"q": "漢字25 読み\nパソコンの【研修】をする。\n【　】の漢字の読みをひらがなで書きなさい。",
+"answer": "けんしゅう",
+"explanation": "研修 ＝ けんしゅう\n仕事などに必要なことを学ぶこと。「修」は「おさめる」。"
+},
+{
+"id": "kf_kj26",
+"subject": "kifuyu_kanji",
+"month": "eikoh_202611",
+"q": "漢字26\n健全な「せいしん」を保つ。\n「せいしん」を漢字で書くと？",
+"options": [
+"静神",
+"精神",
+"清神",
+"精身"
+],
+"answer": 1,
+"explanation": "精神（せいしん）：心のはたらき。「精」は「こめへん」。"
+},
+{
+"id": "kf_yo26",
+"subject": "kifuyu_yomi",
+"month": "eikoh_202611",
+"type": "input",
+"q": "漢字26 読み\n健全な【精神】を保つ。\n【　】の漢字の読みをひらがなで書きなさい。",
+"answer": "せいしん",
+"explanation": "精神 ＝ せいしん\n心のはたらき。「精」は「こめへん」。"
+},
+{
+"id": "kf_kj27",
+"subject": "kifuyu_kanji",
+"month": "eikoh_202611",
+"q": "漢字27\nゲームに「むちゅう」になる。\n「むちゅう」を漢字で書くと？",
+"options": [
+"夢中",
+"無中",
+"夢仲",
+"霧中"
+],
+"answer": 0,
+"explanation": "夢中（むちゅう）：ほかのことを忘れるほど熱中すること。「夢」は「ゆめ」。"
+},
+{
+"id": "kf_yo27",
+"subject": "kifuyu_yomi",
+"month": "eikoh_202611",
+"type": "input",
+"q": "漢字27 読み\nゲームに【夢中】になる。\n【　】の漢字の読みをひらがなで書きなさい。",
+"answer": "むちゅう",
+"explanation": "夢中 ＝ むちゅう\nほかのことを忘れるほど熱中すること。「夢」は「ゆめ」。"
+},
+{
+"id": "kf_kj28",
+"subject": "kifuyu_kanji",
+"month": "eikoh_202611",
+"q": "漢字28\nとなり村との「きょうかい」を決める。\n「きょうかい」を漢字で書くと？",
+"options": [
+"境界",
+"鏡界",
+"境階",
+"協界"
+],
+"answer": 0,
+"explanation": "境界（きょうかい）：さかいめ。「境」は「つちへん」（さかい）。「鏡（かねへん）」と区別する。"
+},
+{
+"id": "kf_yo28",
+"subject": "kifuyu_yomi",
+"month": "eikoh_202611",
+"type": "input",
+"q": "漢字28 読み\nとなり村との【境界】を決める。\n【　】の漢字の読みをひらがなで書きなさい。",
+"answer": "きょうかい",
+"explanation": "境界 ＝ きょうかい\nさかいめ。「境」は「つちへん」（さかい）。「鏡（かねへん）」と区別する。"
+},
+{
+"id": "kf_kj29",
+"subject": "kifuyu_kanji",
+"month": "eikoh_202611",
+"q": "漢字29\n古い「こうしゃ」を取りこわす。\n「こうしゃ」を漢字で書くと？",
+"options": [
+"校者",
+"校舎",
+"効舎",
+"校車"
+],
+"answer": 1,
+"explanation": "校舎（こうしゃ）：学校の建物。「舎」は「建物」の意味。「者（もの）」と区別する。"
+},
+{
+"id": "kf_yo29",
+"subject": "kifuyu_yomi",
+"month": "eikoh_202611",
+"type": "input",
+"q": "漢字29 読み\n古い【校舎】を取りこわす。\n【　】の漢字の読みをひらがなで書きなさい。",
+"answer": "こうしゃ",
+"explanation": "校舎 ＝ こうしゃ\n学校の建物。「舎」は「建物」の意味。「者（もの）」と区別する。"
+},
+{
+"id": "kf_kj30",
+"subject": "kifuyu_kanji",
+"month": "eikoh_202611",
+"q": "漢字30\n山の上の「ぼち」に行く。\n「ぼち」を漢字で書くと？",
+"options": [
+"墓地",
+"暮地",
+"基地",
+"募地"
+],
+"answer": 0,
+"explanation": "墓地（ぼち）：おはかのある場所。「墓」は下が「土」。「基」「募（力）」「暮（日）」と区別する。"
+},
+{
+"id": "kf_yo30",
+"subject": "kifuyu_yomi",
+"month": "eikoh_202611",
+"type": "input",
+"q": "漢字30 読み\n山の上の【墓地】に行く。\n【　】の漢字の読みをひらがなで書きなさい。",
+"answer": "ぼち",
+"explanation": "墓地 ＝ ぼち\nおはかのある場所。「墓」は下が「土」。「基」「募（力）」「暮（日）」と区別する。"
+},
+{
+"id": "kf_kg01",
+"subject": "kifuyu_keigo",
+"month": "eikoh_202611",
+"q": "敬語01\n先生は、教室に【いる】。\n【　】の部分を敬語（尊敬語）に直したものはどれ？",
+"options": [
+"いただく",
+"おります",
+"うかがう",
+"いらっしゃる"
+],
+"answer": 3,
+"explanation": "先生（目上の人）の動作なので尊敬語。「いる」の尊敬語は「いらっしゃる」。\n※「おる・おります」は自分がへりくだる謙譲語。"
+},
+{
+"id": "kf_kg02",
+"subject": "kifuyu_keigo",
+"month": "eikoh_202611",
+"q": "敬語02\nお客様がプレゼントを【くれる】。\n【　】の部分を敬語（尊敬語）に直したものはどれ？",
+"options": [
+"さしあげる",
+"いただく",
+"くださる",
+"もらわれる"
+],
+"answer": 2,
+"explanation": "相手（お客様）の動作なので尊敬語。「くれる」の尊敬語は「くださる」。\n※「いただく」は自分が「もらう」ときの謙譲語。"
+},
+{
+"id": "kf_kg03",
+"subject": "kifuyu_keigo",
+"month": "eikoh_202611",
+"q": "敬語03\n先生が字を【書く】。\n【　】の部分を敬語（尊敬語）に直したものはどれ？",
+"options": [
+"書きます",
+"お書きする",
+"お書きになる",
+"書かせていただく"
+],
+"answer": 2,
+"explanation": "先生の動作なので尊敬語。「お〜になる」の形にする。\n※「お〜する」は謙譲語の形なのでまちがい。"
+},
+{
+"id": "kf_kg04",
+"subject": "kifuyu_keigo",
+"month": "eikoh_202611",
+"q": "敬語04\nお客様が【帰る】。\n【　】の部分を敬語（尊敬語）に直したものはどれ？",
+"options": [
+"帰ります",
+"帰られる",
+"お帰りする",
+"帰らせる"
+],
+"answer": 1,
+"explanation": "お客様の動作なので尊敬語。「〜れる・られる」をつける形。\n「お帰りになる」でも尊敬語として正しい。"
+},
+{
+"id": "kf_kg05",
+"subject": "kifuyu_keigo",
+"month": "eikoh_202611",
+"q": "敬語05\nお客様の家に【行く】。\n【　】の部分を敬語（謙譲語）に直したものはどれ？",
+"options": [
+"うかがう",
+"行かれる",
+"おいでになる",
+"いらっしゃる"
+],
+"answer": 0,
+"explanation": "自分が行く動作をへりくだるので謙譲語。「行く」の謙譲語は「うかがう（まいる）」。\n※「いらっしゃる」「おいでになる」は相手の動作に使う尊敬語。"
+},
+{
+"id": "kf_kg06",
+"subject": "kifuyu_keigo",
+"month": "eikoh_202611",
+"q": "敬語06\n先生から本を【もらう】。\n【　】の部分を敬語（謙譲語）に直したものはどれ？",
+"options": [
+"もらわれる",
+"いただく",
+"おもらいになる",
+"くださる"
+],
+"answer": 1,
+"explanation": "自分がもらう動作をへりくだるので謙譲語。「もらう」の謙譲語は「いただく」。\n※「くださる」は相手が「くれる」の尊敬語。"
+},
+{
+"id": "kf_kg07",
+"subject": "kifuyu_keigo",
+"month": "eikoh_202611",
+"q": "敬語07\n校長先生を【見送る】。\n【　】の部分を敬語（謙譲語）に直したものはどれ？",
+"options": [
+"見送られる",
+"お見送りになる",
+"見送ります",
+"お見送りする"
+],
+"answer": 3,
+"explanation": "自分の動作なので謙譲語。「お〜する」の形にする。\n※「お〜になる」は尊敬語の形。"
+},
+{
+"id": "kf_kg08",
+"subject": "kifuyu_keigo",
+"month": "eikoh_202611",
+"q": "敬語08\nこれは本【だ】。\n【　】の部分を敬語（丁寧語）に直したものはどれ？",
+"options": [
+"本でいらっしゃる",
+"本だろう",
+"本でございますか",
+"本です"
+],
+"answer": 3,
+"explanation": "ふつうの文を、聞き手にていねいに言いかえるのが丁寧語。「だ」→「です」。"
+},
+{
+"id": "kf_kg09",
+"subject": "kifuyu_keigo",
+"month": "eikoh_202611",
+"q": "敬語09\nわたしが【買う】。\n【　】の部分を敬語（丁寧語）に直したものはどれ？",
+"options": [
+"お買いする",
+"買われる",
+"買います",
+"お買いになる"
+],
+"answer": 2,
+"explanation": "自分の動作をていねいに言うので丁寧語「〜ます」。\n「お買いになる・買われる」は尊敬語なので、自分には使わない。"
+},
+{
+"id": "kf_kg10",
+"subject": "kifuyu_keigo",
+"month": "eikoh_202611",
+"q": "敬語10\nこちらが見本【だ】。\n【　】の部分を敬語（丁寧語）に直したものはどれ？",
+"options": [
+"見本でございます",
+"見本でいらっしゃいます",
+"見本だろう",
+"見本になります"
+],
+"answer": 0,
+"explanation": "「だ・です」をさらにていねいにした言い方が「〜でございます」。"
+},
+{
+"id": "kf_kg11",
+"subject": "kifuyu_keigo",
+"month": "eikoh_202611",
+"q": "敬語11\n「いらっしゃる」は、どの種類の敬語ですか。",
+"options": [
+"尊敬語",
+"謙譲語",
+"丁寧語"
+],
+"answer": 0,
+"explanation": "「いる・行く・来る」の尊敬語。相手（目上の人）の動作を高めて言う。"
+},
+{
+"id": "kf_kg12",
+"subject": "kifuyu_keigo",
+"month": "eikoh_202611",
+"q": "敬語12\n「うかがう」は、どの種類の敬語ですか。",
+"options": [
+"謙譲語",
+"尊敬語",
+"丁寧語"
+],
+"answer": 0,
+"explanation": "「行く・たずねる・聞く」の謙譲語。自分の動作をへりくだって言う。"
+},
+{
+"id": "kf_kg13",
+"subject": "kifuyu_keigo",
+"month": "eikoh_202611",
+"q": "敬語13\n「いただく」は、どの種類の敬語ですか。",
+"options": [
+"謙譲語",
+"尊敬語",
+"丁寧語"
+],
+"answer": 0,
+"explanation": "「もらう・食べる」の謙譲語。自分の動作をへりくだって言う。"
+},
+{
+"id": "kf_kg14",
+"subject": "kifuyu_keigo",
+"month": "eikoh_202611",
+"q": "敬語14\n「くださる」は、どの種類の敬語ですか。",
+"options": [
+"尊敬語",
+"謙譲語",
+"丁寧語"
+],
+"answer": 0,
+"explanation": "「くれる」の尊敬語。相手がくれる動作を高めて言う。"
+},
+{
+"id": "kf_kg15",
+"subject": "kifuyu_keigo",
+"month": "eikoh_202611",
+"q": "敬語15\n「〜でございます」は、どの種類の敬語ですか。",
+"options": [
+"丁寧語",
+"尊敬語",
+"謙譲語"
+],
+"answer": 0,
+"explanation": "聞き手にていねいに言う言葉（丁寧語）。だれかを高めたり、へりくだったりはしていない。"
+},
+{
+"id": "kf_kg16",
+"subject": "kifuyu_keigo",
+"month": "eikoh_202611",
+"q": "敬語16\n「お〜になる」（例：お書きになる）は、どの種類の敬語ですか。",
+"options": [
+"尊敬語",
+"謙譲語",
+"丁寧語"
+],
+"answer": 0,
+"explanation": "「お〜になる」は尊敬語の形。\n「お〜する」（例：お見送りする）は謙譲語の形。"
+},
+{
+"id": "kf_kg17",
+"subject": "kifuyu_keigo",
+"month": "eikoh_202611",
+"q": "敬語17\n「お〜する」（例：お見送りする）は、どの種類の敬語ですか。",
+"options": [
+"謙譲語",
+"尊敬語",
+"丁寧語"
+],
+"answer": 0,
+"explanation": "「お〜する」は謙譲語の形。\n「お〜になる」（例：お書きになる）は尊敬語の形。"
+},
+{
+"id": "kf_kg18",
+"subject": "kifuyu_keigo",
+"month": "eikoh_202611",
+"q": "敬語18\n相手や話題になっている人をうやまう気持ちを表すときに使う敬語はどれ？",
+"options": [
+"尊敬語",
+"謙譲語",
+"丁寧語"
+],
+"answer": 0,
+"explanation": "尊敬語＝相手（目上の人）の動作を高める。\n謙譲語＝自分や身内の動作をけんそんして（へりくだって）、相手への敬意を表す。\n丁寧語＝聞き手にていねいに話す（です・ます・ございます）。"
+},
+{
+"id": "kf_kg19",
+"subject": "kifuyu_keigo",
+"month": "eikoh_202611",
+"q": "敬語19\n自分や身内の者の動作をけんそんして言うことで、その動作を受ける人への敬意を表す敬語はどれ？",
+"options": [
+"謙譲語",
+"尊敬語",
+"丁寧語"
+],
+"answer": 0,
+"explanation": "謙譲語＝自分や身内の動作をへりくだって言う（うかがう・いただく・お〜する）。"
+},
+{
+"id": "kf_kg20",
+"subject": "kifuyu_keigo",
+"month": "eikoh_202611",
+"type": "input",
+"q": "敬語20（例題）\n先生が【帰る】。\n【　】を七字で尊敬語に直し、全てひらがなで答えなさい。",
+"answer": "おかえりになる",
+"explanation": "「お〜になる」の形で、お・か・え・り・に・な・る の七字。\n「帰られる」も尊敬語だが、七字という条件に合わない。"
+},
+{
+"id": "kf_ks01",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"q": "計算01\n次の計算をしなさい。\n1.5 × 2.3",
+"answer": "3.45",
+"explanation": "15×23＝345\n小数点以下のけた数は 1＋1＝2けた → 3.45"
+},
+{
+"id": "kf_ks02",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"q": "計算02\n次の計算をしなさい。\n1.8 × 1.5",
+"answer": "2.7",
+"explanation": "18×15＝270\n小数点以下2けた → 2.70 → 2.7（最後の0は消す）"
+},
+{
+"id": "kf_ks03",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"q": "計算03\n次の計算をしなさい。\n9.36 ÷ 4.5",
+"answer": "2.08",
+"explanation": "わる数を整数にするため、両方の小数点を1けた右へ動かす → 93.6÷45\n93.6÷45＝2.08\n商に0が入ることに注意。"
+},
+{
+"id": "kf_ks04",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"q": "計算04\n次の計算をしなさい。\n2.4 × 3.6",
+"answer": "8.64",
+"explanation": "24×36＝864\n小数点以下2けた → 8.64"
+},
+{
+"id": "kf_ks05",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"q": "計算05\n次の計算をしなさい。\n0.75 × 1.2",
+"answer": "0.9",
+"explanation": "75×12＝900\n小数点以下3けた → 0.900 → 0.9"
+},
+{
+"id": "kf_ks06",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"q": "計算06\n次の計算をしなさい。\n3.14 × 2.5",
+"answer": "7.85",
+"explanation": "314×25＝7850\n小数点以下3けた → 7.850 → 7.85"
+},
+{
+"id": "kf_ks07",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"q": "計算07\n次の計算をしなさい。\n6.3 × 0.8",
+"answer": "5.04",
+"explanation": "63×8＝504\n小数点以下2けた → 5.04"
+},
+{
+"id": "kf_ks08",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"q": "計算08\n次の計算をしなさい。\n7.98 ÷ 2.1",
+"answer": "3.8",
+"explanation": "両方の小数点を1けた右へ → 79.8÷21＝3.8"
+},
+{
+"id": "kf_ks09",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"q": "計算09\n次の計算をしなさい。\n5.52 ÷ 0.24",
+"answer": "23",
+"explanation": "両方の小数点を2けた右へ → 552÷24＝23"
+},
+{
+"id": "kf_ks10",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"q": "計算10\n次の計算をしなさい。\n8.4 ÷ 1.2",
+"answer": "7",
+"explanation": "両方の小数点を1けた右へ → 84÷12＝7"
+},
+{
+"id": "kf_ks11",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "selfjudge",
+"q": "計算11\n12.6 ÷ 4.9\n商は 1/10 の位まで求め、あまりも出しなさい。（「商 あまり ○」の形で書いて、自分で丸つけ）",
+"answer": "2.5 あまり 0.35",
+"explanation": "126÷49 で商を 1/10 の位まで → 2.5\n4.9×2.5＝12.25\nあまり：12.6−12.25＝0.35\n★あまりの小数点は「もとの（わられる数の）小数点」の位置にそろえる。0.35 が正しく、3.5 はまちがい。\nたしかめ：4.9×2.5＋0.35＝12.6"
+},
+{
+"id": "kf_ks12",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "selfjudge",
+"q": "計算12\n11.7 ÷ 3.4\n商は 1/10 の位まで求め、あまりも出しなさい。（「商 あまり ○」の形で書いて、自分で丸つけ）",
+"answer": "3.4 あまり 0.14",
+"explanation": "117÷34 で商を 1/10 の位まで → 3.4\n3.4×3.4＝11.56\nあまり：11.7−11.56＝0.14\nたしかめ：3.4×3.4＋0.14＝11.7"
+},
+{
+"id": "kf_ks13",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "selfjudge",
+"q": "計算13\n9.5 ÷ 2.7\n商は 1/10 の位まで求め、あまりも出しなさい。（「商 あまり ○」の形で書いて、自分で丸つけ）",
+"answer": "3.5 あまり 0.05",
+"explanation": "95÷27 で商を 1/10 の位まで → 3.5\n2.7×3.5＝9.45\nあまり：9.5−9.45＝0.05\nたしかめ：2.7×3.5＋0.05＝9.5"
+},
+{
+"id": "kf_ks14",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"q": "計算14\n次の計算をしなさい。\n2と1/3 − 1と1/2",
+"answer": "5/6",
+"explanation": "通分（分母を6に）→ 2と2/6 − 1と3/6\n2/6 から 3/6 はひけないので、2と2/6 を 1と8/6 にする\n1と8/6 − 1と3/6 ＝ 5/6"
+},
+{
+"id": "kf_ks15",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"q": "計算15\n次の計算をしなさい。\n1/2 + 1/3",
+"answer": "5/6",
+"explanation": "分母を6に通分 → 3/6 + 2/6 ＝ 5/6"
+},
+{
+"id": "kf_ks16",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"q": "計算16\n次の計算をしなさい。\n3/4 − 1/6",
+"answer": "7/12",
+"explanation": "4と6の最小公倍数12で通分 → 9/12 − 2/12 ＝ 7/12"
+},
+{
+"id": "kf_ks17",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"q": "計算17\n次の計算をしなさい。\n2/3 + 3/4",
+"answer": "1 5/12",
+"explanation": "12で通分 → 8/12 + 9/12 ＝ 17/12 ＝ 1と5/12\n（仮分数 17/12 のままでも正解）"
+},
+{
+"id": "kf_ks18",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"q": "計算18\n次の計算をしなさい。\n1と2/5 + 2と1/3",
+"answer": "3 11/15",
+"explanation": "15で通分 → 1と6/15 + 2と5/15\n整数どうし 1+2＝3、分数どうし 6/15+5/15＝11/15\n→ 3と11/15"
+},
+{
+"id": "kf_ks19",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"q": "計算19\n次の計算をしなさい。\n3と1/4 − 1と5/6",
+"answer": "1 5/12",
+"explanation": "12で通分 → 3と3/12 − 1と10/12\n3/12 から 10/12 はひけないので 3と3/12 を 2と15/12 にする\n2と15/12 − 1と10/12 ＝ 1と5/12"
+},
+{
+"id": "kf_ks20",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"mustReduce": true,
+"q": "計算20\n次の計算をしなさい。\n5/6 − 3/10",
+"answer": "8/15",
+"explanation": "30で通分 → 25/30 − 9/30 ＝ 16/30\n約分（÷2）→ 8/15\n★答えは必ず約分する。"
+},
+{
+"id": "kf_ks21",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"mustReduce": true,
+"q": "計算21\n次の計算をしなさい。\n1/4 + 5/12",
+"answer": "2/3",
+"explanation": "12で通分 → 3/12 + 5/12 ＝ 8/12\n約分（÷4）→ 2/3\n★答えは必ず約分する。"
+},
+{
+"id": "kf_bs01",
+"subject": "kifuyu_bunsho",
+"month": "eikoh_202611",
+"type": "input",
+"q": "文章題01\n560mLの牛乳を1週間で飲みました。1日あたり平均何mL飲んだことになりますか。",
+"answer": "80mL",
+"explanation": "1週間＝7日\n平均＝合計÷個数\n560÷7＝80(mL)"
+},
+{
+"id": "kf_bs02",
+"subject": "kifuyu_bunsho",
+"month": "eikoh_202611",
+"type": "input",
+"q": "文章題02\n200mを走るのに40秒かかりました。速さは秒速何mですか。",
+"answer": "5m",
+"explanation": "速さ＝道のり÷時間\n200÷40＝5 → 秒速5m"
+},
+{
+"id": "kf_bs03",
+"subject": "kifuyu_bunsho",
+"month": "eikoh_202611",
+"type": "input",
+"q": "文章題03\n5人の体重の平均が38kgとすると、5人の合計は何kgですか。",
+"answer": "190kg",
+"explanation": "合計＝平均×個数\n38×5＝190(kg)"
+},
+{
+"id": "kf_bs04",
+"subject": "kifuyu_bunsho",
+"month": "eikoh_202611",
+"type": "input",
+"q": "文章題04\n4回のテストの点数は 72点・85点・90点・81点 でした。平均は何点ですか。",
+"answer": "82点",
+"explanation": "合計：72＋85＋90＋81＝328\n平均：328÷4＝82(点)"
+},
+{
+"id": "kf_bs05",
+"subject": "kifuyu_bunsho",
+"month": "eikoh_202611",
+"type": "input",
+"q": "文章題05\n6日間で本を読みました。1日平均15ページ読んだとすると、全部で何ページ読みましたか。",
+"answer": "90ページ",
+"explanation": "合計＝平均×個数\n15×6＝90(ページ)"
+},
+{
+"id": "kf_bs06",
+"subject": "kifuyu_bunsho",
+"month": "eikoh_202611",
+"type": "input",
+"q": "文章題06\n時速72kmは分速何mですか。",
+"answer": "1200m",
+"explanation": "時速72km＝1時間(60分)に72000m\n分速：72000÷60＝1200 → 分速1200m"
+},
+{
+"id": "kf_bs07",
+"subject": "kifuyu_bunsho",
+"month": "eikoh_202611",
+"type": "input",
+"q": "文章題07\n時速72kmは秒速何mですか。",
+"answer": "20m",
+"explanation": "分速1200m（1分＝60秒）\n秒速：1200÷60＝20 → 秒速20m\n（72000÷3600＝20 でもよい）"
+},
+{
+"id": "kf_bs08",
+"subject": "kifuyu_bunsho",
+"month": "eikoh_202611",
+"type": "input",
+"q": "文章題08\n時速36kmは秒速何mですか。",
+"answer": "10m",
+"explanation": "時速36km＝36000m\n1時間＝3600秒\n36000÷3600＝10 → 秒速10m"
+},
+{
+"id": "kf_bs09",
+"subject": "kifuyu_bunsho",
+"month": "eikoh_202611",
+"type": "input",
+"q": "文章題09\n秒速15mは時速何kmですか。",
+"answer": "54km",
+"explanation": "秒速15m → 分速 15×60＝900m\n→ 時速 900×60＝54000m＝54km"
+},
+{
+"id": "kf_bs10",
+"subject": "kifuyu_bunsho",
+"month": "eikoh_202611",
+"type": "input",
+"q": "文章題10\n3時間で150km進む自動車の速さは時速何kmですか。",
+"answer": "50km",
+"explanation": "速さ＝道のり÷時間\n150÷3＝50 → 時速50km"
+},
+{
+"id": "kf_bs11",
+"subject": "kifuyu_bunsho",
+"month": "eikoh_202611",
+"type": "input",
+"q": "文章題11\n分速90mで15分歩くと、何m進みますか。",
+"answer": "1350m",
+"explanation": "道のり＝速さ×時間\n90×15＝1350(m)"
+},
+{
+"id": "kf_bs12",
+"subject": "kifuyu_bunsho",
+"month": "eikoh_202611",
+"type": "input",
+"q": "文章題12\n時速4kmで歩くと、12kmを進むのに何時間かかりますか。",
+"answer": "3時間",
+"explanation": "時間＝道のり÷速さ\n12÷4＝3(時間)"
+},
+{
+"id": "kf_mz01",
+"subject": "kifuyu_menseki",
+"month": "eikoh_202611",
+"type": "input",
+"q": "面積01\n底辺が3cm、高さが5cmの平行四辺形の面積は何cm²ですか。",
+"answer": "15cm²",
+"explanation": "平行四辺形＝底辺×高さ\n3×5＝15(cm²)"
+},
+{
+"id": "kf_mz02",
+"subject": "kifuyu_menseki",
+"month": "eikoh_202611",
+"type": "input",
+"q": "面積02\n面積が10cm²の三角形で、底辺は5cmです。高さは何cmですか。",
+"answer": "4cm",
+"explanation": "三角形＝底辺×高さ÷2\n高さ＝面積×2÷底辺\n10×2÷5＝4(cm)\n★「÷2」をもどすため、先に×2するのを忘れない。"
+},
+{
+"id": "kf_mz03",
+"subject": "kifuyu_menseki",
+"month": "eikoh_202611",
+"type": "input",
+"q": "面積03\n底辺が8cm、高さが6cmの三角形の面積は何cm²ですか。",
+"answer": "24cm²",
+"explanation": "三角形＝底辺×高さ÷2\n8×6÷2＝24(cm²)"
+},
+{
+"id": "kf_mz04",
+"subject": "kifuyu_menseki",
+"month": "eikoh_202611",
+"type": "input",
+"q": "面積04\n上底が4cm、下底が8cm、高さが5cmの台形の面積は何cm²ですか。",
+"answer": "30cm²",
+"explanation": "台形＝（上底＋下底）×高さ÷2\n(4＋8)×5÷2＝30(cm²)"
+},
+{
+"id": "kf_mz05",
+"subject": "kifuyu_menseki",
+"month": "eikoh_202611",
+"type": "input",
+"q": "面積05\n対角線の長さが6cmと10cmのひし形の面積は何cm²ですか。",
+"answer": "30cm²",
+"explanation": "ひし形＝対角線×対角線÷2\n6×10÷2＝30(cm²)"
+},
+{
+"id": "kf_mz06",
+"subject": "kifuyu_menseki",
+"month": "eikoh_202611",
+"type": "input",
+"q": "面積06\n面積が48cm²の平行四辺形で、底辺は8cmです。高さは何cmですか。",
+"answer": "6cm",
+"explanation": "平行四辺形＝底辺×高さ\n高さ＝面積÷底辺\n48÷8＝6(cm)"
+},
+{
+"id": "kf_mz07",
+"subject": "kifuyu_menseki",
+"month": "eikoh_202611",
+"type": "input",
+"q": "面積07\n面積が18cm²の三角形で、高さは4cmです。底辺は何cmですか。",
+"answer": "9cm",
+"explanation": "底辺＝面積×2÷高さ\n18×2÷4＝9(cm)"
+},
+{
+"id": "kf_mz08",
+"subject": "kifuyu_menseki",
+"month": "eikoh_202611",
+"type": "input",
+"q": "面積08\n面積が35cm²の台形で、上底は3cm、下底は7cmです。高さは何cmですか。",
+"answer": "7cm",
+"explanation": "台形＝（上底＋下底）×高さ÷2\n高さ＝面積×2÷（上底＋下底）\n35×2÷(3＋7)＝7(cm)"
+},
+{
+"id": "kf_ei01",
+"subject": "kifuyu_imi",
+"month": "eikoh_202611",
+"q": "英単語1\n\"thirty\" の意味はどれですか？",
+"options": [
+"70",
+"30",
+"90",
+"80"
+],
+"answer": 1,
+"explanation": "thirty ＝ 30\n13 thirteen と 30 thirty をまちがえない（-teen は 13〜19、-ty は 10の位）。"
+},
+{
+"id": "kf_ei02",
+"subject": "kifuyu_imi",
+"month": "eikoh_202611",
+"q": "英単語2\n\"forty\" の意味はどれですか？",
+"options": [
+"90",
+"60",
+"30",
+"40"
+],
+"answer": 3,
+"explanation": "forty ＝ 40\nつづりに注意：four（4）だが forty（40）は u が入らない。"
+},
+{
+"id": "kf_ei03",
+"subject": "kifuyu_imi",
+"month": "eikoh_202611",
+"q": "英単語3\n\"fifty\" の意味はどれですか？",
+"options": [
+"30",
+"90",
+"50",
+"70"
+],
+"answer": 2,
+"explanation": "fifty ＝ 50\nfive（5）→ fifty（50）。v が f にかわる。"
+},
+{
+"id": "kf_ei04",
+"subject": "kifuyu_imi",
+"month": "eikoh_202611",
+"q": "英単語4\n\"sixty\" の意味はどれですか？",
+"options": [
+"40",
+"90",
+"50",
+"60"
+],
+"answer": 3,
+"explanation": "sixty ＝ 60"
+},
+{
+"id": "kf_ei05",
+"subject": "kifuyu_imi",
+"month": "eikoh_202611",
+"q": "英単語5\n\"seventy\" の意味はどれですか？",
+"options": [
+"50",
+"70",
+"80",
+"40"
+],
+"answer": 1,
+"explanation": "seventy ＝ 70"
+},
+{
+"id": "kf_ei06",
+"subject": "kifuyu_imi",
+"month": "eikoh_202611",
+"q": "英単語6\n\"eighty\" の意味はどれですか？",
+"options": [
+"80",
+"70",
+"50",
+"30"
+],
+"answer": 0,
+"explanation": "eighty ＝ 80\neight＋y で eighty（t は1つ）。"
+},
+{
+"id": "kf_ei07",
+"subject": "kifuyu_imi",
+"month": "eikoh_202611",
+"q": "英単語7\n\"ninety\" の意味はどれですか？",
+"options": [
+"80",
+"30",
+"90",
+"50"
+],
+"answer": 2,
+"explanation": "ninety ＝ 90\nnine の e をのこして ninety。"
+},
+{
+"id": "kf_ei08",
+"subject": "kifuyu_imi",
+"month": "eikoh_202611",
+"q": "英単語8\n\"cap\" の意味はどれですか？",
+"options": [
+"手ぶくろ",
+"（ふちのない）ぼうし",
+"セーター",
+"（ふちのある）ぼうし"
+],
+"answer": 1,
+"explanation": "cap ＝ （ふちのない）ぼうし\n野球ぼうのような、ふちのないぼうし。"
+},
+{
+"id": "kf_ei09",
+"subject": "kifuyu_imi",
+"month": "eikoh_202611",
+"q": "英単語9\n\"hat\" の意味はどれですか？",
+"options": [
+"セーター",
+"（ふちのある）ぼうし",
+"（ふちのない）ぼうし",
+"Tシャツ"
+],
+"answer": 1,
+"explanation": "hat ＝ （ふちのある）ぼうし\nまわりにふち（つば）があるぼうし。"
+},
+{
+"id": "kf_ei10",
+"subject": "kifuyu_imi",
+"month": "eikoh_202611",
+"q": "英単語10\n\"T-shirt\" の意味はどれですか？",
+"options": [
+"Tシャツ",
+"セーター",
+"手ぶくろ",
+"（ふちのない）ぼうし"
+],
+"answer": 0,
+"explanation": "T-shirt ＝ Tシャツ"
+},
+{
+"id": "kf_ei11",
+"subject": "kifuyu_imi",
+"month": "eikoh_202611",
+"q": "英単語11\n\"sweater\" の意味はどれですか？",
+"options": [
+"（ふちのない）ぼうし",
+"Tシャツ",
+"セーター",
+"（ふちのある）ぼうし"
+],
+"answer": 2,
+"explanation": "sweater ＝ セーター"
+},
+{
+"id": "kf_ei12",
+"subject": "kifuyu_imi",
+"month": "eikoh_202611",
+"q": "英単語12\n\"gloves\" の意味はどれですか？",
+"options": [
+"手ぶくろ",
+"Tシャツ",
+"（ふちのない）ぼうし",
+"セーター"
+],
+"answer": 0,
+"explanation": "gloves ＝ 手ぶくろ\n手ぶくろは2つで1組なので gloves と s がつく。"
+},
+{
+"id": "kf_ei13",
+"subject": "kifuyu_imi",
+"month": "eikoh_202611",
+"q": "英単語13\n\"swimming\" の意味はどれですか？",
+"options": [
+"サッカー",
+"野球",
+"水泳",
+"テニス"
+],
+"answer": 2,
+"explanation": "swimming ＝ 水泳\nswim（泳ぐ）＋ming。m が2つ。"
+},
+{
+"id": "kf_ei14",
+"subject": "kifuyu_imi",
+"month": "eikoh_202611",
+"q": "英単語14\n\"baseball\" の意味はどれですか？",
+"options": [
+"テニス",
+"サッカー",
+"バレーボール",
+"野球"
+],
+"answer": 3,
+"explanation": "baseball ＝ 野球"
+},
+{
+"id": "kf_ei15",
+"subject": "kifuyu_imi",
+"month": "eikoh_202611",
+"q": "英単語15\n\"basketball\" の意味はどれですか？",
+"options": [
+"テニス",
+"バスケットボール",
+"水泳",
+"サッカー"
+],
+"answer": 1,
+"explanation": "basketball ＝ バスケットボール"
+},
+{
+"id": "kf_ei16",
+"subject": "kifuyu_imi",
+"month": "eikoh_202611",
+"q": "英単語16\n\"soccer\" の意味はどれですか？",
+"options": [
+"サッカー",
+"野球",
+"バレーボール",
+"テニス"
+],
+"answer": 0,
+"explanation": "soccer ＝ サッカー"
+},
+{
+"id": "kf_ei17",
+"subject": "kifuyu_imi",
+"month": "eikoh_202611",
+"q": "英単語17\n\"volleyball\" の意味はどれですか？",
+"options": [
+"サッカー",
+"水泳",
+"バスケットボール",
+"バレーボール"
+],
+"answer": 3,
+"explanation": "volleyball ＝ バレーボール"
+},
+{
+"id": "kf_ei18",
+"subject": "kifuyu_imi",
+"month": "eikoh_202611",
+"q": "英単語18\n\"tennis\" の意味はどれですか？",
+"options": [
+"野球",
+"バスケットボール",
+"サッカー",
+"テニス"
+],
+"answer": 3,
+"explanation": "tennis ＝ テニス"
+},
+{
+"id": "kf_ei19",
+"subject": "kifuyu_imi",
+"month": "eikoh_202611",
+"q": "英単語19\n\"racket\" の意味はどれですか？",
+"options": [
+"ラケット",
+"野球",
+"試合",
+"タブレット"
+],
+"answer": 0,
+"explanation": "racket ＝ ラケット"
+},
+{
+"id": "kf_ei20",
+"subject": "kifuyu_imi",
+"month": "eikoh_202611",
+"q": "英単語20\n\"ball\" の意味はどれですか？",
+"options": [
+"水泳",
+"スマートフォン",
+"試合",
+"ボール"
+],
+"answer": 3,
+"explanation": "ball ＝ ボール"
+},
+{
+"id": "kf_ei21",
+"subject": "kifuyu_imi",
+"month": "eikoh_202611",
+"q": "英単語21\n\"game\" の意味はどれですか？",
+"options": [
+"試合",
+"水泳",
+"野球",
+"タブレット"
+],
+"answer": 0,
+"explanation": "game ＝ 試合\n「ゲーム」のほかに「試合」の意味がある。"
+},
+{
+"id": "kf_ei22",
+"subject": "kifuyu_imi",
+"month": "eikoh_202611",
+"q": "英単語22\n\"smartphone\" の意味はどれですか？",
+"options": [
+"スマートフォン",
+"ボール",
+"試合",
+"タブレット"
+],
+"answer": 0,
+"explanation": "smartphone ＝ スマートフォン"
+},
+{
+"id": "kf_ei23",
+"subject": "kifuyu_imi",
+"month": "eikoh_202611",
+"q": "英単語23\n\"tablet\" の意味はどれですか？",
+"options": [
+"タブレット",
+"ボール",
+"水泳",
+"野球"
+],
+"answer": 0,
+"explanation": "tablet ＝ タブレット"
+},
+{
+"id": "kf_ei24",
+"subject": "kifuyu_imi",
+"month": "eikoh_202611",
+"q": "英単語24\n\"black\" の意味はどれですか？",
+"options": [
+"赤",
+"黒",
+"茶色",
+"緑"
+],
+"answer": 1,
+"explanation": "black ＝ 黒"
+},
+{
+"id": "kf_ei25",
+"subject": "kifuyu_imi",
+"month": "eikoh_202611",
+"q": "英単語25\n\"blue\" の意味はどれですか？",
+"options": [
+"赤",
+"青",
+"茶色",
+"白"
+],
+"answer": 1,
+"explanation": "blue ＝ 青"
+},
+{
+"id": "kf_ei26",
+"subject": "kifuyu_imi",
+"month": "eikoh_202611",
+"q": "英単語26\n\"brown\" の意味はどれですか？",
+"options": [
+"茶色",
+"オレンジ（色）",
+"緑",
+"赤"
+],
+"answer": 0,
+"explanation": "brown ＝ 茶色"
+},
+{
+"id": "kf_ei27",
+"subject": "kifuyu_imi",
+"month": "eikoh_202611",
+"q": "英単語27\n\"green\" の意味はどれですか？",
+"options": [
+"緑",
+"青",
+"黄色",
+"オレンジ（色）"
+],
+"answer": 0,
+"explanation": "green ＝ 緑"
+},
+{
+"id": "kf_ei28",
+"subject": "kifuyu_imi",
+"month": "eikoh_202611",
+"q": "英単語28\n\"orange\" の意味はどれですか？",
+"options": [
+"黒",
+"赤",
+"茶色",
+"オレンジ（色）"
+],
+"answer": 3,
+"explanation": "orange ＝ オレンジ（色）"
+},
+{
+"id": "kf_ei29",
+"subject": "kifuyu_imi",
+"month": "eikoh_202611",
+"q": "英単語29\n\"red\" の意味はどれですか？",
+"options": [
+"赤",
+"オレンジ（色）",
+"黄色",
+"緑"
+],
+"answer": 0,
+"explanation": "red ＝ 赤"
+},
+{
+"id": "kf_ei30",
+"subject": "kifuyu_imi",
+"month": "eikoh_202611",
+"q": "英単語30\n\"white\" の意味はどれですか？",
+"options": [
+"白",
+"緑",
+"赤",
+"黄色"
+],
+"answer": 0,
+"explanation": "white ＝ 白"
+},
+{
+"id": "kf_ei31",
+"subject": "kifuyu_imi",
+"month": "eikoh_202611",
+"q": "英単語31\n\"yellow\" の意味はどれですか？",
+"options": [
+"緑",
+"黄色",
+"オレンジ（色）",
+"茶色"
+],
+"answer": 1,
+"explanation": "yellow ＝ 黄色"
+},
+{
+"id": "kf_ei32",
+"subject": "kifuyu_imi",
+"month": "eikoh_202611",
+"q": "英単語32\n\"Japan\" の意味はどれですか？",
+"options": [
+"インド",
+"韓国",
+"日本",
+"中国"
+],
+"answer": 2,
+"explanation": "Japan ＝ 日本\n国の名前は大文字で書きはじめる。"
+},
+{
+"id": "kf_ei33",
+"subject": "kifuyu_imi",
+"month": "eikoh_202611",
+"q": "英単語33\n\"Korea\" の意味はどれですか？",
+"options": [
+"韓国",
+"中国",
+"インド",
+"日本"
+],
+"answer": 0,
+"explanation": "Korea ＝ 韓国\n国の名前は大文字で書きはじめる。"
+},
+{
+"id": "kf_ei34",
+"subject": "kifuyu_imi",
+"month": "eikoh_202611",
+"q": "英単語34\n\"China\" の意味はどれですか？",
+"options": [
+"中国",
+"日本",
+"韓国",
+"インド"
+],
+"answer": 0,
+"explanation": "China ＝ 中国\n国の名前は大文字で書きはじめる。"
+},
+{
+"id": "kf_ei35",
+"subject": "kifuyu_imi",
+"month": "eikoh_202611",
+"q": "英単語35\n\"India\" の意味はどれですか？",
+"options": [
+"中国",
+"韓国",
+"インド",
+"日本"
+],
+"answer": 2,
+"explanation": "India ＝ インド\n国の名前は大文字で書きはじめる。"
+},
+{
+"id": "kf_sp01",
+"subject": "kifuyu_spell",
+"month": "eikoh_202611",
+"q": "つづり1\n「30」を英語で書くと、正しいつづりはどれ？",
+"options": [
+"thurty",
+"thirteen",
+"therty",
+"thirty"
+],
+"answer": 3,
+"explanation": "30 ＝ thirty\n13 thirteen と 30 thirty をまちがえない（-teen は 13〜19、-ty は 10の位）。"
+},
+{
+"id": "kf_sp02",
+"subject": "kifuyu_spell",
+"month": "eikoh_202611",
+"q": "つづり2\n「40」を英語で書くと、正しいつづりはどれ？",
+"options": [
+"fourty",
+"forthy",
+"fourteen",
+"forty"
+],
+"answer": 3,
+"explanation": "40 ＝ forty\nつづりに注意：four（4）だが forty（40）は u が入らない。"
+},
+{
+"id": "kf_sp03",
+"subject": "kifuyu_spell",
+"month": "eikoh_202611",
+"q": "つづり3\n「50」を英語で書くと、正しいつづりはどれ？",
+"options": [
+"fifthy",
+"fifteen",
+"fivety",
+"fifty"
+],
+"answer": 3,
+"explanation": "50 ＝ fifty\nfive（5）→ fifty（50）。v が f にかわる。"
+},
+{
+"id": "kf_sp04",
+"subject": "kifuyu_spell",
+"month": "eikoh_202611",
+"q": "つづり4\n「60」を英語で書くと、正しいつづりはどれ？",
+"options": [
+"sixteen",
+"sicty",
+"sixty",
+"sixtey"
+],
+"answer": 2,
+"explanation": "60 ＝ sixty"
+},
+{
+"id": "kf_sp05",
+"subject": "kifuyu_spell",
+"month": "eikoh_202611",
+"q": "つづり5\n「70」を英語で書くと、正しいつづりはどれ？",
+"options": [
+"seventeen",
+"seventie",
+"sevendy",
+"seventy"
+],
+"answer": 3,
+"explanation": "70 ＝ seventy"
+},
+{
+"id": "kf_sp06",
+"subject": "kifuyu_spell",
+"month": "eikoh_202611",
+"q": "つづり6\n「80」を英語で書くと、正しいつづりはどれ？",
+"options": [
+"eightty",
+"eighty",
+"eigty",
+"eighteen"
+],
+"answer": 1,
+"explanation": "80 ＝ eighty\neight＋y で eighty（t は1つ）。"
+},
+{
+"id": "kf_sp07",
+"subject": "kifuyu_spell",
+"month": "eikoh_202611",
+"q": "つづり7\n「90」を英語で書くと、正しいつづりはどれ？",
+"options": [
+"nineteen",
+"ninety",
+"ninty",
+"nainty"
+],
+"answer": 1,
+"explanation": "90 ＝ ninety\nnine の e をのこして ninety。"
+},
+{
+"id": "kf_sp08",
+"subject": "kifuyu_spell",
+"month": "eikoh_202611",
+"q": "つづり8\n「セーター」を英語で書くと、正しいつづりはどれ？",
+"options": [
+"sweter",
+"sueater",
+"swetter",
+"sweater"
+],
+"answer": 3,
+"explanation": "セーター ＝ sweater"
+},
+{
+"id": "kf_sp09",
+"subject": "kifuyu_spell",
+"month": "eikoh_202611",
+"q": "つづり9\n「手ぶくろ」を英語で書くと、正しいつづりはどれ？",
+"options": [
+"gloves",
+"glovs",
+"groves",
+"grabs"
+],
+"answer": 0,
+"explanation": "手ぶくろ ＝ gloves\n手ぶくろは2つで1組なので gloves と s がつく。\n※ l と r の取りちがえに注意。"
+},
+{
+"id": "kf_sp10",
+"subject": "kifuyu_spell",
+"month": "eikoh_202611",
+"q": "つづり10\n「水泳」を英語で書くと、正しいつづりはどれ？",
+"options": [
+"swiming",
+"swimmimg",
+"swimming",
+"swimmng"
+],
+"answer": 2,
+"explanation": "水泳 ＝ swimming\nswim（泳ぐ）＋ming。m が2つ。"
+},
+{
+"id": "kf_sp11",
+"subject": "kifuyu_spell",
+"month": "eikoh_202611",
+"q": "つづり11\n「野球」を英語で書くと、正しいつづりはどれ？",
+"options": [
+"baseball",
+"basebal",
+"beseball",
+"baseboll"
+],
+"answer": 0,
+"explanation": "野球 ＝ baseball"
+},
+{
+"id": "kf_sp12",
+"subject": "kifuyu_spell",
+"month": "eikoh_202611",
+"q": "つづり12\n「バスケットボール」を英語で書くと、正しいつづりはどれ？",
+"options": [
+"basuketball",
+"basketball",
+"basketboll",
+"baskettball"
+],
+"answer": 1,
+"explanation": "バスケットボール ＝ basketball"
+},
+{
+"id": "kf_sp13",
+"subject": "kifuyu_spell",
+"month": "eikoh_202611",
+"q": "つづり13\n「サッカー」を英語で書くと、正しいつづりはどれ？",
+"options": [
+"socer",
+"sakker",
+"soccer",
+"soccor"
+],
+"answer": 2,
+"explanation": "サッカー ＝ soccer"
+},
+{
+"id": "kf_sp14",
+"subject": "kifuyu_spell",
+"month": "eikoh_202611",
+"q": "つづり14\n「バレーボール」を英語で書くと、正しいつづりはどれ？",
+"options": [
+"volleyball",
+"valleyball",
+"vollyball",
+"volleybal"
+],
+"answer": 0,
+"explanation": "バレーボール ＝ volleyball"
+},
+{
+"id": "kf_sp15",
+"subject": "kifuyu_spell",
+"month": "eikoh_202611",
+"q": "つづり15\n「テニス」を英語で書くと、正しいつづりはどれ？",
+"options": [
+"tenniss",
+"tennis",
+"tennnis",
+"tenis"
+],
+"answer": 1,
+"explanation": "テニス ＝ tennis"
+},
+{
+"id": "kf_sp16",
+"subject": "kifuyu_spell",
+"month": "eikoh_202611",
+"q": "つづり16\n「ラケット」を英語で書くと、正しいつづりはどれ？",
+"options": [
+"rackt",
+"racket",
+"lacket",
+"raket"
+],
+"answer": 1,
+"explanation": "ラケット ＝ racket"
+},
+{
+"id": "kf_sp17",
+"subject": "kifuyu_spell",
+"month": "eikoh_202611",
+"q": "つづり17\n「黒」を英語で書くと、正しいつづりはどれ？",
+"options": [
+"blacck",
+"blak",
+"black",
+"brack"
+],
+"answer": 2,
+"explanation": "黒 ＝ black\n※ l と r の取りちがえに注意。"
+},
+{
+"id": "kf_sp18",
+"subject": "kifuyu_spell",
+"month": "eikoh_202611",
+"q": "つづり18\n「茶色」を英語で書くと、正しいつづりはどれ？",
+"options": [
+"braun",
+"browm",
+"blown",
+"brown"
+],
+"answer": 3,
+"explanation": "茶色 ＝ brown"
+},
+{
+"id": "kf_sp19",
+"subject": "kifuyu_spell",
+"month": "eikoh_202611",
+"q": "つづり19\n「緑」を英語で書くと、正しいつづりはどれ？",
+"options": [
+"gren",
+"green",
+"grean",
+"glean"
+],
+"answer": 1,
+"explanation": "緑 ＝ green"
+},
+{
+"id": "kf_sp20",
+"subject": "kifuyu_spell",
+"month": "eikoh_202611",
+"q": "つづり20\n「オレンジ（色）」を英語で書くと、正しいつづりはどれ？",
+"options": [
+"olange",
+"orange",
+"orangi",
+"orenge"
+],
+"answer": 1,
+"explanation": "オレンジ（色） ＝ orange"
+},
+{
+"id": "kf_sp21",
+"subject": "kifuyu_spell",
+"month": "eikoh_202611",
+"q": "つづり21\n「白」を英語で書くと、正しいつづりはどれ？",
+"options": [
+"whaite",
+"whiet",
+"white",
+"wite"
+],
+"answer": 2,
+"explanation": "白 ＝ white"
+},
+{
+"id": "kf_sp22",
+"subject": "kifuyu_spell",
+"month": "eikoh_202611",
+"q": "つづり22\n「黄色」を英語で書くと、正しいつづりはどれ？",
+"options": [
+"yelow",
+"yellou",
+"yellow",
+"jellow"
+],
+"answer": 2,
+"explanation": "黄色 ＝ yellow"
+},
+{
+"id": "kf_sp23",
+"subject": "kifuyu_spell",
+"month": "eikoh_202611",
+"q": "つづり23\n「スマートフォン」を英語で書くと、正しいつづりはどれ？",
+"options": [
+"smartphone",
+"smatphone",
+"smartfone",
+"smartphon"
+],
+"answer": 0,
+"explanation": "スマートフォン ＝ smartphone"
+},
+{
+"id": "kf_sp24",
+"subject": "kifuyu_spell",
+"month": "eikoh_202611",
+"q": "つづり24\n「タブレット」を英語で書くと、正しいつづりはどれ？",
+"options": [
+"tablit",
+"tabret",
+"tablett",
+"tablet"
+],
+"answer": 3,
+"explanation": "タブレット ＝ tablet\n※ l と r の取りちがえに注意。"
+},
+{
+"id": "kf_sp25",
+"subject": "kifuyu_spell",
+"month": "eikoh_202611",
+"q": "つづり25\n「日本」を英語で書くと、正しいつづりはどれ？",
+"options": [
+"japan",
+"Japon",
+"Japan",
+"Jappan"
+],
+"answer": 2,
+"explanation": "日本 ＝ Japan\n国の名前は大文字で書きはじめる。"
+},
+{
+"id": "kf_sp26",
+"subject": "kifuyu_spell",
+"month": "eikoh_202611",
+"q": "つづり26\n「中国」を英語で書くと、正しいつづりはどれ？",
+"options": [
+"China",
+"Chaina",
+"Chyna",
+"china"
+],
+"answer": 0,
+"explanation": "中国 ＝ China\n国の名前は大文字で書きはじめる。"
+},
+{
+"id": "kf_sp27",
+"subject": "kifuyu_spell",
+"month": "eikoh_202611",
+"q": "つづり27\n「韓国」を英語で書くと、正しいつづりはどれ？",
+"options": [
+"Koria",
+"Corea",
+"Korea",
+"korea"
+],
+"answer": 2,
+"explanation": "韓国 ＝ Korea\n国の名前は大文字で書きはじめる。"
+},
+{
+"id": "kf_sp28",
+"subject": "kifuyu_spell",
+"month": "eikoh_202611",
+"q": "つづり28\n「インド」を英語で書くと、正しいつづりはどれ？",
+"options": [
+"Indhia",
+"india",
+"Indea",
+"India"
+],
+"answer": 3,
+"explanation": "インド ＝ India\n国の名前は大文字で書きはじめる。"
+},
+{
+"id": "kf_rk01",
+"subject": "kifuyu_hatsuga",
+"month": "eikoh_202611",
+"q": "発芽1\n植物の種子から芽が出ることを何といいますか。",
+"options": [
+"受粉",
+"発芽",
+"成長",
+"結実"
+],
+"answer": 1,
+"explanation": "種子から芽が出ることを「発芽」という。\n※「受粉」はめしべの先に花粉がつくこと。"
+},
+{
+"id": "kf_rk02",
+"subject": "kifuyu_hatsuga",
+"month": "eikoh_202611",
+"qImage": "/images/kifuyu_hatsuga.jpg",
+"q": "発芽2\n図の①で、発芽したのはアだけでした。このことから、発芽には何が必要だとわかりますか。",
+"options": [
+"水",
+"適当な温度",
+"肥料",
+"空気"
+],
+"answer": 0,
+"explanation": "アは水でしめらせただっし綿、イはかわいただっし綿。ちがう条件は「水」だけなので、発芽には水が必要とわかる。"
+},
+{
+"id": "kf_rk03",
+"subject": "kifuyu_hatsuga",
+"month": "eikoh_202611",
+"qImage": "/images/kifuyu_hatsuga.jpg",
+"q": "発芽3\n図の②で、発芽したのはウだけでした（エは種子が水にしずんでいる）。このことから、発芽には何が必要だとわかりますか。",
+"options": [
+"空気",
+"光",
+"水",
+"適当な温度"
+],
+"answer": 0,
+"explanation": "エは種子が水の中にしずんでいて、空気にふれられない。ちがう条件は「空気」だけなので、発芽には空気が必要とわかる。"
+},
+{
+"id": "kf_rk04",
+"subject": "kifuyu_hatsuga",
+"month": "eikoh_202611",
+"qImage": "/images/kifuyu_hatsuga.jpg",
+"q": "発芽4\n図の③で、発芽したのはオだけでした（カは冷ぞう庫の中）。このことから、発芽には何が必要だとわかりますか。",
+"options": [
+"水",
+"適当な温度",
+"光",
+"空気"
+],
+"answer": 1,
+"explanation": "オ（室内）とカ（冷ぞう庫）でちがう条件は「温度」。発芽には適当な温度が必要とわかる。"
+},
+{
+"id": "kf_rk05",
+"subject": "kifuyu_hatsuga",
+"month": "eikoh_202611",
+"qImage": "/images/kifuyu_hatsuga.jpg",
+"q": "発芽5\n図の③で、オに箱をかぶせているのはなぜですか。",
+"options": [
+"水がかわかないようにするため",
+"冷ぞう庫の中と同じように暗くして、温度以外の条件をそろえるため",
+"空気を入れかえるため",
+"温度を高くするため"
+],
+"answer": 1,
+"explanation": "冷ぞう庫の中は暗い。オも箱で暗くすると、ちがう条件が「温度」だけになる。\nこれで「光は発芽に関係あるか」とまぎれなくなる。"
+},
+{
+"id": "kf_rk06",
+"subject": "kifuyu_hatsuga",
+"month": "eikoh_202611",
+"q": "発芽6\n発芽の実験を行うときに大切なことはどれですか。",
+"options": [
+"調べる条件を1つだけ変えて、ほかの条件はそろえる",
+"種子の種類を毎回変える",
+"条件をいくつも同時に変える",
+"すべての条件を変える"
+],
+"answer": 0,
+"explanation": "条件を1つだけ変え、ほかの条件をそろえて調べる（対照実験）。そうすると、結果のちがいがその条件によるものだとわかる。"
+},
+{
+"id": "kf_rk07",
+"subject": "kifuyu_hatsuga",
+"month": "eikoh_202611",
+"type": "selfjudge",
+"q": "発芽7\n種子の発芽に必要な3つの条件を答えなさい。",
+"answer": "水・空気・適当な温度",
+"explanation": "水・空気・適当な温度 の3つが書けていれば正解。\n※肥料・光・土は発芽には必要ない（成長には光や肥料が必要）。"
+},
+{
+"id": "kf_rk08",
+"subject": "kifuyu_hatsuga",
+"month": "eikoh_202611",
+"q": "発芽8\n次のうち、種子の発芽に必要ないものはどれですか。",
+"options": [
+"水",
+"空気",
+"肥料",
+"適当な温度"
+],
+"answer": 2,
+"explanation": "発芽に必要なのは 水・空気・適当な温度 の3つ。\n肥料は発芽には必要ない。発芽のための養分は種子（子葉）の中にふくまれている。"
+},
+{
+"id": "kf_rk09",
+"subject": "kifuyu_tane",
+"month": "eikoh_202611",
+"qImage": "/images/kifuyu_ingen.jpg",
+"q": "種子1\n図のインゲンマメの種子で、アの部分を何といいますか。",
+"options": [
+"胚乳",
+"子葉",
+"根",
+"花粉"
+],
+"answer": 1,
+"explanation": "インゲンマメの種子は、葉やくきや根になる部分と、養分をたくわえた「子葉」でできている。\n※イネやトウモロコシは「胚乳」に養分をたくわえる。"
+},
+{
+"id": "kf_rk10",
+"subject": "kifuyu_tane",
+"month": "eikoh_202611",
+"qImage": "/images/kifuyu_ingen.jpg",
+"q": "種子2\nインゲンマメの子葉には、発芽に必要な何とよばれる養分がふくまれていますか。",
+"options": [
+"デンプン",
+"ヨウ素",
+"タンパク質",
+"しぼう"
+],
+"answer": 0,
+"explanation": "子葉には発芽に必要な「デンプン」がふくまれている。"
+},
+{
+"id": "kf_rk11",
+"subject": "kifuyu_tane",
+"month": "eikoh_202611",
+"qImage": "/images/kifuyu_ingen.jpg",
+"q": "種子3\nデンプンがあるかどうかを調べるときに使う液を何といいますか。",
+"options": [
+"アルコール",
+"食塩水",
+"石灰水",
+"ヨウ素液"
+],
+"answer": 3,
+"explanation": "デンプンに「ヨウ素液」をかけると青むらさき色に変化する。\n※石灰水は二酸化炭素を調べるときに使う。"
+},
+{
+"id": "kf_rk12",
+"subject": "kifuyu_tane",
+"month": "eikoh_202611",
+"qImage": "/images/kifuyu_ingen.jpg",
+"q": "種子4\n水にひたした種子を切ってヨウ素液をかけると、何色に変化しますか（図のイ）。",
+"options": [
+"黄色",
+"青むらさき色",
+"赤色",
+"白色"
+],
+"answer": 1,
+"explanation": "デンプンにヨウ素液をかけると「青むらさき色」になる。"
+},
+{
+"id": "kf_rk13",
+"subject": "kifuyu_tane",
+"month": "eikoh_202611",
+"q": "種子5\nデンプンにヨウ素液をかけると色が変わる反応を何といいますか。",
+"options": [
+"受粉",
+"光合成",
+"ヨウ素デンプン反応",
+"発芽"
+],
+"answer": 2,
+"explanation": "「ヨウ素デンプン反応」という。デンプンがあるかどうかを調べられる。"
+},
+{
+"id": "kf_rk14",
+"subject": "kifuyu_tane",
+"month": "eikoh_202611",
+"qImage": "/images/kifuyu_ingen.jpg",
+"q": "種子6\n発芽した後の種子（子葉）にヨウ素液をかけると、色はあまり変化しませんでした。このことからわかることはどれですか。",
+"options": [
+"子葉には最初からデンプンがない",
+"発芽のときにデンプンが使われた",
+"ヨウ素液がこわれていた",
+"発芽した後にデンプンがふえた"
+],
+"answer": 1,
+"explanation": "発芽前は青むらさき色になったのに、発芽後はあまり変化しない。\n→ 子葉のデンプンが発芽や成長に使われてへったとわかる。発芽後の子葉はしぼんでいる。"
+},
+{
+"id": "kf_rk15",
+"subject": "kifuyu_tane",
+"month": "eikoh_202611",
+"q": "種子7\nインゲンマメが、葉が出るまで肥料をあたえなくても成長できるのはなぜですか。",
+"options": [
+"子葉にふくまれている養分（デンプン）を使うから",
+"水だけで育つから",
+"根から肥料をすうから",
+"葉で養分をつくるから"
+],
+"answer": 0,
+"explanation": "葉が出るまでは、子葉にたくわえたデンプンを使って成長する。"
+},
+{
+"id": "kf_rk16",
+"subject": "kifuyu_hana",
+"month": "eikoh_202611",
+"qImage": "/images/kifuyu_hana.jpg",
+"q": "花1\nアサガオの花で、図のアの部分を何といいますか。",
+"options": [
+"がく",
+"おしべ",
+"めしべ",
+"花びら"
+],
+"answer": 1,
+"explanation": "アサガオのめしべは中心に1本、そのまわりにおしべが5本ある。アはまわりの「おしべ」。"
+},
+{
+"id": "kf_rk17",
+"subject": "kifuyu_hana",
+"month": "eikoh_202611",
+"qImage": "/images/kifuyu_hana.jpg",
+"q": "花2\nアサガオの花で、図のイの部分を何といいますか。",
+"options": [
+"めしべ",
+"おしべ",
+"花びら",
+"がく"
+],
+"answer": 0,
+"explanation": "花の中心にある1本が「めしべ」。めしべの元（実になる部分）がふくらんで実になる。"
+},
+{
+"id": "kf_rk18",
+"subject": "kifuyu_hana",
+"month": "eikoh_202611",
+"qImage": "/images/kifuyu_hana.jpg",
+"q": "花3\nヘチマのめ花で、図のウの部分を何といいますか。",
+"options": [
+"花粉",
+"おしべ",
+"めしべ",
+"がく"
+],
+"answer": 2,
+"explanation": "め花には「めしべ」がある。め花の下のふくらんだ部分が実になる。"
+},
+{
+"id": "kf_rk19",
+"subject": "kifuyu_hana",
+"month": "eikoh_202611",
+"qImage": "/images/kifuyu_hana.jpg",
+"q": "花4\nヘチマのお花で、図のエの部分を何といいますか。",
+"options": [
+"おしべ",
+"がく",
+"子葉",
+"めしべ"
+],
+"answer": 0,
+"explanation": "お花には「おしべ」がある。お花には実ができない。"
+},
+{
+"id": "kf_rk20",
+"subject": "kifuyu_hana",
+"month": "eikoh_202611",
+"q": "花5\nおしべの先の粉のようなものを何といいますか。",
+"options": [
+"みつ",
+"種子",
+"花粉",
+"胚"
+],
+"answer": 2,
+"explanation": "おしべの先でつくられる粉を「花粉」という。"
+},
+{
+"id": "kf_rk21",
+"subject": "kifuyu_hana",
+"month": "eikoh_202611",
+"q": "花6\nめしべの先に花粉がつくことを何といいますか。",
+"options": [
+"受精",
+"開花",
+"受粉",
+"発芽"
+],
+"answer": 2,
+"explanation": "めしべの先に花粉がつくことを「受粉」という。受粉するとめしべの元がふくらんで実ができる。"
+},
+{
+"id": "kf_rk22",
+"subject": "kifuyu_hana",
+"month": "eikoh_202611",
+"qImage": "/images/kifuyu_hana.jpg",
+"q": "花7\nヘチマのように、おしべだけがある花を何といいますか。",
+"options": [
+"子葉",
+"め花",
+"お花",
+"つぼみ"
+],
+"answer": 2,
+"explanation": "おしべだけの花＝お花、めしべだけの花＝め花。"
+},
+{
+"id": "kf_rk23",
+"subject": "kifuyu_hana",
+"month": "eikoh_202611",
+"qImage": "/images/kifuyu_hana.jpg",
+"q": "花8\nヘチマのように、めしべだけがある花を何といいますか。",
+"options": [
+"め花",
+"がく",
+"お花",
+"実"
+],
+"answer": 0,
+"explanation": "めしべだけの花＝め花。め花のめしべの元が実になる。"
+},
+{
+"id": "kf_rk24",
+"subject": "kifuyu_hana",
+"month": "eikoh_202611",
+"q": "花9\n次のうち、おしべとめしべが別々の花についている植物はどれですか。",
+"options": [
+"アサガオ",
+"ナス",
+"ヘチマ",
+"オクラ"
+],
+"answer": 2,
+"explanation": "ヘチマ・ツルレイシ（ゴーヤ）などは、お花とめ花がある。\nアサガオ・オクラ・ナスは、1つの花にがく・花びら・おしべ・めしべがそろっている。"
+},
+{
+"id": "kf_rk25",
+"subject": "kifuyu_hana",
+"month": "eikoh_202611",
+"q": "花10\n受粉すると、めしべの元がふくらんで何ができますか。",
+"options": [
+"がく",
+"実",
+"子葉",
+"花粉"
+],
+"answer": 1,
+"explanation": "受粉するとめしべの元がふくらんで「実」ができる。実の中には種子がある。"
+},
+{
+"id": "kf_rk26",
+"subject": "kifuyu_hana",
+"month": "eikoh_202611",
+"q": "花11\nアサガオが受粉するのはいつですか。",
+"options": [
+"つぼみができる前",
+"花が開く直前",
+"花が開いて数日後",
+"花がしぼんだ後"
+],
+"answer": 1,
+"explanation": "アサガオは、花が開く直前に、自分のおしべの花粉がめしべにつく（受粉する）。"
+},
+{
+"id": "kf_rk27",
+"subject": "kifuyu_hana",
+"month": "eikoh_202611",
+"q": "花12\n花粉が「こん虫」によって運ばれる植物はどれですか。",
+"options": [
+"コスモス",
+"イネ",
+"ツバキ",
+"トウモロコシ"
+],
+"answer": 0,
+"explanation": "こん虫が運ぶ：ヘチマ・コスモス・セイタカアワダチソウ など\n風が運ぶ：トウモロコシ・イネ など\n鳥が運ぶ：ツバキ・サザンカ など"
+},
+{
+"id": "kf_rk28",
+"subject": "kifuyu_hana",
+"month": "eikoh_202611",
+"q": "花13\n花粉が「風」によって運ばれる植物はどれですか。",
+"options": [
+"ヘチマ",
+"サザンカ",
+"トウモロコシ",
+"コスモス"
+],
+"answer": 2,
+"explanation": "風が運ぶ：トウモロコシ・イネ など（花粉が軽く、たくさんできる）\nこん虫が運ぶ：ヘチマ・コスモス など\n鳥が運ぶ：ツバキ・サザンカ など"
+},
+{
+"id": "kf_rk29",
+"subject": "kifuyu_hana",
+"month": "eikoh_202611",
+"q": "花14\n花粉が「鳥」によって運ばれる植物はどれですか。",
+"options": [
+"イネ",
+"セイタカアワダチソウ",
+"ヘチマ",
+"ツバキ"
+],
+"answer": 3,
+"explanation": "鳥が運ぶ：ツバキ・サザンカ など（冬に花がさき、メジロなどがみつをすいにくる）\n風：トウモロコシ・イネ　こん虫：ヘチマ・コスモス・セイタカアワダチソウ"
+},
+{
+"id": "kf_rk30",
+"subject": "kifuyu_hana",
+"month": "eikoh_202611",
+"q": "花15\n花をつくる部分として、ふくまれないものはどれですか。",
+"options": [
+"おしべ",
+"がく",
+"子葉",
+"花びら"
+],
+"answer": 2,
+"explanation": "花は「がく」「花びら」「おしべ」「めしべ」などからできている。\n子葉は種子の中の、養分をたくわえた部分。"
+},
+{
+"id": "kf_sh01",
+"subject": "kifuyu_yasai",
+"month": "eikoh_202611",
+"q": "1位1\nキャベツの生産量が全国1位の都道府県はどれですか。",
+"options": [
+"群馬県",
+"新潟県",
+"鹿児島県",
+"熊本県"
+],
+"answer": 0,
+"explanation": "キャベツ → 群馬県\n群馬県の嬬恋村などで、夏のすずしい気候を生かした高原野菜としてつくられる。\n★は必ず出る大事なところ。"
+},
+{
+"id": "kf_sh02",
+"subject": "kifuyu_yasai",
+"month": "eikoh_202611",
+"q": "1位2\nレタスの生産量が全国1位の都道府県はどれですか。",
+"options": [
+"長野県",
+"熊本県",
+"栃木県",
+"宮崎県"
+],
+"answer": 0,
+"explanation": "レタス → 長野県\n長野県の八ヶ岳のふもとなどで、夏のすずしい気候を生かした高原野菜としてつくられる。"
+},
+{
+"id": "kf_sh03",
+"subject": "kifuyu_yasai",
+"month": "eikoh_202611",
+"q": "1位3\nピーマンの生産量が全国1位の都道府県はどれですか。",
+"options": [
+"和歌山県",
+"茨城県",
+"群馬県",
+"高知県"
+],
+"answer": 1,
+"explanation": "ピーマン → 茨城県\n大都市（東京）に近い茨城県では、新鮮な野菜をとどける近郊農業がさかん。"
+},
+{
+"id": "kf_sh04",
+"subject": "kifuyu_yasai",
+"month": "eikoh_202611",
+"q": "1位4\nなすの生産量が全国1位の都道府県はどれですか。",
+"options": [
+"高知県",
+"茨城県",
+"沖縄県",
+"新潟県"
+],
+"answer": 0,
+"explanation": "なす → 高知県\n高知県はあたたかい気候とビニールハウスを生かし、ほかの地域より早い時期に出荷する（促成栽培）。\n★は必ず出る大事なところ。"
+},
+{
+"id": "kf_sh05",
+"subject": "kifuyu_yasai",
+"month": "eikoh_202611",
+"q": "1位5\nきゅうりの生産量が全国1位の都道府県はどれですか。",
+"options": [
+"茨城県",
+"宮崎県",
+"沖縄県",
+"熊本県"
+],
+"answer": 1,
+"explanation": "きゅうり → 宮崎県\n宮崎県も、あたたかい冬の気候とビニールハウスを生かした促成栽培がさかん。"
+},
+{
+"id": "kf_sh06",
+"subject": "kifuyu_yasai",
+"month": "eikoh_202611",
+"q": "1位6\nいちごの生産量が全国1位の都道府県はどれですか。",
+"options": [
+"鹿児島県",
+"栃木県",
+"青森県",
+"広島県"
+],
+"answer": 1,
+"explanation": "いちご → 栃木県\n栃木県は「とちおとめ」などのいちごで有名。\n★は必ず出る大事なところ。"
+},
+{
+"id": "kf_sh07",
+"subject": "kifuyu_yasai",
+"month": "eikoh_202611",
+"q": "1位7\nすいかの生産量が全国1位の都道府県はどれですか。",
+"options": [
+"青森県",
+"熊本県",
+"鹿児島県",
+"宮城県"
+],
+"answer": 1,
+"explanation": "すいか → 熊本県\n熊本県はすいかの生産量全国1位。トマトも1位。"
+},
+{
+"id": "kf_sh08",
+"subject": "kifuyu_yasai",
+"month": "eikoh_202611",
+"q": "1位8\nトマトの生産量が全国1位の都道府県はどれですか。",
+"options": [
+"熊本県",
+"高知県",
+"栃木県",
+"北海道"
+],
+"answer": 0,
+"explanation": "トマト → 熊本県\n熊本県はトマトの生産量全国1位。すいかも1位。"
+},
+{
+"id": "kf_sh09",
+"subject": "kifuyu_yasai",
+"month": "eikoh_202611",
+"q": "1位9\nだいこんの生産量が全国1位の都道府県はどれですか。",
+"options": [
+"茨城県",
+"栃木県",
+"新潟県",
+"千葉県"
+],
+"answer": 3,
+"explanation": "だいこん → 千葉県\n千葉県は東京に近く、近郊農業がさかん。"
+},
+{
+"id": "kf_sh10",
+"subject": "kifuyu_yasai",
+"month": "eikoh_202611",
+"q": "1位10\nにんじんの生産量が全国1位の都道府県はどれですか。",
+"options": [
+"宮崎県",
+"北海道",
+"宮城県",
+"新潟県"
+],
+"answer": 1,
+"explanation": "にんじん → 北海道\n北海道は広い畑で大規模な農業を行う。にんじん・たまねぎ・じゃがいもも1位。"
+},
+{
+"id": "kf_sh11",
+"subject": "kifuyu_yasai",
+"month": "eikoh_202611",
+"q": "1位11\nたまねぎの生産量が全国1位の都道府県はどれですか。",
+"options": [
+"新潟県",
+"高知県",
+"群馬県",
+"北海道"
+],
+"answer": 3,
+"explanation": "たまねぎ → 北海道\n北海道は広い畑で大規模な農業を行う。"
+},
+{
+"id": "kf_sh12",
+"subject": "kifuyu_kudamono",
+"month": "eikoh_202611",
+"q": "1位12\nりんごの生産量が全国1位の都道府県はどれですか。",
+"options": [
+"群馬県",
+"宮崎県",
+"鹿児島県",
+"青森県"
+],
+"answer": 3,
+"explanation": "りんご → 青森県\nりんごはすずしい気候を好む。青森県（津軽平野）が全国1位、2位は長野県。\n★は必ず出る大事なところ。"
+},
+{
+"id": "kf_sh13",
+"subject": "kifuyu_kudamono",
+"month": "eikoh_202611",
+"q": "1位13\nぶどうの生産量が全国1位の都道府県はどれですか。",
+"options": [
+"栃木県",
+"北海道",
+"山梨県",
+"長野県"
+],
+"answer": 2,
+"explanation": "ぶどう → 山梨県\n山梨県の甲府盆地では、水はけのよい扇状地でぶどう・ももがつくられる。\n★は必ず出る大事なところ。"
+},
+{
+"id": "kf_sh14",
+"subject": "kifuyu_kudamono",
+"month": "eikoh_202611",
+"q": "1位14\nももの生産量が全国1位の都道府県はどれですか。",
+"options": [
+"山梨県",
+"新潟県",
+"高知県",
+"山形県"
+],
+"answer": 0,
+"explanation": "もも → 山梨県\n山梨県の甲府盆地では、水はけのよい扇状地でぶどう・ももがつくられる。\n★は必ず出る大事なところ。"
+},
+{
+"id": "kf_sh15",
+"subject": "kifuyu_kudamono",
+"month": "eikoh_202611",
+"q": "1位15\nみかんの生産量が全国1位の都道府県はどれですか。",
+"options": [
+"高知県",
+"山梨県",
+"茨城県",
+"和歌山県"
+],
+"answer": 3,
+"explanation": "みかん → 和歌山県\nみかんはあたたかい気候を好む。和歌山県の日当たりのよい山の斜面でつくられる。愛媛県・静岡県も多い。\n★は必ず出る大事なところ。"
+},
+{
+"id": "kf_sh16",
+"subject": "kifuyu_kudamono",
+"month": "eikoh_202611",
+"q": "1位16\nさくらんぼの生産量が全国1位の都道府県はどれですか。",
+"options": [
+"熊本県",
+"山形県",
+"山梨県",
+"茨城県"
+],
+"answer": 1,
+"explanation": "さくらんぼ → 山形県\n山形県はさくらんぼ（佐藤錦など）で有名。"
+},
+{
+"id": "kf_sh17",
+"subject": "kifuyu_kudamono",
+"month": "eikoh_202611",
+"q": "1位17\nキウイフルーツの生産量が全国1位の都道府県はどれですか。",
+"options": [
+"群馬県",
+"愛媛県",
+"長野県",
+"高知県"
+],
+"answer": 1,
+"explanation": "キウイフルーツ → 愛媛県\n愛媛県はキウイフルーツの生産量全国1位。みかん（いよかんなど）のかんきつ類も有名。"
+},
+{
+"id": "kf_sh18",
+"subject": "kifuyu_kudamono",
+"month": "eikoh_202611",
+"q": "1位18\nパイナップルの生産量が全国1位の都道府県はどれですか。",
+"options": [
+"栃木県",
+"青森県",
+"沖縄県",
+"群馬県"
+],
+"answer": 2,
+"explanation": "パイナップル → 沖縄県\nパイナップルはあたたかい地域の果物。ほぼ沖縄県だけでつくられている。"
+},
+{
+"id": "kf_sh19",
+"subject": "kifuyu_chikusan",
+"month": "eikoh_202611",
+"q": "1位19\n肉用牛の生産量が全国1位の都道府県はどれですか。",
+"options": [
+"新潟県",
+"北海道",
+"鹿児島県",
+"高知県"
+],
+"answer": 1,
+"explanation": "肉用牛 → 北海道\n肉用牛は北海道が1位、2位は鹿児島県。"
+},
+{
+"id": "kf_sh20",
+"subject": "kifuyu_chikusan",
+"month": "eikoh_202611",
+"q": "1位20\n乳用牛の生産量が全国1位の都道府県はどれですか。",
+"options": [
+"和歌山県",
+"群馬県",
+"宮崎県",
+"北海道"
+],
+"answer": 3,
+"explanation": "乳用牛 → 北海道\n北海道の根釧台地などで、乳牛を育てて牛乳をとる酪農がさかん。"
+},
+{
+"id": "kf_sh21",
+"subject": "kifuyu_chikusan",
+"month": "eikoh_202611",
+"q": "1位21\nぶたの生産量が全国1位の都道府県はどれですか。",
+"options": [
+"茨城県",
+"宮崎県",
+"鹿児島県",
+"宮城県"
+],
+"answer": 2,
+"explanation": "ぶた → 鹿児島県\n鹿児島県は畜産がさかん（ぶた・ブロイラー）。\n★は必ず出る大事なところ。"
+},
+{
+"id": "kf_sh22",
+"subject": "kifuyu_chikusan",
+"month": "eikoh_202611",
+"q": "1位22\nブロイラー（肉用若鶏）の生産量が全国1位の都道府県はどれですか。",
+"options": [
+"高知県",
+"栃木県",
+"宮崎県",
+"鹿児島県"
+],
+"answer": 3,
+"explanation": "ブロイラー（肉用若鶏） → 鹿児島県\n鹿児島県は畜産がさかん。宮崎県も多い。"
+},
+{
+"id": "kf_sh23",
+"subject": "kifuyu_chikusan",
+"month": "eikoh_202611",
+"q": "1位23\n米の生産量が全国1位の都道府県はどれですか。",
+"options": [
+"長野県",
+"青森県",
+"和歌山県",
+"新潟県"
+],
+"answer": 3,
+"explanation": "米 → 新潟県\n新潟県の越後平野は日本有数の米どころ（コシヒカリ）。2位は北海道。\n★は必ず出る大事なところ。"
+},
+{
+"id": "kf_sh24",
+"subject": "kifuyu_chikusan",
+"month": "eikoh_202611",
+"q": "1位24\nじゃがいもの生産量が全国1位の都道府県はどれですか。",
+"options": [
+"山梨県",
+"青森県",
+"北海道",
+"長野県"
+],
+"answer": 2,
+"explanation": "じゃがいも → 北海道\n北海道の十勝平野などの広い畑でつくられる。"
+},
+{
+"id": "kf_sh25",
+"subject": "kifuyu_chikusan",
+"month": "eikoh_202611",
+"q": "1位25\nさつまいもの生産量が全国1位の都道府県はどれですか。",
+"options": [
+"鹿児島県",
+"和歌山県",
+"北海道",
+"宮崎県"
+],
+"answer": 0,
+"explanation": "さつまいも → 鹿児島県\n鹿児島県のシラス台地は水もちが悪く、さつまいもなどの畑作がさかん。"
+},
+{
+"id": "kf_sh26",
+"subject": "kifuyu_chikusan",
+"month": "eikoh_202611",
+"q": "1位26\n茶の生産量が全国1位の都道府県はどれですか。",
+"options": [
+"沖縄県",
+"山梨県",
+"青森県",
+"鹿児島県"
+],
+"answer": 3,
+"explanation": "茶 → 鹿児島県\n茶は鹿児島県が全国1位（静岡県と1・2位をあらそう）。"
+},
+{
+"id": "kf_sh27",
+"subject": "kifuyu_minato",
+"month": "eikoh_202611",
+"q": "1位27\nわかめ（養殖）の生産量が全国1位の都道府県はどれですか。",
+"options": [
+"宮城県",
+"鹿児島県",
+"千葉県",
+"北海道"
+],
+"answer": 0,
+"explanation": "わかめ（養殖） → 宮城県\n宮城県の三陸海岸は、入り江の多いリアス海岸で養殖がさかん。"
+},
+{
+"id": "kf_sh28",
+"subject": "kifuyu_minato",
+"month": "eikoh_202611",
+"q": "1位28\nかき（養殖）の生産量が全国1位の都道府県はどれですか。",
+"options": [
+"千葉県",
+"栃木県",
+"広島県",
+"鹿児島県"
+],
+"answer": 2,
+"explanation": "かき（養殖） → 広島県\n広島県の広島湾は波がおだやかで、かきの養殖がさかん。\n★は必ず出る大事なところ。"
+},
+{
+"id": "kf_sh29",
+"subject": "kifuyu_kudamono",
+"month": "eikoh_202611",
+"q": "1位29\n青森県が生産量全国1位のものはどれですか。",
+"options": [
+"みかん",
+"ぶどう",
+"さくらんぼ",
+"りんご"
+],
+"answer": 3,
+"explanation": "青森県 → りんご（★必ず出る）\nすずしい気候を生かしたりんご。"
+},
+{
+"id": "kf_sh30",
+"subject": "kifuyu_kudamono",
+"month": "eikoh_202611",
+"q": "1位30\n和歌山県が生産量全国1位のものはどれですか。",
+"options": [
+"もも",
+"りんご",
+"みかん",
+"キウイフルーツ"
+],
+"answer": 2,
+"explanation": "和歌山県 → みかん（★必ず出る）\nあたたかい山の斜面でみかん。"
+},
+{
+"id": "kf_sh31",
+"subject": "kifuyu_kudamono",
+"month": "eikoh_202611",
+"q": "1位31\n山梨県が生産量全国1位のものはどれですか。",
+"options": [
+"みかん",
+"ぶどう",
+"パイナップル",
+"りんご"
+],
+"answer": 1,
+"explanation": "山梨県 → ぶどう（★必ず出る）\n甲府盆地の扇状地でぶどう・もも。"
+},
+{
+"id": "kf_sh32",
+"subject": "kifuyu_yasai",
+"month": "eikoh_202611",
+"q": "1位32\n群馬県が生産量全国1位のものはどれですか。",
+"options": [
+"なす",
+"レタス",
+"キャベツ",
+"だいこん"
+],
+"answer": 2,
+"explanation": "群馬県 → キャベツ（★必ず出る）\n嬬恋村の高原キャベツ。"
+},
+{
+"id": "kf_sh33",
+"subject": "kifuyu_yasai",
+"month": "eikoh_202611",
+"q": "1位33\n栃木県が生産量全国1位のものはどれですか。",
+"options": [
+"ピーマン",
+"すいか",
+"いちご",
+"きゅうり"
+],
+"answer": 2,
+"explanation": "栃木県 → いちご（★必ず出る）\n「とちおとめ」などのいちご。"
+},
+{
+"id": "kf_sh34",
+"subject": "kifuyu_yasai",
+"month": "eikoh_202611",
+"q": "1位34\n高知県が生産量全国1位のものはどれですか。",
+"options": [
+"キャベツ",
+"いちご",
+"きゅうり",
+"なす"
+],
+"answer": 3,
+"explanation": "高知県 → なす（★必ず出る）\nビニールハウスでの促成栽培のなす。"
+},
+{
+"id": "kf_sh35",
+"subject": "kifuyu_chikusan",
+"month": "eikoh_202611",
+"q": "1位35\n新潟県が生産量全国1位のものはどれですか。",
+"options": [
+"米",
+"じゃがいも",
+"さつまいも",
+"茶"
+],
+"answer": 0,
+"explanation": "新潟県 → 米（★必ず出る）\n越後平野の米（コシヒカリ）。"
+},
+{
+"id": "kf_sh36",
+"subject": "kifuyu_minato",
+"month": "eikoh_202611",
+"q": "1位36\n広島県が生産量全国1位のものはどれですか。",
+"options": [
+"わかめ",
+"ほたて",
+"のり",
+"かき"
+],
+"answer": 3,
+"explanation": "広島県 → かき（★必ず出る）\n広島湾のかきの養殖。"
+},
+{
+"id": "kf_sh37",
+"subject": "kifuyu_chikusan",
+"month": "eikoh_202611",
+"q": "1位37\n鹿児島県が生産量全国1位のものはどれですか。",
+"options": [
+"ぶた",
+"キャベツ",
+"米",
+"乳用牛"
+],
+"answer": 0,
+"explanation": "鹿児島県 → ぶた（★必ず出る）\nぶた・ブロイラー・さつまいも・茶も1位。"
+},
+{
+"id": "kf_sh38",
+"subject": "kifuyu_chikusan",
+"month": "eikoh_202611",
+"q": "1位38\n鹿児島県が生産量全国1位ではないものはどれですか。",
+"options": [
+"ぶた",
+"米",
+"茶",
+"さつまいも"
+],
+"answer": 1,
+"explanation": "鹿児島県が1位：ぶた・ブロイラー・さつまいも・茶\n米の1位は新潟県。"
+},
+{
+"id": "kf_sh39",
+"subject": "kifuyu_chikusan",
+"month": "eikoh_202611",
+"q": "1位39\n北海道が生産量全国1位ではないものはどれですか。",
+"options": [
+"たまねぎ",
+"じゃがいも",
+"乳用牛",
+"ぶた"
+],
+"answer": 3,
+"explanation": "北海道が1位：肉用牛・乳用牛・じゃがいも・にんじん・たまねぎ\nぶたの1位は鹿児島県。"
+},
+{
+"id": "kf_mn01",
+"subject": "kifuyu_minato",
+"month": "eikoh_202611",
+"q": "港・平野01\n北海道で、稲作がさかんな平野はどれですか。",
+"options": [
+"根釧台地",
+"越後平野",
+"石狩平野",
+"十勝平野"
+],
+"answer": 2,
+"explanation": "石狩平野＝稲作（米）\n十勝平野＝畑作（じゃがいも・てんさい など）\n根釧台地＝畜産（酪農）"
+},
+{
+"id": "kf_mn02",
+"subject": "kifuyu_minato",
+"month": "eikoh_202611",
+"q": "港・平野02\n北海道で、畜産（酪農）がさかんな台地はどれですか。",
+"options": [
+"十勝平野",
+"石狩平野",
+"根釧台地",
+"シラス台地"
+],
+"answer": 2,
+"explanation": "根釧台地はすずしくて米づくりに向かず、牧草を育てて乳牛を飼う酪農がさかん。\n※シラス台地は鹿児島県。"
+},
+{
+"id": "kf_mn03",
+"subject": "kifuyu_minato",
+"month": "eikoh_202611",
+"q": "港・平野03\n北海道で、畑作がさかんな平野はどれですか。",
+"options": [
+"越後平野",
+"根釧台地",
+"十勝平野",
+"石狩平野"
+],
+"answer": 2,
+"explanation": "十勝平野＝畑作（じゃがいも・小麦・てんさい・あずき など）"
+},
+{
+"id": "kf_mn04",
+"subject": "kifuyu_minato",
+"month": "eikoh_202611",
+"q": "港・平野04\nあじ・いわし・かにの水揚げが多い漁港はどれですか。",
+"options": [
+"焼津港",
+"境港",
+"銚子港",
+"釧路港"
+],
+"answer": 1,
+"explanation": "境港（鳥取県）＝あじ・いわし・かに\n銚子港（千葉県）＝さば・いわし\n焼津港（静岡県）＝まぐろ・かつお"
+},
+{
+"id": "kf_mn05",
+"subject": "kifuyu_minato",
+"month": "eikoh_202611",
+"q": "港・平野05\nさば・いわしの水揚げが多い漁港はどれですか。",
+"options": [
+"焼津港",
+"銚子港",
+"境港",
+"八戸港"
+],
+"answer": 1,
+"explanation": "銚子港（千葉県）は水揚げ量が日本有数。さば・いわしが多い。"
+},
+{
+"id": "kf_mn06",
+"subject": "kifuyu_minato",
+"month": "eikoh_202611",
+"q": "港・平野06\nまぐろ・かつおの水揚げが多い漁港はどれですか。",
+"options": [
+"焼津港",
+"境港",
+"銚子港",
+"釧路港"
+],
+"answer": 0,
+"explanation": "焼津港（静岡県）は遠洋漁業の基地で、まぐろ・かつおが多い。"
+}
+]
