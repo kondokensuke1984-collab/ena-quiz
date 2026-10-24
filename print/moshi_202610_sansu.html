@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>10月 4科演習たいさく 算数模試</title>
+<style>
+  @page { size: A4 portrait; margin: 14mm 13mm 13mm; }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  body{
+    font-family:'Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif;
+    color:#111; -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+  /* 表紙のあとだけ改ページ。大問2は大問1のすぐ後ろから続ける（大問1の最後のページが半分空くため） */
+  section.page.cover{ break-after:page; }
+  section.daimon + section.daimon{ margin-top:2mm; }
+
+  .cover{ display:flex; flex-direction:column; align-items:center; padding-top:30mm; }
+  .cover h1{ font-size:26pt; letter-spacing:.05em; margin-bottom:4mm; }
+  .cover .sub{ font-size:11pt; color:#555; margin-bottom:18mm; }
+  .cover table{ border-collapse:collapse; font-size:12pt; margin-bottom:14mm; }
+  .cover td{ border:0.3mm solid #999; padding:3mm 8mm; }
+  .cover td.label{ background:#f2f2f2; font-weight:700; text-align:center; }
+  .cover .score{ font-size:16pt; }
+  .cover .note{ font-size:10pt; color:#555; border-top:.3mm solid #ccc; padding-top:4mm; margin-top:4mm; width:150mm; line-height:1.7; }
+
+  .cat-head{ break-after:avoid; color:#fff; padding:2.5mm 5mm; border-radius:1.5mm; margin-bottom:5mm; }
+  .cat-head h2{ font-size:15pt; }
+
+  /* 2段組。1問ずつ、問題・図・計算スペース・答えの欄をまとめてページをまたがない */
+  .grid2{ display:grid; grid-template-columns:1fr 1fr; column-gap:6mm; row-gap:4mm; margin-bottom:4mm; }
+  .qb{ break-inside:avoid; border:.3mm solid #bbb; border-radius:1.5mm; padding:2.5mm 3mm; display:flex; flex-direction:column; }
+  .qb .num{ font-weight:800; font-size:11pt; }
+  .qb .num small{ font-weight:400; font-size:8pt; color:#666; margin-left:1.5mm; }
+  .qb .qtext{ font-size:10pt; line-height:1.6; white-space:pre-line; margin:1mm 0 2mm; }
+  .qb .imgs{ display:flex; justify-content:center; margin:1mm 0 2mm; }
+  .qb .imgs img{ max-width:100%; max-height:52mm; }
+  .qb .work{ flex:1; min-height:30mm; border-top:.2mm dashed #ccc; font-size:7.5pt; color:#aaa; padding-top:.5mm; }
+  .qb.noimg .work{ min-height:22mm; }
+  .qb .ans{ display:flex; justify-content:flex-end; align-items:center; gap:2mm; font-size:10pt; font-weight:700; margin-top:1.5mm; }
+  .qb .ans span.box{ display:inline-block; width:38mm; height:9mm; border:.4mm solid #333; }
+</style>
+</head>
+<body>
+<section class="page cover">
+  <h1>10月 4科演習たいさく 算数模試</h1>
+  <div class="sub">ena ANRINO　10/26（月）4科演習の範囲：立方体と直方体・割合の表し方</div>
+  <table>
+    <tr><td class="label">名前</td><td style="width:60mm;">&nbsp;</td><td class="label">日付</td><td style="width:36mm;">&nbsp;</td></tr>
+    <tr><td class="label">時間</td><td>40分</td><td class="label">得点</td><td class="score">　　　／100</td></tr>
+  </table>
+  <div class="note">
+    ・全部で20問、1問5点、100点満点です。<br>
+    ・大問1「立方体と直方体」10問、大問2「割合の表し方」10問。<br>
+    ・式や考え方は、それぞれのわくの中の空いているところに書きましょう。<br>
+    ・答えは□の中に書きましょう。単位（cm³・cm²・人など）もわすれずに。<br>
+    ・分数の答えは、それ以上約分できない形で書きましょう。
+  </div>
+</section>
+<div id="cats"></div>
+<script>
+const EXAM = [{"title": "立方体と直方体", "qs": [{"id": "ckt10_03", "subject": "chokuho10_kihon", "month": "202610", "type": "input", "qImage": "../images/chokuho10_b1_2.jpg", "q": "図の立体の体積は何cm³ですか。", "answer": "96cm³", "explanation": "直方体の体積は たて×横×高さ です。\n4×3×8=96（cm³）"}, {"id": "ckt10_06", "subject": "chokuho10_kihon", "month": "202610", "type": "input", "qImage": "../images/chokuho10_b1_3.jpg", "q": "図の立体の表面積は何cm²ですか。", "answer": "180cm²", "explanation": "（8×6＋8×3＋6×3）×2=（48＋24＋18）×2=180（cm²）"}, {"id": "ckt10_07", "subject": "chokuho10_kihon", "month": "202610", "type": "input", "qImage": "../images/chokuho10_b1_4.jpg", "q": "図の立体の体積は何cm³ですか。", "answer": "392cm³", "explanation": "もとの立方体の体積から、取りのぞいた直方体の体積を引きます。\n8×8×8−5×6×4=512−120=392（cm³）"}, {"id": "ckt10_10", "subject": "chokuho10_kihon", "month": "202610", "type": "input", "qImage": "../images/chokuho10_b1_5.jpg", "q": "図の立体の表面積は何cm²ですか。", "answer": "720cm²", "explanation": "角から取りのぞいても表面積は変わらないので、もとの直方体の表面積を求めます。\n（10×13＋13×10＋10×10）×2=360×2=720（cm²）"}, {"id": "ckt10_21", "subject": "chokuho10_renshu", "month": "202610", "type": "input", "qImage": "../images/chokuho10_r1_1a.jpg", "q": "直方体を組み合わせた立体の体積は何cm³ですか。", "answer": "1250cm³", "explanation": "まず、前から見たL字形の面積を求めて、奥行き10cmをかけます。\nL字形の面積は、たて18cm・横12cmの長方形から、右上の欠けた部分（たて18−5=13cm、横7cm）を引いて、\n18×12−13×7=216−91=125（cm²）\n体積は 125×10=1250（cm³）"}, {"id": "ckt10_28", "subject": "chokuho10_renshu", "month": "202610", "type": "input", "qImage": "../images/chokuho10_r2_2.jpg", "q": "3つの直方体を組み合わせた立体で、体積は1540cm³です。□の長さは何cmですか。", "answer": "5cm", "explanation": "前から見た段になった形の面積を求めます。\n左：8×10=80、まん中：12×（6＋8）=168、右：10×6=60\n合わせて 80＋168＋60=308（cm²）\n□=1540÷308=5（cm）"}, {"id": "ckt10_29", "subject": "chokuho10_renshu", "month": "202610", "type": "input", "qImage": "../images/chokuho10_r2_2.jpg", "q": "3つの直方体を組み合わせた立体で、体積は1540cm³です。この立体の表面積は何cm²ですか。（□の長さは前の問いで求めた長さです）", "answer": "1056cm²", "explanation": "□は5cmです。\n前後の面（段になった形）：308×2=616（cm²）\n上下・左右の面は、段の形のまわりの長さ×はば5cmです。\nまわりの長さは 30＋30＋10＋4＋8＋6=88（cm）なので、88×5=440（cm²）\n616＋440=1056（cm²）"}, {"id": "ckt10_30", "subject": "chokuho10_renshu", "month": "202610", "type": "input", "qImage": "../images/chokuho10_r2_3.jpg", "q": "2つの直方体を組み合わせた立体で、表面積は822cm²です。この立体の体積は何cm³ですか。", "answer": "1200cm³", "explanation": "欠けた部分の、たてをA、横をBとします。\n（11×16＋16×10＋10×11）×2−A×B×2=822\n892−A×B×2=822　より　A×B=35\n体積は、11×16×10−16×A×B=1760−560=1200（cm³）"}, {"id": "ckt10_31", "subject": "chokuho10_kakomon", "month": "202610", "type": "input", "qImage": "../images/chokuho10_k_1.jpg", "q": "図は直方体を組み合わせた形の立体で、体積が1200cm³のとき、xの長さは何cmですか。", "answer": "20cm", "explanation": "図の立体の体積を、もとの直方体（8×x×12）から一部（8×18×5）を切り取ったものと考えます。\n8×x×12−8×18×5=1200\n96×x−720=1200\n96×x=1920\nx=1920÷96=20（cm）\nこのように切り取ったと考える方法のほか、補助線を引いて2つの直方体に切り分ける方法もありますが、途中の計算がふくざつにならないようにするのがよいでしょう。", "src": "（2015 工学院中）"}, {"id": "ckt10_33", "subject": "chokuho10_kakomon", "month": "202610", "type": "input", "qImage": "../images/chokuho10_k_3.jpg", "q": "図は直方体から、それぞれの辺の長さを半分にした小さい直方体を切り取った立体です。この立体の表面積は何cm²ですか。", "answer": "94cm²", "explanation": "もとの直方体のたて・横・高さは 4cm・3cm・5cm なので、表面積は\n（4×3＋4×5＋3×5）×2=（12＋20＋15）×2=94（cm²）\n角から切り取ると、表面からなくなる面が3枚、新しく現れる面も3枚で、それぞれの面積は同じです。\nだから表面積は変わらず、94cm²です。", "src": "（2022 実践学園中）", "cropBottom": 6}]}, {"title": "割合の表し方", "qs": [{"id": "wr10_04", "subject": "wariai10_kihon", "month": "202610", "type": "input", "mustReduce": true, "q": "次の□にあてはまる数を求めなさい。（AはBの A÷B＝A/B（倍）になります）\n21cmは39cmの□倍", "answer": "7/13", "explanation": "AはBの A÷B 倍です。\n21÷39=21/39=7/13（倍）\n分子と分母を 3 でわって約分します。"}, {"id": "wr10_08", "subject": "wariai10_kihon", "month": "202610", "type": "input", "q": "次の□にあてはまる数を求めなさい。\n120mの0.75倍は□m", "answer": "90m", "explanation": "もとにする量×割合＝くらべる量 です。\n120×0.75=90（m）"}, {"id": "wr10_12", "subject": "wariai10_kihon", "month": "202610", "type": "input", "q": "次の□にあてはまる数を求めなさい。\n□kgの0.75倍は48kg", "answer": "64kg", "explanation": "くらべる量÷割合＝もとにする量 です。\n48÷0.75=64（kg）\n【たしかめ】64×0.75=48"}, {"id": "wr10_16", "subject": "wariai10_kihon", "month": "202610", "type": "input", "q": "4年1組で今日欠席した人は4人で、これはクラス全体の 2/17 にあたる。4年1組の生徒は全部で何人か。", "answer": "34人", "explanation": "クラス全体（もとにする量）の 2/17 が4人（くらべる量）です。\nくらべる量÷割合＝もとにする量\n4 ÷ 2/17 = 4 × 17/2 = 34（人）"}, {"id": "wr10_44", "subject": "wariai10_renshu", "month": "202610", "type": "input", "q": "次の□にあてはまる数を求めなさい。\n□人の 5/7 は65人", "answer": "91人", "explanation": "くらべる量÷割合＝もとにする量 です。\n65 ÷ 5/7 = 65 × 7/5 = 91（人）\n【たしかめ】91 × 5/7 = 65"}, {"id": "wr10_47", "subject": "wariai10_renshu", "month": "202610", "type": "input", "q": "妹はカードを40枚持っていて、これは姉が持っているカードの0.8倍である。姉はカードを何枚持っているか。", "answer": "50枚", "explanation": "もとにする量は姉のカード、くらべる量は妹の40枚です。\nくらべる量÷割合＝もとにする量\n40÷0.8=50（枚）"}, {"id": "wr10_48", "subject": "wariai10_renshu", "month": "202610", "type": "input", "q": "みさきさんは所持金の 2/5 を使って500円の本を1さつ買った。はじめの所持金は何円か。", "answer": "1250円", "explanation": "はじめの所持金（もとにする量）の 2/5 が500円です。\n500 ÷ 2/5 = 500 × 5/2 = 1250（円）"}, {"id": "wr10_50", "subject": "wariai10_renshu", "month": "202610", "type": "input", "q": "かおる君はある本を読んでいる。全体の 7/12 を読んだところ、残りは45ページになった。\nこの本は全部で何ページあるか。", "answer": "108ページ", "explanation": "残りは全体の 1 − 7/12 = 5/12 で、これが45ページです。\n45 ÷ 5/12 = 45 × 12/5 = 108（ページ）"}, {"id": "wr10_69", "subject": "wariai10_kakomon", "month": "202610", "type": "input", "q": "ジャムパンとメロンパンを作っている工場がある。1日に、ジャムパンは全体の 5/8 より300個多く、メロンパンは1200個作っている。この工場で1日に作るパンは全部で□個である。□にあてはまる数を求めなさい。", "answer": "4000", "explanation": "全体を 1 として線分図をかきます。\n全体の 5/8 ＋ 300個 がジャムパン、のこりの1200個がメロンパンです。\nだから、全体の 1 − 5/8 = 3/8 が、300＋1200=1500（個）にあたります。\n□ = 1500 ÷ 3/8 = 1500 × 8/3 = 4000（個）", "src": "（2018 浦和実業中）"}, {"id": "wr10_71", "subject": "wariai10_kakomon", "month": "202610", "type": "input", "q": "あるクラスの女子の人数は17人で、男子の人数はクラスの 4/7 より2人少ない。このクラスの男子の人数は何人か。", "answer": "18人", "explanation": "クラス全体を 1 として線分図をかきます。\n男子は「全体の 4/7 − 2人」なので、女子の17人は「全体の 3/7 ＋ 2人」です。\nだから、全体の 1 − 4/7 = 3/7 が 17−2=15（人）にあたります。\nクラスの人数は 15 ÷ 3/7 = 15 × 7/3 = 35（人）\n男子の人数は 35−17=18（人）", "src": "（2018 日本工業大学駒場中）"}]}];
+const COLOR = '#be185d';
+
+function renderQ(q, n) {
+  const d = document.createElement('div');
+  d.className = q.qImage ? 'qb' : 'qb noimg';
+  let html = `<div class="num">問${n}<small></small></div><div class="qtext"></div>`;
+  if (q.qImage) {
+    const crop = q.cropBottom ? ` style="clip-path:inset(0 0 ${q.cropBottom}% 0);margin-bottom:-${q.cropBottom * 0.5}mm"` : '';
+    html += `<div class="imgs"><img src="${q.qImage}"${crop}></div>`;
+  }
+  html += '<div class="work">式・考え方</div><div class="ans">答え <span class="box"></span></div>';
+  d.innerHTML = html;
+  d.querySelector('.qtext').textContent = q.q;
+  d.querySelector('.num small').textContent = q.src || '';
+  return d;
+}
+
+let n = 0;
+EXAM.forEach((sec, si) => {
+  const page = document.createElement('section');
+  page.className = 'daimon';
+  const head = document.createElement('div');
+  head.className = 'cat-head';
+  head.style.background = COLOR;
+  head.innerHTML = `<h2>大問${si + 1}　${sec.title}</h2>`;
+  page.appendChild(head);
+  const grid = document.createElement('div');
+  grid.className = 'grid2';
+  sec.qs.forEach(q => grid.appendChild(renderQ(q, ++n)));
+  page.appendChild(grid);
+  document.getElementById('cats').appendChild(page);
+});
+</script>
+</body>
+</html>
