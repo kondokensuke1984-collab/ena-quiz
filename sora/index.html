@@ -185,7 +185,7 @@ cv.width=VW*S; cv.height=(VH+HUDH)*S;
 const ctx=cv.getContext('2d');
 
 // ───────── ドット絵 ─────────
-const PAL={k:'#3b1d0c',o:'#f08a24',y:'#ffe2b0',K:'#6b3a1e',P:'#f5a571',O:'#d9824e',Y:'#fbe6c8',w:'#ffffff',b:'#111111',r:'#d8302a',p:'#f7a6a6',g:'#ffd23a',G:'#fff3a0',
+const PAL={k:'#3b1d0c',o:'#f08a24',y:'#ffe2b0',K:'#8a5232',P:'#f7b886',O:'#e8946a',Y:'#fdebd2',w:'#ffffff',b:'#111111',r:'#d8302a',p:'#f7a6a6',g:'#ffd23a',G:'#fff3a0',
   L:'#2f9e3a',l:'#8ee86a',c:'#8a5a2a',d:'#5e3a18',a:'#e8b070',s:'#4aa0e8',m:'#7a4ab0',h:'#f0c8a0',n:'#f0a020',x:'#c8c8d8',q:'#f4eefa',Q:'#b8a8d0',
   e:'#ff6a4a',f:'#ffc08a',j:'#f8b0e8',J:'#c070c8',v:'#e0f6ff',A:'#e84a3a',B:'#ff9a7a',z:'#4a2a6a'};
 function mk(w,h){const c=document.createElement('canvas');c.width=w;c.height=h;return c}
@@ -195,30 +195,37 @@ function sprite(rows){
   rows.forEach((r,y)=>{for(let x=0;x<r.length;x++){const col=PAL[r[x]];if(col){g.fillStyle=col;g.fillRect(x,y,1,1)}}});
   return {r:c,l:flipC(c),w,h};
 }
-// コロン：よこに ひろい あたま（うえ オレンジ・した クリーム）、たかい 耳、たまごの からだ。16×18。左右は 反転
-const HEAD=[
-"..kk........kk..",
-"..kyk......kyk..",
-"..kyok....koyk..",
-"..kyookkkkooyk..",
-"..kooooooooook..",
-".kooooooooooook.",
-".kooooboooobook.",
-"kyyooooooooooyyk",
-".kyyyyyykkyyyyk.",
-"..kkyyyyyyyykk..",
-"....kkkkkkkk...."];
-const BODY=[
-"...kooooooook...",
-"..kooooooooook..",
-"..kOooooooooOk..",
-"..kOooooooooOk..",
-"..kooooooooook.."];
+// コロン（ena-quiz の images/colon_face.png の すがた）：レモンがたで 両はしが とがった ひろい あたま、かおを よこぎる クリームの おび、
+// そとに ひらいた 大きな 耳、あたまの うえに ちょこんと け、まるい からだに みじかい うで。18×23。左はんぶんを かいて 左右に うつす
+const half=rows=>rows.map(r=>r+[...r].reverse().join(''));
+const HEAD=half([
+"K........",
+"KK.......",
+"KYK......",
+"KYYK.....",
+".KYYK...K",
+".KYYPKKKK",
+"..KPPPPPP",
+".KPPPPPPP",
+".KPPPPbPP",
+"KPPPPPbPP",
+"KYYYYPPPP",
+".KYYYYYYY",
+".KYYYYYKY",
+"..KYYYYYK",
+"...KKKKKK"]);
+const BODY=half([
+"....KPPPP",
+"...KPPPPP",
+"..KPPPPPP",
+".KPKPPPPP",
+".KKKPPPPP",
+"..KPPPPPP"]);
 const LEGS={
-  stand:["...kooooooook...","....kkkkkkkk...."],
-  w1:["...kooooooook...","...kk.kkkk.kk..."],
-  w2:["....koooooook...","....kkk..kkk...."]};
-function foxRows(legs){return [...HEAD,...BODY,...LEGS[legs]].map(r=>r.replace(/[koy]/g,c=>({k:'K',o:'P',y:'Y'})[c]))}   // コロンだけの 色（やわらかい 茶の りんかく・ピーチ・クリーム）
+  stand:["...KPPPPPPPPPPK...","....KKK....KKK...."],
+  w1:["...KPPPK..KPPPK...","...KKK......KKK..."],
+  w2:["...KPPPPPPPPPK....","....KKK..KKK......"]};
+function foxRows(legs){return [...HEAD,...BODY,...LEGS[legs]]}   // コロンだけの 色（やわらかい 茶の りんかく・ピーチ・クリーム）
 const FOX={},FOXT={};
 for(const k of ['stand','w1','w2']){FOX[k]=sprite(foxRows(k));FOXT[k]=FOX[k]}
 const TAIL_DOWN=sprite([
@@ -1308,8 +1315,8 @@ function render(){
 function drawPlayer(cx,cy){
   if(!P)return;
   if(P.inv>0&&Math.floor(P.inv/3)%2&&!P.dead)return;
-  const x0=px(P.x-2-cx),y0=px(P.y-3-cy);
-  if(P.dead){ctx.save();ctx.translate(x0+8,y0+9);ctx.scale(1,-1);ctx.drawImage(FOX.stand.r,-8,-9);ctx.restore();return}
+  const x0=px(P.x-3-cx),y0=px(P.y-8-cy);
+  if(P.dead){ctx.save();ctx.translate(x0+9,y0+12);ctx.scale(1,-1);ctx.drawImage(FOX.stand.r,-9,-12);ctx.restore();return}
   if(P.shield){const r=13+Math.sin(frame*0.15);ctx.globalAlpha=0.35;ctx.fillStyle='#bfe8ff';ctx.beginPath();ctx.arc(x0+8,y0+10,r,0,Math.PI*2);ctx.fill();
     ctx.globalAlpha=0.9;ctx.strokeStyle='#e8f8ff';ctx.lineWidth=1;ctx.beginPath();ctx.arc(x0+8,y0+10,r,0,Math.PI*2);ctx.stroke();ctx.globalAlpha=1;
     ctx.fillStyle='#ffffff';ctx.fillRect(x0+1,y0+1,2,2)}
@@ -1325,12 +1332,12 @@ function drawPlayer(cx,cy){
     else if(P.flying||(!P.onGround&&P.wag>0&&inp('jump'))){tail=Math.floor(frame/4)%2?TAIL_UP:TAIL_DOWN;ty=tail===TAIL_UP?5:10}
     else if(P.onGround&&P.p>=7){tail=TAIL_FLAT;ty=12}
     else if(!P.onGround){tail=TAIL_UP;ty=5}
-    const tx=P.face>0?x0-4:x0+11;
-    ctx.drawImage(tail[face],tx,y0+ty);
+    const tx=P.face>0?x0-3:x0+12;
+    ctx.drawImage(tail[face],tx,y0+ty+5);
   }
   ctx.drawImage(set[fr][face],x0,y0);
-  if(P.power)ctx.drawImage(LEAF_HEAD[face],P.face>0?x0+6:x0+5,y0);
-  if(P.flying&&frame%6<3){ctx.fillStyle='#ffffff';ctx.fillRect(x0+(P.face>0?-5:19),y0+16,2,2)}
+  if(P.power)ctx.drawImage(LEAF_HEAD[face],P.face>0?x0+7:x0+6,y0+2);
+  if(P.flying&&frame%6<3){ctx.fillStyle='#ffffff';ctx.fillRect(x0+(P.face>0?-4:20),y0+21,2,2)}
 }
 function drawHUD(){
   const y=VH;
@@ -1582,8 +1589,8 @@ function renderMap(){
   const [kx,ky]=mapPt(mapS),walking=mapS!==nodeS(mapGoal)&&!mapReveal;
   const hop=walking?-Math.round(Math.abs(Math.sin((mapS-mapStepS)/11*Math.PI))*5):-(Math.floor(frame/30)%2);
   ctx.fillStyle='rgba(0,0,0,.3)';ell(kx,ky+1,6,2);
-  const face=mapFace>0?'r':'l',x0=px(kx-8),y0=px(ky-19+hop),fr=walking?(Math.floor(frame/5)%2?'w1':'w2'):'stand';
-  ctx.drawImage(TAIL_DOWN[face],mapFace>0?x0-4:x0+11,y0+10);ctx.drawImage(FOX[fr][face],x0,y0);ctx.drawImage(LEAF_HEAD[face],mapFace>0?x0+6:x0+5,y0);
+  const face=mapFace>0?'r':'l',x0=px(kx-9),y0=px(ky-24+hop),fr=walking?(Math.floor(frame/5)%2?'w1':'w2'):'stand';
+  ctx.drawImage(TAIL_DOWN[face],mapFace>0?x0-3:x0+12,y0+15);ctx.drawImage(FOX[fr][face],x0,y0);ctx.drawImage(LEAF_HEAD[face],mapFace>0?x0+7:x0+6,y0+2);
   // せつめい
   ctx.fillStyle='rgba(18,12,38,.8)';ctx.fillRect(0,0,VW,15);
   ctx.font="8px 'DotGothic16',monospace";ctx.textAlign='center';ctx.fillStyle='#ffd23a';
@@ -1712,7 +1719,7 @@ function loop(now){
   requestAnimationFrame(loop);
 }
 // しらべる ための 入口（localhost の ときだけ）
-if(/^(localhost|127\.0\.0\.1)$/.test(location.hostname))window.__kon={get P(){return P},get state(){return state},get boxes(){return boxes},get enemies(){return enemies},get stars(){return gotStars},get prog(){return prog},get cam(){return [camX,camY]},kb,tileAt,set lives(v){lives=v},get items(){return items},get parts(){return parts},get map(){return {mapS,mapNode,mapGoal,reveal:mapReveal}},openMap,mapTry,begin,saveProg,set time(v){time=v},step(n){for(let i=0;i<n;i++){if(state==='title')demo();else update()}render()}};
+if(/^(localhost|127\.0\.0\.1)$/.test(location.hostname))window.__kon={get P(){return P},get state(){return state},get boxes(){return boxes},get enemies(){return enemies},get stars(){return gotStars},get prog(){return prog},get cam(){return [camX,camY]},kb,tileAt,set lives(v){lives=v},get items(){return items},get parts(){return parts},FOX,TAIL_DOWN,LEAF_HEAD,get map(){return {mapS,mapNode,mapGoal,reveal:mapReveal}},openMap,mapTry,begin,saveProg,set time(v){time=v},step(n){for(let i=0;i<n;i++){if(state==='title')demo();else update()}render()}};
 applyGate();
 requestAnimationFrame(loop);
 })();
