@@ -2,7 +2,7 @@ import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } fro
 import { Shell, HpBar } from '../components/Shell';
 import { DPad, type Axis } from '../components/DPad';
 import { IslandGround, FOREST_ISLET, MOSHI_ISLET } from '../components/IslandStage';
-import { useMoshis, moshiRewards } from '../lib/moshi';
+import { useMoshis, moshiRewards, SHELF_MOSHI } from '../lib/moshi';
 import { KidSVG, PALETTES, type KidDir } from '../components/KidSVG';
 import { FIXED_SCHOOL, SCHOOLS, SCHOOL_LABEL } from '../lib/school';
 import { CharSVG, useChars } from '../components/CharSVG';
@@ -36,7 +36,7 @@ import { pickLesson, type Lesson } from '../lib/lesson';
 import { buildLetters } from '../lib/letters';
 import { photoMonthOf } from '../lib/items';
 import type { Area, Planet, Pos } from '../types';
-import { EastGround, earthAge, MarsGround, MoonGround, SunGround, SUN_HITS, PLANET_CFG, RoomGround, SchoolGround, SCHOOL_DESKS, SCHOOL_HITS, trophyAt, certAt, gameAt, GAME_SPOT } from '../components/AreaStages';
+import { EastGround, earthAge, MarsGround, MoonGround, SunGround, SUN_HITS, PLANET_CFG, RoomGround, SchoolGround, SCHOOL_DESKS, SCHOOL_HITS, trophyAt, certAt, gameAt, GAME_SPOT, moshiShelfAt, MOSHI_SHELF_SPOT } from '../components/AreaStages';
 import { planetStoneSpot, STONE_FOOD, SUN_TITLE } from '../lib/space';
 import { MochiUsagi, Usu } from '../components/MochiUsagiSVG';
 import { USAGI_AREAS, USAGI_KEY, USAGI_NAME, USAGI_SPOT, USU_SPOT, usagiLine } from '../lib/usagi';
@@ -746,6 +746,7 @@ export function IslandScreen() {
     if (area === 'main' && dist(raw, { x: MAIL_POS.x, y: MAIL_POS.y - 0.05 }) < 0.06) { setModal('mail'); return; }
     if (area === 'main' && dist(raw, { x: IKEN_POS.x, y: IKEN_POS.y - 0.045 }) < 0.05) { sfx('letter'); setModal('iken'); return; }
     if (area === 'house' && gameAt(raw)) { sfx('letter'); location.href = '/sora/?from=island'; return; }
+    if (area === 'house' && moshiShelfAt(raw)) { sfx('letter'); location.href = '/rpg.html#moshi=' + SHELF_MOSHI.key; return; }
     const trophy = area === 'house' ? (trophyAt(raw) ?? certAt(raw)) : undefined;
     if (trophy) { sfx('letter'); g.showToast(trophy.toast); return; }
     if (area === 'house') {
@@ -975,6 +976,7 @@ export function IslandScreen() {
   const nearDoorIn = area === 'main' && save.buildings.includes('bd_house') && dist(pp, DOORS.mainToHouse) <= 0.09;
   const nearDoorOut = area === 'house' && dist(pp, DOORS.houseToMain) <= 0.12;
   const nearGame = area === 'house' && dist(pp, GAME_SPOT) <= 0.1;
+  const nearShelf = area === 'house' && dist(pp, MOSHI_SHELF_SPOT) <= 0.09;
   const nearSchoolIn = area === 'main' && save.buildings.includes('bd_school') && dist(pp, DOORS.mainToSchool) <= 0.09;
   const nearSchoolOut = area === 'school' && dist(pp, DOORS.schoolToMain) <= 0.12;
   const nearBridgeGo = area === 'main' && hasBridge && dist(pp, DOORS.mainToEast) <= 0.1;
@@ -1444,6 +1446,7 @@ export function IslandScreen() {
   act(nearBridgeBack, 'eastBack', '🌉 もとの しまへ', () => travel('main', ENTRY.mainFromEast));
   act(nearSoccer, 'soccer', '⚽ サッカーを する', () => { location.href = '/soccer/'; });
   act(nearGame, 'sora', '🎮 ゲームを する', () => { location.href = '/sora/?from=island'; });
+  act(nearShelf, 'moshiShelf', SHELF_MOSHI.label, () => { location.href = '/rpg.html#moshi=' + SHELF_MOSHI.key; });
   act(nearMonster, 'feed', '🍚 ごはん', () => (monster.stage === 'egg' || foods.length ? setModal('feed') : g.showToast('ごはんが ないよ。ショップで かおう', 'ng')));
   act(nearChest, 'chest', '🎁 たからばこを あける', openChest, false);
   act(nearMail, 'mail', `💌 てがみを よむ${unread > 0 ? `（${unread}）` : ''}`, () => setModal('mail'), false);

@@ -10,7 +10,12 @@ export interface MoshiTest {
   key: string; name: string; month: string; date: string; covers: string[];
   /** れんしゅうもし（index.html の MOSHI_EXTRA）：from〜date に うかぶ・メダルは reward・レベルは levels */
   extra?: boolean; from?: string; reward?: number; levels?: ('normal' | 'kako')[];
+  /** いつでも もし：うかばない。おうちの 本だな（components/AreaStages の MOSHI_SHELF）から /rpg.html#moshi=<key> で ひらく */
+  always?: boolean;
 }
+
+/** おうちの 本だなで ひらく いつでも もし（data/tests.json の always:true） */
+export const SHELF_MOSHI = { key: 'chal1024', label: '📘 都立中チャレンジの もし' };
 export interface MoshiNow { test: MoshiTest; diff: number; date: Date }
 
 export const MOSHI_WINDOW = 3;
@@ -44,6 +49,7 @@ export function activeMoshis(tests: MoshiTest[], now = eventToday()): MoshiNow[]
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   const out: MoshiNow[] = [];
   for (const t of tests) {
+    if (t.always) continue;
     const date = testDate(t);
     const diff = Math.round((date.getTime() - today.getTime()) / 86400000);
     let ok = diff >= 0 && diff <= MOSHI_WINDOW;

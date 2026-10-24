@@ -339,6 +339,29 @@
    "icon": "🧩",
    "bg": "linear-gradient(135deg,#06b6d4,#2563eb)",
    "note": "本番と 同じ 45ぷん・資料・きまり・時こく・かげ"
+  },
+  {
+   "extra": true,
+   "key": "chal1024",
+   "name": "都立中チャレンジ 適性Ⅱ",
+   "month": "202610",
+   "date": "2026-10-24",
+   "always": true,
+   "inOrder": true,
+   "covers": [
+    "chal1024"
+   ],
+   "qfile": "data/moshi_chal1024.json",
+   "reward": 40,
+   "pass": 70,
+   "levels": [
+    "normal"
+   ],
+   "perCat": 8,
+   "limitMin": 45,
+   "icon": "📘",
+   "bg": "linear-gradient(135deg,#0d9488,#2563eb)",
+   "note": "10/24の 適性Ⅱを 本番の じゅんで"
   }
  ]
 }

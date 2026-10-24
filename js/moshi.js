@@ -66,6 +66,7 @@ function moshiTestDate(t) {
 function moshiActiveAll(tests, today) {
   const out = [];
   (tests || []).forEach(t => {
+    if (t.always) return;   // いつでも もし（おうちの 本だなから #moshi=<key> で ひらく）は うかばない
     const diff = Math.round((moshiTestDate(t) - today) / 86400000);
     let ok = diff >= 0 && diff <= MOSHI_WINDOW;
     if (t.from && /^\d{4}-\d{2}-\d{2}$/.test(t.from)) {
@@ -145,6 +146,7 @@ function moshiPick(t, qs, subs, lv) {
   const cov = new Set(t.covers);
   const catOf = k => (subs[k] && subs[k].category) || (subs[root(k)] && subs[root(k)].category) || '';
   const inRange = qs.filter(q => q.id && q.subject && (cov.has(q.subject) || cov.has(root(q.subject))));
+  if (t.inOrder) return inRange.slice(0, t.perCat || MOSHI_PER_CAT).map(q => q.id);   // 本番の ふりかえり：ファイルの じゅんの まま
   const ids = [];
   MOSHI_CATS.forEach(cat => {
     const all = inRange.filter(q => catOf(q.subject) === cat);
@@ -174,12 +176,18 @@ function moshiCatOfQ(q) {
 
 // ── 入口 ──
 let moshiList = [];   // えらべる もし [{ test, diff, open }]
-async function enterMoshi() {
+async function enterMoshi(onlyKey) {
   showScreen('moshi');
   const root = document.getElementById('moshi-root');
   root.innerHTML = '<div class="panel" style="margin-top:24px; text-align:center;">よみこみちゅう…</div>';
   let tests = [];
   try { tests = (await fetch('data/tests.json', { cache: 'no-cache' }).then(r => r.json())).tests || []; } catch (e) {}
+  // #moshi=<key>：いつでも もし（t.always）を その まま ひらく（島の おうちの 本だなから）
+  const only = onlyKey && tests.find(t => t.key === onlyKey && t.always);
+  if (only) {
+    moshiList = [{ test: only, diff: null, open: true }];
+    return moshiOpenTest(only.key);
+  }
   const acts = moshiActiveAll(tests, moshiToday());
   // まるつけ まちの回は、きかんが すぎても ひらける
   const db = moshiLoad();
@@ -327,7 +335,7 @@ function renderMoshi() {
   const t = mz.test, rec = moshiRec(moshiLoad(), t.key);
   const bestBy = rec.bestBy || { normal: rec.best || 0 };
   const d = moshiTestDate(t);
-  const when = mz.diff == null ? 'きかんは おわったよ' : t.extra ? (d.getMonth() + 1) + '/' + d.getDate() + ' まで・あと ' + mz.diff + 'にち'
+  const when = t.always ? '🏠 おうちで いつでも できるよ' : mz.diff == null ? 'きかんは おわったよ' : t.extra ? (d.getMonth() + 1) + '/' + d.getDate() + ' まで・あと ' + mz.diff + 'にち'
     : mz.diff === 0 ? '🎯 きょうが テスト！' : 'テストまで あと ' + mz.diff + 'にち';
   const a = mz.att;
   // レベルの ボタン（そのレベルで 出る もんだいの かず・メダル・さいこう）
@@ -354,7 +362,8 @@ function renderMoshi() {
       '<div style="font-size:14px; font-weight:800; color:#4c1d95;">' + esc(t.name) + '（' + (d.getMonth() + 1) + '/' + d.getDate() + '）</div>' +
       '<div style="font-size:13px; color:#b45309; font-weight:800; margin-top:2px;">' + when + '</div>' +
       '<div style="background:#f5f3ff; border-radius:12px; padding:10px; margin-top:10px; font-size:13px; line-height:1.8;">' +
-        (catLine ? (catLine.includes('・') ? catLine + ' を きょうか ' + (t.perCat || MOSHI_PER_CAT) + 'もんずつ' : catLine + ' ' + (t.perCat || MOSHI_PER_CAT) + 'もん' + (t.note ? '（' + esc(t.note) + '）' : t.extra ? '（まちがえやすい ところを あつめたよ）' : '')) + '<br>' : '') +
+        (t.inOrder ? moshiPick(t, mz.all, mz.subs, 'normal').length + 'もん（' + esc(t.note || catLine) + '）<br>' :
+         catLine ? (catLine.includes('・') ? catLine + ' を きょうか ' + (t.perCat || MOSHI_PER_CAT) + 'もんずつ' : catLine + ' ' + (t.perCat || MOSHI_PER_CAT) + 'もん' + (t.note ? '（' + esc(t.note) + '）' : t.extra ? '（まちがえやすい ところを あつめたよ）' : '')) + '<br>' : '') +
         (t.limitMin ? '⏱ <b>せいげん じかん ' + t.limitMin + 'ぷん</b>（やすんでも 時計は すすむよ）<br>' : '') +
         '<b>' + moshiPassWari(t) + '</b> こえるたびに メダル！（なんかい でも）<br>' +
         '<span style="color:#64748b;">かいて こたえる もんだいは おうちの ひとが まるつけ するよ</span>' +

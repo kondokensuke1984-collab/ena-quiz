@@ -278,7 +278,44 @@ function GameCorner() {
   );
 }
 
-const WINDOW_SKY: Record<TimeOfDay, string> = { day: '#7dd3fc', evening: '#fdba74', night: '#1e1b4b' };
+// 📘 テレビの ひだりの ひくい 本だな（2026-10-24）。都立中チャレンジの ふりかえり もし（lib/moshi.ts の SHELF_MOSHI）を いつでも ひらける。
+// タップ、または ちかくで「📘 都立中チャレンジの もし」→ /rpg.html#moshi=<key>
+export const MOSHI_SHELF_HIT = { x0: 0.515, x1: 0.605, y0: 0.44, y1: 0.585 };
+export const MOSHI_SHELF_SPOT = { x: 0.56, y: 0.63 };
+export function moshiShelfAt(p: { x: number; y: number }) {
+  return p.x >= MOSHI_SHELF_HIT.x0 && p.x <= MOSHI_SHELF_HIT.x1 && p.y >= MOSHI_SHELF_HIT.y0 && p.y <= MOSHI_SHELF_HIT.y1;
+}
+function MoshiShelf() {
+  const books = [['#ef4444', 12], ['#3b82f6', 10], ['#22c55e', 13], ['#f59e0b', 9], ['#a855f7', 11], ['#0d9488', 12]] as const;
+  // だんの 本（off だけ ずらして ならべる・せの たかさは すこし ばらばら）
+  const row = (y: number, off: number) => {
+    let x = 528;
+    return books.map((_, i) => {
+      const k = (i + off) % books.length, [c, w] = books[k], h = 26 - ((k * 5) % 7);
+      const el = <rect key={y + '-' + i} x={x} y={y - h} width={w} height={h} rx="1.5" fill={c} stroke="#1f2937" strokeWidth="1" />;
+      x += w + 1;
+      return el;
+    });
+  };
+  return (
+    <g>
+      <rect x="520" y="358" width="82" height="76" rx="4" fill="#a16207" stroke="#5b2a0a" strokeWidth="3" />
+      <rect x="526" y="364" width="70" height="30" fill="#713f12" />
+      <rect x="526" y="400" width="70" height="28" fill="#713f12" />
+      {row(394, 0)}
+      {row(428, 3)}
+      {/* うえの ノート（もし）と ふだ */}
+      <rect x="530" y="346" width="40" height="12" rx="2" fill="#2563eb" stroke="#1e3a8a" strokeWidth="1.5" />
+      <rect x="533" y="349" width="34" height="2" fill="#bfdbfe" />
+      <g transform="translate(561 322)">
+        <rect x="-22" y="-14" width="44" height="22" rx="5" fill="#fff7ed" stroke="#c2410c" strokeWidth="2" />
+        <text y="3" fontSize="13" fontWeight="900" textAnchor="middle" fill="#c2410c">もし</text>
+      </g>
+    </g>
+  );
+}
+
+const WINDOW_SKY: Record<TimeOfDay, string> ={ day: '#7dd3fc', evening: '#fdba74', night: '#1e1b4b' };
 
 function RoomGroundBase({ wall, floor, tod, moonAge, sleeping }: {
   wall: string; floor: string; tod: TimeOfDay; moonAge: number; sleeping: boolean;
@@ -305,6 +342,7 @@ function RoomGroundBase({ wall, floor, tod, moonAge, sleeping }: {
       {TROPHIES.slice(0, TROPHY_SLOTS.length).map((t, i) => <TrophyShelf key={t.id} t={t} i={i} />)}
       {CERTS.slice(0, CERT_SLOTS.length).map((c, i) => <CertFrame key={c.id} c={c} i={i} />)}
       <GameCorner />
+      <MoshiShelf />
       {/* ドア（ここから そとへ） */}
       <g transform="translate(80 170)">
         <rect x="0" y="0" width="120" height="232" rx="10" fill="#b45309" stroke="#4c1d95" strokeWidth="4" />

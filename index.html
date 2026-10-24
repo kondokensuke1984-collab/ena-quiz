@@ -28755,6 +28755,11 @@ const MOSHI_EXTRA = [
   { key: 'toritsu1024_t2', name: '都立中もし 適性Ⅱ（思考力）', month: '202610', from: '2026-10-23', date: '2026-10-24',
     covers: ['toritsu1024_t2'], qfile: 'data/moshi_toritsu1024_t2.json', reward: 120, pass: 70, levels: ['normal'], perCat: 6,
     limitMin: 45, icon: '🧩', bg: 'linear-gradient(135deg,#06b6d4,#2563eb)', note: '本番と 同じ 45ぷん・資料・きまり・時こく・かげ' },
+  // 10/24 都立中チャレンジ（ena）の ふりかえり。適性Ⅱの 8もんを 本番の じゅん（inOrder）で。文と 図は こちらで 書きなおした もの（data/moshi_chal1024.json）
+  // always＝きかん なし。もしの しまには うかばず、島の おうちの 本だな（/rpg.html#moshi=chal1024）から いつでも ひらく（10/24 ケンさん）
+  { key: 'chal1024', name: '都立中チャレンジ 適性Ⅱ', month: '202610', date: '2026-10-24', always: true, inOrder: true,
+    covers: ['chal1024'], qfile: 'data/moshi_chal1024.json', reward: 40, pass: 70, levels: ['normal'], perCat: 8,
+    limitMin: 45, icon: '📘', bg: 'linear-gradient(135deg,#0d9488,#2563eb)', note: '10/24の 適性Ⅱを 本番の じゅんで' },
 ];
 function getTestDate(key) { return localStorage.getItem('ena_test_' + key) || DEFAULT_TEST_DATES[key] || ''; }
 function setTestDate(key, val) { localStorage.setItem('ena_test_' + key, val); }

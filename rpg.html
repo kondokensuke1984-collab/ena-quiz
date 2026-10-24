@@ -790,12 +790,13 @@ async function boot() {
     startGame();
     enterForest();
   }
-  // 島の「もしの しま」から来たときは、そのまま 模試へ（js/moshi.js）
-  if (location.hash === '#moshi' && typeof enterMoshi === 'function') {
+  // 島の「もしの しま」から来たときは、そのまま 模試へ（js/moshi.js）。#moshi=<key>＝おうちの 本だなの いつでも もし
+  const moshiHash = location.hash.match(/^#moshi(?:=([\w-]+))?$/);
+  if (moshiHash && typeof enterMoshi === 'function') {
     moshiFromIsland = true;
     history.replaceState(null, '', location.pathname + location.search);
     startGame();
-    enterMoshi();
+    enterMoshi(moshiHash[1]);
   }
 }
 
