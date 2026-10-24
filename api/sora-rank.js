@@ -6,7 +6,7 @@ const { allowOrigin, rateLimit, redis } = require('./_guard');
 
 const PRE = process.env.VERCEL_ENV === 'production' ? 'sora' : 'sora:test';
 const WHO = ['anri', 'rino', 'mitsuki', 'kensuke', 'yusei'];
-const STAGES = 2;              // ゲームの STAGES の かず（ふえたら ここも）
+const STAGES = 3;              // ゲームの STAGES の かず（ふえたら ここも）
 const MAX_SCORE = 9999999;     // 画面の スコアは 7けた
 const SHOW = 10;
 
