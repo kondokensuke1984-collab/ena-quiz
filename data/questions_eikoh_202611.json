@@ -1193,6 +1193,196 @@
 "explanation": "12で通分 → 3/12 + 5/12 ＝ 8/12\n約分（÷4）→ 2/3\n★答えは必ず約分する。"
 },
 {
+"id": "kf_ksp01",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"q": "プリント①-1-(1)\n次の計算をしなさい。\n2.3 × 0.4",
+"answer": "0.92",
+"explanation": "23×4＝92\n小数点以下のけた数は 1＋1＝2けた → 0.92"
+},
+{
+"id": "kf_ksp02",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"q": "プリント①-1-(2)\n次の計算をしなさい。\n0.76 × 0.3",
+"answer": "0.228",
+"explanation": "76×3＝228\n小数点以下のけた数は 2＋1＝3けた → 0.228"
+},
+{
+"id": "kf_ksp03",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"q": "プリント①-1-(3)\n次の計算をしなさい。\n1.8 × 0.07",
+"answer": "0.126",
+"explanation": "18×7＝126\n小数点以下のけた数は 1＋2＝3けた → 0.126"
+},
+{
+"id": "kf_ksp04",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"q": "プリント①-1-(4)\n次の計算をしなさい。\n0.63 × 0.09",
+"answer": "0.0567",
+"explanation": "63×9＝567\n小数点以下のけた数は 2＋2＝4けた → 0.0567\n★けたが足りないので、前に0をつけて4けたにする。"
+},
+{
+"id": "kf_ksp05",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"q": "プリント①-2-(1)\n次の計算をしなさい。\n7.2 ÷ 0.8",
+"answer": "9",
+"explanation": "両方の小数点を1けた右へ → 72÷8＝9"
+},
+{
+"id": "kf_ksp06",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"q": "プリント①-2-(2)\n次の計算をしなさい。\n22.1 ÷ 2.6",
+"answer": "8.5",
+"explanation": "両方の小数点を1けた右へ → 221÷26\n221÷26＝8 あまり 13 → 0をおろして 130÷26＝5\n→ 8.5"
+},
+{
+"id": "kf_ksp07",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"q": "プリント①-2-(3)\n次の計算をしなさい。\n6.3 ÷ 0.42",
+"answer": "15",
+"explanation": "わる数 0.42 を整数にするため、両方の小数点を2けた右へ\n6.3 → 630（0を1つ足す）\n630÷42＝15"
+},
+{
+"id": "kf_ksp08",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"q": "プリント①-2-(4)\n次の計算をしなさい。\n9.96 ÷ 2.4",
+"answer": "4.15",
+"explanation": "両方の小数点を1けた右へ → 99.6÷24\n99.6÷24＝4.1 あまり 1.2 → 0をおろして続ける\n→ 4.15"
+},
+{
+"id": "kf_ksp09",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"q": "プリント①-2-(5)\n次の計算をしなさい。\n3.23 ÷ 4.25",
+"answer": "0.76",
+"explanation": "両方の小数点を2けた右へ → 323÷425\nわられる数のほうが小さいので、商は 0. から始まる\n3230÷425＝7 あまり 255 → 2550÷425＝6\n→ 0.76\nたしかめ：4.25×0.76＝3.23"
+},
+{
+"id": "kf_ksp10",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"q": "プリント①-2-(6)\n次の計算をしなさい。\n8.48 ÷ 6.4",
+"answer": "1.325",
+"explanation": "両方の小数点を1けた右へ → 84.8÷64\n84.8÷64＝1.3 あまり 0.48 → 0をおろして続ける\n→ 1.325（わり切れるまで計算する）"
+},
+{
+"id": "kf_ksp11",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"mustReduce": true,
+"q": "プリント②-1-(1)\n次の計算をしなさい。\n1/2 + 1/4",
+"answer": "3/4",
+"explanation": "4で通分 → 2/4 + 1/4 ＝ 3/4"
+},
+{
+"id": "kf_ksp12",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"mustReduce": true,
+"q": "プリント②-1-(2)\n次の計算をしなさい。\n1/4 + 1/12",
+"answer": "1/3",
+"explanation": "12で通分 → 3/12 + 1/12 ＝ 4/12\n約分（÷4）→ 1/3\n★答えは必ず約分する。"
+},
+{
+"id": "kf_ksp13",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"mustReduce": true,
+"q": "プリント②-1-(3)\n次の計算をしなさい。\n2/5 − 1/3",
+"answer": "1/15",
+"explanation": "15で通分 → 6/15 − 5/15 ＝ 1/15"
+},
+{
+"id": "kf_ksp14",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"mustReduce": true,
+"q": "プリント②-1-(4)\n次の計算をしなさい。\n8/21 − 3/14",
+"answer": "1/6",
+"explanation": "21と14の最小公倍数42で通分 → 16/42 − 9/42 ＝ 7/42\n約分（÷7）→ 1/6\n★答えは必ず約分する。"
+},
+{
+"id": "kf_ksp15",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"mustReduce": true,
+"q": "プリント②-1-(5)\n次の計算をしなさい。\n1と1/2 + 2/3",
+"answer": "2 1/6",
+"explanation": "6で通分 → 1と3/6 + 4/6 ＝ 1と7/6\n7/6 ＝ 1と1/6 なので、1と7/6 ＝ 2と1/6\n（仮分数 13/6 でも正解）"
+},
+{
+"id": "kf_ksp16",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"mustReduce": true,
+"q": "プリント②-1-(6)\n次の計算をしなさい。\n1と5/6 + 2と9/14",
+"answer": "4 10/21",
+"explanation": "6と14の最小公倍数42で通分 → 1と35/42 + 2と27/42\n整数どうし 1+2＝3、分数どうし 35/42+27/42＝62/42＝1と20/42\n3＋1と20/42＝4と20/42\n約分（÷2）→ 4と10/21"
+},
+{
+"id": "kf_ksp17",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"mustReduce": true,
+"q": "プリント②-1-(7)\n次の計算をしなさい。\n1と1/4 − 2/3",
+"answer": "7/12",
+"explanation": "12で通分 → 1と3/12 − 8/12\n3/12 から 8/12 はひけないので 1と3/12 を 15/12 にする\n15/12 − 8/12 ＝ 7/12"
+},
+{
+"id": "kf_ksp18",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"mustReduce": true,
+"q": "プリント②-1-(8)\n次の計算をしなさい。\n4と1/3 − 2と5/6",
+"answer": "1 1/2",
+"explanation": "6で通分 → 4と2/6 − 2と5/6\n2/6 から 5/6 はひけないので 4と2/6 を 3と8/6 にする\n3と8/6 − 2と5/6 ＝ 1と3/6\n約分（÷3）→ 1と1/2"
+},
+{
+"id": "kf_ksp19",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"mustReduce": true,
+"q": "プリント②-1-(9)\n次の計算をしなさい。\n3/8 + 2/5 − 3/20",
+"answer": "5/8",
+"explanation": "8・5・20の最小公倍数40で通分 → 15/40 + 16/40 − 6/40 ＝ 25/40\n約分（÷5）→ 5/8"
+},
+{
+"id": "kf_ksp20",
+"subject": "kifuyu_keisan",
+"month": "eikoh_202611",
+"type": "input",
+"mustReduce": true,
+"q": "プリント②-1-(10)\n次の計算をしなさい。\n3と3/4 − 1と1/3 − 11/12",
+"answer": "1 1/2",
+"explanation": "12で通分 → 3と9/12 − 1と4/12 − 11/12\n3と9/12 − 1と4/12 ＝ 2と5/12\n5/12 から 11/12 はひけないので 2と5/12 を 1と17/12 にする\n1と17/12 − 11/12 ＝ 1と6/12\n約分（÷6）→ 1と1/2"
+},
+{
 "id": "kf_bs01",
 "subject": "kifuyu_bunsho",
 "month": "eikoh_202611",
@@ -1301,6 +1491,123 @@
 "explanation": "時間＝道のり÷速さ\n12÷4＝3(時間)"
 },
 {
+"id": "kf_bsp01",
+"subject": "kifuyu_bunsho",
+"month": "eikoh_202611",
+"type": "input",
+"q": "プリント①-3-(1)\nやすしさんは、10点満点の計算テストを5回受けたら、平均点は7点になりました。5回のテストの合計点は何点ですか。",
+"answer": "35点",
+"explanation": "合計＝平均×回数\n7×5＝35(点)"
+},
+{
+"id": "kf_bsp02",
+"subject": "kifuyu_bunsho",
+"month": "eikoh_202611",
+"type": "input",
+"q": "プリント①-3-(2)\nゆうじさんの家では、1日に平均1.9kgのごみが出ます。ゆうじさんの家では、1週間で何kgのごみが出ることになりますか。",
+"answer": "13.3kg",
+"explanation": "1週間＝7日\n合計＝平均×日数\n1.9×7＝13.3(kg)"
+},
+{
+"id": "kf_bsp03",
+"subject": "kifuyu_bunsho",
+"month": "eikoh_202611",
+"type": "input",
+"q": "プリント②-2-(1)\n24kmの道のりを6時間で歩いたときの速さは時速何kmですか。",
+"answer": "4km",
+"explanation": "速さ＝道のり÷時間\n24÷6＝4 → 時速4km"
+},
+{
+"id": "kf_bsp04",
+"subject": "kifuyu_bunsho",
+"month": "eikoh_202611",
+"type": "input",
+"q": "プリント②-2-(2)\n3000mの道のりを、自転車で12分で走ったときの速さは分速何mですか。",
+"answer": "250m",
+"explanation": "速さ＝道のり÷時間\n3000÷12＝250 → 分速250m"
+},
+{
+"id": "kf_bsp05",
+"subject": "kifuyu_bunsho",
+"month": "eikoh_202611",
+"type": "input",
+"q": "プリント②-2-(3)\n30秒で150m走ったときの速さは秒速何mですか。",
+"answer": "5m",
+"explanation": "速さ＝道のり÷時間\n150÷30＝5 → 秒速5m"
+},
+{
+"id": "kf_bsp06",
+"subject": "kifuyu_bunsho",
+"month": "eikoh_202611",
+"type": "input",
+"q": "プリント②-2-(4)\n1.5時間で60km進むオートバイの速さは時速何kmですか。",
+"answer": "40km",
+"explanation": "速さ＝道のり÷時間\n60÷1.5＝40 → 時速40km\n（1.5時間＝1時間30分）"
+},
+{
+"id": "kf_bsp07",
+"subject": "kifuyu_bunsho",
+"month": "eikoh_202611",
+"type": "input",
+"q": "プリント②-2-(5)\n15分で1.2km歩く人の速さは分速何mですか。",
+"answer": "80m",
+"explanation": "先に単位をそろえる：1.2km＝1200m\n速さ＝道のり÷時間\n1200÷15＝80 → 分速80m"
+},
+{
+"id": "kf_bsp08",
+"subject": "kifuyu_bunsho",
+"month": "eikoh_202611",
+"type": "input",
+"q": "プリント②-3-(1)\n時速46kmの自動車が3時間走ったときに進む道のりは何kmですか。",
+"answer": "138km",
+"explanation": "道のり＝速さ×時間\n46×3＝138(km)"
+},
+{
+"id": "kf_bsp09",
+"subject": "kifuyu_bunsho",
+"month": "eikoh_202611",
+"type": "input",
+"q": "プリント②-3-(2)\n分速84mで15分歩いたときに進む道のりは何mですか。",
+"answer": "1260m",
+"explanation": "道のり＝速さ×時間\n84×15＝1260(m)"
+},
+{
+"id": "kf_bsp10",
+"subject": "kifuyu_bunsho",
+"month": "eikoh_202611",
+"type": "input",
+"q": "プリント②-3-(3)\n分速0.3kmの自転車で30分走ったときに進む道のりは何kmですか。",
+"answer": "9km",
+"explanation": "道のり＝速さ×時間\n0.3×30＝9(km)"
+},
+{
+"id": "kf_bsp11",
+"subject": "kifuyu_bunsho",
+"month": "eikoh_202611",
+"type": "selfjudge",
+"q": "プリント②-4-(1)\n270kmの道のりを、時速60kmの電車が走るのに何時間何分かかりますか。（「○時間○分」の形で書いて、自分で丸つけ）",
+"answer": "4時間30分",
+"explanation": "時間＝道のり÷速さ\n270÷60＝4.5(時間)\n0.5時間＝60×0.5＝30分 → 4時間30分\n★4.5時間を「4時間50分」としないこと。"
+},
+{
+"id": "kf_bsp12",
+"subject": "kifuyu_bunsho",
+"month": "eikoh_202611",
+"type": "selfjudge",
+"q": "プリント②-4-(2)\n520mの道のりを、分速80mで歩くのに何分何秒かかりますか。（「○分○秒」の形で書いて、自分で丸つけ）",
+"answer": "6分30秒",
+"explanation": "時間＝道のり÷速さ\n520÷80＝6.5(分)\n0.5分＝60×0.5＝30秒 → 6分30秒"
+},
+{
+"id": "kf_bsp13",
+"subject": "kifuyu_bunsho",
+"month": "eikoh_202611",
+"type": "selfjudge",
+"q": "プリント②-4-(3)\n1.4kmの道のりを、秒速8mで進むのに何分何秒かかりますか。（「○分○秒」の形で書いて、自分で丸つけ）",
+"answer": "2分55秒",
+"explanation": "先に単位をそろえる：1.4km＝1400m\n時間＝道のり÷速さ\n1400÷8＝175(秒)\n175秒＝120秒＋55秒 → 2分55秒"
+},
+{
 "id": "kf_mz01",
 "subject": "kifuyu_menseki",
 "month": "eikoh_202611",
@@ -1371,6 +1678,144 @@
 "q": "面積08\n面積が35cm²の台形で、上底は3cm、下底は7cmです。高さは何cmですか。",
 "answer": "7cm",
 "explanation": "台形＝（上底＋下底）×高さ÷2\n高さ＝面積×2÷（上底＋下底）\n35×2÷(3＋7)＝7(cm)"
+},
+{
+"id": "kf_mzp01",
+"subject": "kifuyu_menseki",
+"month": "eikoh_202611",
+"type": "input",
+"qImage": "/images/kf_mz_p3_1_1.jpg",
+"q": "プリント③-1-(1)\n図の平行四辺形の面積を求めなさい。",
+"answer": "104cm²",
+"explanation": "平行四辺形＝底辺×高さ\n底辺13cmに垂直な高さは8cm（9cmはななめの辺なので使わない）\n13×8＝104(cm²)"
+},
+{
+"id": "kf_mzp02",
+"subject": "kifuyu_menseki",
+"month": "eikoh_202611",
+"type": "input",
+"qImage": "/images/kf_mz_p3_1_2.jpg",
+"q": "プリント③-1-(2)\n図の平行四辺形の面積を求めなさい。",
+"answer": "121.5cm²",
+"explanation": "13.5cmの点線は、9cmの辺に垂直（直角の印）\nだから「底辺9cm・高さ13.5cm」と見る\n9×13.5＝121.5(cm²)\n★14.5cmの辺は、13.5cmと垂直ではないので使わない。"
+},
+{
+"id": "kf_mzp03",
+"subject": "kifuyu_menseki",
+"month": "eikoh_202611",
+"type": "input",
+"qImage": "/images/kf_mz_p3_1_3.jpg",
+"q": "プリント③-1-(3)\n図の平行四辺形の面積を求めなさい。",
+"answer": "60cm²",
+"explanation": "高さは図形の外に出ていてもよい\n底辺7.5cm、高さ8cm\n7.5×8＝60(cm²)"
+},
+{
+"id": "kf_mzp04",
+"subject": "kifuyu_menseki",
+"month": "eikoh_202611",
+"type": "input",
+"qImage": "/images/kf_mz_p3_1_4.jpg",
+"q": "プリント③-1-(4)\n図の平行四辺形の面積を求めなさい。",
+"answer": "76cm²",
+"explanation": "底辺8cm（上の辺）、高さ9.5cm（外側の点線）\n8×9.5＝76(cm²)\n★11cmはななめの辺なので使わない。"
+},
+{
+"id": "kf_mzp05",
+"subject": "kifuyu_menseki",
+"month": "eikoh_202611",
+"type": "input",
+"qImage": "/images/kf_mz_p3_2_1.jpg",
+"q": "プリント③-2-(1)\n図の三角形の面積を求めなさい。",
+"answer": "45.5cm²",
+"explanation": "三角形＝底辺×高さ÷2\n13×7÷2＝45.5(cm²)"
+},
+{
+"id": "kf_mzp06",
+"subject": "kifuyu_menseki",
+"month": "eikoh_202611",
+"type": "input",
+"qImage": "/images/kf_mz_p3_2_2.jpg",
+"q": "プリント③-2-(2)\n図の三角形の面積を求めなさい。",
+"answer": "120cm²",
+"explanation": "底辺は15cm（9cmは三角形の外の点線部分）\n高さは外側の16cm\n15×16÷2＝120(cm²)\n★底辺を 15＋9＝24cm にしないこと。"
+},
+{
+"id": "kf_mzp07",
+"subject": "kifuyu_menseki",
+"month": "eikoh_202611",
+"type": "input",
+"qImage": "/images/kf_mz_p3_2_3.jpg",
+"q": "プリント③-2-(3)\n図の三角形の面積を求めなさい。",
+"answer": "126cm²",
+"explanation": "14cmの点線は18cmの辺に垂直（直角の印）\nだから「底辺18cm・高さ14cm」と見る\n18×14÷2＝126(cm²)\n★19cmの辺は使わない。"
+},
+{
+"id": "kf_mzp08",
+"subject": "kifuyu_menseki",
+"month": "eikoh_202611",
+"type": "input",
+"qImage": "/images/kf_mz_p3_2_4.jpg",
+"q": "プリント③-2-(4)\n図の三角形の面積を求めなさい。",
+"answer": "306cm²",
+"explanation": "17cmの辺をのばした線と、36cmの点線が直角\nだから「底辺17cm・高さ36cm」と見る\n17×36÷2＝306(cm²)\n★48cmの辺は使わない。"
+},
+{
+"id": "kf_mzp09",
+"subject": "kifuyu_menseki",
+"month": "eikoh_202611",
+"type": "input",
+"qImage": "/images/kf_mz_p3_3_1.jpg",
+"q": "プリント③-3-(1)\n図の正方形の面積を求めなさい。（対角線の長さは10cm）",
+"answer": "50cm²",
+"explanation": "正方形はひし形の仲間なので、対角線×対角線÷2 で求められる\n10×10÷2＝50(cm²)\n★1辺の長さがわからなくても求められる。"
+},
+{
+"id": "kf_mzp10",
+"subject": "kifuyu_menseki",
+"month": "eikoh_202611",
+"type": "input",
+"qImage": "/images/kf_mz_p3_3_2.jpg",
+"q": "プリント③-3-(2)\n図のひし形の面積を求めなさい。",
+"answer": "92cm²",
+"explanation": "ひし形＝対角線×対角線÷2\n16×11.5÷2＝92(cm²)"
+},
+{
+"id": "kf_mzp11",
+"subject": "kifuyu_menseki",
+"month": "eikoh_202611",
+"type": "input",
+"qImage": "/images/kf_mz_p3_3_3.jpg",
+"q": "プリント③-3-(3)\n図の四角形の面積を求めなさい。（対角線は垂直に交わっている）",
+"answer": "135cm²",
+"explanation": "対角線が垂直に交わる四角形は、ひし形でなくても\n対角線×対角線÷2 で求められる\n18×15÷2＝135(cm²)"
+},
+{
+"id": "kf_mzp12",
+"subject": "kifuyu_menseki",
+"month": "eikoh_202611",
+"type": "input",
+"qImage": "/images/kf_mz_p3_3_4.jpg",
+"q": "プリント③-3-(4)\n図の四角形の面積を求めなさい。（対角線は垂直に交わっている）",
+"answer": "237.5cm²",
+"explanation": "対角線が垂直に交わる四角形は\n対角線×対角線÷2 で求められる\n19×25÷2＝237.5(cm²)"
+},
+{
+"id": "kf_mzp13",
+"subject": "kifuyu_menseki",
+"month": "eikoh_202611",
+"type": "input",
+"q": "プリント③-4-(1)\n底辺の長さが14cmで、面積が80.5cm²の三角形があります。この三角形の高さは何cmですか。",
+"answer": "11.5cm",
+"explanation": "三角形＝底辺×高さ÷2\n高さ＝面積×2÷底辺\n80.5×2÷14＝161÷14＝11.5(cm)"
+},
+{
+"id": "kf_mzp14",
+"subject": "kifuyu_menseki",
+"month": "eikoh_202611",
+"type": "input",
+"q": "プリント③-4-(2)\n底辺の長さが14cmで、面積が80.5cm²の三角形があります。この三角形の底辺の長さはそのままで、高さを2倍にすると、面積は何倍になりますか。",
+"answer": "2倍",
+"explanation": "三角形＝底辺×高さ÷2\n底辺が同じなら、面積は高さに比例する\n高さが2倍 → 面積も2倍\nたしかめ：14×23÷2＝161、161÷80.5＝2"
 },
 {
 "id": "kf_ei01",
