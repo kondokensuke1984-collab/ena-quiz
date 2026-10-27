@@ -5,3 +5,6 @@ node_modules
 .env*.local
 .DS_Store
 game-src/*.tsbuildinfo
+
+# Claude の作業用フォルダ
+.claude/worktrees/
