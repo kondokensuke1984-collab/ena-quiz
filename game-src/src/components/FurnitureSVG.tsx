@@ -209,6 +209,45 @@ const DRAWINGS: Record<string, Draw> = {
     </g>
   ),
 
+  // ── あきの しゅうかくさいの ごほうび ──
+  fn_inamura: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="20" ry="5" fill="rgba(0,0,0,0.2)" />
+      <path d="M-18 0 Q-19 -26 0 -34 Q19 -26 18 0 Z" fill="#eab308" {...S} />
+      <path d="M-12 -4 Q-12 -22 0 -28 M0 -2 V-30 M12 -4 Q12 -22 0 -28" fill="none" stroke="#a16207" strokeWidth="1.3" />
+      <path d="M-9 -34 Q0 -50 9 -34 Z" fill="#facc15" {...S} />
+      <path d="M0 -46 q-6 -6 -3 -12 M0 -46 q6 -6 3 -12 M0 -46 v-12" stroke="#ca8a04" strokeWidth="1.8" fill="none" strokeLinecap="round" />
+      <rect x="-19" y="-14" width="38" height="4" rx="2" fill="#92400e" />
+    </g>
+  ),
+  fn_mikoshi: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="28" ry="5" fill="rgba(0,0,0,0.2)" />
+      <rect x="-30" y="-12" width="60" height="5" rx="2" fill="#78350f" {...S} />
+      <rect x="-14" y="-32" width="28" height="22" fill="#b91c1c" {...S} />
+      <rect x="-9" y="-28" width="18" height="14" fill="#fde68a" {...S} strokeWidth={1.2} />
+      <text x="0" y="-18" fontSize="9" textAnchor="middle">🌾</text>
+      <path d="M-22 -32 Q0 -46 22 -32 Z" fill="#1f2937" {...S} />
+      <path d="M0 -44 l-3 -6 3 -5 3 5 Z" fill="#facc15" {...S} strokeWidth={1.2} />
+      <circle cx="-22" cy="-30" r="2.4" fill="#facc15" />
+      <circle cx="22" cy="-30" r="2.4" fill="#facc15" />
+    </g>
+  ),
+  fn_yagura: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="28" ry="5" fill="rgba(0,0,0,0.2)" />
+      <path d="M-22 0 L-16 -40 M22 0 L16 -40 M-20 -14 L20 -14 M-19 -26 L19 -26" stroke="#92400e" strokeWidth="3" />
+      <rect x="-22" y="-46" width="44" height="7" fill="#fef3c7" {...S} />
+      <path d="M-22 -46 h44" stroke="#dc2626" strokeWidth="2" />
+      <ellipse cx="0" cy="-54" rx="9" ry="8" fill="#b45309" {...S} />
+      <ellipse cx="0" cy="-54" rx="5" ry="6" fill="#fde68a" />
+      <path d="M-34 -50 Q0 -40 34 -50" fill="none" stroke="#475569" strokeWidth="0.8" />
+      {[-26, -13, 13, 26].map((x) => (
+        <ellipse key={x} cx={x} cy={-46 + Math.abs(x) * 0.12} rx="3.2" ry="4" fill="#f87171" stroke="#7f1d1d" strokeWidth="0.8" />
+      ))}
+    </g>
+  ),
+
   // ── しょくぶつ ずかんの ごほうび ──
   fn_planter: () => (
     <g>

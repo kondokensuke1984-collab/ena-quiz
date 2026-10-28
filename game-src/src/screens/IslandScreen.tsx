@@ -46,7 +46,9 @@ import { FarmPatch } from '../components/FarmPatch';
 import { FarmModal } from '../components/FarmModal';
 import { StarsModal } from '../components/StarsModal';
 import { DetectiveScreen } from '../components/DetectiveTheater';
-import { caseOpen, CASES, eventActive } from '../lib/detective';
+import { caseOpen, CASES, eventActive, eventToday } from '../lib/detective';
+import { HarvestModal } from '../components/HarvestModal';
+import { harvestActive, HARVEST_GOAL, studiedOnDay } from '../lib/harvest';
 import { MoonViewModal } from '../components/MoonViewModal';
 import { YakiimoModal } from '../components/YakiimoModal';
 import { ArborModal } from '../components/ArborModal';
@@ -145,7 +147,7 @@ function todayKey(): string {
 }
 
 type ModalKind =
-  | 'feed' | 'roster' | 'stamp' | 'mail' | 'fish' | 'farm' | 'stars' | 'detective' | 'moonView'
+  | 'feed' | 'roster' | 'stamp' | 'mail' | 'fish' | 'farm' | 'stars' | 'detective' | 'harvest' | 'moonView'
   | 'imo' | 'arbor' | 'spaceGo' | 'spaceDex' | 'library' | 'desk' | 'organ' | 'micro' | 'transfer' | 'board' | 'opening' | 'iken';
 
 /** むきと あしだけ かわる しゅじんこう（島の 画面ぜんぶを かきなおさない） */
@@ -216,6 +218,8 @@ export function IslandScreen() {
   const [snd, setSnd] = useState<SoundMode>(soundMode());
   const [studyTick, setStudyTick] = useState(0);
   const detectiveNew = eventActive() && CASES.some((c) => caseOpen(c) && !save.detective.solved.includes(c.no));
+  // しゅうかくさい：きょう クイズ5もん やったのに まめクイズが まだ
+  const harvestNew = harvestActive() && studiedOnDay() && save.harvest.day !== dateKey(eventToday());
   // 夜空の 星を うごかす（1分ごと）
   const [skyMin, setSkyMin] = useState(0);
   useEffect(() => {
@@ -402,6 +406,7 @@ export function IslandScreen() {
       ym,
       weekDays: daysThisWeek(new Date(), byDate),
       halloween: isHalloween(),
+      harvest: harvestActive(),
       detectiveOpen: openCases,
       moshiOpen: moshis.map((m) => ({ key: m.test.key, name: m.test.name, diff: m.diff, extra: !!m.test.extra, rewards: moshiRewards(m.test).map((r) => r.reward) })),
       currentMonth: snap.currentMonth,
@@ -1556,6 +1561,21 @@ export function IslandScreen() {
         </button>
       )}
 
+      {/* ── イベント：あきの しゅうかくさい ── */}
+      {harvestActive() && (
+        <button
+          className="mb-2.5 flex w-full items-center gap-2 rounded-2xl bg-gradient-to-r from-[#b45309] to-[#ea580c] px-3 py-2 text-left shadow active:scale-[0.98] lg:landscape:col-start-2"
+          onClick={() => setModal('harvest')}
+        >
+          <span className={`text-xl ${harvestNew ? 'dt-new' : ''}`}>🌾</span>
+          <span className="min-w-0 flex-1 truncate text-[13.5px] font-black text-white">
+            <span className="mr-1.5 text-[10.5px] text-yellow-200">イベント</span>しゅうかくさい
+          </span>
+          <span className="text-[12px] font-black text-amber-50">{Math.min(save.harvest.pts, HARVEST_GOAL)}/{HARVEST_GOAL}</span>
+          {harvestNew && <span className="rounded-full bg-rose-500 px-2 py-0.5 text-[10px] font-black text-white">NEW</span>}
+        </button>
+      )}
+
       {/* ── スタンプ・てがみ・おと ── */}
       <div className="mb-2.5 flex gap-1.5 lg:landscape:col-start-2">
         <button className="min-w-0 flex-1 whitespace-nowrap rounded-2xl leading-tight bg-white/90 px-2 py-2 text-[12px] font-black text-ink shadow active:scale-95" onClick={() => setModal('stamp')}>
@@ -1939,6 +1959,7 @@ export function IslandScreen() {
       {modal === 'farm' && <FarmModal stages={farmStages} studied={studied} onClose={() => setModal(null)} />}
       {modal === 'stars' && <StarsModal onClose={() => setModal(null)} />}
       {modal === 'detective' && <DetectiveScreen onClose={() => setModal(null)} />}
+      {modal === 'harvest' && <HarvestModal onClose={() => setModal(null)} />}
       {modal === 'moonView' && <MoonViewModal onClose={() => setModal(null)} />}
       {modal === 'imo' && <YakiimoModal customers={imoCustomers} onClose={() => setModal(null)} />}
       {modal === 'arbor' && <ArborModal friends={imoCustomers} studied={studied} onClose={() => setModal(null)} />}

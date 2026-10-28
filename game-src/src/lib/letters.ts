@@ -28,6 +28,7 @@ export interface LetterInput {
   ym: string;               // 'YYYY-M'
   weekDays: number;         // 今週 勉強した日数
   halloween?: boolean;      // ハロウィンの きかん
+  harvest?: boolean;        // しゅうかくさいの きかん
   detectiveOpen?: number[]; // 名探偵あんり：いま ひらいている じけん
   moshiOpen?: { key: string; name: string; diff: number; extra?: boolean; rewards?: number[] }[]; // もしの しま：いま うかんでいる もし（近い順）
   currentMonth?: string;    // いまの しゅやくの 月（YYYYMM）
@@ -71,6 +72,7 @@ export function buildLetters(marks: LetterMarks, x: LetterInput): LetterResult {
     stamp: [...marks.stamp],
     weekly: marks.weekly,
     halloween: marks.halloween,
+    harvest: marks.harvest,
     month: marks.month,
     detective: marks.detective,
     moshi: marks.moshi,
@@ -170,6 +172,17 @@ ${names(olds)}と とった しゃしんを おくるよ。
     out.push(mk(LUNA.from, LUNA.fromName, '🎃 ハロウィンが はじまったよ！',
       `${to}10がつ31にちまで、しまは ハロウィンだよ。\nゆうがたと よるに みんなを タップしてみてね。\n「トリック・オア・トリート！」で おかしが もらえるかも？\nルナより`));
     next.halloween = year;
+  }
+
+  // しゅうかくさい：きかんに はじめて島を ひらいたとき（1年に1回）
+  if (x.harvest && next.harvest !== year) {
+    out.push(mk(LUNA.from, LUNA.fromName, '🌾 あきの しゅうかくさいが はじまったよ！',
+      `${to}11がつ30にちまで、しまは しゅうかくさい！
+クイズを 5もん やった日は「まめクイズ」に ちょうせんして みのり🌾を あつめよう。
+はたけで とれた ものを おそなえしても 🌾が ふえるよ。
+🌾30で しょうごう「しゅうかく めいじん」！ 11がつ23にちは 🌾が 2ばいだよ。
+ルナより`));
+    next.harvest = year;
   }
 
   // 名探偵あんり：あたらしい じけんが ひらいたら（1じけん 1かい）

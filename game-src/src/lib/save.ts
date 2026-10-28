@@ -58,6 +58,7 @@ export function freshSave(now = Date.now()): SaveV1 {
     space: { dex: [], day: '', trips: 0, moonStone: '', marsStone: '', sunStone: '', sunSeen: [] },
     usagi: { talked: '', home: false },
     talk: { day: '', talked: [], req: null, done: false },
+    harvest: { pts: 0, day: '', quiz: {}, offered: 0 },
   };
 }
 
@@ -119,6 +120,12 @@ export function loadSave(): SaveV1 {
       solved: Array.isArray(s.detective?.solved) ? s.detective!.solved : [],
       found: obj(s.detective?.found, {}),
       hint: obj(s.detective?.hint, {}),
+    },
+    harvest: {
+      pts: typeof s.harvest?.pts === 'number' ? s.harvest.pts : 0,
+      day: typeof s.harvest?.day === 'string' ? s.harvest.day : '',
+      quiz: obj(s.harvest?.quiz, {}),
+      offered: typeof s.harvest?.offered === 'number' ? s.harvest.offered : 0,
     },
     organ: { played: Array.isArray(s.organ?.played) ? s.organ!.played.filter((x) => typeof x === 'string') : [] },
     micro: {

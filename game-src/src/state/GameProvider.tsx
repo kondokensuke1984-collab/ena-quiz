@@ -23,6 +23,7 @@ import { type Constellation, STAR_REWARDS, tonightConstellation } from '../lib/s
 import { isNearFull, moonAge, moonName } from '../lib/sky';
 import { LUNA, mk as mkLetter } from '../lib/letters';
 import { CASES, DETECTIVE_REWARDS, DETECTIVE_TITLE } from '../lib/detective';
+import { HARVEST_GOAL, HARVEST_REWARDS, HARVEST_TITLE, OFFER_PER_DAY, QUIZ_PER_DAY } from '../lib/harvest';
 import { seasonNow } from '../lib/items';
 import { ORGAN_TITLE, SONGS } from '../lib/songs';
 import { IMO_BY_ID, IMO_PER_DAY, IMO_REWARDS } from '../lib/yakiimo';
@@ -105,6 +106,22 @@ function reducer(state: State, action: Action): State {
   }
 }
 
+export interface HarvestGot { got: number; pts: number; rewards: string[]; title: string | null }
+
+/** みのりが before → after に なったときに もらえる ごほうびと しょうごう */
+function harvestGains(s: SaveV1, before: number, after: number): { rewards: string[]; title: string | null } {
+  const rewards = HARVEST_REWARDS.filter((r) => before < r.at && after >= r.at && !s.owned.includes(r.item)).map((r) => r.item);
+  const title = before < HARVEST_GOAL && after >= HARVEST_GOAL && !s.titles.includes(HARVEST_TITLE) ? HARVEST_TITLE : null;
+  return { rewards, title };
+}
+function withHarvest(s: SaveV1, r: { rewards: string[]; title: string | null }): SaveV1 {
+  return {
+    ...s,
+    owned: [...s.owned, ...r.rewards.filter((x) => !s.owned.includes(x))],
+    titles: r.title && !s.titles.includes(r.title) ? [...s.titles, r.title] : s.titles,
+  };
+}
+
 export interface GameApi {
   save: SaveV1;
   balance: number;
@@ -147,6 +164,10 @@ export interface GameApi {
   detectiveHint(no: number): void;
   /** 名探偵あんり：じけん かいけつ。もらえた プレゼント・ごほうび・しょうごう */
   solveCase(no: number): { gift: string; reward: string | null; title: string | null } | null;
+  /** しゅうかくさい：まめクイズに こたえた（day＝その日、gain＝せいかいの ときの みのり）。もう こたえた 問題なら null */
+  harvestAnswer(day: string, qid: string, correct: boolean, gain: number): HarvestGot | null;
+  /** しゅうかくさい：はたけの ものを 1こ おそなえ（みのり +1）。できないときは null */
+  harvestOffer(day: string, itemId: string): HarvestGot | null;
   /** オルガンの れんしゅうで 1きょく ひけた。はじめての曲なら true、ぜんぶ そろったら title も */
   markSongPlayed(id: string): { first: boolean; title: string | null };
   /** けんびきょう：きょう あと何回 ずかんに のせられるか */
@@ -562,6 +583,38 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       });
       sfx('reveal');
       return { gift, reward, title };
+    },
+
+    harvestAnswer: (day, qid, correct, gain) => {
+      const cur = saveRef.current;
+      const h0 = cur.harvest.day === day ? cur.harvest : { ...cur.harvest, day, quiz: {}, offered: 0 };
+      if (qid in h0.quiz || Object.keys(h0.quiz).length >= QUIZ_PER_DAY) return null;
+      const got = correct ? gain : 0;
+      const r = harvestGains(cur, h0.pts, h0.pts + got);
+      setSave((s) => {
+        const h = s.harvest.day === day ? s.harvest : { ...s.harvest, day, quiz: {}, offered: 0 };
+        if (qid in h.quiz) return s;
+        return withHarvest({ ...s, harvest: { ...h, pts: h.pts + got, quiz: { ...h.quiz, [qid]: correct } } }, r);
+      });
+      sfx(r.rewards.length || r.title ? 'reveal' : correct ? 'clue' : 'ng');
+      return { got, pts: h0.pts + got, ...r };
+    },
+
+    harvestOffer: (day, itemId) => {
+      const cur = saveRef.current;
+      const h0 = cur.harvest.day === day ? cur.harvest : { ...cur.harvest, day, quiz: {}, offered: 0 };
+      if (h0.offered >= OFFER_PER_DAY || (cur.inventory[itemId] ?? 0) < 1) return null;
+      const r = harvestGains(cur, h0.pts, h0.pts + 1);
+      setSave((s) => {
+        const h = s.harvest.day === day ? s.harvest : { ...s.harvest, day, quiz: {}, offered: 0 };
+        const have = s.inventory[itemId] ?? 0;
+        if (h.offered >= OFFER_PER_DAY || have < 1) return s;
+        const inv = { ...s.inventory };
+        if (have <= 1) delete inv[itemId]; else inv[itemId] = have - 1;
+        return withHarvest({ ...s, inventory: inv, harvest: { ...h, pts: h.pts + 1, offered: h.offered + 1 } }, r);
+      });
+      sfx(r.rewards.length || r.title ? 'reveal' : 'gift');
+      return { got: 1, pts: h0.pts + 1, ...r };
     },
 
     markSongPlayed: (id) => {
