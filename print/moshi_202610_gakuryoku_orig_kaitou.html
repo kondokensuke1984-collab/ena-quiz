@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>10月 学力判定テストたいさく 算数模試（オリジナル） 解答・解説</title>
+<style>
+  @page { size: A4 portrait; margin: 11mm 12mm 10mm; }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  body{
+    font-family:'Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif;
+    color:#111; -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+  header{ border-bottom:1.2mm solid #111; padding-bottom:2mm; margin-bottom:4mm; }
+  h1{ font-size:14pt; }
+  h1 .warn{ font-size:9pt; color:#c00; font-weight:700; margin-left:3mm; }
+  .info{ font-size:8.5pt; color:#444; margin-top:1mm; }
+  .sheet{ column-count:2; column-gap:6mm; }
+  .region h2{ font-size:10pt; font-weight:800; color:#fff; padding:.8mm 2.5mm; margin:2mm 0 1.5mm; border-radius:.8mm; break-after:avoid; }
+  .region:first-child h2{ margin-top:0; }
+  .item{ break-inside:avoid; padding-bottom:1.2mm; margin-bottom:1.2mm; border-bottom:.2mm dotted #ccc; font-size:8.8pt; line-height:1.45; }
+  .item .n{ font-weight:800; }
+  .item .ans{ font-weight:800; color:#0f766e; }
+  .item .exp{ color:#444; white-space:pre-line; }
+</style>
+</head>
+<body>
+<header>
+  <h1>10月 学力判定テストたいさく 算数模試（オリジナル）　解答・解説<span class="warn">※おうちの人用</span></h1>
+  <div class="info">1問5点・100点満点／目安時間40分。単位がないもの・約分していない分数は、その場で直させてから正解にしてください。</div>
+</header>
+<div class="sheet" id="sheet"></div>
+<script>
+const EXAM = [{"title": "計算と数（日々の学習）", "qs": [{"q": "漢数字を算用数字に変えなさい。\n五千六十億四百万八", "answer": "506004000008", "explanation": "億・万で区切って考える。\n5060億＝5060 0000 0000、400万＝400 0000、8\n→ 5060｜0400｜0008 ＝ 506004000008\n（「0」の入る位に注意。全部で12けた）"}, {"q": "算用数字を漢数字に変えなさい。\n30070500900", "answer": "三百億七千五十万九百", "wide": true, "explanation": "右から4けたずつ区切る。\n300｜7050｜0900\n→ 300億・7050万・900\n＝三百億七千五十万九百"}, {"q": "次の計算をしなさい。\n608 × 75", "answer": "45600", "explanation": "608×5＝3040、608×70＝42560\n3040＋42560＝45600"}, {"q": "252を素因数分解しなさい。", "answer": "2×2×3×3×7", "explanation": "252÷2＝126、126÷2＝63、63÷3＝21、21÷3＝7\n→ 252＝2×2×3×3×7（小さい順に書く）"}]}, {"title": "面積", "qs": [{"q": "図の台形の面積は何cm²ですか。", "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 150\" width=\"200\" height=\"150\"><polygon points=\"30.0,120.0 170.0,120.0 130.0,30.0 70.0,30.0\" fill=\"#f1f5f9\" stroke=\"#111\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/><polyline points=\"70.0,30.0 70.0,120.0\" fill=\"none\" stroke=\"#111\" stroke-width=\"1.3\" stroke-dasharray=\"4 3\" stroke-linejoin=\"round\"/><text x=\"100.0\" y=\"20.0\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">6cm<\/text><text x=\"100.0\" y=\"132.0\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">14cm<\/text><text x=\"85.0\" y=\"75.0\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">9cm<\/text><\/svg>", "answer": "90cm²", "explanation": "台形の面積＝（上底＋下底）×高さ÷2\n（6＋14）×9÷2＝90（cm²）"}, {"q": "対角線の長さが16cmの正方形の面積は何cm²ですか。", "answer": "128cm²", "explanation": "正方形はひし形の仲間なので、対角線×対角線÷2 で求められる。\n16×16÷2＝128（cm²）"}, {"q": "次の面積を（　）の中の単位で答えなさい。\n2.5ha（m²）", "answer": "25000m²", "explanation": "1ha＝100m×100m＝10000m²\n2.5×10000＝25000（m²）\n（1a＝100m²、1ha＝100a もいっしょにおぼえよう）"}, {"q": "たて15m、横24mの長方形の土地に、図のように はば2mの道を、たてと横に1本ずつ通しました。道をのぞいた土地（白い部分）の面積は何m²ですか。", "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 228 165\" width=\"228\" height=\"165\"><polygon points=\"30.0,135.0 198.0,135.0 198.0,30.0 30.0,30.0\" fill=\"#fff\" stroke=\"#111\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/><polygon points=\"93.0,135.0 107.0,135.0 107.0,30.0 93.0,30.0\" fill=\"#cbd5e1\" stroke=\"none\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/><polygon points=\"30.0,93.0 198.0,93.0 198.0,79.0 30.0,79.0\" fill=\"#cbd5e1\" stroke=\"none\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/><polygon points=\"30.0,135.0 198.0,135.0 198.0,30.0 30.0,30.0\" fill=\"none\" stroke=\"#111\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/><text x=\"114.0\" y=\"147.0\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">24m<\/text><text x=\"12.0\" y=\"82.5\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">15m<\/text><text x=\"100.0\" y=\"20.0\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">2m<\/text><text x=\"213.0\" y=\"86.0\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">2m<\/text><\/svg>", "answer": "286m²", "explanation": "道を土地のはしによせて考えると、白い部分は1つの長方形になる。\nたて 15－2＝13（m）、横 24－2＝22（m）\n13×22＝286（m²）\n（別解：24×15＝360、道は 2×15＋2×24－2×2＝74、360－74＝286）"}]}, {"title": "立方体と直方体", "qs": [{"q": "図の直方体の表面積は何cm²ですか。", "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 161\" width=\"200\" height=\"161\"><polygon points=\"138.0,61.6 34.0,61.6 61.6,34.0 165.6,34.0\" fill=\"#e2e8f0\" stroke=\"#111\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/><polygon points=\"138.0,126.6 138.0,61.6 165.6,34.0 165.6,99.0\" fill=\"#cbd5e1\" stroke=\"#111\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/><polygon points=\"34.0,126.6 138.0,126.6 138.0,61.6 34.0,61.6\" fill=\"#fff\" stroke=\"#111\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/><text x=\"86.0\" y=\"138.6\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">8cm<\/text><text x=\"16.0\" y=\"94.1\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">5cm<\/text><text x=\"173.8\" y=\"118.8\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">6cm<\/text><\/svg>", "answer": "236cm²", "explanation": "3種類の面が2つずつある。\n8×5＝40、8×6＝48、5×6＝30\n（40＋48＋30）×2＝236（cm²）"}, {"q": "表面積が150cm²の立方体があります。この立方体の体積は何cm³ですか。", "answer": "125cm³", "explanation": "立方体の面は6つで、どれも同じ正方形。\n1つの面は 150÷6＝25（cm²）→ 5×5＝25 なので1辺は5cm\n体積は 5×5×5＝125（cm³）"}, {"q": "図は、2つの直方体を組み合わせた立体です。この立体の体積は何cm³ですか。", "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 218 194\" width=\"218\" height=\"194\"><polygon points=\"106.0,63.7 34.0,63.7 63.7,34.0 135.7,34.0\" fill=\"#e2e8f0\" stroke=\"#111\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/><polygon points=\"154.0,159.7 154.0,99.7 183.7,70.0 183.7,130.0\" fill=\"#cbd5e1\" stroke=\"#111\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/><polygon points=\"106.0,99.7 106.0,63.7 135.7,34.0 135.7,70.0\" fill=\"#cbd5e1\" stroke=\"#111\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/><polygon points=\"154.0,99.7 106.0,99.7 135.7,70.0 183.7,70.0\" fill=\"#e2e8f0\" stroke=\"#111\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/><polygon points=\"34.0,159.7 154.0,159.7 154.0,99.7 106.0,99.7 106.0,63.7 34.0,63.7\" fill=\"#fff\" stroke=\"#111\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/><text x=\"94.0\" y=\"171.7\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">10cm<\/text><text x=\"70.0\" y=\"53.7\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">6cm<\/text><text x=\"16.0\" y=\"111.7\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">8cm<\/text><text x=\"138.0\" y=\"129.7\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">5cm<\/text><text x=\"190.8\" y=\"150.8\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">7cm<\/text><\/svg>", "answer": "476cm³", "explanation": "前の面を2つの長方形に分ける。\n左：6×8＝48、右：（10－6）×5＝20 → 前の面は 68（cm²）\n奥行き7cmなので 68×7＝476（cm³）\n（別解：大きい直方体 10×8×7＝560 から、かけた部分 4×3×7＝84 をひいて 476）"}, {"q": "内のりが、たて20cm・横30cm・深さ25cmの直方体の水そうに、9Lの水を入れました。水の深さは何cmになりますか。", "answer": "15cm", "explanation": "9L＝9000cm³\n底面積は 20×30＝600（cm²）\n深さ＝9000÷600＝15（cm）"}]}, {"title": "割合の表し方", "qs": [{"q": "次の□にあてはまる数を求めなさい。\n□mの0.75倍は54m", "answer": "72（m）", "explanation": "もとにする量＝くらべる量÷割合\n54÷0.75＝72（m）"}, {"q": "次の□にあてはまる数を求めなさい。（分数で答えなさい）\n42kgは56kgの□倍", "answer": "3/4（倍）", "explanation": "AはBの A÷B 倍。\n42÷56＝42/56＝3/4"}, {"q": "りんご1この重さは、みかん1この重さの1.6倍で、280gです。みかん1この重さは何gですか。", "answer": "175g", "explanation": "もとにする量（みかん）＝280÷1.6＝175（g）\n（たしかめ：175×1.6＝280）"}, {"q": "はじめの所持金の 3/8 で本を買い、残りの 2/5 でペンを買ったところ、450円残りました。はじめの所持金は何円でしたか。", "answer": "1200円", "explanation": "本を買った残りは、はじめの 1－3/8＝5/8\nペンを買った残りは、その 1－2/5＝3/5 なので、はじめの 5/8×3/5＝3/8\nはじめの 3/8 が450円 → 450÷3/8＝1200（円）\n（たしかめ：本450円、残り750円の2/5でペン300円、残り450円）"}]}, {"title": "推理", "qs": [{"q": "A、B、C、D、Eは、1から5までのどれかの整数を表していて、ことなる文字はことなる整数を表しています。次の①〜③が分かっているとき、A、B、C、D、Eはそれぞれいくつですか。\n① A＋B＝C\n② D－E＝A\n③ BはDより大きい", "answer": "A＝1、B＝4、C＝5、D＝3、E＝2", "wide": true, "explanation": "①より CはAやBより大きい。②より DはAやEより大きい。\n③より B＞D なので、C＞B＞D＞A、E となる。\nよって C＝5、B＝4、D＝3。\n①より A＝5－4＝1、のこりの E＝2。\n（たしかめ：②3－2＝1＝A）"}, {"q": "あおい、かいと、さくら、だいちの4人がかけっこをしました。同じ順位の人はいません。\nあおい「わたしは1位ではなかったよ。」\nかいと「ぼくは、さくらさんより先にゴールしたよ。」\nさくら「わたしは4位ではなかったよ。」\nだいち「ぼくは、あおいさんのすぐ後にゴールしたよ。」\n4人の順位をそれぞれ答えなさい。", "answer": "かいと…1位、さくら…2位、あおい…3位、だいち…4位", "wide": true, "explanation": "だいちは あおいのすぐ後で、あおいは1位ではないので\n（あおい、だいち）＝（2位、3位）か（3位、4位）。\n・2位・3位のとき：かいと・さくらが1位・4位。かいとが先なので さくら4位 → さくらの話に合わない。\n・3位・4位のとき：かいと・さくらが1位・2位。かいとが先なので かいと1位、さくら2位。"}, {"q": "A、B、C、Dの4チームで、サッカーのリーグ戦（どのチームとも1回ずつ試合をする）をしました。引き分けはありませんでした。\n① Aチームは2勝1敗だった。\n② BチームはAチームに勝った。\n③ Cチームは1回も勝てなかった。\n④ Dチームは1勝だけだった。\nBチームは何勝何敗でしたか。", "answer": "3勝0敗", "explanation": "試合は全部で6試合。Aは Bに負けて2勝なので、CとDに勝った。\nCは全敗なので、B・Dにも負けた → DはCに勝って1勝。\nDは1勝だけなので、Bとの試合は負け → BはDに勝った。\nBは A・C・Dに勝って 3勝0敗。"}, {"q": "A、B、C、D、Eの5つの荷物の重さをくらべたところ、次の①〜③が分かりました。同じ重さのものはありません。\n① A、B、Cの中で、一番重いのはC、一番軽いのはBである。\n② BはDより重い。\n③ EはBより軽いが、5つの中で一番軽くはない。\n重い順に記号でならべなさい。", "answer": "C、A、B、E、D", "wide": true, "explanation": "①より C＞A＞B。②より B＞D。③より B＞E。\nDとEはどちらもBより軽く、Eは一番軽くないので E＞D。\nよって C、A、B、E、D の順。"}]}];
+const COLOR = '#0f766e';
+const sheet = document.getElementById('sheet');
+let n = 0;
+EXAM.forEach((sec, si) => {
+  const r = document.createElement('section');
+  r.className = 'region';
+  const h = document.createElement('h2');
+  h.textContent = `大問${si + 1}　${sec.title}`;
+  h.style.background = COLOR;
+  r.appendChild(h);
+  sec.qs.forEach(q => {
+    const d = document.createElement('div');
+    d.className = 'item';
+    d.innerHTML = '<span class="n"></span>　<span class="ans"></span><div class="exp"></div>';
+    d.querySelector('.n').textContent = `問${++n}`;
+    d.querySelector('.ans').textContent = q.answer;
+    d.querySelector('.exp').textContent = q.explanation || '';
+    r.appendChild(d);
+  });
+  sheet.appendChild(r);
+});
+</script>
+</body>
+</html>
