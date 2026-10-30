@@ -5,6 +5,7 @@
 import { memo, useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { PORT_X, WORLD_H, WORLD_W, ZONES, type Spot } from '../lib/suisanVoyage';
+import { STAGE_BY_ID } from '../lib/suisan';
 
 export interface SeaView {
   x: number; y: number; face: 1 | -1;
@@ -34,6 +35,37 @@ function textSprite(text: string, color = '#ffffff', size = 64): THREE.Sprite {
   const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, depthWrite: false, fog: false }));
   sp.scale.set(10, 2.5, 1);
   return sp;
+}
+
+/** 立て看板：まだ 出られない 海域の 入口に ならべる（どうやれば 行けるかを 書く） */
+function signBoard(title: string, l1: string, l2: string): THREE.Group {
+  const cv = document.createElement('canvas');
+  cv.width = 640; cv.height = 320;
+  const ctx = cv.getContext('2d')!;
+  const rr = (x: number, y: number, w: number, h: number, r: number) => {
+    ctx.beginPath();
+    if (ctx.roundRect) ctx.roundRect(x, y, w, h, r); else ctx.rect(x, y, w, h);
+    ctx.fill();
+  };
+  ctx.fillStyle = '#b45309';
+  rr(8, 8, 624, 304, 36);
+  ctx.fillStyle = '#fef3c7';
+  rr(26, 26, 588, 268, 26);
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.font = '900 54px "Hiragino Sans", "Noto Sans JP", sans-serif';
+  ctx.fillStyle = '#7c2d12'; ctx.fillText(title, 320, 82);
+  ctx.font = '800 40px "Hiragino Sans", "Noto Sans JP", sans-serif';
+  ctx.fillStyle = '#1e3a8a'; ctx.fillText(l1, 320, 170);
+  ctx.fillStyle = '#047857'; ctx.fillText(l2, 320, 232);
+  const tex = new THREE.CanvasTexture(cv);
+  const board = new THREE.Mesh(new THREE.PlaneGeometry(7.2, 3.6), new THREE.MeshBasicMaterial({ map: tex, transparent: true, side: THREE.DoubleSide, fog: false }));
+  board.position.y = 4.1;
+  const postM = mat(0x92400e);
+  const p1 = new THREE.Mesh(new THREE.BoxGeometry(0.28, 3.2, 0.28), postM); p1.position.set(-2.4, 1.5, -0.05);
+  const p2 = new THREE.Mesh(new THREE.BoxGeometry(0.28, 3.2, 0.28), postM); p2.position.set(2.4, 1.5, -0.05);
+  const g = new THREE.Group();
+  g.add(p1, p2, board);
+  return g;
 }
 
 function buildBoat(kind: 'small' | 'mid' | 'big'): THREE.Group {
@@ -185,7 +217,7 @@ function SeaViewImpl({ sRef, ctl, onFail }: { sRef: React.MutableRefObject<SeaVi
 
     // ── 海域の ふち（ブイ）と 名前 ──
     const buoyMat = mat(0xffffff), buoyRed = mat(0xef4444);
-    const locks: { id: string; veil: THREE.Mesh; sprite: THREE.Sprite }[] = [];
+    const locks: { id: string; veil: THREE.Mesh; signs: THREE.Object3D[] }[] = [];
     ZONES.forEach((z, zi) => {
       const mid = ((z.x0 + z.x1) / 2) * K;
       const label = textSprite(z.gyogyo, '#ffffff', 74);
@@ -207,11 +239,17 @@ function SeaViewImpl({ sRef, ctl, onFail }: { sRef: React.MutableRefObject<SeaVi
         new THREE.BoxGeometry((z.x1 - z.x0) * K, 6, sh),
         new THREE.MeshBasicMaterial({ color: 0x0f172a, transparent: true, opacity: 0.4, depthWrite: false, fog: false }));
       veil.position.set(mid, 3, (SEA_Z0 + SEA_Z1) / 2);
-      const lock = textSprite('🔒 まだ 出られない', '#fecaca', 60);
-      lock.position.set(mid, 3.6, portZ);
-      lock.scale.set(10, 2.5, 1);
-      scene.add(veil, lock);
-      locks.push({ id: z.id, veil, sprite: lock });
+      scene.add(veil);
+      const signs: THREE.Object3D[] = [];
+      if (z.needs) {
+        const st = STAGE_BY_ID[z.needs];
+        for (const sz of [4.5, 13.5, 22.5]) {
+          const sg = signBoard(`🔒 ${z.gyogyo}の 海`, `ステージ「${st ? st.name : z.needs}」を`, 'クリアすると 行けるよ！');
+          sg.position.set(z.x0 * K + 3.2, 0.1, sz);
+          scene.add(sg); signs.push(sg);
+        }
+      }
+      locks.push({ id: z.id, veil, signs });
     });
 
     // ── 船 ──
@@ -311,7 +349,7 @@ function SeaViewImpl({ sRef, ctl, onFail }: { sRef: React.MutableRefObject<SeaVi
         }
       }
       for (const b of buoys) b.position.y = 0.25 + Math.sin(t * 2 + b.userData.bob) * 0.1;
-      for (const l of locks) { const open = cc.isOpen(l.id); l.veil.visible = !open; l.sprite.visible = !open; }
+      for (const l of locks) { const open = cc.isOpen(l.id); l.veil.visible = !open; for (const sg of l.signs) sg.visible = !open; }
       // カメラ：船の 少し おく・上から（十字キーの 上＝おく）
       camX += (bx + 3 - camX) * 0.1;
       camZ += (bz - camZ) * 0.1;

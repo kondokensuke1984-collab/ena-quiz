@@ -1,6 +1,7 @@
 import { Suspense, lazy, useCallback, useEffect, useRef, useState } from 'react';
 import { useGame } from '../state/useGame';
 import { sfx } from '../lib/sound';
+import { STAGE_BY_ID } from '../lib/suisan';
 import {
   PORT_X, SPOT_RADIUS, WORLD_H, WORLD_W, ZONES, boatFor, makeSpots, pickFish, zoneAt, zoneOpen,
   type Spot, type VoyFish,
@@ -200,7 +201,13 @@ export function SuisanVoyage({ onBack }: { onBack(): void }) {
                 {!open && <rect x={z.x0} y="0" width={z.x1 - z.x0} height={VH} fill="#0f172a" opacity="0.45" />}
                 <text x={(z.x0 + z.x1) / 2} y="18" textAnchor="middle" fontSize="11" fontWeight="900" fill="#0c4a6e">{z.gyogyo}</text>
                 <text x={(z.x0 + z.x1) / 2} y="31" textAnchor="middle" fontSize="8.5" fontWeight="800" fill="#0c4a6e" opacity="0.85">{z.name}</text>
-                {!open && <text x={(z.x0 + z.x1) / 2} y={VH / 2} textAnchor="middle" fontSize="26">🔒</text>}
+                {!open && (
+                  <g>
+                    <text x={(z.x0 + z.x1) / 2} y={VH / 2 - 6} textAnchor="middle" fontSize="26">🔒</text>
+                    <text x={(z.x0 + z.x1) / 2} y={VH / 2 + 14} textAnchor="middle" fontSize="9.5" fontWeight="900" fill="#fef3c7">ステージ「{z.needs ? STAGE_BY_ID[z.needs]?.name : ''}」を</text>
+                    <text x={(z.x0 + z.x1) / 2} y={VH / 2 + 27} textAnchor="middle" fontSize="9.5" fontWeight="900" fill="#fef3c7">クリアすると 行けるよ</text>
+                  </g>
+                )}
                 <path d={`M${z.x1} 0 V${VH}`} stroke="#fff" strokeWidth="1.6" strokeDasharray="5 4" />
               </g>
             );
