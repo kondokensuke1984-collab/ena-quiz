@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>日本の農業６ | 要点まとめ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>:root{--c:#16a34a;--l:#dcfce7}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Noto Sans JP',sans-serif;background:#f1f5f9;color:#1e293b;line-height:1.8;-webkit-text-size-adjust:100%}
+.hd{background:var(--c);color:#fff;position:sticky;top:0;z-index:30;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.hd .in{max-width:960px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.hd .t{display:flex;align-items:center;gap:10px}
+.num{font-family:'M PLUS Rounded 1c',sans-serif;background:#fff;color:var(--c);font-weight:800;font-size:22px;width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+h1{font-family:'M PLUS Rounded 1c',sans-serif;font-size:20px;margin:0;letter-spacing:.04em}
+.btns{display:flex;gap:8px;align-items:center}
+.btn{border:0;cursor:pointer;font:inherit;font-size:13px;font-weight:700;border-radius:999px;padding:7px 14px;text-decoration:none;color:#1e293b;background:#fde68a}
+.btn.back{background:rgba(255,255,255,.25);color:#fff}
+.btn.on{background:#ef4444;color:#fff}
+main{max-width:960px;margin:0 auto;padding:16px 16px 64px}
+.tag{display:inline-block;background:var(--l);color:var(--c);font-weight:700;font-size:13px;border-radius:999px;padding:3px 12px;margin:4px 0 12px}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:16px 18px;margin:0 0 16px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.card h2{font-family:'M PLUS Rounded 1c',sans-serif;font-size:18px;margin:0 0 8px;color:var(--c);display:flex;align-items:center;gap:8px}
+.card h2 .n{background:var(--c);color:#fff;font-size:13px;border-radius:8px;padding:1px 8px}
+.card h3{font-size:15px;margin:14px 0 4px;color:#334155}
+.card p{margin:6px 0}
+.card ul{margin:6px 0;padding-left:1.3em}
+.card li{margin:3px 0}
+.k{font-weight:700;color:#b91c1c}
+body.red .k{background:#ef4444;color:transparent;border-radius:4px;cursor:pointer;user-select:none;transition:.15s}
+body.red .k.open{background:#fef08a;color:#991b1b}
+rt{font-size:.55em;color:#64748b;font-weight:400}
+body.red .k:not(.open) rt{color:transparent}
+.note{background:var(--l);border-radius:10px;padding:8px 12px;font-size:14px;margin:8px 0}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:8px 0}
+th,td{border:1px solid #cbd5e1;padding:4px 8px;text-align:center}
+th{background:var(--l);color:#334155}
+td.l{text-align:left}
+.low{background:#fee2e2;font-weight:700}
+.high{background:#dcfce7;font-weight:700}
+.bars{margin:8px 0}
+.bar{display:flex;align-items:center;gap:8px;margin:4px 0;font-size:14px}
+.bar .lb{width:6.5em;flex:none;text-align:right}
+.bar .tr{flex:1;background:#f1f5f9;border-radius:6px;height:20px;position:relative;overflow:hidden}
+.bar .fi{height:100%;background:var(--c);border-radius:6px}
+.bar .v{width:5.2em;flex:none;font-weight:700}
+.cap{font-size:12px;color:#64748b;margin:2px 0 8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.mini{border:1px solid #e2e8f0;border-radius:12px;padding:10px 12px;background:#f8fafc}
+.mini h3{margin:0 0 4px}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch;margin:10px 0}
+.flow .st{flex:1;min-width:120px;background:var(--l);border:2px solid var(--c);border-radius:12px;padding:8px;text-align:center;font-size:13px}
+.flow .st b{display:block;font-size:16px;color:var(--c)}
+.flow .ar{align-self:center;color:var(--c);font-weight:800}
+@media print{.btns{display:none}body{background:#fff}}
+</style>
+</head>
+<body>
+<header class="hd"><div class="in">
+  <div class="t"><span class="num">6</span><h1>日本の農業６</h1></div>
+  <div class="btns"><button class="btn" id="rb" onclick="toggleRed()">赤シート ON</button><a class="btn back" href="/">もどる</a></div>
+</div></header>
+<main>
+<span class="tag">要点のまとめ｜食生活の変化・フードマイレージ・食料自給率</span>
+<section class="card"><h2><span class="n">1</span>日本の食生活の変化</h2>
+<p>日本では昔から米が食生活の中心でした。くらしがゆたかになると、魚や豆類をたくさんとる和風の食事の代わりに、肉や油脂類の多い洋風の食事をする機会が増えました。これを<b class="k"><ruby>食の欧米化<rt>しょくのおうべいか</rt></ruby></b>（西洋化・洋風化）といいます。</p>
+<div class="note">この結果、<b class="k">米を食べる量が減り</b>、さまざまな種類の農産物を食べるようになりました。</div><table><tr><th></th><th>ごはん</th><th>牛肉</th><th>牛乳</th><th>植物油</th><th>野菜</th><th>果物</th><th>魚介類</th></tr><tr><td>1965年度</td><td>1日5杯</td><td>月に1回</td><td>週に2本</td><td>年に3本</td><td>1日300g</td><td>1日80g</td><td>1日80g</td></tr><tr><td>2021年度</td><td>1日2.4杯</td><td>月に3.4回</td><td>週に3本</td><td>年に9本</td><td>1日230g</td><td>1日90g</td><td>1日60g</td></tr></table><div class="cap">（ジュニア農林水産白書より）米・野菜・魚が減り、肉・牛乳・油・果物が増えた。</div></section>
+<section class="card"><h2><span class="n">2</span>食料の輸入</h2>
+<p>食生活の変化が進むと、外国にしかないめずらしい農産物だけでなく、ブロッコリーやかぼちゃなど、ふだん食べる野菜も多く輸入されるようになりました。外国の野菜は、広大な土地で<b class="k"><ruby>大量に生産<rt>たいりょうにせいさん</rt></ruby></b> できるため、国内産より安く手に入ります。</p>
+<h3>輸入が増えることの問題点</h3>
+<ul><li>安い輸入品との競争で、<b class="k">日本国内の農業が衰えてしまう</b>。</li>
+<li>日本で禁止されている農薬が使われていることもあり、<b class="k">安全性が問題になる</b>。</li>
+<li>輸入先の国で災害や戦争がおきると、輸入できなくなり<b class="k">食料不足になるおそれがある</b>。</li></ul>
+<h3>トレーサビリティ</h3>
+<p>農産物が、いつ・どこで・どのように生産され、どんな経路で店頭にならんだのかを公開して、消費者が<b class="k"><ruby>追跡<rt>ついせき</rt></ruby></b>できる仕組みを<b class="k">トレーサビリティ</b>といいます。商品のシールやインターネットで情報を知ることができ、安心して食品を買えます。</p></section>
+<section class="card"><h2><span class="n">3</span>フードマイレージ</h2>
+<p>食料を生産地から消費地へ運ぶとき、環境へどのくらい影響をあたえるかを考えるための数字を<b class="k">フードマイレージ</b>といいます。<br><b class="k">食料の重さ×運んだ距離</b>で求められる。</p>
+<p>日本は<b class="k">島国</b>（海洋国）で、農産物を輸入するときは船や飛行機を使います。船や飛行機は石油などを燃料にして<b class="k"><ruby>二酸化炭素<rt>にさんかたんそ</rt></ruby></b>を多く出すので、地球温暖化の原因にもつながります。そのため、日本のフードマイレージは大きくなりやすいのです。</p><h3>大豆1トンを運ぶときの比べ（埼玉県産とアメリカ産）</h3><table><tr><th></th><th>輸送距離</th><th>二酸化炭素排出量</th></tr><tr><td>埼玉県産（小川町→工場）</td><td>3.4km</td><td>0.6kg</td></tr><tr><td>アメリカ産（アイオワ州→ニューオリンズ港→東京港→工場）</td><td>19,968km</td><td>245.9kg</td></tr></table><div class="cap">（農林水産省資料より）</div><h3>各国のフードマイレージ</h3><div class="bars"><div class="bar"><span class="lb">日本</span><span class="tr"><span class="fi" style="display:block;width:100.0%"></span></span><span class="v">9,002</span></div><div class="bar"><span class="lb">韓国</span><span class="tr"><span class="fi" style="display:block;width:35.2%"></span></span><span class="v">3,172</span></div><div class="bar"><span class="lb">アメリカ</span><span class="tr"><span class="fi" style="display:block;width:32.9%"></span></span><span class="v">2,958</span></div><div class="bar"><span class="lb">イギリス</span><span class="tr"><span class="fi" style="display:block;width:20.9%"></span></span><span class="v">1,880</span></div><div class="bar"><span class="lb">ドイツ</span><span class="tr"><span class="fi" style="display:block;width:19.1%"></span></span><span class="v">1,718</span></div></div><div class="cap">単位：億t・km　日本は先進国の中でも非常に大きい。</div></section>
+<section class="card"><h2><span class="n">4</span>食料自給率</h2>
+<p>一つの国で消費される食料のうち、その国内で生産されている割合を<b class="k"><ruby>食料自給率<rt>しょくりょうじきゅうりつ</rt></ruby></b>といいます。食生活の変化で米の消費が減った一方、飼料や原料の多くを海外にたよる畜産物や油脂類の消費が増えたため、長期にわたって下がってきました。日本の食料全体の自給率は約<b class="k">40％</b>です。</p>
+<p>品目別では、必要な量を国内でほぼ生産できているのは<b class="k">米とたまご</b>だけで、<b class="k">小麦と大豆</b>は自給率が非常に低くなっています。</p><table><tr><th>品目</th><th>1960</th><th>1970</th><th>1980</th><th>1990</th><th>2000</th><th>2010</th><th>2020</th></tr><tr><td>米</td><td>102</td><td>106</td><td>100</td><td>100</td><td>95</td><td>97</td><td>97</td></tr><tr><td>小麦</td><td>39</td><td>9</td><td>10</td><td>15</td><td>11</td><td>9</td><td>15</td></tr><tr><td>大豆</td><td>28</td><td>4</td><td>4</td><td>5</td><td>5</td><td>6</td><td>6</td></tr><tr><td>野菜</td><td>100</td><td>99</td><td>97</td><td>91</td><td>81</td><td>81</td><td>80</td></tr><tr><td>果実</td><td>100</td><td>84</td><td>81</td><td>63</td><td>44</td><td>38</td><td>38</td></tr><tr><td>たまご</td><td>101</td><td>97</td><td>98</td><td>98</td><td>95</td><td>96</td><td>97</td></tr><tr><td>肉類</td><td>91</td><td>89</td><td>81</td><td>70</td><td>52</td><td>56</td><td>53</td></tr><tr><td class="l"><b>総合</b></td><td class="low">79</td><td class="low">60</td><td class="low">53</td><td class="low">48</td><td class="low">40</td><td class="low">39</td><td class="low">37</td></tr></table><div class="cap">食料自給率の移り変わり（単位：％）</div><h3>主な国の食料自給率（カロリーベース）</h3><div class="bars"><div class="bar"><span class="lb">カナダ</span><span class="tr"><span class="fi" style="display:block;width:100.0%"></span></span><span class="v">266％</span></div><div class="bar"><span class="lb">オーストラリア</span><span class="tr"><span class="fi" style="display:block;width:75.2%"></span></span><span class="v">200％</span></div><div class="bar"><span class="lb">アメリカ</span><span class="tr"><span class="fi" style="display:block;width:49.6%"></span></span><span class="v">132％</span></div><div class="bar"><span class="lb">フランス</span><span class="tr"><span class="fi" style="display:block;width:47.0%"></span></span><span class="v">125％</span></div><div class="bar"><span class="lb">ドイツ</span><span class="tr"><span class="fi" style="display:block;width:32.3%"></span></span><span class="v">86％</span></div><div class="bar"><span class="lb">イギリス</span><span class="tr"><span class="fi" style="display:block;width:24.4%"></span></span><span class="v">65％</span></div><div class="bar"><span class="lb">イタリア</span><span class="tr"><span class="fi" style="display:block;width:22.6%"></span></span><span class="v">60％</span></div><div class="bar"><span class="lb">スイス</span><span class="tr"><span class="fi" style="display:block;width:19.2%"></span></span><span class="v">51％</span></div><div class="bar"><span class="lb">日本</span><span class="tr"><span class="fi" style="display:block;width:13.9%"></span></span><span class="v">37％</span></div></div><div class="cap">日本は他の国と比べても低い。</div></section>
+<section class="card"><h2><span class="n">5</span>日本の農業総生産額の割合（2020年）</h2>
+<p>かつては米が最も大きな割合でしたが、食生活の欧米化によって、現在は<b class="k">畜産</b>が最も大きくなっています。</p><div class="bars"><div class="bar"><span class="lb">畜産</span><span class="tr"><span class="fi" style="display:block;width:100.0%"></span></span><span class="v">36.2％</span></div><div class="bar"><span class="lb">野菜</span><span class="tr"><span class="fi" style="display:block;width:69.6%"></span></span><span class="v">25.2％</span></div><div class="bar"><span class="lb">米</span><span class="tr"><span class="fi" style="display:block;width:50.8%"></span></span><span class="v">18.4％</span></div><div class="bar"><span class="lb">くだもの</span><span class="tr"><span class="fi" style="display:block;width:27.1%"></span></span><span class="v">9.8％</span></div><div class="bar"><span class="lb">花き</span><span class="tr"><span class="fi" style="display:block;width:9.4%"></span></span><span class="v">3.4％</span></div><div class="bar"><span class="lb">いも類</span><span class="tr"><span class="fi" style="display:block;width:7.5%"></span></span><span class="v">2.7％</span></div><div class="bar"><span class="lb">工芸作物</span><span class="tr"><span class="fi" style="display:block;width:4.7%"></span></span><span class="v">1.7％</span></div><div class="bar"><span class="lb">その他</span><span class="tr"><span class="fi" style="display:block;width:3.3%"></span></span><span class="v">1.2％</span></div><div class="bar"><span class="lb">豆類</span><span class="tr"><span class="fi" style="display:block;width:2.2%"></span></span><span class="v">0.8％</span></div><div class="bar"><span class="lb">麦類</span><span class="tr"><span class="fi" style="display:block;width:1.7%"></span></span><span class="v">0.6％</span></div></div><div class="cap">総生産額 8兆9370億円（2022/23年版「日本国勢図会」）</div></section>
+</main>
+<script>
+var red=false;
+function toggleRed(){red=!red;document.body.classList.toggle('red',red);
+ var b=document.getElementById('rb');b.classList.toggle('on',red);b.textContent=red?'赤シート OFF':'赤シート ON';
+ if(!red)document.querySelectorAll('.k.open').forEach(function(e){e.classList.remove('open')});}
+document.addEventListener('click',function(e){var t=e.target.closest('.k');if(t&&red)t.classList.toggle('open');});
+</script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>林業 | 要点まとめ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>:root{--c:#4d7c0f;--l:#ecfccb}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Noto Sans JP',sans-serif;background:#f1f5f9;color:#1e293b;line-height:1.8;-webkit-text-size-adjust:100%}
+.hd{background:var(--c);color:#fff;position:sticky;top:0;z-index:30;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.hd .in{max-width:960px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.hd .t{display:flex;align-items:center;gap:10px}
+.num{font-family:'M PLUS Rounded 1c',sans-serif;background:#fff;color:var(--c);font-weight:800;font-size:22px;width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+h1{font-family:'M PLUS Rounded 1c',sans-serif;font-size:20px;margin:0;letter-spacing:.04em}
+.btns{display:flex;gap:8px;align-items:center}
+.btn{border:0;cursor:pointer;font:inherit;font-size:13px;font-weight:700;border-radius:999px;padding:7px 14px;text-decoration:none;color:#1e293b;background:#fde68a}
+.btn.back{background:rgba(255,255,255,.25);color:#fff}
+.btn.on{background:#ef4444;color:#fff}
+main{max-width:960px;margin:0 auto;padding:16px 16px 64px}
+.tag{display:inline-block;background:var(--l);color:var(--c);font-weight:700;font-size:13px;border-radius:999px;padding:3px 12px;margin:4px 0 12px}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:16px 18px;margin:0 0 16px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.card h2{font-family:'M PLUS Rounded 1c',sans-serif;font-size:18px;margin:0 0 8px;color:var(--c);display:flex;align-items:center;gap:8px}
+.card h2 .n{background:var(--c);color:#fff;font-size:13px;border-radius:8px;padding:1px 8px}
+.card h3{font-size:15px;margin:14px 0 4px;color:#334155}
+.card p{margin:6px 0}
+.card ul{margin:6px 0;padding-left:1.3em}
+.card li{margin:3px 0}
+.k{font-weight:700;color:#b91c1c}
+body.red .k{background:#ef4444;color:transparent;border-radius:4px;cursor:pointer;user-select:none;transition:.15s}
+body.red .k.open{background:#fef08a;color:#991b1b}
+rt{font-size:.55em;color:#64748b;font-weight:400}
+body.red .k:not(.open) rt{color:transparent}
+.note{background:var(--l);border-radius:10px;padding:8px 12px;font-size:14px;margin:8px 0}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:8px 0}
+th,td{border:1px solid #cbd5e1;padding:4px 8px;text-align:center}
+th{background:var(--l);color:#334155}
+td.l{text-align:left}
+.low{background:#fee2e2;font-weight:700}
+.high{background:#dcfce7;font-weight:700}
+.bars{margin:8px 0}
+.bar{display:flex;align-items:center;gap:8px;margin:4px 0;font-size:14px}
+.bar .lb{width:6.5em;flex:none;text-align:right}
+.bar .tr{flex:1;background:#f1f5f9;border-radius:6px;height:20px;position:relative;overflow:hidden}
+.bar .fi{height:100%;background:var(--c);border-radius:6px}
+.bar .v{width:5.2em;flex:none;font-weight:700}
+.cap{font-size:12px;color:#64748b;margin:2px 0 8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.mini{border:1px solid #e2e8f0;border-radius:12px;padding:10px 12px;background:#f8fafc}
+.mini h3{margin:0 0 4px}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch;margin:10px 0}
+.flow .st{flex:1;min-width:120px;background:var(--l);border:2px solid var(--c);border-radius:12px;padding:8px;text-align:center;font-size:13px}
+.flow .st b{display:block;font-size:16px;color:var(--c)}
+.flow .ar{align-self:center;color:var(--c);font-weight:800}
+@media print{.btns{display:none}body{background:#fff}}
+</style>
+</head>
+<body>
+<header class="hd"><div class="in">
+  <div class="t"><span class="num">8</span><h1>林業</h1></div>
+  <div class="btns"><button class="btn" id="rb" onclick="toggleRed()">赤シート ON</button><a class="btn back" href="/">もどる</a></div>
+</div></header>
+<main>
+<span class="tag">要点のまとめ｜森林の種類・三大美林・林業の作業と問題点・木材の輸入</span>
+<section class="card"><h2><span class="n">1</span>日本の森林</h2>
+<p>日本の国土の約<b class="k">3分の2</b>を森林がしめていて、地域によってさまざまな種類の森林が見られます。</p>
+<div class="grid">
+<div class="mini"><h3><b class="k"><ruby>針葉樹林<rt>しんようじゅりん</rt></ruby></b>（地図記号「Λ」）</h3>細長い葉をもつ樹木の森林。すぎ・まつ・ひのきなど。成長が早く、まっすぐのびるので、木材生産のためにたくさん植林されてきた。</div>
+<div class="mini"><h3><b class="k"><ruby>広葉樹林<rt>こうようじゅりん</rt></ruby></b>（地図記号「Ω」）</h3>幅の広い葉をもつ樹木の森林。ぶな・かし・しいなど。</div>
+</div><h3>国土にしめる森林の面積の割合（2017年）</h3><div class="bars"><div class="bar"><span class="lb">日本</span><span class="tr"><span class="fi" style="display:block;width:66.0%"></span></span><span class="v">66％</span></div><div class="bar"><span class="lb">フィンランド</span><span class="tr"><span class="fi" style="display:block;width:66.0%"></span></span><span class="v">66％</span></div><div class="bar"><span class="lb">ロシア</span><span class="tr"><span class="fi" style="display:block;width:48.0%"></span></span><span class="v">48％</span></div><div class="bar"><span class="lb">アメリカ</span><span class="tr"><span class="fi" style="display:block;width:32.0%"></span></span><span class="v">32％</span></div><div class="bar"><span class="lb">中国</span><span class="tr"><span class="fi" style="display:block;width:22.0%"></span></span><span class="v">22％</span></div><div class="bar"><span class="lb">オーストラリア</span><span class="tr"><span class="fi" style="display:block;width:16.0%"></span></span><span class="v">16％</span></div></div><h3>日本の森林面積にしめる種類別の割合（2017年）</h3><div class="bars"><div class="bar"><span class="lb">広葉樹の天然林</span><span class="tr"><span class="fi" style="display:block;width:90.0%"></span></span><span class="v">45％</span></div><div class="bar"><span class="lb">針葉樹の人工林</span><span class="tr"><span class="fi" style="display:block;width:78.0%"></span></span><span class="v">39％</span></div><div class="bar"><span class="lb">針葉樹の天然林</span><span class="tr"><span class="fi" style="display:block;width:18.0%"></span></span><span class="v">9％</span></div><div class="bar"><span class="lb">広葉樹の人工林</span><span class="tr"><span class="fi" style="display:block;width:2.0%"></span></span><span class="v">1％</span></div><div class="bar"><span class="lb">その他</span><span class="tr"><span class="fi" style="display:block;width:12.0%"></span></span><span class="v">6％</span></div></div><div class="cap">人工林は針葉樹（すぎ・ひのき）が中心。</div></section>
+<section class="card"><h2><span class="n">2</span>三大美林と世界自然遺産</h2>
+<p>森林の中には、天然の三大美林や人工の三大美林に数えられるものがあります。</p><table><tr><th></th><th>秋田県</th><th>青森県</th><th>長野県</th></tr><tr><td>天然の三大美林</td><td><b class="k">秋田すぎ</b></td><td><b class="k">青森ひば</b></td><td><b class="k">木曽ひのき</b></td></tr></table><table><tr><th></th><th>奈良県</th><th>静岡県</th><th>三重県</th></tr><tr><td>人工の三大美林</td><td><b class="k">吉野すぎ</b></td><td><b class="k">天竜すぎ</b></td><td><b class="k">尾鷲ひのき</b></td></tr></table><h3>森林にかかわる世界自然遺産</h3>
+<ul><li><b class="k"><ruby>白神山地<rt>しらかみさんち</rt></ruby></b>…秋田県と青森県の境。ぶなの原生林。</li>
+<li><b class="k"><ruby>屋久島<rt>やくしま</rt></ruby></b>…鹿児島県。樹齢1000年をこえる屋久すぎの原生林。</li></ul>
+<div class="note">【ひのき】木曽・尾鷲　【すぎ】秋田・吉野・天竜　【ひば】青森</div></section>
+<section class="card"><h2><span class="n">3</span>森林のはたらき</h2><ul>
+<li>雨水をたくわえ、水害や干害を防ぐ（<b class="k">緑のダム</b>）。</li>
+<li>水をきれいにする。</li>
+<li>養分をたくわえ、川や海に栄養をあたえる（<b class="k">保安林</b>）。</li>
+<li>二酸化炭素を吸収し、生物に必要な酸素をつくる（<b class="k">光合成</b>）。</li>
+<li>気温が上がるのを防ぐ。</li>
+<li>風や砂の害から作物を守る（<b class="k">防風林</b>・<b class="k">防砂林</b>）。</li>
+<li>騒音をさえぎる。</li>
+<li>野生動物のすみかや、魚のすみかとなる（<b class="k">魚つき林</b>）。</li></ul></section>
+<section class="card"><h2><span class="n">4</span>日本の林業（森林整備のサイクル）</h2>
+<p>林業のしごとは、植林、下草がり、除伐、間伐などの森林の保護と、伐採の流れで行われます。植林してから伐採するまでには長い年月がかかり、50年以上かかるものもあります。</p><div class="flow"><div class="st"><b><b class="k">植栽</b></b>伐採したあとの土地を整理し、なえ木を植える。</div><span class="ar">▶</span><div class="st"><b><b class="k">下刈り</b></b>植えたなえ木の生育をさまたげる雑草などをかる。</div><span class="ar">▶</span><div class="st"><b><b class="k">除伐</b></b>植えた木の生育をさまたげる、形の悪い木などを伐採する。</div><span class="ar">▶</span><div class="st"><b><b class="k">間伐</b></b>植えた木の一部を伐採して本数を調整し、残った木を育成させる。</div><span class="ar">▶</span><div class="st"><b><b class="k">主伐</b></b>木材として利用するために、育成した樹木を伐採し、はん出する。</div></div><div class="note">林齢：植栽（1年）→ 下刈り → 除伐・枝打ち（10年ごろ）→ 間伐（3回ほど）→ 主伐（50〜100年）。間伐された木材も重要な資源として利用されている（間伐材マーク）。</div></section>
+<section class="card"><h2><span class="n">5</span>林業の問題点</h2>
+<p>高くけわしい山に入って木の手入れをする林業は、きびしく危険な仕事です。それにもかかわらず収入が少ないことなどから、農業や水産業以上に<b class="k">後つぎ不足</b>が深刻な問題となっています。そのため国は<b class="k"><ruby>緑の雇用事業<rt>みどりのこようじぎょう</rt></ruby></b>など、新たに林業に就きたい人を育てるしくみをつくっています。</p>
+<div class="note"><b>緑の雇用事業</b>…新しく林業の仕事に就くことを希望する人に、基本的な技術を学ぶ場を用意し、国がそのためのお金を出す制度。</div><h3>林業で働く人の数</h3><div class="bars"><div class="bar"><span class="lb">1960年</span><span class="tr"><span class="fi" style="display:block;width:100.0%"></span></span><span class="v">43.9万人</span></div><div class="bar"><span class="lb">1970年</span><span class="tr"><span class="fi" style="display:block;width:46.9%"></span></span><span class="v">20.6万人</span></div><div class="bar"><span class="lb">1980年</span><span class="tr"><span class="fi" style="display:block;width:37.6%"></span></span><span class="v">16.5万人</span></div><div class="bar"><span class="lb">1990年</span><span class="tr"><span class="fi" style="display:block;width:24.6%"></span></span><span class="v">10.8万人</span></div><div class="bar"><span class="lb">2000年</span><span class="tr"><span class="fi" style="display:block;width:15.3%"></span></span><span class="v">6.7万人</span></div><div class="bar"><span class="lb">2010年</span><span class="tr"><span class="fi" style="display:block;width:15.7%"></span></span><span class="v">6.9万人</span></div><div class="bar"><span class="lb">2015年</span><span class="tr"><span class="fi" style="display:block;width:15.0%"></span></span><span class="v">6.6万人</span></div><div class="bar"><span class="lb">2020年</span><span class="tr"><span class="fi" style="display:block;width:14.6%"></span></span><span class="v">6.4万人</span></div></div><div class="cap">（2023年版「日本のすがた」より）減り続け、<b class="k">高齢</b>化も進んでいる。</div></section>
+<section class="card"><h2><span class="n">6</span>木材の輸入</h2>
+<p>日本は森林資源にめぐまれていますが、外国から安い木材が輸入されるようになったため、現在の木材自給率は約<b class="k">40％</b>です。輸入先は、かつてはマレーシアなどの東南アジアが多かったのですが、熱帯林の破壊が問題になったため、近年は北アメリカの国々も増えています。</p><h3>木材の輸入先（2020年）</h3><div class="bars"><div class="bar"><span class="lb">ベトナム</span><span class="tr"><span class="fi" style="display:block;width:51.9%"></span></span><span class="v">13.5％</span></div><div class="bar"><span class="lb">ヨーロッパ（ロシアをのぞく）</span><span class="tr"><span class="fi" style="display:block;width:50.8%"></span></span><span class="v">13.2％</span></div><div class="bar"><span class="lb">アメリカ合衆国</span><span class="tr"><span class="fi" style="display:block;width:48.5%"></span></span><span class="v">12.6％</span></div><div class="bar"><span class="lb">カナダ</span><span class="tr"><span class="fi" style="display:block;width:31.5%"></span></span><span class="v">8.2％</span></div><div class="bar"><span class="lb">チリ</span><span class="tr"><span class="fi" style="display:block;width:26.5%"></span></span><span class="v">6.9％</span></div><div class="bar"><span class="lb">オーストラリア</span><span class="tr"><span class="fi" style="display:block;width:23.5%"></span></span><span class="v">6.1％</span></div><div class="bar"><span class="lb">インドネシア</span><span class="tr"><span class="fi" style="display:block;width:20.8%"></span></span><span class="v">5.4％</span></div><div class="bar"><span class="lb">ロシア</span><span class="tr"><span class="fi" style="display:block;width:18.1%"></span></span><span class="v">4.7％</span></div><div class="bar"><span class="lb">マレーシア</span><span class="tr"><span class="fi" style="display:block;width:15.8%"></span></span><span class="v">4.1％</span></div><div class="bar"><span class="lb">その他</span><span class="tr"><span class="fi" style="display:block;width:97.3%"></span></span><span class="v">25.3％</span></div></div><div class="cap">輸入木材供給量 4329万m³（2023年版「日本のすがた」）最も多いのは<b class="k">ベトナム</b>。</div></section>
+</main>
+<script>
+var red=false;
+function toggleRed(){red=!red;document.body.classList.toggle('red',red);
+ var b=document.getElementById('rb');b.classList.toggle('on',red);b.textContent=red?'赤シート OFF':'赤シート ON';
+ if(!red)document.querySelectorAll('.k.open').forEach(function(e){e.classList.remove('open')});}
+document.addEventListener('click',function(e){var t=e.target.closest('.k');if(t&&red)t.classList.toggle('open');});
+</script>
+</body>
+</html>

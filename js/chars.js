@@ -2088,6 +2088,64 @@ function renderPeacockSVG(level, fillPct, size, opts) {
   return petWrapSVG(L, size, bg, deco, body);
 }
 
+function renderBeaverSVG(level, fillPct, size, opts) {
+  opts = opts || {};
+  const sil = !!opts.silhouette, L = Math.max(1, level | 0);
+  const pal = { fur:'#a16207', furDark:'#78350f', belly:'#fde68a', head:'#b45309', line:'#451a03', eye:'#2a1d3d',
+                nose:'#292524', blush:'#fda4af', tooth:'#ffffff', tail:'#92400e', log:'#c08457', logRing:'#78350f',
+                fish:'#38bdf8', fishLine:'#0369a1', leaf:'#22c55e', leafLine:'#15803d', pot:'#ea580c',
+                crown:'#fbbf24', star:'#fde68a', egg:'#fef3c7', spot:'#d97706' };
+  const c = sil ? petSilPalette(pal) : pal;
+  const bg = petRingBG(fillPct, '#d97706', sil);
+  const deco = petCommonDeco(L, opts.stars, c.star, sil);
+  let body;
+  if (L === 1) {
+    body = petEggBody(c, `
+      <circle cx="82" cy="76" r="7" fill="${c.fur}" stroke="${c.line}" stroke-width="2"/>
+      <circle cx="118" cy="76" r="7" fill="${c.fur}" stroke="${c.line}" stroke-width="2"/>
+      <path d="M100 76 q-1 -9 -8 -12 M100 76 q1 -9 8 -12" stroke="${c.leafLine}" stroke-width="2.2" fill="${c.leaf}" stroke-linecap="round"/>`);
+  } else {
+    const log = L >= 3 ? `<g>
+        <rect x="18" y="160" width="58" height="20" rx="4" fill="${c.log}" stroke="${c.line}" stroke-width="2"/>
+        <ellipse cx="72" cy="170" rx="5" ry="10" fill="${c.log}" stroke="${c.line}" stroke-width="2"/>
+        <ellipse cx="72" cy="170" rx="2" ry="5" fill="none" stroke="${c.logRing}" stroke-width="1.4"/>
+        <path d="M26 166 h30 M30 174 h24" stroke="${c.logRing}" stroke-width="1.2" stroke-linecap="round" opacity="0.6"/>
+      </g>` : '';
+    const fish = L >= 4 ? `<g transform="rotate(-20 156 136)">
+        <ellipse cx="154" cy="136" rx="16" ry="8" fill="${c.fish}" stroke="${c.fishLine}" stroke-width="1.8"/>
+        <path d="M168 136 l12 -8 v16 z" fill="${c.fish}" stroke="${c.fishLine}" stroke-width="1.8" stroke-linejoin="round"/>
+        <circle cx="146" cy="134" r="2" fill="${c.eye}"/>
+        <path d="M152 129 q4 3 0 14" fill="none" stroke="${c.fishLine}" stroke-width="1.2"/>
+      </g>` : '';
+    const pot = L >= 5 ? `<g>
+        <path d="M148 176 h24 l-3 14 h-18 z" fill="${c.pot}" stroke="${c.line}" stroke-width="1.8" stroke-linejoin="round"/>
+        <path d="M160 176 v-14 M160 168 q-10 -2 -10 -10 q10 0 10 10 M160 164 q10 -2 10 -10 q-10 0 -10 10" fill="${c.leaf}" stroke="${c.leafLine}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </g>` : '';
+    const crown = L >= 6 ? `<path d="M84 90 L88 74 L96 84 L100 70 L104 84 L112 74 L116 90 Z" fill="${c.crown}" stroke="${c.line}" stroke-width="1.6" stroke-linejoin="round"/>` : '';
+    body = `
+      <ellipse cx="136" cy="168" rx="22" ry="11" transform="rotate(-18 136 168)" fill="${c.tail}" stroke="${c.line}" stroke-width="2.4"/>
+      <path d="M122 168 l8 -8 M130 172 l10 -10 M140 174 l8 -8" stroke="${c.furDark}" stroke-width="1.4" stroke-linecap="round" opacity="0.7"/>
+      <ellipse cx="100" cy="148" rx="31" ry="29" fill="${c.fur}" stroke="${c.line}" stroke-width="3"/>
+      <ellipse cx="100" cy="154" rx="19" ry="18" fill="${c.belly}"/>
+      <ellipse cx="85" cy="176" rx="11" ry="5" fill="${c.furDark}" stroke="${c.line}" stroke-width="1.8"/>
+      <ellipse cx="115" cy="176" rx="11" ry="5" fill="${c.furDark}" stroke="${c.line}" stroke-width="1.8"/>
+      <circle cx="78" cy="94" r="9" fill="${c.fur}" stroke="${c.line}" stroke-width="2.2"/>
+      <circle cx="122" cy="94" r="9" fill="${c.fur}" stroke="${c.line}" stroke-width="2.2"/>
+      <circle cx="78" cy="94" r="4" fill="${c.blush}" opacity="0.7"/>
+      <circle cx="122" cy="94" r="4" fill="${c.blush}" opacity="0.7"/>
+      <circle cx="100" cy="112" r="27" fill="${c.head}" stroke="${c.line}" stroke-width="2.5"/>
+      <ellipse cx="100" cy="123" rx="15" ry="11" fill="${c.belly}"/>
+      <ellipse cx="79" cy="121" rx="5" ry="3.5" fill="${c.blush}" opacity="0.75"/>
+      <ellipse cx="121" cy="121" rx="5" ry="3.5" fill="${c.blush}" opacity="0.75"/>
+      ${petEyes(c, sil, 90, 110, 107, 4)}
+      <ellipse cx="100" cy="116" rx="5" ry="3.4" fill="${c.nose}"/>
+      <path d="M97 121 h6 v8 h-6 z" fill="${c.tooth}" stroke="${c.line}" stroke-width="1.4" stroke-linejoin="round"/>
+      <path d="M100 121 v8" stroke="${c.line}" stroke-width="1"/>
+      ${crown}${log}${fish}${pot}`;
+  }
+  return petWrapSVG(L, size, bg, deco, body);
+}
+
 // ホームの育成カード
 // ============================================================
 
@@ -2126,4 +2184,5 @@ window.CHARS = {
   otter: renderOtterSVG,
   tiger: renderTigerSVG,
   peacock: renderPeacockSVG,
+  beaver: renderBeaverSVG,
 };

@@ -103,5 +103,110 @@
 "category": "sansu",
 "month": "202611",
 "parent": "en11b"
+},
+"nougyou6": {
+"label": "日本の農業６",
+"icon": "🥗",
+"tag": "tag-nougyou6",
+"category": "shakai",
+"month": "202611",
+"isGroup": true,
+"ref": "/nougyou6.html",
+"refLabel": "カラーページ（要点まとめ）",
+"refSub": "食生活の変化・フードマイレージ・食料自給率"
+},
+"nougyou6_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-nougyou6",
+"category": "shakai",
+"month": "202611",
+"parent": "nougyou6"
+},
+"nougyou6_renshu": {
+"label": "練習問題",
+"icon": "✏️",
+"tag": "tag-nougyou6",
+"category": "shakai",
+"month": "202611",
+"parent": "nougyou6"
+},
+"nougyou6_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-nougyou6",
+"category": "shakai",
+"month": "202611",
+"parent": "nougyou6"
+},
+"ringyo": {
+"label": "林業",
+"icon": "🌲",
+"tag": "tag-ringyo",
+"category": "shakai",
+"month": "202611",
+"isGroup": true,
+"ref": "/ringyo.html",
+"refLabel": "カラーページ（要点まとめ）",
+"refSub": "森林の種類・三大美林・林業の作業と問題点・木材の輸入"
+},
+"ringyo_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-ringyo",
+"category": "shakai",
+"month": "202611",
+"parent": "ringyo"
+},
+"ringyo_renshu": {
+"label": "練習問題",
+"icon": "✏️",
+"tag": "tag-ringyo",
+"category": "shakai",
+"month": "202611",
+"parent": "ringyo"
+},
+"ringyo_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-ringyo",
+"category": "shakai",
+"month": "202611",
+"parent": "ringyo"
+},
+"suisan": {
+"label": "水産業",
+"icon": "🐟",
+"tag": "tag-suisan",
+"category": "shakai",
+"month": "202611",
+"isGroup": true,
+"ref": "/suisan.html",
+"refLabel": "カラーページ（要点まとめ）",
+"refSub": "潮目・漁業の種類・つくり育てる漁業・水産業の問題"
+},
+"suisan_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-suisan",
+"category": "shakai",
+"month": "202611",
+"parent": "suisan"
+},
+"suisan_renshu": {
+"label": "練習問題",
+"icon": "✏️",
+"tag": "tag-suisan",
+"category": "shakai",
+"month": "202611",
+"parent": "suisan"
+},
+"suisan_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-suisan",
+"category": "shakai",
+"month": "202611",
+"parent": "suisan"
 }
 }
