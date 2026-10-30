@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>種子のつくりと発芽1 | 要点まとめ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>:root{--c:#ca8a04;--l:#fef9c3}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Noto Sans JP',sans-serif;background:#f1f5f9;color:#1e293b;line-height:1.8;-webkit-text-size-adjust:100%}
+.hd{background:var(--c);color:#fff;position:sticky;top:0;z-index:30;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.hd .in{max-width:960px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.hd .t{display:flex;align-items:center;gap:10px}
+.num{font-family:'M PLUS Rounded 1c',sans-serif;background:#fff;color:var(--c);font-weight:800;font-size:22px;width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+h1{font-family:'M PLUS Rounded 1c',sans-serif;font-size:20px;margin:0;letter-spacing:.04em}
+.btns{display:flex;gap:8px;align-items:center}
+.btn{border:0;cursor:pointer;font:inherit;font-size:13px;font-weight:700;border-radius:999px;padding:7px 14px;text-decoration:none;color:#1e293b;background:#fde68a}
+.btn.back{background:rgba(255,255,255,.25);color:#fff}
+.btn.on{background:#ef4444;color:#fff}
+main{max-width:960px;margin:0 auto;padding:16px 16px 64px}
+.tag{display:inline-block;background:var(--l);color:var(--c);font-weight:700;font-size:13px;border-radius:999px;padding:3px 12px;margin:4px 0 12px}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:16px 18px;margin:0 0 16px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.card h2{font-family:'M PLUS Rounded 1c',sans-serif;font-size:18px;margin:0 0 8px;color:var(--c);display:flex;align-items:center;gap:8px}
+.card h2 .n{background:var(--c);color:#fff;font-size:13px;border-radius:8px;padding:1px 8px}
+.card h3{font-size:15px;margin:14px 0 4px;color:#334155}
+.card p{margin:6px 0}
+.card ul{margin:6px 0;padding-left:1.3em}
+.card li{margin:3px 0}
+.k{font-weight:700;color:#b91c1c}
+body.red .k{background:#ef4444;color:transparent;border-radius:4px;cursor:pointer;user-select:none;transition:.15s}
+body.red .k.open{background:#fef08a;color:#991b1b}
+rt{font-size:.55em;color:#64748b;font-weight:400}
+body.red .k:not(.open) rt{color:transparent}
+.note{background:var(--l);border-radius:10px;padding:8px 12px;font-size:14px;margin:8px 0}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:8px 0}
+th,td{border:1px solid #cbd5e1;padding:4px 8px;text-align:center}
+th{background:var(--l);color:#334155}
+td.l{text-align:left}
+.low{background:#fee2e2;font-weight:700}
+.high{background:#dcfce7;font-weight:700}
+.bars{margin:8px 0}
+.bar{display:flex;align-items:center;gap:8px;margin:4px 0;font-size:14px}
+.bar .lb{width:6.5em;flex:none;text-align:right}
+.bar .tr{flex:1;background:#f1f5f9;border-radius:6px;height:20px;position:relative;overflow:hidden}
+.bar .fi{height:100%;background:var(--c);border-radius:6px}
+.bar .v{width:5.2em;flex:none;font-weight:700}
+.cap{font-size:12px;color:#64748b;margin:2px 0 8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.mini{border:1px solid #e2e8f0;border-radius:12px;padding:10px 12px;background:#f8fafc}
+.mini h3{margin:0 0 4px}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch;margin:10px 0}
+.flow .st{flex:1;min-width:120px;background:var(--l);border:2px solid var(--c);border-radius:12px;padding:8px;text-align:center;font-size:13px}
+.flow .st b{display:block;font-size:16px;color:var(--c)}
+.flow .ar{align-self:center;color:var(--c);font-weight:800}
+@media print{.btns{display:none}body{background:#fff}}
+</style>
+</head>
+<body>
+<header class="hd"><div class="in">
+  <div class="t"><span class="num">7</span><h1>種子のつくりと発芽1</h1></div>
+  <div class="btns"><button class="btn" id="rb" onclick="toggleRed()">赤シート ON</button><a class="btn back" href="/">もどる</a></div>
+</div></header>
+<main>
+<span class="tag">要点のまとめ｜種子のつくり・発芽の3条件・いろいろな種子</span>
+<section class="card"><h2><span class="n">1</span>種子のつくり</h2>
+<p>種子は主に3つの要素でできています。</p><table><tr><th>部分</th><th>はたらき</th></tr><tr><td><b class="k">胚</b></td><td>植物のからだになる部分</td></tr><tr><td><b class="k">胚乳</b></td><td>胚が成長・発芽するための栄養分がつまった部分</td></tr><tr><td><b class="k">種皮</b></td><td>胚や胚乳を外敵や乾燥から守る部分</td></tr></table><h3>有胚乳種子と無胚乳種子</h3><p>葉脈が平行な植物のなかまを<b class="k">単子葉類</b>、葉脈が枝分かれしている植物のなかまを<b class="k">双子葉類</b>といいます。原則として単子葉類は<b class="k">有胚乳種子</b>、双子葉類は<b class="k">無胚乳種子</b>です。例外として<b class="k">カキ</b>と<b class="k">オシロイバナ</b>は、双子葉類でありながら胚乳のある種子です。</p>
+</section>
+<section class="card"><h2><span class="n">2</span>いろいろな種子</h2>
+<table><tr><th></th><th>種子のタイプ</th><th>養分をたくわえる場所</th><th>発芽の最適温度</th></tr><tr><td>インゲンマメ</td><td><b class="k">無胚乳種子</b></td><td><b class="k">子葉</b>（緑色の葉が出るまでこの養分を使う）</td><td>23〜25℃</td></tr><tr><td>トウモロコシ</td><td><b class="k">有胚乳種子</b></td><td><b class="k">胚乳</b></td><td>25〜30℃</td></tr><tr><td>イネ</td><td><b class="k">有胚乳種子</b>（えい＝もみがらにつつまれる）</td><td><b class="k">胚乳</b>。水中のわずかな空気でも発芽する</td><td>30〜35℃</td></tr><tr><td>レタス</td><td>—</td><td>—</td><td>18〜25℃（例外的に発芽に<b class="k">光</b>が必要）</td></tr></table><h3>胚のつくり（インゲンマメ）</h3><table><tr><th>部分</th><th>発芽後</th></tr><tr><td><b class="k">幼芽</b></td><td>葉や茎になる</td></tr><tr><td><b class="k">胚じく</b></td><td>茎になる</td></tr><tr><td><b class="k">幼根</b></td><td>根になる</td></tr><tr><td><b class="k">子葉</b></td><td>養分（でんぷんなど）をたくわえる</td></tr></table><div class="note"><b>ヨウ素でんぷん反応</b>：種子の養分がでんぷんかどうかは<b class="k">ヨウ素液</b>で調べる。でんぷんは、ヨウ素液にふれると<b class="k">青むらさき色</b>に変化する。インゲンマメの子葉やトウモロコシの胚乳を切り、断面にヨウ素液をたらすと青むらさき色に変化するので、でんぷんが多くふくまれているとわかる。</div>
+</section>
+<section class="card"><h2><span class="n">3</span>発芽の3条件</h2>
+<p>種子が活動を休んでいる状態（休眠状態）から、根や芽を出し、活動を始めることを発芽といいます。多くの植物の種子が発芽するためには、「<b class="k">水</b>」「<b class="k">空気（酸素）</b>」「<b class="k">適当な温度</b>」の3つの条件がそろって必要です。</p><table><tr><th>条件</th><th>はたらき</th></tr><tr><td>水</td><td>乾燥している種子は、水分を吸収することで、たくわえた養分を使って活動を開始する。水を吸収した種子はふくらみ、やわらかくなる。</td></tr><tr><td>空気（酸素）</td><td>種子は発芽のために、たくわえた養分を使って<b class="k">呼吸</b>をする。呼吸には空気中の酸素が必要。</td></tr><tr><td>適当な温度</td><td>植物ごとに発芽に適した温度があり、低すぎたり高すぎたりすると発芽しない。</td></tr></table><div class="note">通常、種子の発芽には<b class="k">日光や肥料は必要ない</b>。種子自身が、発芽と当面の成長に必要な<b class="k">養分を内部にたくわえている</b>ため。<br>（例外：レタス・オオバコ・シロイヌナズナ・マツヨイグサ・イチジク・イチゴなどは発芽に光を必要とする）</div>
+</section>
+<section class="card"><h2><span class="n">4</span>いろいろな種子の発芽のようす</h2>
+<table><tr><th></th><th>発芽のようす</th></tr><tr><td>インゲンマメ</td><td><b class="k">まず根</b>が出て、そのあとくきがのび、子葉が地上に出て2つに割れる。1本の太い根から、細い根が横に広がってのびる。</td></tr><tr><td>トウモロコシ</td><td><b class="k">まず根</b>が出て、そのあと細長い子葉が1枚出てくる（地上の緑色の葉は子葉ではない）。ひげのような根が広がってからだを支える。</td></tr><tr><td>イネ</td><td><b class="k">根より先に子葉</b>が出てくる。水中に落ちて空気がほとんどなくても発芽できる。</td></tr></table>
+</section>
+
+</main>
+<script>
+var red=false;
+function toggleRed(){red=!red;document.body.classList.toggle('red',red);
+ var b=document.getElementById('rb');b.classList.toggle('on',red);b.textContent=red?'赤シート OFF':'赤シート ON';
+ if(!red)document.querySelectorAll('.k.open').forEach(function(e){e.classList.remove('open')});}
+document.addEventListener('click',function(e){var t=e.target.closest('.k');if(t&&red)t.classList.toggle('open');});
+</script>
+</body>
+</html>

@@ -208,5 +208,180 @@
 "category": "shakai",
 "month": "202611",
 "parent": "suisan"
+},
+"tane1": {
+"label": "種子と発芽1",
+"icon": "🌱",
+"tag": "tag-tane1",
+"category": "rika",
+"month": "202611",
+"isGroup": true,
+"ref": "/tane1.html",
+"refLabel": "カラーページ（要点まとめ）",
+"refSub": "種子のつくり・発芽の3条件・いろいろな種子"
+},
+"tane1_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-tane1",
+"category": "rika",
+"month": "202611",
+"parent": "tane1"
+},
+"tane1_renshu": {
+"label": "練習問題",
+"icon": "✏️",
+"tag": "tag-tane1",
+"category": "rika",
+"month": "202611",
+"parent": "tane1"
+},
+"tane1_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-tane1",
+"category": "rika",
+"month": "202611",
+"parent": "tane1"
+},
+"tane2": {
+"label": "種子と発芽2",
+"icon": "🫘",
+"tag": "tag-tane2",
+"category": "rika",
+"month": "202611",
+"isGroup": true,
+"ref": "/tane2.html",
+"refLabel": "カラーページ（要点まとめ）",
+"refSub": "種子の養分・芽と根の順序・子葉のようす"
+},
+"tane2_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-tane2",
+"category": "rika",
+"month": "202611",
+"parent": "tane2"
+},
+"tane2_renshu": {
+"label": "練習問題",
+"icon": "✏️",
+"tag": "tag-tane2",
+"category": "rika",
+"month": "202611",
+"parent": "tane2"
+},
+"tane2_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-tane2",
+"category": "rika",
+"month": "202611",
+"parent": "tane2"
+},
+"jouken1": {
+"label": "成長の条件1",
+"icon": "☀️",
+"tag": "tag-jouken1",
+"category": "rika",
+"month": "202611",
+"isGroup": true,
+"ref": "/jouken1.html",
+"refLabel": "カラーページ（要点まとめ）",
+"refSub": "成長に必要な5つの条件・日光と肥料・屈性と傾性"
+},
+"jouken1_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-jouken1",
+"category": "rika",
+"month": "202611",
+"parent": "jouken1"
+},
+"jouken1_renshu": {
+"label": "練習問題",
+"icon": "✏️",
+"tag": "tag-jouken1",
+"category": "rika",
+"month": "202611",
+"parent": "jouken1"
+},
+"jouken1_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-jouken1",
+"category": "rika",
+"month": "202611",
+"parent": "jouken1"
+},
+"jouken2": {
+"label": "成長の条件2",
+"icon": "🌸",
+"tag": "tag-jouken2",
+"category": "rika",
+"month": "202611",
+"isGroup": true,
+"ref": "/jouken2.html",
+"refLabel": "カラーページ（要点まとめ）",
+"refSub": "いもと球根・さし木・光合成・花のつくりと受粉"
+},
+"jouken2_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-jouken2",
+"category": "rika",
+"month": "202611",
+"parent": "jouken2"
+},
+"jouken2_renshu": {
+"label": "練習問題",
+"icon": "✏️",
+"tag": "tag-jouken2",
+"category": "rika",
+"month": "202611",
+"parent": "jouken2"
+},
+"jouken2_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-jouken2",
+"category": "rika",
+"month": "202611",
+"parent": "jouken2"
+},
+"kumo1": {
+"label": "雲と雨1",
+"icon": "☁️",
+"tag": "tag-kumo1",
+"category": "rika",
+"month": "202611",
+"isGroup": true,
+"ref": "/kumo1.html",
+"refLabel": "カラーページ（要点まとめ）",
+"refSub": "雲のでき方・湿度と乾湿計・雲の種類"
+},
+"kumo1_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-kumo1",
+"category": "rika",
+"month": "202611",
+"parent": "kumo1"
+},
+"kumo1_renshu": {
+"label": "練習問題",
+"icon": "✏️",
+"tag": "tag-kumo1",
+"category": "rika",
+"month": "202611",
+"parent": "kumo1"
+},
+"kumo1_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-kumo1",
+"category": "rika",
+"month": "202611",
+"parent": "kumo1"
 }
 }
