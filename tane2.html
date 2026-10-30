@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>種子のつくりと発芽2 | 要点まとめ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>:root{--c:#ea580c;--l:#ffedd5}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Noto Sans JP',sans-serif;background:#f1f5f9;color:#1e293b;line-height:1.8;-webkit-text-size-adjust:100%}
+.hd{background:var(--c);color:#fff;position:sticky;top:0;z-index:30;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.hd .in{max-width:960px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.hd .t{display:flex;align-items:center;gap:10px}
+.num{font-family:'M PLUS Rounded 1c',sans-serif;background:#fff;color:var(--c);font-weight:800;font-size:22px;width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+h1{font-family:'M PLUS Rounded 1c',sans-serif;font-size:20px;margin:0;letter-spacing:.04em}
+.btns{display:flex;gap:8px;align-items:center}
+.btn{border:0;cursor:pointer;font:inherit;font-size:13px;font-weight:700;border-radius:999px;padding:7px 14px;text-decoration:none;color:#1e293b;background:#fde68a}
+.btn.back{background:rgba(255,255,255,.25);color:#fff}
+.btn.on{background:#ef4444;color:#fff}
+main{max-width:960px;margin:0 auto;padding:16px 16px 64px}
+.tag{display:inline-block;background:var(--l);color:var(--c);font-weight:700;font-size:13px;border-radius:999px;padding:3px 12px;margin:4px 0 12px}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:16px 18px;margin:0 0 16px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.card h2{font-family:'M PLUS Rounded 1c',sans-serif;font-size:18px;margin:0 0 8px;color:var(--c);display:flex;align-items:center;gap:8px}
+.card h2 .n{background:var(--c);color:#fff;font-size:13px;border-radius:8px;padding:1px 8px}
+.card h3{font-size:15px;margin:14px 0 4px;color:#334155}
+.card p{margin:6px 0}
+.card ul{margin:6px 0;padding-left:1.3em}
+.card li{margin:3px 0}
+.k{font-weight:700;color:#b91c1c}
+body.red .k{background:#ef4444;color:transparent;border-radius:4px;cursor:pointer;user-select:none;transition:.15s}
+body.red .k.open{background:#fef08a;color:#991b1b}
+rt{font-size:.55em;color:#64748b;font-weight:400}
+body.red .k:not(.open) rt{color:transparent}
+.note{background:var(--l);border-radius:10px;padding:8px 12px;font-size:14px;margin:8px 0}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:8px 0}
+th,td{border:1px solid #cbd5e1;padding:4px 8px;text-align:center}
+th{background:var(--l);color:#334155}
+td.l{text-align:left}
+.low{background:#fee2e2;font-weight:700}
+.high{background:#dcfce7;font-weight:700}
+.bars{margin:8px 0}
+.bar{display:flex;align-items:center;gap:8px;margin:4px 0;font-size:14px}
+.bar .lb{width:6.5em;flex:none;text-align:right}
+.bar .tr{flex:1;background:#f1f5f9;border-radius:6px;height:20px;position:relative;overflow:hidden}
+.bar .fi{height:100%;background:var(--c);border-radius:6px}
+.bar .v{width:5.2em;flex:none;font-weight:700}
+.cap{font-size:12px;color:#64748b;margin:2px 0 8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.mini{border:1px solid #e2e8f0;border-radius:12px;padding:10px 12px;background:#f8fafc}
+.mini h3{margin:0 0 4px}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch;margin:10px 0}
+.flow .st{flex:1;min-width:120px;background:var(--l);border:2px solid var(--c);border-radius:12px;padding:8px;text-align:center;font-size:13px}
+.flow .st b{display:block;font-size:16px;color:var(--c)}
+.flow .ar{align-self:center;color:var(--c);font-weight:800}
+@media print{.btns{display:none}body{background:#fff}}
+</style>
+</head>
+<body>
+<header class="hd"><div class="in">
+  <div class="t"><span class="num">8</span><h1>種子のつくりと発芽2</h1></div>
+  <div class="btns"><button class="btn" id="rb" onclick="toggleRed()">赤シート ON</button><a class="btn back" href="/">もどる</a></div>
+</div></header>
+<main>
+<span class="tag">要点のまとめ｜種子の養分・芽と根の順序・子葉のようす</span>
+<section class="card"><h2><span class="n">1</span>種子の養分</h2>
+<p>種子にたくわえられている養分には、<b class="k">でんぷん</b>・<b class="k">たんぱく質</b>・<b class="k">しぼう</b>などがあります。</p><table><tr><th>多い養分</th><th>植物の例</th><th>100gにふくまれる量</th></tr><tr><td>でんぷん</td><td>インゲンマメ・トウモロコシ・イネ</td><td>イネ：でんぷん74g、たんぱく質7g、しぼう3g、水15g</td></tr><tr><td>たんぱく質</td><td>ダイズ・ソラマメ</td><td>ダイズ：でんぷん28g、たんぱく質35g、しぼう19g、水13g</td></tr><tr><td>しぼう</td><td>ゴマ・ヒマワリ・ラッカセイ</td><td>ゴマ：でんぷん18g、たんぱく質20g、しぼう52g</td></tr></table><h3>でんぷんとヨウ素液</h3><p>種子にでんぷんがあるかどうかは<b class="k">ヨウ素液</b>で調べます。ヨウ素液は、でんぷんがあると茶かっ色から<b class="k">青むらさき色</b>に変わります。</p><h3>種子にたくわえられた養分の使われ方</h3><p>種子は発芽し成長するために、<b class="k">子葉</b>や<b class="k">胚乳</b>にたくわえられた養分（主にでんぷん）を使います。養分が使われると、子葉や胚乳の重さは<b class="k">減って</b>いきます。発芽前の種子の切り口にヨウ素液をつけるとこい青むらさき色になりますが、成長するにつれて色がうすくなり、やがてほとんど変わらなくなります。</p><div class="note">種子はまだ自分で<b class="k">光合成</b>をして養分をつくれないので、子葉や胚乳の養分を使って育つ。子葉の重さが減るのは、養分が根や芽などの発芽した部分に送られて使われるから。発芽した部分の重さは増えていく。</div>
+</section>
+<section class="card"><h2><span class="n">2</span>芽と根の順序</h2>
+<ul><li>ほとんどの植物では、発芽のとき、まず<b class="k">根</b>が出てくる。水を吸収したり、体を支えたりするため。根が出たあとに子葉が出る。</li><li>イネなどの水中で発芽する植物は、まず<b class="k">子葉</b>が出て、そのあとに根が出る。</li></ul>
+</section>
+<section class="card"><h2><span class="n">3</span>子葉のようす</h2>
+<table><tr><th></th><th>植物の例</th></tr><tr><td><b class="k">子葉が地上に出る</b></td><td>インゲンマメ・カキ・アサガオ・ヒマワリ・ダイズ・ヘチマ・ホウセンカ・アブラナなど（はじめに根が出て、くきがのび、2枚の子葉が地上に出て開く）</td></tr><tr><td><b class="k">子葉が地上に出ない</b></td><td>エンドウ・ソラマメ・アズキ・クリなど（胚乳をもたない種子の中にある）</td></tr></table><table><tr><th>子葉の数</th><th>植物の例</th></tr><tr><td><b class="k">1枚</b></td><td>トウモロコシ・イネ・ムギ・ユリ・ネギ</td></tr><tr><td><b class="k">2枚</b></td><td>アサガオ・ヘチマ・ホウセンカ・ダイズ・インゲンマメ・ヒマワリ・カキ・アブラナ</td></tr><tr><td><b class="k">3枚以上</b></td><td>マツ・スギ</td></tr></table>
+</section>
+
+</main>
+<script>
+var red=false;
+function toggleRed(){red=!red;document.body.classList.toggle('red',red);
+ var b=document.getElementById('rb');b.classList.toggle('on',red);b.textContent=red?'赤シート OFF':'赤シート ON';
+ if(!red)document.querySelectorAll('.k.open').forEach(function(e){e.classList.remove('open')});}
+document.addEventListener('click',function(e){var t=e.target.closest('.k');if(t&&red)t.classList.toggle('open');});
+</script>
+</body>
+</html>

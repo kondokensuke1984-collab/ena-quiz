@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>雲と雨1 | 要点まとめ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>:root{--c:#0284c7;--l:#e0f2fe}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Noto Sans JP',sans-serif;background:#f1f5f9;color:#1e293b;line-height:1.8;-webkit-text-size-adjust:100%}
+.hd{background:var(--c);color:#fff;position:sticky;top:0;z-index:30;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.hd .in{max-width:960px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.hd .t{display:flex;align-items:center;gap:10px}
+.num{font-family:'M PLUS Rounded 1c',sans-serif;background:#fff;color:var(--c);font-weight:800;font-size:22px;width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+h1{font-family:'M PLUS Rounded 1c',sans-serif;font-size:20px;margin:0;letter-spacing:.04em}
+.btns{display:flex;gap:8px;align-items:center}
+.btn{border:0;cursor:pointer;font:inherit;font-size:13px;font-weight:700;border-radius:999px;padding:7px 14px;text-decoration:none;color:#1e293b;background:#fde68a}
+.btn.back{background:rgba(255,255,255,.25);color:#fff}
+.btn.on{background:#ef4444;color:#fff}
+main{max-width:960px;margin:0 auto;padding:16px 16px 64px}
+.tag{display:inline-block;background:var(--l);color:var(--c);font-weight:700;font-size:13px;border-radius:999px;padding:3px 12px;margin:4px 0 12px}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:16px 18px;margin:0 0 16px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.card h2{font-family:'M PLUS Rounded 1c',sans-serif;font-size:18px;margin:0 0 8px;color:var(--c);display:flex;align-items:center;gap:8px}
+.card h2 .n{background:var(--c);color:#fff;font-size:13px;border-radius:8px;padding:1px 8px}
+.card h3{font-size:15px;margin:14px 0 4px;color:#334155}
+.card p{margin:6px 0}
+.card ul{margin:6px 0;padding-left:1.3em}
+.card li{margin:3px 0}
+.k{font-weight:700;color:#b91c1c}
+body.red .k{background:#ef4444;color:transparent;border-radius:4px;cursor:pointer;user-select:none;transition:.15s}
+body.red .k.open{background:#fef08a;color:#991b1b}
+rt{font-size:.55em;color:#64748b;font-weight:400}
+body.red .k:not(.open) rt{color:transparent}
+.note{background:var(--l);border-radius:10px;padding:8px 12px;font-size:14px;margin:8px 0}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:8px 0}
+th,td{border:1px solid #cbd5e1;padding:4px 8px;text-align:center}
+th{background:var(--l);color:#334155}
+td.l{text-align:left}
+.low{background:#fee2e2;font-weight:700}
+.high{background:#dcfce7;font-weight:700}
+.bars{margin:8px 0}
+.bar{display:flex;align-items:center;gap:8px;margin:4px 0;font-size:14px}
+.bar .lb{width:6.5em;flex:none;text-align:right}
+.bar .tr{flex:1;background:#f1f5f9;border-radius:6px;height:20px;position:relative;overflow:hidden}
+.bar .fi{height:100%;background:var(--c);border-radius:6px}
+.bar .v{width:5.2em;flex:none;font-weight:700}
+.cap{font-size:12px;color:#64748b;margin:2px 0 8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.mini{border:1px solid #e2e8f0;border-radius:12px;padding:10px 12px;background:#f8fafc}
+.mini h3{margin:0 0 4px}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch;margin:10px 0}
+.flow .st{flex:1;min-width:120px;background:var(--l);border:2px solid var(--c);border-radius:12px;padding:8px;text-align:center;font-size:13px}
+.flow .st b{display:block;font-size:16px;color:var(--c)}
+.flow .ar{align-self:center;color:var(--c);font-weight:800}
+@media print{.btns{display:none}body{background:#fff}}
+</style>
+</head>
+<body>
+<header class="hd"><div class="in">
+  <div class="t"><span class="num">11</span><h1>雲と雨1</h1></div>
+  <div class="btns"><button class="btn" id="rb" onclick="toggleRed()">赤シート ON</button><a class="btn back" href="/">もどる</a></div>
+</div></header>
+<main>
+<span class="tag">要点のまとめ｜雲のでき方・湿度と乾湿計・雲の種類</span>
+<section class="card"><h2><span class="n">1</span>雲のでき方</h2>
+<p>雲は、<b class="k">上昇した空気</b>が上空で冷やされて、ふくまれていた<b class="k">水蒸気</b>が小さな<b class="k">水滴や氷の粒</b>に変化（<b class="k">凝結</b>）し、それが空中に浮かんでいるものです。</p><div class="flow"><div class="st"><b>上昇気流</b>空気が上昇</div><div class="ar">→</div><div class="st"><b>気圧が下がる</b>空気が膨張</div><div class="ar">→</div><div class="st"><b>温度が下がる</b>エネルギーを使う</div><div class="ar">→</div><div class="st"><b>凝結</b>水滴・氷の粒＝雲</div></div><h3>上昇気流の発生原因</h3><table><tr><th></th><th>原因</th></tr><tr><td>①</td><td>山の斜面に沿って空気が上るとき</td></tr><tr><td>②</td><td>太陽の熱で地表が温められ、その上の空気が温められて上昇するとき</td></tr><tr><td>③</td><td>温かい空気が冷たい空気の上に流れこむとき（冷たい空気が温かい空気の下にもぐりこむ）</td></tr></table>
+</section>
+<section class="card"><h2><span class="n">2</span>空気と湿度の性質</h2>
+<p>空気中にふくむことのできる水蒸気の最大量を<b class="k">飽和水蒸気量</b>といいます。飽和水蒸気量は気温が<b class="k">高い</b>ほど大きくなります。空気の湿り気の度合いを<b class="k">湿度</b>といいます。</p><p>湿度は<b class="k">乾湿計</b>で測ります。乾湿計は、乾いたままの<b class="k">乾球</b>と、水で湿らせた布を巻いた<b class="k">湿球</b>の2つの温度計でできています。</p><ul><li>水が蒸発するときに周りから熱（<b class="k">気化熱</b>）をうばうので、湿球温度計は乾球温度計よりも低い温度を示す。</li><li>乾球と湿球の温度を読み取り、<b class="k">湿度表</b>を使うと湿度がわかる。</li><li>湿球の温度が乾球の温度とほとんど同じなら湿度は<b class="k">高く</b>、差が大きいほど湿度は<b class="k">低い</b>。</li></ul><div class="note"><b>例</b>　乾球20℃、湿球18℃のとき → 差は 20−18＝2℃ → 湿度表の「乾球20℃の行」と「差2℃の列」が交わる点の数が湿度（<b>81％</b>）。</div><table><tr><th>乾球 ＼ 差</th><th>0℃</th><th>1℃</th><th>2℃</th><th>3℃</th><th>4℃</th></tr><tr><td>22℃</td><td>100</td><td>91</td><td>82</td><td>74</td><td>66</td></tr><tr><td>21℃</td><td>100</td><td>91</td><td>82</td><td>73</td><td>65</td></tr><tr><td>20℃</td><td>100</td><td>91</td><td><b>81</b></td><td>73</td><td>64</td></tr><tr><td>19℃</td><td>100</td><td>90</td><td>81</td><td>72</td><td>63</td></tr><tr><td>18℃</td><td>100</td><td>90</td><td>80</td><td>71</td><td>62</td></tr></table>
+</section>
+<section class="card"><h2><span class="n">3</span>雲の種類（10種類）</h2>
+<p>雲は、形やできる高さによって10種類に分類されます。</p><table><tr><th>高さ</th><th>雲</th><th>特徴・別名</th></tr><tr><td>上層雲（高い）</td><td><b class="k">巻雲</b></td><td>軽くはけでこすったような、細かいすじのような白い雲（すじ雲）</td></tr><tr><td>上層雲</td><td><b class="k">巻積雲</b></td><td>魚のうろこのような白い雲（うろこ雲・いわし雲）</td></tr><tr><td>上層雲</td><td><b class="k">巻層雲</b></td><td>うすい絹のような雲。太陽や月の「かさ」の原因（うす雲）</td></tr><tr><td>中層雲（あまり高くない）</td><td><b class="k">高積雲</b></td><td>まだらになった白い雲で灰色のかげがある（ひつじ雲）</td></tr><tr><td>中層雲</td><td><b class="k">高層雲</b></td><td>灰色がかった厚い雲で、空の広い範囲をおおうことが多い</td></tr><tr><td>下層雲（低い）</td><td><b class="k">層積雲</b></td><td>まだらで灰色の厚い雲</td></tr><tr><td>下層雲</td><td><b class="k">乱層雲</b></td><td>灰色のあつい雲で、雨や雪をふらせる（雨雲）</td></tr><tr><td>下層雲</td><td><b class="k">層雲</b></td><td>山間部などにできる、きりに似た白い雲</td></tr><tr><td>たてにのびる</td><td><b class="k">積雲</b></td><td>白いわたのかたまりのような雲（わた雲）</td></tr><tr><td>たてにのびる</td><td><b class="k">積乱雲</b></td><td>積雲がたてに成長した雲。強い雨をふらせる（入道雲・かみなり雲）</td></tr></table><p class="cap">高さの目安：上層雲＝約7000m以上、中層雲＝約2000〜7000m、下層雲＝約2000m以下。</p>
+</section>
+<section class="card"><h2><span class="n">4</span>乱層雲と積乱雲</h2>
+<div class="grid"><div class="mini"><h3>乱層雲</h3><ul><li><b class="k">温かい空気</b>が<b class="k">冷たい空気の上</b>を時間をかけて<b class="k">ゆっくり</b>上ることでできる。</li><li>灰色で分厚く、空全体をおおうように広がり、地上をうす暗くする。</li><li>600m〜7000mの高さにできる。</li><li><b class="k">広い範囲に長時間</b>、しとしとと穏やかな雨や雪をふらせる。</li></ul></div><div class="mini"><h3>積乱雲</h3><ul><li>太陽に強く温められた地表の空気が<b class="k">急激に上昇</b>してできる。<b class="k">冷たい空気が温かい空気の下にもぐりこんで</b>一気に押し上げ、さらに強い上昇気流が生まれる。</li><li>激しい雨・落雷をともなうことがあり、<b class="k">にわか雨・雷雨</b>を引き起こす。</li><li><b class="k">短時間・せまい範囲</b>に強い雨。</li><li>雲の底は地上付近、頂上は13000mを超えることもあり、上下に大きく発達する。</li></ul></div></div>
+</section>
+
+</main>
+<script>
+var red=false;
+function toggleRed(){red=!red;document.body.classList.toggle('red',red);
+ var b=document.getElementById('rb');b.classList.toggle('on',red);b.textContent=red?'赤シート OFF':'赤シート ON';
+ if(!red)document.querySelectorAll('.k.open').forEach(function(e){e.classList.remove('open')});}
+document.addEventListener('click',function(e){var t=e.target.closest('.k');if(t&&red)t.classList.toggle('open');});
+</script>
+</body>
+</html>
