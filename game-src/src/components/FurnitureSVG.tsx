@@ -532,6 +532,37 @@ const DRAWINGS: Record<string, Draw> = {
       <path d="M-14 -22 v20 M0 -16 v14 M14 -22 v20" stroke="#c9974f" strokeWidth="1.2" />
     </g>
   ),
+  fn_zk_hive: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="22" ry="6" fill="rgba(0,0,0,0.2)" />
+      <rect x="-3" y="-14" width="6" height="14" fill="#92400e" {...S} />
+      {[[-12, -34], [12, -34], [0, -50], [0, -24]].map(([x, y], i) => (
+        <path key={i} transform={`translate(${x} ${y})`} d="M0 -12 L10.4 -6 L10.4 6 L0 12 L-10.4 6 L-10.4 -6 Z" fill={i === 3 ? '#fbbf24' : '#fde68a'} {...S} />
+      ))}
+      <path d="M-5 -24 l5 -3 5 3 v6 l-5 3 -5 -3 z" fill="#f59e0b" />
+    </g>
+  ),
+  fn_zk_pizza: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="22" ry="6" fill="rgba(0,0,0,0.2)" />
+      <rect x="-3" y="-20" width="6" height="20" fill="#92400e" {...S} />
+      <circle cx="0" cy="-38" r="22" fill="#fde68a" {...S} />
+      <path d="M0 -38 L22 -38 A22 22 0 0 0 11 -57 Z" fill="#fb923c" {...S} strokeWidth={1.8} />
+      <path d="M0 -38 L-22 -38 A22 22 0 0 0 -11 -19 Z" fill="#fb923c" {...S} strokeWidth={1.8} />
+      {[[10, -44], [-10, -30], [4, -28], [-6, -48]].map(([x, y], i) => <circle key={i} cx={x} cy={y} r="3" fill="#dc2626" />)}
+    </g>
+  ),
+  fn_zk_donut: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="26" ry="7" fill="rgba(0,0,0,0.2)" />
+      <ellipse cx="0" cy="-10" rx="26" ry="14" fill="#d97706" {...S} />
+      <ellipse cx="0" cy="-14" rx="26" ry="14" fill="#f9a8d4" {...S} />
+      <ellipse cx="0" cy="-14" rx="9" ry="5" fill="#fff7ed" {...S} strokeWidth={1.8} />
+      {[[-16, -18, '#60a5fa'], [14, -20, '#facc15'], [-6, -24, '#34d399'], [8, -8, '#a78bfa'], [-18, -9, '#facc15']].map(([x, y, c], i) => (
+        <rect key={i} x={x as number} y={y as number} width="6" height="2.4" rx="1.2" fill={c as string} transform={`rotate(${i * 40} ${x} ${y})`} />
+      ))}
+    </g>
+  ),
   fn_sui_buoy: () => (
     <g>
       <ellipse cx="0" cy="2" rx="18" ry="6" fill="rgba(0,0,0,0.2)" />
