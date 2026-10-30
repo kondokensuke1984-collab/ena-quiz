@@ -2,7 +2,7 @@
 # 中身は読まず、件数だけ検算する。
 import json, os, re, subprocess, sys
 
-ROOT = '/Users/kondokensuke/Desktop/開発/ena-quiz'
+ROOT = os.path.dirname(os.path.abspath(__file__))
 SP   = os.path.dirname(os.path.abspath(__file__))
 src  = open(os.path.join(ROOT, 'index.html'), encoding='utf-8').read()
 lines = src.split('\n')                      # 0-based。行番号は 1-based で扱う
