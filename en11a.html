@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>円とおうぎ形 1 | 要点まとめ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Noto Sans JP', sans-serif; }
+    .heading-font { font-family: 'M PLUS Rounded 1c', sans-serif; }
+    svg text { font-family: 'Noto Sans JP', sans-serif; }
+    .frac { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; line-height:1.1; margin:0 .12em; font-size:.92em; }
+    .frac > span:first-child { border-bottom:1.5px solid currentColor; padding:0 .25em; }
+    .formula { background:#fff; border:2px solid #db2777; border-radius:.75rem; padding:.75rem 1rem; font-weight:700; line-height:2; }
+    @media print { .no-print { display: none; } body { background: white; color: black; } }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 antialiased min-h-screen pb-16">
+
+  <header class="bg-pink-600 text-white shadow-md sticky top-0 z-30">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <span class="heading-font bg-white text-pink-700 font-extrabold text-2xl w-10 h-10 rounded-lg flex items-center justify-center shadow-inner">9</span>
+        <h1 class="heading-font text-xl sm:text-2xl font-bold tracking-wide">円とおうぎ形 1</h1>
+      </div>
+      <a href="/" class="no-print text-sm bg-pink-700/60 hover:bg-pink-700 px-3 py-1.5 rounded-lg">もどる</a>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 mt-6 space-y-8">
+
+    <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-pink-100 text-pink-800 rounded-full font-bold text-sm">
+      <span class="w-2.5 h-2.5 rounded-full bg-pink-500 animate-pulse"></span>
+      要点のまとめ
+    </div>
+
+    <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+      <h2 class="heading-font text-lg sm:text-xl font-bold text-pink-800 flex items-center gap-2 border-b pb-3 mb-4">
+        <span class="w-6 h-6 rounded-full bg-pink-600 text-white inline-flex items-center justify-center text-sm">1</span>
+        円周率と円周の長さ
+      </h2>
+      <p class="text-slate-700 leading-relaxed mb-4">円は大きさがちがっても形はみな同じ。<strong class="text-pink-700">円周 ÷ 直径</strong> はどんな円でも一定で、これを<strong class="text-rose-600">円周率</strong>という。ふつう <strong>3.14</strong> を使う。</p>
+      <div class="grid sm:grid-cols-2 gap-4 items-center">
+        <svg viewBox="0 0 220 190" class="w-full max-w-[240px] mx-auto" aria-hidden="true"><circle cx="110" cy="85" r="68" fill="#fce7f3" stroke="#be185d" stroke-width="2.5"/><line x1="42" y1="85" x2="178" y2="85" stroke="#be185d" stroke-width="2.5"/><circle cx="110" cy="85" r="3.5" fill="#be185d"/><text x="110" y="76" text-anchor="middle" font-size="13" font-weight="700" fill="#9d174d">直径</text><text x="110" y="108" text-anchor="middle" font-size="12" font-weight="700" fill="#9d174d">中心</text><text x="110" y="184" text-anchor="middle" font-size="13" font-weight="700" fill="#9d174d">円周</text><path d="M110,153 L110,170" stroke="#9d174d" stroke-width="1.5"/></svg>
+        <div>
+          <div class="formula text-slate-800 my-3">円周の長さ ＝ 直径 × 3.14</div>
+          <p class="text-sm text-slate-700">半径がわかっているときは、先に<strong>直径＝半径×2</strong>を出す。</p>
+        </div>
+      </div>
+      <div class="mt-4 overflow-x-auto"><table class="w-full text-sm text-center border border-slate-300"><thead class="bg-pink-50"><tr><th class="border p-2">直径（cm）</th><th class="border p-2">1</th><th class="border p-2">2</th><th class="border p-2">3</th><th class="border p-2">4</th><th class="border p-2">5</th><th class="border p-2">6</th><th class="border p-2">8</th><th class="border p-2">10</th></tr></thead><tbody><tr><th class="border p-2 bg-slate-50">円周（cm）</th><td class="border p-2">3.14</td><td class="border p-2">6.28</td><td class="border p-2">9.42</td><td class="border p-2">12.56</td><td class="border p-2">15.7</td><td class="border p-2">18.84</td><td class="border p-2">25.12</td><td class="border p-2">31.4</td></tr></tbody></table></div>
+      <div class="mt-4 p-3 bg-amber-50 rounded-lg border border-amber-200 text-amber-900 text-sm flex items-start gap-2"><span class="text-lg">💡</span><span>円周から直径を求めるときは、わり算。 18.84÷3.14=6（cm）。半径にするには、さらに2でわる。</span></div>
+    </section>
+
+    <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+      <h2 class="heading-font text-lg sm:text-xl font-bold text-pink-800 flex items-center gap-2 border-b pb-3 mb-4">
+        <span class="w-6 h-6 rounded-full bg-pink-600 text-white inline-flex items-center justify-center text-sm">2</span>
+        円の面積
+      </h2>
+      <p class="text-slate-700 leading-relaxed mb-4">円を細かく等分して並べかえると、<strong class="text-pink-700">たて＝半径、横＝円周の半分</strong>の長方形に近づく。</p>
+      <svg viewBox="0 0 300 190" class="w-full max-w-lg mx-auto" aria-hidden="true"><circle cx="80" cy="85" r="60" fill="#fce7f3" stroke="#be185d" stroke-width="2.5"/><line x1="80" y1="85" x2="140.0" y2="85.0" stroke="#be185d" stroke-width="1"/><line x1="80" y1="85" x2="135.6" y2="107.5" stroke="#be185d" stroke-width="1"/><line x1="80" y1="85" x2="123.2" y2="126.7" stroke="#be185d" stroke-width="1"/><line x1="80" y1="85" x2="104.4" y2="139.8" stroke="#be185d" stroke-width="1"/><line x1="80" y1="85" x2="82.1" y2="145.0" stroke="#be185d" stroke-width="1"/><line x1="80" y1="85" x2="59.5" y2="141.4" stroke="#be185d" stroke-width="1"/><line x1="80" y1="85" x2="39.9" y2="129.6" stroke="#be185d" stroke-width="1"/><line x1="80" y1="85" x2="26.1" y2="111.3" stroke="#be185d" stroke-width="1"/><line x1="80" y1="85" x2="20.1" y2="89.2" stroke="#be185d" stroke-width="1"/><line x1="80" y1="85" x2="22.9" y2="66.5" stroke="#be185d" stroke-width="1"/><line x1="80" y1="85" x2="34.0" y2="46.4" stroke="#be185d" stroke-width="1"/><line x1="80" y1="85" x2="51.8" y2="32.0" stroke="#be185d" stroke-width="1"/><line x1="80" y1="85" x2="73.7" y2="25.3" stroke="#be185d" stroke-width="1"/><line x1="80" y1="85" x2="96.5" y2="27.3" stroke="#be185d" stroke-width="1"/><line x1="80" y1="85" x2="116.9" y2="37.7" stroke="#be185d" stroke-width="1"/><line x1="80" y1="85" x2="132.0" y2="55.0" stroke="#be185d" stroke-width="1"/><line x1="80" y1="85" x2="139.4" y2="76.6" stroke="#be185d" stroke-width="1"/><path d="M148,85 L134,85" stroke="#be185d" stroke-width="2"/><path d="M142,80 L148,85 L142,90" fill="none" stroke="#be185d" stroke-width="2"/><rect x="150" y="35" width="130" height="60" fill="#fbcfe8" stroke="#be185d" stroke-width="2.5"/><text x="144" y="70" text-anchor="end" font-size="12" font-weight="700" fill="#9d174d">半径</text><text x="215" y="114" text-anchor="middle" font-size="12" font-weight="700" fill="#9d174d">円周の半分</text><text x="215" y="28" text-anchor="middle" font-size="11" font-weight="700" fill="#9d174d">（半径×2×3.14÷2）</text></svg>
+      <div class="formula text-slate-800 my-3">円の面積 ＝ 半径 × 円周の半分 ＝ 半径 × 直径 × 3.14 ÷ 2<br>＝ <span class='text-rose-600'>半径 × 半径 × 3.14</span></div>
+      <div class="mt-4 overflow-x-auto"><table class="w-full text-sm text-center border border-slate-300"><thead class="bg-pink-50"><tr><th class="border p-2">半径（cm）</th><th class="border p-2">1</th><th class="border p-2">2</th><th class="border p-2">3</th><th class="border p-2">4</th><th class="border p-2">5</th><th class="border p-2">6</th><th class="border p-2">7</th><th class="border p-2">8</th><th class="border p-2">9</th><th class="border p-2">10</th></tr></thead><tbody><tr><th class="border p-2 bg-slate-50">円の面積（cm²）</th><td class="border p-2">3.14</td><td class="border p-2">12.56</td><td class="border p-2">28.26</td><td class="border p-2">50.24</td><td class="border p-2">78.5</td><td class="border p-2">113.04</td><td class="border p-2">153.86</td><td class="border p-2">200.96</td><td class="border p-2">254.34</td><td class="border p-2">314</td></tr></tbody></table></div>
+      <div class="mt-4 p-3 bg-amber-50 rounded-lg border border-amber-200 text-amber-900 text-sm flex items-start gap-2"><span class="text-lg">💡</span><span>直径が書いてあったら、<strong>半径にしてから</strong>面積を出す（直径8cm → 半径4cm → 4×4×3.14=50.24）。</span></div>
+    </section>
+
+    <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+      <h2 class="heading-font text-lg sm:text-xl font-bold text-pink-800 flex items-center gap-2 border-b pb-3 mb-4">
+        <span class="w-6 h-6 rounded-full bg-pink-600 text-white inline-flex items-center justify-center text-sm">3</span>
+        おうぎ形
+      </h2>
+      <p class="text-slate-700 leading-relaxed mb-4">円を<strong>2つの半径</strong>で切り取った形を<strong class="text-pink-700">おうぎ形</strong>という。2つの半径が作る角を<strong class="text-rose-600">中心角</strong>、まわりの曲線の部分を<strong class="text-rose-600">弧</strong>という。</p>
+      <div class="grid sm:grid-cols-2 gap-4 items-center">
+        <svg viewBox="0 0 210 190" class="w-full max-w-[250px] mx-auto" aria-hidden="true"><circle cx="100" cy="95" r="72" fill="none" stroke="#f9a8d4" stroke-width="1.5" stroke-dasharray="4 4"/><path d="M100,95 L124.6,27.3 A72,72 0 0,1 170.9,107.5 Z" fill="#fbcfe8" stroke="#be185d" stroke-width="2.5"/><path d="M124.6,27.3 A72,72 0 0,1 170.9,107.5" fill="none" stroke="#e11d48" stroke-width="4.5"/><path d="M108.2,72.4 A24,24 0 0,1 123.6,99.2" fill="none" stroke="#2563eb" stroke-width="2.2"/><text x="136" y="81" text-anchor="middle" font-size="12" font-weight="700" fill="#1d4ed8">中心角</text><text x="158" y="111" text-anchor="middle" font-size="12" font-weight="700" fill="#9d174d">半径</text><text x="182" y="43" text-anchor="middle" font-size="14" font-weight="700" fill="#be123c">弧</text><text x="88" y="113" text-anchor="middle" font-size="12" font-weight="700" fill="#9d174d">中心</text><circle cx="100" cy="95" r="3.5" fill="#be185d"/></svg>
+        <div class="space-y-3">
+          <div class="p-3 bg-pink-50 rounded-lg border border-pink-200 text-sm flex items-center gap-3">
+            <svg viewBox="0 0 90 110" class="w-16 h-20 flex-shrink-0" aria-hidden="true"><path d="M45,50 L7.0,50.0 A38,38 0 0,1 83.0,50.0 Z" fill="#fbcfe8" stroke="#be185d" stroke-width="2"/><text x="45" y="104" text-anchor="middle" font-size="12" font-weight="700" fill="#9d174d">半円</text></svg>
+            <span><strong>半円</strong>：中心角が<strong>180度</strong>のおうぎ形</span>
+          </div>
+          <div class="p-3 bg-pink-50 rounded-lg border border-pink-200 text-sm flex items-center gap-3">
+            <svg viewBox="0 0 90 110" class="w-16 h-20 flex-shrink-0" aria-hidden="true"><path d="M45,50 L45.0,12.0 A38,38 0 0,1 83.0,50.0 Z" fill="#fbcfe8" stroke="#be185d" stroke-width="2"/><text x="45" y="104" text-anchor="middle" font-size="12" font-weight="700" fill="#9d174d">四分円</text></svg>
+            <span><strong>四分円</strong>：中心角が<strong>90度</strong>のおうぎ形</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+      <h2 class="heading-font text-lg sm:text-xl font-bold text-pink-800 flex items-center gap-2 border-b pb-3 mb-4">
+        <span class="w-6 h-6 rounded-full bg-pink-600 text-white inline-flex items-center justify-center text-sm">4</span>
+        おうぎ形の弧の長さと面積
+      </h2>
+      <p class="text-slate-700 leading-relaxed mb-4">おうぎ形の弧の長さも面積も、<strong class="text-pink-700">円全体の <span class="frac"><span>中心角</span><span>360</span></span></strong> になる。</p>
+      <div class="formula text-slate-800 my-3">弧の長さ ＝ 直径 × 3.14 × <span class="frac"><span>中心角</span><span>360</span></span><br>面積 ＝ 半径 × 半径 × 3.14 × <span class="frac"><span>中心角</span><span>360</span></span></div>
+      <p class="text-sm text-slate-700 mb-2">まず <span class="frac"><span>中心角</span><span>360</span></span> を<strong>約分</strong>してから計算するとかんたん。</p>
+      <div class="mt-4 overflow-x-auto"><table class="w-full text-sm text-center border border-slate-300"><thead class="bg-pink-50"><tr><th class="border p-2">中心角</th><th class="border p-2">180°</th><th class="border p-2">120°</th><th class="border p-2">90°</th><th class="border p-2">72°</th><th class="border p-2">60°</th><th class="border p-2">45°</th><th class="border p-2">30°</th><th class="border p-2">144°</th><th class="border p-2">135°</th></tr></thead><tbody><tr><th class="border p-2 bg-slate-50">円の何分の1？</th><td class="border p-2"><span class="frac"><span>1</span><span>2</span></span></td><td class="border p-2"><span class="frac"><span>1</span><span>3</span></span></td><td class="border p-2"><span class="frac"><span>1</span><span>4</span></span></td><td class="border p-2"><span class="frac"><span>1</span><span>5</span></span></td><td class="border p-2"><span class="frac"><span>1</span><span>6</span></span></td><td class="border p-2"><span class="frac"><span>1</span><span>8</span></span></td><td class="border p-2"><span class="frac"><span>1</span><span>12</span></span></td><td class="border p-2"><span class="frac"><span>2</span><span>5</span></span></td><td class="border p-2"><span class="frac"><span>3</span><span>8</span></span></td></tr></tbody></table></div>
+      <div class="mt-4 p-4 bg-pink-50 rounded-xl border border-pink-200 text-sm text-slate-700 space-y-1">
+        <p class="font-bold text-pink-800">例）半径4cm、中心角90度のおうぎ形</p>
+        <p>弧の長さ：4×2×3.14×<span class="frac"><span>1</span><span>4</span></span> ＝ 2×3.14 ＝ <strong>6.28cm</strong></p>
+        <p>面積：4×4×3.14×<span class="frac"><span>1</span><span>4</span></span> ＝ 4×3.14 ＝ <strong>12.56cm²</strong></p>
+      </div>
+      <div class="mt-4 p-3 bg-amber-50 rounded-lg border border-amber-200 text-amber-900 text-sm flex items-start gap-2"><span class="text-lg">💡</span><span>3.14のかけ算は <strong>先に3.14以外の数だけ計算</strong>しておき、最後に3.14をかけると楽（3.14でくくる）。 例）4×3.14+6×3.14=（4+6）×3.14=31.4</span></div>
+    </section>
+
+    <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+      <h2 class="heading-font text-lg sm:text-xl font-bold text-pink-800 flex items-center gap-2 border-b pb-3 mb-4">
+        <span class="w-6 h-6 rounded-full bg-pink-600 text-white inline-flex items-center justify-center text-sm">5</span>
+        組み合わせた図形のくふう
+      </h2>
+      <p class="text-slate-700 leading-relaxed mb-4">正方形の中に四分円を2つかいた<strong class="text-pink-700">はっぱ形</strong>の面積は、<strong>（四分円 − 直角二等辺三角形）×2</strong> で求める。</p>
+      <div class="grid sm:grid-cols-2 gap-4 items-center">
+        <svg viewBox="0 0 170 160" class="w-full max-w-[220px] mx-auto" aria-hidden="true"><rect x="20" y="15" width="130" height="130" fill="#fff" stroke="#be185d" stroke-width="2.5"/><path d="M20,15 A130,130 0 0,0 150,145 A130,130 0 0,0 20,15 Z" fill="#f9a8d4" stroke="#be185d" stroke-width="2"/><line x1="20" y1="15" x2="150" y2="145" stroke="#be185d" stroke-width="1.5" stroke-dasharray="4 3"/><text x="85" y="158" text-anchor="middle" font-size="12" font-weight="700" fill="#9d174d">1辺4cm</text></svg>
+        <div class="text-sm text-slate-700 space-y-1">
+          <p>四分円：4×4×3.14×<span class="frac"><span>90</span><span>360</span></span>＝12.56（cm²）</p>
+          <p>直角二等辺三角形：4×4÷2＝8（cm²）</p>
+          <p class="font-bold">（12.56−8）×2 ＝ <span class="text-rose-600">9.12cm²</span></p>
+        </div>
+      </div>
+      <div class="mt-4 p-3 bg-amber-50 rounded-lg border border-amber-200 text-amber-900 text-sm flex items-start gap-2"><span class="text-lg">💡</span><span>対角線を1本引いて、<strong>半分のところ</strong>で考えて、あとで2倍にする。</span></div>
+    </section>
+
+  </main>
+</body>
+</html>

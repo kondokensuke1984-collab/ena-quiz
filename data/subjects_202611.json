@@ -5,7 +5,10 @@
 "tag": "tag-tkk11",
 "category": "sansu",
 "month": "202611",
-"isGroup": true
+"isGroup": true,
+"ref": "/tkk11.html",
+"refLabel": "カラーページ（要点まとめ）",
+"refSub": "対角線・内角と外角の和・外角の定理・正多角形を組み合わせた図"
 },
 "tkk11_kihon": {
 "label": "基本問題",
@@ -37,7 +40,10 @@
 "tag": "tag-en11a",
 "category": "sansu",
 "month": "202611",
-"isGroup": true
+"isGroup": true,
+"ref": "/en11a.html",
+"refLabel": "カラーページ（要点まとめ）",
+"refSub": "円周と円の面積・おうぎ形の弧の長さと面積"
 },
 "en11a_kihon": {
 "label": "基本問題",
@@ -69,7 +75,10 @@
 "tag": "tag-en11b",
 "category": "sansu",
 "month": "202611",
-"isGroup": true
+"isGroup": true,
+"ref": "/en11b.html",
+"refLabel": "カラーページ（要点まとめ）",
+"refSub": "面積の移動・補助線・30°60°90°の三角形"
 },
 "en11b_kihon": {
 "label": "基本問題",
