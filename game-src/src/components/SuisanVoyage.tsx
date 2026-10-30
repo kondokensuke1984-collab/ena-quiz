@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { Suspense, lazy, useCallback, useEffect, useRef, useState } from 'react';
 import { useGame } from '../state/useGame';
 import { sfx } from '../lib/sound';
 import {
@@ -7,6 +7,9 @@ import {
 } from '../lib/suisanVoyage';
 import { CharSVG } from './CharSVG';
 import { DPad, type Axis } from './DPad';
+import type { SeaCtl } from './SuisanSea3D';
+
+const Sea3D = lazy(() => import('./SuisanSea3D'));
 
 // しゅっこう：船を うごかして、海域ごとに 漁を する（2D）。
 // 沿岸（領海・日帰り）→ 沖合（経済水域・数日）→ 遠洋（公海・数か月）。ステージを クリアすると 船が 大きくなって 遠くへ 行ける。
@@ -46,6 +49,12 @@ export function SuisanVoyage({ onBack }: { onBack(): void }) {
 
   const axis = useRef<Axis>({ x: 0, y: 0 });
   const S = useRef<State>(fresh());
+  const [view3d, setView3d] = useState<boolean>(() => {
+    try { return localStorage.getItem('suisanVoyage3d') !== '0'; } catch { return true; }
+  });
+  const toggle3d = (on: boolean) => { setView3d(on); try { localStorage.setItem('suisanVoyage3d', on ? '1' : '0'); } catch { /* 保存できなくても あそべる */ } };
+  const fail3d = useCallback(() => toggle3d(false), []);
+  const ctl = useRef<SeaCtl>({ isOpen: () => true, nearId: null, boat: 'small' });
   const [, force] = useState(0);
 
   const say = (m: string, ms = 3600) => { S.current.msg = m; S.current.msgUntil = performance.now() + ms; };
@@ -92,6 +101,11 @@ export function SuisanVoyage({ onBack }: { onBack(): void }) {
   const nearSpot = s.phase === 'sail'
     ? s.spots.find((p) => p.left > 0 && Math.hypot(p.x - s.x, p.y - s.y) < SPOT_RADIUS && zoneOpen(zoneAt(p.x), cleared, all)) ?? null
     : null;
+  ctl.current = {
+    isOpen: (id) => { const z = ZONES.find((q) => q.id === id); return !z || zoneOpen(z, cleared, all); },
+    nearId: nearSpot ? nearSpot.id : null,
+    boat: boat.cap >= 12 ? 'big' : boat.cap >= 8 ? 'mid' : 'small',
+  };
   const atPort = s.x <= PORT_X + 38;
   const full = s.hold.length >= boat.cap;
   const worth = s.hold.reduce((a, f) => a + f.price, 0);
@@ -159,6 +173,7 @@ export function SuisanVoyage({ onBack }: { onBack(): void }) {
         <div className="text-[14px] font-black text-ink">{boat.emoji} しゅっこう</div>
         <div className="flex items-center gap-1.5">
           <span className="rounded-full bg-amber-100 px-2.5 py-1 text-[12px] font-black text-amber-800">💰 {g.save.suisan.coin}万円</span>
+          <button className="rounded-full bg-sky-100 px-2.5 py-1 text-[11px] font-black text-sky-800" onClick={() => toggle3d(!view3d)}>{view3d ? '2Dで みる' : '3Dで みる'}</button>
           <button className="rounded-full bg-gray-100 px-2.5 py-1 text-[11px] font-black text-ink" onClick={onBack}>もどる</button>
         </div>
       </div>
@@ -169,7 +184,12 @@ export function SuisanVoyage({ onBack }: { onBack(): void }) {
         <span>つみ荷 {s.hold.length}/{boat.cap}</span>
       </div>
 
-      <svg viewBox={`0 0 ${VW} ${VH}`} className="mb-1.5 w-full select-none rounded-2xl shadow ring-1 ring-black/10">
+      {view3d && (
+        <Suspense fallback={<div className="mb-1.5 flex w-full items-center justify-center rounded-2xl bg-sky-100 text-[12px] font-black text-sky-800" style={{ aspectRatio: '340 / 270' }}>うみを よういしているよ…</div>}>
+          <Sea3D sRef={S} ctl={ctl} onFail={fail3d} />
+        </Suspense>
+      )}
+      {!view3d && <svg viewBox={`0 0 ${VW} ${VH}`} className="mb-1.5 w-full select-none rounded-2xl shadow ring-1 ring-black/10">
         <rect width={VW} height={VH} fill="#bae6fd" />
         <g transform={`translate(${-cam},0)`}>
           {ZONES.map((z) => {
@@ -209,7 +229,7 @@ export function SuisanVoyage({ onBack }: { onBack(): void }) {
           <ellipse cx={s.x - s.face * 20} cy={s.y + 8} rx="14" ry="3.5" fill="#fff" opacity="0.55" />
           <text x={s.x} y={s.y + 9} textAnchor="middle" fontSize="28" transform={`translate(${s.x} 0) scale(${-s.face} 1) translate(${-s.x} 0)`}>{boat.emoji}</text>
         </g>
-      </svg>
+      </svg>}
 
       <div className="mb-1.5 flex items-start gap-2 rounded-2xl bg-sky-50 px-2 py-1.5">
         <div className="shrink-0"><CharSVG charKey="beaver" level={6} fillPct={100} size={40} label="モクタ" /></div>
