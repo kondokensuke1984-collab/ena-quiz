@@ -58,6 +58,7 @@ import { SpaceTripModal } from '../components/SpaceTripModal';
 import { OrganModal } from '../components/OrganModal';
 import { MicroscopeModal } from '../components/MicroscopeModal';
 import { LibraryModal, type BookId } from '../components/LibraryModal';
+import { TreeDexModal } from '../components/TreeDexModal';
 import { TransferModal } from '../components/TransferModal';
 import { StampModal } from './island/StampModal';
 import { MailModal } from './island/MailModal';
@@ -1973,6 +1974,7 @@ export function IslandScreen() {
           : book === 'micro' ? <MicroscopeModal dexOnly studied={studied} onClose={close} />
           : book === 'space' ? <SpaceTripModal dexOnly tab="dex" studied={studied} crew={imoCustomers} onClose={close} />
           : book === 'arbor' ? <ArborModal dexOnly friends={imoCustomers} studied={studied} onClose={close} />
+          : book === 'tree' ? <TreeDexModal onClose={close} />
           : <YakiimoModal dexOnly customers={imoCustomers} onClose={close} />;
       })()}
       {(modal === 'spaceGo' || modal === 'spaceDex') && <SpaceTripModal tab={modal === 'spaceGo' ? 'go' : 'dex'} studied={studied} crew={imoCustomers} onClose={() => setModal(null)} marsOk={marsOk} onWalk={(to) => { setModal(null); travel(to, ENTRY[to]); }} />}

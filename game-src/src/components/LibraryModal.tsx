@@ -6,10 +6,11 @@ import { PLANKTON } from '../lib/plankton';
 import { DESTS } from '../lib/space';
 import { LEAVES } from '../lib/arbor';
 import { IMO_GRADES } from '../lib/yakiimo';
+import { FORESTS } from '../lib/forestry';
 
 // としょかん（となりの しま・bd_planet）：しまの ずかんを 本だなに ならべる。本を ひらくと いつもの ずかん画面（dexOnly）が でる。
 
-export type BookId = 'stars' | 'fish' | 'farm' | 'micro' | 'space' | 'arbor' | 'imo';
+export type BookId = 'stars' | 'fish' | 'farm' | 'micro' | 'space' | 'arbor' | 'imo' | 'tree';
 
 interface Book { id: BookId; emoji: string; title: string; n: number; total: number; color: string }
 
@@ -22,6 +23,7 @@ export function LibraryModal({ onOpen, onClose }: { onOpen(id: BookId): void; on
     { id: 'micro', emoji: '🔬', title: 'プランクトン', n: save.micro.dex.length, total: PLANKTON.length, color: '#7c3aed' },
     { id: 'space', emoji: '🛰️', title: 'うちゅう', n: save.space.dex.length, total: DESTS.length, color: '#1e293b' },
     { id: 'arbor', emoji: '🍁', title: 'おちば', n: save.arbor.dex.length, total: LEAVES.length, color: '#e11d48' },
+    { id: 'tree', emoji: '🌲', title: 'き', n: FORESTS.filter((f) => save.forestry.cleared.includes(f.id)).length, total: FORESTS.length, color: '#15803d' },
     { id: 'imo', emoji: '🍠', title: 'やきいも', n: save.imo.dex.length, total: IMO_GRADES.length, color: '#ea580c' },
   ];
   const all = books.reduce((a, b) => a + b.n, 0);

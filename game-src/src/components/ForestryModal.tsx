@@ -1,4 +1,6 @@
 import { ForestMap } from './ForestMap';
+import { TreeDexModal } from './TreeDexModal';
+import { TREE_DEX_BY_ID } from '../lib/treeDex';
 import { useEffect, useRef, useState } from 'react';
 import { useGame } from '../state/useGame';
 import { ITEM_BY_ID } from '../lib/items';
@@ -212,6 +214,7 @@ export function ForestryModal({ onClose }: { onClose(): void }) {
   const g = useGame();
   const cleared = g.save.forestry.cleared;
   const [pick, setPick] = useState<Forest | null>(null);
+  const [dexOpen, setDexOpen] = useState(false);
   const [p, setP] = useState<Play | null>(null);
   const pRef = useRef<Play | null>(null);
   const [res, setRes] = useState<{ isNew: boolean; reward: string | null } | null>(null);
@@ -466,6 +469,7 @@ export function ForestryModal({ onClose }: { onClose(): void }) {
           {!pick ? (
             <>
               <ForestMap cleared={cleared} onPick={setPick} />
+              <button className="mb-2 w-full rounded-2xl bg-emerald-600 py-2 text-[12px] font-black text-white" onClick={() => setDexOpen(true)}>📖 きのずかんを みる</button>
               <div className="rounded-2xl bg-amber-50 px-3 py-2 text-center text-[11px] font-bold text-ink">
                 クリアした 森 {cleared.length} / {FORESTS.length}　森を クリアすると 家具が もらえるよ
               </div>
@@ -484,6 +488,7 @@ export function ForestryModal({ onClose }: { onClose(): void }) {
             </div>
           )}
         </div>
+        {dexOpen && <TreeDexModal onClose={() => setDexOpen(false)} />}
       </div>
     );
   }
@@ -613,6 +618,12 @@ export function ForestryModal({ onClose }: { onClose(): void }) {
             {jinko && (
               <div className="mb-1 text-[11.5px] font-bold leading-relaxed text-ink">
                 植栽(1年)→下刈り(〜5年)→除伐(10年ごろ)→間伐(20〜45年に3回)→主伐(50年〜)。{p.logs}本の 丸太が とれたよ🪵
+              </div>
+            )}
+            {TREE_DEX_BY_ID[p.forest.id] && (
+              <div className="mb-2 overflow-hidden rounded-xl bg-white text-left shadow ring-1 ring-black/5">
+                <img src={TREE_DEX_BY_ID[p.forest.id].photo.src} alt={TREE_DEX_BY_ID[p.forest.id].tree} className="h-28 w-full object-cover" />
+                <div className="px-2 py-1.5 text-[12px] font-black text-emerald-800">📖 きのずかんに「{TREE_DEX_BY_ID[p.forest.id].tree}」が のったよ！</div>
               </div>
             )}
             {res?.reward ? (
