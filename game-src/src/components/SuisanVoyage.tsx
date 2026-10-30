@@ -7,6 +7,8 @@ import {
   type Spot,
 } from '../lib/suisanVoyage';
 import { ZONE_JA, pickPortFish, type Port, type PortFish } from '../lib/suisanPorts';
+import { zukanGot } from '../lib/fishZukan';
+import { ZukanPop } from './SuisanZukan';
 import { CharSVG } from './CharSVG';
 import { DPad, type Axis } from './DPad';
 import type { SeaCtl } from './SuisanSea3D';
@@ -25,6 +27,7 @@ interface State {
   x: number; y: number; face: 1 | -1;
   spots: Spot[];
   hold: PortFish[];
+  pop: string | null;      // ずかんに のった さかな（おしらせを 出す あいだ）
   phase: 'sail' | 'fish';
   spot: number | null;     // つっている 漁場 id
   ct: number; cur: number; center: number; win: number; zoneId: string;
@@ -35,7 +38,7 @@ interface State {
 }
 
 const fresh = (port: Port): State => ({
-  x: PORT_X + 30, y: WORLD_H / 2, face: 1, spots: makeSpots(port), hold: [], phase: 'sail', spot: null,
+  x: PORT_X + 30, y: WORLD_H / 2, face: 1, spots: makeSpots(port), hold: [], pop: null, phase: 'sail', spot: null,
   ct: 0, cur: 0, center: 0.5, win: 0.3, zoneId: 'near', msg: '', msgUntil: 0, tipped: [], total: 0, trips: 0,
 });
 
@@ -70,7 +73,7 @@ export function SuisanVoyage({ port, onBack }: { port: Port; onBack(): void }) {
       const dt = Math.min(0.05, (now - last) / 1000);
       last = now;
       const s = S.current;
-      if (s.phase === 'sail') {
+      if (s.pop) { /* おしらせを 見ている あいだは とまる */ } else if (s.phase === 'sail') {
         const a = axis.current;
         if (a.x || a.y) {
           const len = Math.hypot(a.x, a.y) || 1;
@@ -138,6 +141,7 @@ export function SuisanVoyage({ port, onBack }: { port: Port; onBack(): void }) {
       sfx('catch');
       const key = `${port.id}:${f.id}`;
       const isNew = !g.save.suisan.portDex.includes(key);
+      if (!zukanGot(f.id, g.save.suisan.portDex, g.save.suisan.dex)) s.pop = f.id;
       if (isNew) g.suisanUpdate((x) => (x.portDex.includes(key) ? x : { ...x, portDex: [...x.portDex, key] }));
       let m = `${f.emoji} ${f.name}を つった！ ${port.name}の ${f.name}（${s.hold.length} / ${boat.cap}）${isNew ? '\n🆕 港ずかんに のったよ！' : ''}`;
       if (spot.left <= 0) m += '　この 漁場の 魚は とりつくしたよ';
@@ -180,6 +184,7 @@ export function SuisanVoyage({ port, onBack }: { port: Port; onBack(): void }) {
 
   return (
     <div>
+      {s.pop && <ZukanPop id={s.pop} onClose={() => { S.current.pop = null; }} />}
       <div className="mb-1 flex items-center justify-between">
         <div className="text-[14px] font-black text-ink">{boat.emoji} {port.name}港（{port.pref}）</div>
         <div className="flex items-center gap-1.5">

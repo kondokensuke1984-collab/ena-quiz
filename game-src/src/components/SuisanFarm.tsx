@@ -7,6 +7,8 @@ import {
   gNow, growthLook, seaValue, spStyle,
 } from '../lib/suisanFarm';
 import type { FarmPlace } from '../lib/suisanFarmPlaces';
+import { zukanGot } from '../lib/fishZukan';
+import { ZukanPop } from './SuisanZukan';
 import { CharSVG } from './CharSVG';
 
 // いけす：養殖＝えさを やって そだてる／栽培＝稚魚を 海に 放流して まつ。
@@ -16,6 +18,7 @@ export function SuisanFarm({ place, onBack }: { place: FarmPlace; onBack(): void
   const s = g.save.suisan;
   const [now, setNow] = useState(() => Date.now());
   const [msg, setMsg] = useState(`${place.line}\n稚魚を かって いけすに いれよう！ えさを あげると はやく そだつよ。`);
+  const [pop, setPop] = useState<string | null>(null);
   const sRef = useRef(s);
   sRef.current = s;
 
@@ -98,6 +101,7 @@ export function SuisanFarm({ place, onBack }: { place: FarmPlace; onBack(): void
     const sp = SP_BY_ID[f.sp];
     sfx('coin');
     const first = !s.dex.includes(sp.id);
+    if (!zukanGot(sp.id, s.portDex, s.dex)) setPop(sp.id);
     setMsg(`${sp.emoji} ${sp.name}を うって +${sp.sell}万円！ ${first ? '「ずかん」に のったよ！ ' : ''}${f.pl ? '' : sp.place + 'の 養殖は 有名だよ。'}`);
     g.suisanUpdate((x) => ({
       ...x, coin: x.coin + sp.sell,
@@ -125,6 +129,7 @@ export function SuisanFarm({ place, onBack }: { place: FarmPlace; onBack(): void
     if (!e || t - e.t < SEA_MS) return;
     const sp = SP_BY_ID[e.sp];
     const v = seaValue(sp);
+    if (!zukanGot(sp.id, s.portDex, s.dex)) setPop(sp.id);
     sfx('coin');
     setMsg(`🎣 放流した ${sp.name}が 大きくなって もどってきた！ +${v}万円（えさ代は ゼロ！）`);
     g.suisanUpdate((x) => ({
@@ -137,6 +142,7 @@ export function SuisanFarm({ place, onBack }: { place: FarmPlace; onBack(): void
 
   return (
     <div>
+      {pop && <ZukanPop id={pop} onClose={() => setPop(null)} />}
       <style>{'@keyframes su-sway{0%,100%{transform:translate(-6px,0) scaleX(1)}25%{transform:translate(0,-4px) scaleX(1)}50%{transform:translate(6px,0) scaleX(-1)}75%{transform:translate(0,4px) scaleX(-1)}}'}</style>
       <div className="mb-1 flex items-center justify-between">
         <div className="text-[14px] font-black text-ink">🐟 {place.name}（{place.pref}）</div>
