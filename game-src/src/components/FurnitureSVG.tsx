@@ -452,6 +452,67 @@ const DRAWINGS: Record<string, Draw> = {
       <path d="M-8 -34 q-3 -6 1 -9 M0 -34 q3 -7 -1 -10" fill="none" stroke="#a8a29e" strokeWidth="1.6" strokeLinecap="round" />
     </g>
   ),
+  fn_wd_tar: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="22" ry="6" fill="rgba(0,0,0,0.2)" />
+      <path d="M-18 -4 Q-24 -22 -18 -40 L18 -40 Q24 -22 18 -4 Q0 2 -18 -4 Z" fill="#d6a85f" {...S} />
+      <ellipse cx="0" cy="-40" rx="18" ry="6" fill="#f3d59b" {...S} />
+      <path d="M-21 -14 Q0 -8 21 -14 M-21 -30 Q0 -24 21 -30" fill="none" stroke="#7c4a1d" strokeWidth="3" />
+      <path d="M-8 -37 v32 M0 -36 v34 M8 -37 v32" stroke="#b9853b" strokeWidth="1.2" />
+    </g>
+  ),
+  fn_wd_bench: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="28" ry="6" fill="rgba(0,0,0,0.2)" />
+      <rect x="-24" y="-18" width="48" height="8" rx="2" fill="#d6a85f" {...S} />
+      <rect x="-24" y="-40" width="48" height="6" rx="2" fill="#d6a85f" {...S} />
+      <rect x="-22" y="-34" width="4" height="16" fill="#b9853b" {...S} />
+      <rect x="18" y="-34" width="4" height="16" fill="#b9853b" {...S} />
+      <rect x="-20" y="-10" width="5" height="12" fill="#b9853b" {...S} />
+      <rect x="15" y="-10" width="5" height="12" fill="#b9853b" {...S} />
+      <path d="M-14 -15 h28 M-14 -37 h28" stroke="#b9853b" strokeWidth="1.2" />
+    </g>
+  ),
+  fn_wd_tub: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="28" ry="6" fill="rgba(0,0,0,0.2)" />
+      <path d="M-26 -24 L-22 -2 Q0 4 22 -2 L26 -24 Z" fill="#f0c987" {...S} />
+      <ellipse cx="0" cy="-24" rx="26" ry="8" fill="#7dd3fc" {...S} />
+      <path d="M-10 -22 q4 -3 8 0 M6 -24 q4 -3 8 0" fill="none" stroke="#e0f2fe" strokeWidth="1.6" strokeLinecap="round" />
+      <path d="M-8 -14 v10 M0 -14 v12 M8 -14 v10" stroke="#c9974f" strokeWidth="1.2" />
+      <path d="M-6 -34 q-4 -6 0 -10 M4 -34 q4 -7 0 -12" fill="none" stroke="#cbd5e1" strokeWidth="1.8" strokeLinecap="round" />
+    </g>
+  ),
+  fn_wd_shelf: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="24" ry="6" fill="rgba(0,0,0,0.2)" />
+      <rect x="-20" y="-58" width="40" height="58" rx="2" fill="#d6a85f" {...S} />
+      <path d="M-20 -39 h40 M-20 -20 h40" stroke="#4c1d95" strokeWidth="1.8" />
+      {[[-14, -56, '#ef4444'], [-8, -56, '#3b82f6'], [-2, -56, '#22c55e'], [-14, -37, '#a855f7'], [-8, -37, '#f59e0b'], [8, -18, '#0ea5e9']].map(([x, y, c], i) => (
+        <rect key={i} x={x as number} y={(y as number) + 2} width="5" height="15" fill={c as string} stroke="#4c1d95" strokeWidth="1" />
+      ))}
+    </g>
+  ),
+  fn_wd_board: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="26" ry="6" fill="rgba(0,0,0,0.2)" />
+      <path d="M-24 -6 L-18 -22 L18 -22 L24 -6 Z" fill="#e6c07a" {...S} />
+      <rect x="-24" y="-6" width="48" height="6" rx="2" fill="#c9974f" {...S} />
+      <circle cx="18" cy="-12" r="2.4" fill="#7c4a1d" />
+      <circle cx="-6" cy="-16" r="5" fill="#fb923c" stroke="#4c1d95" strokeWidth="1.4" />
+      <path d="M-8 -21 q2 -4 4 0" fill="#22c55e" stroke="#15803d" strokeWidth="1.2" />
+      <path d="M4 -14 l10 -4" stroke="#94a3b8" strokeWidth="3" strokeLinecap="round" />
+    </g>
+  ),
+  fn_wd_box: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="24" ry="6" fill="rgba(0,0,0,0.2)" />
+      <rect x="-20" y="-30" width="40" height="30" rx="2" fill="#e6c07a" {...S} />
+      <rect x="-22" y="-38" width="44" height="10" rx="2" fill="#d6a85f" {...S} />
+      <rect x="-4" y="-26" width="8" height="6" rx="1" fill="#7c4a1d" />
+      <path d="M-14 -22 v20 M0 -16 v14 M14 -22 v20" stroke="#c9974f" strokeWidth="1.2" />
+    </g>
+  ),
   fn_maple: () => (
     <g>
       <ellipse cx="0" cy="2" rx="18" ry="6" fill="rgba(0,0,0,0.2)" />

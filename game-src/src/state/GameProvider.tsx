@@ -26,6 +26,7 @@ import { CASES, DETECTIVE_REWARDS, DETECTIVE_TITLE } from '../lib/detective';
 import { seasonNow } from '../lib/items';
 import { ORGAN_TITLE, SONGS } from '../lib/songs';
 import { IMO_BY_ID, IMO_PER_DAY, IMO_REWARDS } from '../lib/yakiimo';
+import { FOREST_BY_ID } from '../lib/forestry';
 import { ARBOR_REWARDS, GATHER_PER_DAY, TALK_PER_DAY, arborToday, rollLeaf, type Leaf } from '../lib/arbor';
 import { USAGI_KEY } from '../lib/usagi';
 import { DEST_BY_ID, DESTS, SPACE_REWARDS, SPACE_TITLE, STONE_FOOD, SUN_TITLE, TRIPS_PER_DAY, TRIPS_STUDY_BONUS, openDests } from '../lib/space';
@@ -209,6 +210,10 @@ export interface GameApi {
   arborTea(charKey: string, fromName: string, title: string, body: string): boolean;
   /** もみじの あずまや：かいぎで おはなし（1日3回）。correct＝せいかいで なかよし +2、まちがいは +1 */
   arborTalk(charKey: string, correct: boolean): { heartsBefore: number; heartsAfter: number } | null;
+  /** モクタの もりづくり：あそびはじめ（あそんだ回数 +1） */
+  forestryPlay(): void;
+  /** モクタの もりづくり：森を クリア。はじめてなら ごほうびの家具（その品ID）。メダルは ふやさない */
+  forestryClear(forestId: string): { isNew: boolean; reward: string | null } | null;
   /** うちゅうりょこう：きょう あと なんかい とべるか（studied＝クイズ5もんの日） */
   spaceTripsLeft(studied: boolean): number;
   /** うちゅうりょこう：とんだ（かいすうを つかう）。とべないときは null */
@@ -1099,6 +1104,25 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       const heartsAfter = heartsOf(prev.pts + add);
       sfx(heartsAfter > heartsBefore ? 'heart' : correct ? 'star' : 'gift');
       return { heartsBefore, heartsAfter };
+    },
+
+    forestryPlay: () => {
+      setSave((s) => ({ ...s, forestry: { ...s.forestry, plays: s.forestry.plays + 1 } }));
+    },
+
+    forestryClear: (forestId) => {
+      const f = FOREST_BY_ID[forestId];
+      if (!f) return null;
+      const cur = saveRef.current;
+      const isNew = !cur.forestry.cleared.includes(f.id);
+      const reward = isNew && !cur.owned.includes(f.reward) ? f.reward : null;
+      setSave((s) => ({
+        ...s,
+        forestry: { ...s.forestry, cleared: s.forestry.cleared.includes(f.id) ? s.forestry.cleared : [...s.forestry.cleared, f.id] },
+        owned: reward && !s.owned.includes(reward) ? [...s.owned, reward] : s.owned,
+      }));
+      sfx(isNew ? 'star' : 'gift');
+      return { isNew, reward };
     },
 
     spaceTripsLeft: (studied) => {

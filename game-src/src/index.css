@@ -245,3 +245,9 @@ body {
 @keyframes sun-henshin { 0% { opacity: 0; transform: scale(0.3); } 25% { opacity: 1; transform: scale(1.1); } 100% { opacity: 0; transform: scale(1.4); } }
 .sun-aura { animation: sun-aura 8s linear infinite; transform-box: fill-box; transform-origin: center; }
 @keyframes sun-aura { to { transform: rotate(360deg); } }
+
+/* モクタの もりづくり：木が たおれる・草が きえる */
+.fo-tree { transform-box: fill-box; transform-origin: 50% 100%; transition: transform .6s ease-in, opacity .6s ease-in; }
+.fo-cut { transform: rotate(78deg); opacity: 0; pointer-events: none; }
+.fo-weed { transition: opacity .25s; }
+.fo-weed-cut { opacity: 0; pointer-events: none; }

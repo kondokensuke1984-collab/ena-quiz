@@ -50,6 +50,8 @@ import { caseOpen, CASES, eventActive } from '../lib/detective';
 import { MoonViewModal } from '../components/MoonViewModal';
 import { YakiimoModal } from '../components/YakiimoModal';
 import { ArborModal } from '../components/ArborModal';
+import { ForestryModal } from '../components/ForestryModal';
+import { FORESTS, forestryOpen } from '../lib/forestry';
 import { SpaceTripModal } from '../components/SpaceTripModal';
 import { OrganModal } from '../components/OrganModal';
 import { MicroscopeModal } from '../components/MicroscopeModal';
@@ -146,7 +148,7 @@ function todayKey(): string {
 
 type ModalKind =
   | 'feed' | 'roster' | 'stamp' | 'mail' | 'fish' | 'farm' | 'stars' | 'detective' | 'moonView'
-  | 'imo' | 'arbor' | 'spaceGo' | 'spaceDex' | 'library' | 'desk' | 'organ' | 'micro' | 'transfer' | 'board' | 'opening' | 'iken';
+  | 'imo' | 'arbor' | 'spaceGo' | 'spaceDex' | 'library' | 'desk' | 'organ' | 'micro' | 'transfer' | 'board' | 'opening' | 'iken' | 'forestry';
 
 /** むきと あしだけ かわる しゅじんこう（島の 画面ぜんぶを かきなおさない） */
 function PosedKid({ poseRef, subRef, ...rest }: {
@@ -1556,6 +1558,20 @@ export function IslandScreen() {
         </button>
       )}
 
+      {/* ── 林業ゲーム：モクタの もりづくり（10/31から。メダルは つかわない） ── */}
+      {forestryOpen() && (
+        <button
+          className="mb-2.5 flex w-full items-center gap-2 rounded-2xl bg-gradient-to-r from-[#3f6212] to-[#65a30d] px-3 py-2 text-left shadow active:scale-[0.98] lg:landscape:col-start-2"
+          onClick={() => setModal('forestry')}
+        >
+          <span className="text-xl">🌲</span>
+          <span className="min-w-0 flex-1 truncate text-[13.5px] font-black text-white">
+            <span className="mr-1.5 text-[10.5px] text-lime-200">あそぶ</span>モクタの もりづくり
+          </span>
+          <span className="text-[12px] font-black text-lime-100">{save.forestry.cleared.length}/{FORESTS.length}</span>
+        </button>
+      )}
+
       {/* ── スタンプ・てがみ・おと ── */}
       <div className="mb-2.5 flex gap-1.5 lg:landscape:col-start-2">
         <button className="min-w-0 flex-1 whitespace-nowrap rounded-2xl leading-tight bg-white/90 px-2 py-2 text-[12px] font-black text-ink shadow active:scale-95" onClick={() => setModal('stamp')}>
@@ -1941,6 +1957,7 @@ export function IslandScreen() {
       {modal === 'detective' && <DetectiveScreen onClose={() => setModal(null)} />}
       {modal === 'moonView' && <MoonViewModal onClose={() => setModal(null)} />}
       {modal === 'imo' && <YakiimoModal customers={imoCustomers} onClose={() => setModal(null)} />}
+      {modal === 'forestry' && <ForestryModal onClose={() => setModal(null)} />}
       {modal === 'arbor' && <ArborModal friends={imoCustomers} studied={studied} onClose={() => setModal(null)} />}
       {modal === 'library' && <LibraryModal onOpen={setBook} onClose={() => { setBook(null); setModal(null); }} />}
       {modal === 'library' && book && (() => {

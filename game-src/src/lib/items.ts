@@ -115,6 +115,13 @@ export const ITEMS: Item[] = [
 
   // ── もみじの あずまや（おちばひろいの ずかんの ごほうび。ショップでは売らない。lib/arbor.ts）──
   { id: 'fn_leafpile', kind: 'furniture', name: 'おちばの やま',   emoji: '🍂', price: 0, desc: 'おちばを 3しゅるい あつめた ごほうび', once: true, reward: true, anywhere: true },
+  // ── モクタの もりづくり（森を ひとつ クリアした ごほうび。ショップでは売らない。lib/forestry.ts）──
+  { id: 'fn_wd_tar',   kind: 'furniture', name: 'すぎの たる',       emoji: '🛢️', price: 0, desc: '吉野すぎの 森を 育てあげた ごほうび', once: true, reward: true, anywhere: true },
+  { id: 'fn_wd_bench', kind: 'furniture', name: 'すぎの ベンチ',     emoji: '🪑', price: 0, desc: '天竜すぎの 森を 育てあげた ごほうび', once: true, reward: true, anywhere: true },
+  { id: 'fn_wd_tub',   kind: 'furniture', name: 'ひのきの おふろ',   emoji: '🛁', price: 0, desc: '尾鷲ひのきの 森を 育てあげた ごほうび', once: true, reward: true, anywhere: true },
+  { id: 'fn_wd_shelf', kind: 'furniture', name: 'すぎの ほんだな',   emoji: '📚', price: 0, desc: '秋田すぎの 森を 守りきった ごほうび', once: true, reward: true, anywhere: true },
+  { id: 'fn_wd_board', kind: 'furniture', name: 'ひばの まないた',   emoji: '🍽️', price: 0, desc: '青森ひばの 森を 守りきった ごほうび', once: true, reward: true, anywhere: true },
+  { id: 'fn_wd_box',   kind: 'furniture', name: 'ひのきの はこ',     emoji: '📦', price: 0, desc: '木曽ひのきの 森を 守りきった ごほうび', once: true, reward: true, anywhere: true },
   { id: 'fn_teaset',   kind: 'furniture', name: 'おちゃの セット', emoji: '🍵', price: 0, desc: 'おちばを 6しゅるい ぜんぶ あつめた ごほうび', once: true, reward: true, anywhere: true },
 
   // ── うちゅうりょこうの おみやげ・ずかんの ごほうび（ショップでは売らない。lib/space.ts）──
