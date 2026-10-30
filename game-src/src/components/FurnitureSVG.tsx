@@ -513,6 +513,65 @@ const DRAWINGS: Record<string, Draw> = {
       <path d="M-14 -22 v20 M0 -16 v14 M14 -22 v20" stroke="#c9974f" strokeWidth="1.2" />
     </g>
   ),
+  fn_sui_buoy: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="18" ry="6" fill="rgba(0,0,0,0.2)" />
+      <path d="M-14 -10 Q-14 -34 0 -34 Q14 -34 14 -10 Z" fill="#ef4444" {...S} />
+      <path d="M-13 -20 H13 M-14 -10 H14" stroke="#fff" strokeWidth="4" />
+      <rect x="-3" y="-48" width="6" height="14" fill="#94a3b8" {...S} />
+      <circle cx="0" cy="-50" r="4" fill="#fde047" {...S} />
+    </g>
+  ),
+  fn_sui_boat: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="30" ry="6" fill="rgba(0,0,0,0.2)" />
+      <path d="M-30 -14 H30 Q24 -2 12 -2 H-12 Q-24 -2 -30 -14 Z" fill="#f59e0b" {...S} />
+      <path d="M-30 -14 H30" stroke="#fff" strokeWidth="3" />
+      <rect x="-1.5" y="-44" width="3" height="30" fill="#7c4a1d" />
+      <path d="M2 -44 L24 -20 H2 Z" fill="#fff" {...S} />
+    </g>
+  ),
+  fn_sui_net: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="26" ry="6" fill="rgba(0,0,0,0.2)" />
+      <rect x="-24" y="-40" width="48" height="36" rx="3" fill="#bfdbfe" fillOpacity="0.7" {...S} />
+      <path d="M-24 -28 H24 M-24 -16 H24 M-12 -40 V-4 M0 -40 V-4 M12 -40 V-4" stroke="#1d4ed8" strokeWidth="1.2" />
+      <circle cx="-24" cy="-40" r="3" fill="#ef4444" /><circle cx="24" cy="-40" r="3" fill="#ef4444" />
+    </g>
+  ),
+  fn_sui_anchor: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="22" ry="6" fill="rgba(0,0,0,0.2)" />
+      <circle cx="0" cy="-42" r="5" fill="none" stroke="#334155" strokeWidth="3" />
+      <path d="M0 -37 V-6 M-10 -30 H10" stroke="#475569" strokeWidth="4" strokeLinecap="round" />
+      <path d="M-20 -14 Q-18 -2 0 -4 Q18 -2 20 -14" fill="none" stroke="#475569" strokeWidth="4" strokeLinecap="round" />
+    </g>
+  ),
+  fn_sui_ikesu: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="30" ry="7" fill="rgba(0,0,0,0.2)" />
+      <path d="M-28 -16 H28 L24 -2 H-24 Z" fill="#7dd3fc" {...S} />
+      <path d="M-28 -16 L-28 -26 M28 -16 L28 -26 M-28 -26 H28" stroke="#92400e" strokeWidth="3" fill="none" />
+      <path d="M-14 -10 q6 -6 12 0 q-6 6 -12 0 z M4 -8 q5 -5 10 0 q-5 5 -10 0 z" fill="#fb923c" stroke="#7c2d12" strokeWidth="1" />
+    </g>
+  ),
+  fn_sui_tank: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="24" ry="6" fill="rgba(0,0,0,0.2)" />
+      <rect x="-22" y="-36" width="44" height="32" rx="4" fill="#bae6fd" fillOpacity="0.8" {...S} />
+      <rect x="-22" y="-36" width="44" height="8" rx="3" fill="#e0f2fe" {...S} />
+      <path d="M-12 -16 q5 -5 10 0 q-5 5 -10 0 z M6 -22 q4 -4 8 0 q-4 4 -8 0 z" fill="#fbbf24" stroke="#92400e" strokeWidth="1" />
+      <circle cx="10" cy="-10" r="2" fill="#fff" /><circle cx="14" cy="-16" r="1.5" fill="#fff" />
+    </g>
+  ),
+  fn_sui_flag: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="16" ry="5" fill="rgba(0,0,0,0.2)" />
+      <rect x="-2" y="-58" width="4" height="58" fill="#7c4a1d" />
+      <path d="M2 -56 H34 V-26 H2 Z" fill="#ef4444" {...S} />
+      <path d="M6 -48 H30 M6 -40 H30 M6 -32 H24" stroke="#fde047" strokeWidth="3" />
+    </g>
+  ),
   fn_maple: () => (
     <g>
       <ellipse cx="0" cy="2" rx="18" ry="6" fill="rgba(0,0,0,0.2)" />

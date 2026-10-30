@@ -122,6 +122,14 @@ export const ITEMS: Item[] = [
   { id: 'fn_wd_shelf', kind: 'furniture', name: 'すぎの ほんだな',   emoji: '📚', price: 0, desc: '秋田すぎの 森を 守りきった ごほうび', once: true, reward: true, anywhere: true },
   { id: 'fn_wd_board', kind: 'furniture', name: 'ひばの まないた',   emoji: '🍽️', price: 0, desc: '青森ひばの 森を 守りきった ごほうび', once: true, reward: true, anywhere: true },
   { id: 'fn_wd_box',   kind: 'furniture', name: 'ひのきの はこ',     emoji: '📦', price: 0, desc: '木曽ひのきの 森を 守りきった ごほうび', once: true, reward: true, anywhere: true },
+  // ── モクタの ぎょこうづくり（ステージを ひとつ クリアした ごほうび。ショップでは売らない。lib/suisan.ts）──
+  { id: 'fn_sui_buoy',   kind: 'furniture', name: 'ブイ',               emoji: '🛟', price: 0, desc: '「海の ちず」を クリアした ごほうび', once: true, reward: true, anywhere: true },
+  { id: 'fn_sui_boat',   kind: 'furniture', name: 'こぶね',             emoji: '🛶', price: 0, desc: '沿岸漁業を クリアした ごほうび', once: true, reward: true, anywhere: true },
+  { id: 'fn_sui_net',    kind: 'furniture', name: 'おおきな あみ',      emoji: '🥅', price: 0, desc: '沖合漁業を クリアした ごほうび', once: true, reward: true, anywhere: true },
+  { id: 'fn_sui_anchor', kind: 'furniture', name: 'いかり',             emoji: '⚓', price: 0, desc: '遠洋漁業を クリアした ごほうび', once: true, reward: true, anywhere: true },
+  { id: 'fn_sui_ikesu',  kind: 'furniture', name: 'いけす',             emoji: '🐟', price: 0, desc: '養殖漁業を クリアした ごほうび', once: true, reward: true, anywhere: true },
+  { id: 'fn_sui_tank',   kind: 'furniture', name: 'ちぎょの すいそう',  emoji: '🐠', price: 0, desc: '栽培漁業を クリアした ごほうび', once: true, reward: true, anywhere: true },
+  { id: 'fn_sui_flag',   kind: 'furniture', name: 'たいりょうばた',     emoji: '🎏', price: 0, desc: '「みらいの 漁港」を クリアした ごほうび', once: true, reward: true, anywhere: true },
   { id: 'fn_teaset',   kind: 'furniture', name: 'おちゃの セット', emoji: '🍵', price: 0, desc: 'おちばを 6しゅるい ぜんぶ あつめた ごほうび', once: true, reward: true, anywhere: true },
 
   // ── うちゅうりょこうの おみやげ・ずかんの ごほうび（ショップでは売らない。lib/space.ts）──

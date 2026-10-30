@@ -55,6 +55,7 @@ export function freshSave(now = Date.now()): SaveV1 {
     micro: { dex: [], day: '', today: 0, ready: false },
     imo: { dex: [], day: '', served: 0 },
     forestry: { cleared: [], plays: 0 },
+    suisan: { cleared: [], plays: 0 },
     arbor: { dex: [], day: '', gathered: 0, rested: false, tea: false, talked: 0 },
     space: { dex: [], day: '', trips: 0, moonStone: '', marsStone: '', sunStone: '', sunSeen: [] },
     usagi: { talked: '', home: false },
@@ -155,6 +156,10 @@ export function loadSave(): SaveV1 {
     forestry: {
       cleared: Array.isArray(s.forestry?.cleared) ? s.forestry!.cleared.filter((x) => typeof x === 'string') : [],
       plays: typeof s.forestry?.plays === 'number' ? s.forestry!.plays : 0,
+    },
+    suisan: {
+      cleared: Array.isArray(s.suisan?.cleared) ? s.suisan!.cleared.filter((x) => typeof x === 'string') : [],
+      plays: typeof s.suisan?.plays === 'number' ? s.suisan!.plays : 0,
     },
     arbor: {
       dex: Array.isArray(s.arbor?.dex) ? s.arbor!.dex.filter((x) => typeof x === 'string') : [],

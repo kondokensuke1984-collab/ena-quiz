@@ -27,6 +27,7 @@ import { seasonNow } from '../lib/items';
 import { ORGAN_TITLE, SONGS } from '../lib/songs';
 import { IMO_BY_ID, IMO_PER_DAY, IMO_REWARDS } from '../lib/yakiimo';
 import { FOREST_BY_ID } from '../lib/forestry';
+import { STAGE_BY_ID } from '../lib/suisan';
 import { ARBOR_REWARDS, GATHER_PER_DAY, TALK_PER_DAY, arborToday, rollLeaf, type Leaf } from '../lib/arbor';
 import { USAGI_KEY } from '../lib/usagi';
 import { DEST_BY_ID, DESTS, SPACE_REWARDS, SPACE_TITLE, STONE_FOOD, SUN_TITLE, TRIPS_PER_DAY, TRIPS_STUDY_BONUS, openDests } from '../lib/space';
@@ -214,6 +215,10 @@ export interface GameApi {
   forestryPlay(): void;
   /** モクタの もりづくり：森を クリア。はじめてなら ごほうびの家具（その品ID）。メダルは ふやさない */
   forestryClear(forestId: string): { isNew: boolean; reward: string | null } | null;
+  /** モクタの ぎょこうづくり：あそびはじめ（あそんだ回数 +1） */
+  suisanPlay(): void;
+  /** モクタの ぎょこうづくり：ステージを クリア。はじめてなら ごほうびの家具（その品ID）。メダルは ふやさない */
+  suisanClear(stageId: string): { isNew: boolean; reward: string | null } | null;
   /** うちゅうりょこう：きょう あと なんかい とべるか（studied＝クイズ5もんの日） */
   spaceTripsLeft(studied: boolean): number;
   /** うちゅうりょこう：とんだ（かいすうを つかう）。とべないときは null */
@@ -1119,6 +1124,25 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       setSave((s) => ({
         ...s,
         forestry: { ...s.forestry, cleared: s.forestry.cleared.includes(f.id) ? s.forestry.cleared : [...s.forestry.cleared, f.id] },
+        owned: reward && !s.owned.includes(reward) ? [...s.owned, reward] : s.owned,
+      }));
+      sfx(isNew ? 'star' : 'gift');
+      return { isNew, reward };
+    },
+
+    suisanPlay: () => {
+      setSave((s) => ({ ...s, suisan: { ...s.suisan, plays: s.suisan.plays + 1 } }));
+    },
+
+    suisanClear: (stageId) => {
+      const st = STAGE_BY_ID[stageId];
+      if (!st) return null;
+      const cur = saveRef.current;
+      const isNew = !cur.suisan.cleared.includes(st.id);
+      const reward = isNew && !cur.owned.includes(st.reward) ? st.reward : null;
+      setSave((s) => ({
+        ...s,
+        suisan: { ...s.suisan, cleared: s.suisan.cleared.includes(st.id) ? s.suisan.cleared : [...s.suisan.cleared, st.id] },
         owned: reward && !s.owned.includes(reward) ? [...s.owned, reward] : s.owned,
       }));
       sfx(isNew ? 'star' : 'gift');

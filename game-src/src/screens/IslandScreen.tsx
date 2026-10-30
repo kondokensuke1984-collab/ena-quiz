@@ -52,6 +52,8 @@ import { YakiimoModal } from '../components/YakiimoModal';
 import { ArborModal } from '../components/ArborModal';
 import { ForestryModal } from '../components/ForestryModal';
 import { FORESTS, forestryOpen } from '../lib/forestry';
+import { SuisanModal } from '../components/SuisanModal';
+import { STAGES, suisanOpen } from '../lib/suisan';
 import { SpaceTripModal } from '../components/SpaceTripModal';
 import { OrganModal } from '../components/OrganModal';
 import { MicroscopeModal } from '../components/MicroscopeModal';
@@ -148,7 +150,7 @@ function todayKey(): string {
 
 type ModalKind =
   | 'feed' | 'roster' | 'stamp' | 'mail' | 'fish' | 'farm' | 'stars' | 'detective' | 'moonView'
-  | 'imo' | 'arbor' | 'spaceGo' | 'spaceDex' | 'library' | 'desk' | 'organ' | 'micro' | 'transfer' | 'board' | 'opening' | 'iken' | 'forestry';
+  | 'imo' | 'arbor' | 'spaceGo' | 'spaceDex' | 'library' | 'desk' | 'organ' | 'micro' | 'transfer' | 'board' | 'opening' | 'iken' | 'forestry' | 'suisan';
 
 /** むきと あしだけ かわる しゅじんこう（島の 画面ぜんぶを かきなおさない） */
 function PosedKid({ poseRef, subRef, ...rest }: {
@@ -1572,6 +1574,20 @@ export function IslandScreen() {
         </button>
       )}
 
+      {/* ── 水産業ゲーム：モクタの ぎょこうづくり（10/31から。メダルは つかわない） ── */}
+      {suisanOpen() && (
+        <button
+          className="mb-2.5 flex w-full items-center gap-2 rounded-2xl bg-gradient-to-r from-[#0369a1] to-[#0ea5e9] px-3 py-2 text-left shadow active:scale-[0.98] lg:landscape:col-start-2"
+          onClick={() => setModal('suisan')}
+        >
+          <span className="text-xl">⚓</span>
+          <span className="min-w-0 flex-1 truncate text-[13.5px] font-black text-white">
+            <span className="mr-1.5 text-[10.5px] text-sky-100">あそぶ</span>モクタの ぎょこうづくり
+          </span>
+          <span className="text-[12px] font-black text-sky-100">{save.suisan.cleared.length}/{STAGES.length}</span>
+        </button>
+      )}
+
       {/* ── スタンプ・てがみ・おと ── */}
       <div className="mb-2.5 flex gap-1.5 lg:landscape:col-start-2">
         <button className="min-w-0 flex-1 whitespace-nowrap rounded-2xl leading-tight bg-white/90 px-2 py-2 text-[12px] font-black text-ink shadow active:scale-95" onClick={() => setModal('stamp')}>
@@ -1958,6 +1974,7 @@ export function IslandScreen() {
       {modal === 'moonView' && <MoonViewModal onClose={() => setModal(null)} />}
       {modal === 'imo' && <YakiimoModal customers={imoCustomers} onClose={() => setModal(null)} />}
       {modal === 'forestry' && <ForestryModal onClose={() => setModal(null)} />}
+      {modal === 'suisan' && <SuisanModal onClose={() => setModal(null)} />}
       {modal === 'arbor' && <ArborModal friends={imoCustomers} studied={studied} onClose={() => setModal(null)} />}
       {modal === 'library' && <LibraryModal onOpen={setBook} onClose={() => { setBook(null); setModal(null); }} />}
       {modal === 'library' && book && (() => {
