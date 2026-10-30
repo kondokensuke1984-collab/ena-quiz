@@ -23456,7 +23456,10 @@ function kenchikuUnlockedToday() {
 }
 function islandUnlockedToday() { return kenchikuUnlockedToday() || unitCatsToday().length >= ISLAND_UNLOCK_CATS; }
 function renderIslandBtn() {
-  const left = kenchikuUnlockedToday() ? 0 : ISLAND_UNLOCK_CATS - unitCatsToday().length;
+  // 島の 主人公が けんすけ・みつき の 端末は いつでも 島に はいれる（島の がわ App.tsx と おなじ きまり）
+  let islandFree = false;
+  try { const pl = (JSON.parse(localStorage.getItem('ena_island_save_v1') || '{}') || {}).player; islandFree = pl === 'kensuke' || pl === 'mitsuki'; } catch(e) {}
+  const left = (islandFree || kenchikuUnlockedToday()) ? 0 : ISLAND_UNLOCK_CATS - unitCatsToday().length;
   document.querySelectorAll('.island-btn-text').forEach(el => {
     el.textContent = left > 0 ? `🔒 あと${left}教科` : (el.classList.contains('island-top-sub') ? 'タップして島へ' : '島へいく');
   });

@@ -37,7 +37,8 @@ function Router() {
   }, []);
   // テストまえの とくべつルール（アンリの あいだ・lib/testlock.ts）
   const testLock = useTestLock(save.player);
-  if (!gate.unlocked) return <LockScreen cats={gate.cats} />;
+  // けんすけ・みつきの 端末は いつでも 島に はいれる（そらとびの SORA_FREE と おなじ きまり）
+  if (!gate.unlocked && save.player !== 'kensuke' && save.player !== 'mitsuki') return <LockScreen cats={gate.cats} />;
   if (testLock.locked) return <TestLockScreen lock={testLock} />;
 
   // はじまりの ものがたり（はじめて 島を ひらいたとき 1回）
