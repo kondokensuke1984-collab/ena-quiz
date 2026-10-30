@@ -74,6 +74,50 @@
    ]
   },
   {
+   "key": "4ka_1109",
+   "name": "4科演習（11/9）",
+   "month": "202611",
+   "date": "2026-11-09",
+   "covers": [
+    "tkk11",
+    "tane1",
+    "tane2",
+    "nougyou6"
+   ]
+  },
+  {
+   "key": "gakuryoku11",
+   "name": "学力判定テスト",
+   "month": "202611",
+   "date": "2026-11-25",
+   "covers": [
+    "tkk11",
+    "en11a",
+    "en11b",
+    "tane1",
+    "tane2",
+    "jouken1",
+    "jouken2",
+    "nougyou6",
+    "ringyo",
+    "suisan"
+   ]
+  },
+  {
+   "key": "4ka_1130",
+   "name": "4科演習（11/30）",
+   "month": "202611",
+   "date": "2026-11-30",
+   "covers": [
+    "en11a",
+    "en11b",
+    "jouken1",
+    "jouken2",
+    "ringyo",
+    "suisan"
+   ]
+  },
+  {
    "extra": true,
    "key": "sansu9moshi",
    "name": "算数9月もし",
