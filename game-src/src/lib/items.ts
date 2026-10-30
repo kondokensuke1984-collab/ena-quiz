@@ -267,6 +267,8 @@ export function onSale(item: Item, ownedIds: string[]): boolean {
 export const BUILD_ORDER = ['bd_house', 'bd_pier', 'bd_light', 'bd_school', 'bd_bridge', 'bd_wheel', 'bd_observ', 'bd_moon', 'bd_imo', 'bd_arbor', 'bd_zukei', 'bd_base', 'bd_planet'];
 /** たてると いっしょに もらえる おまけの たてもの（BUILD_ORDER には いれない） */
 export const BUILD_BONUS: Record<string, string[]> = { bd_base: ['bd_rocket'] };
+/** けんすけの 端末は 建物が ぜんぶ たっている（おまけも ふくむ） */
+export const ALL_BUILDINGS: string[] = [...BUILD_ORDER, ...Object.values(BUILD_BONUS).flat()];
 /** 親が たっていれば おまけも たっている ことにする（まえの セーブにも つく） */
 export function withBonus(buildings: string[]): string[] {
   const add = buildings.flatMap((id) => BUILD_BONUS[id] ?? []).filter((id) => !buildings.includes(id));

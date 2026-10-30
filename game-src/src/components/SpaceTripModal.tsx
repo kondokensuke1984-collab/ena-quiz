@@ -37,7 +37,7 @@ export function SpaceTripModal({ tab: tab0, studied, crew, onClose, onWalk, mars
   const [phase, setPhase] = useState<Phase>({ kind: 'pick' });
   const dex = g.save.space.dex;
   const left = g.spaceTripsLeft(studied);
-  const open = openDests(dex);
+  const open = openDests(dex, g.save.player === 'kensuke');
   const riders = crew.filter((f) => f.level > 1).slice(0, 3);
 
   // とちゅうで とじたら、おみやげだけは わたす（かいすうは もう つかっている）

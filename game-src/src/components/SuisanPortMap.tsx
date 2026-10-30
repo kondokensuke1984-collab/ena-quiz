@@ -14,7 +14,7 @@ export function SuisanPortMap({ onGo, onBack }: { onGo(p: Port): void; onBack():
   const g = useGame();
   const cleared = g.save.suisan.cleared;
   const dex = g.save.suisan.portDex;
-  const all = typeof location !== 'undefined' && new URLSearchParams(location.search).get('voyage') === 'all';
+  const all = g.save.player === 'kensuke' || (typeof location !== 'undefined' && new URLSearchParams(location.search).get('voyage') === 'all');
   const [sel, setSel] = useState<Port | null>(null);
 
   const caughtOf = (p: Port) => p.fish.filter((f) => dex.includes(`${p.id}:${f.id}`)).length;

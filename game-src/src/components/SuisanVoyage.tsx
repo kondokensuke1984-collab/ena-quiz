@@ -42,7 +42,7 @@ const fresh = (port: Port): State => ({
 export function SuisanVoyage({ port, onBack }: { port: Port; onBack(): void }) {
   const g = useGame();
   const cleared = g.save.suisan.cleared;
-  const all = typeof location !== 'undefined' && new URLSearchParams(location.search).get('voyage') === 'all';
+  const all = g.save.player === 'kensuke' || (typeof location !== 'undefined' && new URLSearchParams(location.search).get('voyage') === 'all');
   const boat = boatFor(all ? ['oki', 'enyo'] : cleared);
   const boatRef = useRef(boat);
   boatRef.current = boat;

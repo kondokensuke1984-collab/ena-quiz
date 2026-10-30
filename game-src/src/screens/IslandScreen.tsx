@@ -236,7 +236,8 @@ export function IslandScreen() {
   const moshi = moshis[0] ?? null;
 
   // 🔴 火星の ノルマ（その日 3教科クリア）。クイズから もどったときに よみなおす
-  const [marsOk, setMarsOk] = useState(() => marsQuota().open);
+  const [marsQuotaOk, setMarsOk] = useState(() => marsQuota().open);
+  const marsOk = marsQuotaOk || save.player === 'kensuke';   // けんすけは ノルマなしで 火星へ
   useEffect(() => {
     const re = () => setMarsOk(marsQuota().open);
     window.addEventListener('focus', re);

@@ -95,7 +95,8 @@ export const DESTS: SpaceDest[] = [
 export const DEST_BY_ID: Record<string, SpaceDest> = Object.fromEntries(DESTS.map((d) => [d.id, d]));
 
 /** いける いきさき：いったことの ある ところ＋つぎの 1つ（はじめは 月だけ） */
-export function openDests(dex: string[]): SpaceDest[] {
+export function openDests(dex: string[], all = false): SpaceDest[] {
+  if (all) return DESTS;   // けんすけは ぜんぶ いける
   const n = DESTS.findIndex((d) => !dex.includes(d.id));
   return n < 0 ? DESTS : DESTS.slice(0, n + 1);
 }

@@ -2,7 +2,7 @@
 
 import { readJSON, writeJSON } from './storage';
 import { loadSpent } from './spend';
-import { BUILD_ORDER, ITEM_BY_ID, isConsumable, WHEEL_TITLE, withBonus } from './items';
+import { ALL_BUILDINGS, BUILD_ORDER, ITEM_BY_ID, isConsumable, WHEEL_TITLE, withBonus } from './items';
 import type { PlayerKey, SaveV1 } from '../types';
 import { FARM_PLOTS } from './farm';
 import { isSchool, resolveSchool } from './school';
@@ -213,6 +213,10 @@ export function loadSave(): SaveV1 {
 
 /** うちゅうきち → ロケット などの おまけを つける */
 function withBonusSave(save: SaveV1): SaveV1 {
+  if (save.player === 'kensuke') {   // けんすけは ぜんぶ たっている
+    const all = [...save.buildings, ...ALL_BUILDINGS.filter((id) => !save.buildings.includes(id))];
+    return all.length === save.buildings.length ? save : { ...save, buildings: all };
+  }
   const b = withBonus(save.buildings);
   return b === save.buildings ? save : { ...save, buildings: b };
 }

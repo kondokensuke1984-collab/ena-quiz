@@ -12,7 +12,7 @@ import { isSpentKey, loadSpent, spend, type SpendLedger, type SpendResult } from
 import { feed } from '../lib/monster';
 import {
   isConsumable, ITEM_BY_ID, WHEEL_TITLE,
-  FAVORITE, GIFTS_PER_DAY, heartsOf, stampRewardsFor, EVERYDAY_GIFTS, nextBuildId, withBonus, BUILD_BONUS,
+  FAVORITE, GIFTS_PER_DAY, heartsOf, stampRewardsFor, EVERYDAY_GIFTS, nextBuildId, withBonus, BUILD_BONUS, ALL_BUILDINGS,
 } from '../lib/items';
 import { FISH_PER_DAY, FISH_REWARDS, FISH_STUDY_BONUS } from '../lib/fish';
 import { harvestOf, isRipe, plantOf, stageOf } from '../lib/farm';
@@ -396,7 +396,10 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 
     go: (screen) => dispatch({ type: 'GO', screen }),
 
-    pickPlayer: (player, school) => setSave((s) => ({ ...s, player, school: resolveSchool(player, school ?? s.school ?? 'ena') })),
+    pickPlayer: (player, school) => setSave((s) => ({
+      ...s, player, school: resolveSchool(player, school ?? s.school ?? 'ena'),
+      buildings: player === 'kensuke' ? [...s.buildings, ...ALL_BUILDINGS.filter((id) => !s.buildings.includes(id))] : s.buildings,
+    })),
 
     setSchool: (school) => setSave((s) => ({ ...s, school: resolveSchool(s.player, school) })),
 
@@ -1191,7 +1194,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 
     spaceLaunch: (destId, studied) => {
       const cur = saveRef.current;
-      if (!cur.buildings.includes('bd_rocket') || !openDests(cur.space.dex).some((d) => d.id === destId)) return null;
+      if (!cur.buildings.includes('bd_rocket') || !openDests(cur.space.dex, cur.player === 'kensuke').some((d) => d.id === destId)) return null;
       const day = dateKey();
       const used = cur.space.day === day ? cur.space.trips : 0;
       if (used >= TRIPS_PER_DAY + (studied ? TRIPS_STUDY_BONUS : 0)) { showToast('きょうの うちゅうりょこうは おしまい', 'ng'); return null; }
