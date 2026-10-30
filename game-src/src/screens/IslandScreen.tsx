@@ -1455,6 +1455,7 @@ export function IslandScreen() {
   act(nearChest, 'chest', '🎁 たからばこを あける', openChest, false);
   act(nearMail, 'mail', `💌 てがみを よむ${unread > 0 ? `（${unread}）` : ''}`, () => setModal('mail'), false);
   act(nearPier, 'fish', '🎣 つりを する', () => setModal('fish'));
+  act(nearPier && suisanOpen(), 'voyage', '🚤 ふねで 海へ しゅっこう', () => setModal('suisanVoyage'));
   act(nearFarm, 'farm', `🌱 はたけ${farmStages.some((n, i) => isRipe(save.farm.plots[i], n)) ? '（とれるよ！）' : ''}`, () => setModal('farm'));
   act(nearObserv, 'observ', '🔭 星座を みる', openObserv);
   act(nearMoonPlat, 'moon', '🎑 おだんごを おそなえ', openMoonView);
