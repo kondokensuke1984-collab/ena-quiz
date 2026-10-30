@@ -1575,7 +1575,7 @@ export function IslandScreen() {
       )}
 
       {/* ── 水産業ゲーム：モクタの ぎょこうづくり（10/31から。メダルは つかわない） ── */}
-      {suisanOpen(save.player) && (
+      {suisanOpen() && (
         <button
           className="mb-2.5 flex w-full items-center gap-2 rounded-2xl bg-gradient-to-r from-[#0369a1] to-[#0ea5e9] px-3 py-2 text-left shadow active:scale-[0.98] lg:landscape:col-start-2"
           onClick={() => setModal('suisan')}

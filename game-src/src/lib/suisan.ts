@@ -137,12 +137,9 @@ export function clearLine(st: Stage, money: number): string {
   return `${st.name}を クリア！ 水あげは ${money}万円 に なったよ`;
 }
 
-/** 日付で ひらく（2026-10-31から）。?suisan=1 か ?today=YYYY-M-D で 確認できる */
-export const SUISAN_OPEN_FROM = { y: 2026, m: 10, d: 31 };
-/** さきに あそべる 主人公（ためしあそび）。ほかの子は 公開日から */
-const EARLY_PLAYERS = ['kensuke', 'mitsuki'];
-export function suisanOpen(player: string | null = null, now = new Date(), search = typeof location !== 'undefined' ? location.search : ''): boolean {
-  if (player && EARLY_PLAYERS.includes(player)) return true;
+/** 日付で ひらく（2026-10-30から・全員）。?suisan=1 か ?today=YYYY-M-D で 確認できる */
+export const SUISAN_OPEN_FROM = { y: 2026, m: 10, d: 30 };
+export function suisanOpen(now = new Date(), search = typeof location !== 'undefined' ? location.search : ''): boolean {
   try {
     const q = new URLSearchParams(search);
     if (q.get('suisan') === '1') return true;
