@@ -2094,7 +2094,7 @@ body.sp-drawing { -webkit-user-select: none; user-select: none; }
 .island-top-title { font-size:20px; font-weight:800; }
 .island-top .island-top-sub { font-size:12px; font-weight:700; color:#fff; opacity:.95; }
 .island-btn-emoji { font-size: 24px; line-height: 1; }
-/* 🍃 コロンのそらとび（/sora/）への入口。その日 100もん といたら ひらく */
+/* 🍃 コロンのそらとび（/sora/）への入口。その日 50もん といたら ひらく */
 .sora-top { background:linear-gradient(135deg,#f97316,#facc15); box-shadow:0 4px 12px rgba(249,115,22,.35); }
 .sora-top .sora-btn-text { font-size: 12px; font-weight: 700; color: #fff; opacity: .95; }
 .sora-bar { width: 100%; box-sizing: border-box; margin: 0 0 12px; padding: 10px 16px; }
@@ -2165,7 +2165,7 @@ body.sp-drawing { -webkit-user-select: none; user-select: none; }
   </a>
   <a class="island-top sora-top" href="/sora/">
     <img class="sora-face" src="/images/colon_face.png" alt="コロン" width="48" height="48">
-    <span class="island-top-body"><span class="island-top-title">コロンのそらとび</span><span class="sora-btn-text">きょう 100もん といたら あそべる</span></span>
+    <span class="island-top-body"><span class="island-top-title">コロンのそらとび</span><span class="sora-btn-text">きょう 50もん といたら あそべる</span></span>
   </a>
   <div class="mascot-wrap">
     <div class="mascot-bubble">
@@ -2291,7 +2291,7 @@ body.sp-drawing { -webkit-user-select: none; user-select: none; }
   </div>
   <a class="island-top sora-top sora-bar" href="/sora/">
     <img class="sora-face" src="/images/colon_face.png" alt="コロン" width="48" height="48">
-    <span class="island-top-body"><span class="island-top-title">コロンのそらとび</span><span class="sora-btn-text">きょう 100もん といたら あそべる</span></span>
+    <span class="island-top-body"><span class="island-top-title">コロンのそらとび</span><span class="sora-btn-text">きょう 50もん といたら あそべる</span></span>
   </a>
   <div class="subject-grid" id="subject-grid"></div>
   <button class="share-btn" id="kid-advice-card" onclick="showKidAdvice()" style="display:none;background:linear-gradient(135deg,#fde68a,#fbbf24);color:#78350f;"></button>
@@ -22245,12 +22245,12 @@ function renderIslandBtn() {
   try { renderSoraBtn(); } catch (e) {}
 }
 
-// ── 🍃 コロンのそらとび（/sora/）：その日に ぜんぶの月で SORA_NEED もん といたら 20ぷん。
-//   20ぷん たったら、とまった ときから あたらしく SORA_MORE もん といたら また 20ぷん（あそんだ じかんは ゲームが ena_sora_play_v1 に かく）。
+// ── 🍃 コロンのそらとび（/sora/）：その日に ぜんぶの月で SORA_NEED もん といたら 10ぷん。
+//   10ぷん たったら、とまった ときから あたらしく SORA_MORE もん といたら また 10ぷん（あそんだ じかんは ゲームが ena_sora_play_v1 に かく）。
 //   島の 主人公が けんすけ・みつき の 端末は いつでも・じかん むせいげん（ゲームの がわ sora/index.html と 同じ きまり）
-const SORA_NEED = 100;
+const SORA_NEED = 50;
 const SORA_MORE = 50;
-const SORA_MIN = 20;
+const SORA_MIN = 10;
 const SORA_FREE = { kensuke: 'けんすけ', mitsuki: 'みつき' };
 const SORA_ONEDAY = { yusei: ['2026-10-20', 'ゆうせい'] };   // その日だけ いつでも（ゲームの がわ GATE.oneday と 同じ）
 function answeredToday() {
@@ -22264,7 +22264,7 @@ function answeredToday() {
   return n;
 }
 // とくべつ（〜SORA_EXTRA_UNTIL）：100もんの かわりに、適性検査Ⅰ・Ⅱの 単元を 8わり いじょうで さいごまで（きょうの units に tekisei*）
-//   または もしの しまを さいごまで やりとげた（ena_moshi_v1 の きょうの finished）でも はじめの 20ぷん（ゲームの がわ extraToday と 同じ）
+//   または もしの しまを さいごまで やりとげた（ena_moshi_v1 の きょうの finished）でも はじめの 10ぷん（ゲームの がわ extraToday と 同じ）
 const SORA_EXTRA_UNTIL = '2026-10-24';
 function soraExtraToday() {
   if (todayStr() > SORA_EXTRA_UNTIL) return false;
