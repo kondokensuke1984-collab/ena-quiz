@@ -4,7 +4,8 @@
 // メダルは つかわない・ふやさない。ごほうびは 家具だけ（森ごとに1つ）。
 
 export type Work = 'plant' | 'weed' | 'cull' | 'thin' | 'fell' | 'watch';
-export type Species = 'sugi' | 'hinoki' | 'hiba';
+export type Species = 'sugi' | 'hinoki' | 'hiba' | 'buna';
+export type Leaf = 'conifer' | 'broad';
 
 export interface Forest {
   id: string;
@@ -22,11 +23,15 @@ export const FORESTS: Forest[] = [
   { id: 'owase',   name: '尾鷲ひのき', pref: '三重県', species: 'hinoki', kind: 'jinko',  reward: 'fn_wd_tub', fact: '三重県の尾鷲で育つ、人工の三大美林。ひのきは いいにおいで、お風呂やお寺の建物にも使われるよ' },
   { id: 'akita',   name: '秋田すぎ',   pref: '秋田県', species: 'sugi',   kind: 'tennen', reward: 'fn_wd_shelf', fact: '秋田県の天然の三大美林。もともと自然にできた森だから、植えずに「守り育てる」手入れがたいせつだよ' },
   { id: 'aomori',  name: '青森ひば',   pref: '青森県', species: 'hiba',   kind: 'tennen', reward: 'fn_wd_board', fact: '青森県の天然の三大美林。ひばは水や虫に強い木で、すてきな香りがするよ' },
+  { id: 'shirakami', name: '白神山地のぶな', pref: '青森県・秋田県', species: 'buna', kind: 'tennen', reward: 'fn_wd_stool', fact: '青森県と秋田県の境にある、世界自然遺産の白神山地。ぶなの原生林が広がる、広葉樹の天然林だよ。人が植えた森じゃないから、守り育てるんだ' },
+  { id: 'yaku',    name: '屋久すぎ',   pref: '鹿児島県', species: 'sugi',   kind: 'tennen', reward: 'fn_wd_stump', fact: '鹿児島県の屋久島は世界自然遺産。樹齢1000年をこえる屋久すぎの原生林で、針葉樹の天然林だよ' },
   { id: 'kiso',    name: '木曽ひのき', pref: '長野県', species: 'hinoki', kind: 'tennen', reward: 'fn_wd_box', fact: '長野県の天然の三大美林。木曽のひのきは むかしから大切に守られてきた森だよ' },
 ];
 export const FOREST_BY_ID: Record<string, Forest> = Object.fromEntries(FORESTS.map((f) => [f.id, f]));
 
-export const SPECIES_LABEL: Record<Species, string> = { sugi: 'すぎ', hinoki: 'ひのき', hiba: 'ひば' };
+export const SPECIES_LABEL: Record<Species, string> = { sugi: 'すぎ', hinoki: 'ひのき', hiba: 'ひば', buna: 'ぶな' };
+export const LEAF_OF: Record<Species, Leaf> = { sugi: 'conifer', hinoki: 'conifer', hiba: 'conifer', buna: 'broad' };
+export const LEAF_LABEL: Record<Leaf, string> = { conifer: '針葉樹', broad: '広葉樹' };
 
 export const WORK_LABEL: Record<Work, { name: string; emoji: string; tool: string }> = {
   plant: { name: '植栽',   emoji: '🌱', tool: 'なえ木' },
@@ -65,7 +70,7 @@ export const JINKO_STEPS: Checkpoint[] = [
 export const TENNEN_STEPS: Checkpoint[] = [
   { age: 60,  work: 'cull',  need: 2, title: '手入れ（弱った木をのぞく）',   say: '天然林は 人が植えた森じゃないよ。かれかけた木・病気の木を 2本 切って、森を元気にしよう' },
   { age: 80,  work: 'thin',  need: 2, title: '手入れ（こみあいをへらす）',   say: '木が こみあうと 日光が とどかないよ。2本 まびいて、若い木に 光を あげよう' },
-  { age: 100, work: 'watch', need: 0, title: '見守り（切らずに守る）',       say: '天然の美林は 切らずに 守っていく森。ここまで 守ってきた 100年の 森を 見てみよう' },
+  { age: 100, work: 'watch', need: 0, title: '見守り（切らずに守る）',       say: '天然林は 切らずに 守っていく森。ここまで 守ってきた 100年の 森を 見てみよう' },
 ];
 
 export const stepsOf = (f: Forest): Checkpoint[] => (f.kind === 'jinko' ? JINKO_STEPS : TENNEN_STEPS);

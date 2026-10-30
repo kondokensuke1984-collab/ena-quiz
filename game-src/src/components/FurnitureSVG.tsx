@@ -504,6 +504,25 @@ const DRAWINGS: Record<string, Draw> = {
       <path d="M4 -14 l10 -4" stroke="#94a3b8" strokeWidth="3" strokeLinecap="round" />
     </g>
   ),
+  fn_wd_stool: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="22" ry="6" fill="rgba(0,0,0,0.2)" />
+      <path d="M-14 -16 L-18 0 M14 -16 L18 0 M0 -14 V0" stroke="#7c4a1d" strokeWidth="4" strokeLinecap="round" />
+      <ellipse cx="0" cy="-20" rx="20" ry="7" fill="#e8d5b0" {...S} />
+      <path d="M-8 -20 q4 -4 8 0 q4 4 8 0" fill="none" stroke="#b08850" strokeWidth="1.2" />
+      <path d="M14 -30 q8 -6 12 2 q-6 6 -12 -2 Z" fill="#65a30d" stroke="#3f6212" strokeWidth="1.2" />
+    </g>
+  ),
+  fn_wd_stump: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="26" ry="7" fill="rgba(0,0,0,0.2)" />
+      <path d="M-22 -2 Q-18 -6 -20 -26 H20 Q18 -6 22 -2 Z" fill="#9a5b2b" {...S} />
+      <ellipse cx="0" cy="-26" rx="20" ry="7" fill="#e6c07a" {...S} />
+      <ellipse cx="0" cy="-26" rx="13" ry="4.4" fill="none" stroke="#b9853f" strokeWidth="1.2" />
+      <ellipse cx="0" cy="-26" rx="6" ry="2" fill="none" stroke="#b9853f" strokeWidth="1.2" />
+      <path d="M12 -34 q8 -6 12 2 q-6 6 -12 -2 Z" fill="#4d9e2a" stroke="#3f6212" strokeWidth="1.2" />
+    </g>
+  ),
   fn_wd_box: () => (
     <g>
       <ellipse cx="0" cy="2" rx="24" ry="6" fill="rgba(0,0,0,0.2)" />

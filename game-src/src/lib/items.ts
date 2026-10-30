@@ -121,6 +121,8 @@ export const ITEMS: Item[] = [
   { id: 'fn_wd_tub',   kind: 'furniture', name: 'ひのきの おふろ',   emoji: '🛁', price: 0, desc: '尾鷲ひのきの 森を 育てあげた ごほうび', once: true, reward: true, anywhere: true },
   { id: 'fn_wd_shelf', kind: 'furniture', name: 'すぎの ほんだな',   emoji: '📚', price: 0, desc: '秋田すぎの 森を 守りきった ごほうび', once: true, reward: true, anywhere: true },
   { id: 'fn_wd_board', kind: 'furniture', name: 'ひばの まないた',   emoji: '🍽️', price: 0, desc: '青森ひばの 森を 守りきった ごほうび', once: true, reward: true, anywhere: true },
+  { id: 'fn_wd_stool', kind: 'furniture', name: 'ぶなの こしかけ',   emoji: '🪑', price: 0, desc: '白神山地の ぶなの 森を 守りきった ごほうび', once: true, reward: true, anywhere: true },
+  { id: 'fn_wd_stump', kind: 'furniture', name: '屋久すぎの きりかぶ', emoji: '🪵', price: 0, desc: '屋久すぎの 森を 守りきった ごほうび', once: true, reward: true, anywhere: true },
   { id: 'fn_wd_box',   kind: 'furniture', name: 'ひのきの はこ',     emoji: '📦', price: 0, desc: '木曽ひのきの 森を 守りきった ごほうび', once: true, reward: true, anywhere: true },
   // ── モクタの ぎょこうづくり（ステージを ひとつ クリアした ごほうび。ショップでは売らない。lib/suisan.ts）──
   { id: 'fn_sui_buoy',   kind: 'furniture', name: 'ブイ',               emoji: '🛟', price: 0, desc: '「海の ちず」を クリアした ごほうび', once: true, reward: true, anywhere: true },

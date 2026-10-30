@@ -4,7 +4,7 @@ import { useGame } from '../state/useGame';
 import { ITEM_BY_ID } from '../lib/items';
 import { sfx, sawStart, sawLevel, sawStop } from '../lib/sound';
 import {
-  FORESTS, SLOTS, WEED_TUFTS, WORK_LABEL, SPECIES_LABEL, clearLine, stepsOf, treeScale,
+  FORESTS, SLOTS, WEED_TUFTS, WORK_LABEL, SPECIES_LABEL, LEAF_OF, LEAF_LABEL, clearLine, stepsOf, treeScale,
   type Checkpoint, type Forest, type Species, type Work,
 } from '../lib/forestry';
 import { CharSVG } from './CharSVG';
@@ -73,6 +73,7 @@ const SPECIES_COLOR: Record<Species, { a: string; b: string; trunk: string }> = 
   sugi:   { a: '#2f6f3e', b: '#43914f', trunk: '#7c4a1d' },
   hinoki: { a: '#6fa83a', b: '#8cc152', trunk: '#8b5a2b' },
   hiba:   { a: '#1f5f5b', b: '#2f7f78', trunk: '#6b4423' },
+  buna:   { a: '#5fa832', b: '#86c04a', trunk: '#8a8f86' },
 };
 
 function TreeSVG({ x, y, scale, species, bad, cut }: { x: number; y: number; scale: number; species: Species; bad: boolean; cut: boolean }) {
@@ -84,9 +85,19 @@ function TreeSVG({ x, y, scale, species, bad, cut }: { x: number; y: number; sca
       <g className={`fo-tree ${cut ? 'fo-cut' : ''}`}>
         <g transform={bad ? 'rotate(13)' : undefined}>
           <rect x="-4" y="-22" width="8" height="24" rx="2" fill={c.trunk} stroke="#3b2410" strokeWidth="1.4" />
-          <polygon points="0,-90 -15,-56 15,-56" fill={fb} stroke="#14341c" strokeWidth="1.4" strokeLinejoin="round" />
-          <polygon points="0,-74 -20,-38 20,-38" fill={fa} stroke="#14341c" strokeWidth="1.4" strokeLinejoin="round" />
-          <polygon points="0,-56 -25,-18 25,-18" fill={fb} stroke="#14341c" strokeWidth="1.4" strokeLinejoin="round" />
+          {LEAF_OF[species] === 'broad' ? (
+            <>
+              <circle cx="-14" cy="-40" r="17" fill={fa} stroke="#14341c" strokeWidth="1.4" />
+              <circle cx="14" cy="-40" r="17" fill={fa} stroke="#14341c" strokeWidth="1.4" />
+              <circle cx="0" cy="-62" r="21" fill={fb} stroke="#14341c" strokeWidth="1.4" />
+            </>
+          ) : (
+            <>
+              <polygon points="0,-90 -15,-56 15,-56" fill={fb} stroke="#14341c" strokeWidth="1.4" strokeLinejoin="round" />
+              <polygon points="0,-74 -20,-38 20,-38" fill={fa} stroke="#14341c" strokeWidth="1.4" strokeLinejoin="round" />
+              <polygon points="0,-56 -25,-18 25,-18" fill={fb} stroke="#14341c" strokeWidth="1.4" strokeLinejoin="round" />
+            </>
+          )}
           {species === 'hiba' && <polygon points="0,-40 -28,-8 28,-8" fill={fa} stroke="#14341c" strokeWidth="1.4" strokeLinejoin="round" />}
           {bad && <path d="M-9 -44 l6 6 M-3 -44 l-6 6 M10 -30 l6 6 M16 -30 l-6 6" stroke="#6b4423" strokeWidth="1.8" strokeLinecap="round" />}
         </g>
@@ -463,7 +474,7 @@ export function ForestryModal({ onClose }: { onClose(): void }) {
             <div>
               <div className="mb-2 rounded-2xl bg-white px-3 py-3 text-center shadow ring-1 ring-black/5">
                 <svg viewBox="-30 -100 60 110" className="mx-auto h-20"><TreeSVG x={0} y={0} scale={0.95} species={pick.species} bad={false} cut={false} /></svg>
-                <div className="text-[15px] font-black text-ink">{pick.name}（{pick.pref}・{SPECIES_LABEL[pick.species]}）</div>
+                <div className="text-[15px] font-black text-ink">{pick.name}（{pick.pref}・{SPECIES_LABEL[pick.species]}・{LEAF_LABEL[LEAF_OF[pick.species]]}）</div>
                 <div className="mt-1 text-[11.5px] font-bold leading-relaxed text-indigo-900/70">{pick.fact}</div>
                 <div className="mt-1 text-[11px] font-black text-emerald-700">ごほうび：{ITEM_BY_ID[pick.reward].emoji} {ITEM_BY_ID[pick.reward].name}{cleared.includes(pick.id) ? '（もらったよ）' : ''}</div>
               </div>
