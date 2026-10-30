@@ -97,6 +97,7 @@ export const ITEMS: Item[] = [
   { id: 'bd_imo',    kind: 'building', name: 'やきいも やたい',     emoji: '🍠', price: 500, desc: 'となりの しまに たつ。サツマイモを やいて おみせやさん', once: true },
   { id: 'bd_arbor',  kind: 'building', name: 'もみじの あずまや',   emoji: '🍁', price: 600, desc: 'となりの しまに たつ。みんなで ひとやすみ', once: true },
   { id: 'bd_zukei',  kind: 'building', name: 'ずけいこうぼう',     emoji: '📐', price: 650, desc: 'となりの しまに たつ。多角形と 円・おうぎ形の ゲームで れんしゅう', once: true },
+  { id: 'bd_tane',    kind: 'building', name: 'たねの けんきゅうじょ', emoji: '🌱', price: 650, desc: 'となりの しまに たつ。種子のつくりと発芽の ゲームで れんしゅう', once: true },
   // うちゅうセット（となりの しまに たつ。10月 理科「月の位置と見え方」の つづき）
   { id: 'bd_base',   kind: 'building', name: 'うちゅうきち',       emoji: '🛰️', price: 700,  desc: 'となりの しまに たつ。🚀ロケットも ついてくる！ うちゅうずかんと うちゅうりょこう', once: true },
   // bd_planet は もと プラネタリウム（てんもんだいと かぶるので 2026-10-20 に としょかんへ。id は セーブの ため そのまま）
@@ -128,6 +129,10 @@ export const ITEMS: Item[] = [
   // ── モクタの ぎょこうづくり（ステージを ひとつ クリアした ごほうび。ショップでは売らない。lib/suisan.ts）──
   { id: 'fn_zk_hive',  kind: 'furniture', name: 'ハチの すばこ',     emoji: '🍯', price: 0, desc: '「かくどパズル」を クリアした ごほうび', once: true, reward: true, anywhere: true },
   { id: 'fn_zk_pizza', kind: 'furniture', name: 'ピザの かんばん',   emoji: '🍕', price: 0, desc: '「ピザやさん」を クリアした ごほうび', once: true, reward: true, anywhere: true },
+  { id: 'fn_tn_bean',   kind: 'furniture', name: 'インゲンマメの はちうえ', emoji: '🫘', price: 0, desc: '「たねの きりくち」を クリアした ごほうび', once: true, reward: true, anywhere: true },
+  { id: 'fn_tn_iodine', kind: 'furniture', name: 'ヨウ素液の びん',   emoji: '🧪', price: 0, desc: '「ヨウ素液 たんてい」を クリアした ごほうび', once: true, reward: true, anywhere: true },
+  { id: 'fn_tn_cup',    kind: 'furniture', name: 'はっがの コップ',   emoji: '🥛', price: 0, desc: '「はっがの じっけん」を クリアした ごほうび', once: true, reward: true, anywhere: true },
+  { id: 'fn_tn_sprout', kind: 'furniture', name: 'ふたばの プランター', emoji: '🌱', price: 0, desc: '「めばえ はかせ」を クリアした ごほうび', once: true, reward: true, anywhere: true },
   { id: 'fn_zk_donut', kind: 'furniture', name: 'ドーナツの クッション', emoji: '🍩', price: 0, desc: '「ドーナツこうぼう」を クリアした ごほうび', once: true, reward: true, anywhere: true },
   { id: 'fn_sui_buoy',   kind: 'furniture', name: 'ブイ',               emoji: '🛟', price: 0, desc: '「海の ちず」を クリアした ごほうび', once: true, reward: true, anywhere: true },
   { id: 'fn_sui_boat',   kind: 'furniture', name: 'こぶね',             emoji: '🛶', price: 0, desc: '沿岸漁業を クリアした ごほうび', once: true, reward: true, anywhere: true },
@@ -264,7 +269,7 @@ export function onSale(item: Item, ownedIds: string[]): boolean {
 }
 
 /** 建てる順番。前のを建てると次が出る */
-export const BUILD_ORDER = ['bd_house', 'bd_pier', 'bd_light', 'bd_school', 'bd_bridge', 'bd_wheel', 'bd_observ', 'bd_moon', 'bd_imo', 'bd_arbor', 'bd_zukei', 'bd_base', 'bd_planet'];
+export const BUILD_ORDER = ['bd_house', 'bd_pier', 'bd_light', 'bd_school', 'bd_bridge', 'bd_wheel', 'bd_observ', 'bd_moon', 'bd_imo', 'bd_arbor', 'bd_zukei', 'bd_tane', 'bd_base', 'bd_planet'];
 /** たてると いっしょに もらえる おまけの たてもの（BUILD_ORDER には いれない） */
 export const BUILD_BONUS: Record<string, string[]> = { bd_base: ['bd_rocket'] };
 /** けんすけの 端末は 建物が ぜんぶ たっている（おまけも ふくむ） */

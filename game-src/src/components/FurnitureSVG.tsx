@@ -532,6 +532,45 @@ const DRAWINGS: Record<string, Draw> = {
       <path d="M-14 -22 v20 M0 -16 v14 M14 -22 v20" stroke="#c9974f" strokeWidth="1.2" />
     </g>
   ),
+  fn_tn_bean: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="22" ry="6" fill="rgba(0,0,0,0.2)" />
+      <path d="M-16 -18 L-12 0 L12 0 L16 -18 Z" fill="#c2410c" {...S} />
+      <rect x="-18" y="-24" width="36" height="8" rx="2" fill="#ea580c" {...S} />
+      <path d="M0 -24 L0 -44" stroke="#15803d" strokeWidth="3" strokeLinecap="round" />
+      <path d="M0 -36 q-14 -2 -14 -12 q12 0 14 12 M0 -42 q14 -2 14 -12 q-12 0 -14 12" fill="#4ade80" {...S} strokeWidth={1.8} />
+    </g>
+  ),
+  fn_tn_iodine: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="18" ry="5" fill="rgba(0,0,0,0.2)" />
+      <path d="M-10 0 L-14 -20 L-5 -26 L-5 -36 L5 -36 L5 -26 L14 -20 L10 0 Z" fill="#a78bfa" {...S} />
+      <path d="M-12 -12 L12 -12 L10 0 L-10 0 Z" fill="#5b21b6" />
+      <rect x="-6" y="-42" width="12" height="7" rx="2" fill="#92400e" {...S} strokeWidth={1.8} />
+    </g>
+  ),
+  fn_tn_cup: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="20" ry="6" fill="rgba(0,0,0,0.2)" />
+      <path d="M-16 -36 L-12 0 L12 0 L16 -36 Z" fill="#e0f2fe" {...S} />
+      <path d="M-14.5 -16 L-12 0 L12 0 L14.5 -16 Z" fill="#93c5fd" />
+      <ellipse cx="0" cy="-20" rx="7" ry="4.5" fill="#92400e" {...S} strokeWidth={1.6} />
+      <path d="M0 -22 q-3 -8 3 -12" stroke="#16a34a" strokeWidth="2.4" fill="none" strokeLinecap="round" />
+    </g>
+  ),
+  fn_tn_sprout: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="28" ry="7" fill="rgba(0,0,0,0.2)" />
+      <path d="M-26 -16 L-22 0 L22 0 L26 -16 Z" fill="#a16207" {...S} />
+      <rect x="-28" y="-20" width="56" height="6" rx="2" fill="#78350f" {...S} />
+      {[-14, 0, 14].map((x) => (
+        <g key={x} transform={`translate(${x} -20)`}>
+          <path d="M0 0 L0 -12" stroke="#15803d" strokeWidth="2.4" strokeLinecap="round" />
+          <path d="M0 -12 q-9 -1 -9 -8 q8 0 9 8 M0 -12 q9 -1 9 -8 q-8 0 -9 8" fill="#4ade80" {...S} strokeWidth={1.6} />
+        </g>
+      ))}
+    </g>
+  ),
   fn_zk_hive: () => (
     <g>
       <ellipse cx="0" cy="2" rx="22" ry="6" fill="rgba(0,0,0,0.2)" />

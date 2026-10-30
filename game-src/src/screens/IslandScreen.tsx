@@ -53,6 +53,7 @@ import { ArborModal } from '../components/ArborModal';
 import { ForestryModal } from '../components/ForestryModal';
 import { FORESTS, forestryOpen } from '../lib/forestry';
 import { ZukeiModal } from '../components/ZukeiModal';
+import { TaneModal } from '../components/TaneModal';
 import { SuisanModal } from '../components/SuisanModal';
 import { suisanOpen } from '../lib/suisan';
 import { SpaceTripModal } from '../components/SpaceTripModal';
@@ -152,7 +153,7 @@ function todayKey(): string {
 
 type ModalKind =
   | 'feed' | 'roster' | 'stamp' | 'mail' | 'fish' | 'farm' | 'stars' | 'detective' | 'moonView'
-  | 'imo' | 'arbor' | 'spaceGo' | 'spaceDex' | 'library' | 'desk' | 'organ' | 'micro' | 'transfer' | 'board' | 'opening' | 'iken' | 'forestry' | 'zukei' | 'suisan' | 'suisanVoyage';
+  | 'imo' | 'arbor' | 'spaceGo' | 'spaceDex' | 'library' | 'desk' | 'organ' | 'micro' | 'transfer' | 'board' | 'opening' | 'iken' | 'forestry' | 'zukei' | 'tane' | 'suisan' | 'suisanVoyage';
 
 /** むきと あしだけ かわる しゅじんこう（島の 画面ぜんぶを かきなおさない） */
 function PosedKid({ poseRef, subRef, ...rest }: {
@@ -806,6 +807,7 @@ export function IslandScreen() {
     if (area === 'east' && save.buildings.includes('bd_imo') && dist(raw, { x: IMO_SPOT.x, y: IMO_SPOT.y - 0.06 }) < 0.09) { setModal('imo'); return; }
     if (area === 'east' && save.buildings.includes('bd_arbor') && dist(raw, { x: ARBOR_SPOT.x, y: ARBOR_SPOT.y - 0.05 }) < 0.09) { setModal('arbor'); return; }
     if (area === 'east' && save.buildings.includes('bd_zukei') && dist(raw, { x: BUILDING_SPOTS.bd_zukei.x, y: BUILDING_SPOTS.bd_zukei.y - 0.06 }) < 0.09) { setModal('zukei'); return; }
+    if (area === 'east' && save.buildings.includes('bd_tane') && dist(raw, { x: BUILDING_SPOTS.bd_tane.x, y: BUILDING_SPOTS.bd_tane.y - 0.06 }) < 0.09) { setModal('tane'); return; }
     if (area === 'east' && save.buildings.includes('bd_rocket') && dist(raw, { x: BUILDING_SPOTS.bd_rocket.x, y: BUILDING_SPOTS.bd_rocket.y - 0.1 }) < 0.09) { setModal('spaceGo'); return; }
     if (area === 'east' && save.buildings.includes('bd_base') && dist(raw, { x: BUILDING_SPOTS.bd_base.x, y: BUILDING_SPOTS.bd_base.y - 0.05 }) < 0.08) { setModal('spaceDex'); return; }
     if (area === 'east' && save.buildings.includes('bd_planet') && dist(raw, { x: BUILDING_SPOTS.bd_planet.x, y: BUILDING_SPOTS.bd_planet.y - 0.05 }) < 0.08) { setModal('library'); return; }
@@ -1017,6 +1019,7 @@ export function IslandScreen() {
   const nearEastBd = (id: string) => area === 'east' && save.buildings.includes(id) && dist(playerPos.current, BUILDING_SPOTS[id]) <= 0.1;
   const nearArbor = nearEastBd('bd_arbor');
   const nearZukei = nearEastBd('bd_zukei');
+  const nearTane = nearEastBd('bd_tane');
   const nearRocket = nearEastBd('bd_rocket');
   const nearBase = nearEastBd('bd_base');
   const nearLibrary = nearEastBd('bd_planet');   // としょかん（もと プラネタリウム）
@@ -1467,6 +1470,7 @@ export function IslandScreen() {
   act(nearImo, 'imo', '🍠 やきいもやさん', () => setModal('imo'));
   act(nearArbor, 'arbor', '🍁 あずまやで ひとやすみ', () => setModal('arbor'));
   act(nearZukei, 'zukei', '📐 ずけいこうぼう', () => setModal('zukei'));
+  act(nearTane, 'tane', '🌱 たねの けんきゅうじょ', () => setModal('tane'));
   act(nearRocket, 'rocket', '🚀 うちゅうへ いく', () => setModal('spaceGo'));
   act(nearBase, 'base', '🛰️ うちゅうずかん', () => setModal('spaceDex'));
   act(nearLibrary, 'library', '📚 としょかんに はいる', () => setModal('library'));
@@ -1782,6 +1786,8 @@ export function IslandScreen() {
                 : area === 'east'
                 ? save.buildings.includes('bd_rocket')
                   ? 'ロケットを タップすると うちゅうりょこうに いけるよ。ひだりの はしで もとの しまに もどれるよ'
+                  : save.buildings.includes('bd_tane')
+                  ? 'たねの けんきゅうじょを タップすると 種子のつくりと発芽の ゲームが できるよ。ひだりの はしで もとの しまに もどれるよ'
                   : save.buildings.includes('bd_zukei')
                   ? 'ずけいこうぼうを タップすると 多角形と 円・おうぎ形の ゲームが できるよ。ひだりの はしで もとの しまに もどれるよ'
                   : save.buildings.includes('bd_arbor')
@@ -1970,6 +1976,7 @@ export function IslandScreen() {
       {modal === 'imo' && <YakiimoModal customers={imoCustomers} onClose={() => setModal(null)} />}
       {modal === 'forestry' && <ForestryModal onClose={() => setModal(null)} />}
       {modal === 'zukei' && <ZukeiModal onClose={() => setModal(null)} />}
+      {modal === 'tane' && <TaneModal onClose={() => setModal(null)} />}
       {modal === 'suisan' && <SuisanModal onClose={() => setModal(null)} />}
       {modal === 'suisanVoyage' && <SuisanModal startView="ports" onClose={() => setModal(null)} />}
       {modal === 'arbor' && <ArborModal friends={imoCustomers} studied={studied} onClose={() => setModal(null)} />}

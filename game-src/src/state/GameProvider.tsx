@@ -28,6 +28,7 @@ import { ORGAN_TITLE, SONGS } from '../lib/songs';
 import { IMO_BY_ID, IMO_PER_DAY, IMO_REWARDS } from '../lib/yakiimo';
 import { FOREST_BY_ID } from '../lib/forestry';
 import { STAGE_BY_ID as ZUKEI_STAGE_BY_ID, type StageId as ZukeiStageId } from '../lib/zukei';
+import { STAGE_BY_ID as TANE_STAGE_BY_ID, type StageId as TaneStageId } from '../lib/tane';
 import { STAGE_BY_ID } from '../lib/suisan';
 import { ARBOR_REWARDS, GATHER_PER_DAY, TALK_PER_DAY, arborToday, rollLeaf, type Leaf } from '../lib/arbor';
 import { USAGI_KEY } from '../lib/usagi';
@@ -216,6 +217,8 @@ export interface GameApi {
   forestryPlay(): void;
   zukeiPlay(): void;
   zukeiClear(stageId: ZukeiStageId): { isNew: boolean; reward: string | null } | null;
+  tanePlay(): void;
+  taneClear(stageId: TaneStageId): { isNew: boolean; reward: string | null } | null;
   /** モクタの もりづくり：森を クリア。はじめてなら ごほうびの家具（その品ID）。メダルは ふやさない */
   forestryClear(forestId: string): { isNew: boolean; reward: string | null } | null;
   /** モクタの ぎょこうづくり：あそびはじめ（あそんだ回数 +1） */
@@ -1151,6 +1154,25 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       setSave((s) => ({
         ...s,
         zukei: { ...s.zukei, cleared: s.zukei.cleared.includes(st.id) ? s.zukei.cleared : [...s.zukei.cleared, st.id] },
+        owned: reward && !s.owned.includes(reward) ? [...s.owned, reward] : s.owned,
+      }));
+      sfx(isNew ? 'star' : 'gift');
+      return { isNew, reward };
+    },
+
+    tanePlay: () => {
+      setSave((s) => ({ ...s, tane: { ...s.tane, plays: s.tane.plays + 1 } }));
+    },
+
+    taneClear: (stageId) => {
+      const st = TANE_STAGE_BY_ID[stageId];
+      if (!st) return null;
+      const cur = saveRef.current;
+      const isNew = !cur.tane.cleared.includes(st.id);
+      const reward = isNew && !cur.owned.includes(st.reward) ? st.reward : null;
+      setSave((s) => ({
+        ...s,
+        tane: { ...s.tane, cleared: s.tane.cleared.includes(st.id) ? s.tane.cleared : [...s.tane.cleared, st.id] },
         owned: reward && !s.owned.includes(reward) ? [...s.owned, reward] : s.owned,
       }));
       sfx(isNew ? 'star' : 'gift');

@@ -179,6 +179,25 @@ function ZukeiShop() {
   );
 }
 
+/** たねの けんきゅうじょ（bd_tane）。みどりの やねの ちいさな けんきゅうじょに ふたばの かんばん */
+function TaneLab() {
+  return (
+    <g>
+      {shadow(58)}
+      <rect x="-48" y="-42" width="96" height="42" rx="3" fill="#ecfccb" {...S} />
+      <path d="M-56 -42 L0 -82 L56 -42 Z" fill="#16a34a" {...S} />
+      <rect x="-34" y="-32" width="20" height="16" rx="2" fill="#7dd3fc" {...S} />
+      <rect x="14" y="-32" width="20" height="16" rx="2" fill="#7dd3fc" {...S} />
+      <rect x="-8" y="-28" width="16" height="28" rx="2" fill="#92400e" {...S} />
+      {/* かんばん：ふたばと たね */}
+      <rect x="-20" y="-72" width="40" height="22" rx="4" fill="#fff" {...S} strokeWidth={2} />
+      <ellipse cx="-8" cy="-56" rx="5" ry="4" fill="#92400e" stroke="#4c1d95" strokeWidth="1.4" />
+      <path d="M6 -52 L6 -62" stroke="#15803d" strokeWidth="2" strokeLinecap="round" />
+      <path d="M6 -62 q-9 -2 -9 -9 q8 0 9 9 M6 -62 q9 -2 9 -9 q-8 0 -9 9" fill="#4ade80" stroke="#4c1d95" strokeWidth="1.4" strokeLinejoin="round" />
+    </g>
+  );
+}
+
 function SpaceBase() {
   return (
     <g>
@@ -265,6 +284,7 @@ const DRAW: Record<string, () => React.ReactNode> = {
   bd_imo: ImoCart,
   bd_arbor: Arbor,
   bd_zukei: ZukeiShop,
+  bd_tane: TaneLab,
   bd_house: House,
   bd_light: Lighthouse,
   bd_school: School,
@@ -287,6 +307,7 @@ export const BUILDING_SPOTS: Record<string, BuildingSpot> = {
   bd_imo: { x: 0.36, y: 0.46, area: 'east', glow: { dy: -0.08, r: 55 } },
   bd_arbor: { x: 0.64, y: 0.42, area: 'east', glow: { dy: -0.06, r: 48 } },
   bd_zukei: { x: 0.52, y: 0.64, area: 'east', glow: { dy: -0.05, r: 46 } },
+  bd_tane: { x: 0.78, y: 0.35, area: 'east', glow: { dy: -0.05, r: 46 } },
   // うちゅうセット（east の した半分と みぎ。池・はしを よける）
   bd_base: { x: 0.26, y: 0.74, area: 'east', glow: { dy: -0.04, r: 50 } },
   bd_planet: { x: 0.48, y: 0.8, area: 'east', glow: { dy: -0.03, r: 55 } },
