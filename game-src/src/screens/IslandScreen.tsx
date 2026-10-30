@@ -36,7 +36,7 @@ import { pickLesson, type Lesson } from '../lib/lesson';
 import { buildLetters } from '../lib/letters';
 import { photoMonthOf } from '../lib/items';
 import type { Area, Planet, Pos } from '../types';
-import { EastGround, earthAge, MarsGround, MoonGround, SunGround, SUN_HITS, PLANET_CFG, RoomGround, SchoolGround, SCHOOL_DESKS, SCHOOL_HITS, trophyAt, certAt, gameAt, GAME_SPOT, moshiShelfAt, MOSHI_SHELF_SPOT } from '../components/AreaStages';
+import { EastGround, NovGround, earthAge, MarsGround, MoonGround, SunGround, SUN_HITS, PLANET_CFG, RoomGround, SchoolGround, SCHOOL_DESKS, SCHOOL_HITS, trophyAt, certAt, gameAt, GAME_SPOT, moshiShelfAt, MOSHI_SHELF_SPOT } from '../components/AreaStages';
 import { planetStoneSpot, STONE_FOOD, SUN_TITLE } from '../lib/space';
 import { MochiUsagi, Usu } from '../components/MochiUsagiSVG';
 import { USAGI_AREAS, USAGI_KEY, USAGI_NAME, USAGI_SPOT, USU_SPOT, usagiLine } from '../lib/usagi';
@@ -51,7 +51,6 @@ import { MoonViewModal } from '../components/MoonViewModal';
 import { YakiimoModal } from '../components/YakiimoModal';
 import { ArborModal } from '../components/ArborModal';
 import { ForestryModal } from '../components/ForestryModal';
-import { FORESTS, forestryOpen } from '../lib/forestry';
 import { ZukeiModal } from '../components/ZukeiModal';
 import { TaneModal } from '../components/TaneModal';
 import { SuisanModal } from '../components/SuisanModal';
@@ -78,6 +77,9 @@ function webglOK(): boolean {
 }
 const HAS_WEBGL = typeof document !== 'undefined' && webglOK();
 
+/** 11月の島の たてもの（むりょう・いつも たっている） */
+const NOV_BUILT = ['bd_zukei', 'bd_tane', 'bd_forest', 'bd_port'];
+const NOV_MODAL: Record<string, 'zukei' | 'tane' | 'forestry' | 'suisan'> = { bd_zukei: 'zukei', bd_tane: 'tane', bd_forest: 'forestry', bd_port: 'suisan' };
 const IMO_SPOT = BUILDING_SPOTS.bd_imo;
 const ARBOR_SPOT = BUILDING_SPOTS.bd_arbor;
 
@@ -136,7 +138,7 @@ const SOUND_LABEL: Record<SoundMode, string> = { sfx: '🔊 こうかおん', al
 const MAX_ON_ISLAND = 7;
 // おうちの中に ついてきた子の 立ち位置
 const HOUSE_SPAWNS: Pos[] = [{ x: 0.32, y: 0.72 }, { x: 0.42, y: 0.8 }, { x: 0.3, y: 0.86 }, { x: 0.5, y: 0.74 }];
-const AREA_TITLE: Record<Area, string> = { main: '🏝 アンリノ島', east: '🌸 はなばたけの しま', house: '🏠 おうちの なか', school: '🏫 しまの がっこう', moon: PLANET_CFG.moon.title, mars: PLANET_CFG.mars.title, sun: PLANET_CFG.sun.title };   // 教科キャラを一度に出す数のめやす（主役＋あそびに来る住人）
+const AREA_TITLE: Record<Area, string> = { main: '🏝 アンリノ島', east: '🌸 はなばたけの しま', nov: '🍁 11月の しま', house: '🏠 おうちの なか', school: '🏫 しまの がっこう', moon: PLANET_CFG.moon.title, mars: PLANET_CFG.mars.title, sun: PLANET_CFG.sun.title };   // 教科キャラを一度に出す数のめやす（主役＋あそびに来る住人）
 
 /** カメラ（main だけ）：主人公を まんなかに、世界の はしで とめる。px */
 function camTarget(p: Pos): Pos {
@@ -249,6 +251,7 @@ export function IslandScreen() {
   const area: Area = save.area === 'house' && !save.buildings.includes('bd_house') ? 'main'
     : save.area === 'school' && !save.buildings.includes('bd_school') ? 'main'
     : save.area === 'east' && !save.buildings.includes('bd_bridge') ? 'main'
+    : save.area === 'nov' && !save.buildings.includes('bd_pier') ? 'main'
     : save.area === 'moon' && !(save.buildings.includes('bd_rocket') && save.space.dex.includes('moon')) ? 'main'
     : save.area === 'mars' && !(save.buildings.includes('bd_rocket') && save.space.dex.includes('mars') && marsOk) ? 'east'
     : save.area === 'sun' && !(save.buildings.includes('bd_rocket') && save.space.dex.includes('sun')) ? 'east' : save.area;
@@ -271,7 +274,7 @@ export function IslandScreen() {
   const expansion = expansionOf(save.buildings);
   setArea(area, expansion);
   const hasBridge = save.buildings.includes('bd_bridge');
-  const builtSpots = indoor ? [] : save.buildings.filter((id) => spotInArea(id, area));
+  const builtSpots = indoor ? [] : area === 'nov' ? NOV_BUILT : save.buildings.filter((id) => spotInArea(id, area));
   const nextBuild = ITEM_BY_ID[nextBuildId(save.buildings) ?? ''];
   const [fade, setFade] = useState(false);
   const [sleeping, setSleeping] = useState(false);
@@ -293,7 +296,7 @@ export function IslandScreen() {
       return [...cur, ...vis].filter((f) =>
         f.level > 1 && heartsOf(save.friendsPlay[f.char]?.pts ?? 0) >= FOLLOW_HEARTS && !save.friendsPlay[f.char]?.followOff);
     }
-    if (area === 'east') return vis;
+    if (area === 'east' || area === 'nov') return vis;
     // たいよう：へんしん できるのは じぶんだけ（なかまは しまで おるすばん）
     if (area === 'sun') return [];
     // 月：ついてくる子（♥3）と 主役が いっしょに のってくる（たまごは おるすばん）
@@ -806,8 +809,10 @@ export function IslandScreen() {
     if (area === 'main' && save.buildings.includes('bd_moon') && dist(raw, BUILDING_SPOTS.bd_moon) < 0.09) { openMoonView(); return; }
     if (area === 'east' && save.buildings.includes('bd_imo') && dist(raw, { x: IMO_SPOT.x, y: IMO_SPOT.y - 0.06 }) < 0.09) { setModal('imo'); return; }
     if (area === 'east' && save.buildings.includes('bd_arbor') && dist(raw, { x: ARBOR_SPOT.x, y: ARBOR_SPOT.y - 0.05 }) < 0.09) { setModal('arbor'); return; }
-    if (area === 'east' && save.buildings.includes('bd_zukei') && dist(raw, { x: BUILDING_SPOTS.bd_zukei.x, y: BUILDING_SPOTS.bd_zukei.y - 0.06 }) < 0.09) { setModal('zukei'); return; }
-    if (area === 'east' && save.buildings.includes('bd_tane') && dist(raw, { x: BUILDING_SPOTS.bd_tane.x, y: BUILDING_SPOTS.bd_tane.y - 0.06 }) < 0.09) { setModal('tane'); return; }
+    if (area === 'nov') {
+      const hit = NOV_BUILT.find((id) => dist(raw, { x: BUILDING_SPOTS[id].x, y: BUILDING_SPOTS[id].y - 0.06 }) < 0.09);
+      if (hit) { setModal(NOV_MODAL[hit]); return; }
+    }
     if (area === 'east' && save.buildings.includes('bd_rocket') && dist(raw, { x: BUILDING_SPOTS.bd_rocket.x, y: BUILDING_SPOTS.bd_rocket.y - 0.1 }) < 0.09) { setModal('spaceGo'); return; }
     if (area === 'east' && save.buildings.includes('bd_base') && dist(raw, { x: BUILDING_SPOTS.bd_base.x, y: BUILDING_SPOTS.bd_base.y - 0.05 }) < 0.08) { setModal('spaceDex'); return; }
     if (area === 'east' && save.buildings.includes('bd_planet') && dist(raw, { x: BUILDING_SPOTS.bd_planet.x, y: BUILDING_SPOTS.bd_planet.y - 0.05 }) < 0.08) { setModal('library'); return; }
@@ -1018,8 +1023,8 @@ export function IslandScreen() {
   const nearImo = area === 'east' && save.buildings.includes('bd_imo') && dist(playerPos.current, IMO_SPOT) <= 0.1;
   const nearEastBd = (id: string) => area === 'east' && save.buildings.includes(id) && dist(playerPos.current, BUILDING_SPOTS[id]) <= 0.1;
   const nearArbor = nearEastBd('bd_arbor');
-  const nearZukei = nearEastBd('bd_zukei');
-  const nearTane = nearEastBd('bd_tane');
+  const nearNovBd = (id: string) => area === 'nov' && dist(playerPos.current, BUILDING_SPOTS[id]) <= 0.1;
+  const nearNovBack = area === 'nov' && dist(pp, DOORS.novToMain) <= 0.1;
   const nearRocket = nearEastBd('bd_rocket');
   const nearBase = nearEastBd('bd_base');
   const nearLibrary = nearEastBd('bd_planet');   // としょかん（もと プラネタリウム）
@@ -1462,6 +1467,7 @@ export function IslandScreen() {
   act(nearMonster, 'feed', '🍚 ごはん', () => (monster.stage === 'egg' || foods.length ? setModal('feed') : g.showToast('ごはんが ないよ。ショップで かおう', 'ng')));
   act(nearChest, 'chest', '🎁 たからばこを あける', openChest, false);
   act(nearMail, 'mail', `💌 てがみを よむ${unread > 0 ? `（${unread}）` : ''}`, () => setModal('mail'), false);
+  act(nearPier, 'novGo', '⛵ 11月の しまへ', () => travel('nov', ENTRY.nov));
   act(nearPier, 'fish', '🎣 つりを する', () => setModal('fish'));
   act(nearPier && suisanOpen(), 'voyage', '🚤 ふねで 海へ しゅっこう', () => setModal('suisanVoyage'));
   act(nearFarm, 'farm', `🌱 はたけ${farmStages.some((n, i) => isRipe(save.farm.plots[i], n)) ? '（とれるよ！）' : ''}`, () => setModal('farm'));
@@ -1469,8 +1475,11 @@ export function IslandScreen() {
   act(nearMoonPlat, 'moon', '🎑 おだんごを おそなえ', openMoonView);
   act(nearImo, 'imo', '🍠 やきいもやさん', () => setModal('imo'));
   act(nearArbor, 'arbor', '🍁 あずまやで ひとやすみ', () => setModal('arbor'));
-  act(nearZukei, 'zukei', '📐 ずけいこうぼう', () => setModal('zukei'));
-  act(nearTane, 'tane', '🌱 たねの けんきゅうじょ', () => setModal('tane'));
+  act(nearNovBd('bd_zukei'), 'zukei', '📐 ずけいこうぼう', () => setModal('zukei'));
+  act(nearNovBd('bd_tane'), 'tane', '🌱 たねの けんきゅうじょ', () => setModal('tane'));
+  act(nearNovBd('bd_forest'), 'forest', '🌲 もりづくり', () => setModal('forestry'));
+  act(nearNovBd('bd_port'), 'port', '⚓ ぎょこうに はいる', () => setModal('suisan'));
+  act(nearNovBack, 'novBack', '⛵ もとの しまへ', () => travel('main', { x: PIER_POS.x, y: PIER_POS.y + 0.07 }));
   act(nearRocket, 'rocket', '🚀 うちゅうへ いく', () => setModal('spaceGo'));
   act(nearBase, 'base', '🛰️ うちゅうずかん', () => setModal('spaceDex'));
   act(nearLibrary, 'library', '📚 としょかんに はいる', () => setModal('library'));
@@ -1571,20 +1580,6 @@ export function IslandScreen() {
         </button>
       )}
 
-      {/* ── 林業ゲーム：モクタの もりづくり（10/31から。メダルは つかわない） ── */}
-      {forestryOpen(undefined, undefined, save.player) && (
-        <button
-          className="mb-2.5 flex w-full items-center gap-2 rounded-2xl bg-gradient-to-r from-[#3f6212] to-[#65a30d] px-3 py-2 text-left shadow active:scale-[0.98] lg:landscape:col-start-2"
-          onClick={() => setModal('forestry')}
-        >
-          <span className="text-xl">🌲</span>
-          <span className="min-w-0 flex-1 truncate text-[13.5px] font-black text-white">
-            <span className="mr-1.5 text-[10.5px] text-lime-200">あそぶ</span>モクタの もりづくり
-          </span>
-          <span className="text-[12px] font-black text-lime-100">{save.forestry.cleared.length}/{FORESTS.length}</span>
-        </button>
-      )}
-
       {/* ── スタンプ・てがみ・おと ── */}
       <div className="mb-2.5 flex gap-1.5 lg:landscape:col-start-2">
         <button className="min-w-0 flex-1 whitespace-nowrap rounded-2xl leading-tight bg-white/90 px-2 py-2 text-[12px] font-black text-ink shadow active:scale-95" onClick={() => setModal('stamp')}>
@@ -1648,6 +1643,7 @@ export function IslandScreen() {
           )}
           {!on3d && area === 'main' && <FarmPatch plots={save.farm.plots} stages={farmStages} today={day} />}
           {area === 'east' && <EastGround tod={tod} />}
+          {area === 'nov' && <NovGround tod={tod} />}
           {area === 'moon' && <MoonGround moonAge={moonAge} />}
           {area === 'mars' && <MarsGround />}
           {area === 'sun' && <SunGround />}
@@ -1783,13 +1779,11 @@ export function IslandScreen() {
                 ? 'こくばん・テレビ・けいじばん・おともだちを タップしてみよう'
                 : pcfg
                 ? planet === 'sun' ? `${pcfg.hint}（みつけた ${sunSeen}/${SUN_HITS.length}）` : pcfg.hint
+                : area === 'nov'
+                ? 'ずけいこうぼう・たねの けんきゅうじょ・もりづくり・ぎょこうを タップすると あそべるよ（ぜんぶ むりょう）。ひだりの さんばしで もとの しまに もどれるよ'
                 : area === 'east'
                 ? save.buildings.includes('bd_rocket')
                   ? 'ロケットを タップすると うちゅうりょこうに いけるよ。ひだりの はしで もとの しまに もどれるよ'
-                  : save.buildings.includes('bd_tane')
-                  ? 'たねの けんきゅうじょを タップすると 種子のつくりと発芽の ゲームが できるよ。ひだりの はしで もとの しまに もどれるよ'
-                  : save.buildings.includes('bd_zukei')
-                  ? 'ずけいこうぼうを タップすると 多角形と 円・おうぎ形の ゲームが できるよ。ひだりの はしで もとの しまに もどれるよ'
                   : save.buildings.includes('bd_arbor')
                   ? 'あずまやを タップすると ひとやすみ・おちばひろい・おはなしが できるよ。ひだりの はしで もとの しまに もどれるよ'
                   : save.buildings.includes('bd_imo')

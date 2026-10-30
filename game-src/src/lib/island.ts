@@ -39,11 +39,11 @@ const BOUNDS_HOUSE = { minX: 0.08, maxX: 0.92, minY: 0.56, maxY: 0.92 };
 const BOUNDS_EAST = { minX: 0.08, maxX: 0.9, minY: 0.3, maxY: 0.88 };
 /** 月の じめん（上は くろい 空と ちきゅう） */
 const BOUNDS_MOON = { minX: 0.08, maxX: 0.92, minY: 0.45, maxY: 0.9 };
-export function setArea(area: 'main' | 'east' | 'house' | 'school' | 'moon' | 'mars' | 'sun', _expansion?: number): void {
+export function setArea(area: 'main' | 'east' | 'nov' | 'house' | 'school' | 'moon' | 'mars' | 'sun', _expansion?: number): void {
   WALK = area === 'main' ? MAIN_WALK : null;
   if (area === 'house') BOUNDS = BOUNDS_HOUSE;
   else if (area === 'school') BOUNDS = BOUNDS_SCHOOL;
-  else if (area === 'east') BOUNDS = BOUNDS_EAST;
+  else if (area === 'east' || area === 'nov') BOUNDS = BOUNDS_EAST;
   else if (area === 'moon' || area === 'mars' || area === 'sun') BOUNDS = BOUNDS_MOON;   // 火星・たいようも おなじ はば
   else BOUNDS = BOUNDS_MAIN;   // 土地を広げたので、main は いつも いちばん広い形
 }
@@ -57,6 +57,7 @@ export const DOORS = {
   houseToMain: { x: 0.14, y: 0.6 },      // 部屋の ドア
   mainToEast: { x: 1.28, y: 0.6 },       // はしの たもと（main の右の海岸）
   eastToMain: { x: 0.09, y: 0.6 },       // はしの たもと（east の左はし）
+  novToMain: { x: 0.09, y: 0.6 },        // 11月の島の さんばし（左はし）
   mainToSchool: { x: 0.64, y: 0.39 },    // がっこうの 戸口
   schoolToMain: { x: 0.86, y: 0.62 },    // きょうしつの ドア（右）
   mainToSoccer: { x: 0.88, y: 1.0 },
@@ -69,6 +70,7 @@ export const ENTRY = {
   house: { x: 0.2, y: 0.68 },
   mainFromHouse: { x: 0.2, y: 0.5 },
   east: { x: 0.14, y: 0.6 },
+  nov: { x: 0.14, y: 0.6 },
   mainFromEast: { x: 1.23, y: 0.6 },
   school: { x: 0.8, y: 0.7 },
   mainFromSchool: { x: 0.64, y: 0.44 },

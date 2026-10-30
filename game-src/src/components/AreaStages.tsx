@@ -59,6 +59,66 @@ function EastGroundBase({ tod }: { tod: TimeOfDay }) {
 }
 export const EastGround = React.memo(EastGroundBase);
 
+const NOV_LEAVES = Array.from({ length: 30 }, (_, i) => [
+  150 + ((i * 149) % 700), 250 + ((i * 83) % 420), ['#f97316', '#facc15', '#dc2626', '#fb923c'][i % 4],
+] as const);
+
+/** 11月の島：あきの 草はらに もみじ、左に さんばし、右下に みなと（ぎょこうの まえ） */
+function NovGroundBase({ tod }: { tod: TimeOfDay }) {
+  return (
+    <>
+      <defs>
+        <linearGradient id="seaN" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#1e3a8a" />
+          <stop offset="100%" stopColor="#0284c7" />
+        </linearGradient>
+        <radialGradient id="meadowN" cx="50%" cy="55%" r="62%">
+          <stop offset="0%" stopColor="#fde68a" />
+          <stop offset="75%" stopColor="#d9f99d" />
+          <stop offset="100%" stopColor="#a3e635" />
+        </radialGradient>
+      </defs>
+      <rect x="0" y="0" width={ISLAND_W} height={ISLAND_H} fill="url(#seaN)" />
+      {[0.12, 0.2].map((t, i) => (
+        <path key={t} d={`M0 ${ISLAND_H * t} q 60 -10 120 0 t 120 0 t 120 0 t 120 0 t 120 0 t 120 0 t 120 0 t 120 0 t 120 0`} fill="none" stroke="rgba(255,255,255,0.35)" strokeWidth={3 - i} />
+      ))}
+      <ellipse cx="520" cy={ISLAND_H * 0.6} rx="470" ry="300" fill="#fde68a" />
+      <ellipse cx="520" cy={ISLAND_H * 0.6} rx="430" ry="265" fill="url(#meadowN)" />
+      {/* さんばし（左はし） */}
+      <rect x="-5" y="436" width="110" height="30" fill="#b45309" stroke="#4c1d95" strokeWidth="2.4" />
+      {Array.from({ length: 6 }, (_, i) => <line key={i} x1={10 + i * 16} x2={10 + i * 16} y1="436" y2="466" stroke="#78350f" strokeWidth="2" />)}
+      <path d="M20 462 L72 462 L66 478 L28 478 Z" fill="#fff" stroke="#4c1d95" strokeWidth="2.2" strokeLinejoin="round" />
+      {/* みなと（右下の すなはまに くいこむ 入り江） */}
+      <path d="M690 600 Q760 560 860 590 L900 660 Q820 700 730 690 Z" fill="#7dd3fc" stroke="#0284c7" strokeWidth="3" />
+      <path d="M720 625 q 20 -8 40 0 t 40 0" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="2.4" />
+      {/* おちば */}
+      {NOV_LEAVES.map(([x, y, c], i) => (
+        <g key={i} transform={`translate(${x} ${y}) rotate(${(i * 47) % 360}) scale(1.5)`}>
+          <path d="M0 -6 L2 -2 L6 -3 L3 1 L5 5 L0 3 L-5 5 L-3 1 L-6 -3 L-2 -2 Z" fill={c} stroke="#7c2d12" strokeWidth="0.8" />
+        </g>
+      ))}
+      {/* もみじの 木 */}
+      {[[240, 300], [800, 340], [160, 560], [860, 520]].map(([x, y], i) => (
+        <g key={'m' + i} transform={`translate(${x} ${y})`}>
+          <rect x="-6" y="0" width="12" height="40" fill="#7c4a1d" stroke="#4c1d95" strokeWidth="2.2" />
+          <circle cx="0" cy="-8" r="36" fill={['#ef4444', '#f97316', '#facc15', '#dc2626'][i]} stroke="#4c1d95" strokeWidth="2.4" />
+          <circle cx="-14" cy="2" r="22" fill={['#f87171', '#fb923c', '#fde047', '#ef4444'][i]} />
+        </g>
+      ))}
+      {tod !== 'night' && [[420, 360], [560, 470]].map(([x, y], i) => (
+        <g key={'b' + i} transform={`translate(${x} ${y})`} pointerEvents="none">
+          <g className="butterfly" style={{ animationDelay: `${i * -1.3}s` }}>
+            <ellipse cx="-6" cy="0" rx="7" ry="9" fill={['#fdba74', '#fde047'][i]} />
+            <ellipse cx="6" cy="0" rx="7" ry="9" fill={['#fdba74', '#fde047'][i]} />
+            <rect x="-1" y="-6" width="2" height="12" fill="#4c1d95" />
+          </g>
+        </g>
+      ))}
+    </>
+  );
+}
+export const NovGround = React.memo(NovGroundBase);
+
 const WALL: Record<string, (id: string) => React.ReactNode> = {
   wl_beige: () => <rect x="0" y="0" width={ISLAND_W} height="400" fill="#fef3c7" />,
   wl_star: () => (

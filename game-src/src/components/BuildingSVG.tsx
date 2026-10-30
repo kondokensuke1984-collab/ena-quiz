@@ -198,6 +198,50 @@ function TaneLab() {
   );
 }
 
+/** もりづくりの いりぐち（bd_forest）。丸太の こやと ならんだ 木 */
+function ForestHut() {
+  const tree = (x: number, h: number, c: string) => (
+    <g transform={`translate(${x} 0)`}>
+      <rect x="-3" y={-12} width="6" height="12" fill="#7c4a1d" {...S} strokeWidth={1.8} />
+      <path d={`M-16 -10 L0 ${-10 - h} L16 -10 Z`} fill={c} {...S} strokeWidth={2} />
+      <path d={`M-12 ${-10 - h * 0.45} L0 ${-10 - h * 1.25} L12 ${-10 - h * 0.45} Z`} fill={c} {...S} strokeWidth={2} />
+    </g>
+  );
+  return (
+    <g>
+      {shadow(62)}
+      {tree(-46, 34, '#2f6f3e')}
+      {tree(46, 40, '#43914f')}
+      <rect x="-30" y="-36" width="60" height="36" rx="3" fill="#d6a85f" {...S} />
+      {[-26, -18, -10, -2, 6, 14, 22].map((y) => <line key={y} x1="-30" x2="30" y1={y - 10} y2={y - 10} stroke="#92400e" strokeWidth="1.6" />)}
+      <path d="M-38 -36 L0 -66 L38 -36 Z" fill="#65a30d" {...S} />
+      <rect x="-7" y="-26" width="14" height="26" rx="2" fill="#7c4a1d" {...S} />
+      <text x="0" y="-72" fontSize="12" fontWeight="900" textAnchor="middle" fill="#14532d">もりづくり</text>
+    </g>
+  );
+}
+
+/** ぎょこう（bd_port）。さかなの かんばんの そうこと クレーン、小さな ふね */
+function FishPort() {
+  return (
+    <g>
+      {shadow(66)}
+      <rect x="-54" y="-40" width="70" height="40" rx="3" fill="#bae6fd" {...S} />
+      <path d="M-58 -40 L-19 -64 L20 -40 Z" fill="#0369a1" {...S} />
+      <rect x="-40" y="-26" width="20" height="26" rx="2" fill="#475569" {...S} />
+      <ellipse cx="-19" cy="-49" rx="11" ry="5" fill="#fff" stroke="#4c1d95" strokeWidth="1.6" />
+      <text x="-19" y="-46" fontSize="8" fontWeight="900" textAnchor="middle" fill="#0369a1">ぎょこう</text>
+      {/* クレーン */}
+      <path d="M30 0 L30 -50 L56 -50" fill="none" stroke="#f59e0b" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M56 -50 L56 -34" stroke="#475569" strokeWidth="2" />
+      <rect x="51" y="-34" width="10" height="7" fill="#ef4444" {...S} strokeWidth={1.6} />
+      {/* ふね */}
+      <path d="M26 12 L74 12 L66 26 L34 26 Z" fill="#fff" {...S} />
+      <path d="M50 12 L50 -4 L66 12 Z" fill="#fde68a" {...S} strokeWidth={1.8} />
+    </g>
+  );
+}
+
 function SpaceBase() {
   return (
     <g>
@@ -284,6 +328,8 @@ const DRAW: Record<string, () => React.ReactNode> = {
   bd_imo: ImoCart,
   bd_arbor: Arbor,
   bd_zukei: ZukeiShop,
+  bd_forest: ForestHut,
+  bd_port: FishPort,
   bd_tane: TaneLab,
   bd_house: House,
   bd_light: Lighthouse,
@@ -295,7 +341,7 @@ const DRAW: Record<string, () => React.ReactNode> = {
 
 /** 建物の置き場所（割合）。さんばしは地面の絵として IslandStage で描く */
 /** area＝建つ場所（なし＝main）。glow＝夜に光る ところ（足もとから dy、半径 r） */
-export interface BuildingSpot { x: number; y: number; area?: 'main' | 'east'; glow?: { dy: number; r: number } }
+export interface BuildingSpot { x: number; y: number; area?: 'main' | 'east' | 'nov'; glow?: { dy: number; r: number } }
 export const BUILDING_SPOTS: Record<string, BuildingSpot> = {
   bd_house: { x: 0.2, y: 0.42 },
   bd_light: { x: 0.87, y: 0.43 },
@@ -306,8 +352,11 @@ export const BUILDING_SPOTS: Record<string, BuildingSpot> = {
   // となりの しま（east）。池（0.70,0.75）と 左の はしを よける
   bd_imo: { x: 0.36, y: 0.46, area: 'east', glow: { dy: -0.08, r: 55 } },
   bd_arbor: { x: 0.64, y: 0.42, area: 'east', glow: { dy: -0.06, r: 48 } },
-  bd_zukei: { x: 0.52, y: 0.64, area: 'east', glow: { dy: -0.05, r: 46 } },
-  bd_tane: { x: 0.78, y: 0.35, area: 'east', glow: { dy: -0.05, r: 46 } },
+  // 11月の島（さんばしの ボートで いく。たてものは ぜんぶ むりょう）
+  bd_zukei: { x: 0.36, y: 0.46, area: 'nov', glow: { dy: -0.05, r: 46 } },
+  bd_tane: { x: 0.64, y: 0.42, area: 'nov', glow: { dy: -0.05, r: 46 } },
+  bd_forest: { x: 0.3, y: 0.76, area: 'nov', glow: { dy: -0.05, r: 44 } },
+  bd_port: { x: 0.74, y: 0.78, area: 'nov', glow: { dy: -0.04, r: 50 } },
   // うちゅうセット（east の した半分と みぎ。池・はしを よける）
   bd_base: { x: 0.26, y: 0.74, area: 'east', glow: { dy: -0.04, r: 50 } },
   bd_planet: { x: 0.48, y: 0.8, area: 'east', glow: { dy: -0.03, r: 55 } },

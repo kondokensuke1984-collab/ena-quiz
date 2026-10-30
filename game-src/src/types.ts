@@ -27,7 +27,7 @@ export interface MonsterState {
 }
 
 /** 島の場所。main＝いまの島、east＝となりの島、house＝おうちの中、school＝がっこうの きょうしつ */
-export type Area = 'main' | 'east' | 'house' | 'school' | 'moon' | 'mars' | 'sun';
+export type Area = 'main' | 'east' | 'nov' | 'house' | 'school' | 'moon' | 'mars' | 'sun';
 /** ロケットで おりて あるける ほし */
 export type Planet = 'moon' | 'mars' | 'sun';
 

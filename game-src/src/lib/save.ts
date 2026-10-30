@@ -131,7 +131,7 @@ export function loadSave(): SaveV1 {
       today: typeof s.micro?.today === 'number' ? s.micro!.today : 0,
       ready: s.micro?.ready === true,
     },
-    area: s.area === 'east' || s.area === 'house' || s.area === 'school' || s.area === 'moon' || s.area === 'mars' || s.area === 'sun' ? s.area : 'main',
+    area: s.area === 'east' || s.area === 'nov' || s.area === 'house' || s.area === 'school' || s.area === 'moon' || s.area === 'mars' || s.area === 'sun' ? s.area : 'main',
     room: { ...f.room, ...obj(s.room, {}) },
     fish: {
       ...f.fish,

@@ -224,7 +224,7 @@ export const ITEMS: Item[] = [
 ];
 
 /** その場所に置ける家具か */
-export function placeableIn(item: Item | undefined, area: 'main' | 'east' | 'house' | 'school' | 'moon' | 'mars' | 'sun'): boolean {
+export function placeableIn(item: Item | undefined, area: 'main' | 'east' | 'nov' | 'house' | 'school' | 'moon' | 'mars' | 'sun'): boolean {
   if (!item || area === 'moon' || area === 'mars' || area === 'sun') return false;
   if (item.anywhere) return item.kind === 'furniture' || item.kind === 'indoor';
   if (area === 'school') return item.kind === 'classroom';
@@ -269,7 +269,7 @@ export function onSale(item: Item, ownedIds: string[]): boolean {
 }
 
 /** 建てる順番。前のを建てると次が出る */
-export const BUILD_ORDER = ['bd_house', 'bd_pier', 'bd_light', 'bd_school', 'bd_bridge', 'bd_wheel', 'bd_observ', 'bd_moon', 'bd_imo', 'bd_arbor', 'bd_zukei', 'bd_tane', 'bd_base', 'bd_planet'];
+export const BUILD_ORDER = ['bd_house', 'bd_pier', 'bd_light', 'bd_school', 'bd_bridge', 'bd_wheel', 'bd_observ', 'bd_moon', 'bd_imo', 'bd_arbor', 'bd_base', 'bd_planet'];
 /** たてると いっしょに もらえる おまけの たてもの（BUILD_ORDER には いれない） */
 export const BUILD_BONUS: Record<string, string[]> = { bd_base: ['bd_rocket'] };
 /** けんすけの 端末は 建物が ぜんぶ たっている（おまけも ふくむ） */
