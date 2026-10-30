@@ -242,6 +242,23 @@ function FishPort() {
   );
 }
 
+/** 名探偵じむしょ（bd_detective）。むらさきの やねに 虫めがねの かんばん */
+function DetectiveOffice() {
+  return (
+    <g>
+      {shadow(58)}
+      <rect x="-46" y="-42" width="92" height="42" rx="3" fill="#e9d5ff" {...S} />
+      <path d="M-54 -42 L0 -82 L54 -42 Z" fill="#4c1d95" {...S} />
+      <rect x="-34" y="-30" width="20" height="16" rx="2" fill="#fde68a" {...S} />
+      <rect x="14" y="-30" width="20" height="16" rx="2" fill="#fde68a" {...S} />
+      <rect x="-8" y="-28" width="16" height="28" rx="2" fill="#7c3aed" {...S} />
+      <circle cx="0" cy="-60" r="9" fill="#fff" {...S} strokeWidth={2} />
+      <circle cx="0" cy="-60" r="5" fill="#bae6fd" stroke="#4c1d95" strokeWidth="1.6" />
+      <path d="M4 -56 L10 -50" stroke="#4c1d95" strokeWidth="3" strokeLinecap="round" />
+    </g>
+  );
+}
+
 function SpaceBase() {
   return (
     <g>
@@ -330,6 +347,7 @@ const DRAW: Record<string, () => React.ReactNode> = {
   bd_zukei: ZukeiShop,
   bd_forest: ForestHut,
   bd_port: FishPort,
+  bd_detective: DetectiveOffice,
   bd_tane: TaneLab,
   bd_house: House,
   bd_light: Lighthouse,
@@ -357,6 +375,7 @@ export const BUILDING_SPOTS: Record<string, BuildingSpot> = {
   bd_tane: { x: 0.64, y: 0.42, area: 'nov', glow: { dy: -0.05, r: 46 } },
   bd_forest: { x: 0.3, y: 0.76, area: 'nov', glow: { dy: -0.05, r: 44 } },
   bd_port: { x: 0.74, y: 0.78, area: 'nov', glow: { dy: -0.04, r: 50 } },
+  bd_detective: { x: 0.5, y: 0.64, area: 'nov', glow: { dy: -0.05, r: 44 } },
   // うちゅうセット（east の した半分と みぎ。池・はしを よける）
   bd_base: { x: 0.26, y: 0.74, area: 'east', glow: { dy: -0.04, r: 50 } },
   bd_planet: { x: 0.48, y: 0.8, area: 'east', glow: { dy: -0.03, r: 55 } },

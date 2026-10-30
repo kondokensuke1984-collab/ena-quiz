@@ -78,8 +78,8 @@ function webglOK(): boolean {
 const HAS_WEBGL = typeof document !== 'undefined' && webglOK();
 
 /** 11月の島の たてもの（むりょう・いつも たっている） */
-const NOV_BUILT = ['bd_zukei', 'bd_tane', 'bd_forest', 'bd_port'];
-const NOV_MODAL: Record<string, 'zukei' | 'tane' | 'forestry' | 'suisan'> = { bd_zukei: 'zukei', bd_tane: 'tane', bd_forest: 'forestry', bd_port: 'suisan' };
+const NOV_BUILT = ['bd_zukei', 'bd_tane', 'bd_forest', 'bd_port', 'bd_detective'];
+const NOV_MODAL: Record<string, 'zukei' | 'tane' | 'forestry' | 'suisan' | 'detective'> = { bd_zukei: 'zukei', bd_tane: 'tane', bd_forest: 'forestry', bd_port: 'suisan', bd_detective: 'detective' };
 const IMO_SPOT = BUILDING_SPOTS.bd_imo;
 const ARBOR_SPOT = BUILDING_SPOTS.bd_arbor;
 
@@ -251,7 +251,6 @@ export function IslandScreen() {
   const area: Area = save.area === 'house' && !save.buildings.includes('bd_house') ? 'main'
     : save.area === 'school' && !save.buildings.includes('bd_school') ? 'main'
     : save.area === 'east' && !save.buildings.includes('bd_bridge') ? 'main'
-    : save.area === 'nov' && !save.buildings.includes('bd_pier') ? 'main'
     : save.area === 'moon' && !(save.buildings.includes('bd_rocket') && save.space.dex.includes('moon')) ? 'main'
     : save.area === 'mars' && !(save.buildings.includes('bd_rocket') && save.space.dex.includes('mars') && marsOk) ? 'east'
     : save.area === 'sun' && !(save.buildings.includes('bd_rocket') && save.space.dex.includes('sun')) ? 'east' : save.area;
@@ -1478,6 +1477,7 @@ export function IslandScreen() {
   act(nearNovBd('bd_zukei'), 'zukei', '📐 ずけいこうぼう', () => setModal('zukei'));
   act(nearNovBd('bd_tane'), 'tane', '🌱 たねの けんきゅうじょ', () => setModal('tane'));
   act(nearNovBd('bd_forest'), 'forest', '🌲 もりづくり', () => setModal('forestry'));
+  act(nearNovBd('bd_detective'), 'detective', '🔍 名探偵あんりの じけんぼ', () => setModal('detective'));
   act(nearNovBd('bd_port'), 'port', '⚓ ぎょこうに はいる', () => setModal('suisan'));
   act(nearNovBack, 'novBack', '⛵ もとの しまへ', () => travel('main', { x: PIER_POS.x, y: PIER_POS.y + 0.07 }));
   act(nearRocket, 'rocket', '🚀 うちゅうへ いく', () => setModal('spaceGo'));
@@ -1565,18 +1565,18 @@ export function IslandScreen() {
         </div>
       </div>
 
-      {/* ── イベント：名探偵あんり ── */}
-      {eventActive() && (
+      {/* ── 11月の しま（名探偵あんりの じけんぼも ここ。むりょうで いける） ── */}
+      {(area === 'main' || area === 'east' || area === 'nov') && (
         <button
-          className="mb-2.5 flex w-full items-center gap-2 rounded-2xl bg-gradient-to-r from-[#312e81] to-[#7c3aed] px-3 py-2 text-left shadow active:scale-[0.98] lg:landscape:col-start-2"
-          onClick={() => setModal('detective')}
+          className="mb-2.5 flex w-full items-center gap-2 rounded-2xl bg-gradient-to-r from-[#9a3412] to-[#ea580c] px-3 py-2 text-left shadow active:scale-[0.98] lg:landscape:col-start-2"
+          onClick={() => (area === 'nov' ? travel('main', { x: PIER_POS.x, y: PIER_POS.y + 0.07 }) : travel('nov', ENTRY.nov))}
         >
-          <span className={`text-xl ${detectiveNew ? 'dt-new' : ''}`}>🔍</span>
+          <span className={`text-xl ${detectiveNew && area !== 'nov' ? 'dt-new' : ''}`}>{area === 'nov' ? '⛵' : '🍁'}</span>
           <span className="min-w-0 flex-1 truncate text-[13.5px] font-black text-white">
-            <span className="mr-1.5 text-[10.5px] text-amber-300">イベント</span>名探偵あんりの じけんぼ
+            {area === 'nov' ? 'もとの しまへ もどる' : '11月の しまへ'}
           </span>
-          <span className="text-[12px] font-black text-indigo-100">{save.detective.solved.length}/{CASES.length}</span>
-          {detectiveNew && <span className="rounded-full bg-rose-500 px-2 py-0.5 text-[10px] font-black text-white">NEW</span>}
+          {area !== 'nov' && <span className="text-[10.5px] font-black text-orange-100">じけんぼも ここ</span>}
+          {area !== 'nov' && detectiveNew && <span className="rounded-full bg-rose-500 px-2 py-0.5 text-[10px] font-black text-white">NEW</span>}
         </button>
       )}
 
@@ -1780,7 +1780,7 @@ export function IslandScreen() {
                 : pcfg
                 ? planet === 'sun' ? `${pcfg.hint}（みつけた ${sunSeen}/${SUN_HITS.length}）` : pcfg.hint
                 : area === 'nov'
-                ? 'ずけいこうぼう・たねの けんきゅうじょ・もりづくり・ぎょこうを タップすると あそべるよ（ぜんぶ むりょう）。ひだりの さんばしで もとの しまに もどれるよ'
+                ? 'ずけいこうぼう・たねの けんきゅうじょ・もりづくり・ぎょこう・名探偵じむしょを タップすると あそべるよ（ぜんぶ むりょう）。ひだりの さんばしで もとの しまに もどれるよ'
                 : area === 'east'
                 ? save.buildings.includes('bd_rocket')
                   ? 'ロケットを タップすると うちゅうりょこうに いけるよ。ひだりの はしで もとの しまに もどれるよ'
