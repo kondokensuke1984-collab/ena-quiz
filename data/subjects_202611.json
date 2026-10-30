@@ -1,0 +1,98 @@
+{
+"tkk11": {
+"label": "多角形",
+"icon": "🔶",
+"tag": "tag-tkk11",
+"category": "sansu",
+"month": "202611",
+"isGroup": true
+},
+"tkk11_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-tkk11",
+"category": "sansu",
+"month": "202611",
+"parent": "tkk11"
+},
+"tkk11_renshu": {
+"label": "練習問題",
+"icon": "✏️",
+"tag": "tag-tkk11",
+"category": "sansu",
+"month": "202611",
+"parent": "tkk11"
+},
+"tkk11_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-tkk11",
+"category": "sansu",
+"month": "202611",
+"parent": "tkk11"
+},
+"en11a": {
+"label": "円とおうぎ1",
+"icon": "🍕",
+"tag": "tag-en11a",
+"category": "sansu",
+"month": "202611",
+"isGroup": true
+},
+"en11a_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-en11a",
+"category": "sansu",
+"month": "202611",
+"parent": "en11a"
+},
+"en11a_renshu": {
+"label": "練習問題",
+"icon": "✏️",
+"tag": "tag-en11a",
+"category": "sansu",
+"month": "202611",
+"parent": "en11a"
+},
+"en11a_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-en11a",
+"category": "sansu",
+"month": "202611",
+"parent": "en11a"
+},
+"en11b": {
+"label": "円とおうぎ2",
+"icon": "🎡",
+"tag": "tag-en11b",
+"category": "sansu",
+"month": "202611",
+"isGroup": true
+},
+"en11b_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-en11b",
+"category": "sansu",
+"month": "202611",
+"parent": "en11b"
+},
+"en11b_renshu": {
+"label": "練習問題",
+"icon": "✏️",
+"tag": "tag-en11b",
+"category": "sansu",
+"month": "202611",
+"parent": "en11b"
+},
+"en11b_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-en11b",
+"category": "sansu",
+"month": "202611",
+"parent": "en11b"
+}
+}
