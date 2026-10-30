@@ -8,14 +8,22 @@ export interface Species {
   seed: number;        // 稚魚の ねだん（万円）
   sell: number;        // 大きくして うる ねだん（万円）
   place: string;       // 有名な 養殖地（suisan.html のとおり）
-  release: boolean;    // 栽培漁業で 放流できるか
+  release: boolean;    // 栽培漁業で 放流できるか（むかしの 保存データの ため のこす）
+  hue?: number;        // 絵文字の 色を かえる（hue-rotate の 度）
 }
 
 export const SPECIES: Species[] = [
   { id: 'kingyo', name: 'きんぎょ', emoji: '🐠', seed: 1, sell: 5,  place: '奈良県の 大和郡山', release: false },
   { id: 'kaki',   name: 'かき',     emoji: '🦪', seed: 2, sell: 8,  place: '広島県',           release: false },
   { id: 'hotate', name: 'ほたて',   emoji: '🐚', seed: 2, sell: 8,  place: '青森県・北海道',   release: true },
-  { id: 'tai',    name: 'まだい',   emoji: '🐟', seed: 3, sell: 14, place: '愛媛県',           release: true },
+  { id: 'tai',    name: 'まだい',   emoji: '🐟', seed: 3, sell: 14, place: '愛媛県',           release: true, hue: 140 },
+  // ── 産地ごとに ふやした なかま（地図で えらぶ。2026-10）──
+  { id: 'nori',   name: 'のり',     emoji: '🟩', seed: 2, sell: 7,  place: '佐賀県',           release: false },
+  { id: 'unagi',  name: 'うなぎ',   emoji: '🐟', seed: 3, sell: 12, place: '浜名湖',           release: false, hue: 300 },
+  { id: 'wakame', name: 'わかめ',   emoji: '🌿', seed: 1, sell: 5,  place: '三陸（宮城県）',   release: false },
+  { id: 'shinju', name: '真珠',     emoji: '⚪', seed: 3, sell: 13, place: '愛媛県・長崎県・三重県', release: false },
+  { id: 'sake',   name: 'さけ',     emoji: '🐟', seed: 2, sell: 9,  place: '北海道・岩手県',   release: true, hue: 10 },
+  { id: 'hirame', name: 'ひらめ',   emoji: '🐟', seed: 2, sell: 10, place: '愛媛県',           release: true, hue: 60 },
 ];
 export const SP_BY_ID: Record<string, Species> = Object.fromEntries(SPECIES.map((s) => [s.id, s]));
 
@@ -64,3 +72,6 @@ export function pickScoopKind(r: number): ScoopKind {
   for (const k of SCOOP_KINDS) { x -= k.weight; if (x <= 0) return k; }
   return SCOOP_KINDS[0];
 }
+
+/** 絵文字に つける 色の フィルター（hue が ある さかなだけ） */
+export const spStyle = (sp: Species): { filter: string } | undefined => (sp.hue ? { filter: `hue-rotate(${sp.hue}deg) saturate(1.3)` } : undefined);

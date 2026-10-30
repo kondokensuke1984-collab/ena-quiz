@@ -160,12 +160,12 @@ export interface Item {
 }
 
 /** いけすの さかな：g＝せいちょう(0〜100)を t の時点で 記録。sick＝赤潮に なった時刻(0＝げんき)、fed＝さいごに えさを あげた時刻 */
-export interface SuisanFish { sp: string; g: number; t: number; sick: number; fed: number }
+export interface SuisanFish { sp: string; g: number; t: number; sick: number; fed: number; md?: 'farm' | 'stock'; pl?: string }
 export interface SuisanSave {
   cleared: string[]; plays: number;
   coin: number;                              // 水あげ（万円）。メダルとは べつ
   pond: SuisanFish[];                        // 養殖：いけすで そだてている さかな
-  sea: { sp: string; t: number }[];          // 栽培：海に 放流して まっている さかな（t＝放流した時刻）
+  sea: { sp: string; t: number; pl?: string }[];          // 栽培：海に 放流して まっている さかな（t＝放流した時刻）
   dex: string[];                             // そだてて うれた しゅるい
   scoopBest: number;                         // さかなすくいの さいこう てん
   portDex: string[];                         // しゅっこうで つった「港:さかな」（例 choshi:saba）。どの港で なにが とれるかの ずかん

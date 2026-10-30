@@ -11,6 +11,8 @@ import { SuisanFarm } from './SuisanFarm';
 import { SuisanScoop } from './SuisanScoop';
 import { SuisanVoyage } from './SuisanVoyage';
 import { SuisanPortMap } from './SuisanPortMap';
+import { SuisanFarmMap } from './SuisanFarmMap';
+import type { FarmPlace } from '../lib/suisanFarmPlaces';
 import type { Port } from '../lib/suisanPorts';
 
 // モクタの ぎょこうづくり：5つの漁業を 漁港の けいえいで まなぶ。
@@ -107,8 +109,9 @@ function SeaScene({ stage, prog }: { stage: Stage; prog: number }) {
 export function SuisanModal({ onClose, startView = 'hub' }: { onClose(): void; startView?: 'hub' | 'ports' }) {
   const g = useGame();
   const cleared = g.save.suisan.cleared;
-  const [view, setView] = useState<'hub' | 'stages' | 'farm' | 'scoop' | 'ports' | 'voyage'>(startView)
-  const [port, setPort] = useState<Port | null>(null);
+  const [view, setView] = useState<'hub' | 'stages' | 'farmmap' | 'farm' | 'scoop' | 'ports' | 'voyage'>(startView)
+  const [port, setPort] = useState<Port | null>(null)
+  const [fplace, setFplace] = useState<FarmPlace | null>(null);
   const [pick, setPick] = useState<Stage | null>(null);
   const [p, setP] = useState<Play | null>(null);
   const pRef = useRef<Play | null>(null);
@@ -166,9 +169,9 @@ export function SuisanModal({ onClose, startView = 'hub' }: { onClose(): void; s
 
   // ───────── ハブ ─────────
   if (!p && view !== 'stages') {
-    const tiles: { v: 'ports' | 'farm' | 'scoop' | 'stages'; emoji: string; name: string; sub: string; cls: string }[] = [
+    const tiles: { v: 'ports' | 'farmmap' | 'scoop' | 'stages'; emoji: string; name: string; sub: string; cls: string }[] = [
       { v: 'ports', emoji: '🚤', name: 'しゅっこう！ 港を えらぶ',  sub: '日本地図で 港を えらんで 船で 漁へ。港ごとに とれる 魚が ちがう', cls: 'from-cyan-500 to-blue-600' },
-      { v: 'farm',   emoji: '🐟', name: 'さかなを そだてる', sub: '養殖と 栽培。えさを あげて 大きくして うろう', cls: 'from-sky-400 to-teal-500' },
+      { v: 'farmmap', emoji: '🐟', name: 'さかなを そだてる', sub: '日本地図で 産地を えらんで 養殖と 栽培。えさを あげて うろう', cls: 'from-sky-400 to-teal-500' },
       { v: 'scoop',  emoji: '🥅', name: 'さかなすくい',     sub: '30びょう！ およぐ さかなを タップ', cls: 'from-amber-400 to-orange-500' },
       { v: 'stages', emoji: '📖', name: '漁業ステージ',     sub: `5つの漁業を まなぶ（${cleared.length} / ${STAGES.length}）。クリアで 家具`, cls: 'from-indigo-400 to-violet-500' },
     ];
@@ -177,7 +180,8 @@ export function SuisanModal({ onClose, startView = 'hub' }: { onClose(): void; s
         <div className="panel max-h-[94vh] w-full max-w-[460px] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
           {view === 'voyage' && port ? <SuisanVoyage key={port.id} port={port} onBack={() => setView('ports')} />
             : view === 'ports' ? <SuisanPortMap onGo={(p) => { setPort(p); setView('voyage'); }} onBack={() => setView('hub')} />
-            : view === 'farm' ? <SuisanFarm onBack={() => setView('hub')} />
+            : view === 'farmmap' ? <SuisanFarmMap onGo={(p) => { setFplace(p); setView('farm'); }} onBack={() => setView('hub')} />
+            : view === 'farm' && fplace ? <SuisanFarm key={fplace.id} place={fplace} onBack={() => setView('farmmap')} />
             : view === 'scoop' ? <SuisanScoop onBack={() => setView('hub')} />
             : (
               <>

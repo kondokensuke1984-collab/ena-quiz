@@ -163,10 +163,14 @@ export function loadSave(): SaveV1 {
       coin: typeof s.suisan?.coin === 'number' && s.suisan!.coin >= 0 ? Math.floor(s.suisan!.coin) : 8,
       pond: Array.isArray(s.suisan?.pond)
         ? s.suisan!.pond.filter((f) => f && typeof f.sp === 'string' && typeof f.g === 'number' && typeof f.t === 'number').slice(0, 4)
-          .map((f) => ({ sp: f.sp, g: f.g, t: f.t, sick: typeof f.sick === 'number' ? f.sick : 0, fed: typeof f.fed === 'number' ? f.fed : 0 }))
+          .map((f) => ({
+            sp: f.sp, g: f.g, t: f.t, sick: typeof f.sick === 'number' ? f.sick : 0, fed: typeof f.fed === 'number' ? f.fed : 0,
+            ...(f.md === 'farm' || f.md === 'stock' ? { md: f.md } : {}), ...(typeof f.pl === 'string' ? { pl: f.pl } : {}),
+          }))
         : [],
       sea: Array.isArray(s.suisan?.sea)
         ? s.suisan!.sea.filter((f) => f && typeof f.sp === 'string' && typeof f.t === 'number').slice(0, 3)
+          .map((f) => ({ sp: f.sp, t: f.t, ...(typeof f.pl === 'string' ? { pl: f.pl } : {}) }))
         : [],
       dex: Array.isArray(s.suisan?.dex) ? s.suisan!.dex.filter((x) => typeof x === 'string') : [],
       scoopBest: typeof s.suisan?.scoopBest === 'number' ? s.suisan!.scoopBest : 0,
