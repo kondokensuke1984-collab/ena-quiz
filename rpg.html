@@ -389,7 +389,9 @@ function pickQuestMonth(months) {
   if (QUEST_IS_LOCAL && /^\d{4}-\d{1,2}-\d{1,2}$/.test(qp.get('today') || '')) {
     const [y, m, dd] = qp.get('today').split('-').map(Number); d = new Date(y, m - 1, dd);
   }
-  if (d.getDate() < QUEST_SWITCH_DAY) d = new Date(d.getFullYear(), d.getMonth() - 1, 1);
+  // 2026年11月だけは 10/31 から（ほかの月は 6日から）
+  if (d.getFullYear() === 2026 && d.getMonth() === 9 && d.getDate() >= 31) d = new Date(2026, 10, 1);
+  else if (d.getDate() < QUEST_SWITCH_DAY && !(d.getFullYear() === 2026 && d.getMonth() === 10)) d = new Date(d.getFullYear(), d.getMonth() - 1, 1);
   const target = d.getFullYear() + String(d.getMonth() + 1).padStart(2, '0');
   const ok = months.filter(m => m <= target).sort();
   return ok.length ? ok[ok.length - 1] : '202609';

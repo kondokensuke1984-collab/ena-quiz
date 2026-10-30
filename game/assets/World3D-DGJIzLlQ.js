@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:game/assets/World3D-DhDRrW-H.js
-var ls=Object.defineProperty;var as=(e,t,n)=>t in e?ls(e,t,{enumerable:!0,configurable:!0,writable:!0,value:n}):e[t]=n;var E=(e,t,n)=>as(e,typeof t!="symbol"?t+"":t,n);import{r as Q,M as je,B as Zn,D as Xt,S as Kn,I as Oe,F as lt,p as us,a as cs,b as qn,c as Ee,d as Le,e as Mt,h as ds,j as he,P as hs,f as fs,g as ps,i as ms,k as ys,E as gs,l as ws,K as xs,m as vs}from"./index-aRX3gSyQ.js";import*as a from"/js/vendor/three-0.169.module.min.js";import{BufferGeometry as Ss,BufferAttribute as ks}from"/js/vendor/three-0.169.module.min.js";var He={};/**
-========
-var ls=Object.defineProperty;var as=(e,t,n)=>t in e?ls(e,t,{enumerable:!0,configurable:!0,writable:!0,value:n}):e[t]=n;var E=(e,t,n)=>as(e,typeof t!="symbol"?t+"":t,n);import{r as Q,M as je,B as Zn,D as Xt,S as Kn,I as Oe,F as lt,p as us,a as cs,b as qn,c as Ee,d as Le,e as Mt,h as ds,j as he,P as hs,f as fs,g as ps,i as ms,k as ys,E as gs,l as ws,K as xs,m as vs}from"./index-BFGM8LvZ.js";import*as a from"/js/vendor/three-0.169.module.min.js";import{BufferGeometry as Ss,BufferAttribute as ks}from"/js/vendor/three-0.169.module.min.js";var He={};/**
->>>>>>>> origin/sansu-202611:game/assets/World3D-Bp_RKRbX.js
+var ls=Object.defineProperty;var as=(e,t,n)=>t in e?ls(e,t,{enumerable:!0,configurable:!0,writable:!0,value:n}):e[t]=n;var E=(e,t,n)=>as(e,typeof t!="symbol"?t+"":t,n);import{r as Q,M as je,B as Zn,D as Xt,S as Kn,I as Oe,F as lt,p as us,a as cs,b as qn,c as Ee,d as Le,e as Mt,h as ds,j as he,P as hs,f as fs,g as ps,i as ms,k as ys,E as gs,l as ws,K as xs,m as vs}from"./index-m60Pxlno.js";import*as a from"/js/vendor/three-0.169.module.min.js";import{BufferGeometry as Ss,BufferAttribute as ks}from"/js/vendor/three-0.169.module.min.js";var He={};/**
  * @license React
  * react-dom-server-legacy.browser.production.min.js
  *
