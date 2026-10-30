@@ -168,4 +168,5 @@ export interface SuisanSave {
   sea: { sp: string; t: number }[];          // 栽培：海に 放流して まっている さかな（t＝放流した時刻）
   dex: string[];                             // そだてて うれた しゅるい
   scoopBest: number;                         // さかなすくいの さいこう てん
+  portDex: string[];                         // しゅっこうで つった「港:さかな」（例 choshi:saba）。どの港で なにが とれるかの ずかん
 }

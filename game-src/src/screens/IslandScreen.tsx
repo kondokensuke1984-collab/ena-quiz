@@ -1962,7 +1962,7 @@ export function IslandScreen() {
       {modal === 'imo' && <YakiimoModal customers={imoCustomers} onClose={() => setModal(null)} />}
       {modal === 'forestry' && <ForestryModal onClose={() => setModal(null)} />}
       {modal === 'suisan' && <SuisanModal onClose={() => setModal(null)} />}
-      {modal === 'suisanVoyage' && <SuisanModal startView="voyage" onClose={() => setModal(null)} />}
+      {modal === 'suisanVoyage' && <SuisanModal startView="ports" onClose={() => setModal(null)} />}
       {modal === 'arbor' && <ArborModal friends={imoCustomers} studied={studied} onClose={() => setModal(null)} />}
       {modal === 'library' && <LibraryModal onOpen={setBook} onClose={() => { setBook(null); setModal(null); }} />}
       {modal === 'library' && book && (() => {

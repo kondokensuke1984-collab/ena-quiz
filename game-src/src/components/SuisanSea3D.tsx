@@ -13,7 +13,7 @@ export interface SeaView {
   phase: 'sail' | 'fish';
   spot: number | null;
 }
-export interface SeaCtl { isOpen(zoneId: string): boolean; nearId: number | null; boat: 'small' | 'mid' | 'big' }
+export interface SeaCtl { isOpen(zoneId: string): boolean; nearId: number | null; boat: 'small' | 'mid' | 'big'; portName: string }
 
 const K = 0.1;
 const SEA_X0 = -30, SEA_X1 = WORLD_W * K + 30;
@@ -201,7 +201,7 @@ function SeaViewImpl({ sRef, ctl, onFail }: { sRef: React.MutableRefObject<SeaVi
     const pier = new THREE.Mesh(new THREE.BoxGeometry(5.5, 0.4, 2.2), mat(0xa16207));
     pier.position.set(PORT_X * K - 3.2, 0.25, portZ);
     scene.add(pier);
-    const portLabel = textSprite('漁港', '#fef9c3', 70);
+    const portLabel = textSprite(`${ctl.current.portName}港`, '#fef9c3', 70);
     portLabel.scale.set(7, 1.75, 1); portLabel.position.set(1.5, 7, portZ - 3.4);
     scene.add(portLabel);
     for (let i = 0; i < 9; i++) {

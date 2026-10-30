@@ -3,9 +3,10 @@ import { useGame } from '../state/useGame';
 import { sfx } from '../lib/sound';
 import { STAGE_BY_ID } from '../lib/suisan';
 import {
-  PORT_X, SPOT_RADIUS, WORLD_H, WORLD_W, ZONES, boatFor, makeSpots, pickFish, zoneAt, zoneOpen,
-  type Spot, type VoyFish,
+  PORT_X, SPOT_RADIUS, WORLD_H, WORLD_W, ZONES, boatFor, makeSpots, zoneAt, zoneOpen,
+  type Spot,
 } from '../lib/suisanVoyage';
+import { ZONE_JA, pickPortFish, type Port, type PortFish } from '../lib/suisanPorts';
 import { CharSVG } from './CharSVG';
 import { DPad, type Axis } from './DPad';
 import type { SeaCtl } from './SuisanSea3D';
@@ -23,7 +24,7 @@ const RATE: Record<string, number> = { near: 3.0, eez: 3.8, high: 4.6 };
 interface State {
   x: number; y: number; face: 1 | -1;
   spots: Spot[];
-  hold: VoyFish[];
+  hold: PortFish[];
   phase: 'sail' | 'fish';
   spot: number | null;     // つっている 漁場 id
   ct: number; cur: number; center: number; win: number; zoneId: string;
@@ -33,12 +34,12 @@ interface State {
   trips: number;
 }
 
-const fresh = (): State => ({
-  x: PORT_X + 30, y: WORLD_H / 2, face: 1, spots: makeSpots(), hold: [], phase: 'sail', spot: null,
+const fresh = (port: Port): State => ({
+  x: PORT_X + 30, y: WORLD_H / 2, face: 1, spots: makeSpots(port), hold: [], phase: 'sail', spot: null,
   ct: 0, cur: 0, center: 0.5, win: 0.3, zoneId: 'near', msg: '', msgUntil: 0, tipped: [], total: 0, trips: 0,
 });
 
-export function SuisanVoyage({ onBack }: { onBack(): void }) {
+export function SuisanVoyage({ port, onBack }: { port: Port; onBack(): void }) {
   const g = useGame();
   const cleared = g.save.suisan.cleared;
   const all = typeof location !== 'undefined' && new URLSearchParams(location.search).get('voyage') === 'all';
@@ -49,13 +50,13 @@ export function SuisanVoyage({ onBack }: { onBack(): void }) {
   openRef.current = { cleared, all };
 
   const axis = useRef<Axis>({ x: 0, y: 0 });
-  const S = useRef<State>(fresh());
+  const S = useRef<State>(fresh(port));
   const [view3d, setView3d] = useState<boolean>(() => {
     try { return localStorage.getItem('suisanVoyage3d') !== '0'; } catch { return true; }
   });
   const toggle3d = (on: boolean) => { setView3d(on); try { localStorage.setItem('suisanVoyage3d', on ? '1' : '0'); } catch { /* 保存できなくても あそべる */ } };
   const fail3d = useCallback(() => toggle3d(false), []);
-  const ctl = useRef<SeaCtl>({ isOpen: () => true, nearId: null, boat: 'small' });
+  const ctl = useRef<SeaCtl>({ isOpen: () => true, nearId: null, boat: 'small', portName: port.name });
   const [, force] = useState(0);
 
   const say = (m: string, ms = 3600) => { S.current.msg = m; S.current.msgUntil = performance.now() + ms; };
@@ -106,6 +107,7 @@ export function SuisanVoyage({ onBack }: { onBack(): void }) {
     isOpen: (id) => { const z = ZONES.find((q) => q.id === id); return !z || zoneOpen(z, cleared, all); },
     nearId: nearSpot ? nearSpot.id : null,
     boat: boat.cap >= 12 ? 'big' : boat.cap >= 8 ? 'mid' : 'small',
+    portName: port.name,
   };
   const atPort = s.x <= PORT_X + 38;
   const full = s.hold.length >= boat.cap;
@@ -129,14 +131,18 @@ export function SuisanVoyage({ onBack }: { onBack(): void }) {
     s.phase = 'sail';
     s.spot = null;
     if (ok && spot) {
-      const f = pickFish(z, Math.random());
+      const f = pickPortFish(port, z.id, Math.random());
+      if (!f) { say('この 海では ここの 港の 魚は とれないみたい…', 2600); return; }
       spot.left--;
       s.hold = [...s.hold, f];
       sfx('catch');
-      let m = `${f.emoji} ${f.name}を つった！（${s.hold.length} / ${boat.cap}）`;
+      const key = `${port.id}:${f.id}`;
+      const isNew = !g.save.suisan.portDex.includes(key);
+      if (isNew) g.suisanUpdate((x) => (x.portDex.includes(key) ? x : { ...x, portDex: [...x.portDex, key] }));
+      let m = `${f.emoji} ${f.name}を つった！ ${port.name}の ${f.name}（${s.hold.length} / ${boat.cap}）${isNew ? '\n🆕 港ずかんに のったよ！' : ''}`;
       if (spot.left <= 0) m += '　この 漁場の 魚は とりつくしたよ';
       if (!s.tipped.includes(z.id)) { s.tipped = [...s.tipped, z.id]; m += `\n${z.tip}`; }
-      say(m, 4800);
+      say(m, 5200);
     } else {
       sfx('ng');
       say('あっ、にげられた…！ もういちど ねらおう', 2400);
@@ -156,7 +162,7 @@ export function SuisanVoyage({ onBack }: { onBack(): void }) {
 
   const reset = () => {
     const keep = { total: s.total, trips: s.trips, tipped: s.tipped, hold: s.hold };
-    S.current = { ...fresh(), ...keep, x: PORT_X + 30 };
+    S.current = { ...fresh(port), ...keep, x: PORT_X + 30 };
     say('あたらしい 漁場に なったよ！ 魚を とりすぎないのが 漁業の 未来を まもるんだ。', 4200);
   };
 
@@ -164,18 +170,22 @@ export function SuisanVoyage({ onBack }: { onBack(): void }) {
   const cam = Math.min(Math.max(0, s.x - VW / 2), WORLD_W - VW);
   const sellBtn = atPort && s.phase === 'sail' && s.hold.length > 0;
   const resetBtn = atPort && s.phase === 'sail' && s.hold.length === 0 && left === 0;
-  const msg = performance.now() < s.msgUntil && s.msg ? s.msg : zone.id === 'near' && !nearSpot
-    ? '🫧 あわの ところで「つる！」。つんだ 魚は 漁港で 水あげ。'
-    : `いまは ${zone.name} ＝ ${zone.gyogyo}（${zone.trip}）`;
+  const zoneHas = port.fish.some((f) => f.zone === zone.id);
+  const zoneFish = port.fish.filter((f) => f.zone === zone.id).map((f) => f.name).join('・');
+  const msg = performance.now() < s.msgUntil && s.msg ? s.msg
+    : !zoneHas ? `ここは ${zone.gyogyo}の 海。${port.name}では ここで とれる 魚は 少ないよ。${ZONE_JA[port.fish[0]?.zone ?? 'near']}の 海へ 行こう`
+    : nearSpot ? `${port.name}の ${zone.gyogyo}：${zoneFish}が とれるよ`
+    : zone.id === 'near' && s.x < 260 ? `🫧 あわの ところで「つる！」。${port.name}では ${zoneFish}が とれるよ`
+    : `いまは ${zone.name} ＝ ${zone.gyogyo}（${zone.trip}）。${zoneFish}`;
 
   return (
     <div>
       <div className="mb-1 flex items-center justify-between">
-        <div className="text-[14px] font-black text-ink">{boat.emoji} しゅっこう</div>
+        <div className="text-[14px] font-black text-ink">{boat.emoji} {port.name}港（{port.pref}）</div>
         <div className="flex items-center gap-1.5">
           <span className="rounded-full bg-amber-100 px-2.5 py-1 text-[12px] font-black text-amber-800">💰 {g.save.suisan.coin}万円</span>
           <button className="rounded-full bg-sky-100 px-2.5 py-1 text-[11px] font-black text-sky-800" onClick={() => toggle3d(!view3d)}>{view3d ? '2Dで みる' : '3Dで みる'}</button>
-          <button className="rounded-full bg-gray-100 px-2.5 py-1 text-[11px] font-black text-ink" onClick={onBack}>もどる</button>
+          <button className="rounded-full bg-gray-100 px-2.5 py-1 text-[11px] font-black text-ink" onClick={onBack}>港を えらびなおす</button>
         </div>
       </div>
 
@@ -216,7 +226,7 @@ export function SuisanVoyage({ onBack }: { onBack(): void }) {
           <path d={`M0 0 H${PORT_X - 14} Q${PORT_X - 30} ${VH / 2} ${PORT_X - 14} ${VH} H0 Z`} fill="#a3e635" stroke="#4d7c0f" strokeWidth="1.4" />
           <rect x="8" y={VH / 2 - 26} width="34" height="26" rx="2" fill="#fde68a" stroke="#92400e" strokeWidth="1.4" />
           <path d={`M4 ${VH / 2 - 26} L25 ${VH / 2 - 44} L46 ${VH / 2 - 26} Z`} fill="#ef4444" stroke="#7f1d1d" strokeWidth="1.4" />
-          <text x="28" y={VH / 2 + 16} textAnchor="middle" fontSize="11" fontWeight="900" fill="#14532d">漁港</text>
+          <text x="28" y={VH / 2 + 16} textAnchor="middle" fontSize="11" fontWeight="900" fill="#14532d">{port.name}港</text>
           <rect x={PORT_X - 32} y={VH / 2 - 5} width="30" height="8" fill="#a16207" stroke="#713f12" strokeWidth="1" />
           {/* 漁場 */}
           {s.spots.map((p) => {
