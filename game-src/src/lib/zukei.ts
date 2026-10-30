@@ -45,7 +45,7 @@ export const STAGES: Stage[] = [
 export const STAGE_BY_ID: Record<StageId, Stage> = Object.fromEntries(STAGES.map((s) => [s.id, s])) as Record<StageId, Stage>;
 
 /** 1ステージの 問題数（さいごの 1問は ボス） */
-export const QUESTIONS_PER_STAGE = 6;
+export const QUESTIONS_PER_STAGE = 5;
 export const HEARTS = 3;
 
 const rnd = (n: number) => Math.floor(Math.random() * n);
@@ -84,11 +84,11 @@ const seiName = (n: number) => `正${nameOf(n)}`;
 const POLY_REG = [5, 6, 8, 9, 10, 12];       // 1つの 内角が 整数に なる 正多角形
 type PolyKind = 'fan' | 'sum' | 'inner' | 'outer' | 'diag' | 'whichN' | 'missing';
 
-function polyQ(kind: PolyKind): Question {
+function polyQ(kind: PolyKind, ov?: { n?: number }): Question {
   const ang = (v: number) => `${v}度`;
   switch (kind) {
     case 'fan': {
-      const n = pick([5, 6, 7, 8, 9]);
+      const n = ov?.n ?? pick([5, 6, 7, 8, 9]);
       const a = String(n - 2);
       return {
         kind, fig: { t: 'poly', n, regular: true },
@@ -100,7 +100,7 @@ function polyQ(kind: PolyKind): Question {
       };
     }
     case 'sum': {
-      const n = pick([4, 5, 6, 7, 8, 9, 10]);
+      const n = ov?.n ?? pick([4, 5, 6, 7, 8, 9, 10]);
       const v = 180 * (n - 2);
       return {
         kind, fig: { t: 'poly', n, regular: false },
@@ -112,7 +112,7 @@ function polyQ(kind: PolyKind): Question {
       };
     }
     case 'inner': {
-      const n = pick(POLY_REG);
+      const n = ov?.n ?? pick(POLY_REG);
       const v = (180 * (n - 2)) / n;
       return {
         kind, fig: { t: 'poly', n, regular: true },
@@ -124,7 +124,7 @@ function polyQ(kind: PolyKind): Question {
       };
     }
     case 'outer': {
-      const n = pick([3, 4, 5, 6, 8, 9, 10, 12]);
+      const n = ov?.n ?? pick([3, 4, 5, 6, 8, 9, 10, 12]);
       const v = 360 / n;
       return {
         kind, fig: { t: 'poly', n, regular: true },
@@ -136,7 +136,7 @@ function polyQ(kind: PolyKind): Question {
       };
     }
     case 'diag': {
-      const n = pick([5, 6, 7, 8, 9, 10]);
+      const n = ov?.n ?? pick([5, 6, 7, 8, 9, 10]);
       const v = (n * (n - 3)) / 2;
       return {
         kind, fig: { t: 'poly', n, regular: true },
@@ -219,11 +219,14 @@ const areaH = (r: number, a: number) => r * r * 314 * a / 360;      // 面積 ×
 
 type PizzaKind = 'circ' | 'carea' | 'arc' | 'area' | 'perim' | 'findA';
 
-function pizzaQ(kind: PizzaKind): Question {
+type SecOv = { r?: number; a?: number };
+const sec = (ov: SecOv | undefined, arc: boolean) => (ov?.r && ov?.a ? { r: ov.r, a: ov.a } : pickSector(arc));
+
+function pizzaQ(kind: PizzaKind, ov?: SecOv): Question {
   const U = (s: string, u: string) => `${s}${u}`;
   switch (kind) {
     case 'circ': {
-      const r = pick([2, 3, 4, 5, 6, 7, 8, 10, 12]);
+      const r = ov?.r ?? pick([2, 3, 4, 5, 6, 7, 8, 10, 12]);
       const v = 2 * r * 314;
       const ans = U(fromHundredths(v), 'cm');
       return {
@@ -249,7 +252,7 @@ function pizzaQ(kind: PizzaKind): Question {
       };
     }
     case 'arc': {
-      const { r, a } = pickSector(true);
+      const { r, a } = sec(ov, true);
       const v = arcH(r, a);
       const ans = U(fromHundredths(v), 'cm');
       return {
@@ -262,7 +265,7 @@ function pizzaQ(kind: PizzaKind): Question {
       };
     }
     case 'area': {
-      const { r, a } = pickSector(false);
+      const { r, a } = sec(ov, false);
       const v = areaH(r, a);
       const ans = U(fromHundredths(v), 'cm²');
       return {
@@ -275,7 +278,7 @@ function pizzaQ(kind: PizzaKind): Question {
       };
     }
     case 'perim': {
-      const { r, a } = pickSector(true);
+      const { r, a } = sec(ov, true);
       const v = arcH(r, a) + 200 * r;
       const ans = U(fromHundredths(v), 'cm');
       return {
@@ -288,7 +291,7 @@ function pizzaQ(kind: PizzaKind): Question {
       };
     }
     case 'findA': {
-      const { r, a } = pickSector(true);
+      const { r, a } = sec(ov, true);
       const L = arcH(r, a);
       const ans = `${a}度`;
       return {
@@ -326,11 +329,13 @@ function pizzaBoss(): Question {
 // ───────── ステージ3：円とおうぎ2（かげの 部分の 面積）─────────
 type WheelKind = 'sqQuarter' | 'sqCircle' | 'petal' | 'ring';
 
-function wheelQ(kind: WheelKind): Question {
+type WheelOv = { s?: number; r?: number; R?: number; a?: number };
+
+function wheelQ(kind: WheelKind, ov?: WheelOv): Question {
   const sq = (s: number) => s * s * 100;
   switch (kind) {
     case 'sqQuarter': {
-      const s = pick([4, 6, 8, 10, 12, 20]);
+      const s = ov?.s ?? pick([4, 6, 8, 10, 12, 20]);
       const v = sq(s) - (s * s * 314) / 4;
       const ans = `${fromHundredths(v)}cm²`;
       return {
@@ -343,7 +348,7 @@ function wheelQ(kind: WheelKind): Question {
       };
     }
     case 'sqCircle': {
-      const s = pick([4, 6, 8, 10, 12, 20]);
+      const s = ov?.s ?? pick([4, 6, 8, 10, 12, 20]);
       const h = s / 2;
       const circ = h * h * 314;
       const v = sq(s) - circ;
@@ -358,7 +363,7 @@ function wheelQ(kind: WheelKind): Question {
       };
     }
     case 'petal': {
-      const r = pick([4, 6, 8, 10, 20]);
+      const r = ov?.r ?? pick([4, 6, 8, 10, 20]);
       // 4分の1円 2つ − 正方形（花びら）
       const v = (r * r * 314) / 2 - sq(r);
       const ans = `${fromHundredths(v)}cm²`;
@@ -373,9 +378,9 @@ function wheelQ(kind: WheelKind): Question {
     }
     case 'ring': {
       for (let g = 0; g < 600; g++) {
-        const R = pick([6, 8, 10, 12, 15, 20]);
-        const r = pick([2, 3, 4, 5, 6, 8, 10]);
-        const a = pick([90, 120, 180, 270]);
+        const R = ov?.R ?? pick([6, 8, 10, 12, 15, 20]);
+        const r = ov?.r ?? pick([2, 3, 4, 5, 6, 8, 10]);
+        const a = ov?.a ?? pick([90, 120, 180, 270]);
         if (r >= R) continue;
         const v = ((R * R - r * r) * 314 * a) / 360;
         if (!isInt(v)) continue;
@@ -399,22 +404,179 @@ function wheelBoss(): Question {
   return { ...q, boss: true, text: `【ボス】${q.text}` };
 }
 
-// ───────── 出題 ─────────
-const POLY_KINDS: PolyKind[] = ['fan', 'sum', 'inner', 'outer', 'diag', 'whichN', 'missing'];
-const PIZZA_KINDS: PizzaKind[] = ['circ', 'carea', 'arc', 'area', 'perim', 'findA'];
-const WHEEL_KINDS: WheelKind[] = ['sqQuarter', 'sqCircle', 'petal', 'ring'];
+// ───────── 出題（積み木パズル → 1問）─────────
 
-/** ステージの 問題の 並び（かんたん → ボス）。おなじ しゅるいが つづかないように えらぶ */
-export function kindsOf(stage: StageId): string[] {
-  const pool = stage === 'poly' ? POLY_KINDS : stage === 'pizza' ? PIZZA_KINDS : WHEEL_KINDS;
-  const first = stage === 'poly' ? ['fan', 'sum'] : stage === 'pizza' ? ['circ', 'carea'] : ['sqQuarter', 'sqCircle'];
-  const rest = shuffle(pool.filter((k) => !first.includes(k)));
-  const mids = stage === 'wheel' ? [...rest, pick(pool)] : rest;
-  return [...first, ...mids.slice(0, QUESTIONS_PER_STAGE - 3), 'boss'];
+/** トレイに ならぶ 積み木 */
+export interface Block {
+  id: string;
+  shape: 'tri' | 'sqr' | 'wedge' | 'slice' | 'q' | 'h' | 'c' | 's';
+  /** wedge・slice の 角度（度） */
+  a?: number;
+  label: string;
+  /** ぴったり はまる ブロックか */
+  good: boolean;
 }
 
-export function makeQuestion(stage: StageId, kind: string): Question {
-  if (stage === 'poly') return kind === 'boss' ? polyBoss() : polyQ(kind as PolyKind);
-  if (stage === 'pizza') return kind === 'boss' ? pizzaBoss() : pizzaQ(kind as PizzaKind);
-  return kind === 'boss' ? wheelBoss() : wheelQ(kind as WheelKind);
+export type PuzzleFig =
+  | { t: 'tri'; n: number }
+  | { t: 'wedge'; n: number }
+  | { t: 'slice'; k: number; a: number }
+  | { t: 'sq'; kind: 'sqQuarter' | 'sqCircle' | 'petal'; s: number }
+  | { t: 'ring'; R: number; r: number; a: number };
+
+export interface Puzzle {
+  fig: PuzzleFig;
+  blocks: Block[];
+  /** ぴったりの ブロックを いくつ おけば できあがりか */
+  need: number;
+  say: string;
+  hint: string;
+}
+
+export interface Play { q: Question; pz?: Puzzle }
+
+let bid = 0;
+const blk = (shape: Block['shape'], label: string, good: boolean, a?: number): Block => ({ id: `b${bid++}`, shape, label, good, a });
+
+function triPuzzle(n: number, q: Question): Play {
+  const need = n - 2;
+  const blocks = shuffle([
+    ...Array.from({ length: need }, () => blk('tri', '三角形', true)),
+    blk('sqr', '四角形', false), blk('sqr', '四角形', false),
+  ]);
+  return {
+    q: q.fig.t === 'poly' ? { ...q, fig: { ...q.fig, regular: true } } : q,
+    pz: {
+      fig: { t: 'tri', n }, blocks, need,
+      say: `三角形の ブロックを ならべて ${nameOf(n)}を つくろう！`,
+      hint: '1つの 頂点から 線を ひくと、三角形に わけられたよ。三角形の ブロックだけが はまるよ',
+    },
+  };
+}
+
+function wedgePuzzle(n: number): Play {
+  const ang = 360 / n;
+  const bad = [360 / (n - 1), 360 / (n + 1)];
+  const blocks = shuffle([
+    ...Array.from({ length: n }, () => blk('wedge', '', true, ang)),
+    ...bad.map((a) => blk('wedge', '', false, a)),
+  ]);
+  return {
+    q: polyQ('outer', { n }),
+    pz: {
+      fig: { t: 'wedge', n }, blocks, need: n,
+      say: '同じ 大きさの くさびを ならべて、ちょうど ぐるっと 1しゅう させよう！ぴったりの くさびを みつけてね',
+      hint: '大きさが ちがうと すきまが あいたり はみだしたりするよ。ぐるっと 1しゅうは 360度',
+    },
+  };
+}
+
+function slicePuzzle(kind: PizzaKind): Play {
+  let r = 10, a = 90;
+  for (let g = 0; g < 400; g++) {
+    r = pick([2, 3, 4, 5, 6, 8, 10, 12]);
+    a = pick([60, 72, 90, 120, 180]);
+    const v = kind === 'carea' || kind === 'area' ? areaH(r, a) : arcH(r, a);
+    if (isInt(v)) break;
+  }
+  const k = 360 / a;
+  const q0 = pizzaQ(kind === 'circ' ? 'circ' : kind, { r, a });
+  const q: Question = { ...q0, cut: undefined };
+  const badA = [a === 90 ? 120 : a + 30, a === 60 ? 45 : a - 20 > 20 ? a - 20 : a + 50];
+  const blocks = shuffle([
+    ...Array.from({ length: k }, () => blk('slice', `${a}°`, true, a)),
+    ...badA.map((b) => blk('slice', `${b}°`, false, b)),
+  ]);
+  return {
+    q,
+    pz: {
+      fig: { t: 'slice', k, a }, blocks, need: k,
+      say: `${a}度の ピザを ならべて、まるい ピザを つくろう！`,
+      hint: `円は ぐるっと 360度。${a}度の ピザが ぴったり ${k}まいで 1しゅう するよ`,
+    },
+  };
+}
+
+function sqPuzzle(kind: 'sqQuarter' | 'sqCircle' | 'petal'): Play {
+  const s = pick([4, 6, 8, 10, 12, 20]);
+  const half = s / 2;
+  if (kind === 'sqQuarter') {
+    return {
+      q: wheelQ('sqQuarter', { s }),
+      pz: {
+        fig: { t: 'sq', kind, s }, need: 1,
+        blocks: shuffle([blk('q', `半径 ${s}cm`, true), blk('q', `半径 ${half}cm`, false), blk('h', `半径 ${s}cm`, false), blk('c', `半径 ${s}cm`, false)]),
+        say: `1辺 ${s}cmの 正方形に、4分の1の 円の ブロックを ぴったり はめよう！`,
+        hint: '4分の1の 円は、正方形の 1つの かどを 中心にして、半径が 1辺と 同じ になるよ',
+      },
+    };
+  }
+  if (kind === 'sqCircle') {
+    return {
+      q: wheelQ('sqCircle', { s }),
+      pz: {
+        fig: { t: 'sq', kind, s }, need: 1,
+        blocks: shuffle([blk('c', `直径 ${s}cm`, true), blk('c', `直径 ${half}cm`, false), blk('c', `半径 ${s}cm`, false), blk('q', `半径 ${s}cm`, false)]),
+        say: `1辺 ${s}cmの 正方形に、ぴったり 入る 円の ブロックを はめよう！`,
+        hint: '正方形に ぴったり 入る 円は、直径が 1辺と 同じ だよ',
+      },
+    };
+  }
+  const r = pick([4, 6, 8, 10, 20]);
+  return {
+    q: wheelQ('petal', { r }),
+    pz: {
+      fig: { t: 'sq', kind, s: r }, need: 2,
+      blocks: shuffle([blk('q', `半径 ${r}cm`, true), blk('q', `半径 ${r}cm`, true), blk('q', `半径 ${r / 2}cm`, false), blk('h', `半径 ${r}cm`, false)]),
+      say: `1辺 ${r}cmの 正方形に、4分の1の 円の ブロックを 2つ はめて はなびらを つくろう！`,
+      hint: '向かい合う 2つの かどを 中心に して、半径が 1辺と 同じ 4分の1の 円を 2つ かさねるよ',
+    },
+  };
+}
+
+function ringPuzzle(): Play {
+  let R = 10, r = 5, a = 90;
+  for (let g = 0; g < 600; g++) {
+    R = pick([6, 8, 10, 12, 15, 20]);
+    r = pick([2, 3, 4, 5, 6, 8, 10]);
+    a = pick([90, 120, 180, 270]);
+    if (r < R && isInt(((R * R - r * r) * 314 * a) / 360)) break;
+  }
+  const otherA = a === 90 ? 180 : 90;
+  return {
+    q: wheelQ('ring', { R, r, a }),
+    pz: {
+      fig: { t: 'ring', R, r, a }, need: 1,
+      blocks: shuffle([blk('s', `半径 ${r}cm・${a}°`, true), blk('s', `半径 ${R}cm・${a}°`, false), blk('s', `半径 ${r}cm・${otherA}°`, false)]),
+      say: `中心角 ${a}度の おうぎ形の 中から、半径 ${r}cmの 小さい おうぎ形を くりぬく ブロックを はめよう！`,
+      hint: '同じ 中心で、同じ 中心角の 小さい おうぎ形を はめると、のこりが 輪の かたちに なるよ',
+    },
+  };
+}
+
+/** ステージの 並び（かんたん → ボス）。ボスだけ 積み木なしの 1問 */
+export function kindsOf(stage: StageId): string[] {
+  if (stage === 'poly') return shuffle(['tri_sum', 'tri_inner', 'tri_diag', 'wedge']).concat('boss');
+  if (stage === 'pizza') return shuffle(['slice_circ', 'slice_arc', 'slice_area', 'slice_perim']).concat('boss');
+  return shuffle(['sqQuarter', 'sqCircle', 'petal', 'ring']).concat('boss');
+}
+
+export function makePlay(stage: StageId, key: string): Play {
+  if (key === 'boss') return { q: stage === 'poly' ? polyBoss() : stage === 'pizza' ? pizzaBoss() : wheelBoss() };
+  if (stage === 'poly') {
+    if (key === 'tri_sum') { const n = pick([5, 6, 7, 8]); return triPuzzle(n, polyQ('sum', { n })); }
+    if (key === 'tri_inner') { const n = pick([5, 6, 8]); return triPuzzle(n, polyQ('inner', { n })); }
+    if (key === 'tri_diag') { const n = pick([5, 6, 7, 8]); return triPuzzle(n, polyQ('diag', { n })); }
+    return wedgePuzzle(pick([4, 5, 6, 8]));
+  }
+  if (stage === 'pizza') {
+    const kind = ({ slice_circ: 'circ', slice_arc: 'arc', slice_area: 'area', slice_perim: 'perim' } as Record<string, PizzaKind>)[key] ?? 'arc';
+    return slicePuzzle(kind);
+  }
+  return key === 'ring' ? ringPuzzle() : sqPuzzle(key as 'sqQuarter' | 'sqCircle' | 'petal');
+}
+
+/** 積み木の 後に でる 1問だけ（検算用） */
+export function makeQuestion(stage: StageId, key: string): Question {
+  return makePlay(stage, key).q;
 }

@@ -1,15 +1,16 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useGame } from '../state/useGame';
 import { ITEM_BY_ID } from '../lib/items';
 import { sfx } from '../lib/sound';
 import { CharSVG } from './CharSVG';
 import {
-  STAGES, STAGE_BY_ID, QUESTIONS_PER_STAGE, HEARTS, kindsOf, makeQuestion,
-  type Fig, type Question, type StageId,
+  STAGES, STAGE_BY_ID, QUESTIONS_PER_STAGE, HEARTS, kindsOf, makePlay,
+  type Block, type Fig, type Puzzle, type Question, type StageId,
 } from '../lib/zukei';
 
 // ずけいこうぼう：11月の算数（多角形／円とおうぎ1・2）を、ステージを すすめながら れんしゅうする。
-// 数は まいかい ランダム。まちがえると ❤️が へって、かいせつを みて べつの 数で もういちど。
+// 積み木（ブロック）を ドラッグして はめて 形を つくり、できあがったら 1問こたえる。数は まいかい ランダム。
+// まちがえると ❤️が へって、かいせつを みて べつの 数で もういちど。
 // メダルは つかわない・ふやさない。ごほうびは ステージごとの 家具。
 
 const W = 300;
@@ -20,16 +21,22 @@ interface Play {
   kinds: string[];
   qi: number;
   q: Question;
+  pz?: Puzzle;
+  /** トレイに のこっている ブロックID */
+  tray: string[];
+  placed: number;
+  msg: string;
   hearts: number;
-  phase: 'cut' | 'ask' | 'right' | 'wrong' | 'over' | 'clear';
+  phase: 'build' | 'cut' | 'ask' | 'right' | 'wrong' | 'over' | 'clear';
   picked: string | null;
   slider: number;
   hint: boolean;
   miss: number;
 }
 
-const startQ = (q: Question): Pick<Play, 'phase' | 'picked' | 'slider' | 'hint'> => ({
-  phase: q.cut ? 'cut' : 'ask', picked: null, slider: q.cut ? 20 : 0, hint: false,
+const startQ = (pl: { q: Question; pz?: Puzzle }): Pick<Play, 'q' | 'pz' | 'tray' | 'placed' | 'msg' | 'phase' | 'picked' | 'slider' | 'hint'> => ({
+  q: pl.q, pz: pl.pz, tray: pl.pz ? pl.pz.blocks.map((b) => b.id) : [], placed: 0, msg: '',
+  phase: pl.pz ? 'build' : pl.q.cut ? 'cut' : 'ask', picked: null, slider: pl.q.cut ? 20 : 0, hint: false,
 });
 
 // ───────── 図 ─────────
@@ -195,6 +202,166 @@ function Figure({ q, slider, hint }: { q: Question; slider: number; hint: boolea
   );
 }
 
+// ───────── 積み木ボード ─────────
+const BW = 300;
+const BH = 292;
+
+const wedgeD = (cx: number, cy: number, R: number, a0: number, a1: number) => {
+  const x0 = cx + R * Math.cos(rad(a0));
+  const y0 = cy + R * Math.sin(rad(a0));
+  const x1 = cx + R * Math.cos(rad(a1));
+  const y1 = cy + R * Math.sin(rad(a1));
+  return `M${cx} ${cy} L${x0} ${y0} A${R} ${R} 0 ${a1 - a0 > 180 ? 1 : 0} 1 ${x1} ${y1} Z`;
+};
+const PIZZA_COLORS = ['#fbbf24', '#fb923c', '#f59e0b', '#f97316'];
+
+function BlockShape({ b }: { b: Block }) {
+  const st = { stroke: '#4c1d95', strokeWidth: 2, strokeLinejoin: 'round' as const };
+  const a = b.a ?? 60;
+  return (
+    <g>
+      {b.shape === 'tri' && <path d="M0 -17 L19 14 L-19 14 Z" fill="#fcd34d" {...st} />}
+      {b.shape === 'sqr' && <rect x="-14" y="-14" width="28" height="28" rx="2" fill="#cbd5e1" {...st} />}
+      {(b.shape === 'wedge' || b.shape === 'slice') && (
+        <g transform={`translate(${a > 150 ? 0 : -8} 0)`}>
+          <path d={wedgeD(0, 0, 22, -a / 2, a / 2)} fill={b.shape === 'slice' ? '#fbbf24' : '#a7f3d0'} {...st} />
+        </g>
+      )}
+      {b.shape === 'q' && <path d="M-12 12 L-12 -12 A24 24 0 0 1 12 12 Z" fill="#fff" {...st} />}
+      {b.shape === 'h' && <path d="M-20 8 A20 20 0 0 1 20 8 Z" fill="#fff" {...st} />}
+      {b.shape === 'c' && <circle r="17" fill="#fff" {...st} />}
+      {b.shape === 's' && <path d="M-14 12 L10 12 A24 24 0 0 0 -5.8 -10.6 Z" fill="#fff" {...st} />}
+      {b.label && <text x="0" y="29" textAnchor="middle" fontSize="8.5" fontWeight="900" fill="#1e3a8a">{b.label}</text>}
+    </g>
+  );
+}
+
+function SlotFig({ pz, placed }: { pz: Puzzle; placed: number }) {
+  const f = pz.fig;
+  const cx = 150;
+  const cy = 98;
+  if (f.t === 'tri') {
+    const pts = polyPts(f.n, true);
+    return (
+      <g>
+        {pts.slice(1, -1).map((_, i) => {
+          const a = pts[i + 1];
+          const b = pts[i + 2] ?? pts[0];
+          const on = i < placed;
+          return <polygon key={i} points={`${pts[0].x},${pts[0].y} ${a.x},${a.y} ${b.x},${b.y}`} fill={on ? FAN_COLORS[i % FAN_COLORS.length] : '#fff'} stroke="#b45309" strokeWidth={on ? 2.5 : 2} strokeDasharray={on ? undefined : '5 4'} strokeLinejoin="round" />;
+        })}
+        <text x={cx} y="186" textAnchor="middle" fontSize="11" fontWeight="900" fill="#78350f">{nameOfN(f.n)}</text>
+      </g>
+    );
+  }
+  if (f.t === 'wedge' || f.t === 'slice') {
+    const n = f.t === 'wedge' ? f.n : f.k;
+    const ang = 360 / n;
+    return (
+      <g>
+        <circle cx={cx} cy={cy} r="78" fill="#fffbeb" stroke="#d6a85f" strokeWidth="2" strokeDasharray="4 4" />
+        {Array.from({ length: n }, (_, j) => {
+          const on = j < placed;
+          return <path key={j} d={wedgeD(cx, cy, 76, -90 + j * ang, -90 + (j + 1) * ang)} fill={on ? (f.t === 'wedge' ? FAN_COLORS[j % FAN_COLORS.length] : PIZZA_COLORS[j % 4]) : 'none'} stroke={on ? '#b45309' : '#d6a85f'} strokeWidth={on ? 2.5 : 1.5} strokeDasharray={on ? undefined : '4 4'} strokeLinejoin="round" />;
+        })}
+        {f.t === 'slice' && Array.from({ length: placed }, (_, j) => {
+          const m = rad(-90 + (j + 0.5) * ang);
+          return <circle key={`d${j}`} cx={cx + 46 * Math.cos(m)} cy={cy + 46 * Math.sin(m)} r="5" fill="#dc2626" opacity="0.9" />;
+        })}
+      </g>
+    );
+  }
+  if (f.t === 'sq') {
+    const S = 130;
+    const fig: Fig = f.kind === 'petal' ? { t: 'petal', r: f.s } : f.kind === 'sqCircle' ? { t: 'sqCircle', s: f.s } : { t: 'sqQuarter', s: f.s };
+    const x0 = 85;
+    const y0 = 28;
+    if (f.kind === 'petal') {
+      if (placed >= 2) return <SqFig fig={fig as Extract<Fig, { t: 'petal' }>} />;
+      return (
+        <g>
+          <rect x={x0} y={y0} width={S} height={S} fill="#fff" stroke="#9d174d" strokeWidth="3" />
+          {placed === 1 && <path d={`M${x0} ${y0 + S} L${x0} ${y0} A${S} ${S} 0 0 1 ${x0 + S} ${y0 + S} Z`} fill="#fef3c7" stroke="#9d174d" strokeWidth="2" />}
+          <text x={x0 + S / 2} y={y0 + S + 16} textAnchor="middle" fontSize="12" fontWeight="900" fill="#1e3a8a">{f.s}cm</text>
+        </g>
+      );
+    }
+    if (placed >= 1) return <SqFig fig={fig as Extract<Fig, { t: 'sqQuarter' | 'sqCircle' }>} />;
+    return (
+      <g>
+        <rect x={x0} y={y0} width={S} height={S} fill={SHADE} stroke="#9d174d" strokeWidth="3" />
+        <text x={x0 + S / 2} y={y0 + S + 16} textAnchor="middle" fontSize="12" fontWeight="900" fill="#1e3a8a">{f.s}cm</text>
+      </g>
+    );
+  }
+  // ring
+  if (placed >= 1) return <RingFig R={f.R} r={f.r} a={f.a} />;
+  const R = 82;
+  const rx = 80;
+  const ry = 108;
+  return (
+    <g>
+      <path d={`M${rx} ${ry} L${rx + R} ${ry} A${R} ${R} 0 ${f.a > 180 ? 1 : 0} 0 ${rx + R * Math.cos(rad(f.a))} ${ry - R * Math.sin(rad(f.a))} Z`} fill={SHADE} stroke="#9d174d" strokeWidth="3" strokeLinejoin="round" />
+      <text x={rx + R / 2} y={ry + 14} textAnchor="middle" fontSize="11" fontWeight="900" fill="#1e3a8a">{f.R}cm</text>
+      <text x={rx + 26} y={ry - 12} fontSize="12" fontWeight="900" fill="#1e3a8a">{f.a}°</text>
+    </g>
+  );
+}
+
+const nameOfN = (n: number) => `${n}かくけい`;
+
+function BuildBoard({ pz, tray, placed, onDrop }: { pz: Puzzle; tray: string[]; placed: number; onDrop(id: string): void }) {
+  const svgRef = useRef<SVGSVGElement>(null);
+  const [drag, setDrag] = useState<{ id: string; x: number; y: number } | null>(null);
+  const blocks = tray.map((id) => pz.blocks.find((b) => b.id === id)!).filter(Boolean);
+  const m = blocks.length;
+  const cols = m <= 5 ? Math.max(m, 1) : Math.ceil(m / 2);
+  const rows = m <= 5 ? 1 : 2;
+  const cell = BW / cols;
+  const scale = rows === 1 ? 1.15 : 0.9;
+  const posOf = (i: number) => ({ x: cell * (i % cols) + cell / 2, y: rows === 1 ? 236 : 218 + Math.floor(i / cols) * 38 });
+
+  const toSvg = (e: React.PointerEvent) => {
+    const svg = svgRef.current;
+    const ctm = svg?.getScreenCTM();
+    if (!svg || !ctm) return { x: 0, y: 0 };
+    const pt = svg.createSVGPoint();
+    pt.x = e.clientX;
+    pt.y = e.clientY;
+    const r = pt.matrixTransform(ctm.inverse());
+    return { x: r.x, y: r.y };
+  };
+
+  const dragged = drag ? pz.blocks.find((b) => b.id === drag.id) : null;
+  return (
+    <svg ref={svgRef} viewBox={`0 0 ${BW} ${BH}`} className="mb-2 w-full select-none rounded-2xl bg-white shadow ring-1 ring-black/10" style={{ touchAction: 'none' }}
+      onPointerMove={(e) => { if (drag) { const pt = toSvg(e); setDrag({ ...drag, x: pt.x, y: pt.y }); } }}
+      onPointerUp={(e) => { if (!drag) return; const pt = toSvg(e); const id = drag.id; setDrag(null); if (pt.y < 192) onDrop(id); }}
+      onPointerCancel={() => setDrag(null)}>
+      <SlotFig pz={pz} placed={placed} />
+      <rect x="0" y="194" width={BW} height={BH - 194} fill="#fef3c7" />
+      <line x1="0" y1="194" x2={BW} y2="194" stroke="#d6a85f" strokeWidth="2" strokeDasharray="5 4" />
+      <text x="6" y="206" fontSize="9" fontWeight="900" fill="#92400e">▼ ブロックを うえの ずに ドラッグ！</text>
+      {blocks.map((b, i) => {
+        const pos = posOf(i);
+        const isDrag = drag?.id === b.id;
+        return (
+          <g key={b.id} transform={`translate(${pos.x} ${pos.y}) scale(${scale})`} opacity={isDrag ? 0.25 : 1} style={{ cursor: 'grab' }}
+            onPointerDown={(e) => { e.preventDefault(); try { svgRef.current?.setPointerCapture(e.pointerId); } catch { /* そのまま */ } const pt = toSvg(e); setDrag({ id: b.id, x: pt.x, y: pt.y }); }}>
+            <rect x="-24" y="-24" width="48" height={b.label ? 58 : 48} fill="transparent" />
+            <BlockShape b={b} />
+          </g>
+        );
+      })}
+      {drag && dragged && (
+        <g transform={`translate(${drag.x} ${drag.y - 14}) scale(1.35)`} pointerEvents="none" style={{ filter: 'drop-shadow(0 4px 4px rgba(0,0,0,0.35))' }}>
+          <BlockShape b={dragged} />
+        </g>
+      )}
+    </svg>
+  );
+}
+
 // ───────── 本体 ─────────
 export function ZukeiModal({ onClose }: { onClose: () => void }) {
   const g = useGame();
@@ -204,10 +371,9 @@ export function ZukeiModal({ onClose }: { onClose: () => void }) {
 
   const start = (stage: StageId) => {
     const kinds = kindsOf(stage);
-    const q = makeQuestion(stage, kinds[0]);
     g.zukeiPlay();
     setRes(null);
-    setP({ stage, kinds, qi: 0, q, hearts: HEARTS, miss: 0, ...startQ(q) });
+    setP({ stage, kinds, qi: 0, hearts: HEARTS, miss: 0, ...startQ(makePlay(stage, kinds[0])) });
   };
 
   const choose = (c: string) => {
@@ -227,16 +393,28 @@ export function ZukeiModal({ onClose }: { onClose: () => void }) {
     }
   };
 
+  const dropBlock = (id: string) => {
+    if (!p || p.phase !== 'build' || !p.pz) return;
+    const b = p.pz.blocks.find((x) => x.id === id);
+    if (!b) return;
+    if (b.good && p.placed < p.pz.need) {
+      const placed = p.placed + 1;
+      const done = placed >= p.pz.need;
+      sfx(done ? 'star' : 'gift');
+      setP({ ...p, tray: p.tray.filter((t) => t !== id), placed, msg: '', phase: done ? 'ask' : 'build' });
+    } else {
+      setP({ ...p, msg: 'それは ぴったり はまらないよ。ほかの ブロックを ためしてみよう' });
+    }
+  };
+
   const next = () => {
     if (!p) return;
     const qi = p.qi + 1;
-    const q = makeQuestion(p.stage, p.kinds[qi]);
-    setP({ ...p, qi, q, ...startQ(q) });
+    setP({ ...p, qi, ...startQ(makePlay(p.stage, p.kinds[qi])) });
   };
   const retry = () => {
     if (!p) return;
-    const q = makeQuestion(p.stage, p.kinds[p.qi]);
-    setP({ ...p, q, ...startQ(q) });
+    setP({ ...p, ...startQ(makePlay(p.stage, p.kinds[p.qi])) });
   };
 
   // ───────── えらぶ画面 ─────────
@@ -251,7 +429,7 @@ export function ZukeiModal({ onClose }: { onClose: () => void }) {
           <div className="mb-2 flex items-center gap-2 rounded-2xl bg-amber-50 px-3 py-2">
             <CharSVG charKey="bee" level={6} fillPct={100} size={52} label="ハニー" />
             <div className="text-[12px] font-bold leading-relaxed text-ink">
-              11月の テストの れんしゅうだよ！ 3つの ステージを クリアすると 家具が もらえるよ。まちがえると ❤️が へるけど、かいせつを よんで もういちど ちょうせんしよう！
+              11月の テストの れんしゅうだよ！ 3つの ステージを クリアすると 家具が もらえるよ。ブロックを ドラッグして 形を つくってから 問題に こたえよう。まちがえると ❤️が へるけど、かいせつを よんで もういちど ちょうせんしよう！
             </div>
           </div>
           {STAGES.map((s, i) => {
@@ -302,15 +480,27 @@ export function ZukeiModal({ onClose }: { onClose: () => void }) {
 
         {p.phase !== 'clear' && (
           <>
-            <Figure q={q} slider={p.slider} hint={p.hint} />
+            {p.phase === 'build' && p.pz
+              ? <BuildBoard pz={p.pz} tray={p.tray} placed={p.placed} onDrop={dropBlock} />
+              : <Figure q={q} slider={p.slider} hint={p.hint || !!p.pz} />}
 
             <div className="mb-2 flex items-start gap-2 rounded-2xl bg-amber-50 px-2 py-2">
               <div className="shrink-0"><CharSVG charKey="bee" level={6} fillPct={100} size={44} label="ハニー" /></div>
-              <div className="text-[12.5px] font-bold leading-relaxed text-ink">
+              <div className="whitespace-pre-line text-[12.5px] font-bold leading-relaxed text-ink">
                 {q.boss && <span className="mr-1 rounded bg-rose-500 px-1.5 py-0.5 text-[10px] font-black text-white">ボス</span>}
-                {p.phase === 'cut' ? `ちゅうもんは「中心角 ${q.cut}度」！ スライダーで 角度を あわせて ピザを 切ろう` : q.text}
+                {p.phase === 'build' && p.pz
+                  ? `${p.pz.say}${p.msg ? `\n👉 ${p.msg}` : ''}`
+                  : p.phase === 'cut' ? `ちゅうもんは「中心角 ${q.cut}度」！ スライダーで 角度を あわせて ピザを 切ろう` : q.text}
               </div>
             </div>
+          </>
+        )}
+
+        {p.phase === 'build' && p.pz && (
+          <>
+            <div className="mb-2 text-center text-[11.5px] font-black text-amber-700">はめた ブロック {p.placed} / {p.pz.need}</div>
+            <button className="w-full rounded-2xl bg-gray-100 py-2 text-[12px] font-black text-ink" onClick={() => setP({ ...p, hint: true })}>💡 ヒント</button>
+            {p.hint && <div className="mt-2 rounded-2xl bg-sky-50 px-3 py-2 text-[12px] font-bold leading-relaxed text-sky-900">💡 {p.pz.hint}</div>}
           </>
         )}
 
