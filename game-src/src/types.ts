@@ -106,7 +106,7 @@ export interface SaveV1 {
   organ: { played: string[] };                // オルガンの れんしゅうで さいごまで ひけた曲ID
   micro: { dex: string[]; day: string; today: number; ready: boolean };
   imo: { dex: string[]; day: string; served: number };  // やきいも やたい：やけた しゅるい・きょう きた おきゃくさんの数  // けんびきょう：みつけた プランクトンID・きょう とうろくした数・じゅんびの てじゅんを 1回 できた
-  suisan: { cleared: string[]; plays: number };  // モクタの ぎょこうづくり：クリアしたステージID・あそんだ回数
+  suisan: SuisanSave;  // モクタの ぎょこうづくり：クリアしたステージID・あそんだ回数・水あげ(万円)・いけす・放流・ずかん・さかなすくいの best
   forestry: { cleared: string[]; plays: number };  // モクタの もりづくり：クリアした森ID・あそんだ回数
   arbor: { dex: string[]; day: string; gathered: number; rested: boolean; tea: boolean; talked: number };  // もみじの あずまや：あつめた おちばID・きょうの おちばひろい／ひとやすみ／おちゃ／かいぎの かいすう
   space: { dex: string[]; day: string; trips: number; moonStone: string; marsStone: string; sunStone: string; sunSeen: string[] };  // sun＝たいようの せいれいで ひろった ひかりの たまの日・みつけた ものID
@@ -157,4 +157,15 @@ export interface Item {
   alsoHouse?: boolean; // きょうしつの かぐだけど おうちの中にも 置ける（オルガン）
   builtin?: boolean;  // はじめから もっている（かべがみ・ゆかの さいしょの1つ）
   crop?: string;      // たね：とれる プレゼントの ID（2つ）
+}
+
+/** いけすの さかな：g＝せいちょう(0〜100)を t の時点で 記録。sick＝赤潮に なった時刻(0＝げんき)、fed＝さいごに えさを あげた時刻 */
+export interface SuisanFish { sp: string; g: number; t: number; sick: number; fed: number }
+export interface SuisanSave {
+  cleared: string[]; plays: number;
+  coin: number;                              // 水あげ（万円）。メダルとは べつ
+  pond: SuisanFish[];                        // 養殖：いけすで そだてている さかな
+  sea: { sp: string; t: number }[];          // 栽培：海に 放流して まっている さかな（t＝放流した時刻）
+  dex: string[];                             // そだてて うれた しゅるい
+  scoopBest: number;                         // さかなすくいの さいこう てん
 }

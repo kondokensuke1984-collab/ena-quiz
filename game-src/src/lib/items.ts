@@ -129,6 +129,8 @@ export const ITEMS: Item[] = [
   { id: 'fn_sui_anchor', kind: 'furniture', name: 'いかり',             emoji: '⚓', price: 0, desc: '遠洋漁業を クリアした ごほうび', once: true, reward: true, anywhere: true },
   { id: 'fn_sui_ikesu',  kind: 'furniture', name: 'いけす',             emoji: '🐟', price: 0, desc: '養殖漁業を クリアした ごほうび', once: true, reward: true, anywhere: true },
   { id: 'fn_sui_tank',   kind: 'furniture', name: 'ちぎょの すいそう',  emoji: '🐠', price: 0, desc: '栽培漁業を クリアした ごほうび', once: true, reward: true, anywhere: true },
+  { id: 'fn_sui_dexpanel', kind: 'furniture', name: 'さかなの ずかんボード', emoji: '📋', price: 0, desc: '養殖の さかなを ぜんぶ そだてた ごほうび', once: true, reward: true, anywhere: true },
+  { id: 'fn_sui_gold',   kind: 'furniture', name: 'きんの さかな',      emoji: '🏆', price: 0, desc: 'さかなすくいで 40てん いじょう とった ごほうび', once: true, reward: true, anywhere: true },
   { id: 'fn_sui_flag',   kind: 'furniture', name: 'たいりょうばた',     emoji: '🎏', price: 0, desc: '「みらいの 漁港」を クリアした ごほうび', once: true, reward: true, anywhere: true },
   { id: 'fn_teaset',   kind: 'furniture', name: 'おちゃの セット', emoji: '🍵', price: 0, desc: 'おちばを 6しゅるい ぜんぶ あつめた ごほうび', once: true, reward: true, anywhere: true },
 

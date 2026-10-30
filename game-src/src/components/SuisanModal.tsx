@@ -7,6 +7,8 @@ import {
   type Sea, type Stage,
 } from '../lib/suisan';
 import { CharSVG } from './CharSVG';
+import { SuisanFarm } from './SuisanFarm';
+import { SuisanScoop } from './SuisanScoop';
 
 // モクタの ぎょこうづくり：5つの漁業を 漁港の けいえいで まなぶ。
 // 場面ごとに 「どうする？」を えらんで 水あげ（万円）を ふやす。メダルは つかわない・ふやさない。ごほうびは ステージごとの 家具。
@@ -102,6 +104,7 @@ function SeaScene({ stage, prog }: { stage: Stage; prog: number }) {
 export function SuisanModal({ onClose }: { onClose(): void }) {
   const g = useGame();
   const cleared = g.save.suisan.cleared;
+  const [view, setView] = useState<'hub' | 'stages' | 'farm' | 'scoop'>('hub');
   const [pick, setPick] = useState<Stage | null>(null);
   const [p, setP] = useState<Play | null>(null);
   const pRef = useRef<Play | null>(null);
@@ -142,9 +145,13 @@ export function SuisanModal({ onClose }: { onClose(): void }) {
   const next = () => {
     commit((cur) => {
       if (cur.status === 'ask' || cur.over) return cur;
-      if (cur.hearts <= 0) return { ...cur, over: 'dead' };
+      if (cur.hearts <= 0) {
+        g.suisanUpdate((x) => ({ ...x, coin: x.coin + cur.money }));
+        return { ...cur, over: 'dead' };
+      }
       if (cur.ri + 1 >= cur.stage.rounds.length) {
         sfx('chest');
+        g.suisanUpdate((x) => ({ ...x, coin: x.coin + cur.money }));
         setRes(g.suisanClear(cur.stage.id));
         return { ...cur, over: 'clear' };
       }
@@ -153,14 +160,57 @@ export function SuisanModal({ onClose }: { onClose(): void }) {
     });
   };
 
+  // ───────── ハブ ─────────
+  if (!p && view !== 'stages') {
+    const tiles: { v: 'farm' | 'scoop' | 'stages'; emoji: string; name: string; sub: string; cls: string }[] = [
+      { v: 'farm',   emoji: '🐟', name: 'さかなを そだてる', sub: '養殖と 栽培。えさを あげて 大きくして うろう', cls: 'from-sky-400 to-teal-500' },
+      { v: 'scoop',  emoji: '🥅', name: 'さかなすくい',     sub: '30びょう！ およぐ さかなを タップ', cls: 'from-amber-400 to-orange-500' },
+      { v: 'stages', emoji: '📖', name: '漁業ステージ',     sub: `5つの漁業を まなぶ（${cleared.length} / ${STAGES.length}）。クリアで 家具`, cls: 'from-indigo-400 to-violet-500' },
+    ];
+    return (
+      <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/60 p-3" onClick={onClose}>
+        <div className="panel max-h-[94vh] w-full max-w-[460px] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+          {view === 'farm' ? <SuisanFarm onBack={() => setView('hub')} />
+            : view === 'scoop' ? <SuisanScoop onBack={() => setView('hub')} />
+            : (
+              <>
+                <div className="mb-1 flex items-center justify-between">
+                  <div className="text-[15px] font-black text-ink">⚓ モクタの ぎょこうづくり</div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="rounded-full bg-amber-100 px-2.5 py-1 text-[12px] font-black text-amber-800">💰 {g.save.suisan.coin}万円</span>
+                    <button className="rounded-full bg-gray-100 px-3 py-1 text-[12px] font-black text-ink" onClick={onClose}>とじる</button>
+                  </div>
+                </div>
+                <div className="mb-2 flex items-center gap-2 rounded-2xl bg-sky-50 px-3 py-2">
+                  <CharSVG charKey="beaver" level={6} fillPct={100} size={52} label="モクタ" />
+                  <div className="text-[12px] font-bold leading-relaxed text-ink">漁港へ ようこそ！ さかなを そだてたり すくったり して <b className="text-amber-700">水あげ</b>を ためよう。ステージで 漁業の ことも まなべるよ。</div>
+                </div>
+                <div className="grid grid-cols-1 gap-2">
+                  {tiles.map((t) => (
+                    <button key={t.v} className={`flex items-center gap-3 rounded-2xl bg-gradient-to-r ${t.cls} px-3 py-3 text-left text-white shadow active:scale-[0.98]`} onClick={() => setView(t.v)}>
+                      <span className="text-3xl">{t.emoji}</span>
+                      <span className="min-w-0 flex-1">
+                        <span className="block text-[14px] font-black">{t.name}</span>
+                        <span className="block text-[11px] font-bold opacity-90">{t.sub}</span>
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+        </div>
+      </div>
+    );
+  }
+
   // ───────── えらぶ画面 ─────────
   if (!p) {
     return (
       <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/60 p-3" onClick={onClose}>
         <div className="panel max-h-[90vh] w-full max-w-[460px] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
           <div className="mb-1 flex items-center justify-between">
-            <div className="text-[15px] font-black text-ink">⚓ モクタの ぎょこうづくり</div>
-            <button className="rounded-full bg-gray-100 px-3 py-1 text-[12px] font-black text-ink" onClick={onClose}>とじる</button>
+            <div className="text-[15px] font-black text-ink">📖 漁業ステージ</div>
+            <button className="rounded-full bg-gray-100 px-3 py-1 text-[12px] font-black text-ink" onClick={() => { setPick(null); setView('hub'); }}>もどる</button>
           </div>
           <div className="mb-2 flex items-center gap-2 rounded-2xl bg-sky-50 px-3 py-2">
             <CharSVG charKey="beaver" level={6} fillPct={100} size={52} label="モクタ" />

@@ -217,6 +217,8 @@ export interface GameApi {
   forestryClear(forestId: string): { isNew: boolean; reward: string | null } | null;
   /** モクタの ぎょこうづくり：あそびはじめ（あそんだ回数 +1） */
   suisanPlay(): void;
+  suisanUpdate(fn: (s: SaveV1['suisan']) => SaveV1['suisan']): void;
+  suisanReward(itemId: string): boolean;
   /** モクタの ぎょこうづくり：ステージを クリア。はじめてなら ごほうびの家具（その品ID）。メダルは ふやさない */
   suisanClear(stageId: string): { isNew: boolean; reward: string | null } | null;
   /** うちゅうりょこう：きょう あと なんかい とべるか（studied＝クイズ5もんの日） */
@@ -1132,6 +1134,17 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 
     suisanPlay: () => {
       setSave((s) => ({ ...s, suisan: { ...s.suisan, plays: s.suisan.plays + 1 } }));
+    },
+
+    suisanUpdate: (fn) => {
+      setSave((s) => ({ ...s, suisan: fn(s.suisan) }));
+    },
+
+    suisanReward: (itemId) => {
+      if (saveRef.current.owned.includes(itemId)) return false;
+      setSave((s) => (s.owned.includes(itemId) ? s : { ...s, owned: [...s.owned, itemId] }));
+      sfx('star');
+      return true;
     },
 
     suisanClear: (stageId) => {

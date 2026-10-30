@@ -564,6 +564,23 @@ const DRAWINGS: Record<string, Draw> = {
       <circle cx="10" cy="-10" r="2" fill="#fff" /><circle cx="14" cy="-16" r="1.5" fill="#fff" />
     </g>
   ),
+  fn_sui_dexpanel: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="22" ry="5" fill="rgba(0,0,0,0.2)" />
+      <rect x="-14" y="-26" width="4" height="26" fill="#7c4a1d" /><rect x="10" y="-26" width="4" height="26" fill="#7c4a1d" />
+      <rect x="-24" y="-56" width="48" height="34" rx="3" fill="#fef3c7" {...S} />
+      <path d="M-16 -44 q6 -7 12 0 q-6 7 -12 0 z M2 -50 q5 -5 10 0 q-5 5 -10 0 z M0 -36 q6 -5 12 0 q-6 5 -12 0 z" fill="#38bdf8" stroke="#0369a1" strokeWidth="1" />
+      <path d="M-18 -30 H-6" stroke="#92400e" strokeWidth="2" />
+    </g>
+  ),
+  fn_sui_gold: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="16" ry="5" fill="rgba(0,0,0,0.2)" />
+      <rect x="-12" y="-10" width="24" height="10" rx="2" fill="#92400e" {...S} />
+      <path d="M-18 -30 q10 -16 24 -4 l8 -6 v16 l-8 -6 q-14 12 -24 0 z" fill="#fbbf24" {...S} />
+      <circle cx="-9" cy="-28" r="1.8" fill="#1f2937" />
+    </g>
+  ),
   fn_sui_flag: () => (
     <g>
       <ellipse cx="0" cy="2" rx="16" ry="5" fill="rgba(0,0,0,0.2)" />

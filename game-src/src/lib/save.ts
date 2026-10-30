@@ -55,7 +55,7 @@ export function freshSave(now = Date.now()): SaveV1 {
     micro: { dex: [], day: '', today: 0, ready: false },
     imo: { dex: [], day: '', served: 0 },
     forestry: { cleared: [], plays: 0 },
-    suisan: { cleared: [], plays: 0 },
+    suisan: { cleared: [], plays: 0, coin: 8, pond: [], sea: [], dex: [], scoopBest: 0 },
     arbor: { dex: [], day: '', gathered: 0, rested: false, tea: false, talked: 0 },
     space: { dex: [], day: '', trips: 0, moonStone: '', marsStone: '', sunStone: '', sunSeen: [] },
     usagi: { talked: '', home: false },
@@ -160,6 +160,16 @@ export function loadSave(): SaveV1 {
     suisan: {
       cleared: Array.isArray(s.suisan?.cleared) ? s.suisan!.cleared.filter((x) => typeof x === 'string') : [],
       plays: typeof s.suisan?.plays === 'number' ? s.suisan!.plays : 0,
+      coin: typeof s.suisan?.coin === 'number' && s.suisan!.coin >= 0 ? Math.floor(s.suisan!.coin) : 8,
+      pond: Array.isArray(s.suisan?.pond)
+        ? s.suisan!.pond.filter((f) => f && typeof f.sp === 'string' && typeof f.g === 'number' && typeof f.t === 'number').slice(0, 4)
+          .map((f) => ({ sp: f.sp, g: f.g, t: f.t, sick: typeof f.sick === 'number' ? f.sick : 0, fed: typeof f.fed === 'number' ? f.fed : 0 }))
+        : [],
+      sea: Array.isArray(s.suisan?.sea)
+        ? s.suisan!.sea.filter((f) => f && typeof f.sp === 'string' && typeof f.t === 'number').slice(0, 3)
+        : [],
+      dex: Array.isArray(s.suisan?.dex) ? s.suisan!.dex.filter((x) => typeof x === 'string') : [],
+      scoopBest: typeof s.suisan?.scoopBest === 'number' ? s.suisan!.scoopBest : 0,
     },
     arbor: {
       dex: Array.isArray(s.arbor?.dex) ? s.arbor!.dex.filter((x) => typeof x === 'string') : [],
