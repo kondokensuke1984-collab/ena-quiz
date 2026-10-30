@@ -1,4 +1,50 @@
-{ "units": ["nougyou3", "menseki10", "chokuho10", "hoshi10", "keiyoushi10", "wariai10", "suiri10", "fukushi10", "hoshi10b", "hibi10"],
-  "periods": [
-    { "from": "2026-10-23", "to": "2026-10-26", "note": "4科演習（10/26）の はんいだけ", "units": ["chokuho10", "wariai10", "hoshi10", "hoshi10b", "keiyoushi10", "fukushi10", "nougyou3", "nougyou4"] }
-  ] }
+{
+ "units": [
+  "nougyou3",
+  "menseki10",
+  "chokuho10",
+  "hoshi10",
+  "keiyoushi10",
+  "wariai10",
+  "suiri10",
+  "fukushi10",
+  "hoshi10b",
+  "hibi10"
+ ],
+ "periods": [
+  {
+   "from": "2026-10-23",
+   "to": "2026-10-26",
+   "note": "4科演習（10/26）の はんいだけ",
+   "units": [
+    "chokuho10",
+    "wariai10",
+    "hoshi10",
+    "hoshi10b",
+    "keiyoushi10",
+    "fukushi10",
+    "nougyou3",
+    "nougyou4"
+   ]
+  },
+  {
+   "from": "2026-11-01",
+   "to": "2026-11-30",
+   "month": "202611",
+   "note": "11月の はんい（11月の問題を 森だけ 先に よむ）",
+   "units": [
+    "tkk11",
+    "en11a",
+    "en11b",
+    "nougyou6",
+    "ringyo",
+    "suisan",
+    "jouken1",
+    "jouken2",
+    "kumo1",
+    "tane1",
+    "tane2"
+   ]
+  }
+ ]
+}

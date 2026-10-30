@@ -31,7 +31,20 @@ fetch('data/forest_units.json', { cache: 'no-cache' }).then(r => r.json())
   .then(j => {
     if (Array.isArray(j.units) && j.units.length) forestUnits = j.units;
     if (Array.isArray(j.periods)) forestPeriods = j.periods;
+    // きかんに month が あれば、クエストの月が まだ きりかわって いなくても その月の 問題を 森だけ 先に よむ
+    const p = forestTodayPeriod();
+    if (p && p.month) {
+      Promise.all([
+        fetch('data/questions_' + p.month + '.json').then(r => r.json()),
+        fetch('data/subjects_' + p.month + '.json').then(r => r.json())
+      ]).then(([qs, ss]) => { forestExtra = { month: p.month, qs, ss }; }).catch(() => {});
+    }
   }).catch(() => {});
+let forestExtra = null;         // きかんの month ぶんの { qs, ss }（クエストが その月に なる まえの 森用）
+function forestTodayPeriod() {
+  const d = new Date(), ymd = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  return forestPeriods.find(p => p.from <= ymd && ymd <= p.to && Array.isArray(p.units) && p.units.length) || null;
+}
 function forestTodayUnits() {
   const d = new Date(), ymd = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
   const p = forestPeriods.find(p => p.from <= ymd && ymd <= p.to && Array.isArray(p.units) && p.units.length);
@@ -39,12 +52,18 @@ function forestTodayUnits() {
 }
 function forestPool() {
   const units = forestTodayUnits();
-  if (!units) return QUESTIONS.slice();
-  const pool = QUESTIONS.filter(q => {
+  let all = QUESTIONS;
+  if (forestExtra) {
+    const have = new Set(QUESTIONS.map(q => q.id));
+    all = QUESTIONS.concat(forestExtra.qs.filter(q => !have.has(q.id)));
+    for (const k in forestExtra.ss) if (!SUBJECTS[k]) SUBJECTS[k] = forestExtra.ss[k];
+  }
+  if (!units) return all.slice();
+  const pool = all.filter(q => {
     const su = SUBJECTS[q.subject] || {};
     return units.includes(su.parent || q.subject);
   });
-  return pool.length ? pool : QUESTIONS.slice();
+  return pool.length ? pool : all.slice();
 }
 let forestFromIsland = false;   // 島の こじまから 来た（でるときは 島へ もどる）
 
