@@ -53,7 +53,7 @@ import { ArborModal } from '../components/ArborModal';
 import { ForestryModal } from '../components/ForestryModal';
 import { FORESTS, forestryOpen } from '../lib/forestry';
 import { SuisanModal } from '../components/SuisanModal';
-import { STAGES, suisanOpen } from '../lib/suisan';
+import { suisanOpen } from '../lib/suisan';
 import { SpaceTripModal } from '../components/SpaceTripModal';
 import { OrganModal } from '../components/OrganModal';
 import { MicroscopeModal } from '../components/MicroscopeModal';
@@ -1572,20 +1572,6 @@ export function IslandScreen() {
             <span className="mr-1.5 text-[10.5px] text-lime-200">あそぶ</span>モクタの もりづくり
           </span>
           <span className="text-[12px] font-black text-lime-100">{save.forestry.cleared.length}/{FORESTS.length}</span>
-        </button>
-      )}
-
-      {/* ── 水産業ゲーム：モクタの ぎょこうづくり（10/31から。メダルは つかわない） ── */}
-      {suisanOpen() && (
-        <button
-          className="mb-2.5 flex w-full items-center gap-2 rounded-2xl bg-gradient-to-r from-[#0369a1] to-[#0ea5e9] px-3 py-2 text-left shadow active:scale-[0.98] lg:landscape:col-start-2"
-          onClick={() => setModal('suisan')}
-        >
-          <span className="text-xl">⚓</span>
-          <span className="min-w-0 flex-1 truncate text-[13.5px] font-black text-white">
-            <span className="mr-1.5 text-[10.5px] text-sky-100">あそぶ</span>モクタの ぎょこうづくり
-          </span>
-          <span className="text-[12px] font-black text-sky-100">{save.suisan.cleared.length}/{STAGES.length}</span>
         </button>
       )}
 
