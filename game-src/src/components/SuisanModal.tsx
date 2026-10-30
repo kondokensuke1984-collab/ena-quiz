@@ -102,10 +102,10 @@ function SeaScene({ stage, prog }: { stage: Stage; prog: number }) {
   );
 }
 
-export function SuisanModal({ onClose }: { onClose(): void }) {
+export function SuisanModal({ onClose, startView = 'hub' }: { onClose(): void; startView?: 'hub' | 'voyage' }) {
   const g = useGame();
   const cleared = g.save.suisan.cleared;
-  const [view, setView] = useState<'hub' | 'stages' | 'farm' | 'scoop' | 'voyage'>('hub');
+  const [view, setView] = useState<'hub' | 'stages' | 'farm' | 'scoop' | 'voyage'>(startView);
   const [pick, setPick] = useState<Stage | null>(null);
   const [p, setP] = useState<Play | null>(null);
   const pRef = useRef<Play | null>(null);

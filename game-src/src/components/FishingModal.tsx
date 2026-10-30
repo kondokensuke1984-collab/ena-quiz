@@ -16,7 +16,7 @@ type Phase =
 const stars = (n: number) => '★'.repeat(n) + '☆'.repeat(3 - n);
 
 /** dexOnly＝としょかんから ひらく（ずかんだけ みせる） */
-export function FishingModal({ ctx, studied, onClose, dexOnly = false }: { ctx: FishCtx; studied: boolean; onClose(): void; dexOnly?: boolean }) {
+export function FishingModal({ ctx, studied, onClose, dexOnly = false, onVoyage }: { ctx: FishCtx; studied: boolean; onClose(): void; dexOnly?: boolean; onVoyage?(): void }) {
   const g = useGame();
   const [tab, setTab] = useState<'fish' | 'dex'>(dexOnly ? 'dex' : 'fish');
   const [phase, setPhase] = useState<Phase>({ kind: 'ready' });
@@ -180,6 +180,15 @@ export function FishingModal({ ctx, studied, onClose, dexOnly = false }: { ctx: 
           </div>
         )}
 
+        {onVoyage && !dexOnly && tab === 'fish' && (
+          <button className="mt-3 flex w-full items-center gap-3 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 px-3 py-2.5 text-left text-white shadow active:scale-[0.98]" onClick={onVoyage}>
+            <span className="text-3xl">🚤</span>
+            <span className="min-w-0 flex-1">
+              <span className="block text-[14px] font-black">ふねで 海へ しゅっこう！</span>
+              <span className="block text-[11px] font-bold opacity-90">モクタの ぎょこうづくり。沿岸・沖合・遠洋の 海で 漁を しよう</span>
+            </span>
+          </button>
+        )}
         <button className="btn mt-3" onClick={onClose}>とじる</button>
       </div>
     </div>

@@ -150,7 +150,7 @@ function todayKey(): string {
 
 type ModalKind =
   | 'feed' | 'roster' | 'stamp' | 'mail' | 'fish' | 'farm' | 'stars' | 'detective' | 'moonView'
-  | 'imo' | 'arbor' | 'spaceGo' | 'spaceDex' | 'library' | 'desk' | 'organ' | 'micro' | 'transfer' | 'board' | 'opening' | 'iken' | 'forestry' | 'suisan';
+  | 'imo' | 'arbor' | 'spaceGo' | 'spaceDex' | 'library' | 'desk' | 'organ' | 'micro' | 'transfer' | 'board' | 'opening' | 'iken' | 'forestry' | 'suisan' | 'suisanVoyage';
 
 /** むきと あしだけ かわる しゅじんこう（島の 画面ぜんぶを かきなおさない） */
 function PosedKid({ poseRef, subRef, ...rest }: {
@@ -1966,7 +1966,7 @@ export function IslandScreen() {
       )}
 
       {modal === 'fish' && (
-        <FishingModal ctx={{ tod, weather, month: seasonNow() }} studied={studied} onClose={() => setModal(null)} />
+        <FishingModal ctx={{ tod, weather, month: seasonNow() }} studied={studied} onClose={() => setModal(null)} onVoyage={suisanOpen() ? () => setModal('suisanVoyage') : undefined} />
       )}
       {modal === 'farm' && <FarmModal stages={farmStages} studied={studied} onClose={() => setModal(null)} />}
       {modal === 'stars' && <StarsModal onClose={() => setModal(null)} />}
@@ -1975,6 +1975,7 @@ export function IslandScreen() {
       {modal === 'imo' && <YakiimoModal customers={imoCustomers} onClose={() => setModal(null)} />}
       {modal === 'forestry' && <ForestryModal onClose={() => setModal(null)} />}
       {modal === 'suisan' && <SuisanModal onClose={() => setModal(null)} />}
+      {modal === 'suisanVoyage' && <SuisanModal startView="voyage" onClose={() => setModal(null)} />}
       {modal === 'arbor' && <ArborModal friends={imoCustomers} studied={studied} onClose={() => setModal(null)} />}
       {modal === 'library' && <LibraryModal onOpen={setBook} onClose={() => { setBook(null); setModal(null); }} />}
       {modal === 'library' && book && (() => {
