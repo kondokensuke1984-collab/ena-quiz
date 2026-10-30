@@ -130,8 +130,8 @@ body:not(.touch) #pad{display:none}
     </div>
     <div class="ov" id="ovLock" hidden>
       <div class="card">
-        <h2 id="lockTitle">あと <span id="lockLeft">100</span>もん！</h2>
-        <p id="lockMsg">きょう もんだいを 100もん といたら、コロンのそらとびで あそべるよ。</p>
+        <h2 id="lockTitle">あと <span id="lockLeft">50</span>もん！</h2>
+        <p id="lockMsg">きょう もんだいを 50もん といたら、コロンのそらとびで あそべるよ。</p>
         <div class="meter" aria-hidden="true"><div id="lockBar"></div></div>
         <p class="sub" id="lockNow">きょう といた もんだい 0もん</p>
         <a class="big" href="/">クイズへ いく</a>
@@ -1368,17 +1368,17 @@ function drawHUD(){
 const ovTitle=document.getElementById('ovTitle'),ovPause=document.getElementById('ovPause'),ovEnd=document.getElementById('ovEnd'),ovLock=document.getElementById('ovLock');
 
 // ───────── ANRINO の 入口（SITE が 'anrino' の ときだけ。書き出しで かわる） ─────────
-// その日に クイズを PLAY.first もん といたら 20ぷん あそべる。20ぷん たったら「また 50もん といたら きてね」で とまり、
-// そのあと、とまった ときから あたらしく PLAY.more もん といたら また 20ぷん（ena_daily_<月>_<日付> の answered を ぜんぶの月で 合計。読むだけ）。
+// その日に クイズを PLAY.first もん といたら 10ぷん あそべる。10ぷん たったら「また 50もん といたら きてね」で とまり、
+// そのあと、とまった ときから あたらしく PLAY.more もん といたら また 10ぷん（ena_daily_<月>_<日付> の answered を ぜんぶの月で 合計。読むだけ）。
 // 島の 主人公が GATE.free の 子は いつでも・じかん むせいげん（ena_island_save_v1 の player）。
-// あそんだ じかんは ena_sora_play_v1 = { day, done: つかいきった 20ぷんの かず, sec: いまの 20ぷんの うち あそんだ びょう, base: とまった ときに といていた 数 }
+// あそんだ じかんは ena_sora_play_v1 = { day, done: つかいきった 10ぷんの かず, sec: いまの 10ぷんの うち あそんだ びょう, base: とまった ときに といていた 数 }
 const SITE='anrino';
 const GATE={free:{kensuke:'けんすけ',mitsuki:'みつき'},
   oneday:{yusei:['2026-10-20','ゆうせい']}};   // その日だけ いつでも（ケンさんの とくべつ）
-const PLAY={first:100,more:50,min:20,key:'ena_sora_play_v1'};
+const PLAY={first:50,more:50,min:10,key:'ena_sora_play_v1'};
 const todayKey=()=>{const d=new Date();return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`};
 // とくべつ（〜EXTRA.until）：100もんの かわりに、① 適性検査Ⅰ・Ⅱの 単元を 8わり いじょうで さいごまで（ena_daily_* の units に tekisei*）
-// または ② もしの しまを さいごまで やりとげた（ena_moshi_v1 の atts に きょうの finished）でも はじめの 20ぷんが ひらく
+// または ② もしの しまを さいごまで やりとげた（ena_moshi_v1 の atts に きょうの finished）でも はじめの 10ぷんが ひらく
 const EXTRA={until:[2026,10,24],unit:/^tekisei[12]/};
 function extraToday(day){
   const [y,m,d]=EXTRA.until,now=new Date();
@@ -1409,8 +1409,8 @@ function gateNow(){
   const od=GATE.oneday[player],free=GATE.free[player]||(od&&od[0]===day?od[1]:null);
   const dev=/^(localhost|127\.0\.0\.1)$/.test(location.hostname)&&new URLSearchParams(location.search).get('unlock')==='1';
   const log=playLog();
-  const need=log.done?log.base+PLAY.more:PLAY.first;   // つぎの 20ぷんに ひつような 数（きょうの 合計）
-  const ex=extraToday(day),special=!log.done&&(ex.tekisei||ex.moshi)&&n<need;   // とくべつで はじめの 20ぷん
+  const need=log.done?log.base+PLAY.more:PLAY.first;   // つぎの 10ぷんに ひつような 数（きょうの 合計）
+  const ex=extraToday(day),special=!log.done&&(ex.tekisei||ex.moshi)&&n<need;   // とくべつで はじめの 10ぷん
   return {open:!!free||dev||n>=need||special,free,oneday:!GATE.free[player]&&!!free,timed:!free,n,need,left:Math.max(0,need-n),done:log.done,remain:Math.max(0,PLAY.min*60-log.sec),ex,special};
 }
 function applyGate(){
@@ -1450,7 +1450,7 @@ function playTick(){
   if(SITE!=='anrino'||!playTimed||!(state==='play'||state==='dying'||state==='clearing'))return;
   if(!playLogNow||playLogNow.day!==todayKey())playLogNow=playLog();
   playLogNow.sec+=1/60;playAcc++;
-  if(playLogNow.sec>=PLAY.min*60){            // 20ぷん たった
+  if(playLogNow.sec>=PLAY.min*60){            // 10ぷん たった
     playLogNow.done++;playLogNow.sec=0;playLogNow.base=gateNow().n;savePlay(playLogNow);playAcc=0;
     if(!applyGate()){state='timeup';bgmOn=false;sfx('pause');timeEl.hidden=true;return}
   }

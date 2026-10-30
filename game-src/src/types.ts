@@ -69,6 +69,7 @@ export interface LetterMarks {
   halloween?: string;               // ハロウィンの手紙を出した年
   month?: string;                   // 最後に見た「しゅやくの 月」（YYYYMM）。かわったら ひっこしの手紙
   detective?: number[];             // 名探偵あんり：ひらいたと 手紙で しらせた じけん
+  harvest?: string;                 // しゅうかくさい：はじまりの 手紙を 出した 年
   moshi?: string[];                 // もしの しま：うかんだと 手紙で しらせた テスト（TEST_KEYS の key）
   news?: string[];                  // 1かいだけの おしらせ（NEWS の id）
 }
@@ -113,7 +114,8 @@ export interface SaveV1 {
   arbor: { dex: string[]; day: string; gathered: number; rested: boolean; tea: boolean; talked: number };  // もみじの あずまや：あつめた おちばID・きょうの おちばひろい／ひとやすみ／おちゃ／かいぎの かいすう
   space: { dex: string[]; day: string; trips: number; moonStone: string; marsStone: string; sunStone: string; sunSeen: string[] };  // sun＝たいようの せいれいで ひろった ひかりの たまの日・みつけた ものID
   usagi: { talked: string; home: boolean };   // 🐰 もちつきうさぎ：さいごに はなした日・ちきゅうに きたか（なかよし度は friendsPlay.mochiusa）  // うちゅうりょこう：いった いきさきID・きょう とんだ かいすう・月／火星で いしを ひろった日
-  talk: { day: string; talked: string[]; req: Request | null; done: boolean };  // なかまの おしゃべり：その日 はなした子（なかよし+1は 1日1回）・きょうの おねがい・かなえたか
+  talk: { day: string; talked: string[]; req: Request | null; done: boolean };
+  harvest: { pts: number; day: string; quiz: Record<string, boolean>; offered: number };  // しゅうかくさい：あつめた みのり・その日の まめクイズ（問題ID→せいかい）・その日 おそなえした数  // なかまの おしゃべり：その日 はなした子（なかよし+1は 1日1回）・きょうの おねがい・かなえたか
 }
 
 export interface FishLog {

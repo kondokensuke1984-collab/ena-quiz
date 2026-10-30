@@ -7,7 +7,9 @@ import { readJSON } from '../lib/storage';
 const QUEST_SWITCH_DAY = 6;
 function questMonthNow(months: string[]): string | undefined {
   const d = new Date();
-  const t = d.getDate() < QUEST_SWITCH_DAY ? new Date(d.getFullYear(), d.getMonth() - 1, 1) : d;
+  // 2026年11月だけは 10/31 から（rpg.html と そろえる）
+  const t = d.getFullYear() === 2026 && d.getMonth() === 9 && d.getDate() >= 31 ? new Date(2026, 10, 1)
+    : d.getDate() < QUEST_SWITCH_DAY && !(d.getFullYear() === 2026 && d.getMonth() === 10) ? new Date(d.getFullYear(), d.getMonth() - 1, 1) : d;
   const target = t.getFullYear() + String(t.getMonth() + 1).padStart(2, '0');
   return months.filter((m) => m <= target).sort().pop();
 }

@@ -133,38 +133,6 @@
 "month": "202610",
 "parent": "nougyou4"
 },
-"nougyou5": {
-"label": "日本の農業５",
-"icon": "🚜",
-"tag": "tag-nougyou5",
-"category": "shakai",
-"month": "202610",
-"isGroup": true
-},
-"nougyou5_kihon": {
-"label": "基本問題",
-"icon": "📝",
-"tag": "tag-nougyou5",
-"category": "shakai",
-"month": "202610",
-"parent": "nougyou5"
-},
-"nougyou5_renshu": {
-"label": "練習問題",
-"icon": "✏️",
-"tag": "tag-nougyou5",
-"category": "shakai",
-"month": "202610",
-"parent": "nougyou5"
-},
-"nougyou5_kakomon": {
-"label": "過去問演習",
-"icon": "📋",
-"tag": "tag-nougyou5",
-"category": "shakai",
-"month": "202610",
-"parent": "nougyou5"
-},
 "menseki10": {
 "label": "面積",
 "icon": "🟦",
@@ -260,38 +228,6 @@
 "category": "sansu",
 "month": "202610",
 "parent": "wariai10"
-},
-"suiri10": {
-"label": "推理",
-"icon": "🕵️",
-"tag": "tag-suiri",
-"category": "sansu",
-"month": "202610",
-"isGroup": true
-},
-"suiri10_kihon": {
-"label": "基本問題",
-"icon": "📝",
-"tag": "tag-suiri",
-"category": "sansu",
-"month": "202610",
-"parent": "suiri10"
-},
-"suiri10_renshu": {
-"label": "練習問題",
-"icon": "✏️",
-"tag": "tag-suiri",
-"category": "sansu",
-"month": "202610",
-"parent": "suiri10"
-},
-"suiri10_kakomon": {
-"label": "過去問演習",
-"icon": "📋",
-"tag": "tag-suiri",
-"category": "sansu",
-"month": "202610",
-"parent": "suiri10"
 },
 "hoshi10": {
 "label": "星の動き1",
