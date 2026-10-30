@@ -43,6 +43,7 @@ export const PERSONA: Record<CharKey, { type: Persona; tag: string }> = {
   mouse: { type: 'shikkari', tag: 'チュー！' },
   otter: { type: 'genki', tag: 'Hello！' },
   tiger: { type: 'shikkari', tag: 'ガオッ！' },
+  peacock: { type: 'yasashi', tag: 'クァ〜' },
 };
 
 export interface TalkCtx {

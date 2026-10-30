@@ -2037,6 +2037,57 @@ function renderTigerSVG(level, fillPct, size, opts) {
   return petWrapSVG(L, size, bg, deco, body);
 }
 
+function renderPeacockSVG(level, fillPct, size, opts) {
+  opts = opts || {};
+  const sil = !!opts.silhouette, L = Math.max(1, level | 0);
+  const pal = { body:'#0891b2', belly:'#a5f3fc', head:'#06b6d4', line:'#164e63', eye:'#2a1d3d',
+                blush:'#fda4af', beak:'#f59e0b', feather:'#10b981', fLine:'#047857', eyeBlue:'#2563eb', eyeGold:'#fbbf24',
+                comp:'#64748b', proPlate:'#e0f2fe', crown:'#fbbf24', star:'#fde68a',
+                egg:'#ecfeff', spot:'#67e8f9' };
+  const c = sil ? petSilPalette(pal) : pal;
+  const bg = petRingBG(fillPct, '#22d3ee', sil);
+  const deco = petCommonDeco(L, opts.stars, c.star, sil);
+  let body;
+  if (L === 1) {
+    body = petEggBody(c, `
+      <path d="M92 76 q-3 -10 -8 -12 M100 74 q0 -12 0 -15 M108 76 q3 -10 8 -12" stroke="${c.line}" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <circle cx="84" cy="63" r="2.6" fill="${c.eyeBlue}"/><circle cx="100" cy="58" r="2.6" fill="${c.eyeBlue}"/><circle cx="116" cy="63" r="2.6" fill="${c.eyeBlue}"/>`);
+  } else {
+    const angs = L >= 5 ? [-75,-50,-25,0,25,50,75] : L >= 3 ? [-60,-30,0,30,60] : [-30,0,30];
+    const ry = L >= 5 ? 30 : L >= 3 ? 24 : 18;
+    const tail = angs.map(a => `<g transform="rotate(${a} 100 146)">
+        <ellipse cx="100" cy="${100 - ry / 2}" rx="9" ry="${ry}" fill="${c.feather}" stroke="${c.fLine}" stroke-width="1.6"/>
+        <circle cx="100" cy="${100 - ry / 2 - ry + 8}" r="5" fill="${c.eyeBlue}" stroke="${c.fLine}" stroke-width="1"/>
+        <circle cx="100" cy="${100 - ry / 2 - ry + 8}" r="2.2" fill="${c.eyeGold}"/></g>`).join('');
+    const compass = L >= 3 ? `<g>
+        <path d="M152 138 L143 174 M152 138 L161 174" stroke="${c.comp}" stroke-width="3.2" stroke-linecap="round" fill="none"/>
+        <circle cx="152" cy="137" r="4" fill="${c.comp}" stroke="${c.line}" stroke-width="1.4"/>
+        <path d="M143 174 l-1 5" stroke="${c.line}" stroke-width="1.6" stroke-linecap="round"/>
+      </g>` : '';
+    const protractor = L >= 4 ? `<g>
+        <path d="M30 178 a22 22 0 0 1 44 0 z" fill="${c.proPlate}" stroke="${c.line}" stroke-width="1.6" stroke-linejoin="round"/>
+        <path d="M52 178 l0 -6 M38 174 l4 -4 M66 174 l-4 -4 M33 168 l5 -2 M71 168 l-5 -2" stroke="${c.line}" stroke-width="1.2" stroke-linecap="round"/>
+      </g>` : '';
+    const fanDeco = L >= 5 ? `<path d="M50 150 a54 54 0 0 1 100 0" fill="none" stroke="${c.eyeGold}" stroke-width="2" stroke-dasharray="3 4" opacity="0.8"/>` : '';
+    const crown = L >= 6 ? `<path d="M88 94 L91 80 L97 88 L100 76 L103 88 L109 80 L112 94 Z" fill="${c.crown}" stroke="${c.line}" stroke-width="1.6" stroke-linejoin="round"/>` : '';
+    body = `
+      ${fanDeco}${tail}
+      <ellipse cx="100" cy="148" rx="27" ry="30" fill="${c.body}" stroke="${c.line}" stroke-width="3"/>
+      <ellipse cx="100" cy="155" rx="16" ry="19" fill="${c.belly}"/>
+      <path d="M92 130 q8 6 16 0" fill="none" stroke="${c.belly}" stroke-width="3" stroke-linecap="round"/>
+      <path d="M88 176 l-3 6 M95 177 l-1 6 M105 177 l1 6 M112 176 l3 6" stroke="${c.beak}" stroke-width="2.6" stroke-linecap="round"/>
+      <path d="M96 100 q-3 -10 -8 -11 M100 99 q0 -11 0 -13 M104 100 q3 -10 8 -11" stroke="${c.line}" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <circle cx="88" cy="89" r="2.6" fill="${c.eyeBlue}"/><circle cx="100" cy="85" r="2.6" fill="${c.eyeBlue}"/><circle cx="112" cy="89" r="2.6" fill="${c.eyeBlue}"/>
+      <circle cx="100" cy="114" r="23" fill="${c.head}" stroke="${c.line}" stroke-width="2.5"/>
+      <ellipse cx="80" cy="121" rx="5" ry="3.2" fill="${c.blush}" opacity="0.75"/>
+      <ellipse cx="120" cy="121" rx="5" ry="3.2" fill="${c.blush}" opacity="0.75"/>
+      ${petEyes(c, sil, 91, 109, 111, 3.6)}
+      <path d="M95 120 L105 120 L100 129 Z" fill="${c.beak}" stroke="${c.line}" stroke-width="1.6" stroke-linejoin="round"/>
+      ${crown}${compass}${protractor}`;
+  }
+  return petWrapSVG(L, size, bg, deco, body);
+}
+
 // ホームの育成カード
 // ============================================================
 
@@ -2074,4 +2125,5 @@ window.CHARS = {
   mouse: renderMouseSVG,
   otter: renderOtterSVG,
   tiger: renderTigerSVG,
+  peacock: renderPeacockSVG,
 };
