@@ -251,3 +251,7 @@ body {
 .fo-cut { transform: rotate(78deg); opacity: 0; pointer-events: none; }
 .fo-weed { transition: opacity .25s; }
 .fo-weed-cut { opacity: 0; pointer-events: none; }
+.fo-sel { animation: fo-sel .7s ease-in-out infinite alternate; }
+@keyframes fo-sel { from { opacity: .45; } to { opacity: 1; } }
+.fo-shake { animation: fo-shake .08s linear infinite; }
+@keyframes fo-shake { 0% { transform: translate(0, 0); } 50% { transform: translate(1.5px, -1px); } 100% { transform: translate(-1.5px, 1px); } }

@@ -32,8 +32,8 @@ export const WORK_LABEL: Record<Work, { name: string; emoji: string; tool: strin
   plant: { name: '植栽',   emoji: '🌱', tool: 'なえ木' },
   weed:  { name: '下刈り', emoji: '🌿', tool: 'かま' },
   cull:  { name: '除伐',   emoji: '🪚', tool: 'のこぎり' },
-  thin:  { name: '間伐',   emoji: '🌲', tool: 'チェーンソー' },
-  fell:  { name: '主伐',   emoji: '🪓', tool: 'おの' },
+  thin:  { name: '間伐',   emoji: '🌲', tool: 'のこぎり/チェーンソー' },
+  fell:  { name: '主伐',   emoji: '🪓', tool: 'おの/チェーンソー' },
   watch: { name: '見守り', emoji: '👀', tool: '' },
 };
 

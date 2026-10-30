@@ -71,7 +71,42 @@ function tone(freq: number, at: number, dur: number, type: OscillatorType = 'sin
   o.start(at); o.stop(at + dur + 0.02);
 }
 
-export type Sfx = 'coin' | 'build' | 'gift' | 'heart' | 'stamp' | 'letter' | 'chest' | 'star' | 'ng' | 'splash' | 'catch' | 'water' | 'siren' | 'clue' | 'reveal' | 'launch';
+/** ざらざらした 短い音（木を切る・たおれる） */
+function noise(at: number, dur: number, vol = 0.1): void {
+  if (!ctx || !master) return;
+  const n = Math.max(1, Math.floor(ctx.sampleRate * dur));
+  const buf = ctx.createBuffer(1, n, ctx.sampleRate);
+  const d = buf.getChannelData(0);
+  for (let i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / n);
+  const src = ctx.createBufferSource();
+  const g = ctx.createGain();
+  src.buffer = buf; g.gain.value = vol;
+  src.connect(g); g.connect(master);
+  src.start(at);
+}
+
+// チェーンソーの エンジン音：おしている あいだ ずっと なる（level 0〜1 で 音が たかく なる）
+let sawOsc: OscillatorNode | null = null;
+let sawGain: GainNode | null = null;
+export function sawStart(): void {
+  if (mode === 'off' || !ctx || !master || sawOsc) return;
+  sawOsc = ctx.createOscillator();
+  sawGain = ctx.createGain();
+  sawOsc.type = 'sawtooth';
+  sawOsc.frequency.value = 70;
+  sawGain.gain.value = 0.07;
+  sawOsc.connect(sawGain); sawGain.connect(master);
+  sawOsc.start();
+}
+export function sawLevel(level: number): void {
+  if (sawOsc && ctx) sawOsc.frequency.setTargetAtTime(70 + level * 150 + Math.random() * 12, ctx.currentTime, 0.03);
+}
+export function sawStop(): void {
+  try { sawOsc?.stop(); sawOsc?.disconnect(); sawGain?.disconnect(); } catch { /* もう止まってる */ }
+  sawOsc = null; sawGain = null;
+}
+
+export type Sfx = 'coin' | 'build' | 'gift' | 'heart' | 'stamp' | 'letter' | 'chest' | 'star' | 'ng' | 'splash' | 'catch' | 'water' | 'siren' | 'clue' | 'reveal' | 'launch' | 'chop' | 'timber';
 
 export function sfx(name: Sfx): void {
   if (mode === 'off' || !ctx) return;
@@ -88,6 +123,8 @@ export function sfx(name: Sfx): void {
     case 'splash': tone(420, t, 0.18, 'sine', 0.1, 140); tone(900, t + 0.05, 0.12, 'triangle', 0.05, 300); break;
     case 'catch': [784, 988, 1175, 1568].forEach((f, i) => tone(f, t + i * 0.08, 0.22, 'square', 0.07)); break;
     case 'water': [1200, 1000, 1300].forEach((f, i) => tone(f, t + i * 0.09, 0.1, 'sine', 0.08, f * 0.7)); break;
+    case 'chop': tone(150, t, 0.1, 'square', 0.13, 70); noise(t, 0.07, 0.12); tone(1200, t, 0.04, 'triangle', 0.05, 500); break;
+    case 'timber': tone(260, t, 0.7, 'sawtooth', 0.06, 70); tone(120, t, 0.8, 'triangle', 0.1, 50); noise(t, 0.5, 0.05); tone(60, t + 0.7, 0.45, 'sine', 0.25, 35); noise(t + 0.7, 0.2, 0.14); break;
     case 'ng': tone(196, t, 0.18, 'square', 0.08, 147); break;
     case 'siren': [0, 1, 2].forEach((i) => { tone(880, t + i * 0.5, 0.25, 'triangle', 0.07, 660); tone(660, t + i * 0.5 + 0.25, 0.25, 'triangle', 0.07, 880); }); break;
     case 'clue': [1319, 1760, 2349].forEach((f, i) => tone(f, t + i * 0.06, 0.2, 'sine', 0.08)); break;

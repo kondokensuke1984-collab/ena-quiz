@@ -1,7 +1,7 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useGame } from '../state/useGame';
 import { ITEM_BY_ID } from '../lib/items';
-import { sfx } from '../lib/sound';
+import { sfx, sawStart, sawLevel, sawStop } from '../lib/sound';
 import {
   FORESTS, SLOTS, WEED_TUFTS, WORK_LABEL, SPECIES_LABEL, clearLine, stepsOf, treeScale,
   type Checkpoint, type Forest, type Species, type Work,
@@ -162,6 +162,18 @@ function wrongMsg(tool: Work, p: Play): string {
 
 const TOOLS: Work[] = ['plant', 'weed', 'cull', 'thin', 'fell'];
 
+// 木を切るときの タイミング切り：目印が 緑のゾーンに いるときに ボタン。チェーンソーは 長押しして はなす。
+const HAND_HITS: Partial<Record<Work, number>> = { cull: 2, thin: 2, fell: 2 };
+const HAND_NAME: Partial<Record<Work, string>> = { cull: 'のこぎり', thin: 'のこぎり', fell: 'おの' };
+const ZONE_W = { hand: 0.2, saw: 0.44 };
+const SPEED = { hand: 1.3, saw: 0.7 };
+interface Cut { idx: number; saw: boolean; hits: number; need: number; zc: number }
+const newZone = (saw: boolean) => {
+  const w = saw ? ZONE_W.saw : ZONE_W.hand;
+  return w / 2 + 0.06 + Math.random() * (1 - w - 0.12);
+};
+const tri = (t: number) => { const ph = t % 2; return ph < 1 ? ph : 2 - ph; };
+
 export function ForestryModal({ onClose }: { onClose(): void }) {
   const g = useGame();
   const cleared = g.save.forestry.cleared;
@@ -171,6 +183,33 @@ export function ForestryModal({ onClose }: { onClose(): void }) {
   const [res, setRes] = useState<{ isNew: boolean; reward: string | null } | null>(null);
   const svgRef = useRef<SVGSVGElement | null>(null);
   const down = useRef(false);
+  const [cut, setCutState] = useState<Cut | null>(null);
+  const cutRef = useRef<Cut | null>(null);
+  const [mark, setMark] = useState(0);
+  const markRef = useRef(0);
+  const holding = useRef(false);
+  const setCut = (c: Cut | null) => { cutRef.current = c; setCutState(c); if (!c) { holding.current = false; sawStop(); } };
+
+  // 目印を 左右に うごかす
+  const cutting = cut !== null;
+  useEffect(() => {
+    if (!cutting) return;
+    let raf = 0;
+    const t0 = performance.now();
+    const loop = (now: number) => {
+      const c = cutRef.current;
+      if (c) {
+        const m = tri(((now - t0) / 1000) * (c.saw ? SPEED.saw : SPEED.hand));
+        markRef.current = m;
+        setMark(m);
+        if (holding.current) sawLevel(m);
+      }
+      raf = requestAnimationFrame(loop);
+    };
+    raf = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(raf);
+  }, [cutting]);
+  useEffect(() => () => sawStop(), []);
 
   const commit = (fn: (cur: Play) => Play) => {
     if (!pRef.current) return;
@@ -212,22 +251,22 @@ export function ForestryModal({ onClose }: { onClose(): void }) {
     if (!cur.tool) { commit((c) => ({ ...c, msg: '① 下の どうぐを えらんでね' })); return; }
     const cp = cur.steps[cur.ci];
     if (cur.tool !== cp.work) { commit((c) => miss(c, wrongMsg(c.tool as Work, c))); return; }
-    use(x, y, true);
+    if (cur.tool === 'cull' || cur.tool === 'thin' || cur.tool === 'fell') { pickTree(x, y); return; }
+    use(x, y);
   };
   const onMove = (e: React.PointerEvent) => {
     const cur = pRef.current;
     if (!down.current || !cur || cur.over) return;
     if (cur.tool === 'plant' || cur.tool === 'weed') {
       const { x, y } = toXY(e);
-      if (cur.tool === cur.steps[cur.ci].work) use(x, y, false);
+      if (cur.tool === cur.steps[cur.ci].work) use(x, y);
     }
   };
   const onUp = () => { down.current = false; };
 
   /** どうぐを つかう（x,y は 絵の中の 場所） */
-  const use = (x: number, y: number, first: boolean) => {
+  const use = (x: number, y: number) => {
     commit((cur) => {
-      const cp = cur.steps[cur.ci];
       const tool = cur.tool;
       if (!tool) return cur;
       if (tool === 'plant') {
@@ -246,34 +285,88 @@ export function ForestryModal({ onClose }: { onClose(): void }) {
         sfx('water');
         return { ...cur, weeds, done, msg: done >= cur.need ? '草を ぜんぶ かったよ！ ▶ 年を進めよう' : cur.msg };
       }
-      if (!first) return cur;
-      // 木を えらんで 切る（手前の木が さきに あたる）
-      const sc = treeScale(cur.age, cur.forest.kind);
-      let hit = -1;
-      for (let k = SLOTS - 1; k >= 0; k--) {
-        const t = cur.trees[k];
-        if (t !== 'alive' && t !== 'bad') continue;
-        const s = slotPos(k);
-        if (Math.abs(x - s.x) <= 16 * sc + 8 && y >= s.y - 88 * sc && y <= s.y + 8) { hit = k; break; }
-      }
-      if (hit < 0) return cur;
-      const t = cur.trees[hit];
-      if (tool === 'cull' && t !== 'bad') return miss(cur, 'いい木は のこそう！ 形の悪い木だけ 切るよ');
-      if ((tool === 'cull' || tool === 'thin') && cur.done >= cur.need) return { ...cur, msg: 'もう じゅうぶん！ これいじょう 切ると 木が 足りなくなるよ。▶ 年を進めよう' };
-      const trees = cur.trees.map((v, k) => (k === hit ? 'cut' : v)) as TreeState[];
-      const done = cur.done + 1;
-      sfx('splash');
-      let next: Play = { ...cur, trees, done, logs: tool === 'fell' ? cur.logs + 1 : cur.logs };
-      if (tool === 'fell') {
-        if (done >= cur.need) { sfx('chest'); return finish({ ...next, msg: '' }); }
-        return { ...next, msg: `あと ${cur.need - done}本！` };
-      }
-      next = { ...next, msg: done >= cur.need ? `${cp.title}は おわり！ ▶ 年を進めよう` : cur.msg };
-      return next;
+      return cur;
     });
   };
 
+  /** 切る木を えらぶ（手前の木が さきに あたる）→ タイミング切りへ */
+  const pickTree = (x: number, y: number) => {
+    const cur = pRef.current;
+    if (!cur || cur.over || holding.current) return;
+    const sc = treeScale(cur.age, cur.forest.kind);
+    let hit = -1;
+    for (let k = SLOTS - 1; k >= 0; k--) {
+      const t = cur.trees[k];
+      if (t !== 'alive' && t !== 'bad') continue;
+      const s = slotPos(k);
+      if (Math.abs(x - s.x) <= 16 * sc + 8 && y >= s.y - 88 * sc && y <= s.y + 8) { hit = k; break; }
+    }
+    if (hit < 0) return;
+    const tool = cur.tool as Work;
+    if (tool === 'cull' && cur.trees[hit] !== 'bad') { commit((c) => miss(c, 'いい木は のこそう！ 形の悪い木だけ 切るよ')); return; }
+    if ((tool === 'cull' || tool === 'thin') && cur.done >= cur.need) { commit((c) => ({ ...c, msg: 'もう じゅうぶん！ これいじょう 切ると 木が 足りなくなるよ。▶ 年を進めよう' })); return; }
+    setCut({ idx: hit, saw: false, hits: 0, need: HAND_HITS[tool] ?? 1, zc: newZone(false) });
+    commit((c) => ({ ...c, msg: `${HAND_NAME[tool]}は 目印が 緑のときに「切る！」。🪚チェーンソーなら ボタンを おしつづけて、緑のときに はなすよ（ラクに 切れる）` }));
+  };
+
+  const chooseSaw = (saw: boolean) => {
+    const c = cutRef.current;
+    if (!c || holding.current) return;
+    setCut({ ...c, saw, hits: 0, zc: newZone(saw) });
+  };
+
+  /** 切りおわり：木を たおす */
+  const finishCut = (idx: number) => {
+    setCut(null);
+    const isFell = pRef.current?.steps[pRef.current.ci].work === 'fell';
+    sfx(isFell ? 'timber' : 'chop');
+    commit((cur) => {
+      const cp = cur.steps[cur.ci];
+      const trees = cur.trees.map((v, k) => (k === idx ? 'cut' : v)) as TreeState[];
+      const done = cur.done + 1;
+      const next: Play = { ...cur, trees, done, logs: cp.work === 'fell' ? cur.logs + 1 : cur.logs };
+      if (cp.work === 'fell') {
+        if (done >= cur.need) { setTimeout(() => sfx('chest'), 1000); return finish({ ...next, msg: '' }); }
+        return { ...next, msg: `あと ${cur.need - done}本！` };
+      }
+      return { ...next, msg: done >= cur.need ? `${cp.title}は おわり！ ▶ 年を進めよう` : `スパッ！ あと ${cur.need - done}本 切ろう` };
+    });
+  };
+
+  /** タイミングの はんてい（ok：緑のゾーンに いたか） */
+  const judge = (ok: boolean) => {
+    const c = cutRef.current;
+    if (!c) return;
+    if (ok) {
+      if (c.saw || c.hits + 1 >= c.need) { finishCut(c.idx); return; }
+      sfx('chop');
+      setCut({ ...c, hits: c.hits + 1, zc: newZone(false) });
+      commit((cur) => ({ ...cur, msg: `ピタッ！ あと ${c.need - c.hits - 1}回` }));
+      return;
+    }
+    if (c.saw) { sfx('ng'); commit((cur) => ({ ...cur, msg: 'はなすのが ずれたよ。緑のところで はなそう（チェーンソーは 元気は へらないよ）' })); return; }
+    commit((cur) => miss(cur, 'ずれちゃった！ 目印が 緑の ときに おそう'));
+    if (pRef.current?.over) setCut(null);
+  };
+  const inZone = () => { const c = cutRef.current; return !!c && Math.abs(markRef.current - c.zc) <= (c.saw ? ZONE_W.saw : ZONE_W.hand) / 2; };
+
+  const onCutDown = (e: React.PointerEvent) => {
+    const c = cutRef.current;
+    if (!c) return;
+    if (!c.saw) { judge(inZone()); return; }
+    try { (e.currentTarget as Element).setPointerCapture?.(e.pointerId); } catch { /* むし */ }
+    holding.current = true;
+    sawStart();
+  };
+  const onCutUp = () => {
+    if (!holding.current) return;
+    holding.current = false;
+    sawStop();
+    judge(inZone());
+  };
+
   const advance = () => {
+    setCut(null);
     commit((cur) => {
       if (cur.over) return cur;
       const cp = cur.steps[cur.ci];
@@ -302,7 +395,7 @@ export function ForestryModal({ onClose }: { onClose(): void }) {
     });
   };
 
-  const setTool = (t: Work) => commit((cur) => ({ ...cur, tool: t, msg: cur.over ? cur.msg : cur.msg }));
+  const setTool = (t: Work) => { if (!holding.current) setCut(null); commit((cur) => ({ ...cur, tool: t })); };
 
   // ───────── えらぶ画面 ─────────
   if (!p) {
@@ -373,7 +466,7 @@ export function ForestryModal({ onClose }: { onClose(): void }) {
           <div className="text-[14px] font-black text-ink">🌲 {p.forest.name}の 森　<span className="text-[12px] text-emerald-700">林齢 {p.age}年</span></div>
           <div className="flex items-center gap-1.5">
             <span className="text-[13px]">{'❤️'.repeat(Math.max(0, p.hearts))}{'🤍'.repeat(Math.max(0, 3 - p.hearts))}</span>
-            <button className="rounded-full bg-gray-100 px-2.5 py-1 text-[11px] font-black text-ink" onClick={() => { pRef.current = null; setP(null); setRes(null); }}>やめる</button>
+            <button className="rounded-full bg-gray-100 px-2.5 py-1 text-[11px] font-black text-ink" onClick={() => { setCut(null); pRef.current = null; setP(null); setRes(null); }}>やめる</button>
           </div>
         </div>
 
@@ -399,8 +492,13 @@ export function ForestryModal({ onClose }: { onClose(): void }) {
             if (t === 'empty') return null;
             const s = slotPos(i);
             if (jinko && p.age <= 1 && t !== 'cut') return <Sprout key={i} x={s.x} y={s.y} />;
-            return <TreeSVG key={i} x={s.x} y={s.y} scale={sc} species={p.forest.species} bad={t === 'bad'} cut={t === 'cut'} />;
+            return (
+              <g key={i} className={cut?.idx === i ? 'fo-shake' : undefined}>
+                <TreeSVG x={s.x} y={s.y} scale={sc} species={p.forest.species} bad={t === 'bad'} cut={t === 'cut'} />
+              </g>
+            );
           })}
+          {cut && <ellipse className="fo-sel" cx={slotPos(cut.idx).x} cy={slotPos(cut.idx).y + 2} rx="22" ry="7" fill="none" stroke="#f59e0b" strokeWidth="3" />}
           {p.logs > 0 && (
             <g transform="translate(300 222)">
               <rect x="-26" y="-14" width="52" height="14" rx="7" fill="#c08457" stroke="#5b3a1d" strokeWidth="1.6" />
@@ -413,6 +511,27 @@ export function ForestryModal({ onClose }: { onClose(): void }) {
           <div className="shrink-0"><CharSVG charKey="beaver" level={6} fillPct={100} size={48} label="モクタ" /></div>
           <div className="whitespace-pre-line text-[12px] font-bold leading-relaxed text-ink">{p.msg || '…'}</div>
         </div>
+
+        {!p.over && cut && (
+          <div className="mb-2 rounded-2xl bg-white p-2 shadow ring-1 ring-black/10">
+            <div className="mb-1.5 grid grid-cols-2 gap-1">
+              <button className={`rounded-xl py-1.5 text-[11px] font-black ${!cut.saw ? 'bg-emerald-600 text-white' : 'bg-gray-100 text-ink'}`} onClick={() => chooseSaw(false)}>
+                {cp.work === 'fell' ? '🪓 おの' : '🪚 のこぎり'}（{cut.saw ? HAND_HITS[cp.work] ?? 1 : cut.need}回）
+              </button>
+              <button className={`rounded-xl py-1.5 text-[11px] font-black ${cut.saw ? 'bg-emerald-600 text-white' : 'bg-gray-100 text-ink'}`} onClick={() => chooseSaw(true)}>
+                ⚙️ チェーンソー（1回）
+              </button>
+            </div>
+            <div className="relative mb-1.5 h-7 overflow-hidden rounded-full bg-gray-200">
+              <div className="absolute inset-y-0 rounded-full bg-emerald-400" style={{ left: `${(cut.zc - (cut.saw ? ZONE_W.saw : ZONE_W.hand) / 2) * 100}%`, width: `${(cut.saw ? ZONE_W.saw : ZONE_W.hand) * 100}%` }} />
+              <div className="absolute inset-y-0 w-1.5 -translate-x-1/2 rounded bg-rose-600" style={{ left: `${mark * 100}%` }} />
+            </div>
+            <button className={`btn-main select-none ${cut.saw ? 'fo-shake' : ''}`} style={{ touchAction: 'none' }}
+              onPointerDown={onCutDown} onPointerUp={onCutUp} onPointerCancel={onCutUp}>
+              {cut.saw ? '⚙️ おしつづけて、緑で はなす！' : `✂ 切る！${cut.need > 1 ? `（${cut.hits}/${cut.need}）` : ''}`}
+            </button>
+          </div>
+        )}
 
         {!p.over && (
           <>
