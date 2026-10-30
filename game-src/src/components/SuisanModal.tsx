@@ -9,6 +9,7 @@ import {
 import { CharSVG } from './CharSVG';
 import { SuisanFarm } from './SuisanFarm';
 import { SuisanScoop } from './SuisanScoop';
+import { SuisanVoyage } from './SuisanVoyage';
 
 // モクタの ぎょこうづくり：5つの漁業を 漁港の けいえいで まなぶ。
 // 場面ごとに 「どうする？」を えらんで 水あげ（万円）を ふやす。メダルは つかわない・ふやさない。ごほうびは ステージごとの 家具。
@@ -104,7 +105,7 @@ function SeaScene({ stage, prog }: { stage: Stage; prog: number }) {
 export function SuisanModal({ onClose }: { onClose(): void }) {
   const g = useGame();
   const cleared = g.save.suisan.cleared;
-  const [view, setView] = useState<'hub' | 'stages' | 'farm' | 'scoop'>('hub');
+  const [view, setView] = useState<'hub' | 'stages' | 'farm' | 'scoop' | 'voyage'>('hub');
   const [pick, setPick] = useState<Stage | null>(null);
   const [p, setP] = useState<Play | null>(null);
   const pRef = useRef<Play | null>(null);
@@ -162,7 +163,8 @@ export function SuisanModal({ onClose }: { onClose(): void }) {
 
   // ───────── ハブ ─────────
   if (!p && view !== 'stages') {
-    const tiles: { v: 'farm' | 'scoop' | 'stages'; emoji: string; name: string; sub: string; cls: string }[] = [
+    const tiles: { v: 'voyage' | 'farm' | 'scoop' | 'stages'; emoji: string; name: string; sub: string; cls: string }[] = [
+      { v: 'voyage', emoji: '🚤', name: 'しゅっこう！ 海へ',  sub: '船で 沿岸・沖合・遠洋の 海へ。漁を して 水あげ', cls: 'from-cyan-500 to-blue-600' },
       { v: 'farm',   emoji: '🐟', name: 'さかなを そだてる', sub: '養殖と 栽培。えさを あげて 大きくして うろう', cls: 'from-sky-400 to-teal-500' },
       { v: 'scoop',  emoji: '🥅', name: 'さかなすくい',     sub: '30びょう！ およぐ さかなを タップ', cls: 'from-amber-400 to-orange-500' },
       { v: 'stages', emoji: '📖', name: '漁業ステージ',     sub: `5つの漁業を まなぶ（${cleared.length} / ${STAGES.length}）。クリアで 家具`, cls: 'from-indigo-400 to-violet-500' },
@@ -170,7 +172,8 @@ export function SuisanModal({ onClose }: { onClose(): void }) {
     return (
       <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/60 p-3" onClick={onClose}>
         <div className="panel max-h-[94vh] w-full max-w-[460px] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-          {view === 'farm' ? <SuisanFarm onBack={() => setView('hub')} />
+          {view === 'voyage' ? <SuisanVoyage onBack={() => setView('hub')} />
+            : view === 'farm' ? <SuisanFarm onBack={() => setView('hub')} />
             : view === 'scoop' ? <SuisanScoop onBack={() => setView('hub')} />
             : (
               <>
