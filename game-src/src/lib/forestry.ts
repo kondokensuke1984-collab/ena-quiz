@@ -90,9 +90,10 @@ export function treeScale(age: number, kind: 'jinko' | 'tennen'): number {
   return 1.05;
 }
 
-/** 日付で ひらく（2026-10-31から）。?forestry=1 か ?today=YYYY-M-D で 確認できる */
+/** 日付で ひらく（2026-10-31から。けんすけ・みつきの 端末は いつでも）。?forestry=1 か ?today=YYYY-M-D で 確認できる */
 export const FORESTRY_OPEN_FROM = { y: 2026, m: 10, d: 31 };
-export function forestryOpen(now = new Date(), search = typeof location !== 'undefined' ? location.search : ''): boolean {
+export function forestryOpen(now = new Date(), search = typeof location !== 'undefined' ? location.search : '', player?: string | null): boolean {
+  if (player === 'kensuke' || player === 'mitsuki') return true;   // けんすけ・みつきは 今日から あそべる
   try {
     const q = new URLSearchParams(search);
     if (q.get('forestry') === '1') return true;

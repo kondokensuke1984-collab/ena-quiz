@@ -1561,7 +1561,7 @@ export function IslandScreen() {
       )}
 
       {/* ── 林業ゲーム：モクタの もりづくり（10/31から。メダルは つかわない） ── */}
-      {forestryOpen() && (
+      {forestryOpen(undefined, undefined, save.player) && (
         <button
           className="mb-2.5 flex w-full items-center gap-2 rounded-2xl bg-gradient-to-r from-[#3f6212] to-[#65a30d] px-3 py-2 text-left shadow active:scale-[0.98] lg:landscape:col-start-2"
           onClick={() => setModal('forestry')}
