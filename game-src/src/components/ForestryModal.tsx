@@ -1,3 +1,4 @@
+import { ForestMap } from './ForestMap';
 import { useEffect, useRef, useState } from 'react';
 import { useGame } from '../state/useGame';
 import { ITEM_BY_ID } from '../lib/items';
@@ -448,26 +449,12 @@ export function ForestryModal({ onClose }: { onClose(): void }) {
           <div className="mb-2 flex items-center gap-2 rounded-2xl bg-lime-50 px-3 py-2">
             <CharSVG charKey="beaver" level={6} fillPct={100} size={52} label="モクタ" />
             <div className="text-[12px] font-bold leading-relaxed text-ink">
-              どの森を 育てる？ 林業の しごとは<b className="text-emerald-700"> 植栽 → 下刈り → 除伐 → 間伐 → 主伐 </b>の じゅんばんだよ。年を すすめながら、どうぐで 手入れしよう！
+              地図の 森を えらぼう！ 林業の しごとは<b className="text-emerald-700"> 植栽 → 下刈り → 除伐 → 間伐 → 主伐 </b>の じゅんばんだよ。年を すすめながら、どうぐで 手入れしよう！
             </div>
           </div>
           {!pick ? (
             <>
-              {(['jinko', 'tennen'] as const).map((kind) => (
-                <div key={kind} className="mb-2">
-                  <div className="mb-1 text-[12px] font-black text-indigo-900/70">{kind === 'jinko' ? '🌱 人工の三大美林（植えて 育てる）' : '🌳 天然の三大美林（守り 育てる）'}</div>
-                  <div className="grid grid-cols-3 gap-1.5">
-                    {FORESTS.filter((f) => f.kind === kind).map((f) => (
-                      <button key={f.id} className="relative rounded-2xl bg-white px-1 py-2 text-center shadow ring-1 ring-black/5 active:scale-95" onClick={() => setPick(f)}>
-                        <svg viewBox="-30 -100 60 110" className="mx-auto h-14"><TreeSVG x={0} y={0} scale={0.9} species={f.species} bad={false} cut={false} /></svg>
-                        <div className="text-[12px] font-black text-ink">{f.name}</div>
-                        <div className="text-[10px] font-bold text-indigo-900/60">{f.pref}</div>
-                        {cleared.includes(f.id) && <span className="absolute right-1 top-1 rounded-full bg-emerald-500 px-1.5 text-[10px] font-black text-white">✓</span>}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              ))}
+              <ForestMap cleared={cleared} onPick={setPick} />
               <div className="rounded-2xl bg-amber-50 px-3 py-2 text-center text-[11px] font-bold text-ink">
                 クリアした 森 {cleared.length} / {FORESTS.length}　森を クリアすると 家具が もらえるよ
               </div>
