@@ -55,7 +55,7 @@ export function freshSave(now = Date.now()): SaveV1 {
     micro: { dex: [], day: '', today: 0, ready: false },
     imo: { dex: [], day: '', served: 0 },
     forestry: { cleared: [], plays: 0 },
-    zukei: { cleared: [], plays: 0 },
+    zukei: { cleared: [], plays: 0, stars: {} },
     tane: { cleared: [], plays: 0 },
     suisan: { cleared: [], plays: 0, coin: 8, pond: [], sea: [], dex: [], scoopBest: 0, portDex: [] },
     arbor: { dex: [], day: '', gathered: 0, rested: false, tea: false, talked: 0 },
@@ -162,6 +162,7 @@ export function loadSave(): SaveV1 {
     zukei: {
       cleared: Array.isArray(s.zukei?.cleared) ? s.zukei!.cleared.filter((x) => typeof x === 'string') : [],
       plays: typeof s.zukei?.plays === 'number' ? s.zukei!.plays : 0,
+      stars: Object.fromEntries(Object.entries(s.zukei?.stars ?? {}).filter(([, v]) => typeof v === 'number' && v >= 1 && v <= 3)) as Record<string, number>,
     },
     tane: {
       cleared: Array.isArray(s.tane?.cleared) ? s.tane!.cleared.filter((x) => typeof x === 'string') : [],

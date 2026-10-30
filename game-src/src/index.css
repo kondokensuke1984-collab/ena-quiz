@@ -76,6 +76,9 @@ body {
 
 /* 教科キャラの ふきだしと ハート */
 .bubble-pop { animation: bubble-pop 0.25s ease-out; transform-box: fill-box; transform-origin: 50% 100%; }
+@keyframes zk-timer { from { width: 100%; } to { width: 0%; } }
+.zk-pop { animation: zk-pop 0.35s ease-out; transform-box: fill-box; transform-origin: 50% 50%; }
+@keyframes zk-pop { 0% { transform: scale(1.35); opacity: 0.4; } 60% { transform: scale(0.94); } 100% { transform: scale(1); opacity: 1; } }
 @keyframes bubble-pop { from { transform: scale(0.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 .heart-float { animation: heart-float 1.6s ease-out forwards; }
 @keyframes heart-float {

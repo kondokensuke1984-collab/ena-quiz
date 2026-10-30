@@ -420,7 +420,7 @@ export interface Block {
 export type PuzzleFig =
   | { t: 'tri'; n: number }
   | { t: 'wedge'; n: number }
-  | { t: 'slice'; k: number; a: number }
+  | { t: 'slice'; k: number; a: number; r: number }
   | { t: 'sq'; kind: 'sqQuarter' | 'sqCircle' | 'petal'; s: number }
   | { t: 'ring'; R: number; r: number; a: number };
 
@@ -441,8 +441,8 @@ const blk = (shape: Block['shape'], label: string, good: boolean, a?: number): B
 function triPuzzle(n: number, q: Question): Play {
   const need = n - 2;
   const blocks = shuffle([
-    ...Array.from({ length: need }, () => blk('tri', '三角形', true)),
-    blk('sqr', '四角形', false), blk('sqr', '四角形', false),
+    ...Array.from({ length: need }, () => blk('tri', '180°', true)),
+    blk('sqr', '360°', false), blk('sqr', '360°', false),
   ]);
   return {
     q: q.fig.t === 'poly' ? { ...q, fig: { ...q.fig, regular: true } } : q,
@@ -458,8 +458,8 @@ function wedgePuzzle(n: number): Play {
   const ang = 360 / n;
   const bad = [360 / (n - 1), 360 / (n + 1)];
   const blocks = shuffle([
-    ...Array.from({ length: n }, () => blk('wedge', '', true, ang)),
-    ...bad.map((a) => blk('wedge', '', false, a)),
+    ...Array.from({ length: n }, () => blk('wedge', `${ang}°`, true, ang)),
+    ...bad.map((a) => blk('wedge', `${Math.round(a * 10) / 10}°`, false, a)),
   ]);
   return {
     q: polyQ('outer', { n }),
@@ -490,7 +490,7 @@ function slicePuzzle(kind: PizzaKind): Play {
   return {
     q,
     pz: {
-      fig: { t: 'slice', k, a }, blocks, need: k,
+      fig: { t: 'slice', k, a, r }, blocks, need: k,
       say: `${a}度の ピザを ならべて、まるい ピザを つくろう！`,
       hint: `円は ぐるっと 360度。${a}度の ピザが ぴったり ${k}まいで 1しゅう するよ`,
     },

@@ -216,7 +216,7 @@ export interface GameApi {
   /** モクタの もりづくり：あそびはじめ（あそんだ回数 +1） */
   forestryPlay(): void;
   zukeiPlay(): void;
-  zukeiClear(stageId: ZukeiStageId): { isNew: boolean; reward: string | null } | null;
+  zukeiClear(stageId: ZukeiStageId, stars?: number): { isNew: boolean; reward: string | null } | null;
   tanePlay(): void;
   taneClear(stageId: TaneStageId): { isNew: boolean; reward: string | null } | null;
   /** モクタの もりづくり：森を クリア。はじめてなら ごほうびの家具（その品ID）。メダルは ふやさない */
@@ -1145,7 +1145,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       setSave((s) => ({ ...s, zukei: { ...s.zukei, plays: s.zukei.plays + 1 } }));
     },
 
-    zukeiClear: (stageId) => {
+    zukeiClear: (stageId, stars = 1) => {
       const st = ZUKEI_STAGE_BY_ID[stageId];
       if (!st) return null;
       const cur = saveRef.current;
@@ -1153,7 +1153,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       const reward = isNew && !cur.owned.includes(st.reward) ? st.reward : null;
       setSave((s) => ({
         ...s,
-        zukei: { ...s.zukei, cleared: s.zukei.cleared.includes(st.id) ? s.zukei.cleared : [...s.zukei.cleared, st.id] },
+        zukei: { ...s.zukei, cleared: s.zukei.cleared.includes(st.id) ? s.zukei.cleared : [...s.zukei.cleared, st.id], stars: { ...s.zukei.stars, [st.id]: Math.max(s.zukei.stars?.[st.id] ?? 0, stars) } },
         owned: reward && !s.owned.includes(reward) ? [...s.owned, reward] : s.owned,
       }));
       sfx(isNew ? 'star' : 'gift');

@@ -27,12 +27,19 @@ interface Play {
   placed: number;
   msg: string;
   hearts: number;
-  phase: 'build' | 'cut' | 'ask' | 'right' | 'wrong' | 'over' | 'clear';
+  phase: 'build' | 'sum' | 'cut' | 'ask' | 'right' | 'wrong' | 'over' | 'clear';
   picked: string | null;
   slider: number;
   hint: boolean;
   miss: number;
+  combo: number;
+  bestCombo: number;
+  /** 最後に はめた 時刻（ミリ秒）。はやく はめると コンボ */
+  t0: number;
 }
+
+const COMBO_MS = 5000;
+const starsOf = (miss: number) => (miss === 0 ? 3 : miss <= 2 ? 2 : 1);
 
 const startQ = (pl: { q: Question; pz?: Puzzle }): Pick<Play, 'q' | 'pz' | 'tray' | 'placed' | 'msg' | 'phase' | 'picked' | 'slider' | 'hint'> => ({
   q: pl.q, pz: pl.pz, tray: pl.pz ? pl.pz.blocks.map((b) => b.id) : [], placed: 0, msg: '',
@@ -248,7 +255,14 @@ function SlotFig({ pz, placed }: { pz: Puzzle; placed: number }) {
           const a = pts[i + 1];
           const b = pts[i + 2] ?? pts[0];
           const on = i < placed;
-          return <polygon key={i} points={`${pts[0].x},${pts[0].y} ${a.x},${a.y} ${b.x},${b.y}`} fill={on ? FAN_COLORS[i % FAN_COLORS.length] : '#fff'} stroke="#b45309" strokeWidth={on ? 2.5 : 2} strokeDasharray={on ? undefined : '5 4'} strokeLinejoin="round" />;
+          const mx = (pts[0].x + a.x + b.x) / 3;
+          const my = (pts[0].y + a.y + b.y) / 3;
+          return (
+            <g key={i} className={i === placed - 1 ? 'zk-pop' : undefined}>
+              <polygon points={`${pts[0].x},${pts[0].y} ${a.x},${a.y} ${b.x},${b.y}`} fill={on ? FAN_COLORS[i % FAN_COLORS.length] : '#fff'} stroke="#b45309" strokeWidth={on ? 2.5 : 2} strokeDasharray={on ? undefined : '5 4'} strokeLinejoin="round" />
+              <text x={mx} y={my + 3} textAnchor="middle" fontSize="10" fontWeight="900" fill={on ? '#1e3a8a' : '#9ca3af'}>180°</text>
+            </g>
+          );
         })}
         <text x={cx} y="186" textAnchor="middle" fontSize="11" fontWeight="900" fill="#78350f">{nameOfN(f.n)}</text>
       </g>
@@ -262,8 +276,15 @@ function SlotFig({ pz, placed }: { pz: Puzzle; placed: number }) {
         <circle cx={cx} cy={cy} r="78" fill="#fffbeb" stroke="#d6a85f" strokeWidth="2" strokeDasharray="4 4" />
         {Array.from({ length: n }, (_, j) => {
           const on = j < placed;
-          return <path key={j} d={wedgeD(cx, cy, 76, -90 + j * ang, -90 + (j + 1) * ang)} fill={on ? (f.t === 'wedge' ? FAN_COLORS[j % FAN_COLORS.length] : PIZZA_COLORS[j % 4]) : 'none'} stroke={on ? '#b45309' : '#d6a85f'} strokeWidth={on ? 2.5 : 1.5} strokeDasharray={on ? undefined : '4 4'} strokeLinejoin="round" />;
+          const m = rad(-90 + (j + 0.5) * ang);
+          return (
+            <g key={j} className={j === placed - 1 ? 'zk-pop' : undefined}>
+              <path d={wedgeD(cx, cy, 76, -90 + j * ang, -90 + (j + 1) * ang)} fill={on ? (f.t === 'wedge' ? FAN_COLORS[j % FAN_COLORS.length] : PIZZA_COLORS[j % 4]) : 'none'} stroke={on ? '#b45309' : '#d6a85f'} strokeWidth={on ? 2.5 : 1.5} strokeDasharray={on ? undefined : '4 4'} strokeLinejoin="round" />
+              {n <= 8 && <text x={cx + 58 * Math.cos(m)} y={cy + 58 * Math.sin(m) + 3} textAnchor="middle" fontSize="10" fontWeight="900" fill={on ? '#1e3a8a' : '#9ca3af'}>{Math.round(ang * 10) / 10}°</text>}
+            </g>
+          );
         })}
+        {f.t === 'slice' && <text x={cx} y={cy + 4} textAnchor="middle" fontSize="12" fontWeight="900" fill="#1e3a8a">半径 {f.r}cm</text>}
         {f.t === 'slice' && Array.from({ length: placed }, (_, j) => {
           const m = rad(-90 + (j + 0.5) * ang);
           return <circle key={`d${j}`} cx={cx + 46 * Math.cos(m)} cy={cy + 46 * Math.sin(m)} r="5" fill="#dc2626" opacity="0.9" />;
@@ -373,7 +394,7 @@ export function ZukeiModal({ onClose }: { onClose: () => void }) {
     const kinds = kindsOf(stage);
     g.zukeiPlay();
     setRes(null);
-    setP({ stage, kinds, qi: 0, hearts: HEARTS, miss: 0, ...startQ(makePlay(stage, kinds[0])) });
+    setP({ stage, kinds, qi: 0, hearts: HEARTS, miss: 0, combo: 0, bestCombo: 0, t0: Date.now(), ...startQ(makePlay(stage, kinds[0])) });
   };
 
   const choose = (c: string) => {
@@ -381,13 +402,13 @@ export function ZukeiModal({ onClose }: { onClose: () => void }) {
     if (c === p.q.answer) {
       sfx('star');
       if (p.qi + 1 >= p.kinds.length) {
-        setRes(g.zukeiClear(p.stage));
+        setRes(g.zukeiClear(p.stage, starsOf(p.miss)));
         setP({ ...p, picked: c, phase: 'clear' });
       } else {
         setP({ ...p, picked: c, phase: 'right' });
       }
     } else {
-      sfx('gift');
+      sfx('ng');
       const hearts = p.hearts - 1;
       setP({ ...p, picked: c, hearts, miss: p.miss + 1, phase: hearts <= 0 ? 'over' : 'wrong' });
     }
@@ -400,17 +421,20 @@ export function ZukeiModal({ onClose }: { onClose: () => void }) {
     if (b.good && p.placed < p.pz.need) {
       const placed = p.placed + 1;
       const done = placed >= p.pz.need;
-      sfx(done ? 'star' : 'gift');
-      setP({ ...p, tray: p.tray.filter((t) => t !== id), placed, msg: '', phase: done ? 'ask' : 'build' });
+      const fast = Date.now() - p.t0 <= COMBO_MS;
+      const combo = fast ? p.combo + 1 : 1;
+      sfx(done ? 'star' : combo >= 2 ? 'coin' : 'build');
+      setP({ ...p, tray: p.tray.filter((t) => t !== id), placed, msg: '', combo, bestCombo: Math.max(p.bestCombo, combo), t0: Date.now(), phase: done ? 'sum' : 'build' });
     } else {
-      setP({ ...p, msg: 'それは ぴったり はまらないよ。ほかの ブロックを ためしてみよう' });
+      sfx('ng');
+      setP({ ...p, combo: 0, miss: p.miss + 1, msg: 'ぴったり はまらないよ。数字を みてね'});
     }
   };
 
   const next = () => {
     if (!p) return;
     const qi = p.qi + 1;
-    setP({ ...p, qi, ...startQ(makePlay(p.stage, p.kinds[qi])) });
+    setP({ ...p, qi, t0: Date.now(), ...startQ(makePlay(p.stage, p.kinds[qi])) });
   };
   const retry = () => {
     if (!p) return;
@@ -429,7 +453,7 @@ export function ZukeiModal({ onClose }: { onClose: () => void }) {
           <div className="mb-2 flex items-center gap-2 rounded-2xl bg-amber-50 px-3 py-2">
             <CharSVG charKey="bee" level={6} fillPct={100} size={52} label="ハニー" />
             <div className="text-[12px] font-bold leading-relaxed text-ink">
-              11月の テストの れんしゅうだよ！ 3つの ステージを クリアすると 家具が もらえるよ。ブロックを ドラッグして 形を つくってから 問題に こたえよう。まちがえると ❤️が へるけど、かいせつを よんで もういちど ちょうせんしよう！
+              11月の テストの れんしゅうだよ！ 3つの ステージを クリアすると 家具が もらえるよ。数字は ぜんぶ 見えているよ。つみきを ドラッグして パコッと はめよう！ はやく つづけて はめると コンボ！ 全部 はまると まとめが でるよ。ミスが 少ないほど ⭐が ふえる！
             </div>
           </div>
           {STAGES.map((s, i) => {
@@ -439,7 +463,7 @@ export function ZukeiModal({ onClose }: { onClose: () => void }) {
                 <div className="text-[34px]">{s.emoji}</div>
                 <div className="min-w-0 flex-1">
                   <div className="text-[11px] font-black text-indigo-900/60">ステージ{i + 1}　{s.title}</div>
-                  <div className="text-[15px] font-black text-ink">{s.game}</div>
+                  <div className="text-[15px] font-black text-ink">{s.game}　<span className="text-[13px]">{[1, 2, 3].map((n) => ((g.save.zukei.stars?.[s.id] ?? 0) >= n ? '⭐' : '☆')).join('')}</span></div>
                   <div className="text-[11px] font-black text-violet-700">
                     ごほうび：{ITEM_BY_ID[s.reward].emoji} {ITEM_BY_ID[s.reward].name}{done ? '（もらったよ）' : ''}
                   </div>
@@ -498,10 +522,28 @@ export function ZukeiModal({ onClose }: { onClose: () => void }) {
 
         {p.phase === 'build' && p.pz && (
           <>
-            <div className="mb-2 text-center text-[11.5px] font-black text-amber-700">はめた ブロック {p.placed} / {p.pz.need}</div>
+            <div className="mb-1 flex items-center justify-between text-[11.5px] font-black text-amber-700">
+              <span>はめた ブロック {p.placed} / {p.pz.need}</span>
+              <span className={p.combo >= 2 ? 'text-rose-600' : 'text-gray-400'}>{p.combo >= 2 ? `🔥 ${p.combo} コンボ！` : 'コンボ ー'}</span>
+            </div>
+            <div className="mb-2 h-1.5 overflow-hidden rounded-full bg-gray-200">
+              <div key={`${p.qi}-${p.placed}-${p.miss}`} className="h-full rounded-full bg-amber-400" style={{ animation: `zk-timer ${COMBO_MS}ms linear forwards` }} />
+            </div>
             <button className="w-full rounded-2xl bg-gray-100 py-2 text-[12px] font-black text-ink" onClick={() => setP({ ...p, hint: true })}>💡 ヒント</button>
             {p.hint && <div className="mt-2 rounded-2xl bg-sky-50 px-3 py-2 text-[12px] font-bold leading-relaxed text-sky-900">💡 {p.pz.hint}</div>}
           </>
+        )}
+
+        {p.phase === 'sum' && (
+          <div className="rounded-2xl bg-emerald-50 px-3 py-3 text-center">
+            <div className="bubble-pop mb-1 text-3xl">✨</div>
+            <div className="mb-1 text-[14px] font-black text-emerald-800">ぜんぶ はまった！　{q.answer}</div>
+            {p.combo >= 2 && <div className="mb-1 text-[12px] font-black text-rose-600">🔥 {p.combo} コンボ！</div>}
+            <div className="mb-2 whitespace-pre-line rounded-xl bg-white px-2 py-2 text-left text-[11.5px] font-bold leading-relaxed text-ink">{`📝 まとめ\n${q.explain}`}</div>
+            <button className="btn-main" onClick={() => {
+              if (p.qi + 1 >= p.kinds.length) { setRes(g.zukeiClear(p.stage, starsOf(p.miss))); setP({ ...p, phase: 'clear' }); } else next();
+            }}>{p.qi + 1 >= p.kinds.length ? 'クリア！ ▶' : 'つぎの 形へ ▶'}</button>
+          </div>
         )}
 
         {p.phase === 'cut' && (
@@ -555,7 +597,8 @@ export function ZukeiModal({ onClose }: { onClose: () => void }) {
           <div className="rounded-2xl bg-emerald-50 px-3 py-3 text-center">
             <div className="bubble-pop mb-1 text-4xl">🎉</div>
             <div className="mb-1 text-[14px] font-black text-emerald-800">{st.game}　クリア！</div>
-            <div className="mb-2 text-[11.5px] font-bold text-ink">まちがえた かいすう：{p.miss}かい</div>
+            <div className="mb-1 text-2xl">{[1, 2, 3].map((n) => (starsOf(p.miss) >= n ? '⭐' : '☆')).join('')}</div>
+            <div className="mb-2 text-[11.5px] font-bold text-ink">ミス：{p.miss}かい　さいこう コンボ：{p.bestCombo}</div>
             {res?.reward ? (
               <div className="mb-2 text-[12px] font-black text-violet-700">🎁 ごほうび：{ITEM_BY_ID[res.reward].emoji} {ITEM_BY_ID[res.reward].name}（「かぐ」から おけるよ）</div>
             ) : (
