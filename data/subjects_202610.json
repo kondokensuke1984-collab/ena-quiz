@@ -261,38 +261,6 @@
 "month": "202610",
 "parent": "wariai10"
 },
-"suiri10": {
-"label": "推理",
-"icon": "🕵️",
-"tag": "tag-suiri",
-"category": "sansu",
-"month": "202610",
-"isGroup": true
-},
-"suiri10_kihon": {
-"label": "基本問題",
-"icon": "📝",
-"tag": "tag-suiri",
-"category": "sansu",
-"month": "202610",
-"parent": "suiri10"
-},
-"suiri10_renshu": {
-"label": "練習問題",
-"icon": "✏️",
-"tag": "tag-suiri",
-"category": "sansu",
-"month": "202610",
-"parent": "suiri10"
-},
-"suiri10_kakomon": {
-"label": "過去問演習",
-"icon": "📋",
-"tag": "tag-suiri",
-"category": "sansu",
-"month": "202610",
-"parent": "suiri10"
-},
 "hoshi10": {
 "label": "星の動き1",
 "icon": "🌠",

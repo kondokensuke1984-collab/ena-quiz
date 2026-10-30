@@ -269,7 +269,7 @@ export const FAVORITE: Record<string, string> = {
   mochiusa: 'gf_dango',   // 🐰 もちつきうさぎ（月）
   tanuki: 'gf_dango', owl: 'gf_book', parrot: 'gf_berry', rabbit: 'gf_flower', bear: 'gf_cookie', cow: 'gf_apple', koala: 'gf_flower', giraffe: 'gf_book', chick: 'gf_berry', mouse: 'gf_cookie',
   dog: 'gf_book', cheetah: 'gf_berry', lion: 'gf_cookie', bee: 'gf_flower', pig: 'gf_apple',
-  otter: 'gf_book', tiger: 'gf_cookie',
+  otter: 'gf_book', tiger: 'gf_cookie', peacock: 'gf_flower',
 };
 export const GIFTS_PER_DAY = 3;
 /** ♥が1つ増える なかよしポイント */
