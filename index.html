@@ -2244,7 +2244,22 @@ body.sp-drawing { -webkit-user-select: none; user-select: none; }
   <button id="yakusu-btn" class="tendency-btn" onclick="window.open('https://yakusu-battle.vercel.app','_blank','noopener')" style="background:linear-gradient(135deg,#f59e0b,#ea580c);margin-top:8px;color:#fff;display:none;">⚔️ やくすうバトル（やくすう・こうやくすう）</button>
   <button id="chirashi-btn" class="tendency-btn" onclick="location.href='/chirashi.html'" style="background:linear-gradient(135deg,#f472b6,#a78bfa);margin-top:12px;color:#fff;">📄 チラシ集（おぼえたいこと1枚）</button>
   <button id="dex-btn" class="tendency-btn" onclick="showDexScreen()" style="background:linear-gradient(135deg,#f59e0b,#f472b6);margin-top:8px;color:#fff;">📖 コレクション図鑑</button>
+  <button id="voice-lock-btn" class="tendency-btn" onclick="toggleQuizVoiceLock()" style="background:linear-gradient(135deg,#10b981,#059669);margin-top:8px;color:#fff;">🔊 一問一答（おうちの人）</button>
   <button class="back-to-month" style="margin-top:12px" onclick="showSchoolSelect()">◀ 塾選択に戻る</button>
+</div>
+
+<!-- 一問一答（読み上げ）の暗証番号 -->
+<div id="voice-pin-overlay" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.55);align-items:center;justify-content:center;padding:16px;" onclick="if(event.target===this)closeVoicePin()">
+  <div style="background:#fff;border-radius:18px;padding:20px;width:100%;max-width:300px;text-align:center;">
+    <div style="font-size:16px;font-weight:800;color:#3d2b5e;">🔊 一問一答</div>
+    <div style="font-size:12px;color:#6b7280;margin:6px 0 12px;">おうちの人の 暗証番号を いれてね</div>
+    <input id="voice-pin-input" type="password" inputmode="numeric" maxlength="4" autocomplete="off" style="width:100%;box-sizing:border-box;font-size:22px;letter-spacing:.4em;text-align:center;padding:10px;border:2px solid #d1d5db;border-radius:12px;" onkeydown="if(event.key==='Enter')submitVoicePin()">
+    <div id="voice-pin-msg" style="min-height:18px;font-size:12px;color:#dc2626;margin-top:6px;"></div>
+    <div style="display:flex;gap:8px;margin-top:8px;">
+      <button type="button" onclick="closeVoicePin()" style="flex:1;padding:10px;border:none;border-radius:12px;background:#f3f4f6;font-weight:700;cursor:pointer;">やめる</button>
+      <button type="button" onclick="submitVoicePin()" style="flex:1;padding:10px;border:none;border-radius:12px;background:#10b981;color:#fff;font-weight:800;cursor:pointer;">ひらく</button>
+    </div>
+  </div>
 </div>
 
 <!-- 日付設定モーダル -->
@@ -23589,6 +23604,7 @@ function selectSchool(schoolId) {
   state.selectedSchool = schoolId;
   document.getElementById('school-select').style.display = 'none';
   document.getElementById('month-select').style.display = 'flex';
+  refreshVoiceLockBtn(); { const vb = document.getElementById('voice-lock-btn'); if (vb) vb.style.display = state.selectedSchool === 'ena' ? '' : 'none'; }
   document.getElementById('gakuhan-btn').style.display       = schoolId === 'ena'   ? '' : 'none';
   document.getElementById('yonka-btn').style.display         = schoolId === 'ena'   ? '' : 'none';
   document.getElementById('gouhan-moshi-btn').style.display  = schoolId === 'ena'   ? '' : 'none';
@@ -23618,6 +23634,7 @@ function showMonthSelect() {
   document.getElementById('result').style.display = 'none';
   document.getElementById('school-select').style.display = 'none';
   document.getElementById('month-select').style.display = 'flex';
+  refreshVoiceLockBtn(); { const vb = document.getElementById('voice-lock-btn'); if (vb) vb.style.display = state.selectedSchool === 'ena' ? '' : 'none'; }
   document.getElementById('gakuhan-btn').style.display       = state.selectedSchool === 'ena'   ? '' : 'none';
   document.getElementById('yonka-btn').style.display         = state.selectedSchool === 'ena'   ? '' : 'none';
   document.getElementById('gouhan-moshi-btn').style.display  = state.selectedSchool === 'ena'   ? '' : 'none';
@@ -24305,8 +24322,36 @@ function playQuizVoice(kind, btn) {
   a.onended = a.onerror = () => { if (_quizVoiceAudio === a) stopQuizVoice(); };
   a.play().catch(() => stopQuizVoice());
 }
+// 🔒 読み上げは「一問一答」ボタン＋暗証番号を いれたときだけ（タブを とじるまで）。番号そのものは置かず、ハッシュだけ
+const VOICE_PIN_HASH = '82884e830b88b6fba9ab77b5dc0ee5bb54005fa00456a9bf75f9f66d1e30a848';
+function quizVoiceUnlocked() { try { return sessionStorage.getItem('ena_voice_ok') === '1'; } catch (e) { return false; } }
+function refreshVoiceLockBtn() {
+  const b = document.getElementById('voice-lock-btn');
+  if (b) b.textContent = quizVoiceUnlocked() ? '🔓 一問一答：ひらいてる（タップで とじる）' : '🔊 一問一答（おうちの人）';
+}
+function toggleQuizVoiceLock() {
+  if (quizVoiceUnlocked()) {
+    try { sessionStorage.removeItem('ena_voice_ok'); } catch (e) {}
+    stopQuizVoice(); refreshVoiceLockBtn(); return;
+  }
+  const ov = document.getElementById('voice-pin-overlay'), inp = document.getElementById('voice-pin-input');
+  document.getElementById('voice-pin-msg').textContent = '';
+  inp.value = ''; ov.style.display = 'flex'; setTimeout(() => inp.focus(), 50);
+}
+function closeVoicePin() { document.getElementById('voice-pin-overlay').style.display = 'none'; }
+async function submitVoicePin() {
+  const v = document.getElementById('voice-pin-input').value.trim();
+  let ok = false;
+  try {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode('ena-voice:' + v));
+    ok = [...new Uint8Array(buf)].map(x => x.toString(16).padStart(2, '0')).join('') === VOICE_PIN_HASH;
+  } catch (e) {}
+  if (!ok) { document.getElementById('voice-pin-msg').textContent = 'ちがうよ'; return; }
+  try { sessionStorage.setItem('ena_voice_ok', '1'); } catch (e) {}
+  closeVoicePin(); refreshVoiceLockBtn();
+}
 function quizVoiceBtn(q, kind, label) {
-  return _quizVoiceIds.has(q.id) ? `<div><button type="button" class="voice-btn" onclick="playQuizVoice('${kind}', this)">🔊 ${label}</button></div>` : '';
+  return (quizVoiceUnlocked() && _quizVoiceIds.has(q.id)) ? `<div><button type="button" class="voice-btn" onclick="playQuizVoice('${kind}', this)">🔊 ${label}</button></div>` : '';
 }
 
 function renderQuestion() {
