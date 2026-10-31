@@ -24320,10 +24320,10 @@ function showQuiz() {
   renderQuestion();
 }
 
-// 🔊 読み上げ（ずんだもん）：audio/shakai11/<id>_q|a|e.mp3。tools/make_quiz_voice.py で作る。manifest にある問題だけ ボタンが出る
-let _quizVoiceIds = new Set();
+// 🔊 読み上げ（ずんだもん）：audio/<shakai11|rika11>/<id>_q|a|e.mp3。tools/make_quiz_voice.py で作る。manifest にある問題だけ ボタンが出る
+let _quizVoiceIds = new Map();   // 問題id → 声のフォルダ（audio/<フォルダ>/）
 let _quizVoiceAudio = null, _quizVoiceBtn = null;
-try { fetch('/audio/shakai11/manifest.json').then(r => r.ok ? r.json() : []).then(a => { _quizVoiceIds = new Set(a); }).catch(() => {}); } catch (e) {}
+['shakai11', 'rika11'].forEach(g => { try { fetch(`/audio/${g}/manifest.json`).then(r => r.ok ? r.json() : []).then(a => a.forEach(id => _quizVoiceIds.set(id, g))).catch(() => {}); } catch (e) {} });
 function stopQuizVoice() {
   if (_quizVoiceAudio) { try { _quizVoiceAudio.pause(); } catch (e) {} _quizVoiceAudio = null; }
   if (_quizVoiceBtn) { _quizVoiceBtn.classList.remove('playing'); _quizVoiceBtn = null; }
@@ -24334,7 +24334,7 @@ function playQuizVoice(kind, btn) {
   const same = btn && btn === _quizVoiceBtn;
   stopQuizVoice();
   if (same) return;   // もういちど おすと とまる
-  const a = new Audio(`/audio/shakai11/${q.id}_${kind}.mp3`);
+  const a = new Audio(`/audio/${_quizVoiceIds.get(q.id)}/${q.id}_${kind}.mp3`);
   _quizVoiceAudio = a; _quizVoiceBtn = btn || null;
   if (btn) btn.classList.add('playing');
   a.onended = a.onerror = () => { if (_quizVoiceAudio === a) stopQuizVoice(); };
@@ -25490,7 +25490,7 @@ function selectAnswer(chosen) {
   fb.style.display = ''; showFeedbackImage(q);
 
   if (q.explanation) {
-    exp.innerHTML = renderMath(q.explanation);
+    exp.innerHTML = renderMath(q.explanation) + quizVoiceBtn(q, 'e', 'かいせつをきく');
     exp.style.display = 'block';
   } else {
     exp.style.display = 'none';

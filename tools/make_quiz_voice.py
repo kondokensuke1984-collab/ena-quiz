@@ -25,8 +25,14 @@ import imageio_ffmpeg
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / 'data' / 'questions_202611.json'
-OUT = ROOT / 'audio' / 'shakai11'
-SUBJECTS = ('nougyou6_kihon', 'ringyo_kihon', 'suisan_kihon')
+# 声を作る 単元の かたまり。--group <名前> で えらぶ（なにも書かなければ shakai11）。出力は audio/<名前>/
+GROUPS = {
+    'shakai11': ('nougyou6_kihon', 'ringyo_kihon', 'suisan_kihon'),
+    'rika11': ('tane1_kihon', 'tane2_kihon', 'kumo1_kihon'),
+}
+GROUP = sys.argv[sys.argv.index('--group') + 1] if '--group' in sys.argv else 'shakai11'
+OUT = ROOT / 'audio' / GROUP
+SUBJECTS = GROUPS[GROUP]
 VV_API = 'http://127.0.0.1:50021'
 SPEAKER = 3          # ずんだもん ノーマル
 SPEED = 0.95
@@ -42,6 +48,7 @@ YOMI_WORD = [
     (r'［\s*］|\[\s*\]', 'かっこ'),
     (r'[【】［］\[\]]', ''),
     (r'（\s*）|\(\s*\)', 'かっこ'),
+    (r'（([①-④])）', r'かっこ\1'),
     (r'下（草）がり', 'したくさがり'),
     (r'（例）', '、例として、'),
     (r'三大美林', 'さんだいびりん'),
@@ -49,13 +56,16 @@ YOMI_WORD = [
     (r'得にくかった', 'えにくかった'),
     (r'米', 'こめ'),
     (r'(\d+)m', r'\1メートル'),
-    (r'①', '1番'), (r'②', '2番'), (r'③', '3番'),
+    (r'①', '1番'), (r'②', '2番'), (r'③', '3番'), (r'④', '4番'),
+    (r'℃', '度'), (r'〜', 'から'), (r'＝', 'イコール'), (r'÷', 'わる'), (r'×', 'かける'),
+    (r'(?<![ア-ン])([ア-オ]) (?=\S)', r'\1、'),
     (r'ア〜([ア-ン])', r'アから\1'),
     (r'(?<=[^\n。、])([イウエ])：', r'。\1：'),
     (r'：', '、'),
     (r'Λ', 'ラムダ'),
     (r'\u3000+', '、'),
     (r'\n+', '。'),
+    (r'\*\*', ''),
     (r'[（）]', '、'),
     (r'、、+', '、'),
     (r'。。+', '。'),
@@ -76,11 +86,13 @@ def clean(text: str) -> str:
 
 
 def scripts(q: dict) -> dict:
-    body = q['q'].replace('基本問題', '基本問題', 1)
+    choice = 'options' in q    # 4択：選択肢も読む。答えは「こたえは、ウ。〜」と 解説の 前につける
+    body = q['q'] + ('\n' + '\n'.join(q['options']) if choice else '')
+    ans = q['options'][q['answer']] if choice else q['answer']
     out = {
         'q': clean(body),
-        'a': clean('こたえは、' + q['answer']),
-        'e': clean(q['explanation']),
+        'a': clean('こたえは、' + ans),
+        'e': clean(('こたえは、' + ans + '。' if choice else '') + q['explanation']),
     }
     out.update(YOMI_ID.get(q['id'], {}))
     return out
