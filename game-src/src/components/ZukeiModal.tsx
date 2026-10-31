@@ -539,7 +539,7 @@ export function ZukeiModal({ onClose }: { onClose: () => void }) {
             <div className="bubble-pop mb-1 text-3xl">✨</div>
             <div className="mb-1 text-[14px] font-black text-emerald-800">ぜんぶ はまった！　{q.answer}</div>
             {p.combo >= 2 && <div className="mb-1 text-[12px] font-black text-rose-600">🔥 {p.combo} コンボ！</div>}
-            <div className="mb-2 whitespace-pre-line rounded-xl bg-white px-2 py-2 text-left text-[11.5px] font-bold leading-relaxed text-ink">{`📝 まとめ\n${q.explain}`}</div>
+            <div className="mb-2 whitespace-pre-line rounded-xl bg-white px-2 py-2 text-left text-[12.5px] font-bold leading-relaxed text-ink">{`📝 まとめ\n${q.explain}`}</div>
             <button className="btn-main" onClick={() => {
               if (p.qi + 1 >= p.kinds.length) { setRes(g.zukeiClear(p.stage, starsOf(p.miss))); setP({ ...p, phase: 'clear' }); } else next();
             }}>{p.qi + 1 >= p.kinds.length ? 'クリア！ ▶' : 'つぎの 形へ ▶'}</button>
@@ -573,7 +573,7 @@ export function ZukeiModal({ onClose }: { onClose: () => void }) {
           <div className="rounded-2xl bg-emerald-50 px-3 py-3 text-center">
             <div className="bubble-pop mb-1 text-3xl">⭕</div>
             <div className="mb-1 text-[14px] font-black text-emerald-800">せいかい！　{q.answer}</div>
-            <div className="mb-2 whitespace-pre-line text-left text-[11.5px] font-bold leading-relaxed text-ink">{q.explain}</div>
+            <div className="mb-2 whitespace-pre-line text-left text-[12.5px] font-bold leading-relaxed text-ink">{q.explain}</div>
             <button className="btn-main" onClick={next}>つぎの もんだいへ ▶</button>
           </div>
         )}
@@ -581,7 +581,7 @@ export function ZukeiModal({ onClose }: { onClose: () => void }) {
         {(p.phase === 'wrong' || p.phase === 'over') && (
           <div className="rounded-2xl bg-rose-50 px-3 py-3">
             <div className="mb-1 text-center text-[14px] font-black text-rose-700">ざんねん！ こたえは {q.answer}</div>
-            <div className="mb-2 whitespace-pre-line rounded-xl bg-white px-2 py-2 text-[11.5px] font-bold leading-relaxed text-ink">{q.explain}</div>
+            <div className="mb-2 whitespace-pre-line rounded-xl bg-white px-2 py-2 text-[12.5px] font-bold leading-relaxed text-ink">{q.explain}</div>
             {p.phase === 'wrong' ? (
               <button className="btn-main" onClick={retry}>もういちど（ちがう 数で）</button>
             ) : (

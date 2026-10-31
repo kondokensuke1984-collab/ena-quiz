@@ -77,6 +77,9 @@ function makeChoices(answer: string, wrongs: string[], fallback: () => string): 
   return shuffle([answer, ...shuffle(set).slice(0, 3)]);
 }
 
+/** まとめの 解説：公式 → どうして？ → この もんだいは、の 3だん */
+const lesson = (formula: string, why: string, calc: string) => `📘 公式\n${formula}\n\n💡 どうして？\n${why}\n\n✏️ この もんだいは\n${calc}`;
+
 const nameOf = (n: number) => ({ 3: '三角形', 4: '四角形', 5: '五角形', 6: '六角形', 7: '七角形', 8: '八角形', 9: '九角形', 10: '十角形', 12: '十二角形' } as Record<number, string>)[n] ?? `${n}角形`;
 const seiName = (n: number) => `正${nameOf(n)}`;
 
@@ -96,7 +99,7 @@ function polyQ(kind: PolyKind, ov?: { n?: number }): Question {
         choices: makeChoices(`${a}こ`, [`${n - 1}こ`, `${n}こ`, `${n - 3}こ`, `${n - 4}こ`], () => `${n + 1 + rnd(3)}こ`),
         answer: `${a}こ`,
         hint: '1つの 頂点から ほかの 頂点へ 線を ひいてみよう。自分と となりの 2つには ひけないよ',
-        explain: `1つの 頂点から ひける 対角線は、自分と となり合う 2つを のぞくから ${n}-3=${n - 3}(本)。\n三角形は それより 1つ 多くて ${n}-2=${n - 2}(こ)。`,
+        explain: lesson('1つの 頂点から ひける 対角線 ＝ 角の 数 − 3（本）\n1つの 頂点から わけられる 三角形 ＝ 角の 数 − 2（こ）', '対角線は 頂点と 頂点を むすぶ 線。でも 自分と、となりの 2つの 頂点には 線を ひいても 辺に なっちゃうから ひけないよ（3つ ひけない）。ひいた 線で 多角形が 三角形に わかれて、その 数は 線の 数より 1つ 多くなるよ。', `${n}-3=${n - 3}(本)\n${n}-2=${n - 2}(こ)`),
       };
     }
     case 'sum': {
@@ -108,7 +111,7 @@ function polyQ(kind: PolyKind, ov?: { n?: number }): Question {
         choices: makeChoices(ang(v), [ang(180 * (n - 1)), ang(180 * n), ang(180 * (n - 3)), ang(360 * (n - 2))], () => ang(180 * (n - 2 + 1 + rnd(3)))),
         answer: ang(v),
         hint: '三角形に わけて かんがえよう。三角形の 内角の 和は 180度',
-        explain: `${nameOf(n)}は ${n}-2=${n - 2}(こ)の 三角形に わけられる。\n180×${n - 2}=${v}(度)`,
+        explain: lesson('多角形の 内角の 和 ＝ 180° × (角の 数 − 2)', '三角形の 内角の 和は 180度。多角形は 1つの 頂点から 対角線を ひくと、(角の 数 − 2)この 三角形に わかれるよ。だから 180度を その 数だけ たせば いいんだ。', `${nameOf(n)}は ${n}-2=${n - 2}(こ)の 三角形。\n180×${n - 2}=${v}(度)`),
       };
     }
     case 'inner': {
@@ -120,7 +123,7 @@ function polyQ(kind: PolyKind, ov?: { n?: number }): Question {
         choices: makeChoices(ang(v), [ang(360 / n), ang(180 - v / 2), ang(180 * (n - 2)), ang(180 - 360 / n + 10)], () => ang(v + 5 * (1 + rnd(5)) * (rnd(2) ? 1 : -1))),
         answer: ang(v),
         hint: '内角の 和を 角の 数で わろう',
-        explain: `${nameOf(n)}の 内角の 和は 180×(${n}-2)=${180 * (n - 2)}(度)。\n正多角形は 角が ぜんぶ 同じだから ${180 * (n - 2)}÷${n}=${v}(度)`,
+        explain: lesson('正多角形の 1つの 内角 ＝ 180° × (角の 数 − 2) ÷ 角の 数', '正多角形は 角が ぜんぶ 同じ 大きさ。だから 内角の 和を 角の 数で われば、1つぶんが わかるよ。', `内角の 和は 180×(${n}-2)=${180 * (n - 2)}(度)\n${180 * (n - 2)}÷${n}=${v}(度)`),
       };
     }
     case 'outer': {
@@ -132,7 +135,7 @@ function polyQ(kind: PolyKind, ov?: { n?: number }): Question {
         choices: makeChoices(ang(v), [ang(180 - v), ang(180 * (n - 2) / n), ang(v * 2), ang(v / 2)], () => ang(v + 5 * (1 + rnd(5)))),
         answer: ang(v),
         hint: '多角形の 外角の 和は いつでも 360度',
-        explain: `外角の 和は 360度。正${nameOf(n)}は ${n}こ ぜんぶ 同じだから 360÷${n}=${v}(度)`,
+        explain: lesson('外角の 和 ＝ 360°（どんな 多角形でも）\n正多角形の 1つの 外角 ＝ 360° ÷ 角の 数', '外角は 辺を のばして できる 角。かどを ぐるっと 1しゅう まわると、からだは 1回転（360度）するよね。だから 外角を ぜんぶ たすと いつでも 360度 になるよ。正多角形は 外角が ぜんぶ 同じだから、角の 数で わると 1つぶん。', `360÷${n}=${v}(度)`),
       };
     }
     case 'diag': {
@@ -144,7 +147,7 @@ function polyQ(kind: PolyKind, ov?: { n?: number }): Question {
         choices: makeChoices(`${v}本`, [`${n * (n - 3)}本`, `${n * (n - 1) / 2}本`, `${n - 3}本`, `${v + n}本`], () => `${v + 1 + rnd(5)}本`),
         answer: `${v}本`,
         hint: '1つの 頂点から ひける 本数 × 頂点の 数、でも 同じ線を 2回 数えているよ',
-        explain: `1つの 頂点から ひける 対角線は ${n}-3=${n - 3}(本)。\n${n}つの 頂点で ${n}×${n - 3}=${n * (n - 3)}(本) だけど、1本を 2回ずつ 数えているから 2で わって ${v}(本)`,
+        explain: lesson('対角線の 本数 ＝ 角の 数 × (角の 数 − 3) ÷ 2', '1つの 頂点から ひける 対角線は (角の 数 − 3)本。それを ぜんぶの 頂点で 数えると、1本の 線を りょうはしから 2回ずつ 数えちゃうから、さいごに 2で わるよ。', `${n}-3=${n - 3}(本)\n${n}×${n - 3}=${n * (n - 3)}\n${n * (n - 3)}÷2=${v}(本)`),
       };
     }
     case 'whichN': {
@@ -156,7 +159,7 @@ function polyQ(kind: PolyKind, ov?: { n?: number }): Question {
         choices: makeChoices(nameOf(n), [nameOf(n + 1), nameOf(n - 1), nameOf(n + 2), nameOf(v / 180)].filter((s) => !s.endsWith('角形') || true), () => nameOf(3 + rnd(10))),
         answer: nameOf(n),
         hint: '内角の 和 = 180 × (角の 数 − 2)。180で わってから 2を たそう',
-        explain: `${v}÷180=${n - 2}。三角形が ${n - 2}こ とれるから、角の 数は ${n - 2}+2=${n} で ${nameOf(n)}`,
+        explain: lesson('角の 数 ＝ 内角の 和 ÷ 180 ＋ 2', '内角の 和 ＝ 180×(角の 数 − 2) の 式を、ぎゃくに たどるよ。まず 180で わると 三角形の 数が わかる。そこに 2を たすと 角の 数。', `${v}÷180=${n - 2}(こ)\n${n - 2}+2=${n} → ${nameOf(n)}`),
       };
     }
     case 'missing': {
@@ -181,7 +184,7 @@ function polyQ(kind: PolyKind, ov?: { n?: number }): Question {
         choices: makeChoices(ang(fixedLast), [ang(360 - angles.reduce((x, y) => x + y, 0)), ang(180 - angles.reduce((x, y) => x + y, 0) + 360), ang(fixedLast + 180), ang(fixedLast - 20)], () => ang(fixedLast + 5 * (1 + rnd(6)) * (rnd(2) ? 1 : -1))),
         answer: ang(fixedLast),
         hint: `${nameOf(n)}の 内角の 和は 180×(${n}-2) 度。そこから 分かっている 角を ひこう`,
-        explain: `${nameOf(n)}の 内角の 和は 180×(${n}-2)=${total}(度)。\n分かっている 角の 和は ${angles.join('+')}=${total - fixedLast}(度)。\nのこりは ${total}-${total - fixedLast}=${fixedLast}(度)`,
+        explain: lesson('のこりの 角 ＝ 内角の 和 − 分かっている 角の 和\n内角の 和 ＝ 180° × (角の 数 − 2)', '多角形の 内角を ぜんぶ たすと きまった 数に なる。分かっている 角を ひけば、のこりが でるよ。', `内角の 和は 180×(${n}-2)=${total}(度)\n分かっている 角の 和は ${angles.join('+')}=${total - fixedLast}(度)\n${total}-${total - fixedLast}=${fixedLast}(度)`),
       };
     }
   }
@@ -197,7 +200,7 @@ function polyBoss(): Question {
     choices: makeChoices(seiName(n), [seiName(n + 1), seiName(n - 1), seiName(n + 2), seiName(inner / 20 | 0)], () => seiName(3 + rnd(10))),
     answer: seiName(n),
     hint: '1つの 外角は 180−内角。外角の 和は 360度 だから、360÷外角 が 角の 数',
-    explain: `1つの 外角は 180-${inner}=${180 - inner}(度)。\n外角の 和は 360度 だから 360÷${180 - inner}=${n}。答えは ${seiName(n)}`,
+    explain: lesson('内角 ＋ 外角 ＝ 180°\n角の 数 ＝ 360° ÷ 1つの 外角', '内角の 和から 考えると 大へん。でも 外角を だすと、外角の 和は いつでも 360度だから、360を 外角で わるだけで 角の 数が わかるよ。', `外角は 180-${inner}=${180 - inner}(度)\n360÷${180 - inner}=${n} → ${seiName(n)}`),
   };
 }
 
@@ -235,7 +238,7 @@ function pizzaQ(kind: PizzaKind, ov?: SecOv): Question {
         choices: makeChoices(ans, [U(fromHundredths(r * r * 314), 'cm'), U(fromHundredths(r * 314), 'cm'), U(fromHundredths(4 * r * 314), 'cm')], () => U(fromHundredths(v + 100 * (1 + rnd(9))), 'cm')),
         answer: ans,
         hint: '円周 = 直径 × 3.14。直径は 半径の 2ばい',
-        explain: `直径は ${r}×2=${2 * r}(cm)。円周は ${2 * r}×3.14=${fromHundredths(v)}(cm)`,
+        explain: lesson('円周 ＝ 直径 × 3.14（円周率）\n直径 ＝ 半径 × 2', '円の まわりの 長さは、直径の 3.14倍って きまっているよ。この 3.14を 円周率って いうんだ。半径は 直径の 半分だから、半径を 2ばいして 直径に してから かけよう。', `直径は ${r}×2=${2 * r}(cm)\n${2 * r}×3.14=${fromHundredths(v)}(cm)`),
       };
     }
     case 'carea': {
@@ -248,7 +251,7 @@ function pizzaQ(kind: PizzaKind, ov?: SecOv): Question {
         choices: makeChoices(ans, [U(fromHundredths(2 * r * 314), 'cm²'), U(fromHundredths(4 * r * r * 314), 'cm²'), U(fromHundredths(r * 314), 'cm²')], () => U(fromHundredths(v + 100 * (1 + rnd(9))), 'cm²')),
         answer: ans,
         hint: '円の 面積 = 半径 × 半径 × 3.14',
-        explain: `${r}×${r}×3.14=${fromHundredths(v)}(cm²)`,
+        explain: lesson('円の 面積 ＝ 半径 × 半径 × 3.14', '半径を 1辺に した 正方形の 面積が 「半径×半径」。円の 面積は その 正方形の 3.14倍くらい あるよ。直径じゃなくて 半径を 2回 かけるのが ポイント！', `${r}×${r}×3.14=${fromHundredths(v)}(cm²)`),
       };
     }
     case 'arc': {
@@ -261,7 +264,7 @@ function pizzaQ(kind: PizzaKind, ov?: SecOv): Question {
         choices: makeChoices(ans, [U(fromHundredths(areaH(r, a)), 'cm'), U(fromHundredths(2 * r * 314), 'cm'), U(fromHundredths(r * 314 * a / 360), 'cm'), U(fromHundredths(v + 200 * r), 'cm')], () => U(fromHundredths(v + 100 * (1 + rnd(9))), 'cm')),
         answer: ans,
         hint: '弧の 長さ = 円周 × (中心角 ÷ 360)',
-        explain: `円周は ${r}×2×3.14=${fromHundredths(2 * r * 314)}(cm)。\n${a}÷360=${a / 360 === 0.5 ? '1/2' : `${a}/360`} を かけて ${fromHundredths(v)}(cm)`,
+        explain: lesson('弧の 長さ ＝ 円周 × 中心角 ÷ 360\n（円周 ＝ 半径 × 2 × 3.14）', `おうぎ形は 円を ピザみたいに 切った もの。円を 1しゅうすると 360度。中心角が ${a}度なら、円の ${a}/360 の ぶんだけの 弧に なるよ。だから 円周に その わりあいを かけるんだ。`, `円周は ${r}×2×3.14=${fromHundredths(2 * r * 314)}(cm)\n${fromHundredths(2 * r * 314)}×${a}/360=${fromHundredths(v)}(cm)`),
       };
     }
     case 'area': {
@@ -274,7 +277,7 @@ function pizzaQ(kind: PizzaKind, ov?: SecOv): Question {
         choices: makeChoices(ans, [U(fromHundredths(arcH(r, a)), 'cm²'), U(fromHundredths(r * r * 314), 'cm²'), U(fromHundredths(r * r * 314 * a / 180), 'cm²')], () => U(fromHundredths(v + 100 * (1 + rnd(9))), 'cm²')),
         answer: ans,
         hint: 'おうぎ形の 面積 = 円の 面積 × (中心角 ÷ 360)',
-        explain: `円の 面積は ${r}×${r}×3.14=${fromHundredths(r * r * 314)}(cm²)。\n${a}÷360 を かけて ${fromHundredths(v)}(cm²)`,
+        explain: lesson('おうぎ形の 面積 ＝ 半径 × 半径 × 3.14 × 中心角 ÷ 360', `まず 円ぜんぶの 面積を だす。おうぎ形は その 円の ${a}/360 の ぶん（ピザの 1切れ）だから、円の 面積に その わりあいを かけるよ。`, `円の 面積は ${r}×${r}×3.14=${fromHundredths(r * r * 314)}(cm²)\n${fromHundredths(r * r * 314)}×${a}/360=${fromHundredths(v)}(cm²)`),
       };
     }
     case 'perim': {
@@ -287,7 +290,7 @@ function pizzaQ(kind: PizzaKind, ov?: SecOv): Question {
         choices: makeChoices(ans, [U(fromHundredths(arcH(r, a)), 'cm'), U(fromHundredths(arcH(r, a) + 100 * r), 'cm'), U(fromHundredths(areaH(r, a) + 200 * r), 'cm')], () => U(fromHundredths(v + 100 * (1 + rnd(9))), 'cm')),
         answer: ans,
         hint: 'まわりの 長さ = 弧の 長さ + 半径 ×2 本。まっすぐな 2本を わすれずに！',
-        explain: `弧の 長さは ${r}×2×3.14×${a}/360=${fromHundredths(arcH(r, a))}(cm)。\n半径が 2本で ${r}×2=${2 * r}(cm)。\nあわせて ${fromHundredths(v)}(cm)`,
+        explain: lesson('おうぎ形の まわりの 長さ ＝ 弧の 長さ ＋ 半径 × 2', 'おうぎ形の ふちは、曲がった 弧が 1本と、まっすぐな 半径が 2本。ぜんぶ たさないと まわり 1しゅうに ならないよ。半径 2本を わすれやすいから 気をつけて！', `弧の 長さは ${r}×2×3.14×${a}/360=${fromHundredths(arcH(r, a))}(cm)\n半径 2本は ${r}×2=${2 * r}(cm)\n${fromHundredths(arcH(r, a))}+${2 * r}=${fromHundredths(v)}(cm)`),
       };
     }
     case 'findA': {
@@ -300,7 +303,7 @@ function pizzaQ(kind: PizzaKind, ov?: SecOv): Question {
         choices: makeChoices(ans, [`${a * 2 > 360 ? a / 2 : a * 2}度`, `${Math.round(a / 2)}度`, `${360 - a}度`, `${a + 30}度`], () => `${pick(SECTOR_A)}度`),
         answer: ans,
         hint: '弧の 長さが 円周の 何分の 1 かを 考えよう',
-        explain: `円周は ${r}×2×3.14=${fromHundredths(2 * r * 314)}(cm)。\n弧は ${fromHundredths(L)}÷${fromHundredths(2 * r * 314)} = ${a}/360 だから、中心角は ${a}度`,
+        explain: lesson('中心角 ＝ 360° × 弧の 長さ ÷ 円周', '弧の 長さが 円周の 何分の 1 かを 出せば、中心角も 360度の 同じ 何分の 1 になるよ。', `円周は ${r}×2×3.14=${fromHundredths(2 * r * 314)}(cm)\n${fromHundredths(L)}÷${fromHundredths(2 * r * 314)} = ${a}/360\n360×${a}/360=${a}(度)`),
       };
     }
   }
@@ -322,7 +325,7 @@ function pizzaBoss(): Question {
     choices: makeChoices(ans, [`${fromHundredths(arcH(r, a))}cm`, `${fromHundredths(arcH(r, a) + 100 * r)}cm`, `${fromHundredths(areaH(r, a) + 200 * r)}cm`], () => `${fromHundredths(v + 100 * (1 + rnd(9)))}cm`),
     answer: ans,
     hint: '弧の 長さ + 半径 2本',
-    explain: `弧の 長さは ${r}×2×3.14×${a}/360=${fromHundredths(arcH(r, a))}(cm)。\n半径 2本は ${2 * r}(cm)。\nあわせて ${fromHundredths(v)}(cm)`,
+    explain: lesson('おうぎ形の まわりの 長さ ＝ 弧の 長さ ＋ 半径 × 2\n弧の 長さ ＝ 半径 × 2 × 3.14 × 中心角 ÷ 360', '弧（曲がった ところ）と、まっすぐな 半径 2本を ぜんぶ たそう。半径 2本の たしわすれが いちばん 多い まちがいだよ。', `弧の 長さは ${r}×2×3.14×${a}/360=${fromHundredths(arcH(r, a))}(cm)\n半径 2本は ${2 * r}(cm)\n${fromHundredths(arcH(r, a))}+${2 * r}=${fromHundredths(v)}(cm)`),
   };
 }
 
@@ -344,7 +347,7 @@ function wheelQ(kind: WheelKind, ov?: WheelOv): Question {
         choices: makeChoices(ans, [`${fromHundredths((s * s * 314) / 4)}cm²`, `${fromHundredths(sq(s))}cm²`, `${fromHundredths(sq(s) - (s * s * 314) / 2)}cm²`.replace(/^-.*/, `${fromHundredths(sq(s) + (s * s * 314) / 4)}cm²`)], () => `${fromHundredths(v + 100 * (1 + rnd(9)))}cm²`),
         answer: ans,
         hint: 'かげ = 正方形 − 4分の1の 円',
-        explain: `正方形は ${s}×${s}=${s * s}(cm²)。\n4分の1の 円は ${s}×${s}×3.14÷4=${fromHundredths((s * s * 314) / 4)}(cm²)。\nかげは ${s * s}-${fromHundredths((s * s * 314) / 4)}=${fromHundredths(v)}(cm²)`,
+        explain: lesson('正方形の 面積 ＝ 1辺 × 1辺\n4分の1の 円の 面積 ＝ 半径 × 半径 × 3.14 ÷ 4\nかげ ＝ 正方形 − 4分の1の 円', '「かげ」の 面積は、わかる 形から わかる 形を ひいて だすよ。正方形の かどを 中心に すると、4分の1の 円の 半径は 正方形の 1辺と 同じに なるよ。', `正方形は ${s}×${s}=${s * s}(cm²)\n4分の1の 円は ${s}×${s}×3.14÷4=${fromHundredths((s * s * 314) / 4)}(cm²)\nかげは ${s * s}-${fromHundredths((s * s * 314) / 4)}=${fromHundredths(v)}(cm²)`),
       };
     }
     case 'sqCircle': {
@@ -359,7 +362,7 @@ function wheelQ(kind: WheelKind, ov?: WheelOv): Question {
         choices: makeChoices(ans, [`${fromHundredths(circ)}cm²`, `${fromHundredths(sq(s) - s * s * 314)}cm²`.replace(/^-.*/, `${fromHundredths(sq(s) + circ)}cm²`), `${fromHundredths(sq(s))}cm²`], () => `${fromHundredths(v + 100 * (1 + rnd(9)))}cm²`),
         answer: ans,
         hint: '円の 半径は 正方形の 1辺の 半分。かげ = 正方形 − 円',
-        explain: `円の 半径は ${s}÷2=${h}(cm)。円の 面積は ${h}×${h}×3.14=${fromHundredths(circ)}(cm²)。\n正方形は ${s * s}(cm²) だから ${s * s}-${fromHundredths(circ)}=${fromHundredths(v)}(cm²)`,
+        explain: lesson('円の 半径 ＝ 正方形の 1辺 ÷ 2\n円の 面積 ＝ 半径 × 半径 × 3.14\nかげ ＝ 正方形 − 円', '正方形に ぴったり 入る 円は、直径が 正方形の 1辺と 同じ。だから 半径は 1辺の 半分だよ。半径を まちがえて 1辺を そのまま つかわないように 気をつけよう。', `半径は ${s}÷2=${h}(cm)\n円の 面積は ${h}×${h}×3.14=${fromHundredths(circ)}(cm²)\n${s * s}-${fromHundredths(circ)}=${fromHundredths(v)}(cm²)`),
       };
     }
     case 'petal': {
@@ -373,7 +376,7 @@ function wheelQ(kind: WheelKind, ov?: WheelOv): Question {
         choices: makeChoices(ans, [`${fromHundredths(sq(r) - (r * r * 314) / 4)}cm²`, `${fromHundredths((r * r * 314) / 2)}cm²`, `${fromHundredths((r * r * 314) / 4)}cm²`], () => `${fromHundredths(v + 100 * (1 + rnd(9)))}cm²`),
         answer: ans,
         hint: '4分の1の 円を 2つ たすと、正方形が 1回 かさなって 数えられるよ。ひいてみよう',
-        explain: `4分の1の 円 2つで ${r}×${r}×3.14÷4×2=${fromHundredths((r * r * 314) / 2)}(cm²)。\nこれは 正方形 ${r * r}(cm²) を 1回 ぶん 多く ふくむ。\nかげは ${fromHundredths((r * r * 314) / 2)}-${r * r}=${fromHundredths(v)}(cm²)`,
+        explain: lesson('はなびら ＝ 4分の1の 円 × 2 − 正方形\n4分の1の 円 ＝ 半径 × 半径 × 3.14 ÷ 4', '4分の1の 円を 2つ かさねると、まん中の はなびらは 2回 ぬられて、正方形の 全体は ちょうど 1回ぶん 多く 数えられるよ。だから 2つ ぶんから 正方形を 1回 ひくと はなびらだけが のこるんだ。', `4分の1の 円 2つで ${r}×${r}×3.14÷4×2=${fromHundredths((r * r * 314) / 2)}(cm²)\n正方形は ${r}×${r}=${r * r}(cm²)\nかげは ${fromHundredths((r * r * 314) / 2)}-${r * r}=${fromHundredths(v)}(cm²)`),
       };
     }
     case 'ring': {
@@ -391,7 +394,7 @@ function wheelQ(kind: WheelKind, ov?: WheelOv): Question {
           choices: makeChoices(ans, [`${fromHundredths(((R - r) * (R - r) * 314 * a) / 360)}cm²`, `${fromHundredths((R * R * 314 * a) / 360)}cm²`, `${fromHundredths((R * R * 314 * a) / 360 + (r * r * 314 * a) / 360)}cm²`], () => `${fromHundredths(v + 100 * (1 + rnd(9)))}cm²`),
           answer: ans,
           hint: 'かげ = 大きい おうぎ形 − 小さい おうぎ形。まとめて (R×R − r×r)×3.14×角度/360',
-          explain: `大きい おうぎ形: ${R}×${R}×3.14×${a}/360=${fromHundredths((R * R * 314 * a) / 360)}(cm²)\n小さい おうぎ形: ${r}×${r}×3.14×${a}/360=${fromHundredths((r * r * 314 * a) / 360)}(cm²)\nかげは ひいて ${fromHundredths(v)}(cm²)`,
+          explain: lesson('かげ ＝ 大きい おうぎ形 − 小さい おうぎ形\nまとめると (R×R − r×r) × 3.14 × 中心角 ÷ 360', '輪の かたちの かげは、大きい おうぎ形から 小さい おうぎ形を くりぬいた もの。どちらも 3.14と 中心角が 同じだから、(R×R − r×r)を さきに ひいてから かけると 計算が ラクだよ。', `大きい おうぎ形: ${R}×${R}×3.14×${a}/360=${fromHundredths((R * R * 314 * a) / 360)}(cm²)\n小さい おうぎ形: ${r}×${r}×3.14×${a}/360=${fromHundredths((r * r * 314 * a) / 360)}(cm²)\nひいて ${fromHundredths(v)}(cm²)`),
         };
       }
       return wheelQ('sqQuarter');
