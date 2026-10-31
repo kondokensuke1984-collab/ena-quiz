@@ -1067,6 +1067,9 @@ body {
   transition: opacity 0.15s, transform 0.15s;
 }
 .selfjudge-show-btn:active { opacity: 0.85; transform: scale(0.97); }
+.voice-btn { display:inline-flex; align-items:center; gap:4px; margin:10px 0 0; padding:7px 14px; background:#ecfdf5; color:#047857; border:2px solid #6ee7b7; border-radius:999px; font-size:13px; font-weight:800; cursor:pointer; font-family:inherit; }
+.voice-btn:active { transform:scale(0.96); }
+.voice-btn.playing { background:#10b981; color:#fff; border-color:#10b981; }
 .selfjudge-myans {
   background: rgba(167,139,250,0.12);
   border-radius: 10px;
@@ -24282,7 +24285,32 @@ function showQuiz() {
   renderQuestion();
 }
 
+// 🔊 読み上げ（ずんだもん）：audio/shakai11/<id>_q|a|e.mp3。tools/make_quiz_voice.py で作る。manifest にある問題だけ ボタンが出る
+let _quizVoiceIds = new Set();
+let _quizVoiceAudio = null, _quizVoiceBtn = null;
+try { fetch('/audio/shakai11/manifest.json').then(r => r.ok ? r.json() : []).then(a => { _quizVoiceIds = new Set(a); }).catch(() => {}); } catch (e) {}
+function stopQuizVoice() {
+  if (_quizVoiceAudio) { try { _quizVoiceAudio.pause(); } catch (e) {} _quizVoiceAudio = null; }
+  if (_quizVoiceBtn) { _quizVoiceBtn.classList.remove('playing'); _quizVoiceBtn = null; }
+}
+function playQuizVoice(kind, btn) {
+  const q = state.queue[state.current];
+  if (!q) return;
+  const same = btn && btn === _quizVoiceBtn;
+  stopQuizVoice();
+  if (same) return;   // もういちど おすと とまる
+  const a = new Audio(`/audio/shakai11/${q.id}_${kind}.mp3`);
+  _quizVoiceAudio = a; _quizVoiceBtn = btn || null;
+  if (btn) btn.classList.add('playing');
+  a.onended = a.onerror = () => { if (_quizVoiceAudio === a) stopQuizVoice(); };
+  a.play().catch(() => stopQuizVoice());
+}
+function quizVoiceBtn(q, kind, label) {
+  return _quizVoiceIds.has(q.id) ? `<div><button type="button" class="voice-btn" onclick="playQuizVoice('${kind}', this)">🔊 ${label}</button></div>` : '';
+}
+
 function renderQuestion() {
+  stopQuizVoice();
   const q = state.queue[state.current];
   const hist = state.history[state.current];
   state.answered = !!hist;
@@ -24301,7 +24329,8 @@ function renderQuestion() {
     (q.qDiagram ? makeEnergyFlowDiagram(q.qDiagram) : '') +
     (q.qTaiyouDiagram ? makeTaiyouDiagram(q.qTaiyouDiagram) : '') +
     (q.qImage ? `<div class="question-img-wrap"><img src="${q.qImage}" class="question-img" alt="問題の図" decoding="async"></div>` : '') +
-    (q.qImage2 ? `<div class="question-img-wrap"><img src="${q.qImage2}" class="question-img" alt="問題の図2" decoding="async"></div>` : '');
+    (q.qImage2 ? `<div class="question-img-wrap"><img src="${q.qImage2}" class="question-img" alt="問題の図2" decoding="async"></div>` : '') +
+    quizVoiceBtn(q, 'q', 'よんで');
   updatePassagePanel(q, document.getElementById('quiz'), document.querySelector('#quiz .quiz-body'));
 
   const list = document.getElementById('options-list');
@@ -24389,7 +24418,7 @@ function renderQuestion() {
     document.getElementById('feedback-answer').classList.toggle('hw-big', !!q.handwrite);
     fb.className = 'feedback-card ' + (hist.unsure ? 'unsure-fb' : (hist.isCorrect ? 'correct-fb' : 'wrong-fb'));
     fb.style.display = ''; showFeedbackImage(q);
-    if (q.explanation) { exp.innerHTML = renderMath(q.explanation); exp.style.display = 'block'; }
+    if (q.explanation) { exp.innerHTML = renderMath(q.explanation) + quizVoiceBtn(q, 'e', 'かいせつをきく'); exp.style.display = 'block'; }
     else exp.style.display = 'none';
     document.getElementById('ai-btn').style.display = 'block';
     const nextBtn = document.getElementById('next-btn');
@@ -25163,6 +25192,7 @@ function showSelfJudgeButtons(q, userInput) {
   d.innerHTML = `
     <div class="selfjudge-myans">✏️ きみの答え：${userInput ? userInput.replace(/</g,'&lt;') : '（空白）'}</div>
     <div class="selfjudge-correct-ans${q.handwrite ? ' hw-big' : ''}"><span class="sj-label">📌 正解例</span>${q.answer.replace(/</g,'&lt;')}</div>
+    ${quizVoiceBtn(q, 'a', 'こたえをきく')}
     <div class="selfjudge-judge-row">
       <button class="selfjudge-btn selfjudge-yes" onclick="recordSelfJudge('yes')">合ってた！ ✅</button>
       <button class="selfjudge-btn selfjudge-no"  onclick="recordSelfJudge('no')">間違えた 💦</button>
@@ -25228,7 +25258,7 @@ function recordSelfJudge(status) {
   }
   fb.className = 'feedback-card ' + (isUnsure ? 'unsure-fb' : (isCorrect ? 'correct-fb' : 'wrong-fb'));
   fb.style.display = ''; showFeedbackImage(q);
-  if (q.explanation) { exp.innerHTML = renderMath(q.explanation); exp.style.display = 'block'; } else { exp.style.display = 'none'; }
+  if (q.explanation) { exp.innerHTML = renderMath(q.explanation) + quizVoiceBtn(q, 'e', 'かいせつをきく'); exp.style.display = 'block'; } else { exp.style.display = 'none'; }
   document.getElementById('ai-btn').style.display = 'block';
   showMemoArea(q.id);
   const nextBtn = document.getElementById('next-btn');
