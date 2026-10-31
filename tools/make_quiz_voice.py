@@ -32,9 +32,13 @@ GROUPS = {
     'eikoh11': ('questions_eikoh_202611.json', ('kifuyu_kanji', 'kifuyu_keigo', 'kifuyu_keisan', 'kifuyu_bunsho', 'kifuyu_menseki',
                                               'kifuyu_hatsuga', 'kifuyu_tane', 'kifuyu_hana',
                                               'kifuyu_yasai', 'kifuyu_kudamono', 'kifuyu_chikusan', 'kifuyu_minato')),
+    # ENA 11月の 練習問題（過去問演習は まだ）
+    'ena_renshu11': ('questions_202611.json', ('en11a_renshu', 'en11b_renshu', 'jouken1_renshu', 'jouken2_renshu', 'tkk11_renshu',
+                                              'kumo1_renshu', 'tane1_renshu', 'tane2_renshu', 'ringyo_renshu', 'suisan_renshu',
+                                              'nougyou6_renshu')),
 }
-LEAN = {'eikoh11'}                 # a（こたえ）の 音声は 書いて答える（selfjudge）問題だけ。e が こたえも 読む
-DROP_LABEL = {'eikoh11'}           # 1行目の「漢字01」「プリント②-1-(1)」のような 見出しは 読まない
+LEAN = {'eikoh11', 'ena_renshu11'}                 # a（こたえ）の 音声は 書いて答える（selfjudge）問題だけ。e が こたえも 読む
+DROP_LABEL = {'eikoh11', 'ena_renshu11'}           # 1行目の「漢字01」「プリント②-1-(1)」のような 見出しは 読まない
 NO_OPTIONS = {'kifuyu_kanji'}      # 漢字の 書きとりは 選択肢（漢字）を 読んでも 意味がないので 読まない
 GROUP = sys.argv[sys.argv.index('--group') + 1] if '--group' in sys.argv else 'shakai11'
 OUT = ROOT / 'audio' / GROUP
@@ -61,7 +65,7 @@ YOMI_WORD = [
     (r'三大美林', 'さんだいびりん'),
     (r'そのため', 'そのため、'),
     (r'得にくかった', 'えにくかった'),
-    (r'米', 'こめ'),
+    (r'(?<![一-龥])米(?![一-龥])', 'こめ'),   # 「欧米」「玄米」などの 熟語は そのまま（VOICEVOX にまかせる）
     (r'【\s*】', 'かっこ'),
     (r'(\d+) (\d+)/(\d+)', r'\1と\3分の\2'),
     (r'(\d+)/(\d+)', r'\2分の\1'),
@@ -69,9 +73,11 @@ YOMI_WORD = [
     (r'mL', 'ミリリットル'), (r'(\d)L', r'\1リットル'), (r'(\d)g', r'\1グラム'), (r'(\d+)m', r'\1メートル'),
     (r'\s*[＋+]\s*', ' たす '), (r'\s*−\s*', ' ひく '), (r'\s+[−-]\s+', ' ひく '),
     (r'★は', 'ほしじるしは、'), (r'[★☆]', ''), (r'○(?=時間|分|秒)', '何'), (r'○', 'まる'),
-    (r'①', '1番'), (r'②', '2番'), (r'③', '3番'), (r'④', '4番'),
-    (r'℃', '度'), (r'〜', 'から'), (r'＝', 'イコール'), (r'÷', 'わる'), (r'×', 'かける'),
+    (r'①', '1番'), (r'②', '2番'), (r'③', '3番'), (r'④', '4番'), (r'⑤', '5番'), (r'⑥', '6番'), (r'⑦', '7番'), (r'⑧', '8番'),
+    (r'℃', '度'), (r'〜', 'から'), (r'\s*[＝=]\s*', ' イコール '), (r'□', 'しかく'), (r'[Ⅰⅰ]', '1'), (r'[Ⅱⅱ]', '2'), (r'[Ⅲⅲ]', '3'), (r'／', '分の'), (r'÷', 'わる'), (r'×', 'かける'),
     (r'(?<![ア-ン])([ア-オ]) (?=\S)', r'\1、'),
+    (r'(?<![ァ-ヶー])([ア-シ]) (?=\d)', r'\1、'),
+    (r'(\d)t', r'\1トン'),
     (r'ア〜([ア-ン])', r'アから\1'),
     (r'(?<=[^\n。、])([イウエ])：', r'。\1：'),
     (r'：', '、'),
@@ -139,6 +145,9 @@ def synth(text: str) -> bytes:
 
 def main() -> None:
     qs = [q for q in json.loads(DATA.read_text(encoding='utf-8')) if q['subject'] in SUBJECTS]
+    only = sys.argv[sys.argv.index('--only') + 1].split(',') if '--only' in sys.argv else None
+    if only:
+        qs = [q for q in qs if q['id'] in only]   # 直した 問題だけ 作りなおす（manifest は 書きなおさない）
     if '--kana' in sys.argv:
         for q in qs:
             for k, t in scripts(q).items():
@@ -157,7 +166,8 @@ def main() -> None:
                                 '-ac', '2', '-ar', '44100', '-b:a', '64k', str(mp3)], check=True)
             manifest.append(q['id'])
             print(q['id'], 'ok')
-    (OUT / 'manifest.json').write_text(json.dumps(manifest, ensure_ascii=False), encoding='utf-8')
+    if not only:
+        (OUT / 'manifest.json').write_text(json.dumps(manifest, ensure_ascii=False), encoding='utf-8')
     print(f'{len(manifest)}問ぶん できました → {OUT.relative_to(ROOT)}')
 
 
