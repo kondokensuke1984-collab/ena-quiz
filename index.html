@@ -23575,10 +23575,25 @@ function monthQuestions() {
 // ============================================================
 // 月選択画面
 // ============================================================
+// 過去の月（ENA）は「📚 過去」カードの 中に しまう。新しい月が すすんだら ここへ足す
+const PAST_MONTHS = ['202605', '202606', '202607', '202608', '202609', '202610'];
+let _monthPastOpen = false;   // 「過去」の 中を ひらいているか（月を えらんで もどってきても そのまま）
+function togglePastMonths(open) { _monthPastOpen = open; initMonthSelect(); }
 function initMonthSelect() {
   const grid = document.getElementById('month-grid');
   grid.innerHTML = '';
+  const isEna = state.selectedSchool === 'ena';
+  const pastOpen = isEna && _monthPastOpen;
+  const addCard = (emoji, label, sub, desc, onclick) => {
+    const card = document.createElement('div');
+    card.className = 'month-card';
+    card.innerHTML = `<div class="month-emoji">${emoji}</div><div class="month-label" style="color:#3d2b5e">${label}</div>${sub ? `<div class="month-desc">${sub}</div>` : ''}${desc ? `<div class="month-desc">${desc}</div>` : ''}`;
+    card.onclick = onclick;
+    grid.appendChild(card);
+  };
+  if (pastOpen) addCard('◀', 'もどる', '', '', () => togglePastMonths(false));
   Object.entries(MONTHS).filter(([id, m]) => m.school === state.selectedSchool).forEach(([id, m]) => {
+    if (isEna && PAST_MONTHS.includes(id) !== pastOpen) return;
     const card = document.createElement('div');
     card.className = 'month-card' + (m.comingSoon ? ' coming-soon' : '');
     card.innerHTML = `
@@ -23592,9 +23607,11 @@ function initMonthSelect() {
     if (!m.comingSoon) card.onclick = () => selectMonth(id);
     grid.appendChild(card);
   });
+  if (isEna && !pastOpen) addCard('📚', '過去', '5月〜10月', '', () => togglePastMonths(true));
 }
 
 function selectMonth(monthId) {
+  if (state.selectedSchool === 'ena') _monthPastOpen = PAST_MONTHS.includes(monthId);
   state.selectedMonth = monthId;
   checkAllPetLevelUps();   // きのうまでに たまった進化を1段だけ（1日1段まで）
   showHome();
@@ -23611,6 +23628,7 @@ function selectSchool(schoolId) {
   document.getElementById('zunda-btn').style.display         = schoolId === 'ena'   ? '' : 'none';
   document.getElementById('gakuhan-eikoh-btn').style.display = schoolId === 'eikoh' ? '' : 'none';
   document.getElementById('yakusu-btn').style.display        = schoolId === 'eikoh' ? '' : 'none';
+  _monthPastOpen = false;
   initMonthSelect();  publishIslandFriends();   // 栄光をえらんだら 島の なかまも 栄光の子に
 }
 
