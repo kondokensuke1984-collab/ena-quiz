@@ -23443,9 +23443,14 @@ function recordUnitDone(key) {
 function unitCatsToday() {
   const d = new Date().toLocaleDateString('ja-JP').replace(/\//g,'-');
   const cats = new Set();
+  let pl = null;
+  try { pl = (JSON.parse(localStorage.getItem('ena_island_save_v1') || '{}') || {}).player || null; } catch(e) {}
   for (let i = 0; i < localStorage.length; i++) {
     const k = localStorage.key(i) || '';
     if (!k.startsWith('ena_daily_') || !k.endsWith('_' + d)) continue;
+    // あんり＝11月の はんい、りの＝栄光の はんい だけ かぞえる（島の がわ lib/study.ts と おなじ）
+    if (pl === 'anri' && !k.startsWith('ena_daily_202611_')) continue;
+    if (pl === 'rino' && !k.startsWith('ena_daily_eikoh_')) continue;
     try { Object.values(JSON.parse(localStorage.getItem(k) || '{}').units || {}).forEach(c => cats.add(c)); } catch(e) {}
   }
   return [...cats];

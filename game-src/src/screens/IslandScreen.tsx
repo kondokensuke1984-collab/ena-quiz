@@ -2030,7 +2030,7 @@ export function IslandScreen() {
 
       {/* ── 🏫 こくばん：きょうの べんきょう ── */}
       {modal === 'board' && (() => {
-        const tu = todayUnits();
+        const tu = todayUnits(new Date(), null, save.player);
         return (
           <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/60 p-3" onClick={() => setModal(null)}>
             <div className="panel w-full max-w-[440px]" onClick={(e) => e.stopPropagation()}>

@@ -2,6 +2,7 @@
 // クイズ側は ena_daily_<月>_<YYYY-M-D> に { answered, correct } を保存している。
 
 import { readJSON } from './storage';
+import type { PlayerKey } from '../types';
 
 export const STAMP_MIN = 5;   // この問題数いじょう答えた日が スタンプ1つ
 
@@ -60,16 +61,47 @@ export const CAT_LABEL: Record<string, string> = {
   shakai: '🗾 しゃかい', rika: '🔬 りか', kokugo: '✍️ こくご', sansu: '🔢 さんすう', eigo: '🔤 えいご',
 };
 
+/** 🔒 あんり だけの とくべつルール：until の日まで、毎日 この単元を ぜんぶ といたら ひらく（教科の数や 建築の日では ひらかない） */
+export const ANRI_MUST = {
+  until: '2026-11-04',
+  units: [
+    { label: '🕵️ すいり', re: /^suiri10/ },
+    { label: '🚜 日本の のうぎょう５', re: /^nougyou5/ },
+  ],
+};
+
+export interface MustUnit { label: string; done: boolean }
+
+/** あんりの しばりが きいている日か（localhost は ?unlock=all で はずせる） */
+export function anriMustActive(player: PlayerKey | null | undefined, now = new Date()): boolean {
+  if (player !== 'anri') return false;
+  if (/^(localhost|127\.0\.0\.1)$/.test(location.hostname) && new URLSearchParams(location.search).get('unlock') === 'all') return false;
+  const [y, m, d] = ANRI_MUST.until.split('-').map(Number);
+  return new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime() <= new Date(y, m - 1, d).getTime();
+}
+
+/** 🔒 島の かぎに かぞえる 月の きまり：あんり＝11月の はんい だけ、りの＝栄光の はんい だけ（ena_daily_<月>_<日付> の <月> で みる） */
+function monthCounts(key: string, player?: PlayerKey | null): boolean {
+  if (player === 'anri') return key.startsWith('ena_daily_202611_');
+  if (player === 'rino') return key.startsWith('ena_daily_eikoh_');
+  return true;
+}
+
 /** 今日 単元を最後まで といた教科（クイズが ena_daily_*_<今日> の units に書く） */
-export function todayUnits(now = new Date()): { cats: string[]; unlocked: boolean } {
+export function todayUnits(now = new Date(), player?: PlayerKey | null, scope?: PlayerKey | null): { cats: string[]; unlocked: boolean; must: MustUnit[] | null } {
   const day = dateKey(now);
   const cats = new Set<string>();
+  const doneKeys: string[] = [];
   try {
     for (let i = 0; i < localStorage.length; i++) {
       const k = localStorage.key(i) || '';
       if (!k.startsWith('ena_daily_') || !k.endsWith('_' + day)) continue;
       const units = readJSON<{ units?: Record<string, string> }>(k, {}).units;
-      if (units && typeof units === 'object') Object.values(units).forEach((c) => typeof c === 'string' && cats.add(c));
+      if (units && typeof units === 'object') {
+        doneKeys.push(...Object.keys(units));
+        if (!monthCounts(k, scope)) continue;
+        Object.values(units).forEach((c) => typeof c === 'string' && cats.add(c));
+      }
     }
   } catch { /* 読めなければ 0 教科 */ }
   // 確認用：localhost だけ ?unlock=1 で ひらく
@@ -77,7 +109,11 @@ export function todayUnits(now = new Date()): { cats: string[]; unlocked: boolea
   // 一級建築士アプリで メダルを うけとった日も ひらく（クイズが ena_kenchiku_day に 今日の日付を書く）
   let kenchiku = false;
   try { kenchiku = localStorage.getItem('ena_kenchiku_day') === day; } catch { /* 読めなければ とじたまま */ }
-  return { cats: [...cats], unlocked: dev || kenchiku || cats.size >= UNLOCK_CATS };
+  if (anriMustActive(player, now)) {
+    const must = ANRI_MUST.units.map((u) => ({ label: u.label, done: doneKeys.some((k) => u.re.test(k)) }));
+    return { cats: [...cats], unlocked: dev || must.every((u) => u.done), must };
+  }
+  return { cats: [...cats], unlocked: dev || kenchiku || cats.size >= UNLOCK_CATS, must: null };
 }
 
 /** 🔴 きょう 火星に いけるか（3教科クリア）。島の ?unlock=1 や 一級アプリの日は かぞえない。確認用に localhost だけ ?mars=1 */

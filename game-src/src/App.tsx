@@ -23,18 +23,19 @@ function Router() {
   const [drillDone, setDrillDone] = useState(false);
 
   // 島の入口：今日 2教科で 単元を1つずつ といたら ひらく。クイズから もどったときに 読みなおす
-  const [gate, setGate] = useState(() => todayUnits());
+  const [gate, setGate] = useState(() => todayUnits(new Date(), null, save.player));
   useEffect(() => {
-    const re = () => { if (!document.hidden) setGate(todayUnits()); };
+    const re = () => { if (!document.hidden) setGate(todayUnits(new Date(), null, save.player)); };
     window.addEventListener('focus', re);
     window.addEventListener('storage', re);
     document.addEventListener('visibilitychange', re);
+    re();
     return () => {
       window.removeEventListener('focus', re);
       window.removeEventListener('storage', re);
       document.removeEventListener('visibilitychange', re);
     };
-  }, []);
+  }, [save.player]);
   // テストまえの とくべつルール（アンリの あいだ・lib/testlock.ts）
   const testLock = useTestLock(save.player);
   // けんすけ・みつきの 端末は いつでも 島に はいれる（そらとびの SORA_FREE と おなじ きまり）
