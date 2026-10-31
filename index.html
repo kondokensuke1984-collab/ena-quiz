@@ -23621,7 +23621,7 @@ function selectSchool(schoolId) {
   state.selectedSchool = schoolId;
   document.getElementById('school-select').style.display = 'none';
   document.getElementById('month-select').style.display = 'flex';
-  refreshVoiceLockBtn(); { const vb = document.getElementById('voice-lock-btn'); if (vb) vb.style.display = state.selectedSchool === 'ena' ? '' : 'none'; }
+  refreshVoiceLockBtn(); { const vb = document.getElementById('voice-lock-btn'); if (vb) vb.style.display = (state.selectedSchool === 'ena' || state.selectedSchool === 'eikoh') ? '' : 'none'; }
   document.getElementById('gakuhan-btn').style.display       = schoolId === 'ena'   ? '' : 'none';
   document.getElementById('yonka-btn').style.display         = schoolId === 'ena'   ? '' : 'none';
   document.getElementById('gouhan-moshi-btn').style.display  = schoolId === 'ena'   ? '' : 'none';
@@ -23652,7 +23652,7 @@ function showMonthSelect() {
   document.getElementById('result').style.display = 'none';
   document.getElementById('school-select').style.display = 'none';
   document.getElementById('month-select').style.display = 'flex';
-  refreshVoiceLockBtn(); { const vb = document.getElementById('voice-lock-btn'); if (vb) vb.style.display = state.selectedSchool === 'ena' ? '' : 'none'; }
+  refreshVoiceLockBtn(); { const vb = document.getElementById('voice-lock-btn'); if (vb) vb.style.display = (state.selectedSchool === 'ena' || state.selectedSchool === 'eikoh') ? '' : 'none'; }
   document.getElementById('gakuhan-btn').style.display       = state.selectedSchool === 'ena'   ? '' : 'none';
   document.getElementById('yonka-btn').style.display         = state.selectedSchool === 'ena'   ? '' : 'none';
   document.getElementById('gouhan-moshi-btn').style.display  = state.selectedSchool === 'ena'   ? '' : 'none';
@@ -24320,10 +24320,10 @@ function showQuiz() {
   renderQuestion();
 }
 
-// 🔊 読み上げ（ずんだもん）：audio/<shakai11|rika11>/<id>_q|a|e.mp3。tools/make_quiz_voice.py で作る。manifest にある問題だけ ボタンが出る
+// 🔊 読み上げ（ずんだもん）：audio/<shakai11|rika11|eikoh11>/<id>_q|a|e.mp3。tools/make_quiz_voice.py で作る。manifest にある問題だけ ボタンが出る
 let _quizVoiceIds = new Map();   // 問題id → 声のフォルダ（audio/<フォルダ>/）
 let _quizVoiceAudio = null, _quizVoiceBtn = null;
-['shakai11', 'rika11'].forEach(g => { try { fetch(`/audio/${g}/manifest.json`).then(r => r.ok ? r.json() : []).then(a => a.forEach(id => _quizVoiceIds.set(id, g))).catch(() => {}); } catch (e) {} });
+['shakai11', 'rika11', 'eikoh11'].forEach(g => { try { fetch(`/audio/${g}/manifest.json`).then(r => r.ok ? r.json() : []).then(a => a.forEach(id => _quizVoiceIds.set(id, g))).catch(() => {}); } catch (e) {} });
 function stopQuizVoice() {
   if (_quizVoiceAudio) { try { _quizVoiceAudio.pause(); } catch (e) {} _quizVoiceAudio = null; }
   if (_quizVoiceBtn) { _quizVoiceBtn.classList.remove('playing'); _quizVoiceBtn = null; }
@@ -25452,7 +25452,7 @@ function submitInputAnswer() {
   }
   fb.className = 'feedback-card ' + (isCorrect ? 'correct-fb' : 'wrong-fb');
   fb.style.display = ''; showFeedbackImage(q);
-  if (q.explanation) { exp.innerHTML = (notReduced ? '<b>⚠️ 答えの大きさは合っているけど、約分（または帯分数に）しきれていないよ。</b><br>' : '') + renderMath(q.explanation); exp.style.display = 'block'; } else { exp.style.display = 'none'; }
+  if (q.explanation) { exp.innerHTML = (notReduced ? '<b>⚠️ 答えの大きさは合っているけど、約分（または帯分数に）しきれていないよ。</b><br>' : '') + renderMath(q.explanation) + quizVoiceBtn(q, 'e', 'かいせつをきく'); exp.style.display = 'block'; } else { exp.style.display = 'none'; }
   document.getElementById('ai-btn').style.display = 'block';
   showMemoArea(q.id);
   const nextBtn = document.getElementById('next-btn');
