@@ -24320,10 +24320,10 @@ function showQuiz() {
   renderQuestion();
 }
 
-// 🔊 読み上げ（ずんだもん）：audio/<shakai11|rika11|eikoh11>/<id>_q|a|e.mp3。tools/make_quiz_voice.py で作る。manifest にある問題だけ ボタンが出る
+// 🔊 読み上げ（ずんだもん）：audio/<shakai11|rika11|eikoh11|ena_renshu11>/<id>_q|a|e.mp3。tools/make_quiz_voice.py で作る。manifest にある問題だけ ボタンが出る
 let _quizVoiceIds = new Map();   // 問題id → 声のフォルダ（audio/<フォルダ>/）
 let _quizVoiceAudio = null, _quizVoiceBtn = null;
-['shakai11', 'rika11', 'eikoh11'].forEach(g => { try { fetch(`/audio/${g}/manifest.json`).then(r => r.ok ? r.json() : []).then(a => a.forEach(id => _quizVoiceIds.set(id, g))).catch(() => {}); } catch (e) {} });
+['shakai11', 'rika11', 'eikoh11', 'ena_renshu11'].forEach(g => { try { fetch(`/audio/${g}/manifest.json`).then(r => r.ok ? r.json() : []).then(a => a.forEach(id => _quizVoiceIds.set(id, g))).catch(() => {}); } catch (e) {} });
 function stopQuizVoice() {
   if (_quizVoiceAudio) { try { _quizVoiceAudio.pause(); } catch (e) {} _quizVoiceAudio = null; }
   if (_quizVoiceBtn) { _quizVoiceBtn.classList.remove('playing'); _quizVoiceBtn = null; }
