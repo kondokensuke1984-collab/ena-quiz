@@ -23460,13 +23460,32 @@ function kenchikuUnlockedToday() {
   return localStorage.getItem('ena_kenchiku_day') === new Date().toLocaleDateString('ja-JP').replace(/\//g,'-');
 }
 function islandUnlockedToday() { return kenchikuUnlockedToday() || unitCatsToday().length >= ISLAND_UNLOCK_CATS; }
+// ── 🔒 あんりの 島の入口（くわえる条件）：苦手・超苦手が あるなら、ぜんぶ ふくしゅうして 8わり いじょう ──
+//   苦手を見る月は ANRI_WEAK_MONTH（島の lib/study.ts と おなじ）。できたら ena_weak_gate_v1 に きょうの日付を書く（島は 読むだけ）
+const ANRI_WEAK_MONTH = '202611';
+function islandPlayer() { try { return (JSON.parse(localStorage.getItem('ena_island_save_v1') || '{}') || {}).player || null; } catch(e) { return null; } }
+function anriWeakIds() {
+  const ids = new Set();
+  ['ena_wrong_', 'ena_super_wrong_'].forEach(k => {
+    try { (JSON.parse(localStorage.getItem(k + ANRI_WEAK_MONTH) || '[]') || []).forEach(id => ids.add(id)); } catch(e) {}
+  });
+  return ids;
+}
+function anriWeakGateDone() {
+  try {
+    const g = JSON.parse(localStorage.getItem('ena_weak_gate_v1') || '{}') || {};
+    return g.day === new Date().toLocaleDateString('ja-JP').replace(/\//g,'-') && g.month === ANRI_WEAK_MONTH && g.pct >= ISLAND_UNLOCK_PCT;
+  } catch(e) { return false; }
+}
+function anriWeakLeft() { return islandPlayer() === 'anri' && !anriWeakGateDone() ? anriWeakIds().size : 0; }
 function renderIslandBtn() {
   // 島の 主人公が けんすけ・みつき の 端末は いつでも 島に はいれる（島の がわ App.tsx と おなじ きまり）
   let islandFree = false;
   try { const pl = (JSON.parse(localStorage.getItem('ena_island_save_v1') || '{}') || {}).player; islandFree = pl === 'kensuke' || pl === 'mitsuki'; } catch(e) {}
   const left = (islandFree || kenchikuUnlockedToday()) ? 0 : ISLAND_UNLOCK_CATS - unitCatsToday().length;
+  const weakLeft = anriWeakLeft();
   document.querySelectorAll('.island-btn-text').forEach(el => {
-    el.textContent = left > 0 ? `🔒 あと${left}教科` : (el.classList.contains('island-top-sub') ? 'タップして島へ' : '島へいく');
+    el.textContent = left > 0 ? `🔒 あと${left}教科` : weakLeft > 0 ? `🔒 にがて${weakLeft}もん` : (el.classList.contains('island-top-sub') ? 'タップして島へ' : '島へいく');
   });
   try { renderSoraBtn(); } catch (e) {}
 }
@@ -24205,9 +24224,11 @@ function startReview() {
   const wrongSet = loadWrongSet();
   if (wrongSet.size === 0) { alert('苦手問題がまだありません。'); return; }
   const qs = monthQuestions();
+  const superWrongAll = loadSuperWrongSet();
   state.mode = 'review';
   state.currentSubject = null;
-  state.queue = shuffle(qs.filter(q => wrongSet.has(q.id)));
+  state.queue = shuffle(qs.filter(q => wrongSet.has(q.id) || superWrongAll.has(q.id)));
+  state.weakAllIds = new Set(state.queue.map(q => q.id));   // 🏝 あんりの 島の条件：この回の ぜんぶ を ふくしゅう したか
   state.current = 0;
   state.correct = 0;
   state.sessionWrong = [];
@@ -29321,6 +29342,18 @@ function showResult() {
       ? (before ? '' : '🏝 しまが ひらいたよ！ あそびに いこう')
       : `🏝 あと ${left}教科 で しまが ひらくよ`;
     if (note) document.getElementById('result-subtitle').textContent += '\n' + note;
+  }
+
+  // 🏝 あんりの 島：苦手ぜんぶ（この月）を ふくしゅうして 8わり いじょう → きょうの 苦手の かぎ OK
+  if (state.mode === 'review' && state.weakAllIds && state.weakAllIds.size > 0 && state.selectedMonth === ANRI_WEAK_MONTH
+      && state.queue.length === state.weakAllIds.size && state.queue.every(q => state.weakAllIds.has(q.id))) {
+    if (pct >= ISLAND_UNLOCK_PCT) {
+      localStorage.setItem('ena_weak_gate_v1', JSON.stringify({ day: new Date().toLocaleDateString('ja-JP').replace(/\//g,'-'), month: ANRI_WEAK_MONTH, pct }));
+      if (islandPlayer() === 'anri') document.getElementById('result-subtitle').textContent += '\n🏝 にがての かぎ OK！';
+    } else if (islandPlayer() === 'anri') {
+      document.getElementById('result-subtitle').textContent += `\n🏝 にがてを ${ISLAND_UNLOCK_PCT / 10}わり いじょう せいかいで しまの かぎが あくよ（こんかい ${pct}%）`;
+    }
+    try { renderIslandBtn(); } catch(e) {}
   }
 
   const pctEl = document.getElementById('score-pct');
