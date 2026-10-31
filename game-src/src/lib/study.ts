@@ -80,9 +80,29 @@ export function anriMustActive(player: PlayerKey | null | undefined, now = new D
   return new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime() <= new Date(y, m - 1, d).getTime();
 }
 
+/** 🔒 あんりの 島の入口（くわえる条件）：この月の 苦手・超苦手が あるなら、クイズの「苦手問題を復習」を ぜんぶ やって 8わり いじょう。
+ *  できた日は クイズが ena_weak_gate_v1 に { day, month, pct } を書く（島は 読むだけ）。クイズの ANRI_WEAK_MONTH と おなじ月にする */
+export const ANRI_WEAK_MONTH = '202611';
+export const WEAK_PCT = 80;
+
+export interface WeakGate { locked: boolean; weak: number }
+
+export function weakGate(player: PlayerKey | null | undefined, now = new Date()): WeakGate {
+  if (player !== 'anri') return { locked: false, weak: 0 };
+  if (/^(localhost|127\.0\.0\.1)$/.test(location.hostname) && new URLSearchParams(location.search).get('unlock') === 'all') return { locked: false, weak: 0 };
+  const g = readJSON<{ day?: string; month?: string; pct?: number }>('ena_weak_gate_v1', {});
+  if (g.day === dateKey(now) && g.month === ANRI_WEAK_MONTH && Number(g.pct) >= WEAK_PCT) return { locked: false, weak: 0 };
+  const ids = new Set<string>();
+  for (const k of ['ena_wrong_', 'ena_super_wrong_']) {
+    const arr = readJSON<unknown>(k + ANRI_WEAK_MONTH, []);
+    if (Array.isArray(arr)) arr.forEach((id) => typeof id === 'string' && ids.add(id));
+  }
+  return { locked: ids.size > 0, weak: ids.size };
+}
+
 /** 🔒 島の かぎに かぞえる 月の きまり：あんり＝11月の はんい だけ、りの＝栄光の はんい だけ（ena_daily_<月>_<日付> の <月> で みる） */
 function monthCounts(key: string, player?: PlayerKey | null): boolean {
-  if (player === 'anri') return key.startsWith('ena_daily_202611_');
+  if (player === 'anri') return key.startsWith(`ena_daily_${ANRI_WEAK_MONTH}_`);
   if (player === 'rino') return key.startsWith('ena_daily_eikoh_');
   return true;
 }

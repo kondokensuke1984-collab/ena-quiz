@@ -1,4 +1,8 @@
+<<<<<<<< HEAD:game/assets/World3D-Ci1yIrTb.js
 var ls=Object.defineProperty;var as=(e,t,n)=>t in e?ls(e,t,{enumerable:!0,configurable:!0,writable:!0,value:n}):e[t]=n;var E=(e,t,n)=>as(e,typeof t!="symbol"?t+"":t,n);import{r as Q,M as je,B as Zn,D as Xt,S as Kn,I as Oe,F as lt,p as us,a as cs,b as qn,c as Ee,d as Le,e as Mt,h as ds,j as he,P as hs,f as fs,g as ps,i as ms,k as ys,E as gs,l as ws,K as xs,m as vs}from"./index-BEW-tfOr.js";import*as a from"/js/vendor/three-0.169.module.min.js";import{BufferGeometry as Ss,BufferAttribute as ks}from"/js/vendor/three-0.169.module.min.js";var He={};/**
+========
+var ls=Object.defineProperty;var as=(e,t,n)=>t in e?ls(e,t,{enumerable:!0,configurable:!0,writable:!0,value:n}):e[t]=n;var E=(e,t,n)=>as(e,typeof t!="symbol"?t+"":t,n);import{r as Q,M as je,B as Zn,D as Xt,S as Kn,I as Oe,F as lt,p as us,a as cs,b as qn,c as Ee,d as Le,e as Mt,h as ds,j as he,P as hs,f as fs,g as ps,i as ms,k as ys,E as gs,l as ws,K as xs,m as vs}from"./index-CMbbAG5F.js";import*as a from"/js/vendor/three-0.169.module.min.js";import{BufferGeometry as Ss,BufferAttribute as ks}from"/js/vendor/three-0.169.module.min.js";var He={};/**
+>>>>>>>> 8f818f6 (島：あんりは、苦手・超苦手があるなら ぜんぶ復習して8割以上で入口がひらく):game/assets/World3D-ClPPlWc4.js
  * @license React
  * react-dom-server-legacy.browser.production.min.js
  *
