@@ -8,10 +8,9 @@ import { LockScreen } from './screens/LockScreen';
 import { OpeningScreen } from './screens/OpeningScreen';
 import { DrillScreen } from './screens/DrillScreen';
 import { useEffect, useState } from 'react';
-import { todayUnits, weakGate } from './lib/study';
+import { todayUnits } from './lib/study';
 import { useTestLock } from './lib/testlock';
 import { TestLockScreen } from './screens/TestLockScreen';
-import { WeakLockScreen } from './screens/WeakLockScreen';
 
 function Router() {
   const { save, screen, markOpeningSeen } = useGame();
@@ -42,9 +41,6 @@ function Router() {
   // けんすけ・みつきの 端末は いつでも 島に はいれる（そらとびの SORA_FREE と おなじ きまり）
   if (!gate.unlocked && save.player !== 'kensuke' && save.player !== 'mitsuki') return <LockScreen cats={gate.cats} />;
   if (testLock.locked) return <TestLockScreen lock={testLock} />;
-  // あんり：にがて・超にがてが あるなら ふくしゅう 8わり いじょう（lib/study.ts weakGate）
-  const weak = weakGate(save.player);
-  if (weak.locked) return <WeakLockScreen weak={weak.weak} wrong={weak.wrong} superWrong={weak.superWrong} record={weak.record} />;
 
   // はじまりの ものがたり（はじめて 島を ひらいたとき 1回）
   if (!save.openingSeen || devOpening) {

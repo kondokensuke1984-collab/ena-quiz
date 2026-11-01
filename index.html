@@ -23511,7 +23511,7 @@ function anriWeakGateDone() {
     return g.day === new Date().toLocaleDateString('ja-JP').replace(/\//g,'-') && g.month === ANRI_WEAK_MONTH && g.pct >= ISLAND_UNLOCK_PCT;
   } catch(e) { return false; }
 }
-function anriWeakLeft() { return islandPlayer() === 'anri' && !anriWeakGateDone() ? anriWeakIds().size : 0; }
+function anriWeakLeft() { return 0; }   // 2026-11-01 ケンさん：苦手・超苦手のノルマはなくした
 function renderIslandBtn() {
   // 島の 主人公が けんすけ・みつき の 端末は いつでも 島に はいれる（島の がわ App.tsx と おなじ きまり）
   let islandFree = false;
