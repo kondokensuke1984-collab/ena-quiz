@@ -44,7 +44,7 @@ function Router() {
   if (testLock.locked) return <TestLockScreen lock={testLock} />;
   // あんり：にがて・超にがてが あるなら ふくしゅう 8わり いじょう（lib/study.ts weakGate）
   const weak = weakGate(save.player);
-  if (weak.locked) return <WeakLockScreen weak={weak.weak} />;
+  if (weak.locked) return <WeakLockScreen weak={weak.weak} wrong={weak.wrong} superWrong={weak.superWrong} record={weak.record} />;
 
   // はじまりの ものがたり（はじめて 島を ひらいたとき 1回）
   if (!save.openingSeen || devOpening) {

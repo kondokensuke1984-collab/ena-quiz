@@ -85,7 +85,7 @@ export function anriMustActive(player: PlayerKey | null | undefined, now = new D
 export const ANRI_WEAK_MONTH = '202611';
 export const WEAK_PCT = 80;
 
-export interface WeakGate { locked: boolean; weak: number }
+export interface WeakGate { locked: boolean; weak: number; wrong?: number; superWrong?: number; record?: string }
 
 export function weakGate(player: PlayerKey | null | undefined, now = new Date()): WeakGate {
   if (player !== 'anri') return { locked: false, weak: 0 };
@@ -97,7 +97,9 @@ export function weakGate(player: PlayerKey | null | undefined, now = new Date())
     const arr = readJSON<unknown>(k + ANRI_WEAK_MONTH, []);
     if (Array.isArray(arr)) arr.forEach((id) => typeof id === 'string' && ids.add(id));
   }
-  return { locked: ids.size > 0, weak: ids.size };
+  const cnt = (k: string) => { const a = readJSON<unknown>(k + ANRI_WEAK_MONTH, []); return Array.isArray(a) ? a.length : 0; };
+  const record = g.day ? `${g.day} / ${g.month} / ${g.pct}%` : 'なし';
+  return { locked: ids.size > 0, weak: ids.size, wrong: cnt('ena_wrong_'), superWrong: cnt('ena_super_wrong_'), record };
 }
 
 /** 🔒 島の かぎに かぞえる 月の きまり：あんり＝11月の はんい だけ、りの＝栄光の はんい だけ（ena_daily_<月>_<日付> の <月> で みる） */
