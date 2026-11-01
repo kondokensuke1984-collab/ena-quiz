@@ -105,6 +105,7 @@ body:not(.touch) #pad{display:none}
     <button class="chip" id="bSound" aria-pressed="true">おと ON</button>
     <button class="chip" id="bAuto" aria-pressed="false">オートダッシュ OFF</button>
     <button class="chip" id="bPause">ポーズ</button>
+    <button class="chip" id="bChat" data-chat-open>💬 かぞく<span data-chat-badge hidden></span></button>
   </div>
   <div id="screen">
     <canvas id="cv" aria-label="ゲーム画面"></canvas>
@@ -1604,6 +1605,7 @@ function renderMap(){
 }
 // ───────── ランキング（ANRINO だけ。api/sora-rank に おくる。名前は 島の 主人公） ─────────
 const RANK=SITE==='anrino',RANK_API='/api/sora-rank';
+if(SITE!=='anrino')document.getElementById('bChat').hidden=true;   // かぞくチャットは ANRINO だけ
 const KIDS={anri:'あんり',rino:'りの',mitsuki:'みつき',kensuke:'けんすけ',yusei:'ゆうせい'};
 const ovRank=document.getElementById('ovRank'),endRank=document.getElementById('endRank'),rankList=document.getElementById('rankList');
 const rankWho=()=>{try{const p=(JSON.parse(localStorage.getItem('ena_island_save_v1')||'{}')||{}).player;return KIDS[p]?p:null}catch(_){return null}};
@@ -1724,5 +1726,6 @@ applyGate();
 requestAnimationFrame(loop);
 })();
 </script>
+<script src="/js/chat.js" defer></script>
 </body>
 </html>

@@ -12,6 +12,7 @@
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
 <script src="/js/passage.js"></script>
 <script src="/js/medals.js"></script>
+<script src="/js/chat.js" defer></script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
@@ -2114,6 +2115,9 @@ body.sp-drawing { -webkit-user-select: none; user-select: none; }
 .sora-top { background:linear-gradient(135deg,#f97316,#facc15); box-shadow:0 4px 12px rgba(249,115,22,.35); }
 .sora-top .sora-btn-text { font-size: 12px; font-weight: 700; color: #fff; opacity: .95; }
 .sora-bar { width: 100%; box-sizing: border-box; margin: 0 0 12px; padding: 10px 16px; }
+.chat-top { background: linear-gradient(135deg,#06c755,#10b981); box-shadow: 0 4px 12px rgba(6,199,85,.35); border: 0; font: inherit; cursor: pointer; text-align: left; width: 100%; box-sizing: border-box; }
+.chat-bar { margin: 0 0 12px; padding: 10px 16px; }
+.chat-bar .island-top-title { font-size: 17px; }
 .sora-face { width: 48px; height: 48px; border-radius: 50%; flex: none; box-shadow: 0 0 0 3px rgba(255,255,255,.85); }
 .sora-bar .sora-face { width: 40px; height: 40px; }
 .sora-bar .island-top-title { font-size: 17px; }
@@ -2183,6 +2187,10 @@ body.sp-drawing { -webkit-user-select: none; user-select: none; }
     <img class="sora-face" src="/images/colon_face.png" alt="コロン" width="48" height="48">
     <span class="island-top-body"><span class="island-top-title">コロンのそらとび</span><span class="sora-btn-text">きょう 50もん といたら あそべる</span></span>
   </a>
+  <button type="button" class="island-top chat-top" data-chat-open>
+    <span class="island-top-emoji">💬</span>
+    <span class="island-top-body"><span class="island-top-title">かぞくに れんらく<span data-chat-badge hidden></span></span><span class="island-top-sub">メッセージを おくろう</span></span>
+  </button>
   <div class="mascot-wrap">
     <div class="mascot-bubble">
       <div class="bubble-text" id="mascot-quote"></div>
@@ -2324,6 +2332,10 @@ body.sp-drawing { -webkit-user-select: none; user-select: none; }
     <img class="sora-face" src="/images/colon_face.png" alt="コロン" width="48" height="48">
     <span class="island-top-body"><span class="island-top-title">コロンのそらとび</span><span class="sora-btn-text">きょう 50もん といたら あそべる</span></span>
   </a>
+  <button type="button" class="island-top chat-top chat-bar" data-chat-open>
+    <span class="island-top-emoji" style="font-size:28px">💬</span>
+    <span class="island-top-body"><span class="island-top-title">かぞくに れんらく<span data-chat-badge hidden></span></span></span>
+  </button>
   <div class="subject-grid" id="subject-grid"></div>
   <button class="share-btn" id="kid-advice-card" onclick="showKidAdvice()" style="display:none;background:linear-gradient(135deg,#fde68a,#fbbf24);color:#78350f;"></button>
   <div id="home-main-actions">

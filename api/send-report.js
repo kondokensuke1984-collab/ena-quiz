@@ -1,10 +1,7 @@
 const nodemailer = require('nodemailer');
 const { allowOrigin, rateLimit } = require('./_guard');
 
-const RECIPIENTS = [
-  'kondokensuke1984@gmail.com',
-  'm.moon.u.94@gmail.com',
-];
+const { RECIPIENTS } = require('./_mail');
 
 module.exports = async function handler(req, res) {
   // ANRINO の サイトから だけ・1時間に 20通まで（宛先は RECIPIENTS に 固定）
