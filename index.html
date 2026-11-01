@@ -1708,6 +1708,8 @@ body {
 .vl-thumb::after { content: '▶'; position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: 56px; height: 56px;
   border-radius: 50%; background: rgba(124,58,237,0.85); color: #fff; font-size: 22px; display: flex; align-items: center; justify-content: center; }
 .vl-body { padding: 12px 14px 14px; }
+.vl-head { font-size: 15px; font-weight: 900; color: #5b21b6; margin: 18px 4px 8px; }
+.vl-head:first-child { margin-top: 4px; }
 .vl-title { font-size: 14px; font-weight: 800; color: #3d2b5e; line-height: 1.5; }
 .vl-meta { font-size: 11px; color: #a78bfa; font-weight: 700; margin-top: 4px; }
 /* ===== 動画モーダル ===== */
@@ -29840,7 +29842,21 @@ function showVideoList() {
   const box = document.getElementById('video-list-items');
   box.innerHTML = '';
   // 1本の動画を複数の単元に出すときは同じ id を何行か書く。一覧では1回だけ出す
-  CHANNEL_VIDEOS.filter((v, i) => CHANNEL_VIDEOS.findIndex(w => w.id === v.id) === i).forEach(v => {
+  // 月ごとに見出しをつける（新しい月が上）。月の中は 教科（社会→理科→国語→英語→算数）の順、同じ教科は入れた順
+  const catOrder = Object.keys(CATEGORIES);
+  const rank = v => { const c = (SUBJECTS[v.subject] || {}).category; const i = catOrder.indexOf(c); return i < 0 ? 99 : i; };
+  const uniq = CHANNEL_VIDEOS.filter((v, i) => CHANNEL_VIDEOS.findIndex(w => w.id === v.id) === i)
+    .map((v, i) => ({ v, i })).sort((a, b) => (b.v.month || '').localeCompare(a.v.month || '') || rank(a.v) - rank(b.v) || a.i - b.i).map(x => x.v);
+  let lastMonth = null;
+  uniq.forEach(v => {
+    if (v.month !== lastMonth) {
+      lastMonth = v.month;
+      const m = MONTHS[v.month] || {};
+      const head = document.createElement('div');
+      head.className = 'vl-head';
+      head.textContent = (m.emoji ? m.emoji + ' ' : '') + (m.fullLabel || m.label || '');
+      box.appendChild(head);
+    }
     const sub = SUBJECTS[v.subject] || {};
     const cat = CATEGORIES[sub.category] || {};
     const mon = MONTHS[v.month] || {};
