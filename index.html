@@ -2246,11 +2246,14 @@ body.sp-drawing { -webkit-user-select: none; user-select: none; }
   <div class="fairy-title">✨ ANRINOの問題アプリ ✨</div>
   <div class="fairy-subtitle">月を選んでスタート！</div>
   <div class="month-grid" id="month-grid"></div>
-  <button id="gakuhan-btn" class="tendency-btn" onclick="location.href='/gakuhan.html'" style="background:linear-gradient(135deg,#7c3aed,#4f46e5);margin-top:12px;color:#fff;">📈 ガクハン成績グラフ</button>
+  <button id="seiseki-btn" class="tendency-btn" onclick="toggleSeiseki()" style="background:linear-gradient(135deg,#7c3aed,#4f46e5);margin-top:12px;color:#fff;display:none;">📈 成績 <span id="seiseki-arrow">▼</span></button>
+  <div id="seiseki-group" style="display:none;padding-left:14px;border-left:4px solid #c4b5fd;margin-left:6px;">
+  <button id="gakuhan-btn" class="tendency-btn" onclick="location.href='/gakuhan.html'" style="background:linear-gradient(135deg,#7c3aed,#4f46e5);margin-top:8px;color:#fff;">📈 ガクハン成績グラフ</button>
   <button id="yonka-btn" class="tendency-btn" onclick="location.href='/yonka.html'" style="background:linear-gradient(135deg,#15803d,#16a34a);margin-top:8px;color:#fff;display:none;">📝 4科演習 成績グラフ</button>
   <button id="gouhan-moshi-btn" class="tendency-btn" onclick="location.href='/gouhan_moshi.html'" style="background:linear-gradient(135deg,#0d9488,#0f766e);margin-top:8px;color:#fff;display:none;">🎯 合格判定模試 成績グラフ</button>
+  <button id="gakuhan-eikoh-btn" class="tendency-btn" onclick="location.href='/gakuhan_eikoh.html'" style="background:linear-gradient(135deg,#1d4ed8,#2563eb);margin-top:8px;color:#fff;display:none;">📈 成績グラフ</button>
+  </div>
   <button id="zunda-btn" class="tendency-btn" onclick="showVideoList()" style="background:linear-gradient(135deg,#65a30d,#16a34a);margin-top:8px;color:#fff;display:none;">📺 ずんだもん動画</button>
-  <button id="gakuhan-eikoh-btn" class="tendency-btn" onclick="location.href='/gakuhan_eikoh.html'" style="background:linear-gradient(135deg,#1d4ed8,#2563eb);margin-top:12px;color:#fff;display:none;">📈 成績グラフ</button>
   <button id="yakusu-btn" class="tendency-btn" onclick="window.open('https://yakusu-battle.vercel.app','_blank','noopener')" style="background:linear-gradient(135deg,#f59e0b,#ea580c);margin-top:8px;color:#fff;display:none;">⚔️ やくすうバトル（やくすう・こうやくすう）</button>
   <button id="chirashi-btn" class="tendency-btn" onclick="location.href='/chirashi.html'" style="background:linear-gradient(135deg,#f472b6,#a78bfa);margin-top:12px;color:#fff;">📄 チラシ集（おぼえたいこと1枚）</button>
   <button id="dex-btn" class="tendency-btn" onclick="showDexScreen()" style="background:linear-gradient(135deg,#f59e0b,#f472b6);margin-top:8px;color:#fff;">📖 コレクション図鑑</button>
@@ -23630,6 +23633,7 @@ function selectSchool(schoolId) {
   document.getElementById('school-select').style.display = 'none';
   document.getElementById('month-select').style.display = 'flex';
   refreshVoiceLockBtn(); { const vb = document.getElementById('voice-lock-btn'); if (vb) vb.style.display = (state.selectedSchool === 'ena' || state.selectedSchool === 'eikoh') ? '' : 'none'; }
+  { const sb=document.getElementById('seiseki-btn'); if(sb) sb.style.display=(schoolId==='ena'||schoolId==='eikoh')?'':'none'; closeSeiseki(); }
   document.getElementById('gakuhan-btn').style.display       = schoolId === 'ena'   ? '' : 'none';
   document.getElementById('yonka-btn').style.display         = schoolId === 'ena'   ? '' : 'none';
   document.getElementById('gouhan-moshi-btn').style.display  = schoolId === 'ena'   ? '' : 'none';
@@ -23638,6 +23642,17 @@ function selectSchool(schoolId) {
   document.getElementById('yakusu-btn').style.display        = schoolId === 'eikoh' ? '' : 'none';
   _monthPastOpen = false;
   initMonthSelect();  publishIslandFriends();   // 栄光をえらんだら 島の なかまも 栄光の子に
+}
+
+function toggleSeiseki() {
+  const g = document.getElementById('seiseki-group'); if (!g) return;
+  const open = g.style.display === 'none';
+  g.style.display = open ? 'block' : 'none';
+  const a = document.getElementById('seiseki-arrow'); if (a) a.textContent = open ? '▲' : '▼';
+}
+function closeSeiseki() {
+  const g = document.getElementById('seiseki-group'); if (g) g.style.display = 'none';
+  const a = document.getElementById('seiseki-arrow'); if (a) a.textContent = '▼';
 }
 
 function showSchoolSelect() {
@@ -23661,6 +23676,7 @@ function showMonthSelect() {
   document.getElementById('school-select').style.display = 'none';
   document.getElementById('month-select').style.display = 'flex';
   refreshVoiceLockBtn(); { const vb = document.getElementById('voice-lock-btn'); if (vb) vb.style.display = (state.selectedSchool === 'ena' || state.selectedSchool === 'eikoh') ? '' : 'none'; }
+  { const sb=document.getElementById('seiseki-btn'); if(sb) sb.style.display=(state.selectedSchool==='ena'||state.selectedSchool==='eikoh')?'':'none'; }
   document.getElementById('gakuhan-btn').style.display       = state.selectedSchool === 'ena'   ? '' : 'none';
   document.getElementById('yonka-btn').style.display         = state.selectedSchool === 'ena'   ? '' : 'none';
   document.getElementById('gouhan-moshi-btn').style.display  = state.selectedSchool === 'ena'   ? '' : 'none';
