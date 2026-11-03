@@ -24,6 +24,13 @@
   .page img { max-width:100%; height:auto; display:inline-block; }
   .no { font-size:12px; color:var(--muted); text-align:left; margin:0 0 4px 2px; }
   [hidden] { display:none !important; }
+  .psg-text { background:var(--card); border-radius:12px; padding:14px 14px 10px; box-shadow:0 1px 4px rgba(0,0,0,.06); text-align:left; font-size:16px; line-height:2; }
+  .psg-text p { margin:0 0 .6em; text-indent:1em; }
+  .psg-text p.dlg { text-indent:0; }
+  .psg-text p.cut { text-indent:0; text-align:center; color:#9ca3af; font-size:13px; }
+  .psg-text .mk { font-weight:700; color:var(--accent); }
+  .psg-text u { text-decoration-thickness:2px; text-underline-offset:3px; }
+  .psg-text .nt { font-size:13px; color:var(--muted); text-indent:0; margin:.2em 0; }
 </style>
 </head>
 <body>
@@ -35,7 +42,7 @@
   <div class="tabs" role="tablist" id="tabs"></div>
 </header>
 <main>
-  <div class="hint">縦書きの文章を、<b>読む順（上から1枚ずつ）</b>に分けてあります。1枚の中は<b>右の行から左へ</b>読みます。字が小さいときは指で広げて拡大してね。</div>
+  <div class="hint">縦書きの文章を、<b>読む順（上から1枚ずつ）</b>に分けてあります。1枚の中は<b>右の行から左へ</b>読みます。字が小さいときは指で広げて拡大してね。<br>※11月の本文（文学的文章(3)・説明的文章(3)）は、文字に起こした横書きです。</div>
   <div id="sections"></div>
 </main>
 <script>
@@ -43,14 +50,16 @@
   // ?t=キー で 最初に開くタブ。むかしの ?t=kihon / ?t=kako も 文学的文章(1) として読める
   const params = new URLSearchParams(location.search);
   const keys = (params.get('p') || 'bungaku9_kihon,bungaku9_kako').split(',').filter(k => PASSAGES[k]);
-  const TITLES = { bungaku9: '文学的文章(1) 本文を読む', setumei9: '説明的文章(1) 本文を読む' };
+  const TITLES = { bungaku9: '文学的文章(1) 本文を読む', setumei9: '説明的文章(1) 本文を読む', bungaku11: '文学的文章(3) 本文を読む', setumei11: '説明的文章(3) 本文を読む' };
   const pre = (keys[0] || '').split('_')[0];
   document.getElementById('page-title').textContent = TITLES[pre] || '本文を読む';
   document.title = (TITLES[pre] || '本文を読む').replace(' 本文を読む', ' 本文');
   document.getElementById('tabs').innerHTML = keys.map(k =>
     `<button class="tab" role="tab" data-t="${k}">${PASSAGES[k].tab || PASSAGES[k].title}</button>`).join('');
   document.getElementById('sections').innerHTML = keys.map(k => {
-    const P = PASSAGES[k], maxW = Math.max(...P.w);
+    const P = PASSAGES[k];
+    if (P.paras) return `<section id="sec-${k}" hidden><p class="src">${P.src}</p>` + psgTextHtml(P) + '</section>';
+    const maxW = Math.max(...P.w);
     return `<section id="sec-${k}" hidden><p class="src">${P.src}</p>` + P.w.map((w, i) =>
       `<div class="page"><p class="no">${i + 1} / ${P.w.length}</p><img src="/images/${P.img}_${i + 1}.jpg" style="width:${(w / maxW * 100).toFixed(1)}%" alt="本文 ${i + 1}枚目" loading="lazy"></div>`
     ).join('') + '</section>';

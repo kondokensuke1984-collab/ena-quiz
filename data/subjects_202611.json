@@ -447,5 +447,115 @@
 "category": "rika",
 "month": "202611",
 "parent": "kumo1"
+},
+"bunkei11": {
+"label": "文の基本形",
+"icon": "🧱",
+"tag": "tag-bunkei",
+"category": "kokugo",
+"month": "202611",
+"isGroup": true,
+"ref": "/bungaku9.html?p=bungaku11_kihon,bungaku11_kako",
+"refLabel": "本文を読む",
+"refSub": "文学的文章(3)：ぼくは勉強ができない／ミスター・クリスティ"
+},
+"bunkei11_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-bunkei",
+"category": "kokugo",
+"month": "202611",
+"parent": "bunkei11"
+},
+"bunkei11_hojuu": {
+"label": "補充問題",
+"icon": "➕",
+"tag": "tag-bunkei",
+"category": "kokugo",
+"month": "202611",
+"parent": "bunkei11"
+},
+"bunkei11_youten": {
+"label": "要点クイズ",
+"icon": "🔎",
+"tag": "tag-bunkei",
+"category": "kokugo",
+"month": "202611",
+"parent": "bunkei11"
+},
+"bunkei11_dokkai": {
+"label": "文章読解",
+"icon": "📖",
+"tag": "tag-bunkei",
+"category": "kokugo",
+"month": "202611",
+"parent": "bunkei11"
+},
+"bunkei11_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-bunkei",
+"category": "kokugo",
+"month": "202611",
+"parent": "bunkei11"
+},
+"bunkei11_tokikata": {
+"label": "解き方",
+"icon": "💡",
+"tag": "tag-bunkei",
+"category": "kokugo",
+"month": "202611",
+"parent": "bunkei11"
+},
+"wago11": {
+"label": "和語",
+"icon": "🍵",
+"tag": "tag-wago",
+"category": "kokugo",
+"month": "202611",
+"isGroup": true,
+"ref": "/bungaku9.html?p=setumei11_kihon,setumei11_kako",
+"refLabel": "本文を読む",
+"refSub": "説明的文章(3)：おはなしの知恵（桃太郎）／小説の読み方入門"
+},
+"wago11_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-wago",
+"category": "kokugo",
+"month": "202611",
+"parent": "wago11"
+},
+"wago11_imi": {
+"label": "意味クイズ",
+"icon": "🔎",
+"tag": "tag-wago",
+"category": "kokugo",
+"month": "202611",
+"parent": "wago11"
+},
+"wago11_dokkai": {
+"label": "文章読解",
+"icon": "📖",
+"tag": "tag-wago",
+"category": "kokugo",
+"month": "202611",
+"parent": "wago11"
+},
+"wago11_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-wago",
+"category": "kokugo",
+"month": "202611",
+"parent": "wago11"
+},
+"wago11_tokikata": {
+"label": "解き方",
+"icon": "💡",
+"tag": "tag-wago",
+"category": "kokugo",
+"month": "202611",
+"parent": "wago11"
 }
 }
