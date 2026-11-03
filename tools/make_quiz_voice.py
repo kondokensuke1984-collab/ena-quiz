@@ -38,9 +38,11 @@ GROUPS = {
                                               'nougyou6_renshu')),
     # 日本の農業5（基本・練習・過去問）
     'nougyou5': ('questions_202611.json', ('nougyou5_kihon', 'nougyou5_renshu', 'nougyou5_kakomon')),
+    # 過去問演習：日本の農業6・種子と発芽1・2
+    'kakomon11': ('questions_202611.json', ('nougyou6_kakomon', 'tane1_kakomon', 'tane2_kakomon')),
 }
-LEAN = {'eikoh11', 'ena_renshu11', 'nougyou5'}                 # a（こたえ）の 音声は 書いて答える（selfjudge）問題だけ。e が こたえも 読む
-DROP_LABEL = {'eikoh11', 'ena_renshu11', 'nougyou5'}           # 1行目の「漢字01」「プリント②-1-(1)」のような 見出しは 読まない
+LEAN = {'eikoh11', 'ena_renshu11', 'nougyou5', 'kakomon11'}                 # a（こたえ）の 音声は 書いて答える（selfjudge）問題だけ。e が こたえも 読む
+DROP_LABEL = {'eikoh11', 'ena_renshu11', 'nougyou5', 'kakomon11'}           # 1行目の「漢字01」「プリント②-1-(1)」のような 見出しは 読まない
 NO_OPTIONS = {'kifuyu_kanji'}      # 漢字の 書きとりは 選択肢（漢字）を 読んでも 意味がないので 読まない
 GROUP = sys.argv[sys.argv.index('--group') + 1] if '--group' in sys.argv else 'shakai11'
 OUT = ROOT / 'audio' / GROUP
@@ -58,9 +60,9 @@ YOMI_WORD = [
     (r'基本問題(\d+)-\((\d+)\)\(i\)', r'問題、\1の\2の1。'),
     (r'基本問題(\d+)-\((\d+)\)', r'問題、\1の\2。'),
     (r'※', ''),
-    (r'／(?=[ア-エ]：)', '、'),                       # 選択肢の 区切り「ア：開拓／イ：干拓」。分数の「分の」にしない
+    (r'／(?=[ア-エ]：)|(?<=[^\d])／', '、'),                       # 選択肢の 区切り「ア：開拓／イ：干拓」。分数の「分の」にしない
     (r'Ⅳ', '4'), (r'Ⅴ', '5'), (r'Ⅵ', '6'), (r'・', '、'),
-    (r'棒グラフ', 'ぼうグラフ'), (r'山や森(?!林)', 'やまやもり'),
+    (r'棒グラフ', 'ぼうグラフ'), (r'葉や茎', 'はや、くき'), (r'山や森(?!林)', 'やまやもり'),
     (r'［\s*］|\[\s*\]', 'かっこ'),
     (r'[【】［］\[\]]', ''),
     (r'（\s*）|\(\s*\)', 'かっこ'),
