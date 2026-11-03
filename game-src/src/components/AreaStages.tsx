@@ -375,6 +375,29 @@ function MoshiShelf() {
   );
 }
 
+// 📖 ドアの はんたい（みぎの すみ）の ずかんだな（2026-11-03）。コレクションずかんを ひらく。
+export const DEX_SHELF_HIT = { x0: 0.86, x1: 0.97, y0: 0.5, y1: 0.6 };
+export const DEX_SHELF_SPOT = { x: 0.9, y: 0.64 };
+export function dexShelfAt(p: { x: number; y: number }) {
+  return p.x >= DEX_SHELF_HIT.x0 && p.x <= DEX_SHELF_HIT.x1 && p.y >= DEX_SHELF_HIT.y0 && p.y <= DEX_SHELF_HIT.y1;
+}
+function DexShelf() {
+  const cols = ['#ef4444', '#3b82f6', '#22c55e', '#f59e0b', '#a855f7'];
+  return (
+    <g>
+      <rect x="866" y="384" width="100" height="72" rx="4" fill="#a16207" stroke="#5b2a0a" strokeWidth="3" />
+      <rect x="872" y="390" width="88" height="26" fill="#713f12" />
+      <rect x="872" y="420" width="88" height="30" fill="#713f12" />
+      {cols.map((c, i) => <rect key={'a' + i} x={874 + i * 16} y={394} width="13" height="22" rx="1.5" fill={c} stroke="#1f2937" strokeWidth="1" />)}
+      {cols.map((_, i) => <rect key={'b' + i} x={874 + i * 16} y={424} width="13" height="26" rx="1.5" fill={cols[(i + 2) % 5]} stroke="#1f2937" strokeWidth="1" />)}
+      <g transform="translate(916 366)">
+        <rect x="-26" y="-14" width="52" height="22" rx="5" fill="#fff7ed" stroke="#c2410c" strokeWidth="2" />
+        <text y="3" fontSize="13" fontWeight="900" textAnchor="middle" fill="#c2410c">ずかん</text>
+      </g>
+    </g>
+  );
+}
+
 const WINDOW_SKY: Record<TimeOfDay, string> ={ day: '#7dd3fc', evening: '#fdba74', night: '#1e1b4b' };
 
 function RoomGroundBase({ wall, floor, tod, moonAge, sleeping }: {
@@ -403,6 +426,7 @@ function RoomGroundBase({ wall, floor, tod, moonAge, sleeping }: {
       {CERTS.slice(0, CERT_SLOTS.length).map((c, i) => <CertFrame key={c.id} c={c} i={i} />)}
       <GameCorner />
       <MoshiShelf />
+      <DexShelf />
       {/* ドア（ここから そとへ） */}
       <g transform="translate(80 170)">
         <rect x="0" y="0" width="120" height="232" rx="10" fill="#b45309" stroke="#4c1d95" strokeWidth="4" />
