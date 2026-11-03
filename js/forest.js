@@ -51,6 +51,8 @@ function forestTodayUnits() {
   return p ? p.units : forestUnits;
 }
 function forestPool() {
+  // りの（栄光）・ゆうせい（2年生）は 自分の クエストの 問題だけ。ena の 単元・11月の先読みは あんりだけ
+  if (typeof questSchool === 'function' && questSchool()) return QUESTIONS.slice();
   const units = forestTodayUnits();
   let all = QUESTIONS;
   if (forestExtra) {
