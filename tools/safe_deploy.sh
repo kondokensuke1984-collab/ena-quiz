@@ -7,7 +7,8 @@
 #   3. 手元の変更が origin/main に入っていない（main に入れないと、次に誰かが main から出したとき消える）
 set -e
 cd "$(dirname "$0")/.."
-# GitHub への接続がときどき切れるので、数回やり直す
+# GitHub への接続がときどき切れる・止まるので、20秒で見切って数回やり直す
+export GIT_SSH_COMMAND="ssh -o ConnectTimeout=10 -o ServerAliveInterval=5 -o ServerAliveCountMax=2"
 ok=0
 for i in 1 2 3 4; do
   if git fetch origin -q 2>/dev/null; then ok=1; break; fi
