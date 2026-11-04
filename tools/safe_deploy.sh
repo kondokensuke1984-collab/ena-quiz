@@ -7,7 +7,13 @@
 #   3. 手元の変更が origin/main に入っていない（main に入れないと、次に誰かが main から出したとき消える）
 set -e
 cd "$(dirname "$0")/.."
-git fetch origin -q
+# GitHub への接続がときどき切れるので、数回やり直す
+ok=0
+for i in 1 2 3 4; do
+  if git fetch origin -q 2>/dev/null; then ok=1; break; fi
+  echo "（GitHubに つながらなかったので やり直します: $i）"; sleep 4
+done
+[ "$ok" = 1 ] || { echo "✋ GitHub に つながりません。最新かどうか確かめられないので、本番には出しません。"; exit 1; }
 if [ -n "$(git status --porcelain --untracked-files=no)" ]; then
   echo "✋ まだ保存していない変更があります。先に git commit してください。"; exit 1
 fi
