@@ -103,6 +103,9 @@ export const ITEMS: Item[] = [
   // bd_planet は もと プラネタリウム（てんもんだいと かぶるので 2026-10-20 に としょかんへ。id は セーブの ため そのまま）
   { id: 'bd_planet', kind: 'building', name: 'としょかん',         emoji: '📚', price: 800,  desc: 'となりの しまに たつ。しまの ずかんが ぜんぶ ならぶ', once: true },
   { id: 'bd_rocket', kind: 'building', name: 'ロケット',           emoji: '🚀', price: 1000, desc: 'となりの しまに たつ。つきや わくせいへ うちゅうりょこう！', once: true },
+  // 12月（となりの しまに たつ）
+  { id: 'bd_xtree',   kind: 'building', name: 'クリスマスツリー ひろば', emoji: '🎄', price: 850, desc: 'となりの しまに たつ。おおきな ツリーが よるに ピカピカ ひかる', once: true },
+  { id: 'bd_kotatsu', kind: 'building', name: 'ゆきの こや',         emoji: '⛄', price: 900, desc: 'となりの しまに たつ。ゆきを かぶった こやで ぽかぽか', once: true },
 
   // ── 季節の品（その月のあいだだけ 並ぶ。かったものは ずっと つかえる）──
   { id: 'gf_pumpkin', kind: 'gift',  name: 'かぼちゃだんご', emoji: '🎃', price: 4, desc: '10月だけ・なかよし +3', love: 3, season: 10 },
@@ -273,7 +276,7 @@ export function onSale(item: Item, ownedIds: string[]): boolean {
 }
 
 /** 建てる順番。前のを建てると次が出る */
-export const BUILD_ORDER = ['bd_house', 'bd_pier', 'bd_light', 'bd_school', 'bd_bridge', 'bd_wheel', 'bd_observ', 'bd_moon', 'bd_imo', 'bd_arbor', 'bd_base', 'bd_planet'];
+export const BUILD_ORDER = ['bd_house', 'bd_pier', 'bd_light', 'bd_school', 'bd_bridge', 'bd_wheel', 'bd_observ', 'bd_moon', 'bd_imo', 'bd_arbor', 'bd_base', 'bd_planet', 'bd_xtree', 'bd_kotatsu'];
 /** たてると いっしょに もらえる おまけの たてもの（BUILD_ORDER には いれない） */
 export const BUILD_BONUS: Record<string, string[]> = { bd_base: ['bd_rocket'] };
 /** けんすけの 端末は 建物が ぜんぶ たっている（おまけも ふくむ） */

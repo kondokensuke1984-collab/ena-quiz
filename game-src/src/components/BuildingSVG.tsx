@@ -338,7 +338,52 @@ function Rocket() {
   );
 }
 
+/** クリスマスツリー ひろば（bd_xtree）。大きなツリー・星・かざり・プレゼント */
+function XmasTree() {
+  return (
+    <g>
+      {shadow(50)}
+      <rect x="-7" y="-14" width="14" height="14" fill="#92400e" {...S} strokeWidth={2} />
+      <path d="M-40 -12 L0 -62 L40 -12 Z" fill="#15803d" {...S} />
+      <path d="M-32 -48 L0 -92 L32 -48 Z" fill="#16a34a" {...S} />
+      <path d="M-22 -80 L0 -118 L22 -80 Z" fill="#22c55e" {...S} />
+      <path d="M0 -134 L4 -124 L15 -123 L7 -116 L10 -105 L0 -111 L-10 -105 L-7 -116 L-15 -123 L-4 -124 Z" fill="#fde047" {...S} strokeWidth={2} />
+      {[[-14, -30, '#ef4444'], [16, -34, '#3b82f6'], [-4, -62, '#f59e0b'], [10, -74, '#ef4444'], [-10, -92, '#3b82f6']].map(([x, y, c]) => (
+        <circle key={`${x}${y}`} cx={x as number} cy={y as number} r="4.5" fill={c as string} stroke="#4c1d95" strokeWidth="1.4" />
+      ))}
+      <rect x="-52" y="-14" width="18" height="14" rx="2" fill="#ef4444" {...S} strokeWidth={2} />
+      <path d="M-43 -14 V0 M-52 -7 H-34" stroke="#fde047" strokeWidth="2.4" />
+      <rect x="32" y="-11" width="16" height="11" rx="2" fill="#3b82f6" {...S} strokeWidth={2} />
+      <path d="M40 -11 V0 M32 -5 H48" stroke="#fef3c7" strokeWidth="2.2" />
+    </g>
+  );
+}
+
+/** ゆきの こや（bd_kotatsu）。ゆきを かぶった やね・えんとつ・あかるい まど */
+function SnowHut() {
+  return (
+    <g>
+      {shadow(56)}
+      <rect x="-40" y="-40" width="80" height="40" rx="3" fill="#fde68a" {...S} />
+      <path d="M-50 -38 L0 -78 L50 -38 Z" fill="#92400e" {...S} />
+      <path d="M-50 -38 L0 -78 L50 -38 Q38 -48 24 -44 Q12 -54 0 -50 Q-12 -54 -24 -44 Q-38 -48 -50 -38 Z" fill="#f8fafc" {...S} />
+      <rect x="22" y="-86" width="12" height="22" fill="#b45309" {...S} strokeWidth={2} />
+      <rect x="19" y="-92" width="18" height="8" rx="3" fill="#f8fafc" {...S} strokeWidth={2} />
+      <rect x="-32" y="-30" width="22" height="18" rx="2" fill="#fbbf24" {...S} />
+      <path d="M-21 -30 V-12 M-32 -21 H-10" stroke="#92400e" strokeWidth="1.6" />
+      <path d="M8 0 V-26 a9 9 0 0 1 18 0 V0 Z" fill="#7c2d12" {...S} />
+      <circle cx="21" cy="-14" r="1.6" fill="#fde047" />
+      <circle cx="-54" cy="-10" r="10" fill="#f8fafc" {...S} strokeWidth={2} />
+      <circle cx="-54" cy="-26" r="7" fill="#f8fafc" {...S} strokeWidth={2} />
+      <path d="M-56 -27 h1 M-52 -27 h1" stroke="#1e293b" strokeWidth="2" strokeLinecap="round" />
+      <path d="M-53 -24 L-47 -23" stroke="#f97316" strokeWidth="2.4" strokeLinecap="round" />
+    </g>
+  );
+}
+
 const DRAW: Record<string, () => React.ReactNode> = {
+  bd_xtree: XmasTree,
+  bd_kotatsu: SnowHut,
   bd_base: SpaceBase,
   bd_planet: Library,
   bd_rocket: Rocket,
@@ -380,6 +425,9 @@ export const BUILDING_SPOTS: Record<string, BuildingSpot> = {
   bd_base: { x: 0.26, y: 0.74, area: 'east', glow: { dy: -0.04, r: 50 } },
   bd_planet: { x: 0.48, y: 0.8, area: 'east', glow: { dy: -0.03, r: 55 } },
   bd_rocket: { x: 0.85, y: 0.5, area: 'east', glow: { dy: -0.13, r: 40 } },
+  // 12月（east の あいている ところ。あとで ブラウザで ずれを みて なおす）
+  bd_xtree: { x: 0.15, y: 0.46, area: 'east', glow: { dy: -0.1, r: 50 } },
+  bd_kotatsu: { x: 0.87, y: 0.77, area: 'east', glow: { dy: -0.04, r: 48 } },
 };
 /** その場所に建つ 建物か */
 export function spotInArea(id: string, area: string): boolean {
