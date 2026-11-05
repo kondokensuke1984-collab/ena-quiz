@@ -46,7 +46,7 @@ export function XmasModal({ onClose }: { onClose(): void }) {
       await postSanta(g.save.player, t);
       g.saveSantaWish(t);
       setWish('');
-      setWishMsg({ ok: true, text: '🎅 サンタさんに とどけたよ！ パパと ママにも おしらせしたよ' });
+      setWishMsg({ ok: true, text: '🎅 サンタさんに とどけたよ！' });
     } catch (e) {
       setWishMsg({ ok: false, text: e instanceof Error ? e.message : 'うまく おくれなかったよ' });
     } finally {
@@ -128,7 +128,7 @@ export function XmasModal({ onClose }: { onClose(): void }) {
 
         <div className="mt-3 rounded-2xl bg-white/90 p-3 shadow">
           <div className="text-[14px] font-black text-red-800">🎅 サンタさんへ おてがみ</div>
-          <div className="mb-2 text-[11.5px] font-bold text-red-700">ほしいものを かいて おくると、サンタさんに とどくよ（パパと ママにも おしらせが いくよ）</div>
+          <div className="mb-2 text-[11.5px] font-bold text-red-700">ほしいものを かいて おくると、サンタさんに とどくよ</div>
           <textarea
             className="w-full resize-none rounded-xl border-2 border-red-200 bg-white p-2 text-[15px] font-bold text-ink outline-none focus:border-red-400"
             rows={3}
