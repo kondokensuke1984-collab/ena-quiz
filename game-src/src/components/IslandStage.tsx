@@ -1,4 +1,5 @@
 import React from 'react';
+import { ORNAMENTS } from '../lib/xmas';
 import { MAIN_GROUND, SOCCER_PITCH, WORLD } from '../lib/island';
 
 // 島の地面（main）。2026-09-22 に土地を広げた：1000x750 の枠の外まで 大きな楕円の島。
@@ -11,7 +12,7 @@ export const MOSHI_ISLET = { x: -0.30, y: 1.587 };
 
 export const SEASON_SPOTS: [number, number][] = [[330, 575], [905, 560], [250, 690], [680, 735], [300, 790], [760, 690]];  // はたけ（x 340〜600・y 600〜790）を よける
 
-function SeasonDeco({ season, halloween = false }: { season: number; halloween?: boolean }) {
+function SeasonDeco({ season, halloween = false, xmasPts = 0 }: { season: number; halloween?: boolean; xmasPts?: number }) {
   if (season === 10) {
     return (
       <g>
@@ -75,6 +76,9 @@ function SeasonDeco({ season, halloween = false }: { season: number; halloween?:
             <path d="M0 -90 L28 -40 L14 -40 L34 -8 L-34 -8 L-14 -40 L-28 -40 Z" fill="#16a34a" stroke="#14532d" strokeWidth="2.4" />
             <rect x="-6" y="-8" width="12" height="12" fill="#92400e" />
             <circle cx="0" cy="-92" r="6" fill="#fde047" />
+            {ORNAMENTS.slice(0, Math.min(xmasPts, ORNAMENTS.length)).map((o, i) => (
+              <circle key={i} cx={o.x * 0.9} cy={o.y * 0.78 - 4} r="4" fill={o.c} stroke="#fff" strokeWidth="1.2" />
+            ))}
           </g>
         )}
         {season === 1 && (
@@ -242,7 +246,7 @@ function OuterDeco() {
   );
 }
 
-function IslandGroundBase({ expansion = 0, pier = false, season = 0, bridge = false, halloween = false, moshi = false, soccerCups = 0 }: { expansion?: number; pier?: boolean; season?: number; bridge?: boolean; halloween?: boolean; moshi?: boolean; soccerCups?: number }) {
+function IslandGroundBase({ expansion = 0, pier = false, season = 0, bridge = false, halloween = false, moshi = false, soccerCups = 0, xmasPts = 0 }: { expansion?: number; pier?: boolean; season?: number; bridge?: boolean; halloween?: boolean; moshi?: boolean; soccerCups?: number; xmasPts?: number }) {
   const G = MAIN_GROUND;
   // さんばしの ねもと（x=360 の 砂浜の上のはし）
   const sandTop = Math.round(G.cy - G.sandRy * Math.sqrt(1 - ((360 - G.cx) / G.sandRx) ** 2));
@@ -369,7 +373,7 @@ function IslandGroundBase({ expansion = 0, pier = false, season = 0, bridge = fa
           <path d={`M${x + 4} ${y} q 3 -12 8 -16`} stroke="#16a34a" strokeWidth="3" strokeLinecap="round" fill="none" />
         </g>
       ))}
-      <SeasonDeco season={season} halloween={halloween} />
+      <SeasonDeco season={season} halloween={halloween} xmasPts={xmasPts} />
       {/* となりの島への はし（右の海岸） */}
       {bridge && <BridgeRight />}
     </>

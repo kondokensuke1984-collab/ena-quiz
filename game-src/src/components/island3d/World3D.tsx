@@ -56,7 +56,7 @@ export interface World3DProps {
 const WEAR_POS: Record<string, { y: number; size: number }> = {
   fw_silk: { y: -44, size: 34 }, fw_flower: { y: -42, size: 28 }, fw_glass: { y: -24, size: 26 }, fw_scarf: { y: -4, size: 28 },
   fw_pumpkin: { y: -44, size: 30 }, fw_leaf: { y: -40, size: 24 }, fw_gold: { y: -44, size: 30 }, fw_moon: { y: -46, size: 28 },
-  fw_acorn: { y: -42, size: 26 }, fw_santa: { y: -44, size: 32 }, fw_saturn: { y: -44, size: 28 },
+  fw_acorn: { y: -42, size: 26 }, fw_santa: { y: -44, size: 32 }, fw_xhat: { y: -46, size: 30 }, fw_saturn: { y: -44, size: 28 },
 };
 const CHAR_PX = 108;
 

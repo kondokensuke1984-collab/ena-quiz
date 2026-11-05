@@ -63,6 +63,7 @@ export function freshSave(now = Date.now()): SaveV1 {
     usagi: { talked: '', home: false },
     talk: { day: '', talked: [], req: null, done: false },
     wishes: { day: '', claimed: false, streak: 0, last: '' },
+    xmas: { pts: 0, day: '', hung: false, gifted: 0 },
     harvest: { pts: 0, day: '', quiz: {}, offered: 0 },
   };
 }
@@ -131,6 +132,12 @@ export function loadSave(): SaveV1 {
       day: typeof s.harvest?.day === 'string' ? s.harvest.day : '',
       quiz: obj(s.harvest?.quiz, {}),
       offered: typeof s.harvest?.offered === 'number' ? s.harvest.offered : 0,
+    },
+    xmas: {
+      pts: typeof s.xmas?.pts === 'number' ? s.xmas.pts : 0,
+      day: typeof s.xmas?.day === 'string' ? s.xmas.day : '',
+      hung: s.xmas?.hung === true,
+      gifted: typeof s.xmas?.gifted === 'number' ? s.xmas.gifted : 0,
     },
     wishes: {
       day: typeof s.wishes?.day === 'string' ? s.wishes.day : '',

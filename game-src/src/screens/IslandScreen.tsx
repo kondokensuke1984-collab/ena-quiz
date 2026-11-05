@@ -47,6 +47,8 @@ import { FarmModal } from '../components/FarmModal';
 import { StarsModal } from '../components/StarsModal';
 import { DetectiveScreen } from '../components/DetectiveTheater';
 import { caseOpen, CASES, eventActive, eventToday } from '../lib/detective';
+import { XmasModal } from '../components/XmasModal';
+import { xmasActive, xmasDay, XMAS_GOAL } from '../lib/xmas';
 import { WishModal } from '../components/WishModal';
 import { allDone as allWishesDone } from '../lib/wishes';
 import { HarvestModal } from '../components/HarvestModal';
@@ -113,6 +115,7 @@ const WEAR_POS: Record<string, { y: number; size: number }> = {
   fw_moon: { y: -46, size: 28 },
   fw_acorn: { y: -42, size: 26 },
   fw_santa: { y: -44, size: 32 },
+  fw_xhat: { y: -46, size: 30 },
   fw_saturn: { y: -44, size: 28 },
 };
 
@@ -160,7 +163,7 @@ function todayKey(): string {
 
 type ModalKind =
   | 'feed' | 'roster' | 'stamp' | 'mail' | 'fish' | 'farm' | 'stars' | 'detective' | 'harvest' | 'moonView'
-  | 'imo' | 'arbor' | 'spaceGo' | 'spaceDex' | 'library' | 'desk' | 'organ' | 'micro' | 'transfer' | 'board' | 'opening' | 'iken' | 'forestry' | 'zukei' | 'tane' | 'suisan' | 'suisanVoyage' | 'dex' | 'wish';
+  | 'imo' | 'arbor' | 'spaceGo' | 'spaceDex' | 'library' | 'desk' | 'organ' | 'micro' | 'transfer' | 'board' | 'opening' | 'iken' | 'forestry' | 'zukei' | 'tane' | 'suisan' | 'suisanVoyage' | 'dex' | 'wish' | 'xmas';
 
 /** むきと あしだけ かわる しゅじんこう（島の 画面ぜんぶを かきなおさない） */
 function PosedKid({ poseRef, subRef, ...rest }: {
@@ -231,6 +234,7 @@ export function IslandScreen() {
   const [studyTick, setStudyTick] = useState(0);
   const detectiveNew = eventActive() && CASES.some((c) => caseOpen(c) && !save.detective.solved.includes(c.no));
   // しゅうかくさい：きょう クイズ5もん やったのに まめクイズが まだ
+  const xmasNew = xmasActive() && studiedOnDay() && !(save.xmas.day === xmasDay() && save.xmas.hung);
   const harvestNew = harvestActive() && studiedOnDay() && save.harvest.day !== dateKey(eventToday());
   // 夜空の 星を うごかす（1分ごと）
   const [skyMin, setSkyMin] = useState(0);
@@ -1610,6 +1614,21 @@ export function IslandScreen() {
         </button>
       )}
 
+      {/* ── イベント：クリスマス ── */}
+      {xmasActive() && (
+        <button
+          className="mb-2.5 flex w-full items-center gap-2 rounded-2xl bg-gradient-to-r from-[#991b1b] to-[#166534] px-3 py-2 text-left shadow active:scale-[0.98] lg:landscape:col-start-2"
+          onClick={() => setModal('xmas')}
+        >
+          <span className={`text-xl ${xmasNew ? 'dt-new' : ''}`}>🎄</span>
+          <span className="min-w-0 flex-1 truncate text-[13.5px] font-black text-white">
+            <span className="mr-1.5 text-[10.5px] text-yellow-200">イベント</span>クリスマス
+          </span>
+          <span className="text-[12px] font-black text-amber-50">{Math.min(save.xmas.pts, XMAS_GOAL)}/{XMAS_GOAL}</span>
+          {xmasNew && <span className="rounded-full bg-rose-500 px-2 py-0.5 text-[10px] font-black text-white">NEW</span>}
+        </button>
+      )}
+
       {/* ── イベント：あきの しゅうかくさい ── */}
       {harvestActive() && (
         <button
@@ -1688,7 +1707,7 @@ export function IslandScreen() {
           onPointerDown={onStagePointerDown}
         >
           {!on3d && area === 'main' && (
-            <IslandGround expansion={expansion} pier={hasPier} season={seasonNow()} bridge={hasBridge} halloween={hw} moshi={!!moshi} soccerCups={cups} />
+            <IslandGround expansion={expansion} pier={hasPier} season={seasonNow()} bridge={hasBridge} halloween={hw} moshi={!!moshi} soccerCups={cups} xmasPts={save.xmas.pts} />
           )}
           {!on3d && area === 'main' && <FarmPatch plots={save.farm.plots} stages={farmStages} today={day} />}
           {area === 'east' && <EastGround tod={tod} />}
@@ -2015,6 +2034,7 @@ export function IslandScreen() {
       {modal === 'farm' && <FarmModal stages={farmStages} studied={studied} onClose={() => setModal(null)} />}
       {modal === 'stars' && <StarsModal onClose={() => setModal(null)} />}
       {modal === 'detective' && <DetectiveScreen onClose={() => setModal(null)} />}
+      {modal === 'xmas' && <XmasModal onClose={() => setModal(null)} />}
       {modal === 'wish' && <WishModal onClose={() => setModal(null)} />}
       {modal === 'harvest' && <HarvestModal onClose={() => setModal(null)} />}
       {modal === 'moonView' && <MoonViewModal onClose={() => setModal(null)} />}

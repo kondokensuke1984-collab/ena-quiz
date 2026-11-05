@@ -26,6 +26,7 @@ import { CASES, DETECTIVE_REWARDS, DETECTIVE_TITLE } from '../lib/detective';
 import { HARVEST_GOAL, HARVEST_REWARDS, HARVEST_TITLE, OFFER_PER_DAY, QUIZ_PER_DAY } from '../lib/harvest';
 import { seasonNow } from '../lib/items';
 import { allDone, STREAK_BONUS_EVERY } from '../lib/wishes';
+import { GIFT_PER_DAY, XMAS_GOAL, XMAS_REWARDS, XMAS_TITLE } from '../lib/xmas';
 import { ORGAN_TITLE, SONGS } from '../lib/songs';
 import { IMO_BY_ID, IMO_PER_DAY, IMO_REWARDS } from '../lib/yakiimo';
 import { FOREST_BY_ID } from '../lib/forestry';
@@ -127,6 +128,15 @@ function withHarvest(s: SaveV1, r: { rewards: string[]; title: string | null }):
   };
 }
 
+export interface XmasGot { pts: number; rewards: string[]; title: string | null }
+
+/** クリスマスの かざりが before → after に なったときに もらえる ごほうびと しょうごう */
+function xmasGains(s: SaveV1, before: number, after: number): { rewards: string[]; title: string | null } {
+  const rewards = XMAS_REWARDS.filter((r) => before < r.at && after >= r.at && !s.owned.includes(r.item)).map((r) => r.item);
+  const title = before < XMAS_GOAL && after >= XMAS_GOAL && !s.titles.includes(XMAS_TITLE) ? XMAS_TITLE : null;
+  return { rewards, title };
+}
+
 export interface GameApi {
   save: SaveV1;
   balance: number;
@@ -173,6 +183,10 @@ export interface GameApi {
   solveCase(no: number): { gift: string; reward: string | null; title: string | null } | null;
   /** しゅうかくさい：まめクイズに こたえた（day＝その日、gain＝せいかいの ときの みのり）。もう こたえた 問題なら null */
   harvestAnswer(day: string, qid: string, correct: boolean, gain: number): HarvestGot | null;
+  /** クリスマス：かざりつけ（その日 1かい・かざり +1）。できないときは null */
+  xmasHang(day: string): XmasGot | null;
+  /** クリスマス：プレゼントを サンタの ふくろに（1日2こまで・かざり +1）。できないときは null */
+  xmasGift(day: string, itemId: string): XmasGot | null;
   /** しゅうかくさい：はたけの ものを 1こ おそなえ（みのり +1）。できないときは null */
   harvestOffer(day: string, itemId: string): HarvestGot | null;
   /** オルガンの れんしゅうで 1きょく ひけた。はじめての曲なら true、ぜんぶ そろったら title も */
@@ -661,6 +675,37 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       });
       sfx(r.rewards.length || r.title ? 'reveal' : 'gift');
       return { got: 1, pts: h0.pts + 1, ...r };
+    },
+
+    xmasHang: (day) => {
+      const cur = saveRef.current;
+      const x0 = cur.xmas.day === day ? cur.xmas : { ...cur.xmas, day, hung: false, gifted: 0 };
+      if (x0.hung) return null;
+      const r = xmasGains(cur, x0.pts, x0.pts + 1);
+      setSave((s) => {
+        const x = s.xmas.day === day ? s.xmas : { ...s.xmas, day, hung: false, gifted: 0 };
+        if (x.hung) return s;
+        return withHarvest({ ...s, xmas: { ...x, pts: x.pts + 1, hung: true } }, r);
+      });
+      sfx(r.rewards.length || r.title ? 'reveal' : 'gift');
+      return { pts: x0.pts + 1, ...r };
+    },
+
+    xmasGift: (day, itemId) => {
+      const cur = saveRef.current;
+      const x0 = cur.xmas.day === day ? cur.xmas : { ...cur.xmas, day, hung: false, gifted: 0 };
+      if (x0.gifted >= GIFT_PER_DAY || (cur.inventory[itemId] ?? 0) < 1) return null;
+      const r = xmasGains(cur, x0.pts, x0.pts + 1);
+      setSave((s) => {
+        const x = s.xmas.day === day ? s.xmas : { ...s.xmas, day, hung: false, gifted: 0 };
+        const have = s.inventory[itemId] ?? 0;
+        if (x.gifted >= GIFT_PER_DAY || have < 1) return s;
+        const inv = { ...s.inventory };
+        if (have <= 1) delete inv[itemId]; else inv[itemId] = have - 1;
+        return withHarvest({ ...s, inventory: inv, xmas: { ...x, pts: x.pts + 1, gifted: x.gifted + 1 } }, r);
+      });
+      sfx(r.rewards.length || r.title ? 'reveal' : 'gift');
+      return { pts: x0.pts + 1, ...r };
     },
 
     markSongPlayed: (id) => {

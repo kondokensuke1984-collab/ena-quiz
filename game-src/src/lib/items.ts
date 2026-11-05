@@ -112,6 +112,8 @@ export const ITEMS: Item[] = [
   { id: 'fw_pumpkin', kind: 'fwear', name: 'かぼちゃの ぼうし', emoji: '🎃', price: 12, desc: '10月だけの きせかえ', once: true, season: 10 },
   { id: 'gf_imo',     kind: 'gift',  name: 'やきいも',       emoji: '🍠', price: 4, desc: '11月だけ・なかよし +3', love: 3, season: 11 },
   { id: 'fw_leaf',    kind: 'fwear', name: 'もみじの かみかざり', emoji: '🍁', price: 12, desc: '11月だけの きせかえ', once: true, season: 11 },
+  { id: 'gf_xcake',    kind: 'gift',  name: 'クリスマスケーキ', emoji: '🎂', price: 4, desc: '12月だけ・なかよし +3', love: 3, season: 12 },
+  { id: 'fw_xhat',     kind: 'fwear', name: 'トナカイの カチューシャ', emoji: '🦌', price: 12, desc: '12月だけの きせかえ（クリスマスの ごほうびでも もらえる）', once: true, season: 12 },
 
   // ── やきいも やたい（はたけの サツマイモを やく。ショップでは売らない）──
   { id: 'gf_rawimo',  kind: 'gift',      name: 'なまの サツマイモ', emoji: '🍠', price: 0, desc: 'やきいも やたいで やくと やきいもに なる・なかよし +1', love: 1, reward: true },

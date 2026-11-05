@@ -117,6 +117,7 @@ export interface SaveV1 {
   space: { dex: string[]; day: string; trips: number; moonStone: string; marsStone: string; sunStone: string; sunSeen: string[] };  // sun＝たいようの せいれいで ひろった ひかりの たまの日・みつけた ものID
   usagi: { talked: string; home: boolean };   // 🐰 もちつきうさぎ：さいごに はなした日・ちきゅうに きたか（なかよし度は friendsPlay.mochiusa）  // うちゅうりょこう：いった いきさきID・きょう とんだ かいすう・月／火星で いしを ひろった日
   talk: { day: string; talked: string[]; req: Request | null; done: boolean };
+  xmas: { pts: number; day: string; hung: boolean; gifted: number };  // クリスマス：ツリーの かざりの かず・その日 かざりつけした か・その日 サンタに わたした プレゼントの数
   wishes: { day: string; claimed: boolean; streak: number; last: string };  // 毎日の おねがいボード：きょうの ごほうびを もらった日・つづけた日数・さいごに もらった日
   harvest: { pts: number; day: string; quiz: Record<string, boolean>; offered: number };  // しゅうかくさい：あつめた みのり・その日の まめクイズ（問題ID→せいかい）・その日 おそなえした数  // なかまの おしゃべり：その日 はなした子（なかよし+1は 1日1回）・きょうの おねがい・かなえたか
 }
