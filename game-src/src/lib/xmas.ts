@@ -1,4 +1,4 @@
-// イベント「クリスマス」：2026-12-01〜12-25。島の ツリーに かざりを ふやして、サンタを まつ。
+// イベント「クリスマス」：2026-10-24（ハロウィンから）〜12-25。島の ツリーに かざりを ふやして、サンタを まつ。
 //   ・その日 クイズを 5もん やると「かざりつけ」できる（かざり +1・1日1かい）
 //   ・もっている プレゼント（なかまに あげる ものと おなじ）を サンタの ふくろに いれると かざり +1（1日2こまで）
 //   ・かざりが 6で トナカイの カチューシャ、12で しょうごう
@@ -7,7 +7,7 @@
 import { dateKey } from './study';
 import { eventToday } from './detective';
 
-export const XMAS_START = '2026-12-1';
+export const XMAS_START = '2026-10-24';
 export const XMAS_END = '2026-12-25';
 export const XMAS_TITLE = 'クリスマス めいじん';
 export const XMAS_GOAL = 12;
@@ -37,6 +37,13 @@ function dayOnly(d: Date): number {
 export function xmasActive(now = eventToday()): boolean {
   const t = dayOnly(now);
   return t >= parse(XMAS_START).getTime() && t <= parse(XMAS_END).getTime();
+}
+
+/** 'before'＝はじまる まえ／'active'＝クリスマス期間／'after'＝12/26 いこう */
+export function xmasPhase(now = eventToday()): 'before' | 'active' | 'after' {
+  const t = dayOnly(now);
+  if (t < parse(XMAS_START).getTime()) return 'before';
+  return t <= parse(XMAS_END).getTime() ? 'active' : 'after';
 }
 
 /** のこりの 日数（さいごの 日は 0） */

@@ -48,7 +48,7 @@ import { StarsModal } from '../components/StarsModal';
 import { DetectiveScreen } from '../components/DetectiveTheater';
 import { caseOpen, CASES, eventActive, eventToday } from '../lib/detective';
 import { XmasModal } from '../components/XmasModal';
-import { xmasActive, xmasDay, XMAS_GOAL } from '../lib/xmas';
+import { xmasActive, xmasDay, xmasPhase, XMAS_GOAL } from '../lib/xmas';
 import { WishModal } from '../components/WishModal';
 import { allDone as allWishesDone } from '../lib/wishes';
 import { HarvestModal } from '../components/HarvestModal';
@@ -841,7 +841,10 @@ export function IslandScreen() {
   };
 
   const openXmas = () => {
-    if (xmasActive()) { sfx('gift'); setModal('xmas'); } else g.showToast('クリスマスは おわったよ。また らいねん！');
+    const ph = xmasPhase();
+    if (ph === 'active') { sfx('gift'); setModal('xmas'); }
+    else if (ph === 'after') g.showToast('クリスマスは おわったよ。また らいねん！');
+    else g.showToast('クリスマスは 10月24日から だよ');
   };
 
   // 🌕🔴 きょうの いし（ほしごとに 1日1こ。ひろったら きえる）
