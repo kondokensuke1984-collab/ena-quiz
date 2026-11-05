@@ -62,6 +62,7 @@ export function freshSave(now = Date.now()): SaveV1 {
     space: { dex: [], day: '', trips: 0, moonStone: '', marsStone: '', sunStone: '', sunSeen: [] },
     usagi: { talked: '', home: false },
     talk: { day: '', talked: [], req: null, done: false },
+    wishes: { day: '', claimed: false, streak: 0, last: '' },
     harvest: { pts: 0, day: '', quiz: {}, offered: 0 },
   };
 }
@@ -130,6 +131,12 @@ export function loadSave(): SaveV1 {
       day: typeof s.harvest?.day === 'string' ? s.harvest.day : '',
       quiz: obj(s.harvest?.quiz, {}),
       offered: typeof s.harvest?.offered === 'number' ? s.harvest.offered : 0,
+    },
+    wishes: {
+      day: typeof s.wishes?.day === 'string' ? s.wishes.day : '',
+      claimed: s.wishes?.claimed === true,
+      streak: typeof s.wishes?.streak === 'number' ? s.wishes.streak : 0,
+      last: typeof s.wishes?.last === 'string' ? s.wishes.last : '',
     },
     organ: { played: Array.isArray(s.organ?.played) ? s.organ!.played.filter((x) => typeof x === 'string') : [] },
     micro: {

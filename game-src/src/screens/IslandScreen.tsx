@@ -47,6 +47,8 @@ import { FarmModal } from '../components/FarmModal';
 import { StarsModal } from '../components/StarsModal';
 import { DetectiveScreen } from '../components/DetectiveTheater';
 import { caseOpen, CASES, eventActive, eventToday } from '../lib/detective';
+import { WishModal } from '../components/WishModal';
+import { allDone as allWishesDone } from '../lib/wishes';
 import { HarvestModal } from '../components/HarvestModal';
 import { harvestActive, HARVEST_GOAL, studiedOnDay } from '../lib/harvest';
 import { MoonViewModal } from '../components/MoonViewModal';
@@ -158,7 +160,7 @@ function todayKey(): string {
 
 type ModalKind =
   | 'feed' | 'roster' | 'stamp' | 'mail' | 'fish' | 'farm' | 'stars' | 'detective' | 'harvest' | 'moonView'
-  | 'imo' | 'arbor' | 'spaceGo' | 'spaceDex' | 'library' | 'desk' | 'organ' | 'micro' | 'transfer' | 'board' | 'opening' | 'iken' | 'forestry' | 'zukei' | 'tane' | 'suisan' | 'suisanVoyage' | 'dex';
+  | 'imo' | 'arbor' | 'spaceGo' | 'spaceDex' | 'library' | 'desk' | 'organ' | 'micro' | 'transfer' | 'board' | 'opening' | 'iken' | 'forestry' | 'zukei' | 'tane' | 'suisan' | 'suisanVoyage' | 'dex' | 'wish';
 
 /** むきと あしだけ かわる しゅじんこう（島の 画面ぜんぶを かきなおさない） */
 function PosedKid({ poseRef, subRef, ...rest }: {
@@ -389,6 +391,7 @@ export function IslandScreen() {
   const stamps = stampDays(nowD.getFullYear(), nowD.getMonth() + 1, byDate);
   const studied = studiedToday(byDate);
   const showChest = studied && save.lastChest !== day;
+  const wishReady = !(save.wishes.day === day && save.wishes.claimed) && allWishesDone(save, day);
   // はたけの そだち（クイズの記録から計算）と ハロウィン
   const farmStages = save.farm.plots.map((p) => (p ? stageOf(p, byDate) : 0));
   const hw = isHalloween();
@@ -1623,7 +1626,11 @@ export function IslandScreen() {
       )}
 
       {/* ── スタンプ・てがみ・おと ── */}
-      <div className="mb-2.5 flex gap-1.5 lg:landscape:col-start-2">
+      <div className="mb-2.5 flex flex-wrap gap-1.5 lg:landscape:col-start-2">
+        <button className="relative min-w-0 basis-full rounded-2xl leading-tight bg-white/90 px-2 py-2 text-[12px] font-black text-ink shadow active:scale-95" onClick={() => setModal('wish')}>
+          📋 おねがい
+          {wishReady && <span className="ml-1 rounded-full bg-rose-500 px-1.5 text-[11px] text-white">🎁</span>}
+        </button>
         <button className="min-w-0 flex-1 whitespace-nowrap rounded-2xl leading-tight bg-white/90 px-2 py-2 text-[12px] font-black text-ink shadow active:scale-95" onClick={() => setModal('stamp')}>
           🗓️ <span className="max-[400px]:hidden">こんげつ </span>{stamps.length}にち
         </button>
@@ -2008,6 +2015,7 @@ export function IslandScreen() {
       {modal === 'farm' && <FarmModal stages={farmStages} studied={studied} onClose={() => setModal(null)} />}
       {modal === 'stars' && <StarsModal onClose={() => setModal(null)} />}
       {modal === 'detective' && <DetectiveScreen onClose={() => setModal(null)} />}
+      {modal === 'wish' && <WishModal onClose={() => setModal(null)} />}
       {modal === 'harvest' && <HarvestModal onClose={() => setModal(null)} />}
       {modal === 'moonView' && <MoonViewModal onClose={() => setModal(null)} />}
       {modal === 'imo' && <YakiimoModal customers={imoCustomers} onClose={() => setModal(null)} />}

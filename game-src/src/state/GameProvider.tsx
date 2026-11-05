@@ -25,6 +25,7 @@ import { LUNA, mk as mkLetter } from '../lib/letters';
 import { CASES, DETECTIVE_REWARDS, DETECTIVE_TITLE } from '../lib/detective';
 import { HARVEST_GOAL, HARVEST_REWARDS, HARVEST_TITLE, OFFER_PER_DAY, QUIZ_PER_DAY } from '../lib/harvest';
 import { seasonNow } from '../lib/items';
+import { allDone, STREAK_BONUS_EVERY } from '../lib/wishes';
 import { ORGAN_TITLE, SONGS } from '../lib/songs';
 import { IMO_BY_ID, IMO_PER_DAY, IMO_REWARDS } from '../lib/yakiimo';
 import { FOREST_BY_ID } from '../lib/forestry';
@@ -261,6 +262,8 @@ export interface GameApi {
   /** きょうの おねがいを きめる（もう きまっていれば そのまま）。chars＝おねがいできる子 */
   ensureRequest(chars: string[], opt: { giftItems: string[]; canWater: boolean; studied: boolean }): void;
   /** おねがいを かなえた：たのんだ子と なかよし +3、おれいの品を 1つ */
+  /** おねがいボード：ぜんぶ かなっていたら ごほうびを 1かい だけ もらう。もらえたら gifts と streak を かえす */
+  claimWishes(): { gifts: string[]; streak: number } | null;
   finishRequest(): { char: string; heartsBefore: number; heartsAfter: number; gift: string } | null;
 }
 
@@ -1157,6 +1160,25 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         if (tt.req || tt.done) return s;
         return { ...s, talk: { ...tt, req } };
       });
+    },
+
+    claimWishes: () => {
+      const cur = saveRef.current;
+      const day = dateKey();
+      if (cur.wishes.day === day && cur.wishes.claimed) return null;
+      if (!allDone(cur, day)) return null;
+      const yest = dateKey(new Date(Date.now() - 86_400_000));
+      const streak = cur.wishes.last === yest ? cur.wishes.streak + 1 : 1;
+      const gifts = [pick(EVERYDAY_GIFTS)];
+      if (streak % STREAK_BONUS_EVERY === 0) gifts.push(pick(EVERYDAY_GIFTS));
+      setSave((s) => {
+        if (s.wishes.day === day && s.wishes.claimed) return s;
+        const inventory = { ...s.inventory };
+        for (const id of gifts) inventory[id] = (inventory[id] ?? 0) + 1;
+        return { ...s, inventory, wishes: { day, claimed: true, streak, last: day } };
+      });
+      sfx('chest');
+      return { gifts, streak };
     },
 
     finishRequest: () => {
