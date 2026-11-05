@@ -68,6 +68,8 @@ export interface UiState {
 // 2D と 同じ 場所（割合）
 export const CHEST_POS = { x: 0.30, y: 0.86 };
 export const MAIL_POS = { x: 0.58, y: 0.72 };
+/** 本島の クリスマスツリー（IslandScreen の タップ判定と おなじ 位置） */
+export const XMAS_MAIN_TAP = { x: 0.86, y: 0.69 };
 export const PIER_X = 0.36;
 
 const SPRITE_UNIT = 0.062;          // キャラの絵：2D の 1px → 3D
@@ -356,7 +358,7 @@ export class IslandEngine {
       bd_rocket: [[0, -3, 2.4], [4, -3, 1]], bd_xtree: [[0, -2, 2.6]], bd_kotatsu: [[0, -3, 4.8]],
     };
     // となりの島で タップしたとき（IslandScreen の ふだんの 処理に あわせた 場所）
-    const EAST_TAP: Record<string, number> = { bd_imo: -0.06, bd_arbor: -0.05, bd_rocket: -0.1, bd_base: -0.05, bd_planet: -0.05 };
+    const EAST_TAP: Record<string, number> = { bd_imo: -0.06, bd_arbor: -0.05, bd_rocket: -0.1, bd_base: -0.05, bd_planet: -0.05, bd_xtree: -0.07 };
     for (const id of built) {
       const spot = BUILDING_SPOTS[id];
       if (!spot || (spot.area ?? 'main') !== this.area) continue;   // いまの 島の 建物だけ
@@ -510,7 +512,9 @@ export class IslandEngine {
       }
       this.deco.add(...leaves);
     } else if (season === 12) {
-      this.addModel('deco', this.deco, xmasTree(), 86, 56);
+      const xt = xmasTree();
+      this.addModel('deco', this.deco, xt, 86, 56);
+      this.addHit('deco', xt.obj, XMAS_MAIN_TAP);   // タップで クリスマスの 画面
     } else if (season === 1) {
       this.addModel('deco', this.deco, kadomatsu(), 86, 56);
     }

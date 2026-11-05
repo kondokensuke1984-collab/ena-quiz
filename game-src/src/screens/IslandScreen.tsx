@@ -87,6 +87,8 @@ const HAS_WEBGL = typeof document !== 'undefined' && webglOK();
 /** 11月の島の たてもの（むりょう・いつも たっている） */
 const NOV_BUILT = ['bd_zukei', 'bd_tane', 'bd_forest', 'bd_port', 'bd_detective'];
 const NOV_MODAL: Record<string, 'zukei' | 'tane' | 'forestry' | 'suisan' | 'detective'> = { bd_zukei: 'zukei', bd_tane: 'tane', bd_forest: 'forestry', bd_port: 'suisan', bd_detective: 'detective' };
+/** 本島の クリスマスツリー（2D：860,560／3D：86,56）の タップ位置（割合） */
+const XMAS_MAIN_TAP = { x: 0.86, y: 0.69 };
 const IMO_SPOT = BUILDING_SPOTS.bd_imo;
 const ARBOR_SPOT = BUILDING_SPOTS.bd_arbor;
 
@@ -823,6 +825,9 @@ export function IslandScreen() {
     if (area === 'main' && raw.x >= FARM_BOX.x0 && raw.x <= FARM_BOX.x1 && raw.y >= FARM_BOX.y0 && raw.y <= FARM_BOX.y1) { setModal('farm'); return; }
     if (area === 'main' && save.buildings.includes('bd_observ') && dist(raw, BUILDING_SPOTS.bd_observ) < 0.09) { openObserv(); return; }
     if (area === 'main' && save.buildings.includes('bd_moon') && dist(raw, BUILDING_SPOTS.bd_moon) < 0.09) { openMoonView(); return; }
+    // 🎄 クリスマスツリー（本島の ツリー・となりの島の ツリーひろば）を タップ → クリスマスの 画面
+    if (area === 'main' && seasonNow() === 12 && dist(raw, XMAS_MAIN_TAP) < 0.08) { openXmas(); return; }
+    if (area === 'east' && save.buildings.includes('bd_xtree') && dist(raw, { x: BUILDING_SPOTS.bd_xtree.x, y: BUILDING_SPOTS.bd_xtree.y - 0.07 }) < 0.09) { openXmas(); return; }
     if (area === 'east' && save.buildings.includes('bd_imo') && dist(raw, { x: IMO_SPOT.x, y: IMO_SPOT.y - 0.06 }) < 0.09) { setModal('imo'); return; }
     if (area === 'east' && save.buildings.includes('bd_arbor') && dist(raw, { x: ARBOR_SPOT.x, y: ARBOR_SPOT.y - 0.05 }) < 0.09) { setModal('arbor'); return; }
     if (area === 'nov') {
@@ -833,6 +838,10 @@ export function IslandScreen() {
     if (area === 'east' && save.buildings.includes('bd_base') && dist(raw, { x: BUILDING_SPOTS.bd_base.x, y: BUILDING_SPOTS.bd_base.y - 0.05 }) < 0.08) { setModal('spaceDex'); return; }
     if (area === 'east' && save.buildings.includes('bd_planet') && dist(raw, { x: BUILDING_SPOTS.bd_planet.x, y: BUILDING_SPOTS.bd_planet.y - 0.05 }) < 0.08) { setModal('library'); return; }
     tapTarget.current = p;
+  };
+
+  const openXmas = () => {
+    if (xmasActive()) { sfx('gift'); setModal('xmas'); } else g.showToast('クリスマスは おわったよ。また らいねん！');
   };
 
   // 🌕🔴 きょうの いし（ほしごとに 1日1こ。ひろったら きえる）
