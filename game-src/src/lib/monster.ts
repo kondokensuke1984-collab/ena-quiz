@@ -11,6 +11,9 @@ export const HUNGRY_DAYS = 3;
 export const DOWN_DAYS = 5;
 export const DECAY_PER_DAY = 20;
 export const HATCH_FEEDS = 3;
+/** なでる：1日の回数と、1回ぶんの けいけんち（ごはんより ずっと ちいさい） */
+export const PET_PER_DAY = 3;
+export const PET_EXP = 2;
 
 const STAGE_EXP: { stage: Stage; exp: number }[] = [
   { stage: 'adult', exp: 180 },

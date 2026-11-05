@@ -24,6 +24,8 @@ export interface MonsterState {
   hatchFeeds: number;      // 孵化までのごはん回数
   pos: Pos;
   wander: Pos;             // うろうろ移動の目的地
+  petDay?: string;         // なでた日（dateKey）。日がかわれば pats は 0 とみなす
+  pats?: number;           // その日になでた回数
 }
 
 /** 島の場所。main＝いまの島、east＝となりの島、house＝おうちの中、school＝がっこうの きょうしつ */

@@ -805,6 +805,7 @@ export function IslandScreen() {
     if (area === 'main' && dist(raw, { x: monsterPos.current.x, y: monsterPos.current.y - 0.07 }) < 0.065) {
       setJump({ id: '@monster', key: Date.now() });
       voice(monster.charKey ?? 'egg');
+      petIt();
       return;
     }
     if (area === 'main' && dist(raw, FOREST_ISLET) < 0.11) { setForestAsk(true); return; }
@@ -990,6 +991,22 @@ export function IslandScreen() {
   const openMoonView = () => {
     if (tod === 'day') { g.showToast('よるに なったら おそなえ できるよ 🎑'); return; }
     setModal('moonView');
+  };
+
+  /** ペットを なでる（タップでも ボタンでも）。1日3かいまで */
+  const petIt = () => {
+    if (!monster.charKey) return;   // たまごは なでられない
+    const r = g.petMonster();
+    const key = Date.now();
+    setJump({ id: '@monster', key });
+    if (!r.ok) {
+      setBubble({ char: monster.charKey, text: 'きょうは いっぱい あそんだよ！ また あした！', heart: false, key });
+      return;
+    }
+    sfx('heart');
+    const lines = ['えへへ、きもちいい〜', 'もっと なでて〜！', 'だいすき！'];
+    const text = r.leveledUp ? 'ちからが わいてきた！ レベルアップ！' : lines[2 - r.left] ?? lines[0];
+    setBubble({ char: monster.charKey, text, heart: true, key });
   };
 
   const nearMonster = area === 'main' && isNear(playerPos.current, monsterPos.current);
@@ -1472,6 +1489,7 @@ export function IslandScreen() {
   act(nearGame, 'sora', '🎮 ゲームを する', () => { location.href = '/sora/?from=island'; });
   act(nearDex, 'dexShelf', '📖 コレクションずかん', () => setModal('dex'), false);
   act(nearShelf, 'moshiShelf', SHELF_MOSHI.label, () => { location.href = '/rpg.html#moshi=' + SHELF_MOSHI.key; });
+  act(nearMonster && !!monster.charKey, 'pet', '🤚 なでる', petIt, false);
   act(nearMonster, 'feed', '🍚 ごはん', () => (monster.stage === 'egg' || foods.length ? setModal('feed') : g.showToast('ごはんが ないよ。ショップで かおう', 'ng')));
   act(nearChest, 'chest', '🎁 たからばこを あける', openChest, false);
   act(nearMail, 'mail', `💌 てがみを よむ${unread > 0 ? `（${unread}）` : ''}`, () => setModal('mail'), false);

@@ -9,7 +9,7 @@ import { earnedTotal, grantBonus, isMedalKey } from '../lib/medals';
 import { findSecret } from '../lib/secret';
 import { claimSoccerResults, SOCCER_REWARD_ITEMS, type SoccerClaim } from '../lib/soccer';
 import { isSpentKey, loadSpent, spend, type SpendLedger, type SpendResult } from '../lib/spend';
-import { feed } from '../lib/monster';
+import { feed, levelOf, stageOf as monsterStageOf, PET_EXP, PET_PER_DAY } from '../lib/monster';
 import {
   isConsumable, ITEM_BY_ID, WHEEL_TITLE,
   FAVORITE, GIFTS_PER_DAY, heartsOf, stampRewardsFor, EVERYDAY_GIFTS, nextBuildId, withBonus, BUILD_BONUS, ALL_BUILDINGS,
@@ -142,6 +142,8 @@ export interface GameApi {
   setMonsterPos(pos: Pos, wander?: Pos): void;
   buy(item: Item): void;
   feedMonster(itemId: string): void;
+  /** ペットを なでる（1日 PET_PER_DAY かいまで）。のこり回数を かえす（-1＝たまご・もう なでられない） */
+  petMonster(): { ok: boolean; left: number; leveledUp: boolean };
   equip(slot: Slot, itemId: string | null): void;
   /** しゅじんこうに きせかえ（fwear）を つける。null で はずす */
   dressPlayer(wearId: string | null): void;
@@ -456,6 +458,26 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       dispatch({ type: 'REFRESH_MEDALS' });
       sfx('coin');
       showToast(`${item.emoji} ${item.name} を かった！`);
+    },
+
+    petMonster: () => {
+      const cur = saveRef.current;
+      const m = cur.monster;
+      if (m.stage === 'egg' || !m.charKey) return { ok: false, left: -1, leveledUp: false };
+      const day = dateKey();
+      const used = m.petDay === day ? (m.pats ?? 0) : 0;
+      if (used >= PET_PER_DAY) return { ok: false, left: 0, leveledUp: false };
+      const exp = m.exp + PET_EXP;
+      const leveledUp = levelOf(exp) > levelOf(m.exp);
+      // lastFedAt・fullness は さわらない（なでても おなかは へったまま）
+      setSave((s) => {
+        const mm = s.monster;
+        const u = mm.petDay === day ? (mm.pats ?? 0) : 0;
+        if (u >= PET_PER_DAY) return s;
+        const e = mm.exp + PET_EXP;
+        return { ...s, monster: { ...mm, exp: e, stage: monsterStageOf(e), petDay: day, pats: u + 1 } };
+      });
+      return { ok: true, left: PET_PER_DAY - used - 1, leveledUp };
     },
 
     feedMonster: (itemId) => {
