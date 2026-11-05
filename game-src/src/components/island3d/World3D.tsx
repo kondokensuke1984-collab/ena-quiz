@@ -23,6 +23,8 @@ import type { ArtSpec } from './sprites';
 export interface World3DHandle { pick(clientX: number, clientY: number): Pos | null }
 
 export interface World3DProps {
+  /** どの島を 3Dで えがくか（かわったら 作りなおす） */
+  area?: 'main' | 'east';
   live: LiveRefs;
   chars: CharMap | null;
   built: string[];
@@ -97,7 +99,7 @@ const World3D = forwardRef<World3DHandle, World3DProps>(function World3D(props, 
   useImperativeHandle(ref, () => ({ pick: (x, y) => engine.current?.pick(x, y) ?? null }), []);
 
   useEffect(() => {
-    const e = new IslandEngine(hostRef.current!, overlayRef.current!, props.live);
+    const e = new IslandEngine(hostRef.current!, overlayRef.current!, props.live, props.area ?? 'main');
     e.onFirstFrame = () => readyRef.current();
     engine.current = e;
     return () => { e.dispose(); engine.current = null; };

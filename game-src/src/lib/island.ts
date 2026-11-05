@@ -36,7 +36,7 @@ const BOUNDS_MAIN = {
 /** 場所ごとの歩ける範囲。house＝部屋の ゆか、school＝きょうしつの ゆか、east＝となりの島 */
 const BOUNDS_SCHOOL = { minX: 0.08, maxX: 0.92, minY: 0.58, maxY: 0.92 };
 const BOUNDS_HOUSE = { minX: 0.08, maxX: 0.92, minY: 0.56, maxY: 0.92 };
-const BOUNDS_EAST = { minX: 0.08, maxX: 0.9, minY: 0.3, maxY: 0.88 };
+export const BOUNDS_EAST = { minX: 0.08, maxX: 0.9, minY: 0.3, maxY: 0.88 };
 /** 月の じめん（上は くろい 空と ちきゅう） */
 const BOUNDS_MOON = { minX: 0.08, maxX: 0.92, minY: 0.45, maxY: 0.9 };
 export function setArea(area: 'main' | 'east' | 'nov' | 'house' | 'school' | 'moon' | 'mars' | 'sun', _expansion?: number): void {

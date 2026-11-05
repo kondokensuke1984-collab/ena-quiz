@@ -15,12 +15,19 @@ export const toPos = (x: number, z: number): Pos => ({ x: x / 100, y: z / 75 });
 
 // ── 地面 ──
 export const GRASS_H = 1.2;
-const G = {
+const MAIN_G = {
   cx: MAIN_GROUND.cx * PX, cz: MAIN_GROUND.cy * PX,
   grx: MAIN_GROUND.grassRx * PX, grz: MAIN_GROUND.grassRy * PX,
   srx: MAIN_GROUND.sandRx * PX, srz: MAIN_GROUND.sandRy * PX,
 };
+/** となりの島（east）：2D の EastGround（砂 520,450・rx470 ry300／芝 rx430 ry265）と おなじ かたち */
+const EAST_G = { cx: 52, cz: 45, grx: 43, grz: 26.5, srx: 47, srz: 30 };
+const G = { ...MAIN_G };
 export const GROUND = G;
+/** どの島を えがくか（エンジンを つくる まえに 1かい 呼ぶ。GROUND は 同じ 入れものを 書きかえる） */
+export function setGround(area: 'main' | 'east'): void {
+  Object.assign(G, area === 'east' ? EAST_G : MAIN_G);
+}
 
 /** 芝の楕円での 中心からの距離（1＝芝の ふち） */
 export function grassE(x: number, z: number): number {

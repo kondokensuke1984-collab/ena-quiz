@@ -269,7 +269,9 @@ export function IslandScreen() {
   const planet: Planet | null = area === 'moon' || area === 'mars' || area === 'sun' ? area : null;
   const pcfg = planet ? PLANET_CFG[planet] : null;
   const indoor = area === 'house' || area === 'school';
-  const want3d = area === 'main' && pref3d && HAS_WEBGL;
+  const want3d = (area === 'main' || area === 'east') && pref3d && HAS_WEBGL;
+  // 島を いききしたら 3D を つくりなおす（よみこみ中の 表示を もういちど）
+  useEffect(() => { setReady3d(false); }, [area]);
   const on3d = want3d && ready3d;
   // 3D の よみこみ中は 2D を 見せずに 「よみこみちゅう」を かぶせる（2D→3D と きりかわって ちらつかないように）。
   // 8びょう たっても できなければ 2D の まま あそべるように はずす
@@ -1667,6 +1669,8 @@ export function IslandScreen() {
         {want3d && (
           <Suspense fallback={null}>
             <World3D
+              key={area}
+              area={area === 'east' ? 'east' : 'main'}
               ref={w3d}
               live={{ playerPos, monsterPos, friendPos, flip, walkPhase, tapTarget, pose: kidPose }}
               chars={chars}
@@ -1710,7 +1714,7 @@ export function IslandScreen() {
             <IslandGround expansion={expansion} pier={hasPier} season={seasonNow()} bridge={hasBridge} halloween={hw} moshi={!!moshi} soccerCups={cups} xmasPts={save.xmas.pts} />
           )}
           {!on3d && area === 'main' && <FarmPatch plots={save.farm.plots} stages={farmStages} today={day} />}
-          {area === 'east' && <EastGround tod={tod} />}
+          {!on3d && area === 'east' && <EastGround tod={tod} />}
           {area === 'nov' && <NovGround tod={tod} />}
           {area === 'moon' && <MoonGround moonAge={moonAge} />}
           {area === 'mars' && <MarsGround />}
@@ -1738,7 +1742,7 @@ export function IslandScreen() {
               fill="rgba(255,255,255,0.18)" stroke="#fff" strokeDasharray="12 10" strokeWidth="4"
             />
           )}
-          {mode.kind !== 'walk' && !isWideArea() && (
+          {!on3d && mode.kind !== 'walk' && !isWideArea() && (
             <rect
               x={BOUNDS.minX * ISLAND_W}
               y={BOUNDS.minY * ISLAND_H}
@@ -1793,7 +1797,7 @@ export function IslandScreen() {
           {sleeping && <text x={ISLAND_W / 2} y={ISLAND_H * 0.4} fontSize="64" textAnchor="middle" className="twinkle">💤</text>}
         </svg>
 
-        {area === 'main' && HAS_WEBGL && (
+        {(area === 'main' || area === 'east') && HAS_WEBGL && (
           <button
             className="i3d-toggle rounded-xl bg-white/85 px-2.5 py-1 text-[12px] font-black text-indigo-900 shadow active:scale-95"
             onClick={() => {
