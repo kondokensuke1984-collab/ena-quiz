@@ -184,6 +184,8 @@ export interface GameApi {
   /** しゅうかくさい：まめクイズに こたえた（day＝その日、gain＝せいかいの ときの みのり）。もう こたえた 問題なら null */
   harvestAnswer(day: string, qid: string, correct: boolean, gain: number): HarvestGot | null;
   /** クリスマス：かざりつけ（その日 1かい・かざり +1）。できないときは null */
+  /** サンタさんに おくった おねがいを きろくする（さいごの 1つ） */
+  saveSantaWish(text: string): void;
   xmasHang(day: string): XmasGot | null;
   /** クリスマス：プレゼントを サンタの ふくろに（1日2こまで・かざり +1）。できないときは null */
   xmasGift(day: string, itemId: string): XmasGot | null;
@@ -675,6 +677,10 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       });
       sfx(r.rewards.length || r.title ? 'reveal' : 'gift');
       return { got: 1, pts: h0.pts + 1, ...r };
+    },
+
+    saveSantaWish: (text) => {
+      setSave((s) => ({ ...s, xmas: { ...s.xmas, wish: text, wishAt: Date.now() } }));
     },
 
     xmasHang: (day) => {

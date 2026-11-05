@@ -5,6 +5,7 @@ import { eventToday } from '../lib/detective';
 import { studiedOnDay } from '../lib/harvest';
 import { GIFT_PER_DAY, ORNAMENTS, XMAS_END, XMAS_GOAL, XMAS_REWARDS, XMAS_TITLE, xmasDay, xmasDaysLeft } from '../lib/xmas';
 import type { XmasGot } from '../state/GameProvider';
+import { postSanta, SANTA_MAX } from '../lib/santa';
 
 // イベント「クリスマス」の 全画面：ツリー（かざりが ふえる）／かざりつけ／サンタの ふくろ／ごほうび
 
@@ -31,6 +32,27 @@ export function XmasModal({ onClose }: { onClose(): void }) {
   const x = g.save.xmas.day === day ? g.save.xmas : { ...g.save.xmas, hung: false, gifted: 0 };
   const studied = studiedOnDay(now);
   const [msg, setMsg] = useState<string | null>(null);
+  const [wish, setWish] = useState('');
+  const [sending, setSending] = useState(false);
+  const [wishMsg, setWishMsg] = useState<{ ok: boolean; text: string } | null>(null);
+  const sent = g.save.xmas.wish || '';
+
+  const sendWish = async () => {
+    const t = wish.trim();
+    if (!t || sending) return;
+    setSending(true);
+    setWishMsg(null);
+    try {
+      await postSanta(g.save.player, t);
+      g.saveSantaWish(t);
+      setWish('');
+      setWishMsg({ ok: true, text: '🎅 サンタさんに とどけたよ！ パパと ママにも おしらせしたよ' });
+    } catch (e) {
+      setWishMsg({ ok: false, text: e instanceof Error ? e.message : 'うまく おくれなかったよ' });
+    } finally {
+      setSending(false);
+    }
+  };
   const gifts = Object.entries(g.save.inventory).filter(([id, n]) => n > 0 && ITEM_BY_ID[id]?.kind === 'gift' && !ITEM_BY_ID[id]?.season);
   const giftsAll = Object.entries(g.save.inventory).filter(([id, n]) => n > 0 && ITEM_BY_ID[id]?.kind === 'gift');
   const list = gifts.length ? gifts : giftsAll;
@@ -102,6 +124,31 @@ export function XmasModal({ onClose }: { onClose(): void }) {
               ))}
             </div>
           )}
+        </div>
+
+        <div className="mt-3 rounded-2xl bg-white/90 p-3 shadow">
+          <div className="text-[14px] font-black text-red-800">🎅 サンタさんへ おてがみ</div>
+          <div className="mb-2 text-[11.5px] font-bold text-red-700">ほしいものを かいて おくると、サンタさんに とどくよ（パパと ママにも おしらせが いくよ）</div>
+          <textarea
+            className="w-full resize-none rounded-xl border-2 border-red-200 bg-white p-2 text-[15px] font-bold text-ink outline-none focus:border-red-400"
+            rows={3}
+            maxLength={SANTA_MAX}
+            placeholder="サンタさんへ。ぼく／わたしは …が ほしいです"
+            value={wish}
+            onChange={(e) => setWish(e.target.value)}
+          />
+          <div className="mt-1 flex items-center justify-between">
+            <span className="text-[11px] font-bold text-red-400">{[...wish].length}/{SANTA_MAX}</span>
+            <button
+              className={`rounded-xl px-4 py-2 text-[14px] font-black shadow active:scale-95 ${wish.trim() && !sending ? 'bg-gradient-to-r from-red-500 to-rose-600 text-white' : 'bg-red-100 text-red-300'}`}
+              disabled={!wish.trim() || sending}
+              onClick={sendWish}
+            >
+              {sending ? 'おくっているよ…' : '✉️ サンタさんに おくる'}
+            </button>
+          </div>
+          {wishMsg && <div className={`mt-2 rounded-xl p-2 text-center text-[12.5px] font-black ${wishMsg.ok ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-700'}`}>{wishMsg.text}</div>}
+          {sent && <div className="mt-2 rounded-xl bg-red-50 p-2 text-[12px] font-bold text-red-700">✉️ さいごに おくった おてがみ：「{sent}」</div>}
         </div>
 
         {msg && <div className="mt-3 whitespace-pre-line rounded-2xl bg-amber-100 p-3 text-center text-[14px] font-black text-amber-900 shadow">{msg}</div>}

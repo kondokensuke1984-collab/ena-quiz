@@ -138,6 +138,8 @@ export function loadSave(): SaveV1 {
       day: typeof s.xmas?.day === 'string' ? s.xmas.day : '',
       hung: s.xmas?.hung === true,
       gifted: typeof s.xmas?.gifted === 'number' ? s.xmas.gifted : 0,
+      wish: typeof s.xmas?.wish === 'string' ? s.xmas.wish : '',
+      wishAt: typeof s.xmas?.wishAt === 'number' ? s.xmas.wishAt : 0,
     },
     wishes: {
       day: typeof s.wishes?.day === 'string' ? s.wishes.day : '',
