@@ -55,6 +55,44 @@ Object.assign(FM_SONGS, {
   d_rest: { bpm: 110, loop: false, lead: [['bell', 'C6.2 E6.2 G6.2 E6.2 C7.8'], ['horn', 'C5.8 G5.8', 0.5]] },
 });
 
+// ── 音を 確実に 出す ──
+//  ・音の オン／オフは この ゲームだけの 設定（森で 消していても、ここでは なる）
+//  ・iPhone の マナーモードでも なるように、audioSession と 無音の <audio> を つかう
+//  ・タップの たびに 音が 止まっていないか たしかめて、起こしなおす
+const MUSIC_KEY = 'ena_densetsu_music';
+FM.on = (() => { try { return localStorage.getItem(MUSIC_KEY) !== 'off'; } catch (e) { return true; } })();
+const silentTag = (() => {
+  // 0.5びょうの 無音 WAV
+  const n = 4000, b = new Uint8Array(44 + n), v = new DataView(b.buffer), s = (o, t) => [...t].forEach((c, i) => { b[o + i] = c.charCodeAt(0); });
+  s(0, 'RIFF'); v.setUint32(4, 36 + n, true); s(8, 'WAVEfmt '); v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
+  v.setUint32(24, 8000, true); v.setUint32(28, 8000, true); v.setUint16(32, 1, true); v.setUint16(34, 8, true); s(36, 'data'); v.setUint32(40, n, true); b.fill(128, 44);
+  const a = new Audio('data:audio/wav;base64,' + btoa(String.fromCharCode(...b)));
+  a.loop = true; a.setAttribute('playsinline', ''); a.volume = .01;
+  return a;
+})();
+function musicWake() {
+  if (!FM.on) return;
+  try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch (e) {}
+  const ctx = fmEnsure();
+  if (!ctx) return;
+  FM.master.gain.value = 1;     // 森より 大きめ
+  if (silentTag.paused) { const p = silentTag.play(); if (p && p.catch) p.catch(() => {}); }
+  const go = () => { if (FM.want && !FM.timer) { FM.name = null; fmPlay(FM.want); } };
+  if (ctx.state !== 'running') { const p = ctx.resume(); if (p && p.then) p.then(go).catch(() => {}); } else go();
+}
+['touchend', 'click', 'pointerup', 'keydown'].forEach(n => document.addEventListener(n, musicWake, { passive: true, capture: true }));
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) silentTag.pause();
+  else if (FM.on && FM.want) musicWake();
+});
+function musicToggle() {
+  FM.on = !FM.on;
+  try { localStorage.setItem(MUSIC_KEY, FM.on ? 'on' : 'off'); } catch (e) {}
+  if (FM.on) musicWake();
+  else { const w = FM.want; fmStop(); FM.want = w; silentTag.pause(); }
+  return FM.on;
+}
+
 const Sfx = (() => {
   function tone(type, f0, f1, dur, vol, delay) {
     if (!FM.on || !FM.ctx || FM.ctx.state !== 'running') return;

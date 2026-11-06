@@ -15,8 +15,10 @@ const IS_LOCAL = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
 const QS = new URLSearchParams(location.search);
 const DEBUG = IS_LOCAL && QS.get('debug') === '1';
 
-const cv = $('cv'), g = cv.getContext('2d');
-g.imageSmoothingEnabled = false;
+// 絵は 240×192 の 下絵に 描き、4倍に のばして 出す（どの 画面でも ドットの 大きさが そろう）
+const cv = $('cv'), out = cv.getContext('2d');
+const buf = Art.mk(W, H), g = buf.getContext('2d');
+g.imageSmoothingEnabled = false; out.imageSmoothingEnabled = false;
 const SOLID = new Set(['T', 'Y', 'W', 'R', 'B', '^', 'H', 'I', 'X', 'a', 't', 'L']);
 const DIR = { u: [0, -1], d: [0, 1], l: [-1, 0], r: [1, 0] };
 const DOOR_POS = { n: [7, 0], s: [7, 10], w: [0, 5], e: [14, 5] };
@@ -28,7 +30,7 @@ let S = null;       // セーブする 中身
 let frame = 0;
 const G = { mode: 'title', room: null, id: '', tiles: null, ents: [], fx: [], gusts: [], bake: null, slide: null, fade: null, hold: null, dlg: null, fall: 0, toastT: 0, placeT: 0, hurtFlash: 0, shake: 0, end: null, cut: new Set() };
 const P = { x: 120, y: 90, dir: 'd', walk: 0, swing: 0, gustCd: 0, inv: 0, kx: 0, ky: 0, kt: 0, pushT: 0, pushE: null, onWarp: false, safeX: 0, safeY: 0 };
-const colonF = { x: 100, y: 90, trail: [] };
+const colonF = { x: 100, y: 90 };
 
 function newSave() {
   return { v: 1, room: 'v0', x: 40, y: 104, dir: 'r', hp: 6, maxHp: 6, shells: 0, keys: 0, big: false, staff: false, jar: false, f: {}, time: 0, kills: 0, deaths: 0 };
@@ -142,7 +144,7 @@ function mkEnemy(def) {
   if (def.t === 'guard') { e.hp = 2; e.shield = true; }
   if (def.t === 'bat') { e.a = Math.random() * 6; e.awake = false; }
   if (def.t === 'crab') { e.vx = .75; }
-  if (def.t === 'boss') { Object.assign(e, { hp: 6, r: 14, combo: 0, aura: true, state: 'walk', timer: 90, st: 0, spawned: false, x: def.x * TILE + 8, y: def.y * TILE + 8 }); }
+  if (def.t === 'boss') { Object.assign(e, { hp: 6, r: 15, combo: 0, aura: true, state: 'walk', timer: 90, st: 0, spawned: false, x: def.x * TILE + 8, y: def.y * TILE + 8 }); }
   return e;
 }
 function loadRoom(id) {
@@ -169,7 +171,7 @@ function enterRoom(id, x, y, dir) {
   P.x = x; P.y = y; if (dir) P.dir = dir;
   P.safeX = x; P.safeY = y; P.kt = 0;
   P.onWarp = true;
-  colonF.trail = []; colonF.x = x - 10; colonF.y = y + 6;
+  colonF.x = x - DIR[P.dir][0] * 18 + (DIR[P.dir][0] ? 0 : 14); colonF.y = y - DIR[P.dir][1] * 18 + 2;
   S.room = id; S.x = x; S.y = y; S.dir = P.dir; writeSave();
   fmPlay(songFor(id));
 }
@@ -825,33 +827,37 @@ function tickPlay() {
     fmJingle('d_solve'); setFlag(G.room.clear);
     toast(G.ents.some(e => e.t === 'chest' && entActive(e)) ? 'たからばこが あらわれた！' : 'とびらが ひらいた！'); Sfx.door();
   }
-  // コロンが ついてくる
-  colonF.trail.push([P.x, P.y]);
-  if (colonF.trail.length > 16) { const [x, y] = colonF.trail.shift(); colonF.x = x - 2; colonF.y = y + 2; }
+  // コロンが ついてくる（すこし はなれて 止まる）
+  const cdx = P.x - colonF.x, cdy = P.y + 2 - colonF.y, cd = Math.hypot(cdx, cdy);
+  if (cd > 20) { const sp = Math.min(1.6, (cd - 20) * .2 + .5); colonF.x += cdx / cd * sp; colonF.y += cdy / cd * sp; }
 }
 
 // ── 描く ──
 function waterGlints() {
   for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) {
     if (G.tiles[r][c] !== 'W') continue;
-    const ph = ((c * 7 + r * 13 + Math.floor(frame / 20)) % 8);
-    if (ph < 2) { Art.R(g, '#9fdcf5', c * TILE + 3 + ph, r * TILE + 5, 5, 1); Art.R(g, '#9fdcf5', c * TILE + 8, r * TILE + 11 - ph, 4, 1); }
+    const ph = (c * 7 + r * 13 + Math.floor(frame / 16)) % 10;
+    if (ph < 3) { Art.R(g, '#a8e4f3', c * TILE + 3 + ph, r * TILE + 5, 6, 1); Art.R(g, '#74c7ec', c * TILE + 4 + ph, r * TILE + 6, 4, 1); }
+    if (ph > 5 && ph < 8) { Art.R(g, '#a8e4f3', c * TILE + 9 - ph % 3, r * TILE + 11, 4, 1); }
+    // 岸の なみ
+    const up = r > 0 && G.tiles[r - 1][c] !== 'W' && G.tiles[r - 1][c] !== 'L';
+    if (up && Math.floor(frame / 24 + c) % 2) Art.R(g, '#f2fcff', c * TILE, r * TILE + 3, 16, 1);
   }
 }
 function drawEnt(e) {
   const x = Math.round(e.x), y = Math.round(e.y);
   if (e.enemy) {
     if (e.flash > 0 && e.flash % 4 < 2 && e.kind !== 'boss') return;
-    const ex = x - 8, ey = y - 10;
     const fr = Math.floor(e.anim / 14) % 2;
-    g.fillStyle = 'rgba(0,0,0,.22)';
-    if (e.kind === 'boss') { Art.boss(g, x - 16 + (e.shakeX || 0), y - 18, { t: e.anim, state: e.state, aura: e.aura, flash: e.flash > 0 && e.flash % 4 < 2 }); return; }
-    if (e.kind === 'bat') g.fillRect(x - 5, y + 8, 10, 2);
-    else g.fillRect(x - 6, y + 4, 12, 2);
-    const set = { slime: Art.slime, bat: Art.bat, crab: Art.crab, guard: Art.guard }[e.kind];
-    const by = e.kind === 'bat' ? ey - 2 + Math.round(Math.sin(e.anim * .15)) : ey;
-    g.drawImage(set[fr], ex, by);
-    if (e.shield) Art.shield(g, x, y - 2, e.anim);
+    if (e.kind === 'boss') { Art.boss(g, x + (e.shakeX || 0), y, { t: e.anim, state: e.state, aura: e.aura, flash: e.flash > 0 && e.flash % 4 < 2 }); return; }
+    g.fillStyle = 'rgba(5,10,30,.35)';
+    if (e.kind === 'guard') g.fillRect(x - 9, y + 4, 18, 3);
+    else if (e.kind === 'bat') g.fillRect(x - 5, y + 8, 10, 2);
+    else g.fillRect(x - 7, y + 4, 14, 2);
+    const img = { slime: Art.slime, bat: Art.bat, crab: Art.crab, guard: Art.guard }[e.kind][fr];
+    const by = e.kind === 'bat' ? y - 10 + Math.round(Math.sin(e.anim * .15)) : y + 7 - img.height;
+    g.drawImage(img, x - Math.floor(img.width / 2), by);
+    if (e.shield) Art.shield(g, x, y - 6, e.anim);
     if (e.stun > 0 && !e.shield) { for (let i = 0; i < 3; i++) { const a = frame * .2 + i * 2.1; Art.R(g, '#ffe08a', x + Math.cos(a) * 7, y - 11 + Math.sin(a) * 2, 2, 2); } }
     return;
   }
@@ -873,7 +879,7 @@ function drawEnt(e) {
 function drawHero() {
   if (P.inv > 0 && frame % 6 < 3 && G.mode !== 'dead') return;
   const x = Math.round(P.x), y = Math.round(P.y);
-  g.fillStyle = 'rgba(0,0,0,.25)'; g.fillRect(x - 5, y + 4, 10, 2);
+  g.fillStyle = 'rgba(5,10,30,.32)'; g.fillRect(x - 6, y + 5, 12, 2);
   const moving = input.x || input.y;
   const f = moving && G.mode === 'play' ? 1 + Math.floor(P.walk * 1.2) % 2 : 0;
   let sprDir = P.dir;
@@ -881,14 +887,14 @@ function drawHero() {
   const img = Art.heroFrames[sprDir][f];
   if (G.mode === 'fall') {
     const s = Math.max(.1, 1 - G.fall / 32);
-    g.drawImage(img, x - 8 * s, y - 10 * s, 16 * s, 16 * s);
+    g.drawImage(img, x - 9 * s, y - 14 * s, 18 * s, 22 * s);
     return;
   }
   const swing = P.swing > 0, sp = 1 - P.swing / 14;
   if (swing && P.dir === 'u') drawStaff(x, y, sp);
-  g.drawImage(img, x - 8, y - 11);
+  g.drawImage(img, x - 9, y + 7 - img.height);
   if (swing && P.dir !== 'u') drawStaff(x, y, sp);
-  if (G.hold) g.drawImage(G.hold, x - Math.floor(G.hold.width / 2), y - 15 - G.hold.height);
+  if (G.hold) g.drawImage(G.hold, x - Math.floor(G.hold.width / 2), y - 19 - G.hold.height);
 }
 function drawStaff(x, y, sp) {
   const base = { u: 0, r: Math.PI / 2, d: Math.PI, l: -Math.PI / 2 }[P.dir];
@@ -909,29 +915,33 @@ function drawWorld() {
   for (const e of G.ents) if (e.t === 'plate') Art.plate(g, e.x, e.y, flag(e.def.flag));
   const list = G.ents.filter(e => e.t !== 'plate' && e.t !== 'warp').map(e => ({ y: e.t === 'door' ? -99 : e.y + (e.enemy ? 0 : 16), draw: () => drawEnt(e) }));
   list.push({ y: P.y + 5, draw: drawHero });
-  list.push({ y: colonF.y + 4, draw: drawColon });
+  list.push({ y: colonF.y + 3, draw: drawColon });
   list.sort((a, b) => a.y - b.y).forEach(o => o.draw());
   for (const w of G.gusts) Art.gust(g, w.x, w.y, w.t);
   for (const f of G.fx) Art.R(g, f.c, Math.round(f.x), Math.round(f.y), 2, 2);
   if (G.id === 'dT' && flag('ending')) { g.fillStyle = 'rgba(255,220,120,.14)'; g.fillRect(0, 0, W, FIELD_H); }
 }
 function drawHUD() {
-  Art.R(g, '#141a38', 0, FIELD_H, W, 16); Art.R(g, '#57d8c8', 0, FIELD_H, W, 1);
+  const Y = FIELD_H;
+  Art.R(g, '#10152e', 0, Y, W, 16); Art.R(g, '#efbd3b', 0, Y, W, 1); Art.R(g, '#8d5a14', 0, Y + 1, W, 1); Art.R(g, '#232b52', 0, Y + 2, W, 14);
   const n = S.maxHp / 2;
   for (let i = 0; i < n; i++) {
     const v = S.hp - i * 2;
-    g.drawImage(v >= 2 ? Art.ICON.drop : v === 1 ? Art.ICON.dropHalf : Art.ICON.dropEmpty, 4 + i * 10, FIELD_H + 4);
+    g.drawImage(v >= 2 ? Art.ICON.drop : v === 1 ? Art.ICON.dropHalf : Art.ICON.dropEmpty, 3 + i * 11, Y + 3);
   }
   g.font = '11px DotGothic16, monospace'; g.textBaseline = 'alphabetic'; g.textAlign = 'left';
-  let x = 118;
-  g.drawImage(Art.ICON.shell, x, FIELD_H + 4); g.fillStyle = '#fff7e0'; g.fillText(String(S.shells), x + 10, FIELD_H + 12); x += 34;
-  g.drawImage(Art.ICON.key, x, FIELD_H + 4); g.fillText(String(S.keys), x + 10, FIELD_H + 12); x += 24;
-  if (S.big && !flag('dG_big')) g.drawImage(Art.ICON.big, x, FIELD_H + 4);
-  x += 16;
-  if (S.staff) g.drawImage(Art.ICON.staff, x, FIELD_H + 4); x += 12;
-  if (S.jar) g.drawImage(Art.ICON.jar, x, FIELD_H + 3);
+  const num = (t, x) => { g.fillStyle = '#10152e'; g.fillText(t, x + 1, Y + 14); g.fillStyle = '#fff7e0'; g.fillText(t, x, Y + 13); };
+  let x = 116;
+  g.drawImage(Art.ICON.shell, x, Y + 3); num(String(S.shells), x + 12); x += 36;
+  g.drawImage(Art.ICON.key, x, Y + 4); num(String(S.keys), x + 12); x += 24;
+  if (S.big && !flag('dG_big')) g.drawImage(Art.ICON.big, x, Y + 3);
+  x += 17;
+  if (S.staff) g.drawImage(Art.ICON.staff, x, Y + 3);
+  x += 12;
+  if (S.jar) g.drawImage(Art.ICON.jar, x, Y + 2);
 }
-function render() {
+function render() { draw(); out.drawImage(buf, 0, 0, cv.width, cv.height); }
+function draw() {
   if (G.mode === 'title' || !S) { g.fillStyle = '#0f1537'; g.fillRect(0, 0, W, H); return; }
   if (G.mode === 'ending') { drawEnding(); return; }
   g.save();
@@ -999,7 +1009,7 @@ $('btnNew').addEventListener('click', () => {
 $('btnCont').addEventListener('click', startCont);
 $('btnRetry').addEventListener('click', respawn);
 $('btnEnd').addEventListener('click', backToTitle);
-$('btnMusic').addEventListener('click', () => { const on = fmToggle(); $('btnMusic').textContent = on ? '🎵' : '🔇'; });
+$('btnMusic').addEventListener('click', () => { const on = musicToggle(); $('btnMusic').textContent = on ? '🎵' : '🔇'; });
 $('btnMusic').textContent = FM.on ? '🎵' : '🔇';
 document.addEventListener('visibilitychange', () => { if (document.hidden) writeSave(); });
 addEventListener('pagehide', writeSave);
