@@ -28,6 +28,8 @@ import { seasonNow } from '../lib/items';
 import { allDone, STREAK_BONUS_EVERY } from '../lib/wishes';
 import { GIFT_PER_DAY, XMAS_GOAL, XMAS_REWARDS, XMAS_TITLE } from '../lib/xmas';
 import { ORGAN_TITLE, SONGS } from '../lib/songs';
+import { ENTRY } from '../lib/island';
+import { spotInArea } from '../components/BuildingSVG';
 import { IMO_BY_ID, IMO_PER_DAY, IMO_REWARDS } from '../lib/yakiimo';
 import { FOREST_BY_ID } from '../lib/forestry';
 import { STAGE_BY_ID as ZUKEI_STAGE_BY_ID, type StageId as ZukeiStageId } from '../lib/zukei';
@@ -556,10 +558,13 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         dispatch({ type: 'REFRESH_MEDALS' });
         return;
       }
+      // となりの島に建つものは、建てたら となりの島へ つれていく（もとの島に もどると「できた」のに 見えない。2026-11-06 あんり）
+      const east = spotInArea(itemId, 'east');
       setSave((s) => ({
         ...s,
         buildings: withBonus(s.buildings.includes(itemId) ? s.buildings : [...s.buildings, itemId]),
         titles: itemId === 'bd_wheel' && !s.titles.includes(WHEEL_TITLE) ? [...s.titles, WHEEL_TITLE] : s.titles,
+        ...(east ? { area: 'east' as Area, pos: { ...ENTRY.east } } : {}),
       }));
       dispatch({ type: 'REFRESH_MEDALS' });
       dispatch({ type: 'GO', screen: 'island' });
