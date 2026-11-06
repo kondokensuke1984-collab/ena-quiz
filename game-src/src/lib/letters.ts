@@ -1,6 +1,7 @@
 // キャラからの おてがみ。島を開いたときに「前回からの変化」を見て作る。
 // 文面は子ども向けに ひらがな多め。
 
+import { NOVELS, novelPlainTitle, type Novel } from './novels';
 import type { Letter, LetterMarks, PlayerKey } from '../types';
 import { PALETTES } from '../components/KidSVG';
 import type { Friend } from './friends';
@@ -32,6 +33,7 @@ export interface LetterInput {
   detectiveOpen?: number[]; // 名探偵あんり：いま ひらいている じけん
   moshiOpen?: { key: string; name: string; diff: number; extra?: boolean; rewards?: number[] }[]; // もしの しま：いま うかんでいる もし（近い順）
   currentMonth?: string;    // いまの しゅやくの 月（YYYYMM）
+  hasLibrary?: boolean;     // としょかん（bd_planet）を たてた
   /** その月（YYYYMM）の スタンプの日数。きねんしゃしんを わたすか決める */
   stampDaysOf?: (month: string) => number;
   now?: Date;
@@ -45,6 +47,7 @@ export interface LetterResult {
   marks: LetterMarks;
   gifts: string[];          // いっしょに とどく 家具
   newMonth?: string;        // 月が かわった（バナーを出す）ときの 新しい月
+  newNovel?: Novel;         // としょかんに とどいた 新作（バナーを出す）
 }
 
 const monthNum = (ym: string) => Number(ym.slice(4));
@@ -224,6 +227,17 @@ ${names(olds)}と とった しゃしんを おくるよ。
     next.news = [...(next.news ?? []), n.id];
   }
 
+  // としょかんの 新作：NOVELS に 本を たすと 1かいだけ おしらせが とどく
+  let newNovel: Novel | undefined;
+  for (const n of NOVELS) {
+    const id = `novel-${n.id}`;
+    if ((next.news ?? []).includes(id)) continue;
+    out.push(mk(LUNA.from, LUNA.fromName, '📚 としょかんに しんさくが とどいたよ！',
+      `${to}あたらしい おはなし『${novelPlainTitle(n)}』が、としょかんの「よみもの」の たなに ならんだよ。\n${x.hasLibrary ? 'となりの しまの としょかんで よんでみてね。' : 'としょかんを たてると よめるよ。'}\nルナより`));
+    next.news = [...(next.news ?? []), id];
+    newNovel = newNovel ?? n;
+  }
+
   // 日曜日：その週の まとめ（1週間に1回）
   const today = dateKey(now);
   if (now.getDay() === 0 && next.weekly !== today) {
@@ -237,5 +251,5 @@ ${names(olds)}と とった しゃしんを おくるよ。
     next.weekly = today;
   }
 
-  return { letters: out, marks: next, gifts, newMonth };
+  return { letters: out, marks: next, gifts, newMonth, newNovel };
 }

@@ -66,7 +66,8 @@ import { OrganModal } from '../components/OrganModal';
 import { MicroscopeModal } from '../components/MicroscopeModal';
 import { LibraryModal, type BookId } from '../components/LibraryModal';
 import { NovelModal } from '../components/NovelModal';
-import type { Novel } from '../lib/novels';
+import { novelPlainTitle, type Novel } from '../lib/novels';
+import { NovelArt } from '../components/novel/NovelArt';
 import { TreeDexModal } from '../components/TreeDexModal';
 import { DexModal } from '../components/DexModal';
 import { TransferModal } from '../components/TransferModal';
@@ -417,6 +418,7 @@ export function IslandScreen() {
   saveRef2.current = save;
   const lastMarks = useRef<unknown>(null);
   const [monthBanner, setMonthBanner] = useState<string | null>(null);
+  const [novelBanner, setNovelBanner] = useState<Novel | null>(null);
   useEffect(() => {
     const cur = saveRef2.current;
     // 同じ記録から2回 手紙を作らない（開発中の二重実行・すばやい再描画でも1回だけ）
@@ -435,9 +437,11 @@ export function IslandScreen() {
       detectiveOpen: openCases,
       moshiOpen: moshis.map((m) => ({ key: m.test.key, name: m.test.name, diff: m.diff, extra: !!m.test.extra, rewards: moshiRewards(m.test).map((r) => r.reward) })),
       currentMonth: snap.currentMonth,
+      hasLibrary: cur.buildings.includes('bd_planet'),
       stampDaysOf: (m) => stampDays(Number(m.slice(0, 4)), Number(m.slice(4)), byDate).length,
     });
     if (r.newMonth) setMonthBanner(r.newMonth);
+    if (r.newNovel) setNovelBanner(r.newNovel);
     if (r.letters.length || JSON.stringify(r.marks) !== JSON.stringify(cur.letterMarks)) {
       gRef.current.deliverLetters(r.letters, r.marks, r.gifts);
       if (r.letters.length) gRef.current.showToast(`💌 おてがみが ${r.letters.length}つう とどいたよ！`);
@@ -2251,6 +2255,27 @@ export function IslandScreen() {
               きょうから この しまの しゅやくだよ。<br />まえの なかまも あそびに くるよ。<br />📮 おてがみも みてね。
             </p>
             <button className="btn-main mt-3" onClick={() => setMonthBanner(null)}>よろしくね！</button>
+          </div>
+        </div>
+      )}
+
+      {novelBanner && !monthBanner && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4" onClick={() => setNovelBanner(null)}>
+          <div className="panel w-full max-w-[400px] text-center" onClick={(e) => e.stopPropagation()}>
+            <div className="text-[18px] font-black text-ink">📚 としょかんに しんさくが とどいたよ！</div>
+            <NovelArt id={novelBanner.cover} />
+            <div className="text-[16px] font-black leading-[2] text-ink">『{novelPlainTitle(novelBanner)}』</div>
+            {save.buildings.includes('bd_planet') ? (
+              <>
+                <button className="btn-main mt-3" onClick={() => { setModal('library'); setNovel(novelBanner); setNovelBanner(null); }}>📖 よみにいく</button>
+                <button className="btn mt-2 text-center" onClick={() => setNovelBanner(null)}>あとで</button>
+              </>
+            ) : (
+              <>
+                <p className="mt-1 text-[12px] font-bold leading-relaxed text-indigo-900/70">🏗️ となりの しまに としょかんを たてると よめるよ。</p>
+                <button className="btn-main mt-3" onClick={() => setNovelBanner(null)}>わかった！</button>
+              </>
+            )}
           </div>
         </div>
       )}
