@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>チャレンジテスト 成績</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Hiragino Kaku Gothic ProN', sans-serif; background: linear-gradient(135deg, #1a1040, #2d1b69, #1e1550); min-height: 100vh; color: #f0eaff; padding: 16px; }
+  .back-btn { display: inline-flex; gap: 6px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 14px; text-decoration: none; margin-bottom: 16px; }
+  .header { text-align: center; padding: 8px 0 16px; }
+  .header h1 { font-size: 20px; } .header p { font-size: 13px; color: #c4b5fd; margin-top: 4px; }
+  .card { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); border-radius: 16px; padding: 14px; margin-bottom: 16px; }
+  .card h2 { font-size: 15px; margin-bottom: 10px; }
+  select { width: 100%; background: rgba(255,255,255,.1); color: #fff; border: 1px solid rgba(255,255,255,.2); border-radius: 10px; padding: 10px; font-size: 15px; margin-bottom: 16px; }
+  .sum { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .sum div { background: rgba(255,255,255,.08); border-radius: 12px; padding: 10px 6px; text-align: center; }
+  .sum .nm { font-size: 12px; color: #c4b5fd; } .sum .sc { font-size: 24px; font-weight: 800; } .sum .sc small { font-size: 12px; font-weight: 400; }
+  .sum .sub { font-size: 11px; color: #ddd6fe; line-height: 1.5; }
+  .q { border-left: 5px solid #4ade80; background: rgba(255,255,255,.06); border-radius: 10px; padding: 8px 10px; margin-bottom: 8px; font-size: 13px; }
+  .q.mid { border-color: #fbbf24; } .q.bad { border-color: #f87171; }
+  .q .h { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+  .q .m { font-size: 12px; color: #ddd6fe; } .q .note { margin-top: 4px; color: #e9d5ff; line-height: 1.6; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  td, th { border-bottom: 1px solid rgba(255,255,255,.12); padding: 6px 4px; text-align: center; } td.l { text-align: left; }
+  .judge { font-size: 13px; line-height: 1.7; margin-top: 10px; color: #e9d5ff; }
+  .btn { display: block; text-align: center; text-decoration: none; color: #fff; background: linear-gradient(135deg, #7c3aed, #4f46e5); border-radius: 14px; padding: 12px; font-weight: 800; font-size: 14px; margin-bottom: 10px; }
+</style>
+</head>
+<body>
+<a class="back-btn" href="/">← もどる</a>
+<div class="header"><h1>🏅 チャレンジテスト 成績</h1><p>ena 小4チャレンジテスト（適性検査Ⅰ・Ⅱ）</p></div>
+<select id="sel"></select>
+<div id="body"></div>
+<script>
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const qrow = q => { const r = q.score / q.pt, cls = r === 1 ? '' : r >= .5 ? 'mid' : 'bad';
+  return '<div class="q ' + cls + '"><div class="h"><b>' + esc(q.n) + '　' + esc(q.what) + '</b><span class="m">' + q.score + '/' + q.pt + '点　平均' + q.avg + '　偏差値' + q.dev + '　' + esc(q.grade) + '</span></div>' +
+    (q.note ? '<div class="note">' + esc(q.note) + '</div>' : '') + '</div>'; };
+function show(t) {
+  document.getElementById('body').innerHTML =
+    '<div class="card"><h2>📊 成績</h2><div class="sum">' + t.summary.map(s =>
+      '<div><div class="nm">' + esc(s.name) + '</div><div class="sc">' + s.score + '<small>点</small></div><div class="sub">平均 ' + s.avg + '<br>偏差値 <b>' + s.dev + '</b><br>' + esc(s.rank) + '</div></div>').join('') + '</div></div>' +
+    (t.pdf ? '<a class="btn" href="' + esc(t.pdf) + '" target="_blank" rel="noopener">📄 PDFで 適Ⅱの もんだいを みる</a>' : '') +
+    '<div class="card"><h2>🧠 適性Ⅱ 設問ごと</h2>' + t.t2.map(qrow).join('') + '</div>' +
+    '<div class="card"><h2>📖 適性Ⅰ 設問ごと</h2>' + t.t1.map(qrow).join('') + '</div>' +
+    '<div class="card"><h2>🎯 志望校の 安全圏まで</h2><table><tr><th>学校</th><th>80%ライン</th><th>あと</th></tr>' +
+      t.safe.map(s => '<tr><td class="l">' + esc(s.school) + '</td><td>' + s.line + '</td><td>あと' + s.need + '点</td></tr>').join('') + '</table>' +
+      '<div class="judge">' + esc(t.judge) + '</div></div>';
+}
+fetch('/challenge_data.json').then(r => r.json()).then(d => {
+  const sel = document.getElementById('sel'), ts = d.tests;
+  sel.innerHTML = ts.map((t, i) => '<option value="' + i + '">' + esc(t.label) + '　' + esc(t.name) + '</option>').join('');
+  sel.onchange = () => show(ts[sel.value]);
+  show(ts[0]);
+});
+</script>
+</body>
+</html>

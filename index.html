@@ -2260,6 +2260,7 @@ body.sp-drawing { -webkit-user-select: none; user-select: none; }
   <button id="gakuhan-btn" class="tendency-btn" onclick="location.href='/gakuhan.html'" style="background:linear-gradient(135deg,#7c3aed,#4f46e5);margin-top:8px;color:#fff;">📈 ガクハン成績グラフ</button>
   <button id="yonka-btn" class="tendency-btn" onclick="location.href='/yonka.html'" style="background:linear-gradient(135deg,#15803d,#16a34a);margin-top:8px;color:#fff;display:none;">📝 4科演習 成績グラフ</button>
   <button id="gouhan-moshi-btn" class="tendency-btn" onclick="location.href='/gouhan_moshi.html'" style="background:linear-gradient(135deg,#0d9488,#0f766e);margin-top:8px;color:#fff;display:none;">🎯 合格判定模試 成績グラフ</button>
+  <button id="challenge-btn" class="tendency-btn" onclick="location.href='/challenge.html'" style="background:linear-gradient(135deg,#c2410c,#ea580c);margin-top:8px;color:#fff;display:none;">🏅 チャレンジテスト 成績</button>
   <button id="gakuhan-eikoh-btn" class="tendency-btn" onclick="location.href='/gakuhan_eikoh.html'" style="background:linear-gradient(135deg,#1d4ed8,#2563eb);margin-top:8px;color:#fff;display:none;">📈 成績グラフ</button>
   </div>
   <button id="zunda-btn" class="tendency-btn" onclick="showVideoList()" style="background:linear-gradient(135deg,#65a30d,#16a34a);margin-top:8px;color:#fff;display:none;">📺 ずんだもん動画</button>
@@ -23943,6 +23944,7 @@ function selectSchool(schoolId) {
   document.getElementById('gakuhan-btn').style.display       = schoolId === 'ena'   ? '' : 'none';
   document.getElementById('yonka-btn').style.display         = schoolId === 'ena'   ? '' : 'none';
   document.getElementById('gouhan-moshi-btn').style.display  = schoolId === 'ena'   ? '' : 'none';
+  document.getElementById('challenge-btn').style.display     = schoolId === 'ena'   ? '' : 'none';
   document.getElementById('zunda-btn').style.display         = schoolId === 'ena'   ? '' : 'none';
   document.getElementById('gakuhan-eikoh-btn').style.display = schoolId === 'eikoh' ? '' : 'none';
   document.getElementById('yakusu-btn').style.display        = schoolId === 'eikoh' ? '' : 'none';
@@ -23986,6 +23988,7 @@ function showMonthSelect() {
   document.getElementById('gakuhan-btn').style.display       = state.selectedSchool === 'ena'   ? '' : 'none';
   document.getElementById('yonka-btn').style.display         = state.selectedSchool === 'ena'   ? '' : 'none';
   document.getElementById('gouhan-moshi-btn').style.display  = state.selectedSchool === 'ena'   ? '' : 'none';
+  document.getElementById('challenge-btn').style.display     = state.selectedSchool === 'ena'   ? '' : 'none';
   document.getElementById('zunda-btn').style.display         = state.selectedSchool === 'ena'   ? '' : 'none';
   document.getElementById('gakuhan-eikoh-btn').style.display = state.selectedSchool === 'eikoh' ? '' : 'none';
   document.getElementById('yakusu-btn').style.display        = state.selectedSchool === 'eikoh' ? '' : 'none';
