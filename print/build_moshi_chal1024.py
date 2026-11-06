@@ -11,9 +11,9 @@ def load(name):
     return json.load(open(os.path.join(ROOT, 'data', name), encoding='utf-8'))['questions']
 
 T2 = load('moshi_chal1024.json')
-# 配点（めやす・100点）
-POINTS = {'chal1024_01': 10, 'chal1024_02': 10, 'chal1024_03': 15, 'chal1024_04': 15,
-          'chal1024_05': 15, 'chal1024_06': 10, 'chal1024_07': 10, 'chal1024_08': 15}
+# 配点（10/24の成績表どおり・100点）
+POINTS = {'chal1024_01': 10, 'chal1024_02': 10, 'chal1024_03': 20, 'chal1024_04': 15,
+          'chal1024_05': 15, 'chal1024_06': 10, 'chal1024_07': 10, 'chal1024_08': 10}
 assert sum(POINTS[q['id']] for q in T2) == 100
 # 答えの書き方：('lines', 本数)／('box',) 選択・数字
 ANS = {'chal1024_03': ('lines', 4), 'chal1024_04': ('lines', 3), 'chal1024_05': ('lines', 4),

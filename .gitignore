@@ -8,3 +8,5 @@ game-src/*.tsbuildinfo
 
 # Claude の作業用フォルダ
 .claude/worktrees/
+print/chal1024_feedback.json
+print/moshi_chal1024_feedback.html
