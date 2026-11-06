@@ -2116,6 +2116,9 @@ body.sp-drawing { -webkit-user-select: none; user-select: none; }
 /* 🍃 コロンのそらとび（/sora/）への入口。その日 50もん といたら ひらく */
 .sora-top { background:linear-gradient(135deg,#f97316,#facc15); box-shadow:0 4px 12px rgba(249,115,22,.35); }
 .sora-top .sora-btn-text { font-size: 12px; font-weight: 700; color: #fff; opacity: .95; }
+/* ⚓ アンリノの伝説（/densetsu/）への入口。その日 50もん といたら ひらく */
+.densetsu-top { background:linear-gradient(135deg,#27304f,#2a9c95); box-shadow:0 4px 12px rgba(42,156,149,.35); }
+.densetsu-top .densetsu-btn-text { font-size: 12px; font-weight: 700; color: #fff; opacity: .95; }
 .sora-bar { width: 100%; box-sizing: border-box; margin: 0 0 12px; padding: 10px 16px; }
 .chat-top { background: linear-gradient(135deg,#06c755,#10b981); box-shadow: 0 4px 12px rgba(6,199,85,.35); border: 0; font: inherit; cursor: pointer; text-align: left; width: 100%; box-sizing: border-box; }
 .chat-bar { margin: 0 0 12px; padding: 10px 16px; }
@@ -2188,6 +2191,10 @@ body.sp-drawing { -webkit-user-select: none; user-select: none; }
   <a class="island-top sora-top" href="/sora/">
     <img class="sora-face" src="/images/colon_face.png" alt="コロン" width="48" height="48">
     <span class="island-top-body"><span class="island-top-title">コロンのそらとび</span><span class="sora-btn-text">きょう 50もん といたら あそべる</span></span>
+  </a>
+  <a class="island-top densetsu-top" href="/densetsu/">
+    <span class="island-top-emoji">⚓</span>
+    <span class="island-top-body"><span class="island-top-title">アンリノの伝説</span><span class="densetsu-btn-text">きょう 50もん といたら あそべる</span></span>
   </a>
   <button type="button" class="island-top chat-top" data-chat-open>
     <span class="island-top-emoji">💬</span>
@@ -23803,6 +23810,7 @@ function renderIslandBtn() {
     el.textContent = left > 0 ? `🔒 あと${left}教科` : weakLeft > 0 ? `🔒 にがて${weakLeft}もん` : (el.classList.contains('island-top-sub') ? 'タップして島へ' : '島へいく');
   });
   try { renderSoraBtn(); } catch (e) {}
+  try { renderDensetsuBtn(); } catch (e) {}
 }
 
 // ── 🍃 コロンのそらとび（/sora/）：その日に ぜんぶの月で SORA_NEED もん といたら 10ぷん。
@@ -23862,6 +23870,18 @@ function renderSoraBtn() {
       : (n >= need || special) ? `タップして あそぶ（のこり ${mins}ぷん）`
       : log.done > 0 ? `🔒 また あと ${left}もん といたら あそべる`
       : `🔒 あと ${left}もん といたら あそべる` + (todayStr() <= SORA_EXTRA_UNTIL ? '（10/24までは 適性検査 8わり・もしの しま でも OK）' : '');
+  });
+}
+
+// ⚓ アンリノの伝説（/densetsu/）：その日 50もん といたら あそべる。じかんの きまりは なし。
+//   けんすけ・みつき の 端末は いつでも（ゲームの がわ densetsu/game.js と 同じ きまり）
+function renderDensetsuBtn() {
+  let player = null;
+  try { player = (JSON.parse(localStorage.getItem('ena_island_save_v1') || '{}') || {}).player || null; } catch(e) {}
+  const free = SORA_FREE[player], n = answeredToday();
+  document.querySelectorAll('.densetsu-btn-text').forEach(el => {
+    el.textContent = free ? `${free}は いつでも あそべる`
+      : n >= SORA_NEED ? 'タップして あそぶ' : `🔒 あと ${SORA_NEED - n}もん といたら あそべる`;
   });
 }
 

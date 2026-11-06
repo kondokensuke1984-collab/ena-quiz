@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#141a38">
+<title>アンリノの伝説</title>
+<link rel="icon" href="/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Dela+Gothic+One&display=swap">
+<style>
+:root{ --bg:#141a38; --ink:#fff7e0; --teal:#57d8c8; --sun:#ffd85e; --coral:#e8705f; }
+[hidden]{ display:none !important; }
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; -webkit-touch-callout:none; user-select:none; -webkit-user-select:none; }
+html,body{ margin:0; height:100%; background:var(--bg); color:var(--ink); font-family:'DotGothic16','Hiragino Maru Gothic ProN',sans-serif; overflow:hidden; overscroll-behavior:none; touch-action:none; }
+#app{ position:fixed; inset:0; display:flex; flex-direction:column; align-items:center; padding:max(6px,env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left)); }
+#screen{ position:relative; width:100%; max-width:min(100%,calc((100dvh - 230px)*1.25)); aspect-ratio:5/4; flex:none; border:3px solid #39406b; border-radius:6px; overflow:hidden; background:#000; }
+canvas{ display:block; width:100%; height:100%; image-rendering:pixelated; image-rendering:crisp-edges; }
+#top{ position:absolute; top:4px; right:4px; display:flex; gap:4px; z-index:4; }
+.mini{ width:32px; height:32px; font-size:15px; border:2px solid rgba(255,255,255,.6); border-radius:8px; background:rgba(16,20,48,.72); color:#fff; padding:0; font-family:inherit; text-decoration:none; display:flex; align-items:center; justify-content:center; }
+#place{ position:absolute; left:50%; top:9%; transform:translateX(-50%); background:rgba(16,20,48,.84); border:2px solid var(--teal); color:#fff; padding:3px 12px; border-radius:4px; font-size:clamp(13px,3.6vw,18px); opacity:0; transition:opacity .3s; pointer-events:none; white-space:nowrap; z-index:3; }
+#place.on{ opacity:1; }
+#toast{ position:absolute; left:50%; bottom:13%; transform:translateX(-50%); background:rgba(16,20,48,.9); color:var(--sun); padding:3px 10px; border-radius:4px; font-size:clamp(12px,3.4vw,16px); opacity:0; transition:opacity .2s; pointer-events:none; white-space:nowrap; z-index:3; }
+#toast.on{ opacity:1; }
+#dialog{ position:absolute; left:3%; right:3%; bottom:11%; background:rgba(14,18,48,.95); border:3px solid var(--ink); border-radius:6px; padding:clamp(7px,2vw,12px) clamp(9px,2.6vw,16px); font-size:clamp(14px,4.1vw,21px); line-height:1.5; white-space:pre-wrap; min-height:30%; z-index:5; }
+#dlgName{ color:var(--sun); font-size:.85em; }
+#dlgNext{ position:absolute; right:10px; bottom:4px; color:var(--teal); animation:bl .7s infinite steps(2); font-size:.8em; }
+@keyframes bl{ 50%{ opacity:0; } }
+#controls{ flex:1; width:100%; max-width:560px; min-height:190px; display:flex; align-items:center; justify-content:space-between; padding:8px 8px 4px; }
+#pad{ position:relative; width:min(44vw,172px); aspect-ratio:1; flex:none; touch-action:none; }
+#pad .v,#pad .h{ position:absolute; background:#2d3564; border:3px solid #58629b; border-radius:10px; }
+#pad .v{ left:33%; width:34%; top:0; bottom:0; }
+#pad .h{ top:33%; height:34%; left:0; right:0; }
+#pad .c{ position:absolute; left:34%; top:34%; width:32%; height:32%; background:#2d3564; }
+#pad .a{ position:absolute; color:#b9c4f1; font-size:14px; pointer-events:none; }
+#pad.u .au,#pad.d .ad,#pad.l .al,#pad.r .ar{ color:var(--sun); }
+#btns{ position:relative; width:min(46vw,190px); height:min(46vw,190px); flex:none; }
+.gb{ position:absolute; display:flex; flex-direction:column; align-items:center; justify-content:center; border-radius:50%; color:#fff; font-family:inherit; font-size:13px; line-height:1.15; border:3px solid rgba(255,255,255,.55); padding:0; touch-action:none; box-shadow:0 4px 0 rgba(0,0,0,.35); }
+.gb b{ font-size:20px; font-weight:400; }
+.gb.down{ transform:translateY(3px); box-shadow:0 1px 0 rgba(0,0,0,.35); filter:brightness(1.2); }
+#btnA{ width:46%; height:46%; right:0; top:27%; background:#3f7fd0; }
+#btnB{ width:42%; height:42%; left:7%; top:44%; background:#2a9c95; }
+#btnC{ width:38%; height:38%; left:18%; top:0; background:#b75a70; }
+.ov{ position:absolute; inset:0; z-index:8; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:10px; }
+.ov[hidden]{ display:none; }
+#ovTitle{ background:linear-gradient(#0f1537 0%,#1f2b6b 58%,#3f9fd8 58.3%,#256fa8 100%); overflow:hidden; }
+#tower{ position:absolute; right:4%; bottom:42%; width:6%; height:24%; background:repeating-linear-gradient(#f7f2ff 0 22%,#e8705f 22% 40%); border:2px solid #27304f; }
+#tower::before{ content:''; position:absolute; left:10%; right:10%; top:-22%; height:22%; background:#ffe36a; border:2px solid #27304f; }
+#beam{ position:absolute; right:-143%; left:auto; bottom:60%; top:auto; width:150%; height:34px; transform-origin:left center; background:linear-gradient(90deg,rgba(255,228,138,.55),rgba(255,228,138,0)); animation:beam 7s ease-in-out infinite alternate; pointer-events:none; }
+@keyframes beam{ from{ transform:rotate(168deg); } to{ transform:rotate(200deg); } }
+.logoSub{ position:relative; color:var(--teal); font-size:clamp(11px,3.3vw,16px); letter-spacing:.3em; }
+.logo{ position:relative; font-family:'Dela Gothic One','DotGothic16',sans-serif; font-size:clamp(30px,10.5vw,58px); color:#fff7e0; text-shadow:0 3px 0 #e8705f,0 6px 0 #27304f; line-height:1.15; margin:3px 0 12px; }
+.menu{ position:relative; display:flex; flex-direction:column; gap:7px; width:min(66%,300px); }
+.mbtn{ font-family:inherit; font-size:clamp(14px,4.2vw,20px); padding:7px 8px; color:#fff; border:2px solid #fff7e0; border-radius:6px; background:#27304f; text-decoration:none; display:block; }
+.mbtn.go{ background:var(--coral); }
+#ovDead,#ovEnd,#ovLock{ background:rgba(10,12,32,.9); }
+#ovEnd{ background:none; justify-content:flex-end; padding-bottom:7%; pointer-events:none; }
+#ovEnd .menu{ pointer-events:auto; }
+.big{ font-family:'Dela Gothic One','DotGothic16',sans-serif; font-size:clamp(20px,6.4vw,34px); margin-bottom:8px; }
+.small{ font-size:clamp(13px,3.8vw,18px); line-height:1.5; margin-bottom:10px; white-space:pre-line; }
+.bar{ width:70%; height:10px; background:#39406b; border-radius:9px; overflow:hidden; margin-bottom:12px; }
+.bar i{ display:block; height:100%; background:var(--sun); }
+/* よこむき：まんなかに 画面、左に 十字、右に ボタン */
+@media (orientation:landscape){
+  #app{ flex-direction:row; justify-content:center; align-items:center; gap:10px; }
+  #screen{ order:2; flex:none; max-width:none; height:auto; aspect-ratio:5/4; width:min(calc(100vw - 2*clamp(104px,18vw,190px) - 44px),calc((100dvh - 14px)*1.25)); }
+  #controls{ display:contents; }
+  #pad{ order:1; width:clamp(104px,18vw,190px); }
+  #btns{ order:3; width:clamp(104px,18vw,190px); height:clamp(104px,18vw,190px); }
+  #dialog{ font-size:clamp(13px,2.6vw,22px); }
+  .logo{ font-size:clamp(28px,6vw,58px); }
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="screen">
+    <canvas id="cv" width="240" height="192"></canvas>
+    <div id="top"><button class="mini" id="btnMusic" aria-label="おんがく">🎵</button><a class="mini" href="/" aria-label="アプリに もどる">🏠</a></div>
+    <div id="place"></div>
+    <div id="toast"></div>
+    <div id="dialog" hidden><div id="dlgName"></div><span id="dlgText"></span><span id="dlgNext" hidden>▼</span></div>
+    <div class="ov" id="ovTitle">
+      <div id="tower"></div>
+      <div id="beam"></div>
+      <div class="logoSub">第1章 きえた ともしび</div>
+      <div class="logo">アンリノの伝説</div>
+      <div class="menu">
+        <button class="mbtn go" id="btnNew">はじめから</button>
+        <button class="mbtn go" id="btnCont" hidden>つづきから</button>
+        <a class="mbtn" href="/">アプリに もどる</a>
+      </div>
+    </div>
+    <div class="ov" id="ovDead" hidden>
+      <div class="big">たおれて しまった…</div>
+      <div class="small">コロン「だいじょうぶ、もう いちど！」</div>
+      <div class="menu"><button class="mbtn go" id="btnRetry">つづける</button></div>
+    </div>
+    <div class="ov" id="ovEnd" hidden>
+      <div class="menu"><button class="mbtn go" id="btnEnd" hidden>タイトルへ</button></div>
+    </div>
+    <div class="ov" id="ovLock" hidden>
+      <div class="big">あと <span id="lockLeft">50</span>もん！</div>
+      <div class="small">きょう もんだいを 50もん といたら、
+アンリノの伝説で あそべるよ。</div>
+      <div class="bar"><i id="lockBar" style="width:0"></i></div>
+      <div class="small" id="lockNow"></div>
+      <div class="menu"><a class="mbtn go" href="/">もんだいを とく</a></div>
+    </div>
+  </div>
+  <div id="controls">
+    <div id="pad" aria-label="十字ボタン">
+      <div class="v"></div><div class="h"></div><div class="c"></div>
+      <span class="a au" style="left:45%;top:6%">▲</span><span class="a ad" style="left:45%;bottom:6%">▼</span>
+      <span class="a al" style="left:7%;top:44%">◀</span><span class="a ar" style="right:7%;top:44%">▶</span>
+    </div>
+    <div id="btns">
+      <button class="gb" id="btnC"><b>💬</b>はなす</button>
+      <button class="gb" id="btnB"><b id="iconB">🏺</b>つぼ</button>
+      <button class="gb" id="btnA"><b>⭐</b>ぼう</button>
+    </div>
+  </div>
+</div>
+<script src="/js/forest_music.js"></script>
+<script src="music.js"></script>
+<script src="art.js"></script>
+<script src="maps.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
