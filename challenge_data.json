@@ -210,7 +210,20 @@
     }
    ],
    "judge": "第一志望（三鷹中等）は、あと少しで合格圏に入るところ。科目別に見ると合格ラインに達している科目がないので、まず得意科目を伸ばしましょう。併願で安全圏の学校はまだない。努力を続けよう。",
-   "pdf": "/print/chal1024_mondai.pdf"
+   "pdfs": [
+    {
+     "label": "📘 適性Ⅰの もんだい（本物）",
+     "url": "/print/honmono/chal1024_tekisei1.pdf"
+    },
+    {
+     "label": "📗 適性Ⅱの もんだい（本物）",
+     "url": "/print/honmono/chal1024_tekisei2.pdf"
+    },
+    {
+     "label": "📝 こたえと かいせつ（本物）",
+     "url": "/print/honmono/chal1024_kaisetsu.pdf"
+    }
+   ]
   }
  ]
 }

@@ -10,3 +10,4 @@ game-src/*.tsbuildinfo
 .claude/worktrees/
 print/chal1024_feedback.json
 print/moshi_chal1024_feedback.html
+print/honmono/

@@ -387,7 +387,7 @@
   {
    "extra": true,
    "key": "chal1024",
-   "pdf": "/print/chal1024_mondai.pdf",
+   "pdfs": [{"label":"📘 適性Ⅰの もんだい（本物）","url":"/print/honmono/chal1024_tekisei1.pdf"},{"label":"📗 適性Ⅱの もんだい（本物）","url":"/print/honmono/chal1024_tekisei2.pdf"},{"label":"📝 こたえと かいせつ（本物）","url":"/print/honmono/chal1024_kaisetsu.pdf"}],
    "name": "都立中チャレンジ 適性Ⅱ",
    "month": "202610",
    "date": "2026-10-24",
