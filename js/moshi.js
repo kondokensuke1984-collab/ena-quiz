@@ -374,6 +374,7 @@ function renderMoshi() {
        : a && a.finished ? '<button class="btn-main" style="margin-top:14px;" onclick="moshiResume()">📝 まるつけ まち（' + moshiPending().length + 'もん）</button>'
        : mz.open ? (moshiLevels(t).length > 1 ? '<div style="font-size:13px; font-weight:800; margin-top:12px; color:#4c1d95;">レベルを えらんでね</div>' : '') +
            moshiLevels(t).map(lvCard).join('') : '') +
+      (t.pdf ? '<a class="btn-main" style="display:block; margin-top:10px; background:rgba(99,102,241,.12); color:#4c1d95; box-shadow:none; text-decoration:none;" href="' + esc(t.pdf) + '" target="_blank" rel="noopener">📄 PDFで もんだいを みる</a>' : '') +
       (moshiList.length > 1 ? '<button class="btn-main" style="margin-top:10px; background:rgba(99,102,241,.12); color:#4c1d95; box-shadow:none;" onclick="moshiRenderPick()">◀ ほかの もしを えらぶ</button>' : '') +
       '<button class="btn-main" style="margin-top:10px; background:rgba(99,102,241,.12); color:#4c1d95; box-shadow:none;" onclick="leaveMoshi()">' +
         (moshiFromIsland ? '🏝 しまに もどる' : 'もどる') + '</button>' +
