@@ -8,10 +8,10 @@
 
 // なまえ ＝ {M}。かげに 食べられると「ミ●」「●●」に かわる
 const C2_LETTERS = {
-  l1: { title: 'さいしょの てがみ', pages: [
+  l1: { title: 'さいしょの てがみ', voice: ['l1_0', 'l1_1'], pages: [
     'この てがみを ひろった 人へ。\n\nわたしは 島の 灯台の 火を\nまもっています。\n\nゆうべ、海の むこうに、\n見たことのない\nあたたかい 光が 見えました。',
     'だれか、この あかりを\n見ていますか。\n\n{M}'] },
-  l2: { title: 'へんじが きた', pages: [
+  l2: { title: 'へんじが きた', voice: [null, 'l2_1', null], pages: [
     'アンリノへ。\n\nへんじが きた！\nうれしくて、とびはねちゃった。\n\nでも まっくらって なあに？\nゆうべも ちゃんと ともしたよ。\n灯台は ことし できたばかりで、\nぴかぴかなのに。',
     'そうだ、わたしの なまえの\nいみを おしえるね。\n\n{M}は、船の とおる 海の みちの こと。\n船が まよわないようにって、\n父さんが つけてくれたの。',
     'かたの うえには\nともだちの 小さな カメ。\n火の ばんを いつも\nてつだってくれるよ。\n\n{M}'] },
@@ -22,13 +22,13 @@ const C2_LETTERS = {
     'うえたよ！\nカメが 水を かけてくれた。\n\n大きくなあれ、大きくなあれ。\n\n{M}'] },
   l4b: { title: 'カギの こと', pages: [
     'わかった！\n灯台の カギ、いどの そばに\nうめておくね。\n\n100年は ながいから、\nふかく うめるよ。\nちゃんと 見つけてね。\n\n{M}'] },
-  l5: { title: 'ひみつ', pages: [
+  l5: { title: 'ひみつ', voice: ['l5_0', 'l5_1', 'l5_2'], pages: [
     'アンリノへ。\n\nひみつを ひとつ おしえるね。\n\n島の 人は みんな 海を わたって、\nいなくなりました。\n「もう 火を ともさなくて いいよ」\nって 言われたの。',
     'でも、もし 船が 1そうでも\nまよったら こまるでしょう。\nだから、だれも 見ていなくても、\n毎ばん ともしました。',
     'ほんとうは、ときどき さみしかった。\nきょう ともしても、\nだれも 知らないんだもの。\n\nでも、いまは ちがうよ。\nアンリノが 見ていてくれるから。\n\n{M}'] },
   l6: { title: 'むしくいの てがみ', pages: [
     'アン●●へ。\n\nかげが ●●に きたの。\n●を けせって。 でも けさないよ。\n●●●●●も、ともすから。\n\nわすれないで。 ●●●●。\n\n{M}'] },
-  lf: { title: 'さいごの てがみ', pages: [
+  lf: { title: 'さいごの てがみ', voice: ['lf_0', 'lf_1', 'lf_2', 'lf_3'], pages: [
     'アンリノへ。\n\nおばあさんに なりました。\n字が へたで ごめんね。\n\nあの日から、いちども\nあかりを けさなかったよ。',
     'だれも 見ていない 夜なんて、\nもう なかったから。\n\nきみが 見ていてくれたから。',
     'カメに たのんで おきます。\nこの子は 長生きだから、\nきっと とどけてくれる。',
@@ -36,12 +36,49 @@ const C2_LETTERS = {
 };
 const C2_ORDER = ['l1', 'l2', 'l3', 'l4', 'l4b', 'l5', 'l6', 'lf'];
 const C2_NOTE_HEAVY = { pages: ['アンリノへ。\n\nカメと いっしょに おしたけど、\nおもくて びくとも しないよ。\n\n100年 かけて できること、\nほかに ないかな？\n\n{M}'] };
-const C2_CARVE = { carve: true, pages: ['アンリノへ。\n\nかげは なまえを たべるんだって。\n\nわすれても だいじょうぶ。\nきみが よんでくれたら、\nわたしは ここに いるよ。'] };
+const C2_CARVE = { carve: true, voice: ['carve_0'], pages: ['アンリノへ。\n\nかげは なまえを たべるんだって。\n\nわすれても だいじょうぶ。\nきみが よんでくれたら、\nわたしは ここに いるよ。'] };
 const C2_NAME = 'ミオ', C2_KANA = ['ナ', 'ミ', 'ソ', 'ル', 'オ', 'ハ'];
 
 function c2Eat() { return flag('c2_lit') ? 0 : flag('c2_eat2') ? 2 : flag('c2_eat1') ? 1 : 0; }
 function c2Text(s) { return s.replace(/\{M\}/g, ['ミオ', 'ミ●', '●●'][c2Eat()]); }
 function c2Has(id) { return flag('l_' + id); }
+
+// ── 見どころの 声（audio/densetsu。tools/make_densetsu_voice.py で 作る）──
+//   タップの 外から 鳴らすので、まよいの森の 音源と 同じ AudioContext で 鳴らす。🔇のときは 鳴らさない（文字だけ）
+const C2_VOICES = ['l1_0', 'l1_1', 'l2_1', 'l5_0', 'l5_1', 'l5_2', 'carve_0', 'lf_0', 'lf_1', 'lf_2', 'lf_3', 't1', 't2', 't3', 't4', 't5', 't6', 'c_tree', 'c_who', 'c_forget', 'c_saw', 'h_mio'];
+const c2Vc = { buf: {}, src: null, token: 0, pre: false, log: [] };
+function c2VoiceLoad(id) {
+  const ctx = fmEnsure();
+  if (!ctx) return Promise.reject(new Error('no audio'));
+  if (!c2Vc.buf[id]) c2Vc.buf[id] = fetch(`/audio/densetsu/${id}.mp3`).then(r => r.arrayBuffer()).then(a => ctx.decodeAudioData(a)).catch(e => { delete c2Vc.buf[id]; throw e; });
+  return c2Vc.buf[id];
+}
+function c2VoiceStop() {
+  c2Vc.token++;
+  if (c2Vc.src) { try { c2Vc.src.stop(); } catch (e) {} c2Vc.src = null; }
+  if (FM.ctx && FM.music) FM.music.gain.setTargetAtTime(0.7, FM.ctx.currentTime, 0.2);
+}
+function c2VoicePlay(id) {
+  c2VoiceStop();
+  if (!id || !FM.on) return;
+  const tok = c2Vc.token;
+  c2VoiceLoad(id).then(buf => {
+    const ctx = FM.ctx;
+    if (tok !== c2Vc.token || !ctx || ctx.state !== 'running') return;
+    const src = ctx.createBufferSource(), gain = ctx.createGain();
+    src.buffer = buf; gain.gain.value = 0.95;
+    src.connect(gain); gain.connect(ctx.destination);
+    src.onended = () => { if (c2Vc.src === src) { c2Vc.src = null; FM.music.gain.setTargetAtTime(0.7, ctx.currentTime, 0.3); } };
+    FM.music.gain.setTargetAtTime(0.22, ctx.currentTime, 0.12);   // 声の あいだは 曲を 小さく
+    src.start(ctx.currentTime + 0.08);
+    c2Vc.src = src; c2Vc.log.push(id);
+  }).catch(() => {});   // 読めなかったら 文字だけ
+}
+function c2VoicePreload() {
+  if (c2Vc.pre || !FM.on || !FM.ctx) return;
+  c2Vc.pre = true;
+  C2_VOICES.forEach(id => c2VoiceLoad(id).catch(() => {}));
+}
 
 // ── てがみを よむ ──
 let c2Lt = null;
@@ -57,11 +94,14 @@ function c2OpenLetter(l, cb) {
 function c2ShowPage() {
   $('ltText').textContent = c2Text(c2Lt.def.pages[c2Lt.i]);
   $('ltNext').textContent = c2Lt.i < c2Lt.def.pages.length - 1 ? '▼ つぎ' : '▼ とじる';
+  // なまえが 食べられて いるあいだは 読み上げない（声で なまえが わかって しまうから）
+  c2VoicePlay(c2Lt.def.voice && (c2Eat() === 0 || c2Lt.def.carve) ? c2Lt.def.voice[c2Lt.i] : null);
 }
 function c2LetterNext() {
   if (G.mode !== 'letter' || !c2Lt) return;
   if (++c2Lt.i < c2Lt.def.pages.length) { c2ShowPage(); Sfx.text(); return; }
   const { cb, song } = c2Lt;
+  c2VoiceStop();
   c2Lt = null; $('ovLetter').hidden = true; G.mode = 'play';
   if (song && FM.want === 'd_letter' && song !== 'd_letter') fmPlay(song);
   input.ap = input.bp = input.cp = false;
@@ -143,7 +183,7 @@ function c2Rock() {
       c2OpenLetter('l4', () => {
         G.c2Flash = 40; G.shake = 8; Sfx.boom(); fmJingle('d_solve');
         setFlag('c2_tree');
-        colonSay('うわあ……！\nこれ、ミオが きのう うえた 木だよ！', () => colonSay('100年ぶんの 根っこが、岩を おしのけたんだ！'));
+        colonSay('うわあ……！\nこれ、ミオが きのう うえた 木だよ！', () => colonSay('100年ぶんの 根っこが、岩を おしのけたんだ！'), ['c_tree']);
       });
     });
   });
@@ -180,6 +220,7 @@ function c2Dig() {
 // ── へやに 入ったときの できごと（ダイアログを 出したら true）──
 function c2Tick() {
   if (!S || !flag('ending')) return false;
+  if (flag('ch2')) c2VoicePreload();
   if (G.id === 's0' && !flag('c2_arrive')) {
     S.f.c2_arrive = 1; writeSave();
     colonSay(['ここが しおさいの島……。\nだれも いないみたい。', 'あ！ 波うちぎわで、なにか 光ってる！']);
@@ -193,7 +234,7 @@ function c2Tick() {
   if (G.id === 'e4' && !flag('c2_eat2')) {
     S.f.c2_eat2 = 1; writeSave(); fmJingle('d_get');
     colonSay('びんだ！ こんな 灯台の 中まで……。', () => c2OpenLetter('l6', () => {
-      colonSay(['この てがみの 子……\nなまえ、なんだっけ？', 'おかしいな。\nぼく、ぜんぜん 思いだせない。']);
+      colonSay(['この てがみの 子……\nなまえ、なんだっけ？', 'おかしいな。\nぼく、ぜんぜん 思いだせない。'], null, ['c_who', 'c_forget']);
     }));
     return true;
   }
@@ -256,7 +297,7 @@ function c2Named() {
   fmStop();
   say('ミオ！', () => {
     G.mode = 'ending2'; G.end = { t: 0 };
-  }, 'アンリノ');
+  }, 'アンリノ', ['h_mio']);
 }
 
 // ── 夜明け：2つの 時代の 灯台に、同時に 火が ともる ──
@@ -264,6 +305,7 @@ const C2_DAWN_LINES = [[840, 'コロン「……見えた？ いま」'], [1080,
 function c2TickDawn() {
   const e = G.end; e.t++;
   if (e.t === 110) fmPlay('d_hikari');
+  if (e.t === C2_DAWN_LINES[0][0]) c2VoicePlay('c_saw');
   if (e.t >= 1320) { G.mode = 'play'; G.end = null; enterRoom('h1', 120, 104, 'u'); }
 }
 function c2DrawDawn() {
@@ -333,9 +375,9 @@ function c2Finale() {
       say('……ずいぶん かかって しまったな、ミオ。', () => {
         S.f.c2_end = 1; writeSave();
         G.mode = 'ending3'; G.end = { t: 0 }; $('ovEnd').hidden = false; fmPlay('d_letter');
-      }, n);
+      }, n, ['t6']);
     });
-  }, n);
+  }, n, ['t1', 't2', 't3', 't4', 't5']);
 }
 function c2TickDusk() { if (++G.end.t >= 820) $('btnEnd').hidden = false; }
 function c2DrawDusk() {

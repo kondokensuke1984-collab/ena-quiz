@@ -315,6 +315,8 @@ const BOT = () => {
     return out;
   });
   console.log('はみ出す てがみ', over);
+  // 声：ぜんぶ 読めて、見どころで 鳴っているか
+  console.log('声', await p.evaluate(async () => { const d = await Promise.all(C2_VOICES.map(id => c2VoiceLoad(id).then(b => b.duration))); return { 本数: d.length, 合計秒: Math.round(d.reduce((a, b) => a + b, 0)), 最短: +Math.min(...d).toFixed(2), 音源: FM.ctx.state, 鳴らした: c2Vc.log.join() }; }));
   console.log('第2章の最終', await p.evaluate(() => JSON.stringify({ end: __AN.flag('c2_end'), room: __AN.S.room, hp: __AN.S.hp, max: __AN.S.maxHp, deaths: __AN.S.deaths })));
   console.log('最終', await p.evaluate(() => JSON.stringify({ hp: __AN.S.hp, max: __AN.S.maxHp, shells: __AN.S.shells, deaths: __AN.S.deaths, kills: __AN.S.kills, min: Math.round(__AN.S.time / 3600) })));
   console.log('errors', errs);

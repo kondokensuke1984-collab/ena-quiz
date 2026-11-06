@@ -243,8 +243,9 @@ function enemyBlocked(e, x, y) {
 }
 
 // ── 会話 ──
-function say(pages, cb, name) {
-  G.dlg = { pages: Array.isArray(pages) ? pages : [pages], i: 0, n: 0, cb, name: name || '' };
+function say(pages, cb, name, voices) {
+  G.dlg = { pages: Array.isArray(pages) ? pages : [pages], i: 0, n: 0, cb, name: name || '', voices };
+  c2VoicePlay(voices && voices[0]);
   G.mode = 'dialog';
   $('dialog').hidden = false; $('dlgName').textContent = G.dlg.name; $('dlgText').textContent = ''; $('dlgNext').hidden = true;
   input.ap = input.bp = input.cp = false;
@@ -262,6 +263,7 @@ function tickDialog() {
   }
   if (!press) return;
   d.i++; d.n = 0; $('dlgNext').hidden = true;
+  if (d.voices) c2VoicePlay(d.voices[d.i]);
   if (d.i >= d.pages.length) {
     $('dialog').hidden = true; G.mode = 'play'; G.dlg = null;
     if (d.cb) d.cb();
@@ -269,7 +271,7 @@ function tickDialog() {
   }
   $('dlgText').textContent = '';
 }
-function colonSay(pages, cb) { say(pages, cb, 'コロン'); }
+function colonSay(pages, cb, voices) { say(pages, cb, 'コロン', voices); }
 
 function colonHint() {
   if (flag('ch2') && !flag('c2_end')) return c2Hint();
@@ -1045,7 +1047,7 @@ $('btnNew').addEventListener('click', () => {
 $('btnCont').addEventListener('click', startCont);
 $('btnRetry').addEventListener('click', respawn);
 $('btnEnd').addEventListener('click', backToTitle);
-$('btnMusic').addEventListener('click', () => { const on = musicToggle(); $('btnMusic').textContent = on ? '🎵' : '🔇'; });
+$('btnMusic').addEventListener('click', () => { const on = musicToggle(); if (!on) c2VoiceStop(); $('btnMusic').textContent = on ? '🎵' : '🔇'; });
 $('btnMusic').textContent = FM.on ? '🎵' : '🔇';
 document.addEventListener('visibilitychange', () => { if (document.hidden) writeSave(); });
 addEventListener('pagehide', writeSave);
