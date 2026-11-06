@@ -1012,7 +1012,7 @@ function startNew() {
   fmUnlock();
   P.dir = 'r'; G.mode = 'play';
   enterRoom('v0', S.x, S.y, 'r');
-  $('btnLetters').hidden = true;
+  c2ListBack = 'play'; c2RefreshBtn();
   say(['かげモンスターが、海の むこうの 灯台の 火を けしてしまった。', 'アンリノは 相棒の コロンと、小さな 船で「みなとの村」に たどりついた。', 'コロン「まず 村長さんに 会いに いこう！ ひだりの いえだよ。こまったら 💬ボタンで ぼくに きいてね」'], null, '');
 }
 function startCont() {
@@ -1023,7 +1023,7 @@ function startCont() {
   fmUnlock();
   G.mode = 'play';
   enterRoom(S.room, S.x, S.y, S.dir);
-  c2RefreshBtn();
+  c2ListBack = 'play'; c2RefreshBtn();
 }
 function backToTitle() {
   $('ovEnd').hidden = true; $('btnEnd').hidden = true; $('btnCh2End').hidden = true; $('btnLetters').hidden = true;
@@ -1038,6 +1038,7 @@ function refreshTitle() {
   const clear = c2SyncClear(sv), cleared = !!clear.c1;
   $('btnCh2').hidden = !(cleared && !c2Resumable(2) && !(sv && sv.f.ch2));
   $('btnChapters').hidden = !cleared;
+  $('btnTitleLetters').hidden = !clear.c2;
   $('btnNew').hidden = cleared;   // クリアしたら「章を えらぶ」から はじめる（きろくを うっかり けさないように）
   $('logoSub').textContent = sv && sv.f.ending ? '第2章 ひかりの てがみ' : '第1章 きえた ともしび';
   $('btnCont').hidden = !has;

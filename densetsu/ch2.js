@@ -39,7 +39,7 @@ const C2_NOTE_HEAVY = { pages: ['アンリノへ。\n\nカメと いっしょに
 const C2_CARVE = { carve: true, voice: ['carve_0'], pages: ['アンリノへ。\n\nかげは なまえを たべるんだって。\n\nわすれても だいじょうぶ。\nきみが よんでくれたら、\nわたしは ここに いるよ。'] };
 const C2_NAME = 'ミオ', C2_KANA = ['ナ', 'ミ', 'ソ', 'ル', 'オ', 'ハ'];
 
-function c2Eat() { return flag('c2_lit') ? 0 : flag('c2_eat2') ? 2 : flag('c2_eat1') ? 1 : 0; }
+function c2Eat() { return c2ListBack === 'title' && G.mode !== 'play' ? 0 : flag('c2_lit') ? 0 : flag('c2_eat2') ? 2 : flag('c2_eat1') ? 1 : 0; }
 function c2Text(s) { return s.replace(/\{M\}/g, ['ミオ', 'ミ●', '●●'][c2Eat()]); }
 function c2Has(id) { return flag('l_' + id); }
 
@@ -82,9 +82,10 @@ function c2VoicePreload() {
 
 // ── てがみを よむ ──
 let c2Lt = null;
-function c2OpenLetter(l, cb) {
+// reread：入れものから 読み返すとき（「ひろった」きろくは つけない。つけると 遊びなおしで びんが 出なくなる）
+function c2OpenLetter(l, cb, reread) {
   const def = typeof l === 'string' ? C2_LETTERS[l] : l;
-  if (typeof l === 'string' && S && !S.f['l_' + l]) { S.f['l_' + l] = 1; writeSave(); }
+  if (!reread && typeof l === 'string' && S && !S.f['l_' + l]) { S.f['l_' + l] = 1; writeSave(); }
   c2Lt = { def, i: 0, cb, song: FM.want };
   G.mode = 'letter';
   if (!def.carve && G.id !== 'eT') fmPlay('d_letter');
@@ -103,6 +104,7 @@ function c2LetterNext() {
   const { cb, song } = c2Lt;
   c2VoiceStop();
   c2Lt = null; $('ovLetter').hidden = true; G.mode = 'play';
+  if (cb === c2ShowList) { cb(); return; }
   if (song && FM.want === 'd_letter' && song !== 'd_letter') fmPlay(song);
   input.ap = input.bp = input.cp = false;
   if (cb) cb();
@@ -421,8 +423,9 @@ function c2StartFromMenu() {
   if (!S) return;
   $('ovTitle').hidden = true; $('ovEnd').hidden = true; $('btnEnd').hidden = true; $('btnCh2End').hidden = true;
   G.end = null; fmUnlock();
-  G.mode = 'play';
+  G.mode = 'play'; c2ListBack = 'play';
   enterRoom('h1', 120, 104, 'u');
+  c2RefreshBtn();
   c2StartScene();
 }
 function c2Boat(toIsland) {
@@ -508,20 +511,32 @@ function c2OpenChapters() {
 function c2CloseChapters() { $('ovChapters').hidden = true; }
 
 // ── てがみの 入れもの ──
-function c2RefreshBtn() { if (S) $('btnLetters').hidden = !C2_ORDER.some(c2Has); }
-function c2OpenList() {
-  if (G.mode !== 'play' || !S) return;
+// 第2章を クリアしたら、ぜんぶの てがみを いつでも 読める（遊びなおしの セーブには かかわらない）
+const c2AllOpen = () => !!c2Read(C2_CLEAR_KEY).c2;
+function c2RefreshBtn() { if (S) $('btnLetters').hidden = !(c2AllOpen() || C2_ORDER.some(c2Has)); }
+let c2ListBack = 'play';
+function c2ShowList() {
   G.mode = 'list';
   const box = $('lsBtns'); box.textContent = '';
-  C2_ORDER.filter(c2Has).forEach(id => {
+  const all = c2AllOpen();
+  C2_ORDER.filter(id => all || c2Has(id)).forEach(id => {
     const b = document.createElement('button');
     b.className = 'mbtn chBtn'; b.textContent = C2_LETTERS[id].title;
-    b.addEventListener('click', () => { $('ovList').hidden = true; c2OpenLetter(id, () => { c2OpenList(); }); });
+    b.addEventListener('click', () => { $('ovList').hidden = true; c2OpenLetter(id, c2ShowList, true); });
     box.appendChild(b);
   });
   $('ovList').hidden = false;
 }
-function c2CloseList() { if (G.mode === 'list') { $('ovList').hidden = true; G.mode = 'play'; } }
+function c2OpenList() {
+  if (G.mode !== 'play' || !S) return;
+  c2ListBack = 'play'; c2ShowList();
+}
+function c2OpenListTitle() { c2ListBack = 'title'; c2ShowList(); }
+function c2CloseList() {
+  if (G.mode !== 'list') return;
+  $('ovList').hidden = true; G.mode = c2ListBack;
+  if (c2ListBack === 'title') fmStop(); else fmPlay(songFor(G.id));
+}
 function c2Init() {
   $('ovLetter').addEventListener('click', c2LetterNext);
   $('btnLetters').addEventListener('click', c2OpenList);
@@ -529,5 +544,6 @@ function c2Init() {
   $('btnCh2').addEventListener('click', c2GoCh2);
   $('btnCh2End').addEventListener('click', c2GoCh2);
   $('btnChapters').addEventListener('click', c2OpenChapters);
+  $('btnTitleLetters').addEventListener('click', c2OpenListTitle);
   $('cpClose').addEventListener('click', c2CloseChapters);
 }
