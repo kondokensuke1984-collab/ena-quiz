@@ -4,6 +4,7 @@ import { FISH } from '../lib/fish';
 import { PLANTS } from '../lib/plants';
 import { PLANKTON } from '../lib/plankton';
 import { DESTS } from '../lib/space';
+import { PRESENTS } from '../lib/xtree';
 import { LEAVES } from '../lib/arbor';
 import { IMO_GRADES } from '../lib/yakiimo';
 import { FORESTS } from '../lib/forestry';
@@ -11,7 +12,7 @@ import { NOVELS, parseNovelText, type Novel } from '../lib/novels';
 
 // としょかん（となりの しま・bd_planet）：しまの ずかんを 本だなに ならべる。本を ひらくと いつもの ずかん画面（dexOnly）が でる。
 
-export type BookId = 'stars' | 'fish' | 'farm' | 'micro' | 'space' | 'arbor' | 'imo' | 'tree';
+export type BookId = 'stars' | 'fish' | 'farm' | 'micro' | 'space' | 'arbor' | 'imo' | 'tree' | 'gift';
 
 interface Book { id: BookId; emoji: string; title: string; n: number; total: number; color: string }
 
@@ -26,6 +27,7 @@ export function LibraryModal({ onOpen, onNovel, onClose }: { onOpen(id: BookId):
     { id: 'arbor', emoji: '🍁', title: 'おちば', n: save.arbor.dex.length, total: LEAVES.length, color: '#e11d48' },
     { id: 'tree', emoji: '🌲', title: 'き', n: FORESTS.filter((f) => save.forestry.cleared.includes(f.id)).length, total: FORESTS.length, color: '#15803d' },
     { id: 'imo', emoji: '🍠', title: 'やきいも', n: save.imo.dex.length, total: IMO_GRADES.length, color: '#ea580c' },
+    { id: 'gift', emoji: '🎁', title: 'プレゼント', n: save.xtree.dex.length, total: PRESENTS.length, color: '#b91c1c' },
   ];
   const all = books.reduce((a, b) => a + b.n, 0);
   const max = books.reduce((a, b) => a + b.total, 0);

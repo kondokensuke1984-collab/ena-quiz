@@ -470,6 +470,32 @@ const DRAWINGS: Record<string, Draw> = {
       <path d="M-3 -40 Q0 -38 3 -40" fill="none" stroke="#1e1b4b" strokeWidth="1.2" />
     </g>
   ),
+  fn_giftpile: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="24" ry="6" fill="rgba(0,0,0,0.2)" />
+      <rect x="-22" y="-14" width="20" height="16" rx="2" fill="#ef4444" {...S} />
+      <rect x="-13" y="-14" width="3" height="16" fill="#fde047" />
+      <rect x="2" y="-12" width="20" height="14" rx="2" fill="#22c55e" {...S} />
+      <rect x="10" y="-12" width="3" height="14" fill="#fef3c7" />
+      <rect x="-10" y="-30" width="18" height="16" rx="2" fill="#3b82f6" {...S} />
+      <rect x="-2" y="-30" width="3" height="16" fill="#fde047" />
+      <path d="M-0.5 -30 q-7 -8 -9 -2 q2 4 9 2 q7 -8 9 -2 q-2 4 -9 2" fill="#fde047" stroke="#4c1d95" strokeWidth="1.4" />
+    </g>
+  ),
+  fn_snowdome: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="18" ry="5" fill="rgba(0,0,0,0.2)" />
+      <path d="M-16 0 L-13 -8 L13 -8 L16 0 Z" fill="#92400e" {...S} />
+      <circle cx="0" cy="-22" r="16" fill="#e0f2fe" fillOpacity="0.85" {...S} />
+      <path d="M0 -34 L-7 -18 L7 -18 Z" fill="#16a34a" stroke="#4c1d95" strokeWidth="1.4" />
+      <rect x="-1.5" y="-18" width="3" height="4" fill="#92400e" />
+      <circle cx="0" cy="-35" r="1.8" fill="#fde047" />
+      {[[-9, -28], [8, -30], [-6, -14], [10, -16], [3, -25]].map(([x, y], i) => (
+        <circle key={i} cx={x} cy={y} r="1.3" fill="#fff" />
+      ))}
+      <path d="M-9 -31 Q-6 -35 -2 -36" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
+    </g>
+  ),
   fn_leafpile: () => (
     <g>
       <ellipse cx="0" cy="2" rx="22" ry="6" fill="rgba(0,0,0,0.2)" />

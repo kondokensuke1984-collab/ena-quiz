@@ -122,6 +122,9 @@ export const ITEMS: Item[] = [
 
   // ── もみじの あずまや（おちばひろいの ずかんの ごほうび。ショップでは売らない。lib/arbor.ts）──
   { id: 'fn_leafpile', kind: 'furniture', name: 'おちばの やま',   emoji: '🍂', price: 0, desc: 'おちばを 3しゅるい あつめた ごほうび', once: true, reward: true, anywhere: true },
+  // ── クリスマスツリー ひろば（プレゼントずかんの ごほうび。ショップでは売らない。lib/xtree.ts）──
+  { id: 'fn_giftpile', kind: 'furniture', name: 'プレゼントの やま', emoji: '🎁', price: 0, desc: 'プレゼントを 4しゅるい くばった ごほうび', once: true, reward: true, anywhere: true },
+  { id: 'fn_snowdome', kind: 'furniture', name: 'スノードーム',     emoji: '🔮', price: 0, desc: 'プレゼントを 8しゅるい ぜんぶ くばった ごほうび', once: true, reward: true, anywhere: true },
   // ── モクタの もりづくり（森を ひとつ クリアした ごほうび。ショップでは売らない。lib/forestry.ts）──
   { id: 'fn_wd_tar',   kind: 'furniture', name: 'すぎの たる',       emoji: '🛢️', price: 0, desc: '吉野すぎの 森を 育てあげた ごほうび', once: true, reward: true, anywhere: true },
   { id: 'fn_wd_bench', kind: 'furniture', name: 'すぎの ベンチ',     emoji: '🪑', price: 0, desc: '天竜すぎの 森を 育てあげた ごほうび', once: true, reward: true, anywhere: true },

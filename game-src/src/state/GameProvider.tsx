@@ -36,6 +36,7 @@ import { STAGE_BY_ID as ZUKEI_STAGE_BY_ID, type StageId as ZukeiStageId } from '
 import { STAGE_BY_ID as TANE_STAGE_BY_ID, type StageId as TaneStageId } from '../lib/tane';
 import { STAGE_BY_ID } from '../lib/suisan';
 import { ARBOR_REWARDS, GATHER_PER_DAY, TALK_PER_DAY, arborToday, rollLeaf, type Leaf } from '../lib/arbor';
+import { GIVE_PER_DAY, XTREE_REWARDS, xtreeToday } from '../lib/xtree';
 import { USAGI_KEY } from '../lib/usagi';
 import { DEST_BY_ID, DESTS, SPACE_REWARDS, SPACE_TITLE, STONE_FOOD, SUN_TITLE, TRIPS_PER_DAY, TRIPS_STUDY_BONUS, openDests } from '../lib/space';
 import { MICRO_TITLE, PLANKTON, PLANKTON_PER_DAY, PLANKTON_REWARDS, PLANKTON_STUDY_BONUS } from '../lib/plankton';
@@ -257,6 +258,8 @@ export interface GameApi {
   arborTea(charKey: string, fromName: string, title: string, body: string): boolean;
   /** もみじの あずまや：かいぎで おはなし（1日3回）。correct＝せいかいで なかよし +2、まちがいは +1 */
   arborTalk(charKey: string, correct: boolean): { heartsBefore: number; heartsAfter: number } | null;
+  /** クリスマスツリー ひろば：プレゼントを くばる（1日3回）。correct＝ぴったりで なかよし +2・ずかんに のる、ちがうと +1 */
+  xtreeGive(charKey: string, presentId: string, correct: boolean): { heartsBefore: number; heartsAfter: number; isNew: boolean; rewards: string[] } | null;
   /** モクタの もりづくり：あそびはじめ（あそんだ回数 +1） */
   forestryPlay(): void;
   zukeiPlay(): void;
@@ -1282,6 +1285,32 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       const heartsAfter = heartsOf(prev.pts + add);
       sfx(heartsAfter > heartsBefore ? 'heart' : correct ? 'star' : 'gift');
       return { heartsBefore, heartsAfter };
+    },
+
+    xtreeGive: (charKey, presentId, correct) => {
+      const cur = saveRef.current;
+      const day = dateKey();
+      if (xtreeToday(cur.xtree, day).given >= GIVE_PER_DAY) { showToast('きょうの プレゼントくばりは おしまい', 'ng'); return null; }
+      const add = correct ? 2 : 1;
+      const isNew = correct && !cur.xtree.dex.includes(presentId);
+      const kinds = cur.xtree.dex.length + (isNew ? 1 : 0);
+      // とどいた ごほうびは ぜんぶ（ずかんが 一気に ふえても とりこぼさない）
+      const rewards = XTREE_REWARDS.filter((r) => r.kinds <= kinds && !cur.owned.includes(r.item)).map((r) => r.item);
+      const prev = cur.friendsPlay[charKey] ?? { pts: 0, day: todayStr(), today: 0, wear: null };
+      setSave((s) => {
+        const x = xtreeToday(s.xtree, day);
+        const fp = s.friendsPlay[charKey] ?? prev;
+        return {
+          ...s,
+          xtree: { dex: isNew && !s.xtree.dex.includes(presentId) ? [...s.xtree.dex, presentId] : s.xtree.dex, day, given: x.given + 1 },
+          friendsPlay: { ...s.friendsPlay, [charKey]: { ...fp, pts: fp.pts + add } },
+          owned: [...s.owned, ...rewards.filter((id) => !s.owned.includes(id))],
+        };
+      });
+      const heartsBefore = heartsOf(prev.pts);
+      const heartsAfter = heartsOf(prev.pts + add);
+      sfx(heartsAfter > heartsBefore ? 'heart' : correct ? 'star' : 'gift');
+      return { heartsBefore, heartsAfter, isNew, rewards };
     },
 
     forestryPlay: () => {
