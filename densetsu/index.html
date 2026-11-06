@@ -66,6 +66,10 @@ canvas{ display:block; width:100%; height:100%; }
 .bar{ width:70%; height:10px; background:#39406b; border-radius:9px; overflow:hidden; margin-bottom:12px; }
 .bar i{ display:block; height:100%; background:var(--sun); }
 /* 第2章：てがみ・えらぶ・なまえ */
+#ovChapters{ background:rgba(10,12,32,.92); z-index:9; }
+#cpTitle{ font-size:clamp(14px,4vw,20px); margin-bottom:8px; }
+#cpBtns{ width:min(86%,400px); display:flex; flex-direction:column; gap:7px; }
+#cpClose{ margin-top:8px; width:min(60%,240px); font-size:clamp(12px,3.5vw,17px); padding:4px; }
 #ovLetter,#ovChoice,#ovName,#ovList{ background:rgba(10,12,32,.72); z-index:9; }
 #ltPaper{ width:92%; max-height:96%; background:#f6e6c4; color:#3a2a14; border:3px solid #8d6b3a; border-radius:4px; padding:clamp(8px,2.4vw,14px) clamp(10px,3vw,18px); font-size:clamp(13px,3.6vw,18px); line-height:1.48; text-align:left; box-shadow:0 3px 0 #5b4222; cursor:pointer; }
 #ltPaper.stone{ background:#5e6184; color:#fff7e0; border-color:#2c3358; box-shadow:0 3px 0 #262a45; }
@@ -112,6 +116,7 @@ canvas{ display:block; width:100%; height:100%; }
         <button class="mbtn go" id="btnNew">はじめから</button>
         <button class="mbtn go" id="btnCh2" hidden>第2章へ</button>
         <button class="mbtn go" id="btnCont" hidden>つづきから</button>
+        <button class="mbtn go" id="btnChapters" hidden>章を えらぶ</button>
         <a class="mbtn" href="/">アプリに もどる</a>
       </div>
     </div>
@@ -127,6 +132,7 @@ canvas{ display:block; width:100%; height:100%; }
     <div class="ov" id="ovChoice" hidden><div id="chTitle"></div><div id="chBtns"></div></div>
     <div class="ov" id="ovList" hidden><div id="lsTitle">だいじな てがみ</div><div id="lsBtns"></div><button class="mbtn" id="lsClose">とじる</button></div>
     <div class="ov" id="ovName" hidden><div id="nmSlots"></div><div id="nmHint"></div><div id="nmKana"></div></div>
+    <div class="ov" id="ovChapters" hidden><div id="cpTitle"></div><div id="cpBtns"></div><button class="mbtn" id="cpClose">とじる</button></div>
     <div class="ov" id="ovLock" hidden>
       <div class="big">あと <span id="lockLeft">50</span>もん！</div>
       <div class="small">きょう もんだいを 50もん といたら、

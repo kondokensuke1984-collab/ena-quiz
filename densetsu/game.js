@@ -337,7 +337,7 @@ function talk(e) {
         () => give('staff'), n);
     } else if (!flag('boss_dead')) say('灯台への 道は、村を でて ひがしじゃ。\nこまったら、コロンに きいて ごらん（💬ボタン）。', null, n);
     else if (!flag('ending')) say('もう すぐじゃ。てっぺんの 火皿を しらべるのじゃぞ！', null, n);
-    else if (!flag('ch2')) c2StartScene();
+    else if (!flag('ch2')) c2GoCh2();
     else if (flag('c2_end')) say('今夜も、あの 島に あかりが 見えるのう。\nミオも きっと よろこんで おるよ。', null, n);
     else if (flag('c2_lit')) c2Finale();
     else say('しおさいの島は どうじゃな。\n船は アザラシに たのむと よいぞ。', null, n);
@@ -750,7 +750,7 @@ function lightLamp() {
   if (G.id === 'eT') return flag('c2_lit') ? say('ともった 火が、海を てらしている。') : say('火皿は つめたい。\nてっぺんの かべに、なにか 字が ほってある。');
   if (flag('ending')) { say('ともった 火が、海を てらしている。'); return; }
   say(['アンリノは、ひかりのぼうの 星を 火皿に そっと あてた。', '…………'], () => {
-    S.f.ending = 1; writeSave();
+    S.f.ending = 1; writeSave(); c2SyncClear(S);
     G.mode = 'ending'; G.end = { t: 0, line: -1 }; fmPlay('d_ending');
     $('ovEnd').hidden = false;
   });
@@ -1017,6 +1017,7 @@ function startNew() {
 }
 function startCont() {
   S = loadSave();
+  c2CloseChapters();
   if (!S) return startNew();
   $('ovTitle').hidden = true;
   fmUnlock();
@@ -1034,7 +1035,10 @@ function backToTitle() {
 let confirmNew = false;
 function refreshTitle() {
   const sv = loadSave(), has = !!sv;
-  $('btnCh2').hidden = !(sv && sv.f.ending && !sv.f.ch2);
+  const clear = c2SyncClear(sv), cleared = !!clear.c1;
+  $('btnCh2').hidden = !(cleared && !c2Resumable(2) && !(sv && sv.f.ch2));
+  $('btnChapters').hidden = !cleared;
+  $('btnNew').hidden = cleared;   // クリアしたら「章を えらぶ」から はじめる（きろくを うっかり けさないように）
   $('logoSub').textContent = sv && sv.f.ending ? '第2章 ひかりの てがみ' : '第1章 きえた ともしび';
   $('btnCont').hidden = !has;
   $('btnNew').textContent = 'はじめから'; confirmNew = false;

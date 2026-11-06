@@ -373,7 +373,7 @@ function c2Finale() {
     fmPlay('d_letter');
     c2OpenLetter('lf', () => {
       say('……ずいぶん かかって しまったな、ミオ。', () => {
-        S.f.c2_end = 1; writeSave();
+        S.f.c2_end = 1; writeSave(); c2SyncClear(S);
         G.mode = 'ending3'; G.end = { t: 0 }; $('ovEnd').hidden = false; fmPlay('d_letter');
       }, n, ['t6']);
     });
@@ -432,6 +432,81 @@ function c2Boat(toIsland) {
   });
 }
 
+// ── 章を えらぶ ──
+//   ena_densetsu_clear：クリアした 章（セーブを 作りなおしても のこる）
+//   ena_densetsu_slots：遊びかけの 章の セーブ（べつの 章へ いくあいだ あずかる）
+const C2_CLEAR_KEY = 'ena_densetsu_clear', C2_SLOT_KEY = 'ena_densetsu_slots';
+const c2Read = k => { try { return JSON.parse(localStorage.getItem(k) || '{}') || {}; } catch (e) { return {}; } };
+const c2Write = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+const c2ChapterOf = sv => (sv.f.ch2 ? 2 : 1);
+const c2IsCleared = sv => (sv.f.ch2 ? !!sv.f.c2_end : !!sv.f.ending);
+// セーブを 見て、クリアの きろくを のこす（前から クリアしていた人の ぶんも ここで 入る）
+function c2SyncClear(sv) {
+  if (!sv || !sv.f.ending) return c2Read(C2_CLEAR_KEY);
+  const c = c2Read(C2_CLEAR_KEY);
+  // 第2章の しずくの うつわを ふくめないよう、第2章の セーブでは 第1章の 上限（10）までに する
+  const hp = sv.f.ch2 ? Math.min(sv.maxHp, 10) : sv.maxHp;
+  c.c1 = { maxHp: Math.max(hp, (c.c1 && c.c1.maxHp) || 0), shells: Math.max(sv.shells || 0, (c.c1 && c.c1.shells) || 0) };
+  if (sv.f.c2_end) c.c2 = true;
+  c2Write(C2_CLEAR_KEY, c);
+  return c;
+}
+function c2ParkCurrent() {
+  const cur = loadSave();
+  if (!cur) return;
+  const slots = c2Read(C2_SLOT_KEY), ch = c2ChapterOf(cur);
+  if (c2IsCleared(cur)) delete slots[ch]; else slots[ch] = cur;
+  c2Write(C2_SLOT_KEY, slots);
+}
+function c2Resumable(ch) {
+  const cur = loadSave();
+  if (cur && c2ChapterOf(cur) === ch && !c2IsCleared(cur)) return true;
+  return !!c2Read(C2_SLOT_KEY)[ch];
+}
+function c2Resume(ch) {
+  const cur = loadSave();
+  if (!(cur && c2ChapterOf(cur) === ch && !c2IsCleared(cur))) {
+    c2ParkCurrent();
+    const slots = c2Read(C2_SLOT_KEY), sv = slots[ch];
+    delete slots[ch]; c2Write(C2_SLOT_KEY, slots);
+    localStorage.setItem(SAVE_KEY, JSON.stringify(sv));
+  }
+  S = null; startCont();
+}
+function c2NewChapter(ch) {
+  const clear = c2SyncClear(S || loadSave());
+  c2ParkCurrent();
+  const slots = c2Read(C2_SLOT_KEY); delete slots[ch]; c2Write(C2_SLOT_KEY, slots);
+  c2CloseChapters();
+  $('ovEnd').hidden = true; $('btnEnd').hidden = true; $('btnCh2End').hidden = true;
+  if (ch === 1) return startNew();
+  S = Object.assign(newSave(), { staff: true, jar: true, maxHp: (clear.c1 && clear.c1.maxHp) || 8, shells: (clear.c1 && clear.c1.shells) || 0, f: { ending: 1, boss_dead: 1 } });
+  S.hp = S.maxHp; writeSave();
+  c2StartFromMenu();
+}
+// 第2章へ：遊びかけなら つづきから、なければ はじめから
+function c2GoCh2() {
+  if (S) writeSave();
+  c2SyncClear(S || loadSave());
+  $('ovEnd').hidden = true; $('btnEnd').hidden = true; $('btnCh2End').hidden = true;
+  if (c2Resumable(2)) { c2CloseChapters(); return c2Resume(2); }
+  c2NewChapter(2);
+}
+const C2_CHAPTERS = [[1, '第1章 きえた ともしび'], [2, '第2章 ひかりの てがみ']];
+function c2OpenChapters() {
+  const box = $('cpBtns'); box.textContent = '';
+  $('cpTitle').textContent = '章を えらぶ';
+  const add = (label, fn) => { const b = document.createElement('button'); b.className = 'mbtn chBtn'; b.textContent = label; b.addEventListener('click', fn); box.appendChild(b); };
+  C2_CHAPTERS.forEach(([ch, label]) => add(label, () => {
+    if (!c2Resumable(ch)) return c2NewChapter(ch);
+    $('cpTitle').textContent = label; box.textContent = '';
+    add('つづきから', () => { c2CloseChapters(); c2Resume(ch); });
+    add('はじめから', () => c2NewChapter(ch));
+  }));
+  $('ovChapters').hidden = false;
+}
+function c2CloseChapters() { $('ovChapters').hidden = true; }
+
 // ── てがみの 入れもの ──
 function c2RefreshBtn() { if (S) $('btnLetters').hidden = !C2_ORDER.some(c2Has); }
 function c2OpenList() {
@@ -451,6 +526,8 @@ function c2Init() {
   $('ovLetter').addEventListener('click', c2LetterNext);
   $('btnLetters').addEventListener('click', c2OpenList);
   $('lsClose').addEventListener('click', c2CloseList);
-  $('btnCh2').addEventListener('click', c2StartFromMenu);
-  $('btnCh2End').addEventListener('click', c2StartFromMenu);
+  $('btnCh2').addEventListener('click', c2GoCh2);
+  $('btnCh2End').addEventListener('click', c2GoCh2);
+  $('btnChapters').addEventListener('click', c2OpenChapters);
+  $('cpClose').addEventListener('click', c2CloseChapters);
 }
