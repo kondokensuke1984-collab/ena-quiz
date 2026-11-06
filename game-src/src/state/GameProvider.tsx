@@ -175,6 +175,8 @@ export interface GameApi {
   toggleFollow(charKey: string): void;
   /** オープニングを 見おわった */
   markOpeningSeen(): void;
+  /** としょかんの よみもの：しおりを はさむ（done＝クイズまで おわった話） */
+  markNovel(id: string, m: { ep?: number; pos?: number; done?: number }): void;
   /** 名探偵あんり：しょうこを みつけた */
   detectiveFound(no: number, id: string): void;
   /** 名探偵あんり：ヒントを 1つ ひらく */
@@ -615,6 +617,13 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       }),
 
     markOpeningSeen: () => setSave((s) => (s.openingSeen ? s : { ...s, openingSeen: true })),
+
+    markNovel: (id, m) =>
+      setSave((s) => {
+        const cur = s.novels[id] ?? { ep: 0, pos: 0, done: [] };
+        const done = m.done === undefined || cur.done.includes(m.done) ? cur.done : [...cur.done, m.done];
+        return { ...s, novels: { ...s.novels, [id]: { ep: m.ep ?? cur.ep, pos: m.pos ?? cur.pos, done } } };
+      }),
 
     detectiveFound: (no, id) =>
       setSave((s) => {

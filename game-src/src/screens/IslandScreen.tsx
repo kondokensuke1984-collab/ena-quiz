@@ -65,6 +65,8 @@ import { SpaceTripModal } from '../components/SpaceTripModal';
 import { OrganModal } from '../components/OrganModal';
 import { MicroscopeModal } from '../components/MicroscopeModal';
 import { LibraryModal, type BookId } from '../components/LibraryModal';
+import { NovelModal } from '../components/NovelModal';
+import type { Novel } from '../lib/novels';
 import { TreeDexModal } from '../components/TreeDexModal';
 import { DexModal } from '../components/DexModal';
 import { TransferModal } from '../components/TransferModal';
@@ -210,6 +212,7 @@ export function IslandScreen() {
   const [modal, setModal] = useState<ModalKind | null>(null);
   /** としょかんで ひらいている ずかん */
   const [book, setBook] = useState<BookId | null>(null);
+  const [novel, setNovel] = useState<Novel | null>(null);
   const [order, setOrder] = useState('');
   const [walking, setWalking] = useState(false);
   const [pref3d, setPref3d] = useState(() => { try { return localStorage.getItem(PREF_3D) !== '0'; } catch { return true; } });
@@ -2062,7 +2065,8 @@ export function IslandScreen() {
       {modal === 'suisanVoyage' && <SuisanModal startView="ports" onClose={() => setModal(null)} />}
       {modal === 'arbor' && <ArborModal friends={imoCustomers} studied={studied} onClose={() => setModal(null)} />}
       {modal === 'dex' && <DexModal onClose={() => setModal(null)} />}
-      {modal === 'library' && <LibraryModal onOpen={setBook} onClose={() => { setBook(null); setModal(null); }} />}
+      {modal === 'library' && <LibraryModal onOpen={setBook} onNovel={setNovel} onClose={() => { setBook(null); setNovel(null); setModal(null); }} />}
+      {modal === 'library' && novel && <NovelModal novel={novel} onClose={() => setNovel(null)} />}
       {modal === 'library' && book && (() => {
         const close = () => setBook(null);
         return book === 'stars' ? <StarsModal dexOnly onClose={close} />

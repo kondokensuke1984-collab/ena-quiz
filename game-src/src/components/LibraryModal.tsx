@@ -7,6 +7,7 @@ import { DESTS } from '../lib/space';
 import { LEAVES } from '../lib/arbor';
 import { IMO_GRADES } from '../lib/yakiimo';
 import { FORESTS } from '../lib/forestry';
+import { NOVELS, parseNovelText, type Novel } from '../lib/novels';
 
 // としょかん（となりの しま・bd_planet）：しまの ずかんを 本だなに ならべる。本を ひらくと いつもの ずかん画面（dexOnly）が でる。
 
@@ -14,7 +15,7 @@ export type BookId = 'stars' | 'fish' | 'farm' | 'micro' | 'space' | 'arbor' | '
 
 interface Book { id: BookId; emoji: string; title: string; n: number; total: number; color: string }
 
-export function LibraryModal({ onOpen, onClose }: { onOpen(id: BookId): void; onClose(): void }) {
+export function LibraryModal({ onOpen, onNovel, onClose }: { onOpen(id: BookId): void; onNovel(n: Novel): void; onClose(): void }) {
   const { save } = useGame();
   const books: Book[] = [
     { id: 'stars', emoji: '🌟', title: 'せいざ', n: save.stars.dex.length, total: CONSTELLATIONS.length, color: '#4338ca' },
@@ -33,6 +34,24 @@ export function LibraryModal({ onOpen, onClose }: { onOpen(id: BookId): void; on
     <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/60 p-3" onClick={onClose}>
       <div className="panel max-h-[88vh] w-full max-w-[440px] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
         <div className="mb-1 text-[14px] font-black text-ink">📚 としょかん</div>
+        {/* よみもの（小説）の たな */}
+        <div className="mb-3 rounded-2xl bg-amber-900 p-2 shadow-inner">
+          <div className="mb-1 px-1 text-[12px] font-black text-amber-100">📖 よみもの</div>
+          <div className="space-y-2">
+            {NOVELS.map((n) => {
+              const read = save.novels[n.id]?.done.length ?? 0;
+              return (
+                <button key={n.id} onClick={() => onNovel(n)} className="flex w-full items-center gap-2 rounded-lg border-2 border-black/20 px-3 py-1.5 text-left text-white shadow" style={{ background: n.color }}>
+                  <span className="text-[22px] leading-none">{n.emoji}</span>
+                  <span className="min-w-0 flex-1 text-[14px] font-black leading-[1.9]">
+                    {parseNovelText(n.title).map((p, i) => (p.t === 'ruby' ? <ruby key={i}>{p.s}<rt className="text-[8px]">{p.r}</rt></ruby> : p.t === 'text' ? <span key={i}>{p.s}</span> : null))}
+                  </span>
+                  <span className="shrink-0 rounded-full bg-white/90 px-1.5 text-[10px] font-black text-ink">{read}/{n.episodes.length}わ</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
         <p className="mb-3 rounded-xl bg-amber-50 px-3 py-2 text-[12px] font-bold leading-relaxed text-ink">
           しまで みつけた ものが ずかんに なって ならんでいるよ。ぜんぶで {all} / {max}。
         </p>

@@ -119,6 +119,7 @@ export interface SaveV1 {
   talk: { day: string; talked: string[]; req: Request | null; done: boolean };
   xmas: { pts: number; day: string; hung: boolean; gifted: number; wish?: string; wishAt?: number };  // クリスマス：ツリーの かざりの かず・その日 かざりつけした か・その日 サンタに わたした プレゼントの数
   wishes: { day: string; claimed: boolean; streak: number; last: string };  // 毎日の おねがいボード：きょうの ごほうびを もらった日・つづけた日数・さいごに もらった日
+  novels: Record<string, { ep: number; pos: number; done: number[] }>;  // としょかんの よみもの：本ID → しおり（話・スクロール）・クイズまで おわった話
   harvest: { pts: number; day: string; quiz: Record<string, boolean>; offered: number };  // しゅうかくさい：あつめた みのり・その日の まめクイズ（問題ID→せいかい）・その日 おそなえした数  // なかまの おしゃべり：その日 はなした子（なかよし+1は 1日1回）・きょうの おねがい・かなえたか
 }
 
