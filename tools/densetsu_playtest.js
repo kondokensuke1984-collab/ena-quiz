@@ -22,7 +22,12 @@ const BOT = () => {
       A.step(1); frames++;
       if (frames > 400000) throw new Error('時間切れ room=' + G.id);
       if (G.mode === 'dead') { hold(0, 0); A.step(60); document.getElementById('btnRetry').click(); A.step(2); throw new Died(); }
-      while (G.mode === 'dialog') { const h = held; btn('btnC'); A.step(1); frames++; if (frames % 1 === 0 && h === null) {} }
+      for (;;) {
+        if (G.mode === 'dialog') { btn('btnC'); A.step(1); frames++; }
+        else if (G.mode === 'letter') { document.getElementById('ovLetter').click(); A.step(1); frames++; }
+        else if (G.mode === 'choice') { const bs = [...document.querySelectorAll('#chBtns .chBtn')]; (window.__pickFirst ? bs[0] : bs[bs.length - 1]).click(); window.__pickFirst = false; A.step(1); frames++; }
+        else break;
+      }
     }
   }
   const tc = () => [Math.floor(P.x / 16), Math.floor(P.y / 16)];
@@ -199,6 +204,58 @@ const BOT = () => {
       let n = 0; while (document.getElementById('btnEnd').hidden) { A.step(1); if (++n > 1300) throw new Error('エンディングが おわらない'); }
       log.push('エンディング OK');
     },
+    // 第2章（タイトルの「第2章へ」から、なまえを かく ところまで）
+    phase5() {
+      let n = 0; while (G.id !== 's0' || G.mode !== 'play') { step(1); if (++n > 3000) throw new Error('島に つかない ' + G.id + G.mode); }
+      step(3);
+      stage('びんの てがみ', () => F('l_l2'), () => { toRoom('s0'); take(11, 6, D); step(3); });
+      stage('石碑と 100年', () => F('c2_100'), () => { toRoom('s4'); take(4, 7, D); step(3); });
+      stage('岩を どかして（だめ）', () => F('c2_tree') || window.__rockNo, () => { toRoom('s4'); window.__pickFirst = true; take(7, 7, U); step(3); window.__rockNo = true; });
+      if (F('c2_tree')) throw new Error('まちがいの へんじで 木が はえた');
+      stage('岩の そばに 木', () => F('c2_tree'), () => { toRoom('s4'); take(7, 7, U); step(3); });
+      stage('とびらの カギを たのむ', () => F('c2_ask'), () => { toRoom('s4'); take(7, 5, U); step(3); });
+      stage('いどの そばを ほる', () => F('c2_key') && F('l_l5'), () => { toRoom('s2'); hunt(); take(9, 5, U); step(3); });
+      stage('村の あとの 宝', () => F('chest_c_s2'), () => { toRoom('s2'); hunt(); walkTo(11, 9); face(R); btn('btnA'); step(20); walkTo(12, 9); take(12, 9, R); step(3); });
+      stage('カギで あける', () => F('c2_door'), () => { toRoom('s4'); take(7, 5, U); step(3); });
+      stage('灯台 1かい', () => F('e0_clear'), () => { toRoom('e0'); step(3); hunt(); step(3); });
+      if (!F('c2_eat1')) throw new Error('なまえが にじまない');
+      stage('カギ1', () => S().keys > 0 || F('e1_n'), () => {
+        toRoom('e2'); hunt(); const b = () => ent('block');
+        if (b().ty > 3) pushUntil(() => b().ty === 3 && !b().slide, 8, 7, U);
+        pushUntil(() => F('e2_plate'), 9, 3, L); take(12, 3, U); step(3);
+      });
+      stage('ひろまの とびら', () => F('e1_n'), () => { toRoom('e1'); walkTo(7, 1); hold(0, -1); step(12); hold(0, 0); });
+      stage('むしくいの てがみ', () => F('l_l6'), () => { toRoom('e4'); step(5); });
+      stage('はし', () => F('e4_bridge'), () => { toRoom('e4'); hunt(); for (let i = 0; i < 2; i++) gust(7, 8, R); gust(12, 5, D); });
+      stage('風車', () => F('e1_e'), () => { toRoom('e1'); gust(9, 2, R); });
+      stage('カギ2', () => F('chest_c_e3'), () => { toRoom('e3'); hunt(); step(3); take(10, 5, R); step(3); });
+      stage('きたの とびら', () => F('e4_n'), () => { toRoom('e4'); walkTo(7, 1); hold(0, -1); step(12); hold(0, 0); });
+      stage('かげの ぬし', () => F('e5_dead'), () => {
+        toRoom('e5'); let n = 0;
+        while (!F('e5_dead')) {
+          if (++n > 30000) throw new Error('ぬしが たおせない');
+          const b = enemies().find(e => e.kind === 'boss');
+          if (!b) { step(5); continue; }
+          const dx = b.x - P.x, dy = b.y - P.y;
+          if (b.aura) {
+            if (Math.abs(dx) < 6 || Math.abs(dy) < 6) { face(Math.abs(dx) > Math.abs(dy) ? [Math.sign(dx), 0] : [0, Math.sign(dy)]); btn('btnB'); step(16); }
+            else { hold(Math.abs(dx) < Math.abs(dy) ? Math.sign(dx) : 0, Math.abs(dx) < Math.abs(dy) ? 0 : Math.sign(dy)); step(3); hold(0, 0); }
+          } else if (Math.hypot(dx, dy) < 26) { face(Math.abs(dx) > Math.abs(dy) ? [Math.sign(dx), 0] : [0, Math.sign(dy)]); btn('btnA'); step(16); }
+          else { hold(Math.abs(dx) > Math.abs(dy) ? Math.sign(dx) : 0, Math.abs(dx) > Math.abs(dy) ? 0 : Math.sign(dy)); step(3); hold(0, 0); }
+        }
+        step(5);
+      });
+      stage('ぬしの 宝', () => F('chest_c_e5'), () => { toRoom('e5'); take(3, 6, U); step(3); });
+      stage('てっぺん', () => G.mode === 'name', () => { toRoom('eT'); take(7, 2, U); step(3); });
+    },
+    // 夜明けから さいごまで
+    phase6() {
+      const go = (until, max) => { let n = 0; while (!until()) { step(1); if (++n > max) throw new Error('すすまない ' + G.mode + ' ' + G.id); } };
+      go(() => G.mode === 'ending3', 4000);
+      log.push('さいごの てがみ ' + F('l_lf'));
+      go(() => !document.getElementById('btnEnd').hidden, 1000);
+      log.push('エンディング2 OK');
+    },
     phase4() {
       stage('かくれた どうくつ', () => F('chest_c_cave'), () => {
         toRoom('f5');
@@ -216,7 +273,7 @@ const BOT = () => {
   const errs = []; p.on('pageerror', e => errs.push(e.message)); p.on('console', m => { if (m.type() === 'error') errs.push(m.text()); });
   const URL = 'http://localhost:8765/densetsu/?unlock=1&debug=1';
   const shot = n => p.screenshot({ path: `${shots}/${n}.png` });
-  const run = async f => { const r = await p.evaluate(f => { try { __BOT.log.length = 0; __BOT[f](); __AN.render(); return { ok: true, log: __BOT.log }; } catch (e) { __AN.render(); return { ok: false, err: e.message, log: __BOT.log }; } }, f); r.log.forEach(l => console.log(' ', l)); if (!r.ok) { await shot('fail'); console.log('失敗:', r.err); console.log('errors', errs); await b.close(); process.exit(1); } };
+  const run = async f => { const r = await p.evaluate(f => { try { __BOT.log.length = 0; __BOT[f](); __AN.render(); return { ok: true, log: __BOT.log }; } catch (e) { __AN.render(); return { ok: false, err: e.message + ' :: ' + String(e.stack).split('\n').slice(1,5).join(' | '), log: __BOT.log }; } }, f); r.log.forEach(l => console.log(' ', l)); if (!r.ok) { await shot('fail'); console.log('失敗:', r.err); console.log('errors', errs); await b.close(); process.exit(1); } };
   await p.goto(URL); await p.waitForTimeout(500);
   await p.click('#btnNew'); await p.evaluate(BOT);
   await run('phase1'); await shot('p1_jar');
@@ -230,6 +287,35 @@ const BOT = () => {
   await run('phase3'); await shot('p3_end');
   await p.click('#btnEnd'); await p.click('#btnCont'); await p.evaluate(BOT);
   await run('phase4'); await shot('p4_cave');
+  // ── 第2章 ──
+  await p.reload(); await p.waitForTimeout(400);
+  console.log('タイトルの「第2章へ」', await p.isVisible('#btnCh2'), await p.textContent('#logoSub'));
+  await p.click('#btnCh2'); await p.evaluate(BOT);
+  await run('phase5'); await shot('c2_name');
+  console.log('なまえの きえ方', await p.evaluate(() => c2Eat()), 'ふれる手紙', await p.evaluate(() => C2_ORDER.filter(c2Has).join()));
+  const kana = k => p.evaluate(k => [...document.querySelectorAll('.nmBtn')].find(b => b.dataset.k === k).click(), k);
+  await kana('ナ'); await kana('ソ'); console.log('まちがい1', await p.textContent('#nmHint')); await p.waitForTimeout(800);
+  await kana('ソ'); await kana('ミ'); console.log('まちがい2', await p.textContent('#nmHint')); await shot('c2_name_glow'); await p.waitForTimeout(800);
+  await kana('ミ'); await kana('オ');
+  await p.evaluate(() => { const f = __AN; f.step(1); });
+  await p.evaluate(() => { __BOT.dawn = n => { __AN.step(n); }; });
+  // 「ミオ！」→ 夜明けの 場面を 写す
+  await p.evaluate(() => { let n = 0; while (__AN.G.mode === 'dialog' && n++ < 300) { document.getElementById('btnC').dispatchEvent(new PointerEvent('pointerdown', { bubbles: true })); __AN.step(1); } __AN.step(1); });
+  for (const n of [60, 260, 360, 560, 900]) { await p.evaluate(n => { __AN.step(n - __AN.G.end.t); __AN.render(); }, n); await shot('c2_dawn_' + n); }
+  await run('phase6'); await p.evaluate(() => __AN.render()); await shot('c2_dusk');
+  // てがみの ページが 画面に おさまるか
+  const over = await p.evaluate(() => {
+    const out = [], box = document.getElementById('screen').getBoundingClientRect(), paper = document.getElementById('ltPaper');
+    document.getElementById('ovEnd').hidden = true; __AN.G.mode = 'play';
+    for (const id of Object.keys(C2_LETTERS).concat('note', 'carve')) {
+      const def = id === 'note' ? C2_NOTE_HEAVY : id === 'carve' ? C2_CARVE : C2_LETTERS[id];
+      c2OpenLetter(id === 'note' || id === 'carve' ? def : id);
+      def.pages.forEach((_, i) => { const r = paper.getBoundingClientRect(); if (r.top < box.top || r.bottom > box.bottom || paper.scrollHeight > paper.clientHeight + 1) out.push(id + ':' + i + ' ' + Math.round(r.height) + '/' + Math.round(box.height)); c2LetterNext(); });
+    }
+    return out;
+  });
+  console.log('はみ出す てがみ', over);
+  console.log('第2章の最終', await p.evaluate(() => JSON.stringify({ end: __AN.flag('c2_end'), room: __AN.S.room, hp: __AN.S.hp, max: __AN.S.maxHp, deaths: __AN.S.deaths })));
   console.log('最終', await p.evaluate(() => JSON.stringify({ hp: __AN.S.hp, max: __AN.S.maxHp, shells: __AN.S.shells, deaths: __AN.S.deaths, kills: __AN.S.kills, min: Math.round(__AN.S.time / 3600) })));
   console.log('errors', errs);
   await b.close();

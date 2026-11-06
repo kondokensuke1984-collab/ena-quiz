@@ -1,5 +1,5 @@
 // ============================================================
-// ⚓ アンリノの伝説 第1章（見下ろし型の 冒険ゲーム）
+// ⚓ アンリノの伝説 第1章・第2章（見下ろし型の 冒険ゲーム。第2章の 物語は ch2.js）
 //   ・1へや 15×11タイル。60コマ／秒の 固定ステップ。
 //   ・セーブは ena_densetsu_v1（この端末だけ）。へやに 入るたび 自動で きろく。
 //   ・入口：その日 ぜんぶの月で 50もん といたら あそべる（ena_daily_* を 読むだけ。sora/index.html と 同じ 数え方）
@@ -19,7 +19,7 @@ const DEBUG = IS_LOCAL && QS.get('debug') === '1';
 const cv = $('cv'), out = cv.getContext('2d');
 const buf = Art.mk(W, H), g = buf.getContext('2d');
 g.imageSmoothingEnabled = false; out.imageSmoothingEnabled = false;
-const SOLID = new Set(['T', 'Y', 'W', 'R', 'B', '^', 'H', 'I', 'X', 'a', 't', 'L']);
+const SOLID = new Set(['T', 'Y', 'W', 'R', 'B', '^', 'H', 'I', 'X', 'a', 't', 'L', 'E']);
 const DIR = { u: [0, -1], d: [0, 1], l: [-1, 0], r: [1, 0] };
 const DOOR_POS = { n: [7, 0], s: [7, 10], w: [0, 5], e: [14, 5] };
 
@@ -113,13 +113,19 @@ const flag = k => !!(S && S.f[k]);
 function setFlag(k) {
   if (S.f[k]) return;
   S.f[k] = 1; rebuildTiles(); bakeRoom(); writeSave();
+  // あらわれた 宝箱などに 重なって 動けなく ならないように、そばの あいた ところへ よける
+  if (G.mode !== 'bossdie' && boxBlocked(P.x, P.y, PH, PH)) {
+    for (let d = 4; d <= 32; d += 2) for (const [dx, dy] of [[0, 1], [1, 0], [-1, 0], [0, -1], [1, 1], [-1, 1], [1, -1], [-1, -1]]) {
+      if (!boxBlocked(P.x + dx * d, P.y + dy * d, PH, PH)) { P.x += dx * d; P.y += dy * d; return; }
+    }
+  }
 }
 const tileAt = (c, r) => (r < 0 || r >= ROWS || c < 0 || c >= COLS) ? undefined : G.tiles[r][c];
 function toast(t) { const el = $('toast'); el.textContent = t; el.classList.add('on'); G.toastT = 130; }
 function showPlace(t) { const el = $('place'); el.textContent = t; el.classList.add('on'); G.placeT = 110; }
 const overlap = (ax, ay, aw, ah, bx, by, bw, bh) => ax < bx + bw && ax + aw > bx && ay < by + bh && ay + ah > by;
 const entActive = e => (!e.def.if || flag(e.def.if)) && (!e.def.unless || !flag(e.def.unless));
-const songFor = id => { const r = ROOMS[id]; if (id === 'dB' && flag('boss_dead')) return 'd_dungeon'; if (id === 'f4' && flag('ending')) return 'd_ending'; return r.music; };
+const songFor = id => { const r = ROOMS[id]; if (id === 'dB' && flag('boss_dead')) return 'd_dungeon'; if (id === 'e5' && flag('e5_dead')) return 'd_dungeon'; if (id === 's4' && flag('c2_end')) return 'd_letter'; if (id === 'f4' && flag('ending')) return 'd_ending'; return r.music; };
 
 // ── へや ──
 function rebuildTiles() {
@@ -136,7 +142,8 @@ function bakeRoom() {
   const at = (c, r) => (r < 0 || r >= ROWS || c < 0 || c >= COLS) ? undefined : G.tiles[r][c];
   for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) Art.tile(b, G.tiles[r][c], c, r, at);
   if (G.room.tower) Art.tower(b, G.room.tower[0], G.room.tower[1], flag('ending'));
-  (G.room.deco || []).forEach(d => { if (d.t === 'boat') Art.boat(b, d.x * TILE, d.y * TILE); });
+  if (G.room.ruin) Art.ruin(b, G.room.ruin[0], G.room.ruin[1], flag('c2_lit'));
+  (G.room.deco || []).forEach(d => { if (d.if && !flag(d.if)) return; if (d.t === 'boat') Art.boat(b, d.x * TILE, d.y * TILE); if (d.t === 'bigtree') Art.bigtree(b, d.x, d.y); if (d.t === 'shade') Art.ruinShade(b, d.x, d.y, d.w, d.h); });
 }
 function mkEnemy(def) {
   const px = def.x * TILE + 8, py = def.y * TILE + 8;
@@ -177,7 +184,7 @@ function enterRoom(id, x, y, dir) {
 }
 
 // ── あたり判定 ──
-const SOLID_ENT = new Set(['chest', 'npc', 'sign', 'stone', 'block', 'boulder', 'pinwheel', 'lamp']);
+const SOLID_ENT = new Set(['chest', 'npc', 'sign', 'stone', 'block', 'boulder', 'pinwheel', 'lamp', 'story']);
 function entSolidAt(e) { return e.t === 'door' ? !flag(e.def.flag) : SOLID_ENT.has(e.t) && entActive(e); }
 function tileBlocked(c, r) {
   const t = tileAt(c, r);
@@ -265,6 +272,9 @@ function tickDialog() {
 function colonSay(pages, cb) { say(pages, cb, 'コロン'); }
 
 function colonHint() {
+  if (flag('ch2') && !flag('c2_end')) return c2Hint();
+  if (flag('c2_end')) return 'ミオの あかり、今夜も 見えるね。\n📜で、てがみを もう いちど よめるよ。';
+  if (flag('ending') && S.maxHp >= 10) return '村長さんに 会いに いこう。\n海の むこうの かげの こと、なにか しっているかも！';
   if (!S.staff) return 'ひだりの いえの 村長に 会いに いこう。灯台のこと、なにか しっているよ！';
   if (G.id === 'v0' || G.id === 'h1' || G.id === 'h2') return 'ひがしの しげみを ぼうで はらって、野原へ でよう！ ⭐ボタンで ぼうを ふれるよ。';
   if (!flag('gate1')) return '野原を ひがしへ すすむと、灯台への 門が あるよ。いわを おして 赤い いしいたに のせよう！';
@@ -296,7 +306,7 @@ function tryAction() {
   let best = null, bd = 1e9;
   for (const e of G.ents) {
     if (e.enemy || !entActive(e)) continue;
-    if (!['npc', 'sign', 'stone', 'chest', 'lamp'].includes(e.t)) continue;
+    if (!['npc', 'sign', 'stone', 'chest', 'lamp', 'story'].includes(e.t)) continue;
     const d = Math.hypot(e.x + 8 - fx, e.y + 8 - fy);
     const reach = e.def.talkOver ? 34 : 15;
     if (d < reach && d < bd) { best = e; bd = d; }
@@ -307,6 +317,7 @@ function tryAction() {
   else if (best.t === 'stone') rest();
   else if (best.t === 'chest') openChest(best);
   else if (best.t === 'lamp') lightLamp();
+  else if (best.t === 'story') c2Story(best);
 }
 function rest() {
   S.hp = S.maxHp; writeSave(); fmJingle('d_rest');
@@ -324,8 +335,13 @@ function talk(e) {
         () => give('staff'), n);
     } else if (!flag('boss_dead')) say('灯台への 道は、村を でて ひがしじゃ。\nこまったら、コロンに きいて ごらん（💬ボタン）。', null, n);
     else if (!flag('ending')) say('もう すぐじゃ。てっぺんの 火皿を しらべるのじゃぞ！', null, n);
-    else say('見事な 光じゃ！ 海が よろこんで おるわい。\nアンリノ島にも、きっと とどいて おるよ。', null, n);
+    else if (!flag('ch2')) c2StartScene();
+    else if (flag('c2_end')) say('今夜も、あの 島に あかりが 見えるのう。\nミオも きっと よろこんで おるよ。', null, n);
+    else if (flag('c2_lit')) c2Finale();
+    else say('しおさいの島は どうじゃな。\n船は アザラシに たのむと よいぞ。', null, n);
   } else if (id === 'seal') {
+    if (G.id === 's0') return c2Boat(false);
+    if (flag('ch2')) return c2Boat(true);
     if (flag('ending')) say('今夜は 灯台の おかげで、あんしんして 船が だせるよ！', null, n);
     else say(['火が きえてから、船が でられなくて こまって いるんだ。', '赤い 貝が らは「かい」と いって、村の スープやで つかえるよ。\nしげみの 中にも かくれて いるかも。'], null, n);
   } else if (id === 'rabbit') {
@@ -343,6 +359,8 @@ const ITEM_TEXT = {
   key: ['カギ を 手に入れた！', 'カギの とびらに ぶつかると あくよ。'],
   big: ['大きな カギ を 手に入れた！', 'いかり番の へやの とびらを あけられる！'],
   cont: ['しずくの うつわ を 手に入れた！', 'もてる しずくが 1つ ふえた！'],
+  bottle: ['ふるい びん を ひろった！', '中に、てがみが 入っている。'],
+  oldkey: ['さびた カギ を 手に入れた！', '100年 たって、すっかり さびている。'],
 };
 function give(what, cb) {
   let icon = what, pages;
@@ -355,6 +373,8 @@ function give(what, cb) {
     if (what === 'key') S.keys++;
     if (what === 'big') S.big = true;
     if (what === 'cont') { S.maxHp += 2; S.hp = S.maxHp; }
+    if (what === 'oldkey') S.f.c2_key = 1;
+    if (what === 'bottle') S.f.c2_bottle = 1;
   }
   writeSave();
   fmJingle('d_get');
@@ -494,7 +514,7 @@ function tickPlayer() {
   // ワープ
   const cc = Math.floor(P.x / TILE), cr = Math.floor(P.y / TILE);
   let onW = null;
-  for (const e of G.ents) if (e.t === 'warp' && e.tx === cc && e.ty === cr) onW = e;
+  for (const e of G.ents) if (e.t === 'warp' && entActive(e) && e.tx === cc && e.ty === cr) onW = e;
   if (onW && !P.onWarp) { startFade(onW.def.to, onW.def.tx * TILE + 8, onW.def.ty * TILE + 8, onW.def.dir); return; }
   if (!onW) P.onWarp = false;
   // あな
@@ -565,7 +585,7 @@ function tickGusts() {
   for (const w of G.gusts) {
     w.x += w.dx * 3; w.y += w.dy * 3; w.t++; w.life--;
     const c = Math.floor(w.x / TILE), r = Math.floor(w.y / TILE), t = tileAt(c, r);
-    if (t === undefined || ['T', 'R', '^', 'H', 'I', 'X', 'a', 't', 'L', 'B'].includes(t)) { w.life = 0; continue; }
+    if (t === undefined || ['T', 'R', '^', 'H', 'I', 'X', 'a', 't', 'L', 'B', 'E'].includes(t)) { w.life = 0; continue; }
     for (const e of [...G.ents]) {
       if (e.enemy) {
         if (Math.hypot(e.x - w.x, e.y - w.y) < e.r + 5) {
@@ -684,8 +704,8 @@ function tickBossDie() {
   if (G.bossT % 9 === 0) { poof(G.bossX + (Math.random() - .5) * 26, G.bossY + (Math.random() - .5) * 26); Sfx.pop(); G.shake = 3; }
   tickFx();
   if (G.bossT > 90) {
-    G.mode = 'play'; setFlag('boss_dead'); Sfx.door(); fmPlay('d_dungeon');
-    say('いかり番を たおした！\nとびらが ひらいた。てっぺんへ のぼろう！', null, 'コロン');
+    G.mode = 'play'; setFlag(G.room.bossFlag || 'boss_dead'); Sfx.door(); fmPlay('d_dungeon');
+    say(G.room.bossFlag ? 'かげの ぬしを たおした！\nとびらが ひらいた。てっぺんへ のぼろう！' : 'いかり番を たおした！\nとびらが ひらいた。てっぺんへ のぼろう！', null, 'コロン');
   }
 }
 function tickAnchor(a) {
@@ -725,6 +745,7 @@ function tickFade() {
 
 // ── エンディング ──
 function lightLamp() {
+  if (G.id === 'eT') return flag('c2_lit') ? say('ともった 火が、海を てらしている。') : say('火皿は つめたい。\nてっぺんの かべに、なにか 字が ほってある。');
   if (flag('ending')) { say('ともった 火が、海を てらしている。'); return; }
   say(['アンリノは、ひかりのぼうの 星を 火皿に そっと あてた。', '…………'], () => {
     S.f.ending = 1; writeSave();
@@ -742,7 +763,7 @@ const END_LINES = [
 function tickEnding() {
   const e = G.end; e.t++;
   for (let i = END_LINES.length - 1; i >= 0; i--) if (e.t >= END_LINES[i][0]) { e.line = i; break; }
-  if (e.t >= 1100) $('btnEnd').hidden = false;
+  if (e.t >= 1100) { $('btnEnd').hidden = false; if (!flag('ch2')) $('btnCh2End').hidden = false; }
 }
 function drawEnding() {
   const e = G.end, t = e.t;
@@ -778,10 +799,11 @@ function drawEnding() {
   // ことば
   if (e.line >= 0) {
     const txt = END_LINES[e.line][1].split('\n');
-    g.fillStyle = 'rgba(10,14,40,.76)'; g.fillRect(4, 142, 232, 40);
+    const oy = e.line === END_LINES.length - 1 ? -22 : 0;   // さいごの ことばは ボタンに かくれないよう 上へ
+    g.fillStyle = 'rgba(10,14,40,.76)'; g.fillRect(4, 142 + oy, 232, 40);
     g.fillStyle = '#fff7e0'; g.font = '13px DotGothic16, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle';
     const lines = txt.flatMap(s => s.length > 17 ? [s.slice(0, Math.ceil(s.length / 2)), s.slice(Math.ceil(s.length / 2))] : [s]);
-    lines.forEach((s, i) => g.fillText(s, W / 2, 162 + (i - (lines.length - 1) / 2) * 15));
+    lines.forEach((s, i) => g.fillText(s, W / 2, 162 + oy + (i - (lines.length - 1) / 2) * 15));
     g.textAlign = 'left'; g.textBaseline = 'alphabetic';
   }
 }
@@ -794,6 +816,7 @@ function tick() {
   if (G.placeT > 0 && --G.placeT === 0) $('place').classList.remove('on');
   if (G.hurtFlash > 0) G.hurtFlash--;
   if (G.shake > 0 && frame % 2 === 0) G.shake--;
+  if (G.c2Flash > 0) G.c2Flash--;
   switch (G.mode) {
     case 'play': tickPlay(); break;
     case 'dialog': tickDialog(); break;
@@ -803,11 +826,16 @@ function tick() {
     case 'bossdie': tickBossDie(); break;
     case 'dead': if (++G.deadT === 50) $('ovDead').hidden = false; break;
     case 'ending': tickEnding(); break;
+    case 'ending2': c2TickDawn(); break;
+    case 'ending3': c2TickDusk(); break;
+    case 'letter': if (input.ap || input.bp || input.cp) c2LetterNext(); break;
+    case 'choice': c2TickMenu(); break;
   }
   clearEdges();
 }
 function tickPlay() {
   if (S) S.time++;
+  if (c2Tick() || G.mode !== 'play') return;
   tickPlayer();
   if (G.mode !== 'play') return;
   for (const e of [...G.ents]) {
@@ -849,7 +877,7 @@ function drawEnt(e) {
   if (e.enemy) {
     if (e.flash > 0 && e.flash % 4 < 2 && e.kind !== 'boss') return;
     const fr = Math.floor(e.anim / 14) % 2;
-    if (e.kind === 'boss') { Art.boss(g, x + (e.shakeX || 0), y, { t: e.anim, state: e.state, aura: e.aura, flash: e.flash > 0 && e.flash % 4 < 2 }); return; }
+    if (e.kind === 'boss') { Art.boss(g, x + (e.shakeX || 0), y, { t: e.anim, state: e.state, aura: e.aura, ink: e.def.ink, flash: e.flash > 0 && e.flash % 4 < 2 }); return; }
     g.fillStyle = 'rgba(5,10,30,.35)';
     if (e.kind === 'guard') g.fillRect(x - 9, y + 4, 18, 3);
     else if (e.kind === 'bat') g.fillRect(x - 5, y + 8, 10, 2);
@@ -870,7 +898,8 @@ function drawEnt(e) {
     case 'block': Art.block(g, x, y); break;
     case 'boulder': Art.boulder(g, x, y); break;
     case 'pinwheel': Art.pinwheel(g, x, y, frame, e.spin > 0 || flag(e.def.flag || e.def.group)); break;
-    case 'lamp': Art.lamp(g, x, y, flag('ending'), frame); break;
+    case 'lamp': Art.lamp(g, x, y, flag(G.room.lampFlag || 'ending'), frame); break;
+    case 'story': if (entActive(e)) Art.c2(g, e.def.kind, x, y, frame); break;
     case 'pick': g.drawImage(Art.ICON.shell, x + 4, y + 4); break;
     case 'drop': if (e.life > 90 || frame % 8 < 4) g.drawImage(e.kind === 'heal' ? Art.ICON.drop : Art.ICON.shell, x - 4, y - 4); break;
     case 'anchor': Art.anchor(g, x, y, e.st); break;
@@ -919,7 +948,8 @@ function drawWorld() {
   list.sort((a, b) => a.y - b.y).forEach(o => o.draw());
   for (const w of G.gusts) Art.gust(g, w.x, w.y, w.t);
   for (const f of G.fx) Art.R(g, f.c, Math.round(f.x), Math.round(f.y), 2, 2);
-  if (G.id === 'dT' && flag('ending')) { g.fillStyle = 'rgba(255,220,120,.14)'; g.fillRect(0, 0, W, FIELD_H); }
+  if ((G.id === 'dT' && flag('ending')) || (G.id === 'eT' && flag('c2_lit'))) { g.fillStyle = 'rgba(255,220,120,.14)'; g.fillRect(0, 0, W, FIELD_H); }
+  if (G.c2Flash > 0) { g.fillStyle = `rgba(255,255,240,${G.c2Flash / 40})`; g.fillRect(0, 0, W, FIELD_H); }
 }
 function drawHUD() {
   const Y = FIELD_H;
@@ -944,6 +974,8 @@ function render() { draw(); out.drawImage(buf, 0, 0, cv.width, cv.height); }
 function draw() {
   if (G.mode === 'title' || !S) { g.fillStyle = '#0f1537'; g.fillRect(0, 0, W, H); return; }
   if (G.mode === 'ending') { drawEnding(); return; }
+  if (G.mode === 'ending2') { c2DrawDawn(); return; }
+  if (G.mode === 'ending3') { c2DrawDusk(); return; }
   g.save();
   if (G.shake > 0) g.translate((frame % 2 ? 1 : -1) * Math.min(2, G.shake), 0);
   if (G.mode === 'slide' && G.slide) {
@@ -978,6 +1010,7 @@ function startNew() {
   fmUnlock();
   P.dir = 'r'; G.mode = 'play';
   enterRoom('v0', S.x, S.y, 'r');
+  $('btnLetters').hidden = true;
   say(['かげモンスターが、海の むこうの 灯台の 火を けしてしまった。', 'アンリノは 相棒の コロンと、小さな 船で「みなとの村」に たどりついた。', 'コロン「まず 村長さんに 会いに いこう！ ひだりの いえだよ。こまったら 💬ボタンで ぼくに きいてね」'], null, '');
 }
 function startCont() {
@@ -987,17 +1020,20 @@ function startCont() {
   fmUnlock();
   G.mode = 'play';
   enterRoom(S.room, S.x, S.y, S.dir);
+  c2RefreshBtn();
 }
 function backToTitle() {
-  $('ovEnd').hidden = true; $('btnEnd').hidden = true;
+  $('ovEnd').hidden = true; $('btnEnd').hidden = true; $('btnCh2End').hidden = true; $('btnLetters').hidden = true;
   G.mode = 'title'; G.end = null; fmStop();
   $('ovTitle').hidden = false; refreshTitle();
   // おわったあとは、灯台の まえから 遊べるように
-  if (S) { S.room = 'f4'; S.x = 120; S.y = 104; S.dir = 'u'; writeSave(); }
+  if (S) { if (flag('c2_end')) { S.room = 'v0'; S.x = 72; S.y = 104; S.dir = 'r'; } else { S.room = 'f4'; S.x = 120; S.y = 104; S.dir = 'u'; } writeSave(); }
 }
 let confirmNew = false;
 function refreshTitle() {
-  const has = !!loadSave();
+  const sv = loadSave(), has = !!sv;
+  $('btnCh2').hidden = !(sv && sv.f.ending && !sv.f.ch2);
+  $('logoSub').textContent = sv && sv.f.ending ? '第2章 ひかりの てがみ' : '第1章 きえた ともしび';
   $('btnCont').hidden = !has;
   $('btnNew').textContent = 'はじめから'; confirmNew = false;
   $('btnNew').classList.toggle('go', !has);
@@ -1026,6 +1062,7 @@ function loop(ts) {
   render();
 }
 
+c2Init();
 refreshTitle();
 applyGate();
 requestAnimationFrame(loop);

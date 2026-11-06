@@ -397,6 +397,7 @@ const Art = (() => {
         if (ch === 't') { R(g, 'rgba(60,30,20,.35)', X + 1, Y + 11, 14, 4); R(g, '#4f2f18', X + 1, Y + 2, 14, 11); R(g, '#a77b4c', X + 2, Y + 3, 12, 6); R(g, '#c29155', X + 2, Y + 3, 12, 1); R(g, '#74482a', X + 2, Y + 9, 12, 3); R(g, '#f7ecd4', X + 5, Y + 4, 6, 3); R(g, '#e0556a', X + 7, Y + 5, 2, 1); }
       } break;
       // ─ 灯台の 中 ─
+      case 'E': grass(g, X, Y, cx, cy); break;
       case 'X': wall(g, X, Y, cx, cy, near); break;
       case 'f': floor(g, X, Y, cx, cy, near, at); break;
       case 'a': { floor(g, X, Y, cx, cy, near, at);
@@ -530,9 +531,17 @@ const Art = (() => {
   }, BM);
   const BOSS = [bossBody(false), bossBody(true)];
   const BOSS_FLASH = BOSS.map(src => { const c = mk(src.width, src.height), g = c.getContext('2d'); g.drawImage(src, 0, 0); g.globalCompositeOperation = 'source-atop'; R(g, '#ffffff', 0, 0, c.width, c.height); return c; });
+  // 第2章の かげの ぬし：インクの 色
+  const BOSS_INK = BOSS.map(src => {
+    const c = mk(src.width, src.height), x = c.getContext('2d'); x.drawImage(src, 0, 0);
+    const d = x.getImageData(0, 0, c.width, c.height);
+    for (let i = 0; i < d.data.length; i += 4) { const r = d.data[i], gr = d.data[i + 1], b = d.data[i + 2]; d.data[i] = r * .42; d.data[i + 1] = Math.min(255, gr * .9 + b * .28); d.data[i + 2] = Math.min(255, b * .86 + 14); }
+    x.putImageData(d, 0, 0);
+    return c;
+  });
   function boss(g, cx, cy, s) {
     const bob = Math.round(Math.sin(s.t * .09) * 1.4);
-    const img = (s.flash ? BOSS_FLASH : BOSS)[s.state === 'stun' ? 1 : 0];
+    const img = (s.flash ? BOSS_FLASH : s.ink ? BOSS_INK : BOSS)[s.state === 'stun' ? 1 : 0];
     const x = Math.round(cx) - 29, y = Math.round(cy) - 44 + bob;
     g.fillStyle = 'rgba(5,10,30,.42)'; for (let j = 0; j < 6; j++) { const w = 46 - Math.abs(j - 2.5) * 5; g.fillRect(Math.round(cx - w / 2), Math.round(cy) + 8 + j, w, 1); }
     g.drawImage(img, x, y);
@@ -661,5 +670,75 @@ const Art = (() => {
   }, { w: C.wood, c: C.wht, r: C.red, k: C.crm });
   function boat(g, x, y) { g.drawImage(BOAT, x - 8, y - 8); }
 
-  return { mk, flip, heroFrames, colon, colonL, NPC, slime, bat, crab, guard, ICON, tile, tower, staffSwing, gust, boss, anchor, shield, chest, block, boulder, plate, pinwheel, stone, sign, door, lamp, boat, R };
+  // ── 第2章 ──
+  const oldkey = rows(['.yyy....', 'yy.yy...', 'yy.yy...', '.yyyyyyy', '....y.yy', '....y..y'], { y: C.org }, '#4a2608');
+  const bottle = rows(['...oo...', '...cc...', '..cccc..', '.cwwwwc.', '.cwppwc.', '.cwwwwc.', '.cwwwwc.', '.cccccc.'], { o: C.wood, c: C.sky, w: C.crm, p: C.org });
+  ICON.oldkey = oldkey; ICON.bottle = bottle;
+  const BIGTREE = paint(60, 72, p => {
+    p.rect(25, 34, 12, 34, 't');
+    p.line(25, 67, 12, 71, 3, 't'); p.line(37, 67, 52, 71, 3, 't'); p.line(30, 68, 30, 71, 3, 't');
+    p.ell(30, 20, 28, 18, 'L'); p.ell(14, 32, 13, 10, 'L'); p.ell(46, 32, 13, 10, 'L');
+    p.ell(26, 15, 18, 10, 'l'); p.ell(44, 25, 8, 6, 'l'); p.ell(12, 28, 7, 5, 'l');
+  }, { t: C.wood, L: C.leaf, l: C.leaf2 });
+  function bigtree(g, cx, cy) {
+    R(g, 'rgba(10,50,40,.3)', cx * 16 - 12, cy * 16 + 12, 56, 5);
+    g.drawImage(BIGTREE, cx * 16 - 14, cy * 16 + 16 - 72);
+  }
+  // だれも いなくなった いえ：色を おとして、つたを はわせる
+  function ruinShade(g, cx, cy, w, h) {
+    R(g, 'rgba(58,58,84,.5)', cx * 16, cy * 16, w * 16, h * 16);
+    for (let i = 0; i < w * h * 3; i++) { const x = cx * 16 + Math.floor(noise(i, cx, 4) * (w * 16 - 2)), y = cy * 16 + Math.floor(noise(cy, i, 8) * (h * 16 - 5)); R(g, i % 3 ? '#3c8240' : '#5ea551', x, y, 2, 3 + i % 4); }
+  }
+  function ruin(g, cx, cy, lit) {
+    const X = cx * 16, Y = cy * 16, w = 64, x0 = X + 8;
+    const band = [['#6d6c86', 0], ['#8d8ca3', 6], ['#a9a8bb', 16], ['#8d8ca3', 30], ['#7a7992', 44], ['#5f5e78', 56]];
+    band.forEach(([c, s], i) => { const e = i + 1 < band.length ? band[i + 1][1] : w; R(g, c, x0 + s, Y, e - s, 80); });
+    for (let i = 0; i < 3; i++) band.forEach(([c, s], j) => { const e = j + 1 < band.length ? band[j + 1][1] : w; R(g, 'rgba(120,60,70,.28)', x0 + s, Y + 6 + i * 26, e - s, 12); });
+    for (let j = 0; j < 80; j += 8) for (let i = 0; i < w; i += 16) R(g, 'rgba(40,40,70,.2)', x0 + i + (j % 16 ? 8 : 0), Y + j, 1, 8);
+    R(g, LINE, x0 - 1, Y, 1, 80); R(g, LINE, x0 + w, Y, 1, 80);
+    // くずれた ところ
+    R(g, '#3a7fb0', x0 + 40, Y, 24, 7); R(g, '#3a7fb0', x0 + 50, Y + 7, 14, 5); R(g, LINE, x0 + 39, Y + 6, 12, 1);
+    [[8, 20, 20], [30, 44, 1], [52, 30, 14]].forEach(([dx, dy, h]) => { R(g, LINE, x0 + dx, Y + dy, 1, h); R(g, LINE, x0 + dx + 1, Y + dy + h / 2, 4, 1); });
+    // つた
+    for (let i = 0; i < 26; i++) { const n = noise(i, 3, 7), dx = Math.floor(n * 62), dy = Math.floor(noise(i, 9, 2) * 70); R(g, i % 3 ? '#3c8240' : '#5ea551', x0 + dx, Y + dy, 2, 4 + i % 5); }
+    const wx = x0 + 28, wy = Y + 27;
+    R(g, LINE, wx - 1, wy - 1, 10, 13); R(g, lit ? '#ffe36a' : '#20264a', wx, wy, 8, 11);
+    R(g, LINE, X + 30, Y + 60, 20, 20); R(g, '#7a6a4f', X + 31, Y + 61, 18, 19); R(g, '#080a18', X + 33, Y + 64, 14, 16);
+    R(g, 'rgba(10,20,40,.3)', x0, Y + 76, w, 4);
+  }
+  function c2(g, kind, x, y, t) {
+    if (kind === 'bottle') {
+      const b = Math.round(Math.sin(t * .06)); g.drawImage(bottle, x + 3, y + 4 + b);
+      if (Math.floor(t / 24) % 3 === 0) { R(g, '#fff7c6', x + 3, y + 2, 2, 2); R(g, '#fff7c6', x + 12, y + 7, 1, 1); }
+    } else if (kind === 'stele') {
+      R(g, 'rgba(5,10,30,.3)', x + 1, y + 13, 14, 3); R(g, LINE, x + 2, y, 12, 15); R(g, '#8488a8', x + 3, y + 1, 10, 13); R(g, '#afb2cb', x + 3, y + 1, 10, 2);
+      for (let i = 0; i < 3; i++) R(g, '#3e4160', x + 5, y + 5 + i * 3, 6, 1);
+    } else if (kind === 'lock') {
+      [2, 7, 12].forEach(j => { R(g, LINE, x - 1, y + j, 18, 4); R(g, '#74482a', x, y + j + 1, 16, 2); });
+      R(g, LINE, x + 5, y + 5, 6, 7); R(g, '#d3752f', x + 6, y + 6, 4, 5);
+    } else if (kind === 'well') {
+      R(g, 'rgba(5,10,30,.3)', x, y + 12, 16, 4); R(g, LINE, x + 1, y + 2, 14, 13); R(g, '#8488a8', x + 2, y + 3, 12, 11); R(g, '#141a38', x + 4, y + 5, 8, 6); R(g, '#2a5f9d', x + 5, y + 8, 6, 2);
+    } else if (kind === 'mound') {
+      R(g, '#5a3a1e', x + 2, y + 8, 12, 6); R(g, '#74482a', x + 4, y + 6, 8, 3);
+      if (Math.floor(t / 20) % 2) R(g, '#fff7c6', x + 8, y + 3, 2, 2);
+    } else if (kind === 'carve') {
+      for (let i = 0; i < 4; i++) R(g, '#c8cde4', x - 6 + i * 8, y + 5, 5, 1);
+      for (let i = 0; i < 3; i++) R(g, '#c8cde4', x - 2 + i * 8, y + 10, 5, 1);
+      if (Math.floor(t / 28) % 2) R(g, '#fff7c6', x + 7, y + 1, 2, 2);
+    }
+  }
+  const MIO = rows(['....hhhhhh....', '...hhhhhhhh...', '..hhhhhhhhhh..', '..hhhhhhhhhh..', '...hhhhhhhh...', '..y.hhhhhh.y..', '..yywwwwwwyy..', '...wwwwwwww...', '...wwbbbbww...', '...wwwwwwww...', '..wwwwwwwwww..', '..wwwwwwwwww..', '.wwwwwwwwwwww.', '.....yy.yy....', '.....yy.yy....'],
+    { h: C.deep, y: C.pink, w: C.wht, b: C.red });
+  const MINI_TURTLE = rows(['..gg..', '.gAAg.', 'gAAAAg', '.g..g.'], { g: C.moss, A: C.wood });
+  function c2Mio(g, x, y) { g.drawImage(MIO, x, y); g.drawImage(MINI_TURTLE, x + 11, y + 1); }
+  // エンディングの 灯台。old：100年後の くずれた 灯台／それ以外：ぴかぴかの 灯台
+  function c2Tower(g, tx, y, old, on) {
+    R(g, old ? '#9a99ae' : '#f4f0fa', tx, y, 22, 70);
+    for (let i = 0; i < 3; i++) R(g, old ? '#7d6a78' : '#e8705f', tx, y + 8 + i * 22, 22, 9);
+    if (old) { R(g, '#3c8240', tx + 3, y + 6, 2, 26); R(g, '#3c8240', tx + 14, y + 28, 2, 30); R(g, '#5ea551', tx + 8, y + 40, 2, 20); }
+    R(g, '#27304f', tx - 3, y - 4, 28, 4); R(g, '#27304f', tx + 2, y - 20, 18, 16); if (!old) R(g, '#27304f', tx + 6, y - 26, 10, 6);
+    R(g, on ? '#ffe36a' : '#3a4270', tx + 4, y - 18, 14, 12);
+  }
+
+  return { c2, c2Mio, c2Tower, bigtree, ruin, ruinShade, mk, flip, heroFrames, colon, colonL, NPC, slime, bat, crab, guard, ICON, tile, tower, staffSwing, gust, boss, anchor, shield, chest, block, boulder, plate, pinwheel, stone, sign, door, lamp, boat, R };
 })();
