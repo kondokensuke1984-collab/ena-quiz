@@ -19,6 +19,11 @@ export interface Novel {
 
 export const NOVELS: Novel[] = [WAGO11];
 
+/** ふりがなの しるしを はずした 文（おてがみ用） */
+export function novelPlainTitle(n: Novel): string {
+  return n.title.replace(/\{([^|{}]+)\|[^{}]+\}/g, '$1');
+}
+
 export type NovelPiece =
   | { t: 'text'; s: string }
   | { t: 'ruby'; s: string; r: string }
