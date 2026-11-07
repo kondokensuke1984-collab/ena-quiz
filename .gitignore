@@ -8,3 +8,7 @@ game-src/*.tsbuildinfo
 
 # Claude の作業用フォルダ
 .claude/worktrees/
+token*
+client_secret*
+x_session.json
+*.pickle
