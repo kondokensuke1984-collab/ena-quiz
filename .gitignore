@@ -11,3 +11,7 @@ game-src/*.tsbuildinfo
 print/chal1024_feedback.json
 print/moshi_chal1024_feedback.html
 print/honmono/
+token*
+client_secret*
+x_session.json
+*.pickle
