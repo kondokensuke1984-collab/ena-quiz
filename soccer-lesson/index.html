@@ -358,7 +358,7 @@ function buildTimeline(L) {
     }
     for (const o of s.ov || []) end = Math.max(end, (o.at || 0) + (o.k === 'count' ? 3 : 0.8));
     const vd = voiceLen(s.id, s.y || s.t);
-    const dur = Math.max(vd + 0.8, end + 0.6, 2.2);
+    const dur = Math.max(vd + 0.35, end + 0.4, 1.8);
     steps.push({ s, t0: T, dur, vd });
     T += dur;
   }

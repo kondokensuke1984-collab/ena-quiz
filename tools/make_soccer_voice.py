@@ -19,7 +19,16 @@ import wave
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from make_quiz_voice import FFMPEG, kana, synth  # noqa: E402  同じ声・同じ速さ
+from make_quiz_voice import FFMPEG, kana, vv  # noqa: E402
+
+# ふだんの ずんだもん動画（kodomo-douga の tts.py）と同じ 速さ・間
+SPEED, PRE, POST = 1.08, 0.05, 0.1
+
+
+def synth(text: str) -> bytes:
+    q = json.loads(vv('audio_query', text))
+    q.update(speedScale=SPEED, prePhonemeLength=PRE, postPhonemeLength=POST, outputSamplingRate=24000, outputStereo=False)
+    return vv('synthesis', '', json.dumps(q).encode())
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / 'audio' / 'soccer'
