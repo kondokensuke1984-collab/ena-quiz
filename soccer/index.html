@@ -404,6 +404,56 @@ h2 { margin: 0; font-size: 20px; font-weight: 900; }
   #termToast { top: calc(82px + env(safe-area-inset-top, 0px)); font-size: 13px; }
 }
 @media (prefers-reduced-motion: reduce) { #banner.pop .big, #rotate .phone, #replayTag, .photo, .photo::after, .title-side { animation: none; } }
+/* れんしゅうモード */
+.drill-go small { display: block; font-size: 11px; color: var(--muted); font-weight: 800; letter-spacing: .1em; }
+.drill-wrap { max-width: 1000px; margin: 0 auto; }
+.dgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin-top: 4px; }
+.dcard { display: grid; gap: 4px; align-content: start; text-align: left; padding: 12px 12px 10px; border-radius: 16px; border: 2px solid var(--line);
+  background: var(--chip); color: var(--ink); font-family: var(--display); box-shadow: 0 4px 0 var(--line); }
+.dcard:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--line); }
+.dcard.done { border-color: var(--green); background: var(--chip-on); box-shadow: 0 4px 0 var(--green-d); }
+.dc-emoji { font-size: 30px; line-height: 1; }
+.dc-no { font-size: 11px; font-weight: 900; color: var(--muted); letter-spacing: .06em; }
+.dc-aiko { font-size: 16px; font-weight: 900; line-height: 1.35; }
+.dc-stars, .df-stars { color: #c8d3cc; font-size: 18px; letter-spacing: 2px; }
+.dc-stars .on, .df-stars .on { color: #f2b300; text-shadow: 0 1px 0 #a87500; }
+.drill-foot { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 8px; margin-top: 14px; }
+.drill-foot a { text-align: center; text-decoration: none; }
+.drill-foot a[hidden] { display: none; }
+body.drill .board, body.drill #camBtn, body.drill #btnB, body.drill #btnY, body.drill #btnR, body.drill #btnS, body.drill #termToast { display: none !important; }
+body.drill #radar { display: none; }
+#drillTags { position: absolute; inset: 0; }
+.dtag { position: absolute; left: 0; top: 0; padding: 3px 10px; border-radius: 999px; font-size: 13px; font-weight: 900; white-space: nowrap; color: #fff;
+  background: rgba(14,28,52,.88); border: 2px solid #fff; box-shadow: 0 3px 10px rgba(0,0,0,.35); }
+.dtag.g { background: #1fa055; } .dtag.r { background: #d8392f; } .dtag.s { background: rgba(14,28,52,.88); border-color: #ffe066; color: #ffe066; }
+#drillAsk { position: absolute; left: 50%; top: calc(10px + env(safe-area-inset-top, 0px)); transform: translateX(-50%); width: min(620px, calc(100% - 150px));
+  display: none; padding: 8px 14px 10px; border-radius: 16px; background: rgba(255,255,255,.95); color: #13201a; box-shadow: 0 8px 24px rgba(0,0,0,.35); pointer-events: auto; }
+#drillAsk.fb .da-how { display: none; }
+@media (max-height: 430px) { #drillAsk.fb .da-q { display: none; } }
+#drillAsk.show { display: block; animation: tipIn .35s cubic-bezier(.2,1.4,.4,1); }
+.da-head { display: flex; align-items: center; gap: 8px; }
+.da-chip { padding: 2px 10px; border-radius: 999px; background: #1fa055; color: #fff; font-size: 12px; font-weight: 900; }
+.da-step { font-size: 12px; font-weight: 900; color: #5a6c61; }
+.da-say { margin-left: auto; width: 34px; height: 34px; border-radius: 50%; border: 2px solid #d3e1d8; background: #eef5f0; font-size: 16px; padding: 0; }
+.da-q { font-size: clamp(14px, 2.3vw, 18px); font-weight: 900; line-height: 1.45; margin-top: 4px; }
+.da-how { font-size: 12px; font-weight: 800; color: #13763c; margin-top: 2px; }
+#drillFb { position: absolute; left: 50%; bottom: calc(14px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); width: min(520px, calc(100% - 32px));
+  display: none; padding: 12px 14px; border-radius: 18px; background: rgba(255,255,255,.97); color: #13201a; box-shadow: 0 10px 30px rgba(0,0,0,.45); pointer-events: auto; text-align: center; }
+#drillFb.show { display: grid; gap: 8px; animation: fbIn .45s cubic-bezier(.2,1.4,.4,1); }
+#drillFb.ok { border: 4px solid #1fa055; } #drillFb.ng { border: 4px solid #e2463c; } #drillFb.clear { border: 4px solid #ffcf3d; bottom: auto; top: 50%; transform: translate(-50%, -50%); }
+@keyframes fbIn { from { opacity: 0; translate: 0 24px; } to { opacity: 1; translate: 0 0; } }
+.df-mark { font-size: 30px; line-height: 1; }
+.df-text { font-size: clamp(14px, 2.2vw, 17px); font-weight: 900; line-height: 1.5; }
+.df-hint { font-size: 12px; font-weight: 800; color: #a86a00; }
+.df-clear { font-size: clamp(26px, 5vw, 40px); font-weight: 900; color: #1fa055; letter-spacing: .04em; }
+.df-stars { font-size: 34px; letter-spacing: 6px; }
+.df-aiko-l { font-size: 11px; font-weight: 900; color: #5a6c61; letter-spacing: .3em; }
+.df-aiko { font-size: clamp(17px, 3vw, 24px); font-weight: 900; line-height: 1.4; padding: 8px 12px; border-radius: 12px; background: #fff6cf; }
+.df-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+#drillFb .big-btn { font-size: 18px; padding: 11px; }
+#drillFb .big-btn.ghost { color: #13201a; border-color: #d3e1d8; }
+@media (max-height: 430px) { #drillAsk { padding: 5px 12px 6px; } .da-q { font-size: 14px; } #drillFb { padding: 8px 12px; gap: 5px; } .df-mark { font-size: 22px; }
+  .df-stars { font-size: 26px; } .df-clear { font-size: 24px; } .df-aiko { padding: 4px 10px; } }
 </style>
 </head>
 <body>
@@ -427,6 +477,9 @@ h2 { margin: 0; font-size: 20px; font-weight: 900; }
   <div id="pkBoard"></div>
   <div id="pkHelp"></div>
   <div id="skipHint">タップでスキップ</div>
+  <div id="drillTags"></div>
+  <div id="drillAsk"></div>
+  <div id="drillFb"></div>
 </div>
 <div id="controls">
   <div id="joyzone"><div id="joybase"><div id="joyknob"></div></div></div>
@@ -467,6 +520,7 @@ h2 { margin: 0; font-size: 20px; font-weight: 900; }
       <button class="big-btn ghost" id="goRecords" style="margin-top:8px">きろく・得点ランキング</button>
       <button class="big-btn ghost" id="goTerms" style="margin-top:8px">📗 サッカーことば ずかん</button>
       <a class="big-btn ghost" href="/game/#island" style="margin-top:8px;text-align:center;text-decoration:none;box-sizing:border-box">🏝 島へもどる</a>
+      <button class="big-btn ghost drill-go" id="goDrill" style="margin-top:8px">🎯 うごきかた れんしゅう<small>ゆうせい 24ばん</small></button>
       <div class="how">
         <div><b>うごく</b>　左がわを指でなぞる</div>
         <div><b>せめ</b>　パス・スルーパス・シュート（長おしで強く）・ダッシュ</div>
@@ -564,6 +618,22 @@ h2 { margin: 0; font-size: 20px; font-weight: 900; }
     <div class="row" id="termTabs"></div>
     <div class="tgrid" id="termGrid"></div>
     <div class="stack"><button class="big-btn" id="termBack">もどる</button></div>
+  </div>
+</div>
+<!-- れんしゅうモード -->
+<div class="screen" id="scrDrill">
+  <div class="drill-wrap panel">
+    <div class="terms-head">
+      <h2>🎯 うごきかた れんしゅう</h2>
+      <div class="tcount"><b id="drillCount">★ 0 / 15</b></div>
+    </div>
+    <p class="sub">ゆうせい（24ばん）を うごかして、ただしい ばしょに たとう。ずんだもんの「サッカーの うごきかた」と おなじ ばめんだよ。</p>
+    <div class="dgrid" id="drillGrid"></div>
+    <div class="drill-foot">
+      <a class="big-btn ghost" id="drillMovie" href="/soccer-lesson/" hidden>📺 どうがで まなぶ</a>
+      <button class="big-btn" id="drillBack">もどる</button>
+    </div>
+    <div class="credit">解説の声　VOICEVOX:ずんだもん</div>
   </div>
 </div>
 <div id="termModal" class="gate" role="dialog" aria-modal="true"><div class="panel gate-box tmodal"></div></div>
@@ -926,7 +996,7 @@ function preloadVoices() {
 }
 let voiceTeam = null;   // 試合に出る背番号（null のあいだは共通のセリフだけ）
 const voiceBusy = new Set();
-function wantVoice(k) { if (k.startsWith("f_")) return true; const m = /^m(\d+)_/.exec(k); return !!(m && voiceTeam && voiceTeam.has(+m[1])); }
+function wantVoice(k) { if (k.startsWith("f_") || k.startsWith("z_")) return true; const m = /^m(\d+)_/.exec(k); return !!(m && voiceTeam && voiceTeam.has(+m[1])); }
 function decodeVoices() {
   if (!actx) return;
   for (const k of [...voiceBufs.keys()]) if (!wantVoice(k)) voiceBufs.delete(k);   // ベンチの選手の声は手ばなす
@@ -2111,6 +2181,7 @@ function setupInput() {
   $("pauseBtn").onclick = togglePause;
   $("resumeBtn").onclick = togglePause;
   $("quitBtn").onclick = () => {
+    if (game && game.drill) { paused = false; $("pauseMenu").style.display = "none"; quitDrill(); return; }
     paused = false; $("pauseMenu").style.display = "none"; crowdStop(); stopVoice();
     const back = canRefund(game) && refundTicket(paid) ? paid.n : 0;
     paid = null;
@@ -2157,6 +2228,7 @@ function update(dt) {
   for (const p of g.all) { p.kickT = Math.max(0, p.kickT - dt); p.celebrate = Math.max(0, p.celebrate - dt); p.diveT = Math.max(0, p.diveT - dt); p.fallT = Math.max(0, p.fallT - dt); }
 
   if (g.phase === "replay") { updateReplay(dt); return; }
+  if (g.phase === "drill") { updateDrill(dt); return; }
   if (g.phase === "pk") { updatePK(dt); clearPress(); return; }
   if (g.phase !== "play") {
     g.freeze -= dt;
@@ -3634,6 +3706,7 @@ function setCamMode(m) {
 }
 function updateCamera(dt) {
   const g = game, b = g.ball, aspect = camera.aspect;
+  if (g.drill) return drillCamera(dt);
   const k = Math.min(1, dt * 2.4);
   if (g.phase === "replay") {
     const s = g.scoreTeam === 0 ? 1 : -1;
@@ -3704,6 +3777,7 @@ let lastBtnKey = "";
 function setText(el, t) { if (el._t !== t) { el._t = t; el.textContent = t; } }
 function updateHUD() {
   const g = game, b = g.ball;
+  if (g.drill) return drillHUD();
   setText($("hudScore"), `${g.score[0]} - ${g.score[1]}`);
   setText($("hudClock"), `${g.half === 1 ? "前半" : "後半"} ${gameClock(g)}`);
   const cur = $("cursor"), gauge = $("gauge");
@@ -4364,6 +4438,388 @@ function render(dt, alpha = 1) {
 }
 
 // ================================================================
+// れんしゅうモード：ANRINO の「サッカーの うごきかた」と おなじ場面で、ゆうせい（24番）を うごかして 正しい場所に立つ
+// 場面は scripts/drill_sync.py が soccer-lesson/lessons.js から写す（手で書きかえない）
+// ================================================================
+const DRILLS = /*DRILL_DATA*/[{"id":"l1","title":"ボールに いくのは 1人だけ","emoji":"☝️","aiko":"ボールに いくのは 1人だけ。ほかの 人は じぶんの ばしょ","rounds":[{"id":"l1_q1","type":"pos","pose":{"g1":[-31,0],"g3":[-22,-13],"y":[-24,0],"g5":[-22,13],"g7":[-8,-15],"g8":[0,4],"g10":[-8,15],"g9":[4,0],"r1":[31,0],"r2":[22,-13],"r3":[24,0],"r4":[22,13],"r6":[8,-15],"r7":[2,6],"r11":[8,15],"r9":[-12,-8],"b":[3.2,6]},"ask":"あいての 7ばんが ボールを もった。みかたの 8ばんが ボールに いったのだ。ゆうせいは どこに いく？","spots":[[2,9.5],[-20,2],[12,-18]],"ans":1,"fb":["そこは ボールの すぐ そば。8ばんと ふたりで くっつくと、ゴールの まえが あいて しまうのだ。","せいかい！ 8ばんが ボールに いったから、ゆうせいは ゴールと ボールの あいだで まつ。かんぺきなのだ！","まえに いきすぎ。あいてが せめて きたら、ゴールを まもれないのだ。"],"fbId":["l1_q1a","l1_q1b","l1_q1c"],"ov":[{"k":"label","who":"g8","txt":"いく！"}]},{"id":"l1_q2","type":"pos","pose":{"g1":[-31,0],"g3":[-22,-13],"y":[-24,0],"g5":[-22,13],"g7":[-8,-15],"g8":[-6,4],"g10":[-8,15],"g9":[4,0],"r1":[31,0],"r2":[22,-13],"r3":[24,0],"r4":[22,13],"r6":[8,-15],"r7":[10,0],"r11":[8,15],"r9":[-8,-4],"b":[-17,3]},"ask":"ボールが ころがって きた。いちばん ちかいのは ゆうせい！ どうする？","spots":[[-17.6,3],[-31,2],[-6,-13]],"ans":0,"fb":["せいかい！ いちばん ちかいのが ゆうせいなら、ゆうせいが いく。それが「ひとりだけ」の ひとり なのだ。","ゴールまで さがると、ボールを あいてに とられて しまうのだ。いちばん ちかい ひとが いくのだ。","ボールから はなれちゃ だめ。いちばん ちかい ひとが とりに いくのだ。"],"fbId":["l1_q2a","l1_q2b","l1_q2c"]},{"id":"l1_q3","type":"pos","pose":{"g1":[-31,0],"g3":[-22,-13],"y":[-24,0],"g5":[-22,13],"g7":[0,-12],"g8":[-4,2],"g10":[2,14],"g9":[12,2],"r1":[31,0],"r2":[22,-13],"r3":[24,0],"r4":[22,13],"r6":[8,-15],"r7":[10,0],"r11":[8,15],"r9":[-4,0],"b":[0.8,-11.6]},"ask":"みかたの 7ばんが ボールを もって せめて いる。ゆうせいは どこに いる？","spots":[[1.5,-9],[-12,2],[-29,4]],"ans":1,"fb":["くっつくと、パスも もらえないし、まとめて とられて しまうのだ。","せいかい！ ひろがって まちながら、ボールを とられた ときにも そなえて いるのだ。","さがりすぎ。キーパーの となりでは、せめる なかまが ひとり へって しまうのだ。"],"fbId":["l1_q3a","l1_q3b","l1_q3c"]}]},{"id":"l2","title":"まもるときは ゴールと ボールの あいだ","emoji":"🛡️","aiko":"ゴールと ボールの あいだ","rounds":[{"id":"l2_q1","type":"pos","pose":{"g1":[-31,0],"g3":[-22,-13],"y":[-24,0],"g5":[-22,13],"g7":[-8,-15],"g8":[-10,0],"g10":[-8,15],"g9":[4,0],"r1":[31,0],"r2":[22,-13],"r3":[24,0],"r4":[22,13],"r6":[8,-15],"r7":[10,0],"r11":[8,15],"r9":[-10,14],"b":[-11,13.6]},"ask":"あいての 9ばんが、よこから ボールを はこんで きた。ゆうせいは どこに たつ？","spots":[[-24.4,5.7],[-12,10.6],[-24,-12]],"ans":0,"fb":["せいかい！ ゴールと ボールを つなぐ ひもの うえ。ここなら シュートの みちを ふさげるのだ。","ボールに ちかすぎ。かわされたら、ゴールまで だれも いないのだ。","ボールと はんたいがわ。ゴールの まえが あいて しまうのだ。"],"fbId":["l2_q1a","l2_q1b","l2_q1c"],"ov":[{"k":"rope"}]},{"id":"l2_q2","type":"pos","pose":{"g1":[-31,0],"g3":[-22,-13],"y":[-22,2],"g5":[-22,13],"g7":[-8,-15],"g8":[-4,5],"g10":[-8,15],"g9":[4,0],"r1":[31,0],"r2":[22,-13],"r3":[24,0],"r4":[22,13],"r6":[8,-15],"r7":[10,0],"r11":[8,15],"r9":[-12,0],"b":[-13,0]},"ask":"あいてが ドリブルで まっすぐ くる。みかたが もどって きて いる。ゆうせいは どうする？","spots":[[-14.4,0],[-18.5,0],[-31,1]],"ans":1,"fb":["とびこむと、かわされた ときに だれも いない。まだ はやいのだ。","せいかい！ ゴールがわで まえを ふさいで、みかたが くるのを まつのだ。","さがりすぎ。そこからだと、あいては らくに シュートが うてるのだ。"],"fbId":["l2_q2a","l2_q2b","l2_q2c"],"ov":[{"k":"arrow","from":[-4,5],"to":[-9,3],"c":"run"}]},{"id":"l2_q3","type":"pos","pose":{"g1":[-31,0],"g3":[-22,-13],"y":[-24,0],"g5":[-22,13],"g7":[-8,-15],"g8":[-13.2,5.4],"g10":[-8,15],"g9":[4,0],"r1":[31,0],"r2":[22,-13],"r3":[24,0],"r4":[22,13],"r6":[8,-15],"r7":[10,0],"r11":[8,15],"r9":[-12,8],"b":[-13,7.6]},"ask":"みかたの 8ばんが、ボールに いった。ゆうせいは どこ？","spots":[[-13.2,9.8],[-19,4],[-20,-14]],"ans":1,"fb":["ふたりで いくと、ふたりとも かわされたら おしまい なのだ。","せいかい！ ななめ うしろで カバー。8ばんが かわされても、ゆうせいが とれるのだ。","はなれすぎ。8ばんが かわされたら、まにあわないのだ。"],"fbId":["l2_q3a","l2_q3b","l2_q3c"],"ov":[{"k":"label","who":"g8","txt":"いく！"}]}]},{"id":"l3","title":"せめるときは パスを もらえる ばしょへ","emoji":"🤝","aiko":"あいてと かさならない ばしょで まつ","rounds":[{"id":"l3_q1","type":"pos","pose":{"g1":[-31,0],"g3":[-22,-13],"y":[-20,6],"g5":[-22,13],"g7":[-8,-15],"g8":[-6,8],"g10":[-8,15],"g9":[4,0],"r1":[31,0],"r2":[22,-13],"r3":[24,0],"r4":[22,13],"r6":[8,-15],"r7":[-3,8],"r11":[8,15],"r9":[-11,5],"b":[-6.6,7.6]},"ask":"8ばんが こまって いる。うしろで パスを もらうなら、ゆうせいは どこ？","spots":[[-15,2],[-15,12],[-8,4.8]],"ans":1,"fb":["あいての 9ばんの かげに かくれて いる。パスが とおらないのだ。","せいかい！ あいてと かさならないから、8ばんから まっすぐ みえるのだ。","ちかすぎ。8ばんと くっつくと、あいても いっしょに ついて くるのだ。"],"fbId":["l3_q1a","l3_q1b","l3_q1c"],"ov":[{"k":"label","who":"g8","txt":"こまった"}]},{"id":"l3_q2","type":"pos","pose":{"g1":[-31,0],"g3":[-22,-13],"y":[-2,-4],"g5":[-22,13],"g7":[4,-18],"g8":[-10,0],"g10":[-8,15],"g9":[4,0],"r1":[31,0],"r2":[22,-13],"r3":[24,0],"r4":[22,13],"r6":[8,-12],"r7":[10,0],"r11":[8,15],"r9":[-4,0],"b":[4.6,-17.4]},"ask":"こんどは ゆうせいが まえに あがった ばめん。7ばんから パスを もらうなら どこ？","spots":[[12,-6],[1,-6],[5.6,-15.6]],"ans":1,"fb":["あいての 6ばんが じゃまで、パスが とおらないのだ。","せいかい！ あいての いない みちが できたのだ。","ちかすぎ。7ばんと ゆうせいを、あいてが いっしょに ふさげて しまうのだ。"],"fbId":["l3_q2a","l3_q2b","l3_q2c"]}]},{"id":"l4","title":"とられた！とった！ すぐ きりかえ","emoji":"⚡","aiko":"とられたら もどる、とったら まえ","rounds":[{"id":"l4_q1","type":"pos","pose":{"g1":[-31,0],"g3":[-12,-14],"y":[-14,0],"g5":[-12,14],"g7":[6,-14],"g8":[11.6,4.6],"g10":[10,14],"g9":[18,0],"r1":[31,0],"r2":[22,-10],"r3":[24,0],"r4":[22,10],"r6":[14,-10],"r7":[13,3.4],"r11":[12,12],"r9":[2,0],"b":[12.2,4]},"ask":"まえで ボールを とられた！ ちかくの 8ばんは ボールへ いった。ゆうせいは どうする？","spots":[[-22,0],[10,7.4],[-13,1.6]],"ans":0,"fb":["せいかい！ すぐ ゴールの ほうへ もどって、まもりの ばしょに ついたのだ。","8ばんが もう いっている。ふたりで おいかけると、うしろが がらがら なのだ。","とまって いると、あいてに ぬかれて しまう。すぐ もどるのだ。"],"fbId":["l4_q1a","l4_q1b","l4_q1c"],"ov":[{"k":"label","who":"r7","txt":"とった"},{"k":"label","who":"g8","txt":"いく"}],"labels":["","","そのまま"]},{"id":"l4_q2","type":"pass","pose":{"g1":[-31,0],"g3":[-22,-13],"y":[-18,1.6],"g5":[-22,13],"g7":[-8,-15],"g8":[-10,8],"g10":[-8,15],"g9":[6,-8],"r1":[31,0],"r2":[8,-12],"r3":[10,0],"r4":[8,12],"r6":[-6,-12],"r7":[-8.4,6.6],"r11":[-11,10.4],"r9":[-15,3],"b":[-17.2,1.6]},"ask":"ゆうせいが ボールを とった！ どこへ パスする？","spots":[[-30.4,0],[5.4,-7.4],[-10,7.4]],"ans":1,"fb":["キーパーに もどすと、その あいだに あいてが もどって しまうのだ。","せいかい！ まえの 9ばんが あいている。きりかえが はやいのだ！","8ばんの まわりには あいてが ふたり。とられて しまうのだ。"],"fbId":["l4_q2a","l4_q2b","l4_q2c"]},{"id":"l4_q3","type":"pos","pose":{"g1":[-31,0],"g3":[-22,-13],"y":[-17,1],"g5":[-22,13],"g7":[-4,-10],"g8":[-2,8],"g10":[-8,15],"g9":[6,-8],"r1":[31,0],"r2":[8,-12],"r3":[10,0],"r4":[8,12],"r6":[-6,-12],"r7":[-6,4],"r11":[-4,14],"r9":[-12,4],"b":[-12.8,4]},"ask":"あいてに ボールを とられた。いちばん ちかいのは ゆうせい！ どうする？","spots":[[-14.6,3.4],[-31,2],[-17,-12]],"ans":0,"fb":["せいかい！ いちばん ちかい ひとが すぐ いく。ゴールがわから まえを ふさぐのだ。","さがりすぎ。あいてが じゆうに まえを むいて しまうのだ。","ボールから はなれると、あいては まっすぐ ゴールへ こられるのだ。"],"fbId":["l4_q3a","l4_q3b","l4_q3c"],"ov":[{"k":"label","who":"r9","txt":"とった"}]}]},{"id":"l5","title":"くびを ふって つぎを かんがえる","emoji":"👀","aiko":"ボールが くる まえに くびを ふる","rounds":[{"id":"l5_q1","type":"pass","pose":{"g1":[-31,0],"g3":[-20,-14],"y":[-18,-2],"g5":[-18.6,12],"g7":[-8,-15],"g8":[-6,4],"g10":[-8,15],"g9":[4,0],"r1":[31,0],"r2":[22,-13],"r3":[24,0],"r4":[22,13],"r6":[8,-15],"r7":[-8,2.6],"r11":[8,15],"r9":[-17,-6],"b":[-17.2,-1.6]},"ask":"くびを ふって、まわりを みて いた。ボールが きたら、どこへ パスする？","spots":[[-20,-13.4],[-18.6,11.4],[-6.6,3.6]],"ans":1,"fb":["あいてが いる ほう。とられて しまうのだ。","せいかい！ みて いたから、あいている 5ばんが すぐ わかったのだ。","8ばんの まえに あいてが いる。パスが とおらないのだ。"],"fbId":["l5_q1a","l5_q1b","l5_q1c"]},{"id":"l5_q2","type":"pos","pose":{"g1":[-31,0],"g3":[-22,-13],"y":[-18,-2],"g5":[-22,13],"g7":[-8,-15],"g8":[-6,4],"g10":[-8,15],"g9":[4,0],"r1":[31,0],"r2":[22,-13],"r3":[24,0],"r4":[22,13],"r6":[8,-15],"r7":[-4,0],"r11":[8,15],"r9":[-15,-8],"b":[-5.4,4]},"ask":"8ばんから ボールを もらいたい。あいてが ちかづいて くる。どこで うける？","spots":[[-16.4,-6.4],[-17,6],[-8,2.6]],"ans":1,"fb":["あいての ほうへ いくと、すぐ とられて しまうのだ。","せいかい！ あいてから はなれて、パスの みちも あいて いるのだ。","ちかすぎ。8ばんと くっつくと、パスの いみが ないのだ。"],"fbId":["l5_q2a","l5_q2b","l5_q2c"],"ov":[{"k":"arrow","from":[-12,-10],"to":[-14.6,-7.6],"c":"run"}]},{"id":"l5_q3","type":"pos","pose":{"g1":[-31,0],"g3":[-22,-13],"y":[-24,0],"g5":[-22,13],"g7":[-8,-15],"g8":[-6.6,3.2],"g10":[-8,15],"g9":[4,0],"r1":[31,0],"r2":[22,-13],"r3":[24,0],"r4":[22,13],"r6":[8,-15],"r7":[-15,-8],"r11":[8,15],"r9":[-8,6],"b":[-9,5.6]},"ask":"あいてが せめて きた。8ばんは ボールへ。うしろに、もう ひとり あいてが いる。ゆうせいは どこ？","spots":[[-20,-2],[-10.4,6.4],[-16.6,-12.4]],"ans":0,"fb":["せいかい！ ゴールがわで、ボールと あいての りょうほうが みえる ばしょなのだ。","8ばんが もう いっている。うしろの あいてが ひとりぼっちで フリーに なるのだ。","あいてより そとがわ。ゴールの まえが あいて しまうのだ。"],"fbId":["l5_q3a","l5_q3b","l5_q3c"],"ov":[{"k":"label","who":"g8","txt":"いく"}]}]}]/*END_DRILL_DATA*/;
+const DRILL_KEY = "mg-drill-v1";
+const LESSON_VOICE = "/soccer/lesson/";   // ずんだもんの声（場面ごとに lesson/<場面>.json へ まとめてある）。ANRINO 版は /soccer/lesson/
+const D_GREEN = ["g1", "g3", "y", "g5", "g7", "g8", "g10", "g9"], D_RED = ["r1", "r2", "r3", "r4", "r6", "r7", "r11", "r9"];
+const D_POS = ["GK", "DF", "DF", "DF", "MF", "MF", "MF", "FW"];
+const D_RING = 1.9;               // ひかる まるの 大きさ（m）
+let drillRec = (() => { const o = readLS(DRILL_KEY); return o && o.v === 1 ? o : { v: 1, stars: {} }; })();
+function saveDrill() { try { localStorage.setItem(DRILL_KEY, JSON.stringify(drillRec)); } catch (e) {} }
+const dz = (p) => clamp(p[1], -HW + 0.6, HW - 0.6);   // lessons は よこ ±25、ゲームは ±24
+
+// ---- 3D の しるし（ひかる まる・ひも） ----
+let drillFx = null;
+function buildDrillFx() {
+  if (drillFx) return;
+  const spots = [0, 1, 2].map(() => {
+    const grp = new THREE.Group();
+    const mat = (op) => new THREE.MeshBasicMaterial({ color: 0xffe066, transparent: true, opacity: op, depthWrite: false });
+    const disc = new THREE.Mesh(new THREE.CircleGeometry(D_RING, 40), mat(0.16)); disc.rotation.x = -Math.PI / 2; disc.position.y = 0.03;
+    const ring = new THREE.Mesh(new THREE.RingGeometry(D_RING - 0.22, D_RING, 48), mat(0.95)); ring.rotation.x = -Math.PI / 2; ring.position.y = 0.04;
+    const inner = new THREE.Mesh(new THREE.RingGeometry(D_RING * 0.42, D_RING * 0.42 + 0.1, 40), mat(0.6)); inner.rotation.x = -Math.PI / 2; inner.position.y = 0.04;
+    // 上へ のびる 光の つつ（上ほど うすい）
+    const cg = new THREE.CylinderGeometry(D_RING - 0.1, D_RING - 0.1, 2.6, 40, 1, true);
+    const cols = [], cp = cg.attributes.position;
+    for (let i = 0; i < cp.count; i++) { const k = cp.getY(i) > 0 ? 0 : 1; cols.push(k, k, k); }
+    cg.setAttribute("color", new THREE.Float32BufferAttribute(cols, 3));
+    const beamMat = new THREE.MeshBasicMaterial({ color: 0xffe066, transparent: true, opacity: 0.32, depthWrite: false, side: THREE.DoubleSide, vertexColors: true, blending: THREE.AdditiveBlending });
+    const beam = new THREE.Mesh(cg, beamMat); beam.position.y = 1.3;
+    for (const m of [disc, ring, inner, beam]) m.renderOrder = 3;
+    grp.add(disc, ring, inner, beam); grp.visible = false; scene.add(grp);
+    return { grp, disc, ring, inner, beam };
+  });
+  const rope = new THREE.Mesh(new THREE.PlaneGeometry(1, 0.3), new THREE.MeshBasicMaterial({ color: 0xfff1b8, transparent: true, opacity: 0.85, depthWrite: false }));
+  rope.rotation.x = -Math.PI / 2; rope.position.y = 0.05; rope.renderOrder = 3; rope.visible = false; scene.add(rope);
+  drillFx = { spots, rope };
+}
+function hideDrillFx() { if (!drillFx) return; for (const s of drillFx.spots) s.grp.visible = false; drillFx.rope.visible = false; }
+
+// ---- 声（ずんだもん）：場面ごとの まとめファイルを 1回 読み、1つずつ 音に する ----
+const lessonBusy = new Map(), lessonPacks = new Map();
+function lessonPack(sid) {
+  if (!lessonPacks.has(sid)) lessonPacks.set(sid, fetch(`${LESSON_VOICE}${sid}.json`).then((r) => (r.ok ? r.json() : {})).catch(() => { lessonPacks.delete(sid); return {}; }));
+  return lessonPacks.get(sid);
+}
+function loadLesson(id) {
+  const key = "z_" + id;
+  if (voiceBufs.has(key)) return Promise.resolve(true);
+  if (lessonBusy.has(key)) return lessonBusy.get(key);
+  const sid = game && game.drill ? DRILLS[game.drill.si].id : DRILLS[0].id;
+  const pr = (async () => {
+    if (!ensureAudio()) return false;
+    try {
+      const b64 = (await lessonPack(sid))[id]; if (!b64) return false;
+      const bin = atob(b64), ab = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) ab[i] = bin.charCodeAt(i);
+      return await new Promise((ok) => actx.decodeAudioData(ab.buffer, (buf) => { voiceBufs.set(key, buf); ok(true); }, () => ok(false)));
+    } catch (e) { return false; } finally { lessonBusy.delete(key); }
+  })();
+  lessonBusy.set(key, pr);
+  return pr;
+}
+function lessonSay(id) {
+  if (!audioOn()) return;
+  const ask = game && game.drill ? game.drill.sayN = (game.drill.sayN || 0) + 1 : 0;
+  stopVoice();
+  loadLesson(id).then((ok) => { if (ok && game && game.drill && game.drill.sayN === ask) { stopVoice(); playVoice("z_" + id, 3); } });
+}
+
+// ---- 場面を はじめる ----
+function startDrill(si, ri = 0) {
+  paused = false; lastBtnKey = "";
+  $("pauseMenu").style.display = "none";
+  unlockAudio(); ensureAudio();
+  if (speech && speech.speaking) { try { speech.cancel(); } catch (e) {} }
+  stopVoice(); crowdStop();
+  buildDrillFx();
+  clearGame();
+  const F = formById("331");
+  const yu = MEMBERS.find((m) => m.special === "obo") || MEMBERS.find((m) => m.number === 24);
+  const red = TEAMS.find((t) => t.id === "eagles") || TEAMS[TEAMS.length - 1];
+  const num = (k) => +k.slice(1);
+  const mine = D_GREEN.map((k, i) => makePlayer(0, i, k === "y" ? yu : { name: "みどり" + k, number: num(k), position: D_POS[i] }, null, F));
+  const rival = D_RED.map((k, i) => makePlayer(1, i, { name: "あか" + k, number: num(k) }, red.kit, F));
+  setVoiceTeam([yu.number]);
+  game = {
+    teams: [mine, rival], all: [...mine, ...rival],
+    ball: { x: 0, y: BALL_R, z: 0, vx: 0, vy: 0, vz: 0, owner: null, last: null, shot: false, power: 0, gkTried: null, immune: 0, inNet: false, passTo: null },
+    score: [0, 0], half: 1, time: HALF_SECONDS, phase: "drill", freeze: 0, phaseT: 0, obo: null, oboFx: [],
+    controlled: mine[2], switchT: 0, goals: [], clock: 0, diff: teamDiff(DIFFS[1], 0, 1),
+    rival: { name: "あか", kit: red.kit, radar: red.radar, plan: red.plan }, cup: null, tip: null, tipsShown: {},
+    kickTeam: 0, scorer: null, scoreTeam: 0, cam: { x: -14, z: 0, h: 20, d: 32 }, caption: null, frames: [], replay: null, charge: -1,
+    stats: { shots: [0, 0], poss: [0, 0], fouls: [0, 0] }, confetti: [], newTerms: [], termQueue: [], termToast: null,
+    plan: [null, null], possTeam: -1, setPiece: null, setPieceTaker: null, marks: [new Map(), new Map()], markT: [0, 0],
+    drill: { si, ri, miss: 0, first: 0, sayN: 0 },
+  };
+  document.body.classList.add("drill");
+  $("quitBtn").textContent = "れんしゅうを やめる";
+  show(null);
+  perfWarmup();
+  drillRound(ri, true);
+}
+// 1もんずつ：ならびを おく → 問い → まつ
+function drillRound(ri, fresh) {
+  const g = game, d = g.drill, sc = DRILLS[d.si], r = sc.rounds[ri];
+  d.ri = ri; d.r = r; d.state = "play"; d.t = 0; d.moved = false; d.still = 0; d.pick = -1; d.aim = -1; d.kick = null; d.chase = null; d.judgeT = 0;
+  if (fresh) d.tries = 0;
+  const pose = r.pose, all = [...D_GREEN.map((k, i) => [k, g.teams[0][i]]), ...D_RED.map((k, i) => [k, g.teams[1][i]])];
+  d.who = {};
+  for (const [k, p] of all) {
+    const xy = pose[k] || [p.baseX, p.baseZ];
+    p.x = xy[0]; p.z = dz(xy); p.vx = p.vz = 0; p.celebrate = p.fallT = p.kickT = p.stun = p.slide = p.diveT = 0; p.headT = 0;
+    p.px = p.x; p.pz = p.z; d.who[k] = p;
+  }
+  d.y = d.who.y;
+  const b = g.ball;
+  Object.assign(b, { x: pose.b[0], z: dz(pose.b), y: BALL_R, vx: 0, vy: 0, vz: 0, owner: null, passTo: null });
+  b.px = b.x; b.pz = b.z; b.py = b.y;
+  // 矢印（走りこみ）：いちばん 近い選手を 矢印どおりに 走らせる
+  d.moves = [];
+  d.labels = [];
+  d.rope = false;
+  for (const o of r.ov || []) {
+    if (o.k === "arrow") {
+      let best = null, bd = 1e9;
+      for (const [k, p] of all) { const dd = Math.hypot(p.x - o.from[0], p.z - o.from[1]); if (k !== "y" && dd < bd) { bd = dd; best = p; } }
+      if (best) { best.x = o.from[0]; best.z = o.from[1]; best.px = best.x; best.pz = best.z; d.moves.push({ p: best, from: o.from, to: o.to, at: 0.8, dur: 2.2 }); }
+    } else if (o.k === "label" && d.who[o.who]) d.labels.push({ p: d.who[o.who], txt: o.txt, team: d.who[o.who].team });
+    else if (o.k === "rope") d.rope = true;
+  }
+  for (const [k, p] of all) if (k !== "y") { const fx = b.x - p.x, fz = b.z - p.z, n = Math.hypot(fx, fz) || 1; p.fx = fx / n; p.fz = fz / n; }
+  if (r.type === "pass") { const fx = 1, fz = 0; d.y.fx = fx; d.y.fz = fz; b.x = d.y.x + 0.55; b.z = d.y.z; b.px = b.x; b.pz = b.z; }
+  // カメラ：ゆうせい・ボール・3つの まるが 入るように
+  const pts = [[d.y.x, d.y.z], [b.x, b.z], ...r.spots.map((s) => [s[0], dz(s)])];
+  const xs = pts.map((p) => p[0]), zs = pts.map((p) => p[1]);
+  d.box = { x0: Math.min(...xs), x1: Math.max(...xs), z0: Math.min(...zs), z1: Math.max(...zs) };
+  if (fresh || ri === 0) { g.cam.x = (d.box.x0 + d.box.x1) / 2; g.cam.z = (d.box.z0 + d.box.z1) / 2 * 0.6; }
+  // ひかる まる
+  r.spots.forEach((s, i) => { const f = drillFx.spots[i]; f.grp.visible = true; f.grp.position.set(s[0], 0, dz(s)); f.state = ""; });
+  hideBanner();
+  drillPanel();
+  for (const id of [r.id, ...r.fbId]) loadLesson(id);
+  lessonSay(r.id);
+}
+const spotXZ = (r, i) => [r.spots[i][0], dz(r.spots[i])];
+function drillNear(r, p) {
+  let best = -1, bd = D_RING;
+  r.spots.forEach((s, i) => { const [sx, sz] = spotXZ(r, i), dd = Math.hypot(p.x - sx, p.z - sz); if (dd < bd) { bd = dd; best = i; } });
+  return best;
+}
+// パス：スティックの 向きに いちばん 近い まる
+function drillAim(r, p, fx, fz) {
+  let best = 0, bc = -2;
+  r.spots.forEach((s, i) => { const [sx, sz] = spotXZ(r, i), vx = sx - p.x, vz = sz - p.z, n = Math.hypot(vx, vz) || 1, c = (vx * fx + vz * fz) / n; if (c > bc) { bc = c; best = i; } });
+  return best;
+}
+
+// ---- 毎フレーム ----
+function updateDrill(dt) {
+  const g = game, d = g.drill, r = d.r, y = d.y, b = g.ball;
+  d.t += dt;
+  for (const p of g.all) p.vx = p.vz = 0;
+  for (const m of d.moves) {
+    const k = clamp((d.t - m.at) / m.dur, 0, 1), e = k * k * (3 - 2 * k);
+    if (k > 0 && k < 1) { const nx = m.from[0] + (m.to[0] - m.from[0]) * e, nz = m.from[1] + (m.to[1] - m.from[1]) * e; m.p.vx = (nx - m.p.x) / dt; m.p.vz = (nz - m.p.z) / dt; }
+  }
+  if (d.state === "play") {
+    const st = readDir();
+    if (st.mag > 0.15) { y.fx = st.x / st.mag; y.fz = st.z / st.mag; }
+    if (r.type === "pos") {
+      const sp = y.speed * (input.held.r ? 1.3 : 1);
+      y.vx = st.x * sp; y.vz = st.z * sp;
+      if (st.mag > 0.3) d.moved = true;
+      const near = drillNear(r, y);
+      d.aim = near;
+      d.still = near >= 0 && st.mag < 0.2 ? d.still + dt : 0;
+      if (input.press.a && near < 0) { g.tip = { text: "ひかる まるの 中に 入ってから おしてね", btn: null, t: 2.2, cam: true }; SFX.ui(); }
+      // 1. まるの中で ボタン　2. 動いてきて まるの中で とまる　3. 動かないまま しばらく（「そのまま」を えらんだことになる）
+      if (near >= 0 && (input.press.a || (d.moved && d.still > 0.5) || (!d.moved && d.t > 14))) drillChoose(near);
+    } else {
+      y.vx = y.vz = 0;
+      d.aim = drillAim(r, y, y.fx, y.fz);
+      const k = 0.55; b.x = y.x + y.fx * k; b.z = y.z + y.fz * k;
+      if (input.press.a || input.press.y) drillKick(d.aim);
+    }
+  } else if (d.state === "kick") {
+    const k = d.kick; k.t += dt;
+    const u = clamp(k.t / k.T, 0, 1), e = 1 - (1 - u) * (1 - u);
+    b.x = k.x0 + (k.x1 - k.x0) * e; b.z = k.z0 + (k.z1 - k.z0) * e;
+    if (u >= 1) drillChoose(k.i);
+  } else if (d.state === "fb") {
+    d.judgeT += dt;
+    if (!d.fbShown && d.judgeT > 1.1) { d.fbShown = true; hideBanner(); drillPanel(); }   // まず フィールドで 結果を 見せてから 説明
+    // まちがった パスは、あかが とりに くる
+    if (d.chase) { const c = d.chase; moveTo(c, b.x, b.z, 0.9); if (dist(c, b) < 0.7) { c.vx = c.vz = 0; b.x += (c.x + c.fx * 0.5 - b.x) * 0.3; b.z += (c.z + c.fz * 0.5 - b.z) * 0.3; } }
+    // うけた みかたは ボールを足もとに
+    if (d.recv && d.judgeT > 0.05) { const q = d.recv; b.x += (q.x + q.fx * 0.5 - b.x) * 0.2; b.z += (q.z + q.fz * 0.5 - b.z) * 0.2; }
+  }
+  integratePlayers(dt);
+  // とまっている 選手は ボールを 見る
+  for (const p of g.all) if (p !== y && Math.hypot(p.vx, p.vz) < 0.5 && !p.isGK) {
+    const fx = b.x - p.x, fz = b.z - p.z, n = Math.hypot(fx, fz);
+    if (n > 0.8) { p.fx += (fx / n - p.fx) * 0.08; p.fz += (fz / n - p.fz) * 0.08; const m = Math.hypot(p.fx, p.fz) || 1; p.fx /= m; p.fz /= m; }
+  }
+  y.x = clamp(y.x, -HL + 0.4, HL - 0.4); y.z = clamp(y.z, -HW + 0.4, HW - 0.4);
+  b.y = BALL_R;
+  clearPress();
+}
+function drillKick(i) {
+  const g = game, d = g.drill, b = g.ball, [sx, sz] = spotXZ(d.r, i);
+  const L2 = Math.hypot(sx - b.x, sz - b.z);
+  d.state = "kick"; d.kick = { i, t: 0, T: clamp(L2 / 15, 0.45, 1.6), x0: b.x, z0: b.z, x1: sx, z1: sz };
+  d.y.kickT = 0.3; SFX.pass();
+}
+function drillChoose(i) {
+  const g = game, d = g.drill, r = d.r, ok = i === r.ans;
+  d.state = "fb"; d.pick = i; d.judgeT = 0; d.tries++; d.fbShown = false;
+  drillFx.spots.forEach((f, k) => { f.state = k === i ? (ok ? "ok" : "ng") : ok ? "off" : ""; });
+  const b = g.ball;
+  if (r.type === "pass") {
+    // ボールの ちかくの 選手：みかたなら うける、あいてなら とられる
+    let near = null, nd = 1e9;
+    for (const p of g.all) { if (p === d.y) continue; const dd = dist(p, b); if (dd < nd) { nd = dd; near = p; } }
+    if (ok) {
+      d.recv = near && near.team === 0 && nd < 4 ? near : null;
+      if (d.recv) { const fx = d.recv.x - d.y.x, fz = d.recv.z - d.y.z, n = Math.hypot(fx, fz) || 1; d.recv.fx = -fx / n; d.recv.fz = -fz / n; d.recv.celebrate = 1.2; }
+    } else {
+      let best = null, bd = 1e9;
+      for (const p of g.teams[1]) { if (p.isGK) continue; const dd = dist(p, b); if (dd < bd) { bd = dd; best = p; } }
+      d.chase = best && bd < 12 ? best : null;
+    }
+  }
+  if (ok) {
+    if (d.tries === 1) d.first++;
+    d.y.celebrate = 1.6; SFX.cheer(false); SFX.fanfare();
+    banner("せいかい！", "goal");
+  } else {
+    d.miss++; SFX.groan();
+    banner("ざんねん…", "small");
+  }
+  lessonSay(r.fbId[i]);
+  drillPanel();
+}
+function drillNext() {
+  const g = game, d = g.drill, sc = DRILLS[d.si];
+  SFX.ui();
+  if (d.state === "fb" && d.pick !== d.r.ans) { drillRound(d.ri, false); return; }   // もういちど
+  if (d.ri + 1 < sc.rounds.length) { drillRound(d.ri + 1, true); return; }
+  // 場面クリア：まちがいの数で ほし
+  const n = sc.rounds.length, stars = d.miss === 0 ? 3 : d.miss <= 2 ? 2 : 1;
+  drillRec.stars[sc.id] = Math.max(drillRec.stars[sc.id] || 0, stars); saveDrill();
+  d.state = "clear"; d.stars = stars; d.total = n;
+  hideDrillFx(); hideBanner();
+  d.y.celebrate = 3; for (const p of g.teams[0]) if (!p.isGK) p.celebrate = 2.5;
+  burstConfetti(); SFX.cheer(true); SFX.fanfare(); SFX.whistle(1);
+  lessonSay("c_clear");
+  drillPanel();
+}
+function quitDrill() {
+  stopVoice(); hideDrillFx(); hideBanner();
+  document.body.classList.remove("drill");
+  $("quitBtn").textContent = "しあいをやめる";
+  $("drillAsk").classList.remove("show"); $("drillFb").classList.remove("show"); $("drillTags").innerHTML = "";
+  if (game && game.drill) clearGame();
+  renderDrillMenu(); show("scrDrill");
+}
+
+// ---- 表示（問い・こたえ・名札） ----
+function drillPanel() {
+  const d = game.drill, sc = DRILLS[d.si], r = d.r;
+  const ask = $("drillAsk"), fb = $("drillFb");
+  ask.innerHTML = ""; fb.innerHTML = "";
+  if (d.state !== "clear") {
+    const head = mk("div", "da-head");
+    head.append(mk("span", "da-chip", `${sc.emoji} ばめん${d.si + 1}`), mk("span", "da-step", `${d.ri + 1} / ${sc.rounds.length}もん`));
+    const say = mk("button", "da-say", "🔊"); say.setAttribute("aria-label", "もういちど きく"); say.onclick = () => lessonSay(d.state === "fb" ? r.fbId[d.pick] : r.id);
+    head.append(say);
+    ask.append(head, mk("div", "da-q", r.ask),
+      mk("div", "da-how", r.type === "pass" ? "スティックで ねらって、青い ボタンで パス！" : "ゆうせいを うごかして、ひかる まるの 中で とまろう"));
+    ask.classList.add("show");
+  } else ask.classList.remove("show");
+  ask.classList.toggle("fb", d.state === "fb");
+  if (d.state === "fb" && d.fbShown) {
+    const ok = d.pick === r.ans;
+    fb.className = "show " + (ok ? "ok" : "ng");
+    fb.append(mk("div", "df-mark", ok ? "⭕" : "❌"), mk("div", "df-text", r.fb[d.pick]));
+    const btn = mk("button", "big-btn", ok ? (d.ri + 1 < sc.rounds.length ? "つぎへ ▶" : "ばめん クリア！ ▶") : "もういちど");
+    btn.onclick = drillNext; fb.append(btn);
+    if (!ok && d.tries >= 2) fb.append(mk("div", "df-hint", "ヒント：まるが 1つだけ ゆれているよ"));
+  } else if (d.state === "clear") {
+    fb.className = "show clear";
+    const stars = mk("div", "df-stars"); for (let i = 0; i < 3; i++) stars.append(mk("span", i < d.stars ? "on" : "", "★"));
+    const row = mk("div", "df-row");
+    const menu = mk("button", "big-btn ghost", "ばめんを えらぶ"); menu.onclick = () => { SFX.ui(); quitDrill(); };
+    row.append(menu);
+    if (d.si + 1 < DRILLS.length) { const nx = mk("button", "big-btn", "つぎの ばめん ▶"); nx.onclick = () => { SFX.ui(); startDrill(d.si + 1); }; row.append(nx); }
+    else { const again = mk("button", "big-btn", "さいしょから"); again.onclick = () => { SFX.ui(); startDrill(0); }; row.append(again); }
+    fb.append(mk("div", "df-clear", `ばめん${d.si + 1} クリア！`), stars, mk("div", "df-aiko-l", "あいことば"), mk("div", "df-aiko", sc.aiko), row);
+  } else fb.className = "";
+}
+let drillTagKey = "";
+function drillHUD() {
+  const g = game, d = g.drill, r = d.r, c = d.y;
+  // 足もとの 黄色い輪・ゆうせいの 名前
+  markers.ctrl.visible = d.state !== "clear"; markers.ctrl.position.set(c.x, 0.03, c.z);
+  const cur = $("cursor"), [sx, sy, vis] = toScreen(c.x, 2.05, c.z);
+  cur.style.display = vis && d.state !== "clear" ? "block" : "none"; cur.style.left = sx + "px"; cur.style.top = sy + "px";
+  setText(cur.querySelector(".nm"), `${c.num} ${c.name}`);
+  cur.querySelector(".sta").style.display = "none"; cur.querySelector(".obo").style.display = "none";
+  $("gauge").style.display = "none";
+  // ひかる まる：ふつう＝ゆっくり 光る / 立っている・ねらっている＝明るく / せいかい＝みどり / ちがう＝あか / ヒント＝せいかいが ゆれる
+  const tm = g.clock;
+  drillFx.spots.forEach((f, i) => {
+    if (!f.grp.visible) return;
+    const hint = d.state === "play" && d.tries >= 2 && i === r.ans;
+    const hot = d.state === "play" && d.aim === i;
+    const col = f.state === "ok" ? 0x4fe08a : f.state === "ng" ? 0xff5c52 : hot ? 0xffffff : 0xffe066;
+    const op = f.state === "off" ? 0.25 : 1;
+    for (const m of [f.disc, f.ring, f.inner, f.beam]) m.material.color.setHex(col);
+    f.ring.material.opacity = 0.95 * op; f.inner.material.opacity = 0.55 * op;
+    f.disc.material.opacity = (hot || f.state === "ok" ? 0.32 : 0.14 + 0.06 * Math.sin(tm * 3 + i)) * op;
+    f.beam.material.opacity = (hot ? 0.5 : f.state === "ok" ? 0.6 : 0.26) * op;
+    const s = hint ? 1 + 0.12 * Math.sin(tm * 10) : hot ? 1.06 : f.state === "ok" ? 1 + 0.05 * Math.sin(tm * 6) : 1;
+    f.grp.scale.set(s, 1, s);
+    f.inner.rotation.z = tm * 0.8;
+  });
+  // ひも：ゴールの まんなか → ボール
+  const rp = drillFx.rope; rp.visible = !!d.rope && d.state !== "clear";
+  if (rp.visible) { const b = g.ball, x0 = -HL, len = Math.hypot(b.x - x0, b.z); rp.scale.set(len, 1, 1); rp.position.set((b.x + x0) / 2, 0.05, b.z / 2); rp.rotation.z = -Math.atan2(b.z, b.x - x0); rp.material.opacity = 0.55 + 0.25 * Math.sin(tm * 4); }
+  // 名札（選手の上の ことば・まるの ことば）
+  const box = $("drillTags");
+  const tags = d.state === "clear" ? [] : [...d.labels.map((l) => ({ x: l.p.x, y: 2.3, z: l.p.z, txt: l.txt, cls: l.team === 0 ? "g" : "r" })),
+    ...(r.labels || []).map((t, i) => t && { x: r.spots[i][0], y: 0.2, z: dz(r.spots[i]), txt: t, cls: "s" }).filter(Boolean)];
+  const key = tags.map((t) => t.txt + t.cls).join("|");
+  if (key !== drillTagKey) { drillTagKey = key; box.innerHTML = ""; for (const t of tags) box.append(mk("div", "dtag " + t.cls, t.txt)); }
+  tags.forEach((t, i) => { const el = box.children[i], [tx, ty, v] = toScreen(t.x, t.y, t.z); el.style.display = v ? "block" : "none"; el.style.transform = `translate(${tx}px, ${ty}px) translate(-50%, -100%)`; });
+  // ボタン
+  const k = d.state === "play" ? "drill" + r.type : "drilloff";
+  if (k !== lastBtnKey) {
+    lastBtnKey = k;
+    const a = $("btnA"); a.innerHTML = "";
+    a.append(document.createTextNode(r.type === "pass" ? "パス" : "ここ！"));
+    a.style.visibility = d.state === "play" ? "visible" : "hidden";
+  }
+  $("btnA").classList.toggle("hint", d.state === "play" && (r.type === "pass" || d.aim >= 0));
+  const tipEl = $("tip"), tipText = g.tip ? g.tip.text : "";
+  if (tipEl.dataset.text !== tipText) { tipEl.dataset.text = tipText; tipEl.querySelector("span").textContent = tipText; tipEl.classList.toggle("show", !!tipText); }
+  drawRadar();
+}
+// カメラ：場面ぜんぶ（ゆうせい・ボール・まる）が 入る高さで、ゆうせいを ゆっくり 追う
+function drillCamera(dt) {
+  const g = game, d = g.drill, bx = d.box, y = d.y, k = Math.min(1, dt * 1.6);
+  const x0 = Math.min(bx.x0, y.x), x1 = Math.max(bx.x1, y.x), z0 = Math.min(bx.z0, y.z), z1 = Math.max(bx.z1, y.z);
+  const tx = (x0 + x1) / 2, tz = (z0 + z1) / 2 - 3.5;   // 上の 問いの わくに かくれないよう、少し 上を 見る
+  camera.fov = clamp(30 * Math.pow(1.9 / camera.aspect, 0.65), 26, 46); camera.updateProjectionMatrix();
+  const tv = Math.tan(camera.fov * Math.PI / 360);
+  const needW = ((x1 - x0) / 2 + 7) / (tv * camera.aspect), needH = ((z1 - z0) / 2 + 9) / tv * 0.9;
+  const dd = clamp(Math.max(needW, needH, 24), 24, 70);
+  const elev = 0.56;   // 見おろす 角度
+  g.cam.x += (tx - g.cam.x) * k; g.cam.z += (tz - g.cam.z) * k;
+  g.cam.h += (dd * Math.sin(elev) - g.cam.h) * k; g.cam.d += (dd * Math.cos(elev) - g.cam.d) * k;
+  camera.position.set(g.cam.x, g.cam.h, g.cam.z + g.cam.d);
+  camera.lookAt(g.cam.x, 0, g.cam.z);
+}
+
+// ---- 場面えらび ----
+function renderDrillMenu() {
+  const grid = $("drillGrid"); grid.innerHTML = "";
+  let total = 0;
+  DRILLS.forEach((sc, i) => {
+    const st = drillRec.stars[sc.id] || 0; total += st;
+    const c = mk("button", "dcard" + (st ? " done" : ""));
+    const stars = mk("div", "dc-stars"); for (let k = 0; k < 3; k++) stars.append(mk("span", k < st ? "on" : "", "★"));
+    c.append(mk("div", "dc-emoji", sc.emoji), mk("div", "dc-no", `ばめん${i + 1}　${sc.rounds.length}もん`), mk("div", "dc-aiko", sc.aiko), stars);
+    c.onclick = () => { SFX.ui(); startDrill(i); };
+    grid.append(c);
+  });
+  setText($("drillCount"), `★ ${total} / ${DRILLS.length * 3}`);
+}
+
+// ================================================================
 // 画面
 // ================================================================
 let current = "scrTitle";
@@ -4386,6 +4842,7 @@ function checkOrientation() {
 
 function startMatch() {
   paused = false; lastBtnKey = "";
+  if (document.body.classList.contains("drill")) { document.body.classList.remove("drill"); hideDrillFx(); $("drillAsk").classList.remove("show"); $("drillFb").className = ""; $("drillTags").innerHTML = ""; drillTagKey = ""; $("quitBtn").textContent = "しあいをやめる"; }
   $("pauseMenu").style.display = "none";
   unlockAudio();
   if (speech && speech.speaking) { try { speech.cancel(); } catch (e) {} }
@@ -4654,6 +5111,9 @@ function init() {
   $("goRecords").onclick = () => { SFX.ui(); renderRecords(); show("scrRecords"); };
   $("goTerms").onclick = () => { SFX.ui(); renderTerms(); show("scrTerms"); };
   $("termBack").onclick = () => show("scrTitle");
+  $("goDrill").onclick = () => { ensureAudio(); SFX.ui(); renderDrillMenu(); show("scrDrill"); };
+  $("drillBack").onclick = () => show("scrTitle");
+  if (SITE === "anrino") $("drillMovie").hidden = false;
   $("resRecords").onclick = () => { renderRecords(); show("scrRecords"); };
   $("recBack").onclick = () => show("scrTitle");
   $("recReset").onclick = () => { $("recConfirm").style.display = "flex"; };
