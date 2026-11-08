@@ -7,6 +7,7 @@
 //     t.pass＝メダルの ライン（％・なければ 80）、t.limitMin＝せいげん じかん（分）。やすんでも 時計は すすむ・すぎても おわらせず しらせるだけ（メールに オーバーを かく）。
 //     ひらいている もしが 2つ以上なら えらぶ画面（moshiRenderPick）。
 //     t.double＝その日に うけた 回だけ 8わり いじょうで メダル 2ばい・8わり みまんでも ふつうの 数（まるつけが つぎの日でも、うけた日で きまる）。
+//     t.skip＝出さない 問題の しゅるい（例 ['kihon']＝基本問題を 外す）。
 //     t.tiers＝だんかいの メダル（例 [[95,1000],[90,500],[80,100]]）。いちばん 下の ％が ライン。なんかい うけても、
 //       もらえるのは いちばん よかった だんかいの ぶんまで（たりない ぶんだけ 足す）。
 //     t.qfile＝もし だけの 問題ファイル（例 data/moshi_sansu9final.json）。問題に month を つけない＝クイズの 苦手に 入らない。
@@ -159,7 +160,9 @@ function moshiPick(t, qs, subs, lv) {
   const root = k => { let g = 0; while (subs[k] && subs[k].parent && g++ < 5) k = subs[k].parent; return k; };
   const cov = new Set(t.covers);
   const catOf = k => (subs[k] && subs[k].category) || (subs[root(k)] && subs[root(k)].category) || '';
-  const inRange = qs.filter(q => q.id && q.subject && (cov.has(q.subject) || cov.has(root(q.subject))));
+  // t.skip＝出さない 問題の しゅるい（単元の子の 名前の おわり。例 ['kihon','youten']＝tkk11_kihon などを 外す）
+  const skipRe = Array.isArray(t.skip) && t.skip.length ? new RegExp('_(' + t.skip.join('|') + ')$') : null;
+  const inRange = qs.filter(q => q.id && q.subject && (cov.has(q.subject) || cov.has(root(q.subject))) && !(skipRe && skipRe.test(q.subject)));
   if (t.inOrder) return inRange.slice(0, t.perCat || MOSHI_PER_CAT).map(q => q.id);   // 本番の ふりかえり：ファイルの じゅんの まま
   const ids = [];
   MOSHI_CATS.forEach(cat => {

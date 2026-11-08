@@ -334,6 +334,54 @@
   },
   {
    "extra": true,
+   "key": "4ka1109hard",
+   "name": "4科演習もし 🔥むずかしい",
+   "month": "202611",
+   "from": "2026-11-08",
+   "date": "2026-11-09",
+   "covers": [
+    "suiri10",
+    "tkk11",
+    "tane1",
+    "tane2",
+    "bunkei11",
+    "wago11",
+    "nougyou5",
+    "nougyou6"
+   ],
+   "skip": [
+    "kihon",
+    "youten",
+    "imi",
+    "tokikata"
+   ],
+   "levels": [
+    "kako"
+   ],
+   "perCat": 10,
+   "kakoMax": 5,
+   "balance": true,
+   "limitMin": 60,
+   "tiers": [
+    [
+     95,
+     2000
+    ],
+    [
+     90,
+     1000
+    ],
+    [
+     80,
+     300
+    ]
+   ],
+   "icon": "🔥",
+   "bg": "linear-gradient(135deg,#7c2d12,#be123c)",
+   "note": "練習問題と 過去問だけ・かこもん 20もん いり"
+  },
+  {
+   "extra": true,
    "key": "kifuyu10moshi",
    "name": "基礎コン冬もし",
    "month": "eikoh_202611",

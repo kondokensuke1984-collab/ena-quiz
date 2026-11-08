@@ -30963,6 +30963,14 @@ const MOSHI_EXTRA = [
     levels: ['kako'], perCat: 10, kakoMax: 2, balance: true, limitMin: 60,
     tiers: [[95, 1000], [90, 500], [80, 100]],
     icon: '🏆', bg: 'linear-gradient(135deg,#f59e0b,#dc2626)', note: '11/9の 4科演習の はんい・かこもん いり' },
+  // おなじ はんいの むずかしい版。skip＝出さない 問題の しゅるい（基本問題・要点クイズ・意味クイズ・解き方）。
+  // 練習問題・補充・文章読解と 過去問（各教科 5もん）だけ。むずかしい ぶん メダルも 多い（11/8 ケンさん）
+  { key: '4ka1109hard', name: '4科演習もし 🔥むずかしい', month: '202611', from: '2026-11-08', date: '2026-11-09',
+    covers: ['suiri10', 'tkk11', 'tane1', 'tane2', 'bunkei11', 'wago11', 'nougyou5', 'nougyou6'],
+    skip: ['kihon', 'youten', 'imi', 'tokikata'],
+    levels: ['kako'], perCat: 10, kakoMax: 5, balance: true, limitMin: 60,
+    tiers: [[95, 2000], [90, 1000], [80, 300]],
+    icon: '🔥', bg: 'linear-gradient(135deg,#7c2d12,#be123c)', note: '練習問題と 過去問だけ・かこもん 20もん いり' },
   // 栄光（りの）。基礎コン冬だけ（5教科・11月へ うつした 10/24）と、10月ターム（算数8単元・英語 Lesson 19〜22）の 2つ（10/23 ケンさん）
   { key: 'kifuyu10moshi', name: '基礎コン冬もし', month: 'eikoh_202611', from: '2026-10-23', date: '2026-10-23',
     covers: ['kifuyu_kok', 'kifuyu_san', 'kifuyu_eng', 'kifuyu_rik', 'kifuyu_sha'], levels: ['normal'], perCat: 20, balance: true,
