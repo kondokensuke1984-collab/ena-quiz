@@ -1375,7 +1375,9 @@ const ovTitle=document.getElementById('ovTitle'),ovPause=document.getElementById
 // あそんだ じかんは ena_sora_play_v1 = { day, done: つかいきった 10ぷんの かず, sec: いまの 10ぷんの うち あそんだ びょう, base: とまった ときに といていた 数 }
 const SITE='anrino';
 const GATE={free:{kensuke:'けんすけ',mitsuki:'みつき'},
-  oneday:{yusei:['2026-10-20','ゆうせい']}};   // その日だけ いつでも（ケンさんの とくべつ）
+  oneday:{yusei:['2026-10-20','ゆうせい']},   // その日だけ いつでも（ケンさんの とくべつ）
+  ban:{anri:['2026-11-09','あんり']}};   // この日まで おやすみ（ケンさんの きまり。index.html の GAME_BAN と 同じ）
+const banNow=player=>{const b=GATE.ban[player];if(!b)return null;const d=new Date(),t=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;return t<=b[0]?b:null};
 const PLAY={first:50,more:50,min:10,key:'ena_sora_play_v1'};
 const todayKey=()=>{const d=new Date();return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`};
 // とくべつ（〜EXTRA.until）：100もんの かわりに、① 適性検査Ⅰ・Ⅱの 単元を 8わり いじょうで さいごまで（ena_daily_* の units に tekisei*）
@@ -1408,6 +1410,8 @@ function gateNow(){
     player=(JSON.parse(localStorage.getItem('ena_island_save_v1')||'{}')||{}).player||null;
   }catch(_){}
   const od=GATE.oneday[player],free=GATE.free[player]||(od&&od[0]===day?od[1]:null);
+  const ban=banNow(player);
+  if(ban)return {open:false,ban,free:null,n,need:PLAY.first,left:0,done:0,remain:0,ex:{on:false},special:false};
   const dev=/^(localhost|127\.0\.0\.1)$/.test(location.hostname)&&new URLSearchParams(location.search).get('unlock')==='1';
   const log=playLog();
   const need=log.done?log.base+PLAY.more:PLAY.first;   // つぎの 10ぷんに ひつような 数（きょうの 合計）
@@ -1417,6 +1421,14 @@ function gateNow(){
 function applyGate(){
   if(SITE!=='anrino')return true;
   const g=gateNow();
+  if(!g.open&&g.ban){
+    const [y,m,d]=g.ban[0].split('-').map(Number);
+    document.getElementById('lockTitle').textContent='いまは おやすみ';
+    document.getElementById('lockMsg').textContent=`${g.ban[1]}は ${m}がつ${d}にち まで コロンのそらとびは おやすみだよ。`;
+    document.getElementById('lockNow').textContent='';
+    document.getElementById('lockBar').style.width='0%';
+    ovLock.hidden=false;ovTitle.hidden=true;ovEnd.hidden=true;ovPause.hidden=true;document.getElementById('ovRank').hidden=true;return false;
+  }
   if(!g.open){
     const again=g.done>0;
     document.getElementById('lockTitle').innerHTML=again?'また 50もん といたら きてね':`あと <span id="lockLeft">${g.left}</span>もん！`;

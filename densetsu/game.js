@@ -10,6 +10,12 @@
 const TILE = 16, COLS = 15, ROWS = 11, W = 240, H = 192, FIELD_H = 176;
 const SAVE_KEY = 'ena_densetsu_v1', NEED = 50;
 const FREE = { kensuke: 'けんすけ', mitsuki: 'みつき' };   // いつでも あそべる 子（sora/index.html の GATE.free と 同じ）
+const BAN = { anri: ['2026-11-09', 'あんり'] };   // この日まで おやすみ（ケンさんの きまり。index.html の GAME_BAN と 同じ）
+function banNow(p) {
+  const b = BAN[p]; if (!b) return null;
+  const d = new Date(), t = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  return t <= b[0] ? b : null;
+}
 const $ = id => document.getElementById(id);
 const IS_LOCAL = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
 const QS = new URLSearchParams(location.search);
@@ -57,6 +63,16 @@ function islandPlayer() {
   try { return (JSON.parse(localStorage.getItem('ena_island_save_v1') || '{}') || {}).player || null; } catch (e) { return null; }
 }
 function applyGate() {
+  const ban = banNow(islandPlayer());
+  if (ban) {
+    const [, m, d] = ban[0].split('-').map(Number);
+    const ov = $('ovLock');
+    ov.querySelector('.big').textContent = 'いまは おやすみ';
+    ov.querySelector('.small').textContent = `${ban[1]}は ${m}がつ${d}にち まで\nアンリノの伝説は おやすみだよ。`;
+    $('lockBar').style.width = '0%'; $('lockNow').textContent = '';
+    $('ovTitle').hidden = true; ov.hidden = false;
+    return false;
+  }
   const n = answeredToday();
   if (FREE[islandPlayer()] || n >= NEED || (IS_LOCAL && QS.get('unlock') === '1')) { $('ovLock').hidden = true; return true; }
   $('lockLeft').textContent = NEED - n;

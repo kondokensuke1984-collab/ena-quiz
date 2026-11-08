@@ -23832,6 +23832,15 @@ const SORA_MORE = 50;
 const SORA_MIN = 10;
 const SORA_FREE = { kensuke: 'けんすけ', mitsuki: 'みつき' };
 const SORA_ONEDAY = { yusei: ['2026-10-20', 'ゆうせい'] };   // その日だけ いつでも（ゲームの がわ GATE.oneday と 同じ）
+// この日まで そらとび・伝説は おやすみ（ケンさんの きまり。sora の GATE.ban・densetsu の BAN と 同じ）
+const GAME_BAN = { anri: ['2026-11-09', 'あんり'] };
+function gameBanNow(player) {
+  const b = GAME_BAN[player]; if (!b) return null;
+  const d = new Date(), t = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  if (t > b[0]) return null;
+  const [, m, dd] = b[0].split('-').map(Number);
+  return `🔒 ${b[1]}は ${m}/${dd}まで おやすみ`;
+}
 function answeredToday() {
   const d = new Date().toLocaleDateString('ja-JP').replace(/\//g,'-');
   let n = 0;
@@ -23876,8 +23885,9 @@ function renderSoraBtn() {
   const left = Math.max(0, need - n);
   const special = !log.done && n < need && soraExtraToday();
   const mins = Math.max(1, Math.ceil((SORA_MIN * 60 - log.sec) / 60));
+  const ban = gameBanNow(player);
   document.querySelectorAll('.sora-btn-text').forEach(el => {
-    el.textContent = free ? (oneday ? `${free}は きょうだけ あそべる！` : `${free}は いつでも あそべる`)
+    el.textContent = ban ? ban : free ? (oneday ? `${free}は きょうだけ あそべる！` : `${free}は いつでも あそべる`)
       : (n >= need || special) ? `タップして あそぶ（のこり ${mins}ぷん）`
       : log.done > 0 ? `🔒 また あと ${left}もん といたら あそべる`
       : `🔒 あと ${left}もん といたら あそべる` + (todayStr() <= SORA_EXTRA_UNTIL ? '（10/24までは 適性検査 8わり・もしの しま でも OK）' : '');
@@ -23889,9 +23899,9 @@ function renderSoraBtn() {
 function renderDensetsuBtn() {
   let player = null;
   try { player = (JSON.parse(localStorage.getItem('ena_island_save_v1') || '{}') || {}).player || null; } catch(e) {}
-  const free = SORA_FREE[player], n = answeredToday();
+  const free = SORA_FREE[player], n = answeredToday(), ban = gameBanNow(player);
   document.querySelectorAll('.densetsu-btn-text').forEach(el => {
-    el.textContent = free ? `${free}は いつでも あそべる`
+    el.textContent = ban ? ban : free ? `${free}は いつでも あそべる`
       : n >= SORA_NEED ? 'タップして あそぶ' : `🔒 あと ${SORA_NEED - n}もん といたら あそべる`;
   });
 }
