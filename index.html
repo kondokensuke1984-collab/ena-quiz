@@ -2263,6 +2263,7 @@ body.sp-drawing { -webkit-user-select: none; user-select: none; }
   <button id="challenge-btn" class="tendency-btn" onclick="location.href='/challenge.html'" style="background:linear-gradient(135deg,#c2410c,#ea580c);margin-top:8px;color:#fff;display:none;">🏅 チャレンジテスト 成績</button>
   <button id="gakuhan-eikoh-btn" class="tendency-btn" onclick="location.href='/gakuhan_eikoh.html'" style="background:linear-gradient(135deg,#1d4ed8,#2563eb);margin-top:8px;color:#fff;display:none;">📈 成績グラフ</button>
   </div>
+  <button id="soccer-btn" class="tendency-btn" onclick="location.href='/soccer-lesson/'" style="background:linear-gradient(135deg,#16a34a,#0f766e);margin-top:8px;color:#fff;display:none;">⚽ サッカーの うごきかた（どうが＋やってみよう）</button>
   <button id="zunda-btn" class="tendency-btn" onclick="showVideoList()" style="background:linear-gradient(135deg,#65a30d,#16a34a);margin-top:8px;color:#fff;display:none;">📺 ずんだもん動画</button>
   <button id="yakusu-btn" class="tendency-btn" onclick="window.open('https://yakusu-battle.vercel.app','_blank','noopener')" style="background:linear-gradient(135deg,#f59e0b,#ea580c);margin-top:8px;color:#fff;display:none;">⚔️ やくすうバトル（やくすう・こうやくすう）</button>
   <button id="chirashi-btn" class="tendency-btn" onclick="location.href='/chirashi.html'" style="background:linear-gradient(135deg,#f472b6,#a78bfa);margin-top:12px;color:#fff;">📄 チラシ集（おぼえたいこと1枚）</button>
@@ -23955,6 +23956,7 @@ function selectSchool(schoolId) {
   document.getElementById('gouhan-moshi-btn').style.display  = schoolId === 'ena'   ? '' : 'none';
   document.getElementById('challenge-btn').style.display     = schoolId === 'ena'   ? '' : 'none';
   document.getElementById('zunda-btn').style.display         = schoolId === 'ena'   ? '' : 'none';
+  { const sc = document.getElementById('soccer-btn'); if (sc) sc.style.display = schoolId === 'g2' ? '' : 'none'; }
   document.getElementById('gakuhan-eikoh-btn').style.display = schoolId === 'eikoh' ? '' : 'none';
   document.getElementById('yakusu-btn').style.display        = schoolId === 'eikoh' ? '' : 'none';
   _monthPastOpen = false;
