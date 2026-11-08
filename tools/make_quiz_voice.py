@@ -29,7 +29,7 @@ GROUPS = {
     'shakai11': ('questions_202611.json', ('nougyou6_kihon', 'ringyo_kihon', 'suisan_kihon')),
     'rika11': ('questions_202611.json', ('tane1_kihon', 'tane2_kihon', 'kumo1_kihon')),
     # 栄光 基礎コン冬。読み（漢字の読み）は 読むと答えが わかるので のぞく。英語（意味・つづり）は ずんだもんでは 読めないので のぞく
-    'eikoh11': ('questions_eikoh_202611.json', ('kifuyu_kanji', 'kifuyu_keigo', 'kifuyu_keisan', 'kifuyu_bunsho', 'kifuyu_menseki',
+    'eikoh11': ('questions_eikoh_202611.json', ('kifuyu_kanji', 'kifuyu_keigo', 'kifuyu_k_shokake', 'kifuyu_k_showari', 'kifuyu_k_amari', 'kifuyu_k_bunsuu', 'kifuyu_k_taibun', 'kifuyu_b_heikin', 'kifuyu_b_tani', 'kifuyu_b_hayasa', 'kifuyu_b_jikan', 'kifuyu_m_hei', 'kifuyu_m_san', 'kifuyu_m_hoka',
                                               'kifuyu_hatsuga', 'kifuyu_tane', 'kifuyu_hana',
                                               'kifuyu_yasai', 'kifuyu_kudamono', 'kifuyu_chikusan', 'kifuyu_minato')),
     # ENA 11月の 練習問題（過去問演習は まだ）
