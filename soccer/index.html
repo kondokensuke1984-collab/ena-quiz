@@ -422,6 +422,9 @@ h2 { margin: 0; font-size: 20px; font-weight: 900; }
 .drill-foot a[hidden] { display: none; }
 body.drill .board, body.drill #camBtn, body.drill #btnB, body.drill #btnY, body.drill #btnR, body.drill #btnS, body.drill #termToast { display: none !important; }
 body.drill #radar { display: none; }
+/* 操作の層（#controls・画面いっぱい）より 上に 出す。出さないと「つぎへ」が 押せない */
+body.drill #hud { z-index: 2; }
+body.drill .topbtn, body.drill #pauseMenu { z-index: 3; }
 #drillTags { position: absolute; inset: 0; }
 .dtag { position: absolute; left: 0; top: 0; padding: 3px 10px; border-radius: 999px; font-size: 13px; font-weight: 900; white-space: nowrap; color: #fff;
   background: rgba(14,28,52,.88); border: 2px solid #fff; box-shadow: 0 3px 10px rgba(0,0,0,.35); }
