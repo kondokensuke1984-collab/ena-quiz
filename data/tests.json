@@ -314,6 +314,7 @@
    "kakoMax": 2,
    "balance": true,
    "limitMin": 60,
+   "once": true,
    "tiers": [
     [
      95,
@@ -362,6 +363,7 @@
    "kakoMax": 5,
    "balance": true,
    "limitMin": 60,
+   "once": true,
    "tiers": [
     [
      95,

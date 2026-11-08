@@ -30957,10 +30957,10 @@ const MOSHI_EXTRA = [
     covers: ['hoshi10', 'hoshi10b', 'nougyou3', 'nougyou4'], levels: ['normal', 'kako'], perCat: 20, limitMin: 40, kakoMax: 3,
     icon: '🏆', bg: 'linear-gradient(135deg,#f97316,#dc2626)', note: '10/26の 4科演習の はんい' },
   // 11/9 4科演習の もし（4ka_1109 の はんい 8単元を 1つに・各教科 10もん＝40もん）。
-  // tiers＝だんかいの メダル：95％で 1000・90％で 500・80％で 100（11/8 ケンさん）
+  // tiers＝だんかいの メダル：95％で 1000・90％で 500・80％で 100。once＝1かいきり（11/8 ケンさん）
   { key: '4ka1109moshi', name: '4科演習もし', month: '202611', from: '2026-11-08', date: '2026-11-09',
     covers: ['suiri10', 'tkk11', 'tane1', 'tane2', 'bunkei11', 'wago11', 'nougyou5', 'nougyou6'],
-    levels: ['kako'], perCat: 10, kakoMax: 2, balance: true, limitMin: 60,
+    levels: ['kako'], perCat: 10, kakoMax: 2, balance: true, limitMin: 60, once: true,
     tiers: [[95, 1000], [90, 500], [80, 100]],
     icon: '🏆', bg: 'linear-gradient(135deg,#f59e0b,#dc2626)', note: '11/9の 4科演習の はんい・かこもん いり' },
   // おなじ はんいの むずかしい版。skip＝出さない 問題の しゅるい（基本問題・要点クイズ・意味クイズ・解き方）。
@@ -30968,7 +30968,7 @@ const MOSHI_EXTRA = [
   { key: '4ka1109hard', name: '4科演習もし 🔥むずかしい', month: '202611', from: '2026-11-08', date: '2026-11-09',
     covers: ['suiri10', 'tkk11', 'tane1', 'tane2', 'bunkei11', 'wago11', 'nougyou5', 'nougyou6'],
     skip: ['kihon', 'youten', 'imi', 'tokikata'],
-    levels: ['kako'], perCat: 10, kakoMax: 5, balance: true, limitMin: 60,
+    levels: ['kako'], perCat: 10, kakoMax: 5, balance: true, limitMin: 60, once: true,
     tiers: [[95, 2000], [90, 1000], [80, 300]],
     icon: '🔥', bg: 'linear-gradient(135deg,#7c2d12,#be123c)', note: '練習問題と 過去問だけ・かこもん 20もん いり' },
   // 栄光（りの）。基礎コン冬だけ（5教科・11月へ うつした 10/24）と、10月ターム（算数8単元・英語 Lesson 19〜22）の 2つ（10/23 ケンさん）
