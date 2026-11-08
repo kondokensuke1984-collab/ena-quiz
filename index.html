@@ -30249,6 +30249,19 @@ const CHANNEL_VIDEOS = [
     subject:'tane1', month:'202611' },
   { id:'i1TYfNmOMNs', title:'【小5理科・社会】たねが水を吸うと何が起こる？ ヨウ素液・呼吸・自給率グラフ・フードマイレージ｜ずんだもん探偵',
     subject:'nougyou6', month:'202611' },
+  // 栄光 基礎コン冬 英語：書けるようにしたい単語の動画2本（11/8 ケンさん）。YouTube には出さず、アプリの中の mp4 だけ（src・thumb）
+  { id:'eitan-sports', src:'/videos/eitan-sports.mp4', thumb:'/videos/eitan-sports.jpg', title:'【小5英語】スポーツの英単語を書こう｜soccer・tennis・swimming・racket・baseball・basketball・game｜ずんだもん探偵（基礎コン冬）',
+    subject:'kifuyu_spell', month:'eikoh_202611' },
+  { id:'eitan-sports', src:'/videos/eitan-sports.mp4', thumb:'/videos/eitan-sports.jpg', title:'【小5英語】スポーツの英単語を書こう｜soccer・tennis・swimming・racket・baseball・basketball・game｜ずんだもん探偵（基礎コン冬）',
+    subject:'kifuyu_imi', month:'eikoh_202611' },
+  { id:'eitan-sports', src:'/videos/eitan-sports.mp4', thumb:'/videos/eitan-sports.jpg', title:'【小5英語】スポーツの英単語を書こう｜soccer・tennis・swimming・racket・baseball・basketball・game｜ずんだもん探偵（基礎コン冬）',
+    subject:'kifuyu_eng', month:'eikoh_202611' },
+  { id:'eitan-iro', src:'/videos/eitan-iro.mp4', thumb:'/videos/eitan-iro.jpg', title:'【小5英語】色と国の英単語を書こう｜blue・green・orange・red・Japan｜ずんだもん探偵（基礎コン冬）',
+    subject:'kifuyu_spell', month:'eikoh_202611' },
+  { id:'eitan-iro', src:'/videos/eitan-iro.mp4', thumb:'/videos/eitan-iro.jpg', title:'【小5英語】色と国の英単語を書こう｜blue・green・orange・red・Japan｜ずんだもん探偵（基礎コン冬）',
+    subject:'kifuyu_imi', month:'eikoh_202611' },
+  { id:'eitan-iro', src:'/videos/eitan-iro.mp4', thumb:'/videos/eitan-iro.jpg', title:'【小5英語】色と国の英単語を書こう｜blue・green・orange・red・Japan｜ずんだもん探偵（基礎コン冬）',
+    subject:'kifuyu_eng', month:'eikoh_202611' },
 ];
 // ── 開いたら自動で おすすめ動画 ──
 //   id を入れると、アプリを開いたときに「ふくしゅう どうがだよ！」の案内が出る（見るまで、1日1回）。
@@ -30381,7 +30394,7 @@ function showVideoList() {
     const meta = [mon.emoji && mon.label ? `${mon.emoji}${mon.label}` : '', cat.label || '', sub.label || ''].filter(Boolean).join('・');
     const card = document.createElement('button');
     card.className = 'vl-card';
-    card.innerHTML = `<div class="vl-thumb" style="background-image:url('https://i.ytimg.com/vi/${v.id}/hqdefault.jpg')"></div>
+    card.innerHTML = `<div class="vl-thumb" style="background-image:url('${v.thumb || `https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`}')"></div>
       <div class="vl-body"><div class="vl-title">${v.title}</div>${meta ? `<div class="vl-meta">${meta}</div>` : ''}</div>`;
     card.onclick = () => openChannelVideo(v.id);
     box.appendChild(card);
@@ -30415,6 +30428,11 @@ function openChannelVideo(id, opt) {
   if (!v) return false;                         // 許可リストにない動画は再生しない
   opt = opt || {};
   cvTeardown();
+  if (v.src) {                                  // YouTube に出していない動画（アプリの中の mp4）はふつうのプレーヤーで
+    openVideoModal(v.src, v.title);
+    document.getElementById('video-modal-title').textContent = (opt.prefix || '📺 ') + v.title;
+    return true;
+  }
   const body = document.getElementById('video-modal-body');
   document.getElementById('video-modal-title').textContent = (opt.prefix || '📺 ') + v.title;
   body.classList.add('cv-mode');
