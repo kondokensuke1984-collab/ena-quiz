@@ -25,7 +25,7 @@ const DEBUG = IS_LOCAL && QS.get('debug') === '1';
 const cv = $('cv'), out = cv.getContext('2d');
 const buf = Art.mk(W, H), g = buf.getContext('2d');
 g.imageSmoothingEnabled = false; out.imageSmoothingEnabled = false;
-const SOLID = new Set(['T', 'Y', 'W', 'R', 'B', '^', 'H', 'I', 'X', 'a', 't', 'L', 'E']);
+const SOLID = new Set(['T', 'Y', 'W', 'R', 'B', '^', 'H', 'I', 'X', 'a', 't', 'L', 'E', 'Q']);
 const DIR = { u: [0, -1], d: [0, 1], l: [-1, 0], r: [1, 0] };
 const DOOR_POS = { n: [7, 0], s: [7, 10], w: [0, 5], e: [14, 5] };
 
@@ -159,7 +159,7 @@ function bakeRoom() {
   for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) Art.tile(b, G.tiles[r][c], c, r, at);
   if (G.room.tower) Art.tower(b, G.room.tower[0], G.room.tower[1], flag('ending'));
   if (G.room.ruin) Art.ruin(b, G.room.ruin[0], G.room.ruin[1], flag('c2_lit'));
-  (G.room.deco || []).forEach(d => { if (d.if && !flag(d.if)) return; if (d.t === 'boat') Art.boat(b, d.x * TILE, d.y * TILE); if (d.t === 'bigtree') Art.bigtree(b, d.x, d.y); if (d.t === 'shade') Art.ruinShade(b, d.x, d.y, d.w, d.h); });
+  (G.room.deco || []).forEach(d => { if (d.if && !flag(d.if)) return; if (d.t === 'boat') Art.boat(b, d.x * TILE, d.y * TILE); if (d.t === 'bigtree') Art.bigtree(b, d.x, d.y); if (d.t === 'shade') Art.ruinShade(b, d.x, d.y, d.w, d.h); if (d.t === 'wither' && !flag(d.unless)) Art.R(b, 'rgba(176,142,62,.42)', 0, 0, W, FIELD_H); });
 }
 function mkEnemy(def) {
   const px = def.x * TILE + 8, py = def.y * TILE + 8;
@@ -200,7 +200,7 @@ function enterRoom(id, x, y, dir) {
 }
 
 // ── あたり判定 ──
-const SOLID_ENT = new Set(['chest', 'npc', 'sign', 'stone', 'block', 'boulder', 'pinwheel', 'lamp', 'story']);
+const SOLID_ENT = new Set(['chest', 'npc', 'sign', 'stone', 'block', 'boulder', 'pinwheel', 'lamp', 'story', 'qstone', 'qopt', 'sprout']);
 function entSolidAt(e) { return e.t === 'door' ? !flag(e.def.flag) : SOLID_ENT.has(e.t) && entActive(e); }
 function tileBlocked(c, r) {
   const t = tileAt(c, r);
@@ -290,6 +290,7 @@ function tickDialog() {
 function colonSay(pages, cb, voices) { say(pages, cb, 'コロン', voices); }
 
 function colonHint() {
+  if (flag('ch3')) return c3Hint();
   if (flag('ch2') && !flag('c2_end')) return c2Hint();
   if (flag('c2_end')) return 'ミオの あかり、今夜も 見えるね。\n📜で、てがみを もう いちど よめるよ。';
   if (flag('ending') && S.maxHp >= 10) return '村長さんに 会いに いこう。\n海の むこうの かげの こと、なにか しっているかも！';
@@ -324,7 +325,7 @@ function tryAction() {
   let best = null, bd = 1e9;
   for (const e of G.ents) {
     if (e.enemy || !entActive(e)) continue;
-    if (!['npc', 'sign', 'stone', 'chest', 'lamp', 'story'].includes(e.t)) continue;
+    if (!['npc', 'sign', 'stone', 'chest', 'lamp', 'story', 'qstone', 'qopt', 'sprout'].includes(e.t)) continue;
     const d = Math.hypot(e.x + 8 - fx, e.y + 8 - fy);
     const reach = e.def.talkOver ? 34 : 15;
     if (d < reach && d < bd) { best = e; bd = d; }
@@ -336,6 +337,9 @@ function tryAction() {
   else if (best.t === 'chest') openChest(best);
   else if (best.t === 'lamp') lightLamp();
   else if (best.t === 'story') c2Story(best);
+  else if (best.t === 'qstone') c3Stone(best);
+  else if (best.t === 'qopt') c3Opt(best);
+  else if (best.t === 'sprout') colonSay(flag('c3_water') ? 'しおれた 芽だ。\n💧ボタンで めざめの水を かけてみよう！' : 'しおれた 芽だ。\n水が あれば のびるかも。');
 }
 function rest() {
   S.hp = S.maxHp; writeSave(); fmJingle('d_rest');
@@ -346,6 +350,7 @@ function rest() {
 function talk(e) {
   const id = e.def.id, n = NAMES[id];
   if (id === 'turtle') {
+    if (flag('ch3')) return c3TalkTurtle();
     if (!S.staff) {
       say(['おお、アンリノ！ よく 海を わたって きてくれた。',
         'みさきの 灯台の 火が、かげモンスターに けされて しもうた。\nあの 火は、となりの アンリノ島の 船も てらす、だいじな 火じゃ。',
@@ -354,7 +359,7 @@ function talk(e) {
     } else if (!flag('boss_dead')) say('灯台への 道は、村を でて ひがしじゃ。\nこまったら、コロンに きいて ごらん（💬ボタン）。', null, n);
     else if (!flag('ending')) say('もう すぐじゃ。てっぺんの 火皿を しらべるのじゃぞ！', null, n);
     else if (!flag('ch2')) c2GoCh2();
-    else if (flag('c2_end')) say('今夜も、あの 島に あかりが 見えるのう。\nミオも きっと よろこんで おるよ。', null, n);
+    else if (flag('c2_end')) say('今夜も、あの 島に あかりが 見えるのう。\nミオも きっと よろこんで おるよ。', () => c2Choose('第3章へ いく？', ['いく', 'やめる'], i => { if (!i) c2NewChapter(3); }), n);
     else if (flag('c2_lit')) c2Finale();
     else say('しおさいの島は どうじゃな。\n船は アザラシに たのむと よいぞ。', null, n);
   } else if (id === 'seal') {
@@ -528,6 +533,7 @@ function tickPlayer() {
     } else if (e.def.kind === 'wind' && G.toastT <= 0) toast('風車を まわすと ひらくよ');
     else if (e.def.kind === 'clear' && G.toastT <= 0) toast('かげを ぜんぶ たおそう');
     else if (e.def.kind === 'gate' && G.toastT <= 0) toast('赤い いしいたに いわを のせよう');
+    else if (e.def.kind === 'riddle' && G.toastT <= 0) toast('謎を とくと ひらくよ');
   }
   // ワープ
   const cc = Math.floor(P.x / TILE), cr = Math.floor(P.y / TILE);
@@ -596,18 +602,19 @@ function tickPush(ix, iy) {
 }
 function fireGust() {
   const [dx, dy] = DIR[P.dir];
-  G.gusts.push({ x: P.x + dx * 9, y: P.y + dy * 9, dx, dy, life: 76, t: 0 });
-  Sfx.wind();
+  const water = flag('ch3') && S.tool === 'water';
+  G.gusts.push({ x: P.x + dx * 9, y: P.y + dy * 9, dx, dy, life: 76, t: 0, kind: water ? 'water' : null });
+  if (water) Sfx.text(); else Sfx.wind();
 }
 function tickGusts() {
   for (const w of G.gusts) {
     w.x += w.dx * 3; w.y += w.dy * 3; w.t++; w.life--;
     const c = Math.floor(w.x / TILE), r = Math.floor(w.y / TILE), t = tileAt(c, r);
-    if (t === undefined || ['T', 'R', '^', 'H', 'I', 'X', 'a', 't', 'L', 'B', 'E'].includes(t)) { w.life = 0; continue; }
+    if (t === undefined || ['T', 'R', '^', 'H', 'I', 'X', 'a', 't', 'L', 'B', 'E', 'Q'].includes(t)) { w.life = 0; continue; }
     for (const e of [...G.ents]) {
       if (e.enemy) {
         if (Math.hypot(e.x - w.x, e.y - w.y) < e.r + 5) {
-          if (e.kind === 'boss') { if (e.aura) { e.aura = false; e.state = 'stun'; e.timer = 220; e.st = 0; Sfx.ting(); spark(e.x, e.y); G.shake = 5; toast('いまだ！ ぼうで たたけ！'); } }
+          if (e.kind === 'boss') { if (e.aura && e.def.needQ && !flag(e.def.needQ)) { Sfx.ting(); spark(e.x, e.y); if (G.toastT <= 0) toast('たてが きかない！ 石板の 謎を とこう'); } else if (e.aura) { e.aura = false; e.state = 'stun'; e.timer = 220; e.st = 0; Sfx.ting(); spark(e.x, e.y); G.shake = 5; toast('いまだ！ ぼうで たたけ！'); } }
           else if (e.shield) { e.shield = false; Sfx.ting(); spark(e.x, e.y); e.stun = 60; }
           else { e.stun = 70; e.kx = w.dx * 2.6; e.ky = w.dy * 2.6; e.kt = 10; }
           w.life = 0; break;
@@ -615,6 +622,7 @@ function tickGusts() {
         continue;
       }
       if (!entActive(e)) continue;
+      if (c3Shot(w, e)) break;
       if (e.t === 'door' && !flag(e.def.flag) && overlap(w.x, w.y, 1, 1, e.x, e.y, 16, 16)) { w.life = 0; break; }
       if (e.t === 'pinwheel' && overlap(w.x - 3, w.y - 3, 6, 6, e.x, e.y, 16, 16)) {
         w.life = 0;
@@ -723,7 +731,7 @@ function tickBossDie() {
   tickFx();
   if (G.bossT > 90) {
     G.mode = 'play'; setFlag(G.room.bossFlag || 'boss_dead'); Sfx.door(); fmPlay('d_dungeon');
-    say(G.room.bossFlag ? 'かげの ぬしを たおした！\nとびらが ひらいた。てっぺんへ のぼろう！' : 'いかり番を たおした！\nとびらが ひらいた。てっぺんへ のぼろう！', null, 'コロン');
+    say(G.room.bossMsg || (G.room.bossFlag ? 'かげの ぬしを たおした！\nとびらが ひらいた。てっぺんへ のぼろう！' : 'いかり番を たおした！\nとびらが ひらいた。てっぺんへ のぼろう！'), null, 'コロン');
   }
 }
 function tickAnchor(a) {
@@ -853,7 +861,7 @@ function tick() {
 }
 function tickPlay() {
   if (S) S.time++;
-  if (c2Tick() || G.mode !== 'play') return;
+  if (c2Tick() || c3Tick() || G.mode !== 'play') return;
   tickPlayer();
   if (G.mode !== 'play') return;
   for (const e of [...G.ents]) {
@@ -918,6 +926,9 @@ function drawEnt(e) {
     case 'pinwheel': Art.pinwheel(g, x, y, frame, e.spin > 0 || flag(e.def.flag || e.def.group)); break;
     case 'lamp': Art.lamp(g, x, y, flag(G.room.lampFlag || 'ending'), frame); break;
     case 'story': if (entActive(e)) Art.c2(g, e.def.kind, x, y, frame); break;
+    case 'qstone': if (entActive(e)) Art.c3Stone(g, x, y, frame, c3Solved(e.def.id)); break;
+    case 'qopt': if (entActive(e)) c3DrawOpt(e, x, y); break;
+    case 'sprout': if (entActive(e)) Art.c3Sprout(g, x, y, frame); break;
     case 'pick': g.drawImage(Art.ICON.shell, x + 4, y + 4); break;
     case 'drop': if (e.life > 90 || frame % 8 < 4) g.drawImage(e.kind === 'heal' ? Art.ICON.drop : Art.ICON.shell, x - 4, y - 4); break;
     case 'anchor': Art.anchor(g, x, y, e.st); break;
@@ -964,7 +975,7 @@ function drawWorld() {
   list.push({ y: P.y + 5, draw: drawHero });
   list.push({ y: colonF.y + 3, draw: drawColon });
   list.sort((a, b) => a.y - b.y).forEach(o => o.draw());
-  for (const w of G.gusts) Art.gust(g, w.x, w.y, w.t);
+  for (const w of G.gusts) (w.kind === 'water' ? Art.c3Water : Art.gust)(g, w.x, w.y, w.t);
   for (const f of G.fx) Art.R(g, f.c, Math.round(f.x), Math.round(f.y), 2, 2);
   if ((G.id === 'dT' && flag('ending')) || (G.id === 'eT' && flag('c2_lit'))) { g.fillStyle = 'rgba(255,220,120,.14)'; g.fillRect(0, 0, W, FIELD_H); }
   if (G.c2Flash > 0) { g.fillStyle = `rgba(255,255,240,${G.c2Flash / 40})`; g.fillRect(0, 0, W, FIELD_H); }
@@ -1046,7 +1057,7 @@ function backToTitle() {
   G.mode = 'title'; G.end = null; fmStop();
   $('ovTitle').hidden = false; refreshTitle();
   // おわったあとは、灯台の まえから 遊べるように
-  if (S) { if (flag('c2_end')) { S.room = 'v0'; S.x = 72; S.y = 104; S.dir = 'r'; } else { S.room = 'f4'; S.x = 120; S.y = 104; S.dir = 'u'; } writeSave(); }
+  if (S && !flag('ch3')) { if (flag('c2_end')) { S.room = 'v0'; S.x = 72; S.y = 104; S.dir = 'r'; } else { S.room = 'f4'; S.x = 120; S.y = 104; S.dir = 'u'; } writeSave(); }
 }
 let confirmNew = false;
 function refreshTitle() {
@@ -1056,7 +1067,7 @@ function refreshTitle() {
   $('btnChapters').hidden = !cleared;
   $('btnTitleLetters').hidden = !clear.c2;
   $('btnNew').hidden = cleared;   // クリアしたら「章を えらぶ」から はじめる（きろくを うっかり けさないように）
-  $('logoSub').textContent = sv && sv.f.ending ? '第2章 ひかりの てがみ' : '第1章 きえた ともしび';
+  $('logoSub').textContent = sv && sv.f.ch3 ? '第3章 めぶきの たね' : sv && sv.f.ending ? '第2章 ひかりの てがみ' : '第1章 きえた ともしび';
   $('btnCont').hidden = !has;
   $('btnNew').textContent = 'はじめから'; confirmNew = false;
   $('btnNew').classList.toggle('go', !has);
@@ -1086,6 +1097,7 @@ function loop(ts) {
 }
 
 c2Init();
+c3Init();
 refreshTitle();
 applyGate();
 requestAnimationFrame(loop);
@@ -1098,5 +1110,7 @@ if (DEBUG) {
     render,
     passable(c, r) { return !tileBlocked(c, r) && tileAt(c, r) !== 'P' && !G.ents.some(e => !e.enemy && e.tx === c && e.ty === r && entSolidAt(e)); },
     tileAt,
+    active: entActive,
+    boss: () => G.ents.find(e => e.kind === 'boss'),
   };
 }

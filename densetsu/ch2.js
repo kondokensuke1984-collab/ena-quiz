@@ -149,6 +149,7 @@ function c2Story(e) {
   if (k === 'well') return say('ふるい いど。\nのぞくと、ずっと 下で 水の 音が する。');
   if (k === 'mound') return c2Dig();
   if (k === 'carve') return c2NameScene();
+  if (k === 'c3seed') return c3Seed();
 }
 function c2Bottle() {
   give('bottle', () => c2OpenLetter('l1', () => {
@@ -222,7 +223,7 @@ function c2Dig() {
 // ── へやに 入ったときの できごと（ダイアログを 出したら true）──
 function c2Tick() {
   if (!S || !flag('ending')) return false;
-  if (flag('ch2')) c2VoicePreload();
+  if (flag('ch2') && !flag('ch3')) c2VoicePreload();
   if (G.id === 's0' && !flag('c2_arrive')) {
     S.f.c2_arrive = 1; writeSave();
     colonSay(['ここが しおさいの島……。\nだれも いないみたい。', 'あ！ 波うちぎわで、なにか 光ってる！']);
@@ -441,8 +442,8 @@ function c2Boat(toIsland) {
 const C2_CLEAR_KEY = 'ena_densetsu_clear', C2_SLOT_KEY = 'ena_densetsu_slots';
 const c2Read = k => { try { return JSON.parse(localStorage.getItem(k) || '{}') || {}; } catch (e) { return {}; } };
 const c2Write = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
-const c2ChapterOf = sv => (sv.f.ch2 ? 2 : 1);
-const c2IsCleared = sv => (sv.f.ch2 ? !!sv.f.c2_end : !!sv.f.ending);
+const c2ChapterOf = sv => (sv.f.ch3 ? 3 : sv.f.ch2 ? 2 : 1);
+const c2IsCleared = sv => (sv.f.ch3 ? !!sv.f.c3_end : sv.f.ch2 ? !!sv.f.c2_end : !!sv.f.ending);
 // セーブを 見て、クリアの きろくを のこす（前から クリアしていた人の ぶんも ここで 入る）
 function c2SyncClear(sv) {
   if (!sv || !sv.f.ending) return c2Read(C2_CLEAR_KEY);
@@ -451,6 +452,7 @@ function c2SyncClear(sv) {
   const hp = sv.f.ch2 ? Math.min(sv.maxHp, 10) : sv.maxHp;
   c.c1 = { maxHp: Math.max(hp, (c.c1 && c.c1.maxHp) || 0), shells: Math.max(sv.shells || 0, (c.c1 && c.c1.shells) || 0) };
   if (sv.f.c2_end) c.c2 = true;
+  if (sv.f.c3_end) c.c3 = true;
   c2Write(C2_CLEAR_KEY, c);
   return c;
 }
@@ -483,6 +485,7 @@ function c2NewChapter(ch) {
   c2CloseChapters();
   $('ovEnd').hidden = true; $('btnEnd').hidden = true; $('btnCh2End').hidden = true;
   if (ch === 1) return startNew();
+  if (ch === 3) return c3NewGame(clear);
   S = Object.assign(newSave(), { staff: true, jar: true, maxHp: (clear.c1 && clear.c1.maxHp) || 8, shells: (clear.c1 && clear.c1.shells) || 0, f: { ending: 1, boss_dead: 1 } });
   S.hp = S.maxHp; writeSave();
   c2StartFromMenu();
@@ -495,12 +498,13 @@ function c2GoCh2() {
   if (c2Resumable(2)) { c2CloseChapters(); return c2Resume(2); }
   c2NewChapter(2);
 }
-const C2_CHAPTERS = [[1, '第1章 きえた ともしび'], [2, '第2章 ひかりの てがみ']];
+const C2_CHAPTERS = [[1, '第1章 きえた ともしび'], [2, '第2章 ひかりの てがみ'], [3, '第3章 めぶきの たね']];
 function c2OpenChapters() {
   const box = $('cpBtns'); box.textContent = '';
   $('cpTitle').textContent = '章を えらぶ';
   const add = (label, fn) => { const b = document.createElement('button'); b.className = 'mbtn chBtn'; b.textContent = label; b.addEventListener('click', fn); box.appendChild(b); };
-  C2_CHAPTERS.forEach(([ch, label]) => add(label, () => {
+  const open = c2Read(C2_CLEAR_KEY).c2;   // 第3章は 第2章を クリアすると ひらく
+  C2_CHAPTERS.filter(([ch]) => ch < 3 || open).forEach(([ch, label]) => add(label, () => {
     if (!c2Resumable(ch)) return c2NewChapter(ch);
     $('cpTitle').textContent = label; box.textContent = '';
     add('つづきから', () => { c2CloseChapters(); c2Resume(ch); });
@@ -518,6 +522,7 @@ let c2ListBack = 'play';
 function c2ShowList() {
   G.mode = 'list';
   const box = $('lsBtns'); box.textContent = '';
+  $('lsTitle').textContent = 'だいじな てがみ';
   const all = c2AllOpen();
   C2_ORDER.filter(id => all || c2Has(id)).forEach(id => {
     const b = document.createElement('button');

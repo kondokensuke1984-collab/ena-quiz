@@ -416,6 +416,10 @@ const Art = (() => {
         if (solid(dn)) R(g, '#5a7a8c', X, Y + 15, 16, 1);
       } break;
       case 'U': { R(g, '#05060f', X, Y, 16, 16); R(g, '#9a6a3c', X + 1, Y, 14, 16); for (let i = 0; i < 16; i += 4) { R(g, '#c29155', X + 1, Y + i, 14, 1); R(g, '#5f4226', X + 1, Y + i + 3, 14, 1); } R(g, '#efbd3b', X, Y, 2, 16); R(g, '#efbd3b', X + 14, Y, 2, 16); R(g, '#8d5a14', X + 1, Y, 1, 16); R(g, '#8d5a14', X + 15, Y, 1, 16); } break;
+      case 'Q': seedWall(g, X, Y, near); break;
+      case 'q': seedFloor(g, X, Y, cx, cy, near, '#d8c56a', '#c4ae52', '#ece08e'); break;
+      case 'j': seedFloor(g, X, Y, cx, cy, near, '#efe6c8', '#dccfa6', '#fbf5e0'); break;
+      case 'V': { R(g, '#05060f', X, Y, 16, 16); R(g, '#3c8240', X + 4, Y, 8, 16); R(g, '#6dbf5f', X + 5, Y, 3, 16); for (let i = 1; i < 16; i += 5) { R(g, '#8fd878', X + 1, Y + i, 4, 2); R(g, '#8fd878', X + 11, Y + i + 2, 4, 2); } } break;
       default: R(g, '#f0f', X, Y, 16, 16);
     }
   }
@@ -463,6 +467,25 @@ const Art = (() => {
         [0, 14].forEach(y => { R(g, '#8d5a14', X, Y + y, 16, 2); R(g, '#efbd3b', X, Y + y, 16, 1); });
       }
     }
+  }
+
+  // 第3章：たねの 中の かべと ゆか
+  function seedWall(g, X, Y, near) {
+    const open = c => c !== undefined && c !== 'Q';
+    R(g, '#4a2d18', X, Y, 16, 16);
+    for (let i = 0; i < 5; i++) { const x = X + Math.floor(noise(X, Y, i) * 14), y = Y + Math.floor(noise(Y, X, i) * 14); R(g, '#5f3c22', x, y, 2, 1); }
+    if (open(near(0, 1))) { R(g, '#2e1a0c', X, Y, 16, 2); R(g, '#a56e36', X, Y + 2, 16, 2); R(g, '#7f5228', X, Y + 4, 16, 9); for (let i = 0; i < 16; i += 5) R(g, '#6b4420', X + i, Y + 4, 1, 9); R(g, '#3a2210', X, Y + 13, 16, 3); }
+    if (open(near(0, -1))) { R(g, '#a56e36', X, Y, 16, 2); R(g, '#2e1a0c', X, Y + 2, 16, 1); }
+    if (open(near(1, 0))) { R(g, '#a56e36', X + 13, Y, 1, 16); R(g, '#7f5228', X + 14, Y, 2, 16); }
+    if (open(near(-1, 0))) { R(g, '#7f5228', X, Y, 2, 16); R(g, '#a56e36', X + 2, Y, 1, 16); }
+  }
+  function seedFloor(g, X, Y, cx, cy, near, base, dark, light) {
+    R(g, base, X, Y, 16, 16);
+    // 細胞の つぶ
+    for (let j = 0; j < 2; j++) for (let i = 0; i < 2; i++) { const x = X + i * 8 + (j % 2 ? 3 : 0), y = Y + j * 8; if (x + 6 > X + 16) continue; R(g, dark, x, y, 7, 1); R(g, dark, x, y, 1, 7); R(g, light, x + 2, y + 2, 2, 1); }
+    if (near(0, -1) === 'Q') R(g, 'rgba(46,26,12,.42)', X, Y, 16, 4);
+    if (near(-1, 0) === 'Q') R(g, 'rgba(46,26,12,.3)', X, Y, 3, 16);
+    if (near(1, 0) === 'Q') R(g, 'rgba(46,26,12,.18)', X + 14, Y, 2, 16);
   }
 
   // ── とうだい ──
@@ -646,6 +669,7 @@ const Art = (() => {
       for (let i = 2; i < 15; i += 3) { R(g, '#5d648f', x + i, y + 1, 1, 14); R(g, '#8b92b8', x + i, y + 1, 1, 2); R(g, '#141a38', x + i + 1, y + 1, 1, 14); }
       R(g, '#8b92b8', x + 1, y + 7, 14, 2);
       if (kind === 'wind') { R(g, LINE, x + 4, y + 4, 8, 8); R(g, '#3dbdb0', x + 5, y + 5, 6, 6); R(g, '#c1f8ea', x + 5, y + 5, 3, 2); R(g, LINE, x + 7, y + 7, 2, 2); }
+      else if (kind === 'riddle') { R(g, LINE, x + 3, y + 3, 10, 10); R(g, '#1f6b4a', x + 4, y + 4, 8, 8); R(g, '#7fe08a', x + 7, y + 5, 2, 6); R(g, '#7fe08a', x + 5, y + 6, 2, 2); R(g, '#7fe08a', x + 9, y + 7, 2, 2); }
       else { R(g, LINE, x + 4, y + 5, 8, 6); R(g, '#e0556a', x + 5, y + 6, 6, 4); R(g, '#ffc7c4', x + 5, y + 6, 3, 1); }
     }
   }
@@ -721,6 +745,9 @@ const Art = (() => {
     } else if (kind === 'mound') {
       R(g, '#5a3a1e', x + 2, y + 8, 12, 6); R(g, '#74482a', x + 4, y + 6, 8, 3);
       if (Math.floor(t / 20) % 2) R(g, '#fff7c6', x + 8, y + 3, 2, 2);
+    } else if (kind === 'c3seed') {
+      R(g, 'rgba(5,10,30,.3)', x + 2, y + 12, 12, 3); R(g, LINE, x + 3, y + 3, 10, 11); R(g, '#7f5228', x + 4, y + 4, 8, 9); R(g, '#a56e36', x + 5, y + 4, 4, 3);
+      if (Math.floor(t / 24) % 2) { R(g, '#fff7c6', x + 13, y + 2, 2, 2); R(g, '#fff7c6', x + 1, y + 8, 1, 1); }
     } else if (kind === 'carve') {
       for (let i = 0; i < 4; i++) R(g, '#c8cde4', x - 6 + i * 8, y + 5, 5, 1);
       for (let i = 0; i < 3; i++) R(g, '#c8cde4', x - 2 + i * 8, y + 10, 5, 1);
@@ -740,5 +767,43 @@ const Art = (() => {
     R(g, on ? '#ffe36a' : '#3a4270', tx + 4, y - 18, 14, 12);
   }
 
-  return { c2, c2Mio, c2Tower, bigtree, ruin, ruinShade, mk, flip, heroFrames, colon, colonL, NPC, slime, bat, crab, guard, ICON, tile, tower, staffSwing, gust, boss, anchor, shield, chest, block, boulder, plate, pinwheel, stone, sign, door, lamp, boat, R };
+  // ── 第3章 ──
+  function c3Stone(g, x, y, t, done) {
+    R(g, 'rgba(5,10,30,.3)', x + 1, y + 13, 14, 3); R(g, LINE, x + 2, y, 12, 15);
+    R(g, done ? '#6f7a78' : '#2f8a70', x + 3, y + 1, 10, 13); R(g, done ? '#94a09c' : '#6fd8b0', x + 3, y + 1, 10, 2);
+    R(g, '#d8ffe8', x + 7, y + 5, 2, 7); R(g, '#d8ffe8', x + 5, y + 6, 2, 2); R(g, '#d8ffe8', x + 9, y + 8, 2, 2);
+    if (!done && Math.floor(t / 20) % 2) R(g, '#fff7c6', x + 12, y + 1, 2, 2);
+  }
+  function c3Pedestal(g, x, y, lit) {
+    R(g, 'rgba(5,10,30,.3)', x + 1, y + 13, 14, 3); R(g, LINE, x + 2, y + 8, 12, 7); R(g, lit ? '#efbd3b' : '#8488a8', x + 3, y + 9, 10, 5); R(g, lit ? '#fff7c6' : '#afb2cb', x + 3, y + 9, 10, 1);
+    if (lit) R(g, 'rgba(255,230,140,.35)', x, y - 3, 16, 15);
+  }
+  function c3Opt(g, x, y, t, look, lit) {
+    if (look === 'door') {
+      R(g, 'rgba(5,10,30,.3)', x + 1, y + 13, 14, 3); R(g, LINE, x + 2, y, 12, 15); R(g, '#74482a', x + 3, y + 1, 10, 14); R(g, '#9a6a3c', x + 3, y + 1, 10, 2); R(g, '#efbd3b', x + 10, y + 8, 2, 2);
+      return;
+    }
+    c3Pedestal(g, x, y, lit);
+    const bob = Math.round(Math.sin(t * .07 + x));
+    const Y = y + 1 + bob, X = x + 4;
+    if (look === 'water') { R(g, '#46a9dc', X + 3, Y, 2, 2); R(g, '#46a9dc', X + 2, Y + 2, 4, 2); R(g, '#46a9dc', X + 1, Y + 4, 6, 3); R(g, '#c1f0ff', X + 2, Y + 4, 1, 2); }
+    else if (look === 'air') { R(g, '#d8f2ff', X, Y + 1, 6, 1); R(g, '#d8f2ff', X + 2, Y + 3, 6, 1); R(g, '#d8f2ff', X, Y + 5, 7, 1); R(g, '#8fc8e6', X + 6, Y, 2, 2); }
+    else if (look === 'temp') { R(g, '#ff7b3a', X + 2, Y + 1, 4, 6); R(g, '#ffc04a', X + 3, Y + 3, 2, 4); R(g, '#ff7b3a', X + 3, Y, 2, 1); }
+    else if (look === 'sun') { R(g, '#ffd85e', X + 1, Y + 1, 6, 6); R(g, '#fff4b0', X + 2, Y + 2, 2, 2); [[3, -1], [3, 7], [-1, 3], [7, 3]].forEach(([a, b]) => R(g, '#ffd85e', X + a, Y + b, 2, 2)); }
+    else if (look === 'fert') { R(g, '#b98a54', X + 1, Y + 1, 6, 6); R(g, '#7f5228', X + 2, Y, 4, 1); R(g, '#fff7e0', X + 3, Y + 3, 2, 2); }
+    else if (look === 'jar') { R(g, LINE, X, Y, 8, 8); R(g, '#d8f2ff', X + 1, Y, 6, 7); R(g, '#5cc2e4', X + 1, Y + 4, 6, 3); }
+    else { R(g, LINE, X + 1, Y + 1, 7, 7); R(g, '#a56e36', X + 2, Y + 2, 5, 5); R(g, '#d8a666', X + 3, Y + 2, 2, 2); }
+  }
+  function c3Sprout(g, x, y, t) {
+    const n = Math.floor(t / 30) % 2;
+    R(g, 'rgba(5,10,30,.3)', x + 3, y + 13, 10, 3); R(g, '#7f5228', x + 4, y + 11, 8, 4);
+    R(g, '#a2933f', x + 7, y + 4, 2, 8); R(g, '#c2b050', x + 3 + n, y + 4, 4, 2); R(g, '#c2b050', x + 9 - n, y + 6, 4, 2);
+  }
+  function c3Water(g, x, y, t) {
+    for (let i = 0; i < 6; i++) { const a = t * .5 + i * 1.05; R(g, i % 2 ? '#c1f0ff' : '#46a9dc', Math.round(x + Math.cos(a) * 3), Math.round(y + Math.sin(a) * 3), 2, 2); }
+    R(g, '#ffffff', Math.round(x) - 1, Math.round(y) - 1, 2, 2);
+  }
+  ICON.water = rows(['...bb...', '..bbbb..', '.bwbbbb.', 'bwwbbbbb', 'bwbbbbbb', 'bbbbbbbb', '.bbbbbb.', '..bbbb..'], IM);
+
+  return { c3Stone, c3Opt, c3Sprout, c3Water, c2, c2Mio, c2Tower, bigtree, ruin, ruinShade, mk, flip, heroFrames, colon, colonL, NPC, slime, bat, crab, guard, ICON, tile, tower, staffSwing, gust, boss, anchor, shield, chest, block, boulder, plate, pinwheel, stone, sign, door, lamp, boat, R };
 })();

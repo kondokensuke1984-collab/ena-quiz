@@ -31,6 +31,14 @@ Object.assign(FM_SONGS, {
       'F5.8 Ab5.4 C6.4  G5.8 Eb5.4 C5.4  Ab4.4 C5.4 Eb5.4 Ab5.4  G5.12 r.4', 0.85],
       ['bell', 'r.12 G6.2 Eb6.2 r.12 C6.4 r.12 Ab5.2 C6.2 r.16 r.12 F6.2 Ab6.2 r.12 G6.4 r.16 r.12 D6.4', 0.35]],
   },
+  // 🌱 たねの 中：まだ ねむっている いのちが、ゆっくり 息を する
+  d_seed: {
+    bpm: 84, pad: 0.55, bass: 'pulse', gain: 0.8,
+    chords: '| F | Dm | Bb | C | F | Am | Bb | C |',
+    lead: [['bell',
+      'A5.4 C6.4 F6.8  D6.4 C6.4 A5.8  Bb5.4 D6.4 F6.8  G6.8 E6.8 ' +
+      'A5.4 C6.4 F6.8  E6.4 C6.4 A5.8  Bb5.4 A5.4 G5.8  C6.16', 0.7]],
+  },
   // ⚓ いかり番：はやく くるしい 曲
   d_boss: {
     bpm: 166, pad: 0.35, bass: 'drive', gain: 0.78,
