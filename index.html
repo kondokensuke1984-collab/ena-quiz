@@ -24011,7 +24011,7 @@ function showMonthSelect() {
   document.getElementById('yonka-btn').style.display         = state.selectedSchool === 'ena'   ? '' : 'none';
   document.getElementById('gouhan-moshi-btn').style.display  = state.selectedSchool === 'ena'   ? '' : 'none';
   document.getElementById('challenge-btn').style.display     = state.selectedSchool === 'ena'   ? '' : 'none';
-  document.getElementById('zunda-btn').style.display         = state.selectedSchool === 'ena'   ? '' : 'none';
+  document.getElementById('zunda-btn').style.display         = (state.selectedSchool === 'ena' || state.selectedSchool === 'eikoh') ? '' : 'none';
   document.getElementById('gakuhan-eikoh-btn').style.display = state.selectedSchool === 'eikoh' ? '' : 'none';
   document.getElementById('yakusu-btn').style.display        = state.selectedSchool === 'eikoh' ? '' : 'none';
 }
@@ -30377,7 +30377,7 @@ function appendChannelVideoBtns(container, subjectKey) {
 }
 
 // ── 一覧画面 ──
-function showVideoList() {
+function showVideoList(school) {
   ['school-select','month-select','home','quiz','result','tendency','pet-screen'].forEach(id => {
     const el = document.getElementById(id); if (el) el.style.display = 'none';
   });
@@ -30389,7 +30389,23 @@ function showVideoList() {
   // 教科ごとに見出しをつける（社会→理科→国語→英語→算数）。教科の中は 新しい月が上、同じ月は入れた順
   const catOrder = Object.keys(CATEGORIES);
   const catOf = v => { const c = (SUBJECTS[v.subject] || {}).category; return catOrder.includes(c) ? c : '_other'; };
-  const uniq = CHANNEL_VIDEOS.filter((v, i) => CHANNEL_VIDEOS.findIndex(w => w.id === v.id) === i);
+  // 学校（ena／栄光）ごとにタブで分ける。動画がどちらの学校かは、その月（MONTHS）の school で決まる
+  const SCHOOL_TABS = [{ id: 'ena', label: '🌟 ena' }, { id: 'eikoh', label: '📘 栄光' }];
+  const schoolOf = v => (MONTHS[v.month] || {}).school === 'eikoh' ? 'eikoh' : 'ena';
+  const all = CHANNEL_VIDEOS.filter((v, i) => CHANNEL_VIDEOS.findIndex(w => w.id === v.id) === i);
+  if (!school) school = state.selectedSchool === 'eikoh' ? 'eikoh' : 'ena';
+  const tabs = document.createElement('div');
+  tabs.style.cssText = 'display:flex;gap:8px;margin:0 0 12px';
+  SCHOOL_TABS.forEach(t => {
+    const n = all.filter(v => schoolOf(v) === t.id).length, on = t.id === school;
+    const b = document.createElement('button');
+    b.style.cssText = `flex:1;border:none;border-radius:14px;padding:12px 8px;font-size:16px;font-weight:900;font-family:inherit;cursor:pointer;box-shadow:0 2px 8px rgba(167,139,250,0.3);${on ? 'background:#7c3aed;color:#fff' : 'background:#fff;color:#7c3aed'}`;
+    b.textContent = `${t.label}（${n}）`;
+    b.onclick = () => showVideoList(t.id);
+    tabs.appendChild(b);
+  });
+  box.appendChild(tabs);
+  const uniq = all.filter(v => schoolOf(v) === school);
   const groups = [...catOrder, '_other'].map(c => ({ c, list: uniq.map((v, i) => ({ v, i })).filter(x => catOf(x.v) === c)
     .sort((a, b) => (b.v.month || '').localeCompare(a.v.month || '') || a.i - b.i).map(x => x.v) })).filter(g => g.list.length);
   if (groups.length > 1) {
@@ -30440,7 +30456,7 @@ function showVideoList() {
       box.appendChild(det);
     }
   });
-  if (!CHANNEL_VIDEOS.length) box.innerHTML = '<div class="tend-no-data">まだ動画がないよ</div>';
+  if (!uniq.length) box.insertAdjacentHTML('beforeend', '<div class="tend-no-data">まだ動画がないよ</div>');
   window.scrollTo(0, 0);
 }
 
