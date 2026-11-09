@@ -35,6 +35,10 @@
     {
       "date": "10/5",
       "label": "2026/10/5"
+    },
+    {
+      "date": "11/9",
+      "label": "2026/11/9"
     }
   ],
   "3月": {
@@ -162,5 +166,19 @@
     "kokugo_hensa": null,
     "rika_hensa": 68.2,
     "shakai_hensa": 63.4
+  },
+  "11/9": {
+    "tokuten4": 379,
+    "juni4": null,
+    "ninzu4": null,
+    "sansu_ten": 92,
+    "kokugo_ten": 92,
+    "rika_ten": 95,
+    "shakai_ten": 100,
+    "hensa4": null,
+    "sansu_hensa": null,
+    "kokugo_hensa": null,
+    "rika_hensa": null,
+    "shakai_hensa": null
   }
 }
