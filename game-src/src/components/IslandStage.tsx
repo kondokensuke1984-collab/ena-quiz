@@ -1,6 +1,7 @@
 import React from 'react';
 import { ORNAMENTS } from '../lib/xmas';
 import { MAIN_GROUND, SOCCER_PITCH, WORLD } from '../lib/island';
+import { BirthdayMain } from './BirthdayDeco';
 
 // 島の地面（main）。2026-09-22 に土地を広げた：1000x750 の枠の外まで 大きな楕円の島。
 // pier＝さんばしとボート（上の海岸）、右上の小島（がっこうで できる）、左上の もりのこじま、右の海岸の はし。
@@ -246,7 +247,7 @@ function OuterDeco() {
   );
 }
 
-function IslandGroundBase({ expansion = 0, pier = false, season = 0, bridge = false, halloween = false, moshi = false, soccerCups = 0, xmasPts = 0 }: { expansion?: number; pier?: boolean; season?: number; bridge?: boolean; halloween?: boolean; moshi?: boolean; soccerCups?: number; xmasPts?: number }) {
+function IslandGroundBase({ expansion = 0, pier = false, season = 0, bridge = false, halloween = false, birthday = false, moshi = false, soccerCups = 0, xmasPts = 0 }: { expansion?: number; pier?: boolean; season?: number; bridge?: boolean; halloween?: boolean; birthday?: boolean; moshi?: boolean; soccerCups?: number; xmasPts?: number }) {
   const G = MAIN_GROUND;
   // さんばしの ねもと（x=360 の 砂浜の上のはし）
   const sandTop = Math.round(G.cy - G.sandRy * Math.sqrt(1 - ((360 - G.cx) / G.sandRx) ** 2));
@@ -374,6 +375,7 @@ function IslandGroundBase({ expansion = 0, pier = false, season = 0, bridge = fa
         </g>
       ))}
       <SeasonDeco season={season} halloween={halloween} xmasPts={xmasPts} />
+      {birthday && <BirthdayMain />}
       {/* となりの島への はし（右の海岸） */}
       {bridge && <BridgeRight />}
     </>

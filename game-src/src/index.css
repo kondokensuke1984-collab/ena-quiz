@@ -258,3 +258,11 @@ body {
 @keyframes fo-sel { from { opacity: .45; } to { opacity: 1; } }
 .fo-shake { animation: fo-shake .08s linear infinite; }
 @keyframes fo-shake { 0% { transform: translate(0, 0); } 50% { transform: translate(1.5px, -1px); } 100% { transform: translate(-1.5px, 1px); } }
+
+/* おたんじょうび：かみふぶき・はなび・ふうせん（lib/events.ts の isBirthday の日だけ） */
+@keyframes bd-fall { from { transform: translateY(-20px) rotate(0); } to { transform: translateY(760px) rotate(540deg); } }
+.bd-fall { position: absolute; top: 0; width: 8px; height: 12px; border-radius: 2px; opacity: 0.9; animation: bd-fall 7s linear infinite; }
+@keyframes bd-spark { 0% { transform: rotate(var(--a)) translateY(0) scale(1); opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 100% { transform: rotate(var(--a)) translateY(-68px) scale(0.3); opacity: 0; } }
+.bd-spark { position: absolute; left: 0; top: 0; width: 7px; height: 7px; margin: -3.5px; border-radius: 50%; animation: bd-spark 2.8s ease-out infinite both; }
+@keyframes bd-float { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-10px) rotate(2deg); } }
+.bd-float { animation: bd-float 3.4s ease-in-out infinite; }

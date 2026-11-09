@@ -2,6 +2,7 @@ import React from 'react';
 import { ISLAND_H, ISLAND_W } from '../lib/island';
 import { moonLitPath, SYNODIC, type TimeOfDay } from '../lib/sky';
 import { BuildingSVG } from './BuildingSVG';
+import { BirthdayEast } from './BirthdayDeco';
 
 // となりの島（はなばたけ）と、おうちの中 の地面。座標は島と同じ 1000 x 750。
 
@@ -9,7 +10,7 @@ const FLOWERS = Array.from({ length: 26 }, (_, i) => [
   170 + ((i * 131) % 660), 300 + ((i * 67) % 380), ['#f472b6', '#fde047', '#f87171', '#c084fc', '#fff'][i % 5],
 ] as const);
 
-function EastGroundBase({ tod }: { tod: TimeOfDay }) {
+function EastGroundBase({ tod, birthday = false }: { tod: TimeOfDay; birthday?: boolean }) {
   return (
     <>
       <defs>
@@ -54,6 +55,7 @@ function EastGroundBase({ tod }: { tod: TimeOfDay }) {
           </g>
         </g>
       ))}
+      {birthday && <BirthdayEast />}
     </>
   );
 }

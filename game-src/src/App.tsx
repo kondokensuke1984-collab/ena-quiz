@@ -10,6 +10,7 @@ import { DrillScreen } from './screens/DrillScreen';
 import { useEffect, useState } from 'react';
 import { todayUnits } from './lib/study';
 import { useTestLock } from './lib/testlock';
+import { isBirthdayOf } from './lib/events';
 import { TestLockScreen } from './screens/TestLockScreen';
 
 function Router() {
@@ -38,8 +39,9 @@ function Router() {
   }, [save.player]);
   // テストまえの とくべつルール（アンリの あいだ・lib/testlock.ts）
   const testLock = useTestLock(save.player);
-  // けんすけ・みつきの 端末は いつでも 島に はいれる（そらとびの SORA_FREE と おなじ きまり）
-  if (!gate.unlocked && save.player !== 'kensuke' && save.player !== 'mitsuki') return <LockScreen cats={gate.cats} />;
+  // けんすけ・みつきの 端末は いつでも 島に はいれる（そらとびの SORA_FREE と おなじ きまり）。おたんじょうびの 子は その日だけ べんきょう なしで はいれる
+  const birthdayKid = isBirthdayOf(save.player);
+  if (!gate.unlocked && save.player !== 'kensuke' && save.player !== 'mitsuki' && !birthdayKid) return <LockScreen cats={gate.cats} />;
   if (testLock.locked) return <TestLockScreen lock={testLock} />;
 
   // はじまりの ものがたり（はじめて 島を ひらいたとき 1回）
@@ -50,7 +52,7 @@ function Router() {
   // 主人公を選ぶまでは、ほかの画面に入れない
   if (!save.player) return <PickPlayerScreen />;
 
-  if (!drillDone) return <DrillScreen onDone={() => setDrillDone(true)} />;
+  if (!drillDone && !birthdayKid) return <DrillScreen onDone={() => setDrillDone(true)} />;
 
   if (screen === 'shop') return <ShopScreen />;
   if (screen === 'battle') return <BattleScreen />;

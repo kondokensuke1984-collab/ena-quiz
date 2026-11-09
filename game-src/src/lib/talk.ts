@@ -65,6 +65,7 @@ export interface TalkCtx {
   weekDays: number;     // こんしゅう べんきょうした 日
   moonFull: boolean;
   halloween: boolean;
+  birthday: boolean;
   ripe: boolean;        // はたけに しゅうかく できる ものが ある
   unread: number;       // よんでいない てがみ
   chest: boolean;       // たからばこが ながれついている
@@ -120,6 +121,10 @@ function topical(c: TalkCtx): string[] {
   const out: string[] = [...WEATHER[c.weather], ...(MONTH[c.month] ?? [])];
   if (c.moonFull && c.tod !== 'day') out.push('こんやは まんまるの おつきさまだよ', 'まんげつ、いっしょに みよう？');
   if (c.halloween) out.push('トリック・オア・トリート！ …なんてね', 'よるに なったら おばけの かっこう するんだ');
+  if (c.birthday) {
+    if (c.name === 'ゆうせい') out.push('ゆうせい、おたんじょうび おめでとう！', 'きょうは ゆうせいが しゅやくだよ！', 'ゆうせいの ために かざりつけ したんだ', 'ケーキ みた？ おおきいでしょ！');
+    else out.push('きょうは ゆうせいの おたんじょうびだよ！', 'ゆうせいに おめでとうって いった？', 'しまじゅう おまつりだね！', 'ケーキ みた？ おおきいでしょ！');
+  }
   if (c.ripe) out.push('はたけで なにか みのってたよ！', 'はたけ、しゅうかく できそう！');
   if (c.unread > 0) out.push('ポストに てがみが きてたよ', 'てがみ、もう よんだ？');
   if (c.chest) out.push('はまべに たからばこが ながれついてたよ！');

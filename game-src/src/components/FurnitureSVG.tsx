@@ -195,6 +195,22 @@ const DRAWINGS: Record<string, Draw> = {
   ),
 
   // ── 名探偵あんりの ごほうび ──
+  fn_birthday_yusei_2026: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="30" ry="9" fill="rgba(0,0,0,0.2)" />
+      <path d="M-26 -18 V-2 C-26 6 26 6 26 -2 V-18 Z" fill="#fde68a" {...S} />
+      <path d="M-26 -14 q6 8 13 0 q6 8 13 0 q6 8 13 0 q6 8 13 0 V-20 H-26 Z" fill="#fff" />
+      <ellipse cx="0" cy="-18" rx="26" ry="9" fill="#fff" {...S} />
+      {[-14, 0, 14].map((x) => (
+        <g key={x}>
+          <rect x={x - 1.8} y="-34" width="3.6" height="15" rx="1.5" fill="#f472b6" />
+          <path d={`M${x} -43 q5 5 0 9 q-5 -4 0 -9`} fill="#f59e0b" />
+        </g>
+      ))}
+      <circle cx="-8" cy="-15" r="3" fill="#ef4444" />
+      <circle cx="9" cy="-14" r="3" fill="#ef4444" />
+    </g>
+  ),
   fn_detective: () => (
     <g>
       <ellipse cx="0" cy="2" rx="26" ry="5" fill="rgba(0,0,0,0.2)" />

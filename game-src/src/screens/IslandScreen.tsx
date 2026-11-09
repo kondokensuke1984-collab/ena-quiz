@@ -76,7 +76,8 @@ import { StampModal } from './island/StampModal';
 import { MailModal } from './island/MailModal';
 import { IkenModal } from './island/IkenModal';
 import { IKEN_POS } from '../lib/iken';
-import { costumeOf, halloweenNight, isHalloween } from '../lib/events';
+import { BIRTHDAY_GIFT, BIRTHDAY_NAME, costumeOf, halloweenNight, isBirthday, isBirthdayOf, isHalloween } from '../lib/events';
+import { BirthdayModal, BirthdayOverlay } from '../components/BirthdayDeco';
 import { FARM_BOX, isRipe, stageOf } from '../lib/farm';
 import { soccerCups } from '../lib/soccer';
 
@@ -137,6 +138,9 @@ const GREET = [
 type Bubble = { char: string; text: string; heart: boolean; key: number };
 
 // たからばこ と ポストの場所（割合）
+// おたんじょうびの おいわいは ページを ひらいて 1回だけ（ショップから もどっても 出さない）
+let birthdayBannerSeen = false;
+
 const CHEST_POS = { x: 0.30, y: 0.86 };
 const MAIL_POS = { x: 0.58, y: 0.72 };
 // さんばしの さき（つりが できる所）
@@ -409,6 +413,7 @@ export function IslandScreen() {
   const farmStages = save.farm.plots.map((p) => (p ? stageOf(p, byDate) : 0));
   const hw = isHalloween();
   const hwNight = halloweenNight();
+  const bday = isBirthday();
   const hasPier = save.buildings.includes('bd_pier');
   // しゅじんこうの きせかえ（もっている fwear だけ）
   const playerWear = save.playerWear && save.owned.includes(save.playerWear) && ITEM_BY_ID[save.playerWear]?.kind === 'fwear' ? save.playerWear : null;
@@ -419,6 +424,7 @@ export function IslandScreen() {
   saveRef2.current = save;
   const lastMarks = useRef<unknown>(null);
   const [monthBanner, setMonthBanner] = useState<string | null>(null);
+  const [birthdayBanner, setBirthdayBanner] = useState(() => isBirthday() && !birthdayBannerSeen);
   const [novelBanner, setNovelBanner] = useState<Novel | null>(null);
   useEffect(() => {
     const cur = saveRef2.current;
@@ -434,6 +440,8 @@ export function IslandScreen() {
       ym,
       weekDays: daysThisWeek(new Date(), byDate),
       halloween: isHalloween(),
+      birthday: isBirthday(),
+      birthdayGift: isBirthdayOf(cur.player) ? BIRTHDAY_GIFT : undefined,
       harvest: harvestActive(),
       detectiveOpen: openCases,
       moshiOpen: moshis.map((m) => ({ key: m.test.key, name: m.test.name, diff: m.diff, extra: !!m.test.extra, rewards: moshiRewards(m.test).map((r) => r.reward) })),
@@ -1123,7 +1131,7 @@ export function IslandScreen() {
       char: f.char, me: f.name, cat: f.cat, catLabel: f.catLabel, hearts: heartsFor(f), name: playerName,
       hour: hourNow(), tod, weather, month: seasonNow(),
       studiedToday: studied, answeredToday: byDate[day] || 0, studiedYesterday: (byDate[dateKey(y)] || 0) >= 5, weekDays: daysThisWeek(new Date(), byDate),
-      moonFull: isNearFull(moonAge), halloween: hw, ripe: farmStages.some((n, i) => isRipe(save.farm.plots[i], n)),
+      moonFull: isNearFull(moonAge), halloween: hw, birthday: bday, ripe: farmStages.some((n, i) => isRipe(save.farm.plots[i], n)),
       unread, chest: showChest, monHungry: mo === 'hungry', mon: monsterName, buildings: save.buildings,
       others: friends.filter((x) => x.id !== f.id).map((x) => ({ name: x.name, catLabel: x.catLabel })),
     };
@@ -1336,10 +1344,10 @@ export function IslandScreen() {
             {(() => {
               const w = save.friendsPlay[f.char]?.wear;
               const pos = w ? WEAR_POS[w] : null;
-              if (!pos && hwNight && f.level > 1) {
+              if (!pos && (hwNight || bday) && f.level > 1) {
                 return (
                   <text x="0" y="-46" fontSize="30" textAnchor="middle" dominantBaseline="middle" style={{ pointerEvents: 'none' }}>
-                    {costumeOf(f.char)}
+                    {bday ? '🎉' : costumeOf(f.char)}
                   </text>
                 );
               }
@@ -1494,7 +1502,7 @@ export function IslandScreen() {
       f,
       label: (f.level > 1 ? `${f.name} Lv.${f.level}` : `${f.name}（たまご）`) + (heartsFor(f) > 0 ? ' ' + '♥'.repeat(heartsFor(f)) : ''),
       wear: w && WEAR_POS[w] ? w : null,
-      costume: !w && hwNight && f.level > 1 ? costumeOf(f.char) : null,
+      costume: !w && (hwNight || bday) && f.level > 1 ? (bday ? '🎉' : costumeOf(f.char)) : null,
       emote: todayReq?.char === f.char ? '❗' : undefined,
     };
   });
@@ -1688,6 +1696,7 @@ export function IslandScreen() {
 
       {/* ── 島 ── */}
       <div className="relative overflow-hidden rounded-[18px] shadow-[0_8px_24px_rgba(0,0,0,.3)] lg:landscape:col-start-1 lg:landscape:row-span-6 lg:landscape:row-start-1 lg:landscape:mx-auto lg:landscape:w-full lg:landscape:max-w-[calc((100vh-150px)*4/3)]">
+        {bday && !indoor && !planet && <BirthdayOverlay night={tod !== 'day'} />}
         {want3d && (
           <Suspense fallback={null}>
             <World3D
@@ -1703,6 +1712,7 @@ export function IslandScreen() {
               expansion={expansion}
               season={seasonNow()}
               halloween={hw}
+              birthday={bday}
               soccerCups={cups}
               tod={tod}
               weather={weather}
@@ -1733,10 +1743,10 @@ export function IslandScreen() {
           onPointerDown={onStagePointerDown}
         >
           {!on3d && area === 'main' && (
-            <IslandGround expansion={expansion} pier={hasPier} season={seasonNow()} bridge={hasBridge} halloween={hw} moshi={!!moshi} soccerCups={cups} xmasPts={save.xmas.pts} />
+            <IslandGround expansion={expansion} pier={hasPier} season={seasonNow()} bridge={hasBridge} halloween={hw} birthday={bday} moshi={!!moshi} soccerCups={cups} xmasPts={save.xmas.pts} />
           )}
           {!on3d && area === 'main' && <FarmPatch plots={save.farm.plots} stages={farmStages} today={day} />}
-          {!on3d && area === 'east' && <EastGround tod={tod} />}
+          {!on3d && area === 'east' && <EastGround tod={tod} birthday={bday} />}
           {area === 'nov' && <NovGround tod={tod} />}
           {area === 'moon' && <MoonGround moonAge={moonAge} />}
           {area === 'mars' && <MarsGround />}
@@ -2241,6 +2251,15 @@ export function IslandScreen() {
 
       {/* ── はじまりの ものがたり（見なおし）── */}
       {modal === 'opening' && <OpeningScreen onDone={() => setModal(null)} />}
+
+      {/* ── おたんじょうび（ページを ひらいて 1回だけ）── */}
+      {birthdayBanner && !monthBanner && !novelBanner && (
+        <BirthdayModal
+          name={BIRTHDAY_NAME}
+          mine={isBirthdayOf(save.player)}
+          onClose={() => { birthdayBannerSeen = true; setBirthdayBanner(false); }}
+        />
+      )}
 
       {/* ── 月がわり：あたらしい しゅやくが きた（1回だけ）── */}
       {monthBanner && (

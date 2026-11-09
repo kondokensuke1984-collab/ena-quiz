@@ -69,6 +69,7 @@ export interface LetterMarks {
   stamp: string[];                  // 'YYYY-M:7' スタンプのお祝いずみ
   weekly: string;                   // 最後に週のまとめを出した日（YYYY-M-D）
   halloween?: string;               // ハロウィンの手紙を出した年
+  birthday?: string;                // おたんじょうびの手紙を出した年
   month?: string;                   // 最後に見た「しゅやくの 月」（YYYYMM）。かわったら ひっこしの手紙
   detective?: number[];             // 名探偵あんり：ひらいたと 手紙で しらせた じけん
   harvest?: string;                 // しゅうかくさい：はじまりの 手紙を 出した 年

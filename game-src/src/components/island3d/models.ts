@@ -526,3 +526,74 @@ export function acorn(): THREE.Object3D {
   g.add(part(new THREE.SphereGeometry(0.72, 10, 6, 0, Math.PI * 2, 0, Math.PI / 2), toon(0x78350f), 0, 1.15, 0, 0.08));
   return g;
 }
+
+// ── おたんじょうび ──
+const PARTY = [0xef4444, 0xf59e0b, 0x22c55e, 0x3b82f6, 0xa855f7, 0xec4899];
+
+export function balloons(): Model {
+  const g = new THREE.Group();
+  const top = new THREE.Group();
+  const spots: [number, number, number][] = [[-1.7, 10, 0], [0, 12, 0.6], [1.7, 10, -0.4]];
+  const first = Math.floor(Math.random() * 6);
+  spots.forEach(([x, y, z], i) => {
+    const b = new THREE.Mesh(new THREE.SphereGeometry(1.7, 14, 12), toon(PARTY[(first + i * 2) % 6]));
+    b.scale.y = 1.2;
+    b.position.set(x, y, z);
+    top.add(b);
+    const len = Math.hypot(x, y - 2, z);
+    const s = part(new THREE.CylinderGeometry(0.05, 0.05, len, 4), toon(0x78716c), x / 2, (y - 2) / 2, z / 2, false);
+    s.lookAt(new THREE.Vector3(x, y, z));
+    s.rotateX(Math.PI / 2);
+    top.add(s);
+  });
+  g.add(top);
+  g.add(blobShadow(1.4, 1));
+  const phase = Math.random() * 6;
+  return { obj: g, tick: (t) => { top.position.y = Math.sin(t * 1.6 + phase) * 0.5; top.rotation.z = Math.sin(t * 1.1 + phase) * 0.04; } };
+}
+
+export function birthdayCake(scale = 2): Model {
+  const g = new THREE.Group();
+  const add = (r: number, h: number, y: number, c: number) => g.add(part(new THREE.CylinderGeometry(r, r, h, 24), toon(c), 0, y, 0));
+  add(2.4, 1.6, 0.8, 0xfde68a);
+  add(2.5, 0.25, 1.7, 0xffffff);
+  add(1.6, 1.4, 2.5, 0xfbcfe8);
+  add(1.7, 0.25, 3.3, 0xffffff);
+  for (let i = 0; i < 5; i++) {
+    const a = (i / 5) * Math.PI * 2;
+    const x = Math.cos(a) * 1.05, z = Math.sin(a) * 1.05;
+    g.add(part(new THREE.CylinderGeometry(0.11, 0.11, 0.9, 6), toon(PARTY[i]), x, 3.9, z, false));
+    g.add(part(new THREE.SphereGeometry(0.17, 8, 6), lampMat, x, 4.5, z, false));
+  }
+  for (let i = 0; i < 10; i++) {
+    const a = (i / 10) * Math.PI * 2;
+    g.add(part(new THREE.SphereGeometry(0.28, 8, 6), toon(0xef4444), Math.cos(a) * 2.1, 1.95, Math.sin(a) * 2.1, false));
+  }
+  g.scale.setScalar(scale);
+  g.add(blobShadow(6, 3.5));
+  return { obj: g, glows: [{ p: new THREE.Vector3(0, 9, 0), r: 6 }] };
+}
+
+export function birthdaySign(): Model {
+  const g = new THREE.Group();
+  const c = document.createElement('canvas');
+  c.width = 1024; c.height = 140;
+  const x = c.getContext('2d')!;
+  x.fillStyle = '#fff7ed';
+  x.fillRect(0, 0, 1024, 140);
+  x.strokeStyle = '#ea580c';
+  x.lineWidth = 12;
+  x.strokeRect(6, 6, 1012, 128);
+  x.fillStyle = '#c2410c';
+  x.font = '900 54px sans-serif';
+  x.textAlign = 'center';
+  x.textBaseline = 'middle';
+  x.fillText('ゆうせい おたんじょうび おめでとう', 512, 74);
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  const board = new THREE.Mesh(new THREE.PlaneGeometry(24, 3.3), curved(new THREE.MeshBasicMaterial({ map: tex })));
+  board.position.set(0, 12, 0.2);
+  g.add(board);
+  for (const px of [-11, 11]) g.add(part(new THREE.CylinderGeometry(0.3, 0.3, 12, 8), toon(C.wood), px, 6, 0));
+  return { obj: g };
+}

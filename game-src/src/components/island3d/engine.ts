@@ -20,7 +20,9 @@ import { eastBuildingModel } from './eastModels';
 import {
   buildingModel, mailbox, ikenBox, chest as chestModel, forest, rock, flowers, grassTufts, pumpkin, xmasTree, kadomatsu, acorn,
   type Model, type TreeSpot,
+  balloons, birthdayCake, birthdaySign,
 } from './models';
+import { BIRTHDAY_BALLOONS_EAST, BIRTHDAY_BALLOONS_MAIN } from '../../lib/events';
 
 export interface LiveRefs {
   playerPos: { current: Pos };
@@ -51,6 +53,7 @@ export interface WorldOpts {
   expansion: number;
   season: number;
   halloween: boolean;
+  birthday: boolean;
   soccerCups: number;   // サッカーの たいかいで ゆうしょうした 数（ピッチの よこに トロフィー。3こまで）
 }
 
@@ -284,7 +287,7 @@ export class IslandEngine {
 
   // ── 島の かざり（季節・広さ・はし などで 作りなおす） ──
   setWorld(o: WorldOpts) {
-    const key = [o.pier, o.bridge, o.moshi, o.expansion, o.season, o.halloween, Math.min(3, o.soccerCups)].join('|');
+    const key = [o.pier, o.bridge, o.moshi, o.expansion, o.season, o.halloween, o.birthday, Math.min(3, o.soccerCups)].join('|');
     if (key !== this.worldKey) {
       const seasonChanged = this.season !== o.season || !this.worldKey;
       this.worldKey = key;
@@ -493,6 +496,12 @@ export class IslandEngine {
     void spark;
     this.chestM.obj.visible = this.ui.chest;
 
+    if (o.birthday) {
+      this.addModel('deco', this.deco, birthdayCake(2), 520 * PX, 385 * PX);
+      this.addModel('deco', this.deco, birthdaySign(), 520 * PX, 340 * PX);
+      for (const [x, y] of BIRTHDAY_BALLOONS_MAIN) this.addModel('deco', this.deco, balloons(), x * PX, y * PX);
+    }
+
     // 季節
     const S = SEASON_SPOTS.map(([x, y]) => ({ x: x * PX, z: y * PX }));
     if (season === 10) {
@@ -533,6 +542,8 @@ export class IslandEngine {
     }
     clear.push({ x: 70, z: 56, r: 11 }, { x: 12, z: 45, r: 9 });   // いけ・はしの まえ
     const free = (x: number, z: number, r: number) => clear.every((c) => Math.hypot(x - c.x, z - c.z) > c.r + r);
+
+    if (o.birthday) for (const [x, y] of BIRTHDAY_BALLOONS_EAST) this.addModel('deco', this.deco, balloons(), x * PX, y * PX);
 
     const trees: TreeSpot[] = [];
     const taken: { x: number; z: number; r: number }[] = [];

@@ -224,6 +224,7 @@ export const ITEMS: Item[] = [
   // ── 名探偵あんりの ごほうび（ショップでは売らない）──
   { id: 'cs_magnifier', kind: 'costume',   name: 'むしめがね',         emoji: '🔍', price: 0, desc: 'じけんを 3つ かいけつした ごほうび',  once: true, reward: true },
   { id: 'fn_detective', kind: 'furniture', name: 'たんてい じむしょ',   emoji: '🔎', price: 0, desc: 'じけんを 5つ かいけつした ごほうび',  once: true, reward: true, anywhere: true },
+  { id: 'fn_birthday_yusei_2026', kind: 'furniture', name: 'おたんじょうび ケーキ', emoji: '🎂', price: 0, desc: '2026ねん 11がつ10にちの きねん', once: true, reward: true, anywhere: true },
   // あきの しゅうかくさい（2026-11）の ごほうび
   { id: 'fn_inamura', kind: 'furniture', name: 'いなむら',           emoji: '🌾', price: 0, desc: 'みのりを 10こ あつめた ごほうび',  once: true, reward: true },
   { id: 'fn_mikoshi', kind: 'furniture', name: 'しゅうかくの おみこし', emoji: '🏮', price: 0, desc: 'みのりを 20こ あつめた ごほうび',  once: true, reward: true },

@@ -23814,7 +23814,7 @@ function anriWeakLeft() { return 0; }   // 2026-11-01 ケンさん：苦手・�
 function renderIslandBtn() {
   // 島の 主人公が けんすけ・みつき の 端末は いつでも 島に はいれる（島の がわ App.tsx と おなじ きまり）
   let islandFree = false;
-  try { const pl = (JSON.parse(localStorage.getItem('ena_island_save_v1') || '{}') || {}).player; islandFree = pl === 'kensuke' || pl === 'mitsuki'; } catch(e) {}
+  try { const pl = (JSON.parse(localStorage.getItem('ena_island_save_v1') || '{}') || {}).player; islandFree = pl === 'kensuke' || pl === 'mitsuki' || (pl === 'yusei' && todayStr() === '2026-11-10'); } catch(e) {}   // 2026-11-10 は ゆうせいの おたんじょうび（島の lib/events.ts と 同じ）
   const left = (islandFree || kenchikuUnlockedToday()) ? 0 : ISLAND_UNLOCK_CATS - unitCatsToday().length;
   const weakLeft = anriWeakLeft();
   document.querySelectorAll('.island-btn-text').forEach(el => {

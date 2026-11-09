@@ -29,6 +29,8 @@ export interface LetterInput {
   ym: string;               // 'YYYY-M'
   weekDays: number;         // 今週 勉強した日数
   halloween?: boolean;      // ハロウィンの きかん
+  birthday?: boolean;       // おたんじょうびの 日
+  birthdayGift?: string;    // おたんじょうびの 子に とどける 家具（その子のときだけ）
   harvest?: boolean;        // しゅうかくさいの きかん
   detectiveOpen?: number[]; // 名探偵あんり：いま ひらいている じけん
   moshiOpen?: { key: string; name: string; diff: number; extra?: boolean; rewards?: number[] }[]; // もしの しま：いま うかんでいる もし（近い順）
@@ -75,6 +77,7 @@ export function buildLetters(marks: LetterMarks, x: LetterInput): LetterResult {
     stamp: [...marks.stamp],
     weekly: marks.weekly,
     halloween: marks.halloween,
+    birthday: marks.birthday,
     harvest: marks.harvest,
     month: marks.month,
     detective: marks.detective,
@@ -84,6 +87,27 @@ export function buildLetters(marks: LetterMarks, x: LetterInput): LetterResult {
   const out: Letter[] = [];
   const gifts: string[] = [];
   let newMonth: string | undefined;
+
+  // おたんじょうび：その日に はじめて島を ひらいたとき 1回（はじめての 子にも とどく）
+  const birthdayLetter = () => {
+    const y = String(now.getFullYear());
+    if (!x.birthday || next.birthday === y) return;
+    next.birthday = y;
+    if (x.birthdayGift) {
+      gifts.push(x.birthdayGift);
+      out.push(mk(LUNA.from, LUNA.fromName, '🎂 おたんじょうび おめでとう！',
+        `${to}きょうは ゆうせいの おたんじょうび！ おめでとう！
+しまの みんなで かざりつけを したよ。
+「かぐ」に 🎂 とくべつな ケーキを いれたよ。すきな ところに かざってね。
+ルナより`));
+    } else {
+      out.push(mk(LUNA.from, LUNA.fromName, '🎂 きょうは ゆうせいの おたんじょうび！',
+        `${to}11がつ10にちは ゆうせいの おたんじょうびだよ。
+しまじゅう おまつりに したよ！
+ゆうせいに「おめでとう」って いってあげてね。
+ルナより`));
+    }
+  };
 
   // はじめて：いまの様子を覚えるだけ（前からの成長で手紙がどっと届かないように）。ようこその1通だけ
   if (!marks.init) {
@@ -96,8 +120,11 @@ export function buildLetters(marks: LetterMarks, x: LetterInput): LetterResult {
     if (x.currentMonth) next.month = x.currentMonth;
     out.push(mk(LUNA.from, LUNA.fromName, 'しまへ ようこそ！',
       `${to}しまの ポストだよ。\nクイズを がんばると、しまの なかまから おてがみが とどくよ。\nたのしみに まっててね！\nルナより`));
+    birthdayLetter();
     return { letters: out, marks: next, gifts };
   }
+
+  birthdayLetter();
 
   // ── 月がわり：しゅやくが かわったら、あたらしい子と まえの子から 1つうずつ ──
   if (x.currentMonth && !marks.month) {
