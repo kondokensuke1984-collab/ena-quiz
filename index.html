@@ -30248,6 +30248,9 @@ const CHANNEL_VIDEOS = [
   // もしの しま（4科演習もし 11/9）でまちがえた 理科（発芽）・社会（輸入と自給率）（11/8 ケンさん）
   { id:'i1TYfNmOMNs', title:'【小5理科・社会】たねが水を吸うと何が起こる？ ヨウ素液・呼吸・自給率グラフ・フードマイレージ｜ずんだもん探偵',
     subject:'tane1', month:'202611' },
+  // 種子のつくりと発芽1 カラーページの ゼロからわかる解説動画（11/9 ケンさん）。YouTube には出さず、アプリの中の mp4 だけ
+  { id:'tane-no-tsukuri1', src:'/videos/tane-no-tsukuri1.mp4', thumb:'/videos/tane-no-tsukuri1.jpg', title:'【小5理科】種子のつくりと発芽1｜たねのひみつ ゼロからわかる やさしい版',
+    subject:'tane1', month:'202611' },
   // 種子のつくりと発芽1「①種子のつくり」（胚・胚乳・種皮、有胚乳／無胚乳、例外）の解説動画（11/8 ケンさん）
   { id:'a_dVYxCrfZQ', title:'【小5理科】種子のつくり｜胚・胚乳・種皮ってなに？有胚乳種子と無胚乳種子の見分け方',
     subject:'tane1', month:'202611' },
@@ -30273,25 +30276,25 @@ const CHANNEL_VIDEOS = [
 // ── 開いたら自動で おすすめ動画 ──
 //   id を入れると、アプリを開いたときに「ふくしゅう どうがだよ！」の案内が出る（見るまで、1日1回）。
 //   ブラウザは音つきの自動再生を止めるので、子どもが「みる」を押して再生する。
-//   id が空、または CHANNEL_VIDEOS にない、または期間外なら出ない。school を書くと その学校を開いたときだけ出る。
-const AUTO_VIDEO = {
-  id: 'tane-no-tsukuri2',                    // ← CHANNEL_VIDEOS の id
-  school: 'ena',
-  from: '2026-11-09', until: '2026-11-30',
-  title: '種子のつくり2の どうがだよ！',
-  sub: 'ずんだもんと いっしょに 見てみよう'
-};
+//   id が CHANNEL_VIDEOS にない、または期間外なら出ない。school を書くと その学校を開いたときだけ出る。
+//   何本か書くと 上から順に出す（「あとで」なら すぐ次の動画の案内、見たら 次に開いたときに次の動画）。
+const AUTO_VIDEOS = [
+  { id: 'tane-no-tsukuri1', school: 'ena', from: '2026-11-09', until: '2026-11-30',
+    title: '種子のつくり1の どうがだよ！', sub: 'ずんだもんと いっしょに 見てみよう' },
+  { id: 'tane-no-tsukuri2', school: 'ena', from: '2026-11-09', until: '2026-11-30',
+    title: '種子のつくり2の どうがだよ！', sub: 'ずんだもんと いっしょに 見てみよう' }
+];
 function autoVideoShow() {
-  let id = AUTO_VIDEO.id, force = false;
-  const isLocal = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
-  if (isLocal) { const q = new URLSearchParams(location.search).get('autovideo'); if (q) { id = q; force = true; } }
-  if (!id || !channelVideo(id) || document.getElementById('autovideo-overlay')) return;
-  if (!force && AUTO_VIDEO.school && AUTO_VIDEO.school !== state.selectedSchool) return;
+  if (document.getElementById('autovideo-overlay')) return;
   const d = new Date(), today = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
   const iso = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
-  if (!force && (iso < AUTO_VIDEO.from || iso > AUTO_VIDEO.until)) return;
-  const key = 'ena_autovideo_' + id;
-  try { const st = localStorage.getItem(key); if (!force && (st === 'watched' || st === today)) return; } catch (e) {}
+  const isLocal = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+  const q = isLocal ? new URLSearchParams(location.search).get('autovideo') : null;
+  const seen = id => { try { const st = localStorage.getItem('ena_autovideo_' + id); return st === 'watched' || st === today; } catch (e) { return false; } };
+  const auto = q ? { ...AUTO_VIDEOS[0], id: q }
+    : AUTO_VIDEOS.find(a => channelVideo(a.id) && (!a.school || a.school === state.selectedSchool) && iso >= a.from && iso <= a.until && !seen(a.id));
+  if (!auto || !channelVideo(auto.id)) return;
+  const id = auto.id, key = 'ena_autovideo_' + id;
   const v = channelVideo(id);
   const o = document.createElement('div');
   o.id = 'autovideo-overlay';
@@ -30299,8 +30302,8 @@ function autoVideoShow() {
   o.innerHTML = `<div style="background:#fff;border-radius:24px;max-width:420px;width:100%;overflow:hidden;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.4)">
     <div style="background:url('${v.thumb || `https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`}') center/cover;height:200px"></div>
     <div style="padding:18px 20px 20px">
-      <div style="font-size:22px;font-weight:800;color:#1d2433;line-height:1.4">📺 ${AUTO_VIDEO.title}</div>
-      <div style="font-size:16px;color:#5b6478;margin:8px 0 16px">${AUTO_VIDEO.sub}</div>
+      <div style="font-size:22px;font-weight:800;color:#1d2433;line-height:1.4">📺 ${auto.title}</div>
+      <div style="font-size:16px;color:#5b6478;margin:8px 0 16px">${auto.sub}</div>
       <button id="autovideo-go" style="width:100%;font-size:22px;font-weight:800;padding:14px;border:0;border-radius:16px;background:#ff5c8a;color:#fff;cursor:pointer">▶ みる</button>
       <button id="autovideo-later" style="width:100%;font-size:16px;padding:10px;margin-top:8px;border:0;background:none;color:#5b6478;cursor:pointer">あとで みる</button>
     </div></div>`;
@@ -30313,6 +30316,7 @@ function autoVideoShow() {
   document.getElementById('autovideo-later').onclick = () => {
     try { localStorage.setItem(key, today); } catch (e) {}
     close();
+    autoVideoShow();   // 次の動画の案内
   };
 }
 // ── 島へいくときに 自動で 動画 ──
