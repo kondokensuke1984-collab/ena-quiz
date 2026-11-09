@@ -30413,7 +30413,10 @@ function showVideoList() {
     head.style.cssText = `color:${cat.color};font-size:18px;border-bottom:3px solid ${cat.color};padding-bottom:4px;scroll-margin-top:12px`;
     head.textContent = `${cat.icon} ${cat.label}（${g.list.length}）`;
     box.appendChild(head);
-    g.list.forEach(v => {
+    // いちばん新しい月（直近のテスト）の動画だけ先に出し、それ以前の月は「ほかの月」に折りたたむ。
+    // その教科に直近の月の動画がなければ、その教科でいちばん新しい月を出す
+    const newest = [uniq.map(v => v.month || '').sort().pop(), g.list[0].month || ''].find(m => g.list.some(v => (v.month || '') === m));
+    const addCard = (v, parent) => {
       const sub = SUBJECTS[v.subject] || {};
       const mon = MONTHS[v.month] || {};
       const meta = [mon.emoji && mon.label ? `${mon.emoji}${mon.label}` : '', sub.label || ''].filter(Boolean).join('・');
@@ -30422,8 +30425,20 @@ function showVideoList() {
       card.innerHTML = `<div class="vl-thumb" style="background-image:url('${v.thumb || `https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`}')"></div>
         <div class="vl-body"><div class="vl-title">${v.title}</div>${meta ? `<div class="vl-meta">${meta}</div>` : ''}</div>`;
       card.onclick = () => openChannelVideo(v.id);
-      box.appendChild(card);
-    });
+      parent.appendChild(card);
+    };
+    const recent = g.list.filter(v => (v.month || '') === newest), older = g.list.filter(v => (v.month || '') !== newest);
+    recent.forEach(v => addCard(v, box));
+    if (older.length) {
+      const det = document.createElement('details');
+      det.style.cssText = 'margin-bottom:14px';
+      const sum = document.createElement('summary');
+      sum.style.cssText = `cursor:pointer;font-size:15px;font-weight:800;color:${cat.color};background:rgba(255,255,255,0.92);border-radius:14px;padding:12px 14px;box-shadow:0 4px 16px rgba(167,139,250,0.18);margin-bottom:14px`;
+      sum.textContent = `📂 ほかの月の動画（${older.length}）`;
+      det.appendChild(sum);
+      older.forEach(v => addCard(v, det));
+      box.appendChild(det);
+    }
   });
   if (!CHANNEL_VIDEOS.length) box.innerHTML = '<div class="tend-no-data">まだ動画がないよ</div>';
   window.scrollTo(0, 0);
