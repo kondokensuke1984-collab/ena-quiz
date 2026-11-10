@@ -402,6 +402,25 @@ function questSchool() {
   try { const s = (JSON.parse(localStorage.getItem('ena_school_v1') || 'null') || {}).school; return s === 'eikoh' || s === 'g2' || s === 'kenchiku' ? s : null; } catch (e) { return null; }
 }
 let SCHOOL_QUEST = null;   // 栄光・2年生の子の クエスト { label, months }（data/quest_schools.json）。null＝ena の月
+// あんりは、その月の「学力判定テスト」（data/tests.json）の範囲の単元だけを クエストにする（2026-11-11 ケンさん）
+//   森（js/forest.js）は 自分の はんい（forest_units.json）のままにするので、しぼる前の 問題を QUESTIONS_ALL に とっておく
+let GAKUHAN_RANGE = null;  // { name, date, covers }。あんり以外・その月に テストが無いときは null
+let QUESTIONS_ALL = null;
+async function applyGakuhanRange() {
+  let player = null;
+  try { player = (JSON.parse(localStorage.getItem('ena_island_save_v1') || '{}') || {}).player || null; } catch (e) {}
+  if (player !== 'anri') return;
+  let tests = [];
+  try { tests = (await fetch('data/tests.json', { cache: 'no-cache' }).then(r => r.json())).tests || []; } catch (e) { return; }
+  const t = tests.filter(x => x.name === '学力判定テスト' && x.month === MEDAL_MONTH).sort((a, b) => (a.date < b.date ? 1 : -1))[0];
+  if (!t || !Array.isArray(t.covers) || !t.covers.length) return;
+  const inRange = k => { const su = SUBJECTS[k] || {}; return t.covers.includes(k) || (!!su.parent && t.covers.includes(su.parent)); };
+  const qs = QUESTIONS.filter(q => inRange(q.subject));
+  if (!qs.length) return;
+  QUESTIONS_ALL = QUESTIONS;
+  QUESTIONS = qs;
+  GAKUHAN_RANGE = t;
+}
 // つきのぬしは月ごと（前は bossDown:true だけ＝9月ぶん）
 function bossDownNow() {
   return !!((save.bossMonths || {})[MEDAL_MONTH] || (save.bossDown && MEDAL_MONTH === '202609'));
@@ -775,6 +794,7 @@ async function boot() {
   ])));
   QUESTIONS = [].concat(...loaded.map(x => x[0]));
   SUBJECTS  = Object.assign({}, ...loaded.map(x => x[1]));
+  if (!SCHOOL_QUEST) await applyGakuhanRange();
   if (typeof loadDetective === 'function') await loadDetective();
   buildStages();
   save = loadSave();
@@ -913,7 +933,7 @@ function showMap() {
               ? '<button class="btn" onclick="pickStage(\'__boss__\')" style="display:flex; align-items:center; gap:11px;' +
                 (bossDownNow() ? 'background:#f0fdf4; border-color:#86efac;' : '') + '">' +
                   '<span style="flex:0 0 42px;">' + CHARS[BOSS_KEY](6, 100, 42, { silhouette: !bossDownNow() }) + '</span>' +
-                  '<span style="flex:1;">つきのぬし' + (!ttPick && canReplay('boss') ? ' <span style="display:inline-block; font-size:11px; font-weight:800; color:#b45309; background:#fffbeb; border:1px dashed #f59e0b; border-radius:999px; padding:0 6px; vertical-align:middle;" title="ぜんもん せいかいで 🪙">🪙</span>' : '') + '<span style="display:block; font-size:11px; color:#64748b; font-weight:400;">' + questMonthLabel(MEDAL_MONTH) + 'ぜんぶから出題・全12問</span></span>' +
+                  '<span style="flex:1;">つきのぬし' + (!ttPick && canReplay('boss') ? ' <span style="display:inline-block; font-size:11px; font-weight:800; color:#b45309; background:#fffbeb; border:1px dashed #f59e0b; border-radius:999px; padding:0 6px; vertical-align:middle;" title="ぜんもん せいかいで 🪙">🪙</span>' : '') + '<span style="display:block; font-size:11px; color:#64748b; font-weight:400;">' + (GAKUHAN_RANGE ? '学力判定テストの はんいから出題・全12問' : questMonthLabel(MEDAL_MONTH) + 'ぜんぶから出題・全12問') + '</span></span>' +
                   '<span style="font-size:17px;">' + (ttPick ? '⏱️' : bossDownNow() ? '👑' : '⚔️') + '</span>' +
                 '</button>'
               : '<div style="font-size:12.5px; color:#64748b;">なかまを' + STAGES.length + '体あつめると あらわれる。</div>') +
