@@ -39,25 +39,97 @@
 "month": "eikoh_202611",
 "isGroup": true
 },
-"kifuyu_keisan": {
-"label": "計算",
-"icon": "🔢",
+"kifuyu_k_shokake": {
+"label": "計算：小数 × 小数",
+"icon": "✖️",
 "tag": "tag-kifuyu",
 "category": "sansu",
 "month": "eikoh_202611",
 "parent": "kifuyu_san"
 },
-"kifuyu_bunsho": {
-"label": "文章題",
-"icon": "📝",
+"kifuyu_k_showari": {
+"label": "計算：小数 ÷ 小数",
+"icon": "➗",
 "tag": "tag-kifuyu",
 "category": "sansu",
 "month": "eikoh_202611",
 "parent": "kifuyu_san"
 },
-"kifuyu_menseki": {
-"label": "面積",
-"icon": "📐",
+"kifuyu_k_amari": {
+"label": "計算：わりきれない・あまり",
+"icon": "🧮",
+"tag": "tag-kifuyu",
+"category": "sansu",
+"month": "eikoh_202611",
+"parent": "kifuyu_san"
+},
+"kifuyu_k_bunsuu": {
+"label": "計算：分数のたし算・ひき算",
+"icon": "🍕",
+"tag": "tag-kifuyu",
+"category": "sansu",
+"month": "eikoh_202611",
+"parent": "kifuyu_san"
+},
+"kifuyu_k_taibun": {
+"label": "計算：帯分数のたし算・ひき算",
+"icon": "🍰",
+"tag": "tag-kifuyu",
+"category": "sansu",
+"month": "eikoh_202611",
+"parent": "kifuyu_san"
+},
+"kifuyu_b_heikin": {
+"label": "文章題：平均",
+"icon": "⚖️",
+"tag": "tag-kifuyu",
+"category": "sansu",
+"month": "eikoh_202611",
+"parent": "kifuyu_san"
+},
+"kifuyu_b_tani": {
+"label": "文章題：速さの単位かえ",
+"icon": "🔁",
+"tag": "tag-kifuyu",
+"category": "sansu",
+"month": "eikoh_202611",
+"parent": "kifuyu_san"
+},
+"kifuyu_b_hayasa": {
+"label": "文章題：速さ・道のりを求める",
+"icon": "🚗",
+"tag": "tag-kifuyu",
+"category": "sansu",
+"month": "eikoh_202611",
+"parent": "kifuyu_san"
+},
+"kifuyu_b_jikan": {
+"label": "文章題：時間を求める",
+"icon": "⏱️",
+"tag": "tag-kifuyu",
+"category": "sansu",
+"month": "eikoh_202611",
+"parent": "kifuyu_san"
+},
+"kifuyu_m_hei": {
+"label": "面積：平行四辺形",
+"icon": "▱",
+"tag": "tag-kifuyu",
+"category": "sansu",
+"month": "eikoh_202611",
+"parent": "kifuyu_san"
+},
+"kifuyu_m_san": {
+"label": "面積：三角形",
+"icon": "🔺",
+"tag": "tag-kifuyu",
+"category": "sansu",
+"month": "eikoh_202611",
+"parent": "kifuyu_san"
+},
+"kifuyu_m_hoka": {
+"label": "面積：台形・ひし形・四角形",
+"icon": "◆",
 "tag": "tag-kifuyu",
 "category": "sansu",
 "month": "eikoh_202611",
