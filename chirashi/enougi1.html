@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>えんと おうぎがた 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Yusei+Magic&family=Zen+Maru+Gothic:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap">
+<style>
+  :root{
+    --paper:#FFFFFF;
+    --ink:#17232E;
+    --ink-soft:#4E606E;
+    --rule:#C6D3E3;
+
+    --nv:#1D6FB8;
+    --nv-deep:#0F4677;
+    --nv-soft:#E6F0FA;
+    --nv-line:#A9C8E8;
+
+    --cr:#C9543A;
+    --cr-soft:#FBE9E3;
+
+    --yellow:#FFD24A;
+    --yellow-soft:#FFF6DC;
+    --red:#B23A2E;
+
+    --backdrop:#DDE3E8;
+    --backdrop-ink:#4E606E;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){ --backdrop:#161C22; --backdrop-ink:#8FA3B2; }
+  }
+
+  body{
+    background:var(--backdrop); color:var(--ink);
+    font-family:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;
+    display:flex; flex-direction:column; align-items:center;
+    padding:16px 12px 40px;
+  }
+  p{ margin:0; }
+  .hint{
+    color:var(--backdrop-ink); font-size:12px; letter-spacing:.06em;
+    margin:0 0 12px; text-align:center; line-height:1.7;
+  }
+
+  .sheet{
+    width:210mm; height:297mm; background:var(--paper);
+    padding:8.5mm 10mm; box-sizing:border-box;
+    display:flex; flex-direction:column; gap:2.6mm;
+    box-shadow:0 6px 28px rgba(0,0,0,.22);
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+
+  .head{
+    display:flex; align-items:flex-end; justify-content:space-between;
+    gap:6mm; border-bottom:1.2mm solid var(--nv); padding-bottom:1.8mm;
+  }
+  .head h1{
+    margin:0; font-family:"Yusei Magic","Zen Maru Gothic",sans-serif;
+    font-size:12mm; line-height:1; color:var(--nv);
+  }
+  .head h1 .kanji{
+    font-family:"Zen Maru Gothic",sans-serif; font-size:6mm;
+    color:var(--ink-soft); padding-left:2.5mm; letter-spacing:.04em;
+  }
+  .head .lede{
+    text-align:right; flex:0 0 auto;
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:700;
+    font-size:3.2mm; line-height:1.5; color:var(--ink-soft);
+  }
+  .head .lede .nums{ display:block; font-size:5.4mm; color:var(--ink); }
+
+  .lead{
+    background:var(--nv-soft); border-radius:1.8mm; padding:2.2mm 3.4mm;
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:700;
+    font-size:3.7mm; line-height:1.5; color:var(--nv-deep);
+  }
+  .lead b{ font-weight:900; font-size:4.6mm; color:var(--nv); }
+  .lead em{ font-style:normal; background:var(--yellow); color:var(--ink); padding:0 1mm; border-radius:.8mm; font-weight:900; }
+
+  .secs{ display:flex; flex-direction:column; gap:2.4mm; flex:1; min-height:0; justify-content:space-between; }
+  .sec{ display:flex; flex-direction:column; gap:1.4mm; }
+  .sec > header{ display:flex; align-items:center; gap:2.6mm; }
+  .sec .no{
+    flex:0 0 auto; width:8.6mm; height:8.6mm; border-radius:50%;
+    background:var(--nv); color:#fff;
+    font-family:"Yusei Magic",sans-serif; font-size:5.2mm;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .sec h2{
+    margin:0; font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:5.8mm; line-height:1.15; color:var(--nv-deep);
+  }
+  .sec h2 rt{ font-size:.3em; font-weight:700; letter-spacing:.04em; }
+  .sec h2 small{
+    font-family:"Zen Kaku Gothic New",sans-serif; font-weight:700;
+    font-size:3.3mm; color:var(--ink-soft); padding-left:2mm;
+  }
+  .body{ padding-left:11.2mm; display:grid; grid-template-columns:66mm 1fr; gap:3.4mm; align-items:start; }
+  .fig{ display:flex; flex-direction:column; gap:.8mm; }
+  .fig svg{ width:100%; height:auto; display:block; }
+  .fig .cap{ font-size:3.1mm; line-height:1.4; color:var(--ink-soft); text-wrap:pretty; }
+  .fig .cap b{ color:var(--cr); font-weight:900; }
+
+  .right{ display:flex; flex-direction:column; gap:1.8mm; }
+  .formula{
+    background:var(--nv); color:#fff; border-radius:1.6mm;
+    padding:2mm 3mm; display:flex; flex-direction:column; gap:.6mm;
+  }
+  .formula .t{
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900; font-size:4.8mm;
+    line-height:1.3;
+  }
+  .formula .t em{ font-style:normal; color:var(--yellow); }
+  .formula .val{
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:700; font-size:3.6mm;
+    color:#D6E6F7; font-variant-numeric:tabular-nums;
+  }
+  .formula .val b{ color:#fff; font-weight:900; }
+
+  .inv{
+    border:.4mm solid var(--rule); border-radius:1.4mm; padding:1.8mm 2.4mm;
+    display:flex; flex-direction:column; gap:1.1mm;
+  }
+  .inv .ttl{
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:3.3mm; color:var(--nv);
+  }
+  .inv .r{
+    font-size:3.25mm; line-height:1.5; font-weight:500;
+    font-variant-numeric:tabular-nums; text-wrap:pretty;
+  }
+  .inv .r b{ color:var(--cr); font-weight:900; }
+  .inv .r strong{ font-weight:900; color:var(--nv-deep); }
+  .inv .r em{ font-style:normal; background:var(--yellow-soft); color:#8A5A00; padding:0 .6mm; border-radius:.6mm; font-weight:900; }
+
+  .chips{ display:flex; flex-wrap:wrap; gap:.9mm; }
+  .chip{
+    display:inline-flex; align-items:center; gap:1mm;
+    border:.35mm solid var(--nv-line); border-radius:1.2mm; padding:.2mm 1.1mm;
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900; font-size:3.3mm; color:var(--nv-deep);
+  }
+  .chip .ar{ color:var(--ink-soft); font-size:2.8mm; }
+
+  /* 分数 */
+  .fr{ display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle;
+       line-height:1; font-size:.78em; margin:0 .4mm; }
+  .fr > span:first-child{ border-bottom:.28mm solid currentColor; padding:0 .5mm .3mm; }
+  .fr > span:last-child{ padding-top:.3mm; }
+
+  .memo{
+    border-top:.8mm solid var(--nv); padding-top:2.2mm;
+    display:grid; grid-template-columns:23mm 1fr 1fr; gap:1.6mm 4mm; align-items:start;
+  }
+  .memo .lbl{
+    grid-row:span 2; font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    font-size:3.7mm; color:var(--nv); line-height:1.25; white-space:nowrap;
+  }
+  .memo p{
+    font-size:3.2mm; line-height:1.45; padding-left:5.2mm;
+    position:relative; text-wrap:pretty;
+  }
+  .memo p::before{
+    content:"\2713"; position:absolute; left:0; top:-.2mm; color:var(--nv);
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900; font-size:3.8mm;
+  }
+  .memo b{ font-weight:900; color:var(--nv-deep); }
+  .memo .ng{ color:var(--red); font-weight:900; }
+  .next{ font-size:3mm; color:var(--ink-soft); text-align:right; margin-top:-1mm; }
+
+  @page{ size:210mm 297mm; margin:0; }
+  @media print{
+    html,body{
+      margin:0; padding:0; width:210mm; background:#fff;
+      display:block; -webkit-print-color-adjust:exact; print-color-adjust:exact;
+    }
+    .hint{ display:none; }
+    .sheet{
+      box-shadow:none; margin:0; width:210mm; height:296.8mm;
+      transform:none; overflow:hidden;
+      break-inside:avoid; break-after:avoid; page-break-after:avoid;
+    }
+  }
+  @media screen and (max-width:860px){
+    .sheet{ transform-origin:top center; transform:scale(.46); margin-bottom:-160mm; }
+  }
+</style>
+</head>
+<body>
+
+<p class="hint">A4たて・倍率100%（余白「なし」〜「せまい」）で印刷してください。<br>⌘P / Ctrl+P → 用紙 A4 → 背景のグラフィックを印刷 ON</p>
+
+<div class="sheet">
+
+  <header class="head">
+    <h1>えんと おうぎがた<span class="kanji">円とおうぎ形 1</span></h1>
+    <p class="lede">この1枚は ぜんぶ<span class="nums">半径4cm の円</span></p>
+  </header>
+
+  <p class="lead"><b>円周 ÷ 直径</b> は どんな大きさの円でも 同じ数。これが <ruby>円周率<rt>えんしゅうりつ</rt></ruby> <em>3.14</em></p>
+
+  <div class="secs">
+
+    <!-- ══ 円周 ══ -->
+    <section class="sec">
+      <header>
+        <span class="no">1</span>
+        <h2><ruby>円周<rt>えんしゅう</rt></ruby>の長さ<small>まわりは 直径の 3.14ばい</small></h2>
+      </header>
+      <div class="body">
+        <div class="fig">
+          <svg viewBox="0 0 270 150" role="img" aria-label="円周をのばすと直径の3.14ばいになる図">
+            <circle cx="56" cy="52" r="34" fill="var(--nv-soft)" stroke="var(--nv)" stroke-width="2.6"/>
+            <path d="M22 52 L90 52" stroke="var(--cr)" stroke-width="2.4"/>
+            <circle cx="56" cy="52" r="2.6" fill="var(--nv-deep)"/>
+            <path d="M56 52 L80 28" stroke="var(--nv-deep)" stroke-width="1.8" stroke-dasharray="4 3"/>
+            <g font-family="Zen Maru Gothic, sans-serif" font-weight="900" font-size="13">
+              <text x="56" y="68" fill="var(--cr)" text-anchor="middle">直径 8cm</text>
+              <text x="100" y="22" fill="var(--nv-deep)">半径 4cm</text>
+              <text x="132" y="62" fill="var(--nv)">円周</text>
+            </g>
+            <path d="M92 66 Q120 92 128 104" fill="none" stroke="var(--nv)" stroke-width="1.6" stroke-dasharray="4 3"/>
+            <path d="M128 104 l-8 -3 l7 -6 z" fill="var(--nv)"/>
+            <!-- のばした円周：直径68px × 3.14 ＝ 213.5px -->
+            <path d="M22 116 L235.5 116" stroke="var(--nv)" stroke-width="3.2" stroke-linecap="round"/>
+            <g stroke="var(--cr)" stroke-width="2">
+              <path d="M22 108 L22 124"/><path d="M90 108 L90 124"/><path d="M158 108 L158 124"/><path d="M226 108 L226 124"/>
+            </g>
+            <g font-family="Zen Maru Gothic, sans-serif" font-weight="900" font-size="13" fill="var(--cr)" text-anchor="middle">
+              <text x="56" y="140">直径1つ</text><text x="124" y="140">2つ</text><text x="192" y="140">3つ</text><text x="244" y="140">0.14</text>
+            </g>
+          </svg>
+        </div>
+        <div class="right">
+          <p class="formula"><span class="t">円周 ＝ <em>直径</em> × 3.14</span><span class="val">8 × 3.14 ＝ <b>25.12cm</b></span></p>
+          <div class="inv">
+            <p class="r">半径がわかっているときは、先に <strong>直径＝半径×2</strong>。4×2＝8cm</p>
+            <p class="r">円周から直径は <em>わり算</em>。18.84 ÷ 3.14 ＝ <b>6cm</b>（半径は ÷2 で 3cm）</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ 円の面積 ══ -->
+    <section class="sec">
+      <header>
+        <span class="no">2</span>
+        <h2>円の<ruby>面積<rt>めんせき</rt></ruby><small>細かく切って ならべると 長方形</small></h2>
+      </header>
+      <div class="body">
+        <div class="fig">
+          <svg viewBox="0 0 270 132" role="img" aria-label="円を16等分してならべかえると、たてが半径、よこが円周の半分の長方形に近づく図">
+            <g transform="translate(46 58)">
+              <path d="M0 0 L40 0 A40 40 0 0 1 -40 0 Z" fill="#CFE2F5" stroke="var(--nv)" stroke-width="1.4"/>
+              <path d="M0 0 L-40 0 A40 40 0 0 1 40 0 Z" fill="#FFE7A3" stroke="#C99A1E" stroke-width="1.4"/>
+              <g stroke="var(--ink-soft)" stroke-width=".9">
+                <path d="M0 -40 L0 40"/><path d="M-40 0 L40 0"/>
+                <path d="M-28.3 -28.3 L28.3 28.3"/><path d="M28.3 -28.3 L-28.3 28.3"/>
+                <path d="M-15.3 -37 L15.3 37"/><path d="M15.3 -37 L-15.3 37"/>
+                <path d="M-37 -15.3 L37 15.3"/><path d="M37 -15.3 L-37 15.3"/>
+              </g>
+              <circle r="40" fill="none" stroke="var(--nv)" stroke-width="2.4"/>
+            </g>
+            <path d="M96 58 L114 58" stroke="var(--cr)" stroke-width="2.4"/>
+            <path d="M118 58 l-8 -5 l0 10 z" fill="var(--cr)"/>
+            <!-- 並べかえ：よこ 40×3.14＝125.6、たて 40 -->
+            <g transform="translate(128 34)" stroke-width="1.2" stroke-linejoin="round">
+              <g fill="#CFE2F5" stroke="var(--nv)">
+                <path d="M0 40 L15.7 40 L7.85 0 Z"/><path d="M15.7 40 L31.4 40 L23.55 0 Z"/>
+                <path d="M31.4 40 L47.1 40 L39.25 0 Z"/><path d="M47.1 40 L62.8 40 L54.95 0 Z"/>
+                <path d="M62.8 40 L78.5 40 L70.65 0 Z"/><path d="M78.5 40 L94.2 40 L86.35 0 Z"/>
+                <path d="M94.2 40 L109.9 40 L102.05 0 Z"/><path d="M109.9 40 L125.6 40 L117.75 0 Z"/>
+              </g>
+              <g fill="#FFE7A3" stroke="#C99A1E">
+                <path d="M7.85 0 L23.55 0 L15.7 40 Z"/><path d="M23.55 0 L39.25 0 L31.4 40 Z"/>
+                <path d="M39.25 0 L54.95 0 L47.1 40 Z"/><path d="M54.95 0 L70.65 0 L62.8 40 Z"/>
+                <path d="M70.65 0 L86.35 0 L78.5 40 Z"/><path d="M86.35 0 L102.05 0 L94.2 40 Z"/>
+                <path d="M102.05 0 L117.75 0 L109.9 40 Z"/>
+              </g>
+            </g>
+            <g stroke="var(--ink-soft)" stroke-width="1.3" fill="none">
+              <path d="M262 34 L262 74"/><path d="M257 34 L267 34"/><path d="M257 74 L267 74"/>
+              <path d="M128 88 L253.6 88"/><path d="M128 83 L128 93"/><path d="M253.6 83 L253.6 93"/>
+            </g>
+            <g font-family="Zen Maru Gothic, sans-serif" font-weight="900" font-size="12.5" fill="var(--nv-deep)">
+              <text x="190.8" y="106" text-anchor="middle">よこ ＝ 円周の半分</text>
+              <text x="190.8" y="124" text-anchor="middle" fill="var(--cr)">8×3.14÷2 ＝ 4×3.14</text>
+              <text x="253" y="26" text-anchor="end">たて ＝ 半径</text>
+            </g>
+          </svg>
+          <p class="cap">半径 ×（円周の半分）＝ 半径 × 直径 × 3.14 ÷ 2 ＝ <b>半径 × 半径 × 3.14</b></p>
+        </div>
+        <div class="right">
+          <p class="formula"><span class="t">面積 ＝ <em>半径 × 半径</em> × 3.14</span><span class="val">4 × 4 × 3.14 ＝ <b>50.24cm&sup2;</b></span></p>
+          <div class="inv">
+            <p class="r"><em>直径</em> が書いてあったら、<strong>半径にしてから</strong>。直径8cm → 半径4cm</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ おうぎ形 ══ -->
+    <section class="sec">
+      <header>
+        <span class="no">3</span>
+        <h2>おうぎ<ruby>形<rt>がた</rt></ruby><small>円の 何分の1かを まず決める</small></h2>
+      </header>
+      <div class="body">
+        <div class="fig">
+          <svg viewBox="0 10 270 140" role="img" aria-label="半径4cm、中心角90度のおうぎ形。中心角・弧・半径の名前">
+            <path d="M70 122 L170 122 A100 100 0 0 0 70 22 Z" fill="var(--nv-soft)" stroke="var(--nv)" stroke-width="2.6" stroke-linejoin="round"/>
+            <path d="M170 122 A100 100 0 0 0 70 22" fill="none" stroke="var(--cr)" stroke-width="4"/>
+            <path d="M70 110 L82 110 L82 122" fill="none" stroke="var(--nv-deep)" stroke-width="1.6"/>
+            <circle cx="70" cy="122" r="2.8" fill="var(--nv-deep)"/>
+            <g font-family="Zen Maru Gothic, sans-serif" font-weight="900" font-size="13">
+              <text x="120" y="140" fill="var(--nv-deep)" text-anchor="middle">半径 4cm</text>
+              <text x="88" y="104" fill="var(--nv-deep)">中心角 90°</text>
+              <text x="150" y="44" fill="var(--cr)">弧（こ）</text>
+              <text x="186" y="86" fill="var(--ink-soft)" font-size="12.5">円全体 ＝ 360°</text>
+              <text x="186" y="102" fill="var(--ink-soft)" font-size="12.5">半円 ＝ 180°</text>
+              <text x="186" y="118" fill="var(--ink-soft)" font-size="12.5">四分円 ＝ 90°</text>
+            </g>
+          </svg>
+        </div>
+        <div class="right">
+          <p class="formula">
+            <span class="t">弧 ＝ 直径 × 3.14 × <em><span class="fr"><span>中心角</span><span>360</span></span></em></span>
+            <span class="val">8 × 3.14 × <span class="fr"><span>1</span><span>4</span></span> ＝ 2 × 3.14 ＝ <b>6.28cm</b></span>
+          </p>
+          <p class="formula">
+            <span class="t">面積 ＝ 半径 × 半径 × 3.14 × <em><span class="fr"><span>中心角</span><span>360</span></span></em></span>
+            <span class="val">4 × 4 × 3.14 × <span class="fr"><span>1</span><span>4</span></span> ＝ 4 × 3.14 ＝ <b>12.56cm&sup2;</b></span>
+          </p>
+          <div class="chips">
+            <span class="chip">180°<span class="ar">▶</span><span class="fr"><span>1</span><span>2</span></span></span>
+            <span class="chip">120°<span class="ar">▶</span><span class="fr"><span>1</span><span>3</span></span></span>
+            <span class="chip">90°<span class="ar">▶</span><span class="fr"><span>1</span><span>4</span></span></span>
+            <span class="chip">72°<span class="ar">▶</span><span class="fr"><span>1</span><span>5</span></span></span>
+            <span class="chip">60°<span class="ar">▶</span><span class="fr"><span>1</span><span>6</span></span></span>
+            <span class="chip">45°<span class="ar">▶</span><span class="fr"><span>1</span><span>8</span></span></span>
+            <span class="chip">30°<span class="ar">▶</span><span class="fr"><span>1</span><span>12</span></span></span>
+            <span class="chip">144°<span class="ar">▶</span><span class="fr"><span>2</span><span>5</span></span></span>
+            <span class="chip">135°<span class="ar">▶</span><span class="fr"><span>3</span><span>8</span></span></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ はっぱ形 ══ -->
+    <section class="sec">
+      <header>
+        <span class="no">4</span>
+        <h2>はっぱ<ruby>形<rt>がた</rt></ruby><small>半分で考えて あとで 2ばい</small></h2>
+      </header>
+      <div class="body">
+        <div class="fig">
+          <svg viewBox="0 6 270 138" role="img" aria-label="1辺4cmの正方形に四分円を2つかいたはっぱ形。対角線で半分にする">
+            <rect x="40" y="16" width="100" height="100" fill="#fff" stroke="var(--nv)" stroke-width="2.2"/>
+            <path d="M40 16 A100 100 0 0 1 140 116 A100 100 0 0 1 40 16 Z" fill="#FFE7A3" stroke="#C99A1E" stroke-width="2"/>
+            <path d="M40 16 A100 100 0 0 1 140 116 Z" fill="#FFD24A" stroke="none"/>
+            <path d="M40 16 L140 116" stroke="var(--cr)" stroke-width="2.2" stroke-dasharray="5 4"/>
+            <path d="M40 16 A100 100 0 0 1 140 116" fill="none" stroke="var(--nv)" stroke-width="1.6"/>
+            <g stroke="var(--ink-soft)" stroke-width="1.3" fill="none">
+              <path d="M40 128 L140 128"/><path d="M40 123 L40 133"/><path d="M140 123 L140 133"/>
+              <path d="M28 16 L28 116"/><path d="M23 16 L33 16"/><path d="M23 116 L33 116"/>
+            </g>
+            <g font-family="Zen Maru Gothic, sans-serif" font-weight="900" font-size="12.5" fill="var(--nv-deep)">
+              <text x="90" y="140" text-anchor="middle" font-size="12.5">4cm</text>
+              <text x="18" y="70" transform="rotate(-90 18 70)" text-anchor="middle" font-size="12.5">4cm</text>
+              <text x="160" y="40" fill="var(--cr)">対角線で</text>
+              <text x="160" y="56" fill="var(--cr)">半分に</text>
+              <text x="160" y="84">半分 ＝</text>
+              <text x="160" y="100">四分円 − 三角形</text>
+            </g>
+          </svg>
+          
+        </div>
+        <div class="right">
+          <p class="formula"><span class="t">（四分円 − <em>直角二等辺三角形</em>）× 2</span><span class="val">（12.56 − 8）× 2 ＝ <b>9.12cm&sup2;</b></span></p>
+          <div class="inv">
+            <p class="r">四分円：4 × 4 × 3.14 × <span class="fr"><span>1</span><span>4</span></span> ＝ <strong>12.56cm&sup2;</strong>　三角形：4 × 4 ÷ 2 ＝ <strong>8cm&sup2;</strong></p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="memo">
+    <span class="lbl">おぼえておく</span>
+    <p><b>直径か 半径か</b> を最初に確かめる。円周は直径、面積は半径。</p>
+    <p>中心角÷360 は先に <b>約分</b>。90° なら 4分の1、60° なら 6分の1。</p>
+    <p>3.14 のかけ算は <b>最後に1回</b>。4×3.14＋6×3.14 ＝（4＋6）×3.14 ＝ 31.4</p>
+    <p>おうぎ形の弧と面積は、どちらも <b>円全体の 何分の1か</b> で決まる。</p>
+  </div>
+  <p class="next">色のついた部分の面積（たし算・ひき算／面積の移動／補助線）は「えんと おうぎがた 2」へ</p>
+
+</div>
+
+<style>
+@media screen and (max-width:860px){
+  body{ padding:8px 0 28px; }
+  .sheet{ transform:scale(var(--fit,.46)) !important;
+          margin-bottom:calc(-297mm * (1 - var(--fit,.46))) !important; }
+}
+</style>
+<script>
+(function(){
+  function fit(){
+    var w = Math.min(document.documentElement.clientWidth, 860);
+    document.documentElement.style.setProperty('--fit', Math.min(1,(w-10)/793.7).toFixed(4));
+  }
+  fit(); addEventListener('resize', fit); addEventListener('orientationchange', fit);
+})();
+</script>
+</body>
+</html>
