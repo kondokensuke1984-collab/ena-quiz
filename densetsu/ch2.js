@@ -503,7 +503,7 @@ function c2OpenChapters() {
   const box = $('cpBtns'); box.textContent = '';
   $('cpTitle').textContent = '章を えらぶ';
   const add = (label, fn) => { const b = document.createElement('button'); b.className = 'mbtn chBtn'; b.textContent = label; b.addEventListener('click', fn); box.appendChild(b); };
-  const open = c2Read(C2_CLEAR_KEY).c2;   // 第3章は 第2章を クリアすると ひらく
+  const open = c2Read(C2_CLEAR_KEY).c2 || FREE[islandPlayer()];   // 第3章は 第2章を クリアすると ひらく（けんすけ・みつきは いつでも）
   C2_CHAPTERS.filter(([ch]) => ch < 3 || open).forEach(([ch, label]) => add(label, () => {
     if (!c2Resumable(ch)) return c2NewChapter(ch);
     $('cpTitle').textContent = label; box.textContent = '';

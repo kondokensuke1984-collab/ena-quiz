@@ -1064,7 +1064,7 @@ function refreshTitle() {
   const sv = loadSave(), has = !!sv;
   const clear = c2SyncClear(sv), cleared = !!clear.c1;
   $('btnCh2').hidden = !(cleared && !c2Resumable(2) && !(sv && sv.f.ch2));
-  $('btnChapters').hidden = !cleared;
+  $('btnChapters').hidden = !(cleared || FREE[islandPlayer()]);   // けんすけ・みつきは クリアしなくても どの章からでも
   $('btnTitleLetters').hidden = !clear.c2;
   $('btnNew').hidden = cleared;   // クリアしたら「章を えらぶ」から はじめる（きろくを うっかり けさないように）
   $('logoSub').textContent = sv && sv.f.ch3 ? '第3章 めぶきの たね' : sv && sv.f.ending ? '第2章 ひかりの てがみ' : '第1章 きえた ともしび';
