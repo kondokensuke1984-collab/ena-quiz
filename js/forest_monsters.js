@@ -417,6 +417,96 @@ const FMON_DRAW = {
     '<path d="M76 86 Q100 80 124 86 Q120 102 100 102 Q80 102 76 86 Z" fill="#7f1d1d"/>' +
     '<path d="M82 86 L86 95 L90 85 M110 85 L114 95 L118 86" fill="#fff" stroke-width="2.5"/>' +
     fmonEye(80, 64, 11, 1, '#facc15') + fmonEye(120, 64, 11, -1, '#facc15'),
+  // ☁️ そらの しろ ── くもの こ（もこもこの 雲。下に しずく）
+  kumo: (p) =>
+    [[70, 180], [100, 186], [130, 180]].map(([x, y]) => '<path d="M' + x + ' ' + (y - 14) + ' C' + (x + 8) + ' ' + (y - 4) + ' ' + (x + 8) + ' ' + (y + 4) + ' ' + x + ' ' + (y + 4) + ' C' + (x - 8) + ' ' + (y + 4) + ' ' + (x - 8) + ' ' + (y - 4) + ' ' + x + ' ' + (y - 14) + ' Z" fill="' + p[2] + '" stroke-width="3.5"/>').join('') +
+    // p[3]：'tall' たてに もくもく（積雲）／'wide' よこに ぶあつい（高層雲）／'mist' もやの すじ（層雲）
+    (p[3] === 'tall' ? '<path d="M70 96 C58 66 80 40 100 50 C108 22 146 26 144 58 C160 60 164 84 150 98 Z" fill="' + p[0] + '"/>' : '') +
+    (p[3] === 'wide' ? '<path d="M30 150 C2 150 0 112 26 108 C24 84 52 76 66 88 L140 88 C152 74 180 82 176 108 C202 112 200 150 172 150 Z" fill="' + p[1] + '" opacity=".55"/>' : '') +
+    '<path d="M42 160 C14 160 12 120 40 116 C34 84 70 70 88 88 C96 56 140 54 146 86 C170 76 192 102 178 124 C198 134 188 166 160 162 Q100 172 42 160 Z" fill="' + p[0] + '"/>' +
+    (p[3] === 'wide' ? '<path d="M30 104 Q100 92 172 104 M24 128 Q100 116 178 128" fill="none" stroke="' + p[1] + '" stroke-width="5" opacity=".45"/>' : '') +
+    '<path d="M48 150 Q100 162 158 150 Q166 154 156 158 Q100 168 46 158 Q40 154 48 150 Z" fill="' + p[1] + '" stroke="none" opacity=".55"/>' +
+    fmonShine('M52 114 C56 100 66 92 80 92') + fmonShine('M100 78 C106 70 116 66 126 68') +
+    '<ellipse cx="66" cy="138" rx="9" ry="6" fill="#f9a8d4" stroke="none" opacity=".7"/><ellipse cx="138" cy="138" rx="9" ry="6" fill="#f9a8d4" stroke="none" opacity=".7"/>' +
+    fmonEye(86, 122, 12, 1) + fmonEye(118, 122, 12, -1) +
+    '<path d="M90 146 Q102 156 114 146" fill="none"/>' +
+    (p[3] === 'mist' ? '<path d="M4 96 Q40 88 70 98 M130 104 Q164 92 198 102 M0 150 Q30 142 56 152 M150 156 Q176 146 200 154" fill="none" stroke="#fff" stroke-width="9" opacity=".9"/>' +
+      '<path d="M4 96 Q40 88 70 98 M130 104 Q164 92 198 102 M0 150 Q30 142 56 152 M150 156 Q176 146 200 154" fill="none" stroke="' + p[1] + '" stroke-width="2" opacity=".6"/>' : ''),
+  // 🐑 ひつじぐもん（高積雲＝ひつじ雲。もこもこの けと まがった つの）
+  hitsuji: (p) =>
+    '<path d="M72 160 L70 186 L84 186 L86 160 Z M114 160 L116 186 L130 186 L128 160 Z" fill="' + p[1] + '"/>' +
+    [[52, 128, 24], [64, 100, 24], [92, 84, 26], [124, 86, 26], [148, 108, 24], [152, 136, 22], [126, 158, 24], [96, 162, 24], [64, 152, 22]]
+      .map(([x, y, r]) => '<circle cx="' + x + '" cy="' + y + '" r="' + r + '" fill="' + p[0] + '"/>').join('') +
+    '<ellipse cx="102" cy="126" rx="56" ry="42" fill="' + p[0] + '" stroke="none"/>' +
+    '<circle cx="78" cy="142" r="9" fill="' + p[1] + '" stroke="none" opacity=".18"/><circle cx="132" cy="112" r="11" fill="' + p[1] + '" stroke="none" opacity=".18"/><circle cx="118" cy="150" r="8" fill="' + p[1] + '" stroke="none" opacity=".18"/>' +
+    fmonShine('M58 98 C62 86 72 78 84 76') +
+    '<path d="M74 104 C56 92 52 122 70 120" fill="none" stroke-width="12"/><path d="M74 104 C56 92 52 122 70 120" fill="none" stroke="' + p[2] + '" stroke-width="6"/>' +
+    '<path d="M130 104 C148 92 152 122 134 120" fill="none" stroke-width="12"/><path d="M130 104 C148 92 152 122 134 120" fill="none" stroke="' + p[2] + '" stroke-width="6"/>' +
+    '<ellipse cx="102" cy="120" rx="28" ry="26" fill="' + p[1] + '"/>' +
+    '<circle cx="102" cy="92" r="13" fill="' + p[0] + '"/>' +
+    fmonEye(91, 118, 8, 1) + fmonEye(113, 118, 8, -1) +
+    '<path d="M94 136 Q102 142 110 136" fill="none" stroke="#fff" stroke-width="3"/>',
+  // 〰️ すじぐもん（巻雲＝すじ雲。はけで こすった ような すじの しっぽ、さきが くるん）
+  suji: (p) =>
+    ['M92 92 C126 64 156 60 178 34 C186 26 196 30 190 40', 'M100 112 C140 100 164 96 186 78 C194 72 198 82 192 88', 'M96 134 C132 142 160 136 182 120 C190 114 196 124 188 128']
+      .map(d => '<path d="' + d + '" fill="none" stroke-width="20"/><path d="' + d + '" fill="none" stroke="' + p[0] + '" stroke-width="12"/>').join('') +
+    ['M150 66 C160 60 168 54 176 44', 'M156 96 C166 92 176 88 186 80', 'M152 134 C164 132 174 126 182 120'].map(d => '<path d="' + d + '" fill="none" stroke="' + p[2] + '" stroke-width="5"/>').join('') +
+    '<path d="M70 176 C64 184 56 188 46 186 M86 176 C86 186 82 192 74 194" fill="none" stroke-width="6"/>' +
+    '<circle cx="70" cy="122" r="44" fill="' + p[0] + '"/>' +
+    '<path d="M34 138 Q70 160 106 138 Q100 162 70 166 Q40 162 34 138 Z" fill="' + p[1] + '" stroke="none" opacity=".5"/>' +
+    fmonShine('M42 110 C46 96 56 88 68 86') +
+    fmonEye(56, 118, 10, 1) + fmonEye(84, 118, 10, -1) +
+    '<path d="M60 142 Q70 136 82 142" fill="none"/>',
+  // 🐟 うろこぐもん（巻積雲＝うろこ雲・いわし雲。うろこが 雲の つぶ）
+  uroko: (p) =>
+    '<path d="M150 112 L188 76 C192 100 192 124 188 148 Z" fill="' + p[2] + '"/>' +
+    '<path d="M98 72 C108 52 128 50 138 62 C126 66 116 72 112 80 Z M98 150 C108 168 124 172 134 162 C122 158 114 152 112 146 Z" fill="' + p[2] + '"/>' +
+    '<path d="M16 112 C26 72 70 62 104 66 C136 70 156 92 158 112 C156 132 136 154 104 158 C70 162 26 152 16 112 Z" fill="' + p[0] + '"/>' +
+    [[84, 92], [104, 90], [124, 96], [74, 112], [94, 112], [114, 112], [134, 112], [84, 132], [104, 134], [124, 128]]
+      .map(([x, y]) => '<path d="M' + (x - 9) + ' ' + y + ' Q' + x + ' ' + (y + 14) + ' ' + (x + 9) + ' ' + y + '" fill="' + p[1] + '" stroke-width="3"/>').join('') +
+    '<path d="M60 70 C54 92 54 132 60 154" fill="none" stroke-width="4" opacity=".55"/>' +
+    fmonShine('M32 100 C38 86 50 78 62 74') +
+    fmonEye(40, 104, 11, -1) +
+    '<path d="M18 122 Q28 128 36 122" fill="none"/>' +
+    '<path d="M70 178 L78 170 L86 178 M104 182 L112 174 L120 182" fill="none" stroke-width="4" opacity=".5"/>',
+  // 💫 うすぐもん（巻層雲＝うす雲。うしろに 光の わ「かさ」）
+  usu: (p) =>
+    '<circle cx="100" cy="74" r="58" fill="none" stroke-width="13"/><circle cx="100" cy="74" r="58" fill="none" stroke="' + p[2] + '" stroke-width="7"/>' +
+    '<circle cx="100" cy="74" r="58" fill="none" stroke="#fff" stroke-width="2" opacity=".8"/>' +
+    '<circle cx="100" cy="16" r="9" fill="#fef08a"/>' +
+    '<path d="M48 186 C42 130 54 72 100 70 C146 72 158 130 152 186 Q138 174 126 186 Q113 174 100 186 Q87 174 74 186 Q62 174 48 186 Z" fill="' + p[0] + '" opacity=".93"/>' +
+    '<path d="M70 98 C64 130 64 156 68 178 M100 100 L100 176 M130 98 C136 130 136 156 132 178" fill="none" stroke="' + p[1] + '" stroke-width="4" opacity=".45"/>' +
+    fmonShine('M62 100 C66 88 76 80 88 78') +
+    '<path d="M76 110 Q86 104 96 110 M104 110 Q114 104 124 110" fill="none" stroke-width="5"/>' +
+    '<circle cx="86" cy="118" r="5" fill="' + FMON_INK + '" stroke="none"/><circle cx="114" cy="118" r="5" fill="' + FMON_INK + '" stroke="none"/>' +
+    '<path d="M92 138 Q100 144 108 138" fill="none"/>',
+  // ⚡ そらのぬし かみなりグリフォン（うしろに 入道雲＝積乱雲。わしの あたま・つばさ、ライオンの からだ）
+  nyudo: (p) =>
+    '<path d="M18 186 C4 166 12 140 30 136 C22 110 40 92 56 98 C52 76 66 58 80 60 C70 40 50 36 22 34 C14 22 30 12 44 18 C54 6 76 6 84 16 C94 4 116 4 124 14 C134 4 156 6 160 18 C174 12 190 24 180 34 C152 36 132 42 120 60 C134 58 148 76 144 98 C160 92 178 110 170 136 C188 140 196 166 182 186 Z" fill="' + p[0] + '" opacity=".95"/>' +
+    '<path d="M40 34 Q100 40 164 34 M44 160 Q100 176 156 160" fill="none" stroke-width="3" opacity=".35"/>' +
+    '<path d="M22 70 L34 92 L26 94 L38 118 L18 92 L26 90 Z M178 70 L166 92 L174 94 L162 118 L182 92 L174 90 Z" fill="' + p[3] + '" stroke-width="3.5"/>' +
+    '<path d="M74 110 C40 70 10 78 8 108 C24 104 30 116 26 132 C42 122 54 128 56 146 C64 134 72 136 78 146 Z" fill="' + p[1] + '"/>' +
+    '<path d="M126 110 C160 70 190 78 192 108 C176 104 170 116 174 132 C158 122 146 128 144 146 C136 134 128 136 122 146 Z" fill="' + p[1] + '"/>' +
+    '<path d="M70 114 C48 92 30 96 26 110 C40 110 48 118 52 128 Z M130 114 C152 92 170 96 174 110 C160 110 152 118 148 128 Z" fill="' + p[3] + '" stroke-width="3"/>' +
+    '<path d="M62 162 L54 188 L84 188 L84 166 Z M138 162 L146 188 L116 188 L116 166 Z" fill="' + p[2] + '"/>' +
+    '<path d="M60 186 L64 178 M70 188 L72 180 M130 188 L128 180 M140 186 L136 178" fill="none" stroke-width="3"/>' +
+    '<path d="M58 118 C50 150 60 178 100 178 C140 178 150 150 142 118 Z" fill="' + p[2] + '"/>' +
+    '<path d="M76 124 Q100 116 124 124 Q118 150 100 152 Q82 150 76 124 Z" fill="' + p[1] + '" stroke-width="3"/>' +
+    '<path d="M70 66 L58 34 L82 54 Z M130 66 L142 34 L118 54 Z" fill="' + p[1] + '"/>' +
+    '<path d="M64 84 C62 52 138 52 136 84 C136 106 120 118 100 118 C80 118 64 106 64 84 Z" fill="' + p[1] + '"/>' +
+    fmonShine('M74 74 C78 64 88 58 98 58') +
+    '<path d="M88 92 L112 92 L100 118 Z" fill="' + p[3] + '"/><path d="M92 100 L108 100" fill="none" stroke-width="3"/>' +
+    fmonEye(84, 80, 10, 1, '#0ea5e9') + fmonEye(116, 80, 10, -1, '#0ea5e9') +
+    '<path d="M96 30 L84 52 L96 52 L88 70 L112 44 L100 44 L108 30 Z" fill="' + p[3] + '" stroke-width="3.5"/>',
+  // 💧 しずく（なかまの こ。たたかわない。にこにこ）
+  shizuku: (p) =>
+    '<path d="M100 20 C126 64 156 98 156 134 C156 166 132 186 100 186 C68 186 44 166 44 134 C44 98 74 64 100 20 Z" fill="' + p[0] + '"/>' +
+    '<path d="M60 150 Q100 176 140 150 Q136 178 100 180 Q64 178 60 150 Z" fill="' + p[1] + '" stroke="none" opacity=".45"/>' +
+    fmonShine('M66 116 C70 92 82 72 96 52') +
+    '<ellipse cx="82" cy="128" rx="8" ry="11" fill="' + FMON_INK + '" stroke="none"/><ellipse cx="118" cy="128" rx="8" ry="11" fill="' + FMON_INK + '" stroke="none"/>' +
+    '<circle cx="85" cy="123" r="3.5" fill="#fff" stroke="none"/><circle cx="121" cy="123" r="3.5" fill="#fff" stroke="none"/>' +
+    '<ellipse cx="68" cy="146" rx="9" ry="6" fill="#f9a8d4" stroke="none" opacity=".8"/><ellipse cx="132" cy="146" rx="9" ry="6" fill="#f9a8d4" stroke="none" opacity=".8"/>' +
+    '<path d="M90 148 Q100 158 110 148" fill="none" stroke-width="4"/>',
 };
 
 // key → [かたち, いろ（[からだ, こい色, アクセント, …]）, なまえ]
@@ -479,6 +569,16 @@ const FOREST_MONSTERS = {
   fm_tokage2:   ['tokage', ['#334155', '#f97316', '#facc15'], 'くろいわトカゲ'],
   fm_hinotori:  ['hinotori', ['#f97316', '#fde047', '#dc2626'], 'ひのとり'],
   fm_volcano_nushi: ['karyu', ['#dc2626', '#fde047', '#f97316'], 'かざんのぬし フレイムドラゴン'],
+  // ☁️ そらの しろ（ほんものの 雲の なかま。下の だん・まんなか・うえ）
+  fm_wata:      ['kumo', ['#ffffff', '#93c5fd', '#7dd3fc', 'tall'], 'わたぐもん'],
+  fm_ame:       ['kumo', ['#94a3b8', '#334155', '#38bdf8'], 'あまぐもん'],
+  fm_kiri:      ['kumo', ['#f1f5f9', '#94a3b8', '#e2e8f0', 'mist'], 'きりぐもん'],
+  fm_hitsuji:   ['hitsuji', ['#ffffff', '#475569', '#fbbf24'], 'ひつじぐもん'],
+  fm_kousou:    ['kumo', ['#cbd5e1', '#475569', '#94a3b8', 'wide'], 'ぶあつぐもん'],
+  fm_suji:      ['suji', ['#ffffff', '#93c5fd', '#60a5fa'], 'すじぐもん'],
+  fm_uroko:     ['uroko', ['#f8fafc', '#bfdbfe', '#a5b4fc'], 'うろこぐもん'],
+  fm_usu:       ['usu', ['#f1f5f9', '#94a3b8', '#fde047'], 'うすぐもん'],
+  fm_sky_nushi: ['nyudo', ['#e2e8f0', '#f8fafc', '#d97706', '#facc15'], 'そらのぬし かみなりグリフォン'],
   // どうくつ・ぬし
   fm_golem:     ['golem', ['#a8a29e', '#78716c', '#22d3ee', '#4d7c0f'], 'いわゴーレム'],
   fm_nushi:     ['nushi', ['#5b3a1f', '#c8a27a', '#4d7c0f'], 'もりのぬし グランベア'],
@@ -495,12 +595,16 @@ const FOREST_MOBS = {
   // さばくの アジト（みはり。ランダムには でない。js/forest_base.js の みはりに みつかると たたかう）
   base: ['fm_heitai', 'fm_heitai2', 'fm_drone', 'fm_drone2', 'fm_light'],
   // マグマの かざん（さばくの アジトが へいわに なると ヘリで いける）
-  volcano: ['fm_maguma', 'fm_maguma2', 'fm_tokage', 'fm_tokage2', 'fm_hinotori'],
+  volcano: ['fm_maguma', 'fm_maguma2', 'fm_tokage', 'fm_tokage2', 'fm_hinotori'],  // そらの しろ（マグマの かざんが へいわに なると ききゅうで いける）。でる だんは SKY_ZONE_MOBS
+  sky: ['fm_wata', 'fm_ame', 'fm_kiri', 'fm_hitsuji', 'fm_kousou', 'fm_suji', 'fm_uroko', 'fm_usu'],
 };
+// ☁️ そらの しろは 高さで 3だん。ほんとうの 雲と おなじ 高さの だんに でる（下層雲は 下・中層雲は まんなか・上層雲は うえ）
+const SKY_ZONE_MOBS = { low: ['fm_wata', 'fm_ame', 'fm_kiri'], mid: ['fm_hitsuji', 'fm_kousou'], high: ['fm_suji', 'fm_uroko', 'fm_usu'] };
 const FOREST_MIMIC_KEY = 'fm_mimic', FOREST_UMI_KEY = 'fm_umi_nushi';
 const FOREST_GUARD_KEY = 'fm_golem', FOREST_NUSHI_KEY = 'fm_nushi';
 const FOREST_KAGE_KEY = 'fm_kage', FOREST_LOCK_KEY = 'fm_lock';
 const FOREST_VOLCANO_KEY = 'fm_volcano_nushi';
+const FOREST_SKY_KEY = 'fm_sky_nushi', FOREST_SHIZUKU_KEY = 'fm_shizuku';
 Object.entries(FOREST_MONSTERS).forEach(([key, [shape, pal, name]]) => {
   CHARS[key] = (lv, fill, size, opts) => fmonSvg(size || 160, FMON_DRAW[shape](pal), opts && opts.silhouette);
   CHAR_NAME[key] = name;
@@ -508,6 +612,9 @@ Object.entries(FOREST_MONSTERS).forEach(([key, [shape, pal, name]]) => {
 // 🔐 ろうやの ロック（ずかんには のせない）
 CHARS[FOREST_LOCK_KEY] = (lv, fill, size, opts) => fmonSvg(size || 160, FMON_DRAW.lock(['#facc15', '#94a3b8']), opts && opts.silhouette);
 CHAR_NAME[FOREST_LOCK_KEY] = 'ろうやの ロック';
+// 💧 しずく（そらの しろで ついてくる なかま。ずかんには のせない）
+CHARS[FOREST_SHIZUKU_KEY] = (lv, fill, size, opts) => fmonSvg(size || 160, FMON_DRAW.shizuku(['#7dd3fc', '#0284c7']), opts && opts.silhouette);
+CHAR_NAME[FOREST_SHIZUKU_KEY] = 'しずく';
 
 // 📖 ずかんの せつめい（たおすと 読める）
 const FOREST_MONSTER_INFO = {
@@ -562,7 +669,16 @@ const FOREST_MONSTER_INFO = {
   fm_tokage:    'かざんの いわばを ちょろちょろ はしる トカゲ。しっぽの ほのおが げんきの しるし。',
   fm_tokage2:   'かたい くろいわの ウロコを もつ トカゲ。マグマの なかも すいすい およげる。',
   fm_hinotori:  'ほのおの つばさで かざんの そらを とぶ とり。とおった あとに キラキラと ひのこが まう。',
-  fm_volcano_nushi: 'マグマの かざんの おくに すむ 大きな ドラゴン。かざんの エネルギーを まもっている。',
+  fm_volcano_nushi: 'マグマの かざんの おくに すむ 大きな ドラゴン。かざんの エネルギーを まもっている。',  // そらの しろ（中身は 11月の「雲と雨1」の まとめと おなじ）
+  fm_wata:      'ほんとうの なまえは「積雲（せきうん）」。白い わたの かたまりの ような 雲で、「わた雲」とも いう。たてに のびる 雲の なかま。',
+  fm_ame:       '「乱層雲（らんそううん）」。灰色の あつい 雲で、広い はんいに 長い じかん、しとしとと 雨や 雪を ふらせる（雨雲）。ひくい ところに できる 下層雲。',
+  fm_kiri:      '「層雲（そううん）」。山の あいだ などに できる、きりに にた 白い 雲。いちばん ひくい ところに いる 下層雲。',
+  fm_hitsuji:   '「高積雲（こうせきうん）」。まだらに なった 白い 雲で、灰色の かげが ある。「ひつじ雲」とも いう。やく 2000〜7000mの 中層雲。',
+  fm_kousou:    '「高層雲（こうそううん）」。灰色がかった あつい 雲で、空の 広い はんいを おおう ことが 多い。やく 2000〜7000mの 中層雲。',
+  fm_suji:      '「巻雲（けんうん）」。はけで かるく こすった ような、細かい すじの 白い 雲（すじ雲）。やく 7000mより 高い 上層雲。',
+  fm_uroko:     '「巻積雲（けんせきうん）」。魚の うろこの ような 白い 雲で、「うろこ雲」「いわし雲」とも いう。やく 7000mより 高い 上層雲。',
+  fm_usu:       '「巻層雲（けんそううん）」。うすい きぬの ような 雲（うす雲）。太陽や 月の まわりに できる 光の わ「かさ」の もとに なる。上層雲。',
+  fm_sky_nushi: '入道雲（積乱雲）の てっぺんに すむ そらのぬし。積乱雲は 積雲が たてに 大きく のびた 雲で、てっぺんは 13000mを こえる ことも ある。はげしい 雨や かみなりを ふらせる。',
 };
 // ずかんの ならび と ばしょ
 const FOREST_DEX_ORDER = [
@@ -578,7 +694,8 @@ const FOREST_DEX_ORDER = [
   ...FOREST_MOBS.base.map(k => [k, 'さばくの アジト']),
   [FOREST_KAGE_KEY, 'さばくの アジト'],
   ...FOREST_MOBS.volcano.map(k => [k, 'マグマの かざん']),
-  [FOREST_VOLCANO_KEY, 'マグマの かざん'],
+  [FOREST_VOLCANO_KEY, 'マグマの かざん'],  ...FOREST_MOBS.sky.map(k => [k, 'そらの しろ']),
+  [FOREST_SKY_KEY, 'そらの しろ'],
 ];
 
 // ============================================================
@@ -593,6 +710,7 @@ const FMON_CROWN_AT = {
   woody: [100, 58], yoroi: [100, 62], knight: [100, 50], madou: [100, 92], candle: [100, 84], mimic: [100, 24],
   soldier: [100, 62], drone: [100, 74], light: [100, 30], maguma: [100, 62], tokage: [92, 54], hinotori: [100, 48],
   kani: [100, 104], kurage: [100, 62], hitode: [100, 30], utsubo: [92, 38], obake: [100, 54], hebi: [100, 50], hana: [100, 26], imomushi: [146, 68], chibidora: [100, 50],
+  kumo: [112, 64], hitsuji: [96, 64], suji: [70, 80], uroko: [88, 70], usu: [100, 18],
 };
 function fmonEvo(shape, pal) {
   const [x, y] = FMON_CROWN_AT[shape] || [100, 50];
@@ -659,7 +777,14 @@ const FOREST_EVOS = {
   fm_maguma2:   ['maguma', ['#2563eb', '#1e1b4b', '#a5f3fc'], 'プラズママグマ'],
   fm_tokage:    ['tokage', ['#f59e0b', '#fef08a', '#ef4444'], 'サラマンダー'],
   fm_tokage2:   ['tokage', ['#dc2626', '#fde047', '#38bdf8'], 'ダイヤサラマンダー'],
-  fm_hinotori:  ['hinotori', ['#facc15', '#ffffff', '#f43f5e'], 'フェニックス'],
+  fm_hinotori:  ['hinotori', ['#facc15', '#ffffff', '#f43f5e'], 'フェニックス'],  fm_wata:      ['kumo', ['#fef9c3', '#fbbf24', '#7dd3fc', 'tall'], 'もくもくキング'],
+  fm_ame:       ['kumo', ['#475569', '#0f172a', '#22d3ee'], 'ざあざあだいおう'],
+  fm_kiri:      ['kumo', ['#ede9fe', '#a78bfa', '#c4b5fd', 'mist'], 'まっしろ きりのおう'],
+  fm_hitsuji:   ['hitsuji', ['#fef3c7', '#78350f', '#f59e0b'], 'ゴールデンひつじぐも'],
+  fm_kousou:    ['kumo', ['#64748b', '#1e293b', '#cbd5e1', 'wide'], 'そらおおい だいおう'],
+  fm_suji:      ['suji', ['#e0f2fe', '#a78bfa', '#f472b6'], 'ほうきぼし すじぐも'],
+  fm_uroko:     ['uroko', ['#fef9c3', '#fde68a', '#f59e0b'], 'いわしぐも しょうぐん'],
+  fm_usu:       ['usu', ['#fdf4ff', '#c084fc', '#f472b6'], 'にじの かさひめ'],
 };
 Object.entries(FOREST_EVOS).forEach(([key, [shape, pal, name]]) => {
   CHARS[key + '_evo'] = (lv, fill, size, opts) => fmonSvg(size || 160, fmonEvo(shape, pal), opts && opts.silhouette);
@@ -712,6 +837,13 @@ Object.assign(FOREST_MONSTER_INFO, {
   fm_maguma2_evo:   'ほしの ちからを もつ あおい マグマ。くらい かざんを きれいに てらす。',
   fm_tokage_evo:    'ほのおを まとう サラマンダー。しっぽの 火で やきいもを つくるのが とくい。',
   fm_tokage2_evo:   'ウロコが 宝石の ように かがやく サラマンダー。かざんの たからものを しっている。',
-  fm_hinotori_evo:  'でんせつの とり フェニックス。みた ひとには いい ことが あると いわれている。',
+  fm_hinotori_evo:  'でんせつの とり フェニックス。みた ひとには いい ことが あると いわれている。',  fm_wata_evo:      'わたぐもんが たてに ぐんぐん のびて しんかした。のびすぎると 積乱雲（入道雲）に なって しまうので ちゅうい。',
+  fm_ame_evo:       'あまぐもんの おうさま。でも ふらせる 雨は やっぱり しとしと やさしい。',
+  fm_kiri_evo:      'きりぐもんの おう。あさの 山を まっしろに つつんで、山を ねむらせる。',
+  fm_hitsuji_evo:   'きんいろに ひかる ひつじ雲。ゆうやけの 空で いちばん きれいに みえる。',
+  fm_kousou_evo:    '空を ぜんぶ おおって しまう ほど 大きく なった。太陽が ぼんやり すけて みえる。',
+  fm_suji_evo:      'すじの しっぽが ほうきぼしの ように のびた。いちばん 高い 空を すいすい とぶ。',
+  fm_uroko_evo:     'いわし雲の むれを ひきいる しょうぐん。うろこの かずは だれも かぞえきれない。',
+  fm_usu_evo:       'うすい きぬを まとった おひめさま。うしろの「かさ」が にじいろに ひかる。',
 });
 FOREST_DEX_ORDER.push(...Object.keys(FOREST_EVOS).map(k => [k + '_evo', '✨ しんか']));

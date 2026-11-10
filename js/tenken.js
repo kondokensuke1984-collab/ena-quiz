@@ -48,14 +48,14 @@ const TENKEN = { on: /[?&]tenken=1(&|$)/.test(location.search), freeze: false, g
     b.id = 'tk-btn'; b.textContent = '🔧 点検モード';
     b.onclick = tenkenOpen;
     document.body.appendChild(b);
-    // #base／#volcano：ひらいたら すぐ その ステージへ（もんだいの よみこみを まってから）
-    if (location.hash === '#base' || location.hash === '#volcano') {
+    // #base／#volcano／#sky：ひらいたら すぐ その ステージへ（もんだいの よみこみを まってから）
+    if (location.hash === '#base' || location.hash === '#volcano' || location.hash === '#sky') {
       const t0 = Date.now(), h = location.hash;
       const iv = setInterval(() => {
         const ready = typeof STAGES !== 'undefined' && STAGES.length && typeof tenkenBase === 'function' && document.getElementById('title-hero') && document.getElementById('title-hero').innerHTML;
         if (!ready && Date.now() - t0 < 15000) return;
         clearInterval(iv);
-        if (ready) { if (h === '#volcano') tenkenVolcano(false); else tenkenBase(false); }
+        if (ready) { if (h === '#sky') tenkenSky(false); else if (h === '#volcano') tenkenVolcano(false); else tenkenBase(false); }
       }, 200);
     }
   });
@@ -74,6 +74,13 @@ function tenkenOpen() {
     (inBattle ? '<div class="tk-h">⚔️ たたかい</div>' +
       '<button class="tk" onclick="tenkenWin(true)">🏆 かったことに する</button>' +
       '<button class="tk" onclick="tenkenWin(false)">💥 まけたことに する</button>' : '') +
+    '<div class="tk-h">☁️ そらの しろ</div>' +
+    '<button class="tk" onclick="tenkenSky(\'balloon\')">▶ かざんの ききゅうの まえ（しずくと であう）</button>' +
+    '<button class="tk" onclick="tenkenSky(false)">▶ そらの しろの いりぐちから（かね 0こ）</button>' +
+    '<button class="tk" onclick="tenkenSky(\'two\')">▶ かね 2こ ならした ところ（うえの かねの ちかく）</button>' +
+    '<button class="tk" onclick="tenkenSky(\'boss\')">▶ かね 3こ・ぬしの まえ</button>' +
+    '<button class="tk" onclick="tenkenSky(\'peace\')">▶ へいわに なった あとの そらの しろ</button>' +
+    '<button class="tk" onclick="tenkenSky(\'spring\')">▶ もりの いずみ（しずくが かえってくる）</button>' +
     '<div class="tk-h">🌋 マグマの かざん</div>' +
     '<button class="tk" onclick="tenkenVolcano(false)">▶ かざんの いりぐちから（クリスタル 0こ）</button>' +
     '<button class="tk" onclick="tenkenVolcano(\'boss\')">▶ クリスタル 3こ そろえて ぬしの まえへ</button>' +
@@ -138,4 +145,22 @@ function tenkenVolcano(step) {
   if (step === 'boss') return forestGoArea('volcano', [9, 2], 'up', '🔧 点検：めのまえの かざんのぬしを しらべると しょうぶ');
   if (step === 'peace') return forestGoArea('volcano', VOLCANO_SPOTS.start, 'up', '🔧 点検：🕊 へいわに なった マグマの かざん');
   forestGoArea('volcano', VOLCANO_SPOTS.start, 'up', '🌋 マグマの かざんへ ようこそ！ 3つの こおりの クリスタルを しらべよう。');
+}
+
+function tenkenSky(step) {
+  tenkenClose();
+  tenkenForest();
+  const f = save.forest;
+  save.volcanoPeace = true;
+  save.skyPeace = step === 'peace' || step === 'spring';
+  if (step === 'spring') delete save.shizukuHome;
+  delete f.skyDay; delete f.skyTalk;
+  f.sk = step === 'boss' || step === 'peace' ? [0, 1, 2] : step === 'two' ? [0, 1] : [];
+  f.shz = [];
+  persist();
+  if (step === 'balloon') return forestGoArea('volcano', [VOLCANO_BALLOON[0] - 1, VOLCANO_BALLOON[1]], 'right', '🔧 点検：みぎの 🎈 ききゅうを しらべる');
+  if (step === 'spring') return forestGoArea('field', [FOREST_SPOTS.spring[0], FOREST_SPOTS.spring[1] + 1], 'up', '🔧 点検：うえの ⛲ いずみを しらべる');
+  if (step === 'boss') return forestGoArea('sky', [9, 2], 'up', '🔧 点検：めのまえの そらのぬしを しらべると しょうぶ');
+  if (step === 'two') return forestGoArea('sky', [2, 5], 'up', '🔧 点検：うえの ⬆ かぜに のって、ひだり うえの かねへ');
+  forestGoArea('sky', SKY_SPOTS.start, 'left', step === 'peace' ? '🔧 点検：🕊 へいわな そらの しろ' : '☁️ そらの しろへ ようこそ！ 3つの 🔔 かねを ならそう。');
 }

@@ -29,9 +29,9 @@ function fmSeq(s) {
 const FM_CHORD = {
   F: ['F3', 'A3', 'C4'], C: ['E3', 'G3', 'C4'], C7: ['E3', 'Bb3', 'C4'], Dm: ['D3', 'F3', 'A3'], Bb: ['D3', 'F3', 'Bb3'],
   Am: ['E3', 'A3', 'C4'], Gm: ['D3', 'G3', 'Bb3'], A: ['E3', 'A3', 'C#4'], Cm: ['Eb3', 'G3', 'C4'], Ab: ['Eb3', 'Ab3', 'C4'],
-  Eb: ['Eb3', 'G3', 'Bb3'], G: ['D3', 'G3', 'B3'], Fm: ['F3', 'Ab3', 'C4'],
+  Eb: ['Eb3', 'G3', 'Bb3'], G: ['D3', 'G3', 'B3'], Fm: ['F3', 'Ab3', 'C4'], D: ['D3', 'F#3', 'A3'], Em: ['E3', 'G3', 'B3'],
 };
-const FM_ROOT = { F: 'F2', C: 'C2', C7: 'C2', Dm: 'D2', Bb: 'Bb1', Am: 'A1', Gm: 'G1', A: 'A1', Cm: 'C2', Ab: 'Ab1', Eb: 'Eb2', G: 'G1', Fm: 'F2' };
+const FM_ROOT = { F: 'F2', C: 'C2', C7: 'C2', Dm: 'D2', Bb: 'Bb1', Am: 'A1', Gm: 'G1', A: 'A1', Cm: 'C2', Ab: 'Ab1', Eb: 'Eb2', G: 'G1', Fm: 'F2', D: 'D2', Em: 'E2' };
 
 // 曲を「16ぶ音符ごとの できごと」に ならべる
 function fmCompile(def) {
@@ -174,6 +174,16 @@ const FM_SONGS = {
       'F6.4 E6.2 D6.2 A5.4 F5.4  G5.4 Bb5.4 D6.8  E6.4 D6.4 C#6.4 A5.4  D6.12 r.4', 0.85],
       ['horn', 'A4.8 F4.8  G4.8 D4.8  G4.8 E4.8  A4.16  A4.8 F4.8  Bb4.8 F4.8  G4.8 A4.8  D4.16', 0.55]],
     drums: ['x.h.s.hkx.h.s.h.', 'x.h.s.hkx.x.s.hr'],
+  },
+  // ☁️ そらの しろ：かるく ふわふわ（ト長調・ベルの メロディ）
+  sky: {
+    bpm: 112, pad: 0.5, padUp: 12, bass: 'march', gain: 0.85,
+    chords: '| G | Em | C | D | G | Em | C D | G |',
+    lead: [['bell',
+      'D6.4 B5.4 G5.4 B5.4  E6.6 D6.2 B5.8  C6.4 E6.4 G6.4 E6.4  F#6.8 D6.4 A5.4 ' +
+      'B5.4 D6.4 G6.6 F#6.2  E6.4 G6.4 B5.8  C6.4 E6.4 D6.4 F#6.4  G6.16', 0.8],
+      ['lead', 'r.16 r.16 r.16 r.8 A5.8  r.16 r.16 r.8 C6.4 A5.4 B5.16', 0.45]],
+    drums: ['k.......h...h...', 'k...h...h...h.h.'],
   },
   // ❗ みはりに みつかった！
   alert: { bpm: 180, loop: false, lead: [['brass', 'C6.2 r.1 C6.2 r.1 C6.2 r.1 Eb6.10'], ['lead', 'G5.2 r.1 G5.2 r.1 G5.2 r.1 Bb5.10', 0.7]], drums: ['x..x..x.r.......'] },
