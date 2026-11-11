@@ -41,10 +41,12 @@ GROUPS = {
     # 過去問演習：日本の農業6・種子と発芽1・2
     'kakomon11': ('questions_202611.json', ('nougyou6_kakomon', 'tane1_kakomon', 'tane2_kakomon')),
     # 国語11月：文の基本形・和語（本文は 読まない。問題・選択肢・こたえ・解説だけ）
+    # 成長の条件1・2（基本問題・過去問演習。練習問題は ena_renshu11 にある）
+    'jouken11': ('questions_202611.json', ('jouken1_kihon', 'jouken1_kakomon', 'jouken2_kihon', 'jouken2_kakomon')),
     'kokugo11': ('questions_202611.json', tuple(f'{g}_{k}' for g in ('bunkei11', 'wago11') for k in ('kihon', 'hojuu', 'youten', 'imi', 'dokkai', 'kakomon', 'tokikata'))),
 }
-LEAN = {'eikoh11', 'ena_renshu11', 'nougyou5', 'kakomon11', 'kokugo11'}                 # a（こたえ）の 音声は 書いて答える（selfjudge）問題だけ。e が こたえも 読む
-DROP_LABEL = {'eikoh11', 'ena_renshu11', 'nougyou5', 'kakomon11'}           # 1行目の「漢字01」「プリント②-1-(1)」のような 見出しは 読まない
+LEAN = {'eikoh11', 'ena_renshu11', 'nougyou5', 'kakomon11', 'kokugo11', 'jouken11'}                 # a（こたえ）の 音声は 書いて答える（selfjudge）問題だけ。e が こたえも 読む
+DROP_LABEL = {'eikoh11', 'ena_renshu11', 'nougyou5', 'kakomon11', 'jouken11'}           # 1行目の「漢字01」「プリント②-1-(1)」のような 見出しは 読まない
 NO_OPTIONS = {'kifuyu_kanji'}      # 漢字の 書きとりは 選択肢（漢字）を 読んでも 意味がないので 読まない
 GROUP = sys.argv[sys.argv.index('--group') + 1] if '--group' in sys.argv else 'shakai11'
 OUT = ROOT / 'audio' / GROUP
@@ -74,6 +76,8 @@ YOMI_WORD = [
     (r'下（草）がり', 'したくさがり'),
     (r'（例）', '、例として、'),
     (r'三大美林', 'さんだいびりん'),
+    (r'光屈性', 'こうくっせい'), (r'傾性', 'けいせい'), (r'光けいせい', 'こうけいせい'), (r'負の', 'ふの'),   # 成長の条件
+    (r'実肥', 'みごえ'), (r'白色', 'しろいろ'), (r'黄色っぽ', 'きいろっぽ'),
     (r'そのため', 'そのため、'),
     (r'得にくかった', 'えにくかった'),
     (r'(?<![一-龥])米(?![一-龥])', 'こめ'),   # 「欧米」「玄米」などの 熟語は そのまま（VOICEVOX にまかせる）
