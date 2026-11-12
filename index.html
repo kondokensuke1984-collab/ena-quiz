@@ -2945,6 +2945,7 @@ const SUBJECTS = {
   en11b_kihon: { label: '基本問題', icon: '📝', tag: 'tag-en11b', category: 'sansu', month: '202611', parent: 'en11b' },
   en11b_renshu: { label: '練習問題', icon: '✏️', tag: 'tag-en11b', category: 'sansu', month: '202611', parent: 'en11b' },
   en11b_kakomon: { label: '過去問演習', icon: '📋', tag: 'tag-en11b', category: 'sansu', month: '202611', parent: 'en11b' },
+  menseki_tani11: { label: '面積の単位', icon: '📏', tag: 'tag-tani', category: 'sansu', month: '202611', isGroup: true },   // 動画だけ（ずんだもん探偵「面積の単位」11/13）
   nougyou6: { label: '日本の農業６', icon: '🥗', tag: 'tag-nougyou6', category: 'shakai', month: '202611', isGroup: true, ref: '/nougyou6.html', refLabel: 'カラーページ（要点まとめ）', refSub: '食生活の変化・フードマイレージ・食料自給率' },
   nougyou6_kihon: { label: '基本問題', icon: '📝', tag: 'tag-nougyou6', category: 'shakai', month: '202611', parent: 'nougyou6' },
   nougyou6_renshu: { label: '練習問題', icon: '✏️', tag: 'tag-nougyou6', category: 'shakai', month: '202611', parent: 'nougyou6' },
@@ -24411,13 +24412,13 @@ function showCategoryTopics(catKey) {
       const children = Object.entries(SUBJECTS).filter(([, v]) => v.parent === topicKey);
       const childKeys = children.map(([k]) => k);
       const groupTotal = qs.filter(q => q.subject === topicKey || childKeys.includes(q.subject)).length;
-      if (groupTotal === 0) return;
+      if (groupTotal === 0 && !channelVideosFor(topicKey).length) return;   // 問題が0問でも、動画があれば見出しつきで出す（面積の単位など）
       const wrapper = document.createElement('div');
       wrapper.className = 'topic-group';
       const hdr = document.createElement('div');
       hdr.className = 'topic-group-header';
       hdr.innerHTML = `<span class="topic-group-label">${topic.icon} ${topic.label}${testBadge(topicKey)}</span>
-        <button class="topic-group-all-btn" onclick="startQuizGroup('${topicKey}')">全部やる ▶</button>`;
+        ${groupTotal > 0 ? `<button class="topic-group-all-btn" onclick="startQuizGroup('${topicKey}')">全部やる ▶</button>` : ''}`;
       wrapper.appendChild(hdr);
       const subGrid = document.createElement('div');
       subGrid.className = 'topic-subgrid';
@@ -24431,7 +24432,7 @@ function showCategoryTopics(catKey) {
         if (childTotal > 0) btn.onclick = child.testOf ? () => openKakiTest(childKey) : () => startQuiz(childKey);
         subGrid.appendChild(btn);
       });
-      wrapper.appendChild(subGrid);
+      if (children.length) wrapper.appendChild(subGrid);
       // 教科書ボタン（グループにrefがある場合）
       if (topic.ref) {
         const kbtn = document.createElement('a');
@@ -30272,11 +30273,9 @@ const CHANNEL_VIDEOS = [
     subject:'kifuyu_imi', month:'eikoh_202611' },
   { id:'eitan-iro', src:'/videos/eitan-iro.mp4', thumb:'/videos/eitan-iro.jpg', title:'【小5英語】色と国の英単語を書こう｜blue・green・orange・red・Japan｜ずんだもん探偵（基礎コン冬）',
     subject:'kifuyu_eng', month:'eikoh_202611' },
-  // 面積の単位（cm²・m²・a・ha・km²）。計算プリント No.5〜10 の 1.③ から（11/12 ケンさん）。YouTube には出さず、アプリの中の mp4 だけ。単位変換（ena）と 基礎の単位 の両方に出す
+  // 面積の単位（cm²・m²・a・ha・km²）。計算プリント No.5〜10 の 1.③ から（11/12 ケンさん）。YouTube には出さず、アプリの中の mp4 だけ。11月の算数「面積の単位」（ena）に出す（基礎の「単位」は月の決まりがなく全部の月に出てしまうので入れない）
   { id:'menseki-tani', src:'/videos/menseki-tani.mp4', thumb:'/videos/menseki-tani.jpg', title:'【小学生算数】面積の単位｜1m²は100cm²じゃない！ a・ha・km²も図でスッキリ｜ずんだもん探偵',
-    subject:'tani_henkan', month:'202605' },
-  { id:'menseki-tani', src:'/videos/menseki-tani.mp4', thumb:'/videos/menseki-tani.jpg', title:'【小学生算数】面積の単位｜1m²は100cm²じゃない！ a・ha・km²も図でスッキリ｜ずんだもん探偵',
-    subject:'kiso_tani', month:'eikoh_kiso2026' },
+    subject:'menseki_tani11', month:'202611' },
 ];
 // ── 開いたら自動で おすすめ動画 ──
 //   id を入れると、アプリを開いたときに「ふくしゅう どうがだよ！」の案内が出る（見るまで、1日1回）。
