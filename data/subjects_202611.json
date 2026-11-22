@@ -168,6 +168,14 @@
 "month": "202611",
 "parent": "en11b"
 },
+"menseki_tani11": {
+"label": "面積の単位",
+"icon": "📏",
+"tag": "tag-tani",
+"category": "sansu",
+"month": "202611",
+"isGroup": true
+},
 "nougyou6": {
 "label": "日本の農業６",
 "icon": "🥗",
