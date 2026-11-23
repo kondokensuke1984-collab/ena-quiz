@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>11月 学力判定テストたいさく 算数模試（オリジナル）</title>
+<style>
+  @page { size: A4 portrait; margin: 14mm 13mm 13mm; }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  body{
+    font-family:'Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif;
+    color:#111; -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+  section.page.cover{ break-after:page; }
+  section.daimon + section.daimon{ break-before:page; }
+
+  .cover{ display:flex; flex-direction:column; align-items:center; padding-top:30mm; }
+  .cover h1{ font-size:19pt; letter-spacing:.03em; margin-bottom:4mm; }
+  .cover .sub{ font-size:11pt; color:#555; margin-bottom:18mm; }
+  .cover table{ border-collapse:collapse; font-size:12pt; margin-bottom:14mm; }
+  .cover td{ border:0.3mm solid #999; padding:3mm 8mm; }
+  .cover td.label{ background:#f2f2f2; font-weight:700; text-align:center; }
+  .cover .score{ font-size:16pt; }
+  .cover .note{ font-size:10pt; color:#555; border-top:.3mm solid #ccc; padding-top:4mm; margin-top:4mm; width:150mm; line-height:1.7; }
+
+  .cat-head{ break-after:avoid; color:#fff; padding:2.5mm 5mm; border-radius:1.5mm; margin-bottom:5mm; }
+  .cat-head h2{ font-size:15pt; }
+
+  .grid2{ display:grid; grid-template-columns:1fr 1fr; column-gap:6mm; row-gap:3mm; margin-bottom:2mm; }
+  .qb{ break-inside:avoid; border:.3mm solid #bbb; border-radius:1.5mm; padding:2.5mm 3mm; display:flex; flex-direction:column; }
+  .qb .num{ font-weight:800; font-size:11pt; }
+  .qb .qtext{ font-size:10pt; line-height:1.6; white-space:pre-line; margin:1mm 0 2mm; }
+  .qb .imgs{ display:flex; justify-content:center; margin:1mm 0 2mm; }
+  .qb .imgs svg{ max-width:100%; max-height:34mm; height:auto; }
+  .qb .work{ flex:1; min-height:14mm; border-top:.2mm dashed #ccc; font-size:7.5pt; color:#aaa; padding-top:.5mm; }
+  .qb.noimg .work{ min-height:30mm; }
+  .qb.full{ grid-column:1 / -1; }
+  .qb.full .work{ min-height:12mm; }
+  .qb.full.fig{ display:grid; grid-template-columns:1fr auto; column-gap:4mm; }
+  .qb.full.fig .num,.qb.full.fig .qtext,.qb.full.fig .work,.qb.full.fig .ans{ grid-column:1; }
+  .qb.full.fig .imgs{ grid-column:2; grid-row:1 / 5; align-self:center; }
+  .qb.full.fig .imgs svg{ max-height:40mm; }
+  .qb .ans{ display:flex; justify-content:flex-end; align-items:center; gap:2mm; font-size:10pt; font-weight:700; margin-top:1.5mm; }
+  .qb .ans span.box{ display:inline-block; width:38mm; height:9mm; border:.4mm solid #333; }
+  .qb .ans span.box.wide{ width:68mm; }
+</style>
+</head>
+<body>
+<section class="page cover">
+  <h1>11月 学力判定テストたいさく 算数模試（オリジナル）</h1>
+  <div class="sub">ena ANRINO　11/25（水）学力判定テストの範囲：多角形の角・円とおうぎ形</div>
+  <table>
+    <tr><td class="label">名前</td><td style="width:60mm;">&nbsp;</td><td class="label">日付</td><td style="width:36mm;">&nbsp;</td></tr>
+    <tr><td class="label">時間</td><td>30分</td><td class="label">得点</td><td class="score">　　　／100</td></tr>
+  </table>
+  <div class="note">
+    ・全部で10問、1問10点、100点満点です。<br>
+    ・大問1は基本問題、大問2は練習問題レベルで、それぞれ5問ずつです。<br>
+    ・式や考え方は、それぞれのわくの中の空いているところに書きましょう。<br>
+    ・答えは□の中に書きましょう。単位（度・本・cm・cm²など）もわすれずに。<br>
+    ・円周率は3.14として計算しましょう。
+  </div>
+</section>
+<div id="cats"></div>
+<script>
+const EXAM = [{"title": "基本問題（多角形の角・円とおうぎ形）", "qs": [{"q": "十一角形の対角線の本数は何本ですか。", "answer": "44本", "explanation": "1つの頂点からは、自分と両どなりをのぞく 11－3＝8（本）の対角線がひける。\n11×8＝88 だと1本を2回数えているので、88÷2＝44（本）"}, {"q": "1つの内角の大きさが156度の正多角形は、正何角形ですか。", "answer": "正十五角形", "explanation": "1つの外角は 180－156＝24（度）\n外角の和はいつも360度なので、360÷24＝15\n→ 正十五角形"}, {"q": "図の角アの大きさは何度ですか。", "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 255 206\" width=\"255\" height=\"206\"><polygon points=\"98.1,30.0 30.0,175.9 160.0,175.9\" fill=\"#f1f5f9\" stroke=\"#111\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/><polyline points=\"160.0,175.9 225.0,175.9\" fill=\"none\" stroke=\"#111\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/><polyline points=\"45.6,175.9 45.6,174.8 45.4,173.7 45.2,172.6 45.0,171.6 44.6,170.5 44.2,169.5 43.7,168.5 43.2,167.6 42.5,166.6 41.8,165.8 41.1,165.0 40.3,164.2 39.4,163.5 38.5,162.9 37.6,162.3 36.6,161.8\" fill=\"none\" stroke=\"#111\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/><polyline points=\"91.5,44.1 92.2,44.5 93.0,44.8 93.8,45.0 94.5,45.2 95.3,45.4 96.2,45.5 97.0,45.6 97.8,45.6 98.6,45.6 99.4,45.5 100.2,45.4 101.0,45.3 101.8,45.1 102.6,44.9 103.4,44.7 104.1,44.4\" fill=\"none\" stroke=\"#111\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/><polyline points=\"175.6,175.9 175.5,174.0 175.1,172.1 174.5,170.3 173.7,168.6 172.7,166.9 171.5,165.4 170.1,164.1 168.6,162.9 166.9,162.0 165.2,161.2 163.3,160.7 161.4,160.4 159.5,160.3 157.6,160.5 155.7,160.9 153.9,161.6\" fill=\"none\" stroke=\"#111\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/><text x=\"60.0\" y=\"165.9\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">65°<\/text><text x=\"98.1\" y=\"56.0\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">48°<\/text><text x=\"186.0\" y=\"161.9\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">ア<\/text><\/svg>", "answer": "113度", "explanation": "三角形の1つの外角は、となりにない2つの内角の和に等しい。\n48＋65＝113（度）\n（別解：角Cの内角は 180－48－65＝67、ア＝180－67＝113）"}, {"q": "円周率を3.14として答えなさい。\n円周の長さが31.4cmの円の面積は何cm²ですか。", "answer": "78.5cm²", "explanation": "直径＝円周÷3.14＝31.4÷3.14＝10（cm）→ 半径は5cm\n面積＝半径×半径×3.14＝5×5×3.14＝78.5（cm²）"}, {"q": "円周率を3.14として答えなさい。\n半径が9cmで、中心角が80度のおうぎ形の、弧の長さと面積をそれぞれ求めなさい。", "answer": "弧の長さ12.56cm、面積56.52cm²", "wide": true, "explanation": "80/360＝2/9\n弧の長さ＝9×2×3.14×2/9＝4×3.14＝12.56（cm）\n面積＝9×9×3.14×2/9＝18×3.14＝56.52（cm²）"}]}, {"title": "練習問題（多角形の角・円とおうぎ形）", "qs": [{"q": "図の五角形ABCDEは正五角形です。対角線ACとBEが交わる点をPとするとき、角アの大きさは何度ですか。", "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 220 212\" width=\"220\" height=\"212\"><polygon points=\"109.9,30.0 30.0,88.0 60.5,182.0 159.3,182.0 189.8,88.0\" fill=\"#f1f5f9\" stroke=\"#111\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/><polyline points=\"109.9,30.0 60.5,182.0\" fill=\"none\" stroke=\"#111\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/><polyline points=\"30.0,88.0 189.8,88.0\" fill=\"none\" stroke=\"#111\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/><polyline points=\"77.0,88.0 77.1,89.1 77.2,90.2 77.4,91.3 77.7,92.4 78.1,93.4 78.6,94.4 79.1,95.4 79.7,96.3 80.4,97.1 81.1,97.9 81.9,98.7 82.8,99.4 83.7,100.0 84.7,100.5 85.7,101.0 86.7,101.4\" fill=\"none\" stroke=\"#111\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/><text x=\"109.9\" y=\"20.0\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">A<\/text><text x=\"20.0\" y=\"88.0\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">B<\/text><text x=\"52.5\" y=\"192.0\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">C<\/text><text x=\"167.3\" y=\"192.0\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">D<\/text><text x=\"199.8\" y=\"88.0\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">E<\/text><text x=\"101.0\" y=\"101.0\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">P<\/text><text x=\"67.0\" y=\"97.0\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">ア<\/text><\/svg>", "answer": "72度", "explanation": "正五角形の1つの内角は 180×3÷5＝108（度）\n三角形ABCは BA＝BC の二等辺三角形なので、角BCA＝（180－108）÷2＝36（度）\n三角形ABEも AB＝AE の二等辺三角形なので、角ABE＝36（度）→ 角PBC＝108－36＝72（度）\n三角形PBCで、ア＝180－36－72＝72（度）"}, {"q": "図のように、正方形ABCDの中に、辺BCを1辺とする正三角形EBCをかきました。角アの大きさは何度ですか。", "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 220 220\" width=\"220\" height=\"220\"><polygon points=\"30.0,30.0 30.0,190.0 190.0,190.0 190.0,30.0\" fill=\"#fff\" stroke=\"#111\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/><polygon points=\"30.0,190.0 190.0,190.0 110.0,51.4\" fill=\"#f1f5f9\" stroke=\"#111\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/><polyline points=\"30.0,30.0 110.0,51.4\" fill=\"none\" stroke=\"#111\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/><polyline points=\"190.0,30.0 110.0,51.4\" fill=\"none\" stroke=\"#111\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/><polyline points=\"127.0,46.9 126.0,44.2 124.6,41.7 122.8,39.4 120.7,37.5 118.3,35.9 115.7,34.8 112.9,34.1 110.0,33.8 107.1,34.1 104.3,34.8 101.7,35.9 99.3,37.5 97.2,39.4 95.4,41.7 94.0,44.2 93.0,46.9\" fill=\"none\" stroke=\"#111\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/><text x=\"20.0\" y=\"22.0\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">A<\/text><text x=\"20.0\" y=\"198.0\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">B<\/text><text x=\"200.0\" y=\"198.0\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">C<\/text><text x=\"200.0\" y=\"22.0\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">D<\/text><text x=\"110.0\" y=\"67.4\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">E<\/text><text x=\"110.0\" y=\"41.4\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">ア<\/text><\/svg>", "answer": "150度", "explanation": "BA＝BC＝BE なので、三角形ABEは二等辺三角形。\n角ABE＝90－60＝30（度）→ 角BEA＝（180－30）÷2＝75（度）\n同じように 角CED＝75（度）\nEのまわりは360度なので、ア＝360－60－75－75＝150（度）"}, {"q": "図は、1辺6cmの正方形の中に、半径6cmの四分円を2つかいたものです。色のついた部分の面積は何cm²ですか。円周率は3.14とします。", "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 192 192\" width=\"192\" height=\"192\"><polygon points=\"30.0,162.0 162.0,162.0 162.0,30.0 30.0,30.0\" fill=\"#fff\" stroke=\"#111\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/><polygon points=\"162.0,162.0 161.9,157.7 161.7,153.4 161.4,149.1 160.9,144.8 160.2,140.5 159.5,136.2 158.6,132.0 157.5,127.8 156.3,123.7 155.0,119.6 153.5,115.5 152.0,111.5 150.2,107.5 148.4,103.6 146.4,99.8 144.3,96.0 142.1,92.3 139.8,88.7 137.3,85.1 134.7,81.6 132.0,78.3 129.2,75.0 126.3,71.8 123.3,68.7 120.2,65.7 117.0,62.8 113.7,60.0 110.4,57.3 106.9,54.7 103.3,52.2 99.7,49.9 96.0,47.7 92.2,45.6 88.4,43.6 84.5,41.8 80.5,40.0 76.5,38.5 72.4,37.0 68.3,35.7 64.2,34.5 60.0,33.4 55.8,32.5 51.5,31.8 47.2,31.1 42.9,30.6 38.6,30.3 34.3,30.1 30.0,30.0 30.1,34.3 30.3,38.6 30.6,42.9 31.1,47.2 31.8,51.5 32.5,55.8 33.4,60.0 34.5,64.2 35.7,68.3 37.0,72.4 38.5,76.5 40.0,80.5 41.8,84.5 43.6,88.4 45.6,92.2 47.7,96.0 49.9,99.7 52.2,103.3 54.7,106.9 57.3,110.4 60.0,113.7 62.8,117.0 65.7,120.2 68.7,123.3 71.8,126.3 75.0,129.2 78.3,132.0 81.6,134.7 85.1,137.3 88.7,139.8 92.3,142.1 96.0,144.3 99.8,146.4 103.6,148.4 107.5,150.2 111.5,152.0 115.5,153.5 119.6,155.0 123.7,156.3 127.8,157.5 132.0,158.6 136.2,159.5 140.5,160.2 144.8,160.9 149.1,161.4 153.4,161.7 157.7,161.9\" fill=\"#cbd5e1\" stroke=\"#111\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/><text x=\"96.0\" y=\"174.0\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">6cm<\/text><text x=\"12.0\" y=\"96.0\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">6cm<\/text><\/svg>", "answer": "20.52cm²", "explanation": "四分円2つを重ねると、色の部分が2回数えられ、正方形全体より 色の部分の分だけ大きくなる。\n四分円1つ：6×6×3.14÷4＝28.26（cm²）\n色の部分＝28.26×2－6×6＝56.52－36＝20.52（cm²）"}, {"q": "図は、点Aを中心とする半径10cm、中心角90度のおうぎ形と、長方形ABCDを組み合わせたものです。アとイの部分の面積が等しいとき、辺ADの長さ□は何cmですか。円周率は3.14とします。", "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 220 220\" width=\"220\" height=\"220\"><polygon points=\"155.6,190.0 190.0,190.0 190.0,187.8 189.9,185.5 189.9,183.3 189.8,181.1 189.6,178.9 189.4,176.7 189.2,174.4 189.0,172.2 188.7,170.0 188.5,167.8 188.1,165.6 187.8,163.4 187.4,161.2 187.0,159.0 186.5,156.8 186.0,154.7 185.5,152.5 185.0,150.3 184.4,148.2 183.8,146.0 183.2,143.9 182.6,141.8 181.9,139.6 181.2,137.5 180.4,135.4 179.6,133.4 178.8,131.3 178.0,129.2 177.1,127.2 176.3,125.1 175.3,123.1 174.4,121.1 173.4,119.1 172.4,117.1 171.4,115.1 170.3,113.1 169.2,111.2 168.1,109.3 167.0,107.4 165.8,105.5 164.6,103.6 163.4,101.7 162.2,99.9 160.9,98.0 159.6,96.2 158.3,94.4 157.0,92.6 155.6,90.9\" fill=\"#cbd5e1\" stroke=\"none\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/><polygon points=\"155.6,90.9 153.7,88.5 151.8,86.2 149.8,84.0 147.8,81.7 145.7,79.5 143.6,77.4 141.5,75.3 139.3,73.2 137.1,71.1 134.9,69.1 132.6,67.2 130.2,65.3 127.9,63.4 125.5,61.6 123.0,59.8 120.6,58.1 118.1,56.4 115.6,54.8 113.0,53.2 110.4,51.7 107.8,50.2 105.2,48.7 102.5,47.4 99.8,46.0 97.1,44.7 94.3,43.5 91.6,42.3 88.8,41.2 86.0,40.1 83.1,39.1 80.3,38.1 77.4,37.2 74.5,36.3 71.6,35.5 68.7,34.8 65.8,34.1 62.9,33.4 59.9,32.8 57.0,32.3 54.0,31.8 51.0,31.4 48.0,31.0 45.0,30.7 42.0,30.5 39.0,30.3 36.0,30.1 33.0,30.0 30.0,30.0 155.6,30.0\" fill=\"#e2e8f0\" stroke=\"none\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/><polygon points=\"30.0,190.0 155.6,190.0 155.6,30.0 30.0,30.0\" fill=\"none\" stroke=\"#111\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/><polygon points=\"30.0,190.0 190.0,190.0 189.9,184.8 189.7,179.5 189.2,174.3 188.6,169.1 187.9,163.9 186.9,158.8 185.8,153.7 184.5,148.6 183.1,143.6 181.5,138.6 179.7,133.6 177.8,128.8 175.7,124.0 173.5,119.2 171.1,114.6 168.6,110.0 165.9,105.5 163.0,101.1 160.1,96.8 156.9,92.6 153.7,88.5 150.3,84.5 146.8,80.6 143.1,76.9 139.4,73.2 135.5,69.7 131.5,66.3 127.4,63.1 123.2,59.9 118.9,57.0 114.5,54.1 110.0,51.4 105.4,48.9 100.8,46.5 96.0,44.3 91.2,42.2 86.4,40.3 81.4,38.5 76.4,36.9 71.4,35.5 66.3,34.2 61.2,33.1 56.1,32.1 50.9,31.4 45.7,30.8 40.5,30.3 35.2,30.1 30.0,30.0\" fill=\"none\" stroke=\"#111\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/><text x=\"20.0\" y=\"198.0\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">A<\/text><text x=\"20.0\" y=\"24.0\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">B<\/text><text x=\"159.6\" y=\"20.0\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">C<\/text><text x=\"149.6\" y=\"202.0\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">D<\/text><text x=\"170.8\" y=\"164.4\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">ア<\/text><text x=\"129.2\" y=\"42.8\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">イ<\/text><text x=\"10.0\" y=\"110.0\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">10cm<\/text><text x=\"92.8\" y=\"204.0\" font-size=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"Hiragino Sans, sans-serif\" font-weight=\"700\">□cm<\/text><\/svg>", "answer": "7.85cm", "explanation": "アとイの面積が等しいので、それぞれに「重なっている部分」を加えると、\nおうぎ形の面積＝長方形の面積 になる。\nおうぎ形：10×10×3.14÷4＝78.5（cm²）\n長方形：10×□＝78.5 → □＝7.85（cm）"}, {"q": "円周率を3.14として答えなさい。\n半径6cmのおうぎ形があり、弧の長さは7.85cmです。このおうぎ形の中心角は何度ですか。また、面積は何cm²ですか。", "answer": "中心角75度、面積23.55cm²", "wide": true, "explanation": "半径6cmの円の円周は 6×2×3.14＝37.68（cm）\n7.85÷37.68＝5/24 なので、中心角は 360×5/24＝75（度）\n面積＝6×6×3.14×5/24＝23.55（cm²）\n（別解：おうぎ形の面積＝弧の長さ×半径÷2＝7.85×6÷2＝23.55）"}]}];
+const COLOR = '#be185d';
+
+function renderQ(q, n) {
+  const d = document.createElement('div');
+  d.className = q.svg ? 'qb' : 'qb noimg';
+  let html = `<div class="num">問${n}</div><div class="qtext"></div>`;
+  if (q.svg) html += `<div class="imgs">${q.svg}</div>`;
+  html += '<div class="work">式・考え方</div><div class="ans">答え <span class="box' + (q.wide ? ' wide' : '') + '"></span></div>';
+  d.innerHTML = html;
+  d.querySelector('.qtext').textContent = q.q;
+  return d;
+}
+
+let n = 0;
+EXAM.forEach((sec, si) => {
+  const page = document.createElement('section');
+  page.className = 'daimon';
+  const head = document.createElement('div');
+  head.className = 'cat-head';
+  head.style.background = COLOR;
+  head.innerHTML = `<h2>大問${si + 1}　${sec.title}</h2>`;
+  page.appendChild(head);
+  const grid = document.createElement('div');
+  grid.className = 'grid2';
+  sec.qs.forEach((q, i) => { const el = renderQ(q, ++n); if (sec.qs.length % 2 && i === sec.qs.length - 1) { el.classList.add('full'); if (q.svg) el.classList.add('fig'); } grid.appendChild(el); });
+  page.appendChild(grid);
+  document.getElementById('cats').appendChild(page);
+});
+</script>
+</body>
+</html>
