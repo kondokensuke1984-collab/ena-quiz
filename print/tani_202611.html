@@ -1,0 +1,81 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><title>単位の変換</title><style>
+@page { size: A4; margin: 12mm 13mm; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif; color: #1f2937; }
+.page { page-break-after: always; }
+.page:last-child { page-break-after: auto; }
+.head { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #be185d; padding-bottom: 5px; margin-bottom: 8px; }
+.head h1 { font-size: 19px; color: #be185d; }
+.head .sub { font-size: 11px; color: #6b7280; margin-top: 2px; }
+.namebox { font-size: 12px; display: flex; gap: 10px; }
+.namebox span { border-bottom: 1px solid #374151; padding: 0 4px; min-width: 120px; display: inline-block; }
+.score { border: 1.5px solid #374151; border-radius: 6px; padding: 3px 10px; font-size: 12px; }
+.sec { margin-top: 8px; }
+.sec h2 { font-size: 14px; background: #fce7f3; color: #9d174d; padding: 4px 8px; border-radius: 4px; }
+.sec h2 small { font-weight: normal; color: #374151; margin-left: 8px; font-size: 12px; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 18px; margin-top: 4px; }
+.q { display: flex; align-items: center; font-size: 15px; height: 36px; border-bottom: 1px dotted #d1d5db; }
+.q .n { width: 30px; color: #be185d; font-weight: bold; font-size: 13px; }
+.q .src { width: 138px; white-space: nowrap; font-size: 14.5px; }
+.q .box { flex: 1; height: 25px; border: 1.3px solid #6b7280; border-radius: 4px; margin-right: 6px; }
+.q .unit { width: 36px; font-size: 14px; }
+.ans .box { border: none; color: #b91c1c; font-weight: bold; text-align: right; padding-right: 8px; line-height: 25px; }
+.ans .q { height: 31px; }
+.ans .box { flex: 0 0 82px; height: 21px; line-height: 21px; }
+.ans .how { flex: 1; font-size: 9.5px; color: #6b7280; line-height: 1.25; }
+.tip { margin-top: 10px; border: 2px solid #f9a8d4; border-radius: 8px; padding: 8px 12px; font-size: 12.5px; line-height: 1.7; }
+.tip b { color: #be185d; }
+table.kaidan { border-collapse: collapse; margin: 6px 0; font-size: 12.5px; }
+table.kaidan td, table.kaidan th { border: 1px solid #9ca3af; padding: 3px 9px; text-align: center; }
+table.kaidan th { background: #fdf2f8; }
+.foot { font-size: 10.5px; color: #6b7280; margin-top: 8px; }
+</style></head><body><div class="page ">
+<div class="head"><div><h1>📏 単位の変換（日々の学習11月 たいさく）</h1><div class="sub">11/25 学力判定テスト たいさく｜日々の学習11月と同じ型のオリジナル問題（全40問）</div></div>
+<div class="namebox">月　　日　名前<span></span></div>
+</div>
+<div class="sec"><h2>1　面積の単位<small>（ ）の単位で表しなさい。</small></h2><div class="grid">
+<div class="q"><span class="n">1</span><span class="src">1m²（cm²）</span><span class="box"></span><span class="unit">cm²</span></div>
+<div class="q"><span class="n">13</span><span class="src">1ha（m²）</span><span class="box"></span><span class="unit">m²</span></div>
+<div class="q"><span class="n">2</span><span class="src">3m²（cm²）</span><span class="box"></span><span class="unit">cm²</span></div>
+<div class="q"><span class="n">14</span><span class="src">1ha（a）</span><span class="box"></span><span class="unit">a</span></div>
+<div class="q"><span class="n">3</span><span class="src">0.5m²（cm²）</span><span class="box"></span><span class="unit">cm²</span></div>
+<div class="q"><span class="n">15</span><span class="src">2.5ha（a）</span><span class="box"></span><span class="unit">a</span></div>
+<div class="q"><span class="n">4</span><span class="src">2.4m²（cm²）</span><span class="box"></span><span class="unit">cm²</span></div>
+<div class="q"><span class="n">16</span><span class="src">600a（ha）</span><span class="box"></span><span class="unit">ha</span></div>
+<div class="q"><span class="n">5</span><span class="src">20000cm²（m²）</span><span class="box"></span><span class="unit">m²</span></div>
+<div class="q"><span class="n">17</span><span class="src">30000m²（ha）</span><span class="box"></span><span class="unit">ha</span></div>
+<div class="q"><span class="n">6</span><span class="src">5000cm²（m²）</span><span class="box"></span><span class="unit">m²</span></div>
+<div class="q"><span class="n">18</span><span class="src">5000m²（ha）</span><span class="box"></span><span class="unit">ha</span></div>
+<div class="q"><span class="n">7</span><span class="src">800cm²（m²）</span><span class="box"></span><span class="unit">m²</span></div>
+<div class="q"><span class="n">19</span><span class="src">0.06ha（m²）</span><span class="box"></span><span class="unit">m²</span></div>
+<div class="q"><span class="n">8</span><span class="src">2m² 500cm²（cm²）</span><span class="box"></span><span class="unit">cm²</span></div>
+<div class="q"><span class="n">20</span><span class="src">1km²（m²）</span><span class="box"></span><span class="unit">m²</span></div>
+<div class="q"><span class="n">9</span><span class="src">1a（m²）</span><span class="box"></span><span class="unit">m²</span></div>
+<div class="q"><span class="n">21</span><span class="src">1km²（ha）</span><span class="box"></span><span class="unit">ha</span></div>
+<div class="q"><span class="n">10</span><span class="src">7a（m²）</span><span class="box"></span><span class="unit">m²</span></div>
+<div class="q"><span class="n">22</span><span class="src">0.4km²（ha）</span><span class="box"></span><span class="unit">ha</span></div>
+<div class="q"><span class="n">11</span><span class="src">0.3a（m²）</span><span class="box"></span><span class="unit">m²</span></div>
+<div class="q"><span class="n">23</span><span class="src">3km²（a）</span><span class="box"></span><span class="unit">a</span></div>
+<div class="q"><span class="n">12</span><span class="src">450m²（a）</span><span class="box"></span><span class="unit">a</span></div>
+<div class="q"><span class="n">24</span><span class="src">250ha（km²）</span><span class="box"></span><span class="unit">km²</span></div>
+</div></div>
+<div class="sec"><h2>2　いろいろな単位<small>（ ）の単位で表しなさい。</small></h2><div class="grid">
+<div class="q"><span class="n">25</span><span class="src">0.7L（dL）</span><span class="box"></span><span class="unit">dL</span></div>
+<div class="q"><span class="n">33</span><span class="src">0.6kg（g）</span><span class="box"></span><span class="unit">g</span></div>
+<div class="q"><span class="n">26</span><span class="src">350mL（L）</span><span class="box"></span><span class="unit">L</span></div>
+<div class="q"><span class="n">34</span><span class="src">750g（kg）</span><span class="box"></span><span class="unit">kg</span></div>
+<div class="q"><span class="n">27</span><span class="src">2.3L（mL）</span><span class="box"></span><span class="unit">mL</span></div>
+<div class="q"><span class="n">35</span><span class="src">2.4t（kg）</span><span class="box"></span><span class="unit">kg</span></div>
+<div class="q"><span class="n">28</span><span class="src">4dL（mL）</span><span class="box"></span><span class="unit">mL</span></div>
+<div class="q"><span class="n">36</span><span class="src">3日（時間）</span><span class="box"></span><span class="unit">時間</span></div>
+<div class="q"><span class="n">29</span><span class="src">6m 5cm（m）</span><span class="box"></span><span class="unit">m</span></div>
+<div class="q"><span class="n">37</span><span class="src">1.5時間（分）</span><span class="box"></span><span class="unit">分</span></div>
+<div class="q"><span class="n">30</span><span class="src">0.08km（m）</span><span class="box"></span><span class="unit">m</span></div>
+<div class="q"><span class="n">38</span><span class="src">4分（秒）</span><span class="box"></span><span class="unit">秒</span></div>
+<div class="q"><span class="n">31</span><span class="src">3500m（km）</span><span class="box"></span><span class="unit">km</span></div>
+<div class="q"><span class="n">39</span><span class="src">180分（時間）</span><span class="box"></span><span class="unit">時間</span></div>
+<div class="q"><span class="n">32</span><span class="src">45mm（cm）</span><span class="box"></span><span class="unit">cm</span></div>
+<div class="q"><span class="n">40</span><span class="src">2時間 15分（分）</span><span class="box"></span><span class="unit">分</span></div>
+</div></div>
+<div class="foot">★ 答えは数字だけ書けばよい（単位は右に書いてあります）。わからないときは、1辺の長さの正方形を思いうかべよう。</div>
+</div></body></html>
