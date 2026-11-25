@@ -105,7 +105,7 @@ export const ITEMS: Item[] = [
   { id: 'bd_rocket', kind: 'building', name: 'ロケット',           emoji: '🚀', price: 1000, desc: 'となりの しまに たつ。つきや わくせいへ うちゅうりょこう！', once: true },
   // 12月（となりの しまに たつ）
   { id: 'bd_xtree',   kind: 'building', name: 'クリスマスツリー ひろば', emoji: '🎄', price: 850, desc: 'となりの しまに たつ。おおきな ツリーが よるに ピカピカ ひかる', once: true },
-  { id: 'bd_kotatsu', kind: 'building', name: 'ゆきの こや',         emoji: '⛄', price: 900, desc: 'となりの しまに たつ。ゆきを かぶった こやで ぽかぽか', once: true },
+  { id: 'bd_kotatsu', kind: 'building', name: 'ゆきの こや',         emoji: '⛄', price: 900, desc: 'となりの しまに たつ。なかまの なぞなぞで ゆきだるまづくり！', once: true },
 
   // ── 季節の品（その月のあいだだけ 並ぶ。かったものは ずっと つかえる）──
   { id: 'gf_pumpkin', kind: 'gift',  name: 'かぼちゃだんご', emoji: '🎃', price: 4, desc: '10月だけ・なかよし +3', love: 3, season: 10 },
@@ -125,6 +125,9 @@ export const ITEMS: Item[] = [
   // ── クリスマスツリー ひろば（プレゼントずかんの ごほうび。ショップでは売らない。lib/xtree.ts）──
   { id: 'fn_giftpile', kind: 'furniture', name: 'プレゼントの やま', emoji: '🎁', price: 0, desc: 'プレゼントを 4しゅるい くばった ごほうび', once: true, reward: true, anywhere: true },
   { id: 'fn_snowdome', kind: 'furniture', name: 'スノードーム',     emoji: '🔮', price: 0, desc: 'プレゼントを 8しゅるい ぜんぶ くばった ごほうび', once: true, reward: true, anywhere: true },
+  // ── ゆきの こや（ゆきだるまずかんの ごほうび。ショップでは売らない。lib/snowman.ts）──
+  { id: 'fn_snowfamily', kind: 'furniture', name: 'ゆきだるまの かぞく', emoji: '⛄', price: 0, desc: 'ゆきだるまを 4しゅるい つくった ごほうび', once: true, reward: true, anywhere: true },
+  { id: 'fn_kamakura',   kind: 'furniture', name: 'かまくら',         emoji: '🏔️', price: 0, desc: 'ゆきだるまを 8しゅるい ぜんぶ つくった ごほうび', once: true, reward: true, anywhere: true },
   // ── モクタの もりづくり（森を ひとつ クリアした ごほうび。ショップでは売らない。lib/forestry.ts）──
   { id: 'fn_wd_tar',   kind: 'furniture', name: 'すぎの たる',       emoji: '🛢️', price: 0, desc: '吉野すぎの 森を 育てあげた ごほうび', once: true, reward: true, anywhere: true },
   { id: 'fn_wd_bench', kind: 'furniture', name: 'すぎの ベンチ',     emoji: '🪑', price: 0, desc: '天竜すぎの 森を 育てあげた ごほうび', once: true, reward: true, anywhere: true },

@@ -60,6 +60,7 @@ export function freshSave(now = Date.now()): SaveV1 {
     suisan: { cleared: [], plays: 0, coin: 8, pond: [], sea: [], dex: [], scoopBest: 0, portDex: [] },
     arbor: { dex: [], day: '', gathered: 0, rested: false, tea: false, talked: 0 },
     xtree: { dex: [], day: '', given: 0 },
+    snow: { dex: [], day: '', made: 0 },
     space: { dex: [], day: '', trips: 0, moonStone: '', marsStone: '', sunStone: '', sunSeen: [] },
     usagi: { talked: '', home: false },
     talk: { day: '', talked: [], req: null, done: false },
@@ -225,6 +226,11 @@ export function loadSave(): SaveV1 {
       dex: Array.isArray(s.xtree?.dex) ? s.xtree!.dex.filter((x) => typeof x === 'string') : [],
       day: typeof s.xtree?.day === 'string' ? s.xtree!.day : '',
       given: typeof s.xtree?.given === 'number' ? s.xtree!.given : 0,
+    },
+    snow: {
+      dex: Array.isArray(s.snow?.dex) ? s.snow!.dex.filter((x) => typeof x === 'string') : [],
+      day: typeof s.snow?.day === 'string' ? s.snow!.day : '',
+      made: typeof s.snow?.made === 'number' ? s.snow!.made : 0,
     },
     space: {
       dex: Array.isArray(s.space?.dex) ? s.space!.dex.filter((x) => typeof x === 'string') : [],

@@ -37,6 +37,7 @@ import { STAGE_BY_ID as TANE_STAGE_BY_ID, type StageId as TaneStageId } from '..
 import { STAGE_BY_ID } from '../lib/suisan';
 import { ARBOR_REWARDS, GATHER_PER_DAY, TALK_PER_DAY, arborToday, rollLeaf, type Leaf } from '../lib/arbor';
 import { GIVE_PER_DAY, XTREE_REWARDS, xtreeToday } from '../lib/xtree';
+import { SNOW_PER_DAY, SNOW_REWARDS, snowToday } from '../lib/snowman';
 import { USAGI_KEY } from '../lib/usagi';
 import { DEST_BY_ID, DESTS, SPACE_REWARDS, SPACE_TITLE, STONE_FOOD, SUN_TITLE, TRIPS_PER_DAY, TRIPS_STUDY_BONUS, openDests } from '../lib/space';
 import { MICRO_TITLE, PLANKTON, PLANKTON_PER_DAY, PLANKTON_REWARDS, PLANKTON_STUDY_BONUS } from '../lib/plankton';
@@ -260,6 +261,7 @@ export interface GameApi {
   arborTalk(charKey: string, correct: boolean): { heartsBefore: number; heartsAfter: number } | null;
   /** クリスマスツリー ひろば：プレゼントを くばる（1日3回）。correct＝ぴったりで なかよし +2・ずかんに のる、ちがうと +1 */
   xtreeGive(charKey: string, presentId: string, correct: boolean): { heartsBefore: number; heartsAfter: number; isNew: boolean; rewards: string[] } | null;
+  snowMake(charKey: string, snowmanId: string, correct: boolean): { heartsBefore: number; heartsAfter: number; isNew: boolean; rewards: string[] } | null;
   /** モクタの もりづくり：あそびはじめ（あそんだ回数 +1） */
   forestryPlay(): void;
   zukeiPlay(): void;
@@ -1303,6 +1305,31 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         return {
           ...s,
           xtree: { dex: isNew && !s.xtree.dex.includes(presentId) ? [...s.xtree.dex, presentId] : s.xtree.dex, day, given: x.given + 1 },
+          friendsPlay: { ...s.friendsPlay, [charKey]: { ...fp, pts: fp.pts + add } },
+          owned: [...s.owned, ...rewards.filter((id) => !s.owned.includes(id))],
+        };
+      });
+      const heartsBefore = heartsOf(prev.pts);
+      const heartsAfter = heartsOf(prev.pts + add);
+      sfx(heartsAfter > heartsBefore ? 'heart' : correct ? 'star' : 'gift');
+      return { heartsBefore, heartsAfter, isNew, rewards };
+    },
+
+    snowMake: (charKey, snowmanId, correct) => {
+      const cur = saveRef.current;
+      const day = dateKey();
+      if (snowToday(cur.snow, day).made >= SNOW_PER_DAY) { showToast('きょうの ゆきだるまづくりは おしまい', 'ng'); return null; }
+      const add = correct ? 2 : 1;
+      const isNew = correct && !cur.snow.dex.includes(snowmanId);
+      const kinds = cur.snow.dex.length + (isNew ? 1 : 0);
+      const rewards = SNOW_REWARDS.filter((r) => r.kinds <= kinds && !cur.owned.includes(r.item)).map((r) => r.item);
+      const prev = cur.friendsPlay[charKey] ?? { pts: 0, day: todayStr(), today: 0, wear: null };
+      setSave((s) => {
+        const x = snowToday(s.snow, day);
+        const fp = s.friendsPlay[charKey] ?? prev;
+        return {
+          ...s,
+          snow: { dex: isNew && !s.snow.dex.includes(snowmanId) ? [...s.snow.dex, snowmanId] : s.snow.dex, day, made: x.made + 1 },
           friendsPlay: { ...s.friendsPlay, [charKey]: { ...fp, pts: fp.pts + add } },
           owned: [...s.owned, ...rewards.filter((id) => !s.owned.includes(id))],
         };

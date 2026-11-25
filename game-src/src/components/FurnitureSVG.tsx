@@ -512,6 +512,33 @@ const DRAWINGS: Record<string, Draw> = {
       <path d="M-9 -31 Q-6 -35 -2 -36" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
     </g>
   ),
+  fn_snowfamily: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="26" ry="6" fill="rgba(0,0,0,0.2)" />
+      <circle cx="-10" cy="-10" r="11" fill="#f8fafc" {...S} />
+      <circle cx="-10" cy="-28" r="8" fill="#f8fafc" {...S} />
+      <path d="M-18 -34 L-16 -44 L-4 -44 L-2 -34 Z" fill="#94a3b8" {...S} />
+      <path d="M-10 -28 L-3 -27 L-10 -25 Z" fill="#f97316" />
+      <circle cx="-13" cy="-30" r="1.2" fill="#1e1b4b" />
+      <circle cx="-7" cy="-30" r="1.2" fill="#1e1b4b" />
+      <path d="M-18 -21 Q-10 -17 -2 -21" fill="none" stroke="#ef4444" strokeWidth="3" />
+      <circle cx="12" cy="-6" r="7" fill="#f8fafc" {...S} />
+      <circle cx="12" cy="-18" r="5.5" fill="#f8fafc" {...S} />
+      <path d="M7 -21 Q12 -28 17 -21 Z" fill="#8b5cf6" {...S} />
+      <circle cx="10" cy="-19" r="1" fill="#1e1b4b" />
+      <circle cx="14" cy="-19" r="1" fill="#1e1b4b" />
+      <path d="M7 -13 Q12 -10 17 -13" fill="none" stroke="#3b82f6" strokeWidth="2.4" />
+    </g>
+  ),
+  fn_kamakura: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="26" ry="6" fill="rgba(0,0,0,0.2)" />
+      <path d="M-24 0 Q-24 -34 0 -34 Q24 -34 24 0 Z" fill="#f8fafc" {...S} />
+      <path d="M-10 0 Q-10 -18 0 -18 Q10 -18 10 0 Z" fill="#7c2d12" {...S} />
+      <path d="M-7 0 Q-7 -14 0 -14 Q7 -14 7 0 Z" fill="#fbbf24" opacity="0.85" />
+      <path d="M-16 -26 Q-8 -31 2 -31" fill="none" stroke="#e0f2fe" strokeWidth="2.4" strokeLinecap="round" />
+    </g>
+  ),
   fn_leafpile: () => (
     <g>
       <ellipse cx="0" cy="2" rx="22" ry="6" fill="rgba(0,0,0,0.2)" />

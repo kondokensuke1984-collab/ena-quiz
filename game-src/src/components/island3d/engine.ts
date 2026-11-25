@@ -361,7 +361,7 @@ export class IslandEngine {
       bd_rocket: [[0, -3, 2.4], [4, -3, 1]], bd_xtree: [[0, -2, 2.6]], bd_kotatsu: [[0, -3, 4.8]],
     };
     // となりの島で タップしたとき（IslandScreen の ふだんの 処理に あわせた 場所）
-    const EAST_TAP: Record<string, number> = { bd_imo: -0.06, bd_arbor: -0.05, bd_rocket: -0.1, bd_base: -0.05, bd_planet: -0.05, bd_xtree: -0.07 };
+    const EAST_TAP: Record<string, number> = { bd_imo: -0.06, bd_arbor: -0.05, bd_rocket: -0.1, bd_base: -0.05, bd_planet: -0.05, bd_xtree: -0.07, bd_kotatsu: -0.05 };
     for (const id of built) {
       const spot = BUILDING_SPOTS[id];
       if (!spot || (spot.area ?? 'main') !== this.area) continue;   // いまの 島の 建物だけ

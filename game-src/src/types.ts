@@ -115,6 +115,7 @@ export interface SaveV1 {
   zukei: { cleared: string[]; plays: number; stars: Record<string, number> };     // ずけいこうぼう：クリアしたステージID・あそんだ回数
   tane: { cleared: string[]; plays: number };      // たねの けんきゅうじょ：クリアしたステージID・あそんだ回数
   arbor: { dex: string[]; day: string; gathered: number; rested: boolean; tea: boolean; talked: number };
+  snow: { dex: string[]; day: string; made: number };  // ゆきの こや：つくれた ゆきだるまID・きょう つくった かず
   xtree: { dex: string[]; day: string; given: number };  // クリスマスツリー ひろば：くばった プレゼントID・きょう くばった かず  // もみじの あずまや：あつめた おちばID・きょうの おちばひろい／ひとやすみ／おちゃ／かいぎの かいすう
   space: { dex: string[]; day: string; trips: number; moonStone: string; marsStone: string; sunStone: string; sunSeen: string[] };  // sun＝たいようの せいれいで ひろった ひかりの たまの日・みつけた ものID
   usagi: { talked: string; home: boolean };   // 🐰 もちつきうさぎ：さいごに はなした日・ちきゅうに きたか（なかよし度は friendsPlay.mochiusa）  // うちゅうりょこう：いった いきさきID・きょう とんだ かいすう・月／火星で いしを ひろった日

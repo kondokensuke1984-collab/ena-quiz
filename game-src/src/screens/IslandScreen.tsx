@@ -57,6 +57,7 @@ import { MoonViewModal } from '../components/MoonViewModal';
 import { YakiimoModal } from '../components/YakiimoModal';
 import { ArborModal } from '../components/ArborModal';
 import { XtreeModal } from '../components/XtreeModal';
+import { SnowHutModal } from '../components/SnowHutModal';
 import { ForestryModal } from '../components/ForestryModal';
 import { ZukeiModal } from '../components/ZukeiModal';
 import { TaneModal } from '../components/TaneModal';
@@ -173,7 +174,7 @@ function todayKey(): string {
 
 type ModalKind =
   | 'feed' | 'roster' | 'stamp' | 'mail' | 'fish' | 'farm' | 'stars' | 'detective' | 'harvest' | 'moonView'
-  | 'imo' | 'arbor' | 'spaceGo' | 'spaceDex' | 'library' | 'desk' | 'organ' | 'micro' | 'transfer' | 'board' | 'opening' | 'iken' | 'forestry' | 'zukei' | 'tane' | 'suisan' | 'suisanVoyage' | 'dex' | 'wish' | 'xmas' | 'xtree';
+  | 'imo' | 'arbor' | 'spaceGo' | 'spaceDex' | 'library' | 'desk' | 'organ' | 'micro' | 'transfer' | 'board' | 'opening' | 'iken' | 'forestry' | 'zukei' | 'tane' | 'suisan' | 'suisanVoyage' | 'dex' | 'wish' | 'xmas' | 'xtree' | 'snowhut';
 
 /** むきと あしだけ かわる しゅじんこう（島の 画面ぜんぶを かきなおさない） */
 function PosedKid({ poseRef, subRef, ...rest }: {
@@ -844,6 +845,7 @@ export function IslandScreen() {
     // 🎄 クリスマスツリー（本島の ツリー・となりの島の ツリーひろば）を タップ → クリスマスの 画面
     if (area === 'main' && seasonNow() === 12 && dist(raw, XMAS_MAIN_TAP) < 0.08) { openXmas(); return; }
     if (area === 'east' && save.buildings.includes('bd_xtree') && dist(raw, { x: BUILDING_SPOTS.bd_xtree.x, y: BUILDING_SPOTS.bd_xtree.y - 0.07 }) < 0.09) { setModal('xtree'); return; }
+    if (area === 'east' && save.buildings.includes('bd_kotatsu') && dist(raw, { x: BUILDING_SPOTS.bd_kotatsu.x, y: BUILDING_SPOTS.bd_kotatsu.y - 0.05 }) < 0.09) { setModal('snowhut'); return; }
     if (area === 'east' && save.buildings.includes('bd_imo') && dist(raw, { x: IMO_SPOT.x, y: IMO_SPOT.y - 0.06 }) < 0.09) { setModal('imo'); return; }
     if (area === 'east' && save.buildings.includes('bd_arbor') && dist(raw, { x: ARBOR_SPOT.x, y: ARBOR_SPOT.y - 0.05 }) < 0.09) { setModal('arbor'); return; }
     if (area === 'nov') {
@@ -1085,6 +1087,7 @@ export function IslandScreen() {
   const nearEastBd = (id: string) => area === 'east' && save.buildings.includes(id) && dist(playerPos.current, BUILDING_SPOTS[id]) <= 0.1;
   const nearArbor = nearEastBd('bd_arbor');
   const nearXtree = nearEastBd('bd_xtree');
+  const nearSnowHut = nearEastBd('bd_kotatsu');
   const nearNovBd = (id: string) => area === 'nov' && dist(playerPos.current, BUILDING_SPOTS[id]) <= 0.1;
   const nearNovBack = area === 'nov' && dist(pp, DOORS.novToMain) <= 0.1;
   const nearRocket = nearEastBd('bd_rocket');
@@ -1540,6 +1543,7 @@ export function IslandScreen() {
   act(nearImo, 'imo', '🍠 やきいもやさん', () => setModal('imo'));
   act(nearArbor, 'arbor', '🍁 あずまやで ひとやすみ', () => setModal('arbor'));
   act(nearXtree, 'xtree', '🎄 ひろばで あそぶ', () => setModal('xtree'));
+  act(nearSnowHut, 'snowhut', '⛄ ゆきだるまを つくる', () => setModal('snowhut'));
   act(nearNovBd('bd_zukei'), 'zukei', '📐 ずけいこうぼう', () => setModal('zukei'));
   act(nearNovBd('bd_tane'), 'tane', '🌱 たねの けんきゅうじょ', () => setModal('tane'));
   act(nearNovBd('bd_forest'), 'forest', '🌲 もりづくり', () => setModal('forestry'));
@@ -2072,6 +2076,7 @@ export function IslandScreen() {
       {modal === 'detective' && <DetectiveScreen onClose={() => setModal(null)} />}
       {modal === 'xmas' && <XmasModal onClose={() => setModal(null)} />}
       {modal === 'xtree' && <XtreeModal friends={imoCustomers} onDecorate={openXmas} onClose={() => setModal(null)} />}
+      {modal === 'snowhut' && <SnowHutModal friends={imoCustomers} onClose={() => setModal(null)} />}
       {modal === 'wish' && <WishModal onClose={() => setModal(null)} />}
       {modal === 'harvest' && <HarvestModal onClose={() => setModal(null)} />}
       {modal === 'moonView' && <MoonViewModal onClose={() => setModal(null)} />}
@@ -2095,6 +2100,7 @@ export function IslandScreen() {
           : book === 'arbor' ? <ArborModal dexOnly friends={imoCustomers} studied={studied} onClose={close} />
           : book === 'tree' ? <TreeDexModal onClose={close} />
           : book === 'gift' ? <XtreeModal dexOnly friends={imoCustomers} onClose={close} />
+          : book === 'snow' ? <SnowHutModal dexOnly friends={imoCustomers} onClose={close} />
           : <YakiimoModal dexOnly customers={imoCustomers} onClose={close} />;
       })()}
       {(modal === 'spaceGo' || modal === 'spaceDex') && <SpaceTripModal tab={modal === 'spaceGo' ? 'go' : 'dex'} studied={studied} crew={imoCustomers} onClose={() => setModal(null)} marsOk={marsOk} onWalk={(to) => { setModal(null); travel(to, ENTRY[to]); }} />}
