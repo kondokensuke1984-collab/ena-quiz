@@ -35,6 +35,10 @@
     {
       "date": "10/30",
       "label": "2026/10/30"
+    },
+    {
+      "date": "11/25",
+      "label": "2026/11/25"
     }
   ],
   "2/25": {
@@ -234,5 +238,27 @@
     "rika_juni": 122,
     "shakai_ten": 90,
     "shakai_juni": 65
+  },
+  "11/25": {
+    "hensachi4": null,
+    "hensachi2": null,
+    "sansu": null,
+    "kokugo": null,
+    "rika": null,
+    "shakai": null,
+    "tokuten4": null,
+    "juni4": null,
+    "ninzu4": null,
+    "tokuten2": null,
+    "juni2": null,
+    "ninzu2": null,
+    "sansu_ten": 91,
+    "sansu_juni": null,
+    "kokugo_ten": 71,
+    "kokugo_juni": null,
+    "rika_ten": 75,
+    "rika_juni": null,
+    "shakai_ten": 90,
+    "shakai_juni": null
   }
 }
