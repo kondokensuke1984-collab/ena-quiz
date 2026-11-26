@@ -33,5 +33,40 @@
 "category": "rika",
 "month": "202612",
 "parent": "kumo1"
+},
+"kumo2": {
+"label": "雲と雨2",
+"icon": "🌬️",
+"tag": "tag-kumo2",
+"category": "rika",
+"month": "202612",
+"isGroup": true,
+"ref": "/kumo2.html",
+"refLabel": "カラーページ（要点まとめ）",
+"refSub": "雨量と雨量計・水の循環・気圧と風・海陸風・季節風"
+},
+"kumo2_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-kumo2",
+"category": "rika",
+"month": "202612",
+"parent": "kumo2"
+},
+"kumo2_renshu": {
+"label": "練習問題",
+"icon": "✏️",
+"tag": "tag-kumo2",
+"category": "rika",
+"month": "202612",
+"parent": "kumo2"
+},
+"kumo2_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-kumo2",
+"category": "rika",
+"month": "202612",
+"parent": "kumo2"
 }
 }

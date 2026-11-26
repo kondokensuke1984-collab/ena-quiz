@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>雲と雨2 | 要点まとめ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>:root{--c:#1d4ed8;--l:#dbeafe}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Noto Sans JP',sans-serif;background:#f1f5f9;color:#1e293b;line-height:1.8;-webkit-text-size-adjust:100%}
+.hd{background:var(--c);color:#fff;position:sticky;top:0;z-index:30;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.hd .in{max-width:960px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.hd .t{display:flex;align-items:center;gap:10px}
+.num{font-family:'M PLUS Rounded 1c',sans-serif;background:#fff;color:var(--c);font-weight:800;font-size:22px;width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+h1{font-family:'M PLUS Rounded 1c',sans-serif;font-size:20px;margin:0;letter-spacing:.04em}
+.btns{display:flex;gap:8px;align-items:center}
+.btn{border:0;cursor:pointer;font:inherit;font-size:13px;font-weight:700;border-radius:999px;padding:7px 14px;text-decoration:none;color:#1e293b;background:#fde68a}
+.btn.back{background:rgba(255,255,255,.25);color:#fff}
+.btn.on{background:#ef4444;color:#fff}
+main{max-width:960px;margin:0 auto;padding:16px 16px 64px}
+.tag{display:inline-block;background:var(--l);color:var(--c);font-weight:700;font-size:13px;border-radius:999px;padding:3px 12px;margin:4px 0 12px}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:16px 18px;margin:0 0 16px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.card h2{font-family:'M PLUS Rounded 1c',sans-serif;font-size:18px;margin:0 0 8px;color:var(--c);display:flex;align-items:center;gap:8px}
+.card h2 .n{background:var(--c);color:#fff;font-size:13px;border-radius:8px;padding:1px 8px}
+.card h3{font-size:15px;margin:14px 0 4px;color:#334155}
+.card p{margin:6px 0}
+.card ul{margin:6px 0;padding-left:1.3em}
+.card li{margin:3px 0}
+.k{font-weight:700;color:#b91c1c}
+body.red .k{background:#ef4444;color:transparent;border-radius:4px;cursor:pointer;user-select:none;transition:.15s}
+body.red .k.open{background:#fef08a;color:#991b1b}
+rt{font-size:.55em;color:#64748b;font-weight:400}
+body.red .k:not(.open) rt{color:transparent}
+.note{background:var(--l);border-radius:10px;padding:8px 12px;font-size:14px;margin:8px 0}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:8px 0}
+th,td{border:1px solid #cbd5e1;padding:4px 8px;text-align:center}
+th{background:var(--l);color:#334155}
+td.l{text-align:left}
+.low{background:#fee2e2;font-weight:700}
+.high{background:#dcfce7;font-weight:700}
+.bars{margin:8px 0}
+.bar{display:flex;align-items:center;gap:8px;margin:4px 0;font-size:14px}
+.bar .lb{width:6.5em;flex:none;text-align:right}
+.bar .tr{flex:1;background:#f1f5f9;border-radius:6px;height:20px;position:relative;overflow:hidden}
+.bar .fi{height:100%;background:var(--c);border-radius:6px}
+.bar .v{width:5.2em;flex:none;font-weight:700}
+.cap{font-size:12px;color:#64748b;margin:2px 0 8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.mini{border:1px solid #e2e8f0;border-radius:12px;padding:10px 12px;background:#f8fafc}
+.mini h3{margin:0 0 4px}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch;margin:10px 0}
+.flow .st{flex:1;min-width:120px;background:var(--l);border:2px solid var(--c);border-radius:12px;padding:8px;text-align:center;font-size:13px}
+.flow .st b{display:block;font-size:16px;color:var(--c)}
+.flow .ar{align-self:center;color:var(--c);font-weight:800}
+@media print{.btns{display:none}body{background:#fff}}
+</style>
+</head>
+<body>
+<header class="hd"><div class="in">
+  <div class="t"><span class="num">12</span><h1>雲と雨2</h1></div>
+  <div class="btns"><button class="btn" id="rb" onclick="toggleRed()">赤シート ON</button><a class="btn back" href="/">もどる</a></div>
+</div></header>
+<main>
+<span class="tag">要点のまとめ｜雨の降り方・雨量・水の循環・気圧と風・海陸風・季節風</span>
+<section class="card"><h2><span class="n">1</span>雨の降り方</h2>
+<p>雲をつくっている小さな<b class="k">水滴や氷の粒</b>が、上空でぶつかり合ってだんだん大きくなり、重さにたえられなくなると地上に落ちてきます。これが<b class="k">雨や雪</b>です。</p>
+<ul><li>雨粒の大きさは直径<b class="k">1〜3mm</b>くらいが多く、激しい雨では3〜5mmにもなる。</li><li>1mmくらいの小さな粒は<b class="k">球形</b>、それより大きいと上下につぶれて<b class="k">まんじゅう</b>のような形になる。</li></ul>
+</section>
+<section class="card"><h2><span class="n">2</span>雨量と雨量計</h2>
+<p>降った雨の量を<b class="k">雨量</b>（<b class="k">降水量</b>）といい、雨が地面にたまったときの<b class="k">深さ</b>を<b class="k">mm（ミリメートル）</b>で表します。</p>
+<div class="grid"><div class="mini"><h3>雨量計と雨量ます</h3><ul><li>直径20cmの円筒形の<b class="k">雨量計</b>に雨水を受ける（ろうと→バケツ→貯水びん）。</li><li>たまった雨を<b class="k">雨量ます</b>に移して目盛りを読む。</li><li>受け口から底まで同じ形の容器なら、たまった水の深さがそのまま雨量になる。</li></ul></div>
+<div class="mini"><h3>転倒ます型雨量計</h3><ul><li>一定量の雨水がたまると反対側にかたむいて水を出す「ます」がついている。</li><li>かたむいた<b class="k">回数</b>を数えて雨量を測る。</li></ul></div></div>
+</section>
+<section class="card"><h2><span class="n">3</span>水の循環</h2>
+<p>水は、<b class="k">氷・水・水蒸気</b>とすがたを変えながら、海と陸と空の間をめぐっています。これを水の<b class="k">循環</b>といいます。</p>
+<div class="flow"><div class="st"><b>蒸発</b>海・川・湖・地面から</div><div class="ar">→</div><div class="st"><b>雲</b>上空で冷やされる</div><div class="ar">→</div><div class="st"><b>雨・雪</b>地上に降る</div><div class="ar">→</div><div class="st"><b>川・地下水</b>最後は海へ</div></div>
+<ul><li>降った水の一部は植物に吸収され、地面にしみこんで<b class="k">地下水</b>になる。残りは川となって海へ注ぐ。</li><li>海は地球の表面積の約<b class="k">7割</b>をしめ、常に大量の水が蒸発している。</li><li>水の循環は、地球上のおだやかな環境を作り出すのに役立っている。</li></ul>
+</section>
+<section class="card"><h2><span class="n">4</span>気圧と風</h2>
+<p>空気の重さによる力を<b class="k">気圧</b>（大気圧）といいます。風は、気圧の<b class="k">高い</b>方から<b class="k">低い</b>方に向かってふきます。</p>
+<ul><li>海面の高さで空気がおす力の平均を<b class="k">1気圧</b>という。</li><li>気圧の単位は<b class="k">ヘクトパスカル（hPa）</b>。1気圧は約<b class="k">1013</b>ヘクトパスカル。</li></ul>
+<table><tr><th></th><th>高気圧</th><th>低気圧</th></tr>
+<tr><td>どんなところ</td><td>まわりより気圧が<b class="k">高い</b></td><td>まわりより気圧が<b class="k">低い</b></td></tr>
+<tr><td>中心の空気</td><td><b class="k">下降気流</b>（上から下へ）</td><td><b class="k">上昇気流</b>（下から上へ）</td></tr>
+<tr><td>雲</td><td>できにくい</td><td>できやすい</td></tr>
+<tr><td>天気</td><td><b class="k">晴れ</b>が多い</td><td><b class="k">雨やくもり</b>が多い</td></tr>
+<tr><td>地表の風（北半球）</td><td>中心から外へ<b class="k">時計回り</b>にふき出す</td><td>外から中心へ<b class="k">反時計回り</b>にふきこむ</td></tr></table>
+<div class="note">高気圧かどうかは「1013ヘクトパスカルより高いか」ではなく、「<b>まわりより</b>高いか」で決まります。</div>
+</section>
+<section class="card"><h2><span class="n">5</span>海陸風</h2>
+<p>陸は<b class="k">温まりやすく冷えやすい</b>、海（水）は<b class="k">温まりにくく冷えにくい</b>。この違いで、海岸付近では昼と夜で風向きが変わります。これを<b class="k">海陸風</b>といいます。</p>
+<table><tr><th></th><th>暖かい方</th><th>空気の動き</th><th>地表の風</th></tr>
+<tr><td>昼</td><td><b class="k">陸</b></td><td>陸で上昇（気圧が低い）・海で下降（気圧が高い）</td><td>海→陸の<b class="k">海風</b></td></tr>
+<tr><td>夜</td><td><b class="k">海</b></td><td>海で上昇（気圧が低い）・陸で下降（気圧が高い）</td><td>陸→海の<b class="k">陸風</b></td></tr></table>
+<ul><li>海風と陸風が入れかわる朝と夕方に、風がやむ時間帯を<b class="k">なぎ</b>という。1日に<b class="k">2回</b>起こる。</li><li>風の名前は「ふいてくる方」でつける（海から来る風＝海風）。</li></ul>
+<div class="note"><b>実験で考える</b>　水そうに水と砂を入れて電球で温めると、砂が早く温まり、線香のけむりは<b>水→砂</b>の向きに動く（昼の海風）。電球を消すと砂が早く冷え、けむりは<b>砂→水</b>の向きに動く（夜の陸風）。</div>
+</section>
+<section class="card"><h2><span class="n">6</span>季節風</h2>
+<p>季節によって決まった方角によくふく風を<b class="k">季節風</b>といいます。海陸風と同じ仕組みで、ユーラシア<b class="k">大陸</b>と<b class="k">太平洋</b>の温度差でふきます。</p>
+<div class="grid"><div class="mini"><h3>夏</h3><ul><li>大陸が温まりやすい（大陸が低気圧）。</li><li>太平洋から<b class="k">南東</b>の季節風。</li></ul></div>
+<div class="mini"><h3>冬</h3><ul><li>大陸が冷えやすい（北西のシベリアに<b class="k">高気圧</b>）。</li><li>大陸から<b class="k">北西</b>の季節風。</li><li>日本海で水蒸気をふくみ、山脈にぶつかって上昇 → <b class="k">日本海側</b>に雪や雨。</li><li>山をこえた風はかわいている → <b class="k">太平洋側</b>は晴れが多い。</li></ul></div></div>
+</section>
+
+</main>
+<script>
+var red=false;
+function toggleRed(){red=!red;document.body.classList.toggle('red',red);
+ var b=document.getElementById('rb');b.classList.toggle('on',red);b.textContent=red?'赤シート OFF':'赤シート ON';
+ if(!red)document.querySelectorAll('.k.open').forEach(function(e){e.classList.remove('open')});}
+document.addEventListener('click',function(e){var t=e.target.closest('.k');if(t&&red)t.classList.toggle('open');});
+</script>
+</body>
+</html>
