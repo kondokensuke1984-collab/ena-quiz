@@ -46,6 +46,8 @@ export const PERSONA: Record<CharKey, { type: Persona; tag: string }> = {
   peacock: { type: 'yasashi', tag: 'クァ〜' },
   beaver: { type: 'shikkari', tag: 'カンカン！' },
   mole: { type: 'nonbiri', tag: 'ほりほり…' },
+  seal: { type: 'yasashi', tag: 'キュ〜♪' },
+  armadillo: { type: 'shikkari', tag: 'カチッ！' },
 };
 
 export interface TalkCtx {
