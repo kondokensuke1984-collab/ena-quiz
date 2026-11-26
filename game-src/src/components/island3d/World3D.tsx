@@ -19,12 +19,13 @@ import { PlotPlant } from '../FarmPatch';
 import { MochiUsagi } from '../MochiUsagiSVG';
 import { IslandEngine, type ActorSpec, type LiveRefs, type FarmSpec, type PlacedSpec } from './engine';
 import type { ArtSpec } from './sprites';
+import type { Area3D } from './common';
 
 export interface World3DHandle { pick(clientX: number, clientY: number): Pos | null }
 
 export interface World3DProps {
   /** どの島を 3Dで えがくか（かわったら 作りなおす） */
-  area?: 'main' | 'east';
+  area?: Area3D;
   live: LiveRefs;
   chars: CharMap | null;
   built: string[];

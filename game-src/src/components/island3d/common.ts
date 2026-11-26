@@ -24,9 +24,11 @@ const MAIN_G = {
 const EAST_G = { cx: 52, cz: 45, grx: 43, grz: 26.5, srx: 47, srz: 30 };
 const G = { ...MAIN_G };
 export const GROUND = G;
+/** 3Dで えがける 島 */
+export type Area3D = 'main' | 'east' | 'nov';
 /** どの島を えがくか（エンジンを つくる まえに 1かい 呼ぶ。GROUND は 同じ 入れものを 書きかえる） */
-export function setGround(area: 'main' | 'east'): void {
-  Object.assign(G, area === 'east' ? EAST_G : MAIN_G);
+export function setGround(area: Area3D): void {
+  Object.assign(G, area === 'main' ? MAIN_G : EAST_G);   // 11月の島（nov）も となりの島と おなじ 大きさ
 }
 
 /** 芝の楕円での 中心からの距離（1＝芝の ふち） */

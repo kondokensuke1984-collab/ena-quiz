@@ -82,7 +82,7 @@ import { BirthdayModal, BirthdayOverlay } from '../components/BirthdayDeco';
 import { FARM_BOX, isRipe, stageOf } from '../lib/farm';
 import { soccerCups } from '../lib/soccer';
 
-// 3Dの島（main だけ）。three.js が大きいので あとから 読む。2D と きりかえられる（端末ごとに おぼえる）
+// 3Dの島（main・east・nov）。three.js が大きいので あとから 読む。2D と きりかえられる（端末ごとに おぼえる）
 const World3D = lazy(() => import('../components/island3d/World3D'));
 const PREF_3D = 'anrino-island-3d';
 function webglOK(): boolean {
@@ -281,7 +281,7 @@ export function IslandScreen() {
   const planet: Planet | null = area === 'moon' || area === 'mars' || area === 'sun' ? area : null;
   const pcfg = planet ? PLANET_CFG[planet] : null;
   const indoor = area === 'house' || area === 'school';
-  const want3d = (area === 'main' || area === 'east') && pref3d && HAS_WEBGL;
+  const want3d = (area === 'main' || area === 'east' || area === 'nov') && pref3d && HAS_WEBGL;
   // 島を いききしたら 3D を つくりなおす（よみこみ中の 表示を もういちど）
   useEffect(() => { setReady3d(false); }, [area]);
   const on3d = want3d && ready3d;
@@ -1705,7 +1705,7 @@ export function IslandScreen() {
           <Suspense fallback={null}>
             <World3D
               key={area}
-              area={area === 'east' ? 'east' : 'main'}
+              area={area === 'east' || area === 'nov' ? area : 'main'}
               ref={w3d}
               live={{ playerPos, monsterPos, friendPos, flip, walkPhase, tapTarget, pose: kidPose }}
               chars={chars}
@@ -1751,7 +1751,7 @@ export function IslandScreen() {
           )}
           {!on3d && area === 'main' && <FarmPatch plots={save.farm.plots} stages={farmStages} today={day} />}
           {!on3d && area === 'east' && <EastGround tod={tod} birthday={bday} />}
-          {area === 'nov' && <NovGround tod={tod} />}
+          {!on3d && area === 'nov' && <NovGround tod={tod} />}
           {area === 'moon' && <MoonGround moonAge={moonAge} />}
           {area === 'mars' && <MarsGround />}
           {area === 'sun' && <SunGround />}
@@ -1833,7 +1833,7 @@ export function IslandScreen() {
           {sleeping && <text x={ISLAND_W / 2} y={ISLAND_H * 0.4} fontSize="64" textAnchor="middle" className="twinkle">💤</text>}
         </svg>
 
-        {(area === 'main' || area === 'east') && HAS_WEBGL && (
+        {(area === 'main' || area === 'east' || area === 'nov') && HAS_WEBGL && (
           <button
             className="i3d-toggle rounded-xl bg-white/85 px-2.5 py-1 text-[12px] font-black text-indigo-900 shadow active:scale-95"
             onClick={() => {

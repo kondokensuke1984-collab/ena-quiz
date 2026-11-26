@@ -12,11 +12,12 @@ import { FARM_BOX, FARM_POS, plotPos } from '../../lib/farm';
 import { FOREST_ISLET, MOSHI_ISLET, SEASON_SPOTS } from '../IslandStage';
 import { IKEN_POS } from '../../lib/iken';
 import {
-  GRASS_H, GROUND, setGround, curve, curved, fx, fz, groundH, grassE, sandE, projectCurved, toPos, toon, toonNew, part, boxG,
+  GRASS_H, GROUND, setGround, type Area3D, curve, curved, fx, fz, groundH, grassE, sandE, projectCurved, toPos, toon, toonNew, part, boxG,
   windowMat, lampMat, blobShadow, glowMat, rng, PX, outlineMat, seeThru, bakeStatic,
 } from './common';
 import { loadArt, signArt, emojiArt, type ArtSpec, type SpriteArt } from './sprites';
 import { eastBuildingModel } from './eastModels';
+import { novBuildingModel, NOV_LABEL } from './novModels';
 import {
   buildingModel, mailbox, ikenBox, chest as chestModel, forest, rock, flowers, grassTufts, pumpkin, xmasTree, kadomatsu, acorn,
   type Model, type TreeSpot,
@@ -182,7 +183,7 @@ export class IslandEngine {
   private canvas: HTMLCanvasElement;
 
   /** host の中に 描く キャンバスを つくる（こわすときは キャンバスごと すてる） */
-  constructor(private host: HTMLDivElement, private overlay: HTMLDivElement, private live: LiveRefs, private area: 'main' | 'east' = 'main') {
+  constructor(private host: HTMLDivElement, private overlay: HTMLDivElement, private live: LiveRefs, private area: Area3D = 'main') {
     setGround(area);
     const canvas = document.createElement('canvas');
     canvas.className = 'block h-full w-full';
@@ -293,7 +294,7 @@ export class IslandEngine {
       this.worldKey = key;
       this.season = o.season;
       if (seasonChanged) this.buildGround(o.season);
-      if (this.area === 'east') this.buildEastDeco(o); else this.buildDeco(o);
+      if (this.area === 'east') this.buildEastDeco(o); else if (this.area === 'nov') this.buildNovDeco(); else this.buildDeco(o);
       this.applySky();
     }
     const bkey = o.built.join(',');
@@ -359,20 +360,23 @@ export class IslandEngine {
       bd_wheel: [[0, -2, 4]], bd_observ: [[0, -4, 5.4]], bd_moon: [[0, -1.8, 4.2]],
       bd_imo: [[0, -2.5, 4.5]], bd_arbor: [[0, -3.5, 5]], bd_base: [[0, -3, 4.5]], bd_planet: [[0, -3.5, 5.5]],
       bd_rocket: [[0, -3, 2.4], [4, -3, 1]], bd_xtree: [[0, -2, 2.6]], bd_kotatsu: [[0, -3, 4.8]],
+      bd_zukei: [[0, -3, 5]], bd_tane: [[0, -3, 5]], bd_forest: [[0, -2.5, 4.2]], bd_port: [[-1.9, -2.8, 4.2], [3.5, -1, 1.2]], bd_detective: [[0, -3, 5]],
     };
     // となりの島で タップしたとき（IslandScreen の ふだんの 処理に あわせた 場所）
     const EAST_TAP: Record<string, number> = { bd_imo: -0.06, bd_arbor: -0.05, bd_rocket: -0.1, bd_base: -0.05, bd_planet: -0.05, bd_xtree: -0.07, bd_kotatsu: -0.05 };
     for (const id of built) {
       const spot = BUILDING_SPOTS[id];
       if (!spot || (spot.area ?? 'main') !== this.area) continue;   // いまの 島の 建物だけ
-      const m = this.area === 'east' ? eastBuildingModel(id) : buildingModel(id);
+      const m = this.area === 'east' ? eastBuildingModel(id) : this.area === 'nov' ? novBuildingModel(id) : buildingModel(id);
       if (!m) continue;
       this.addModel('bld', this.buildings, m, fx(spot), fz(spot));
       // タップしたら 建物の 正面へ 歩く（足もとの 点だと 建物に めりこむ）
-      const tap = id === 'bd_house' ? DOORS.mainToHouse : id === 'bd_school' ? DOORS.mainToSchool : this.area === 'east' ? { x: spot.x, y: spot.y + (EAST_TAP[id] ?? 0.05) } : { x: spot.x, y: spot.y + 0.05 };
+      const tap = id === 'bd_house' ? DOORS.mainToHouse : id === 'bd_school' ? DOORS.mainToSchool : this.area === 'east' ? { x: spot.x, y: spot.y + (EAST_TAP[id] ?? 0.05) } : this.area === 'nov' ? { x: spot.x, y: spot.y - 0.06 } : { x: spot.x, y: spot.y + 0.05 };
       this.addHit('bld', m.obj, tap);
       bakeStatic(m.obj);
       for (const [dx, dz, r] of FOOT[id] ?? []) cols.push({ x: fx(spot) + dx, z: fz(spot) + dz, r });
+      // 11月の島は ぜんぶ むりょうで 入れる。なんの たてものか ふだを たてる
+      if (this.area === 'nov' && NOV_LABEL[id]) this.sprite('bld', signArt(NOV_LABEL[id], { size: 0.7 }), fx(spot), GRASS_H + 11.5, fz(spot) - 2, this.buildings);
     }
     this.colliders.set('bld', cols);
     this.applySky();
@@ -620,6 +624,109 @@ export class IslandEngine {
       for (let x = 0; x < 11; x += 4) bridge.add(part(boxG(0.3, 1.4, 0.3), dark, x, 1.5, bz + s * 1.8, 0.05));
     }
     this.deco.add(bridge);
+    bakeStatic(this.deco);
+  }
+
+  /** 11月の島の まわり：もみじの 木・おちば・みなとの 入り江・左の さんばしと ボート（2D の NovGround と おなじ 配置） */
+  private buildNovDeco() {
+    this.clearGroup(this.deco, 'deco');
+    const R = rng(20261126);
+    const AUTUMN = 11;   // この島は いつ きても あき
+    const clear: { x: number; z: number; r: number }[] = [];
+    for (const s of Object.values(BUILDING_SPOTS)) if (s.area === 'nov') clear.push({ x: fx(s), z: fz(s) - 3, r: 8 });
+    clear.push({ x: 82, z: 66, r: 10 }, { x: 12, z: 45, r: 9 });   // みなと・さんばしの まえ
+    const free = (x: number, z: number, r: number) => clear.every((c) => Math.hypot(x - c.x, z - c.z) > c.r + r);
+
+    const trees: TreeSpot[] = [];
+    const taken: { x: number; z: number; r: number }[] = [];
+    const put = (t: TreeSpot, r: number) => { trees.push(t); taken.push({ x: t.x, z: t.z, r }); };
+    const spaced = (x: number, z: number, r: number) => taken.every((t) => Math.hypot(x - t.x, z - t.z) > t.r + r);
+    // 2D の 大きな もみじ 4本（赤・だいだい・きいろ・こい赤）
+    const MOMIJI = [[24, 30, 0xef4444], [80, 34, 0xf97316], [16, 56, 0xfacc15], [86, 52, 0xdc2626]] as const;
+    for (const [x, z, c] of MOMIJI) put({ x, y: GRASS_H, z, kind: 'round', s: 1.25, color: c }, 5);
+    const N = 30;
+    for (let i = 0; i < N; i++) {
+      const a = (i / N) * Math.PI * 2 + 0.05;
+      const k = 0.93 + (i % 3) * 0.015;
+      const x = GROUND.cx + Math.cos(a) * GROUND.grx * k, z = GROUND.cz + Math.sin(a) * GROUND.grz * k;
+      if (!free(x, z, 3) || !spaced(x, z, 3)) continue;
+      const south = Math.sin(a) > 0.5;
+      put({ x, y: GRASS_H, z, kind: south ? 'bush' : (['round', 'round', 'pine', 'round'] as const)[i % 4], s: 0.85 + R() * 0.3 }, 3.2);
+    }
+    for (let n = 0; n < 300 && trees.length < 40; n++) {
+      const a = R() * Math.PI * 2, e = 0.4 + R() * 0.45;
+      const x = GROUND.cx + Math.cos(a) * GROUND.grx * e, z = GROUND.cz + Math.sin(a) * GROUND.grz * e;
+      if (z > 60 && Math.abs(x - 50) < 24) continue;
+      if (!free(x, z, 3.5) || !spaced(x, z, 4.5)) continue;
+      put({ x, y: GRASS_H, z, kind: R() < 0.8 ? 'round' : 'pine', s: 0.85 + R() * 0.35 }, 4);
+    }
+    for (let i = 0; i < 7; i++) {
+      const a = (i / 7) * Math.PI * 2 + 0.4;
+      const x = GROUND.cx + Math.cos(a) * GROUND.srx * 0.955, z = GROUND.cz + Math.sin(a) * GROUND.srz * 0.955;
+      if (!free(x, z, 2) || (Math.sin(a) > 0.5 && i % 2)) continue;
+      put({ x, y: groundH(x, z), z, kind: 'palm', s: 0.8 + R() * 0.25 }, 3);
+    }
+    this.addModel('deco', this.deco, forest(trees, AUTUMN), 0, 0, 0);
+    this.colliders.set('trees', trees.filter((t) => t.kind === 'round' || t.kind === 'pine').map((t) => ({ x: t.x, z: t.z, r: 1.3 * t.s })));
+
+    // くさ と おちば（赤・だいだい・きいろ）
+    const tufts: { x: number; y: number; z: number; s: number }[] = [];
+    for (let n = 0; n < 500 && tufts.length < 110; n++) {
+      const a = R() * Math.PI * 2, e = Math.sqrt(R()) * 0.95;
+      const x = GROUND.cx + Math.cos(a) * GROUND.grx * e, z = GROUND.cz + Math.sin(a) * GROUND.grz * e;
+      if (!free(x, z, 0.5)) continue;
+      tufts.push({ x, y: GRASS_H, z, s: 0.7 + R() * 0.5 });
+    }
+    this.deco.add(grassTufts(tufts, false));
+    const leafGeo = new THREE.CircleGeometry(0.6, 5).rotateX(-Math.PI / 2);
+    const leafMats = [0xdc2626, 0xf97316, 0xeab308, 0xfb923c].map((c) => toon(c));
+    for (let i = 0; i < 90; i++) {
+      const a = R() * Math.PI * 2, e = Math.sqrt(R()) * 0.92;
+      const x = GROUND.cx + Math.cos(a) * GROUND.grx * e, z = GROUND.cz + Math.sin(a) * GROUND.grz * e;
+      if (!free(x, z, 0.3)) continue;
+      const m = new THREE.Mesh(leafGeo, leafMats[i % 4]);
+      m.position.set(x, GRASS_H + 0.03, z);
+      m.rotation.y = R() * 6;
+      this.deco.add(m);
+    }
+    for (const [x, z] of [[40, 40], [62, 54], [30, 64]]) { const a = acorn(); a.position.set(x, GRASS_H, z); this.deco.add(a); }
+    for (let i = 0; i < 8; i++) {
+      const a = R() * Math.PI * 2, onSand = i % 2 === 0, k = onSand ? 0.96 : 0.9;
+      const x = GROUND.cx + Math.cos(a) * (onSand ? GROUND.srx : GROUND.grx) * k, z = GROUND.cz + Math.sin(a) * (onSand ? GROUND.srz : GROUND.grz) * k;
+      if (!free(x, z, 2) || !spaced(x, z, 2)) continue;
+      const r = rock(0.6 + R() * 0.6, onSand ? 0xd6d3d1 : 0xa8a29e);
+      r.position.set(x, groundH(x, z), z);
+      this.deco.add(r);
+    }
+
+    // みなとの 入り江（ぎょこうの まえ）。はいれない
+    const bay = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 0.12, 28), toonNew(0x7dd3fc, {}, false));
+    bay.scale.set(9.5, 1, 4.2); bay.position.set(82, GRASS_H + 0.06, 66);
+    const wave = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 0.14, 20), toonNew(0xbae6fd, {}, false));
+    wave.scale.set(2.6, 1, 0.6); wave.position.set(79, GRASS_H + 0.08, 65);
+    this.deco.add(bay, wave);
+    const boat = new THREE.Group();
+    boat.add(part(boxG(4.2, 0.9, 1.8), toon(0xffffff), 0, 0.45, 0, 0.05));
+    boat.add(part(boxG(4.4, 0.25, 2.0), toon(0x0369a1), 0, 0.95, 0, false));
+    boat.add(part(new THREE.CylinderGeometry(0.1, 0.1, 2.4, 6), toon(0x78350f), 0.2, 2.1, 0));
+    const sail = new THREE.Shape([new THREE.Vector2(0, 0), new THREE.Vector2(1.5, 0), new THREE.Vector2(0, 2.0)]);
+    boat.add(part(new THREE.ExtrudeGeometry(sail, { depth: 0.08, bevelEnabled: false }), toon(0xfde68a), 0.3, 1.1, 0, 0.04));
+    boat.position.set(85, GRASS_H + 0.1, 66.5);
+    this.deco.add(boat);
+    this.colliders.set('pond', [{ x: 75.5, z: 66, r: 3.6 }, { x: 82, z: 66, r: 4 }, { x: 88.5, z: 66, r: 3.6 }]);
+
+    // 左の さんばし（もとの しまへ）と ボート
+    const pier = new THREE.Group();
+    const deck = toon(0xb45309), dark = toon(0x78350f);
+    const pz = 45;
+    for (let x = -0.5; x < 11; x += 1.4) pier.add(part(boxG(1.2, 0.35, 3.2), deck, x, 1.0, pz, 0.05));
+    for (const x of [0, 4, 8]) for (const s of [-1, 1]) pier.add(part(new THREE.CylinderGeometry(0.25, 0.25, 2.0, 8), dark, x, 0.4, pz + s * 1.6, 0.05));
+    const row = new THREE.Group();
+    row.add(part(boxG(4.6, 0.8, 1.8), toon(0xffffff), 0, 0.4, 0, 0.05));
+    row.add(part(boxG(4.8, 0.2, 2.0), toon(0xf97316), 0, 0.85, 0, false));
+    row.position.set(3.6, 0.1, pz + 2.9);
+    pier.add(row);
+    this.deco.add(pier);
     bakeStatic(this.deco);
   }
 
@@ -960,7 +1067,7 @@ export class IslandEngine {
     if (on && !this.walkRing) {
       const E = MAIN_WALK_ELLIPSE;
       const pts: THREE.Vector3[] = [];
-      if (this.area === 'east') {
+      if (this.area !== 'main') {
         const B = BOUNDS_EAST;
         for (const [x, y] of [[B.minX, B.minY], [B.maxX, B.minY], [B.maxX, B.maxY], [B.minX, B.maxY], [B.minX, B.minY]]) pts.push(new THREE.Vector3(x * 100, GRASS_H + 0.15, y * 75));
       } else {
@@ -1327,7 +1434,7 @@ function boxCorners(b: THREE.Box3): THREE.Vector3[] {
 }
 
 // ── 海（あさい所は 水色、ふちに 白い なみ） ──
-function makeSeaMat(area: 'main' | 'east'): THREE.ShaderMaterial {
+function makeSeaMat(area: Area3D): THREE.ShaderMaterial {
   return new THREE.ShaderMaterial({
     uniforms: {
       uTime: { value: 0 },
@@ -1337,7 +1444,7 @@ function makeSeaMat(area: 'main' | 'east'): THREE.ShaderMaterial {
       uC: { value: new THREE.Vector2(GROUND.cx, GROUND.cz) },
       uR: { value: new THREE.Vector2(GROUND.srx, GROUND.srz) },
       uIslets: {
-        value: area === 'east'
+        value: area !== 'main'
           ? [new THREE.Vector4(0, 0, 0, 0), new THREE.Vector4(0, 0, 0, 0), new THREE.Vector4(0, 0, 0, 0)]
           : [
             new THREE.Vector4(fx(FOREST_ISLET), fz(FOREST_ISLET) + 1, 13.5, 9.5),
