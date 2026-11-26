@@ -30964,6 +30964,33 @@ const TEST_KEYS = {
         { label: '林業', key: 'ringyo' },
         { label: '水産業', key: 'suisan' },
       ]},
+    { key: '4ka_1214', name: '4科演習（12/14）', month: '202612',
+      covers: ['kumo1'],
+      rangeItems: [
+        { label: '角柱と円柱', key: null, category: 'sansu' },
+        { label: '速さ１', key: null, category: 'sansu' },
+        { label: '雲と雨１', key: 'kumo1' },
+        { label: '雲と雨２', key: null, category: 'rika' },
+        { label: '接続語１・２', key: null, category: 'kokugo' },
+        { label: '工業１', key: null, category: 'shakai' },
+        { label: '工業２', key: null, category: 'shakai' },
+      ]},
+    { key: 'gakuryoku12', name: '学力判定テスト', month: '202612',
+      covers: ['kumo1'],
+      rangeItems: [
+        { label: '角柱と円柱', key: null, category: 'sansu' },
+        { label: '速さ１', key: null, category: 'sansu' },
+        { label: '速さ２', key: null, category: 'sansu' },
+        { label: '日々の学習12月（No.1〜4）', key: null, category: 'sansu' },
+        { label: '雲と雨１', key: 'kumo1' },
+        { label: '雲と雨２', key: null, category: 'rika' },
+        { label: '読解問題', key: null, category: 'kokugo' },
+        { label: '接続語２・３', key: null, category: 'kokugo' },
+        { label: '漢字（p.67・68下段）', key: null, category: 'kokugo' },
+        { label: '工業１', key: null, category: 'shakai' },
+        { label: '工業２', key: null, category: 'shakai' },
+        { label: '鉱産資源', key: null, category: 'shakai' },
+      ]},
   ],
   eikoh: [
     { key: 'kiso_test', name: '基礎コンテスト' },
@@ -31040,6 +31067,8 @@ const DEFAULT_TEST_DATES = {
   '4ka_1109':    '2026-11-09',
   'gakuryoku11': '2026-11-25',
   '4ka_1130':    '2026-11-30',
+  '4ka_1214':    '2026-12-14',
+  'gakuryoku12': '2026-12-18',
 };
 // 📝 もしの しまの「れんしゅうもし」（塾のテストではない＝TEST_KEYS に入れない。クイズのテスト日程には出ない）。
 //   from〜date の あいだ もしの しまに 出る。reward＝8わりで もらえるメダル、levels＝出すレベル。tools_extract_202609.py が data/tests.json に足す

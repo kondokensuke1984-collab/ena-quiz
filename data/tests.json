@@ -118,6 +118,24 @@
    ]
   },
   {
+   "key": "4ka_1214",
+   "name": "4科演習（12/14）",
+   "month": "202612",
+   "date": "2026-12-14",
+   "covers": [
+    "kumo1"
+   ]
+  },
+  {
+   "key": "gakuryoku12",
+   "name": "学力判定テスト",
+   "month": "202612",
+   "date": "2026-12-18",
+   "covers": [
+    "kumo1"
+   ]
+  },
+  {
    "extra": true,
    "key": "sansu9moshi",
    "name": "算数9月もし",
