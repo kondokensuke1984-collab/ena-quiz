@@ -103,5 +103,40 @@
 "category": "shakai",
 "month": "202612",
 "parent": "kogyo1"
+},
+"kogyo2": {
+"label": "工業2",
+"icon": "🏗️",
+"tag": "tag-kogyo2",
+"category": "shakai",
+"month": "202612",
+"isGroup": true,
+"ref": "/kogyo2.html",
+"refLabel": "カラーページ（要点まとめ）",
+"refSub": "工業地帯と工業地域・各地の出荷額の割合・太平洋ベルト"
+},
+"kogyo2_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-kogyo2",
+"category": "shakai",
+"month": "202612",
+"parent": "kogyo2"
+},
+"kogyo2_renshu": {
+"label": "練習問題",
+"icon": "✏️",
+"tag": "tag-kogyo2",
+"category": "shakai",
+"month": "202612",
+"parent": "kogyo2"
+},
+"kogyo2_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-kogyo2",
+"category": "shakai",
+"month": "202612",
+"parent": "kogyo2"
 }
 }

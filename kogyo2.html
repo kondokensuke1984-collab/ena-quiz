@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>工業2 | 要点まとめ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>:root{--c:#b91c1c;--l:#fee2e2}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Noto Sans JP',sans-serif;background:#f1f5f9;color:#1e293b;line-height:1.8;-webkit-text-size-adjust:100%}
+.hd{background:var(--c);color:#fff;position:sticky;top:0;z-index:30;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.hd .in{max-width:960px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.hd .t{display:flex;align-items:center;gap:10px}
+.num{font-family:'M PLUS Rounded 1c',sans-serif;background:#fff;color:var(--c);font-weight:800;font-size:22px;width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+h1{font-family:'M PLUS Rounded 1c',sans-serif;font-size:20px;margin:0;letter-spacing:.04em}
+.btns{display:flex;gap:8px;align-items:center}
+.btn{border:0;cursor:pointer;font:inherit;font-size:13px;font-weight:700;border-radius:999px;padding:7px 14px;text-decoration:none;color:#1e293b;background:#fde68a}
+.btn.back{background:rgba(255,255,255,.25);color:#fff}
+.btn.on{background:#ef4444;color:#fff}
+main{max-width:960px;margin:0 auto;padding:16px 16px 64px}
+.tag{display:inline-block;background:var(--l);color:var(--c);font-weight:700;font-size:13px;border-radius:999px;padding:3px 12px;margin:4px 0 12px}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:16px 18px;margin:0 0 16px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.card h2{font-family:'M PLUS Rounded 1c',sans-serif;font-size:18px;margin:0 0 8px;color:var(--c);display:flex;align-items:center;gap:8px}
+.card h2 .n{background:var(--c);color:#fff;font-size:13px;border-radius:8px;padding:1px 8px}
+.card h3{font-size:15px;margin:14px 0 4px;color:#334155}
+.card p{margin:6px 0}
+.card ul{margin:6px 0;padding-left:1.3em}
+.card li{margin:3px 0}
+.k{font-weight:700;color:#b91c1c}
+body.red .k{background:#ef4444;color:transparent;border-radius:4px;cursor:pointer;user-select:none;transition:.15s}
+body.red .k.open{background:#fef08a;color:#991b1b}
+rt{font-size:.55em;color:#64748b;font-weight:400}
+body.red .k:not(.open) rt{color:transparent}
+.note{background:var(--l);border-radius:10px;padding:8px 12px;font-size:14px;margin:8px 0}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:8px 0}
+th,td{border:1px solid #cbd5e1;padding:4px 8px;text-align:center}
+th{background:var(--l);color:#334155}
+td.l{text-align:left}
+.low{background:#fee2e2;font-weight:700}
+.high{background:#dcfce7;font-weight:700}
+.bars{margin:8px 0}
+.bar{display:flex;align-items:center;gap:8px;margin:4px 0;font-size:14px}
+.bar .lb{width:6.5em;flex:none;text-align:right}
+.bar .tr{flex:1;background:#f1f5f9;border-radius:6px;height:20px;position:relative;overflow:hidden}
+.bar .fi{height:100%;background:var(--c);border-radius:6px}
+.bar .v{width:5.2em;flex:none;font-weight:700}
+.cap{font-size:12px;color:#64748b;margin:2px 0 8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.mini{border:1px solid #e2e8f0;border-radius:12px;padding:10px 12px;background:#f8fafc}
+.mini h3{margin:0 0 4px}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch;margin:10px 0}
+.flow .st{flex:1;min-width:120px;background:var(--l);border:2px solid var(--c);border-radius:12px;padding:8px;text-align:center;font-size:13px}
+.flow .st b{display:block;font-size:16px;color:var(--c)}
+.flow .ar{align-self:center;color:var(--c);font-weight:800}
+@media print{.btns{display:none}body{background:#fff}}
+</style>
+</head>
+<body>
+<header class="hd"><div class="in">
+  <div class="t"><span class="num">11</span><h1>工業2</h1></div>
+  <div class="btns"><button class="btn" id="rb" onclick="toggleRed()">赤シート ON</button><a class="btn back" href="/">もどる</a></div>
+</div></header>
+<main>
+<span class="tag">要点のまとめ｜工業地帯と工業地域・それぞれの特色</span>
+<section class="card"><h2><span class="n">1</span>工業地帯と工業地域</h2>
+<p>多くの工場が集まり工業が発達したところのうち、第二次世界大戦<b class="k">以前</b>に発達したところを<b class="k">工業地帯</b>、戦争の<b class="k">後</b>に発達したところを<b class="k">工業地域</b>といいます。関東から九州北部の海ぞいに帯のように続く地域を<b class="k">太平洋ベルト</b>といいます。</p>
+<table><tr><th>生産額の割合</th><th>1960年</th><th>2020年</th></tr>
+<tr><td>中京</td><td>10.8％</td><td class="high">18.0％（1位）</td></tr>
+<tr><td>阪神</td><td>20.9％</td><td>10.7％</td></tr>
+<tr><td>関東内陸</td><td>4.4％</td><td>9.6％</td></tr>
+<tr><td>瀬戸内</td><td>8.0％</td><td>9.7％</td></tr>
+<tr><td>京浜</td><td class="high">24.7％（1位）</td><td>7.6％</td></tr>
+<tr><td>東海</td><td>4.0％</td><td>5.4％</td></tr>
+<tr><td>北陸</td><td>3.9％</td><td>4.4％</td></tr>
+<tr><td>京葉</td><td>1.3％</td><td>3.9％</td></tr>
+<tr><td>北九州</td><td>4.1％</td><td class="low">3.0％</td></tr></table>
+<p class="cap">全国計：1960年 約15兆6000億円 → 2020年 約303兆5547億円。2023年版「日本のすがた」より。</p>
+</section>
+<section class="card"><h2><span class="n">2</span>工業地帯（三大工業地帯と北九州）</h2>
+<table><tr><th>名前</th><th>位置</th><th>特色（2020年）</th></tr>
+<tr><td><b class="k">中京</b></td><td class="l">愛知県・三重県・岐阜県南部</td><td class="l">全国の約18％で<b class="k">日本一</b>。<b class="k">豊田市</b>の自動車工業を中心に<b class="k">機械が約7割</b>（68.1％）。四日市市に石油化学コンビナート。</td></tr>
+<tr><td><b class="k">阪神</b></td><td class="l">大阪府・兵庫県の沿岸部〜和歌山県北部</td><td class="l">全国の約10％。<b class="k">戦前は日本一</b>。<b class="k">金属の割合が高い</b>（19.0％）。堺市・神戸市で重化学工業、内陸で電気機器。<b class="k">中小工場</b>が多い。</td></tr>
+<tr><td><b class="k">京浜</b></td><td class="l">東京都・神奈川県</td><td class="l"><b class="k">1990年代半ばまで日本一</b>、今は8％足らず。川崎市に鉄鋼業・石油化学の大工場。東京は<b class="k">印刷業</b>がさかん。</td></tr>
+<tr><td><b class="k">北九州</b>（地域）</td><td class="l">福岡県北九州市を中心</td><td class="l">全国の約3％と<b class="k">いちばん小さい</b>。自動車工場が進出し機械の割合が高くなった。<b class="k">食料品</b>の割合が高い（17.0％）。</td></tr></table>
+</section>
+<section class="card"><h2><span class="n">3</span>おもな工業地域</h2>
+<table><tr><th>名前</th><th>位置</th><th>特色</th></tr>
+<tr><td><b class="k">関東内陸</b></td><td class="l">埼玉県・栃木県・群馬県</td><td class="l">京浜の工場用地不足で内陸へ。1990年代以降、<b class="k">高速道路</b>の整備とともに<b class="k">自動車</b>・電気機器・電子工業が発達。北関東工業地域ともいう。</td></tr>
+<tr><td><b class="k">京葉</b></td><td class="l">千葉県の東京湾沿岸</td><td class="l">埋め立て地に製鉄所や<b class="k">石油化学コンビナート</b>。<b class="k">化学の割合が最大</b>（40.2％）、金属も高い。市原市のコンビナートは規模が大きい。</td></tr>
+<tr><td><b class="k">東海</b></td><td class="l">静岡県の太平洋側</td><td class="l">京浜と中京の間。東名高速道路・東海道新幹線で交通の便がよく、水力発電の電力・工業用水にめぐまれる。<b class="k">紙・パルプ</b>（5.0％）。</td></tr>
+<tr><td><b class="k">瀬戸内</b></td><td class="l">岡山・広島・山口・香川・愛媛の瀬戸内海沿岸</td><td class="l">戦後、埋め立て地や軍用地・塩田のあと地に重化学工業の大工場。<b class="k">化学</b>の割合が高い。倉敷市に<b class="k">水島コンビナート</b>。</td></tr>
+<tr><td><b class="k">北海道</b></td><td class="l">北海道</td><td class="l"><b class="k">食料品工業</b>がさかん。</td></tr>
+<tr><td><b class="k">北陸</b></td><td class="l">新潟・富山・石川・福井</td><td class="l"><b class="k">伝統的工芸品づくり（地場産業）</b>から発展。</td></tr>
+<tr><td><b class="k">鹿島臨海</b></td><td class="l">茨城県</td><td class="l">Y字型の<b class="k">掘り込み港</b>（砂浜を掘ってつくった港）をもつ。</td></tr></table>
+</section>
+<section class="card"><h2><span class="n">4</span>グラフの見分け方（2020年の出荷額の割合）</h2>
+<table><tr><th>見つける手がかり</th><th>答え</th></tr>
+<tr><td class="l">機械が約7割（68.1％）・総出荷額いちばん（54兆円）</td><td>中京</td></tr>
+<tr><td class="l">金属が多い（19.0％）・総出荷額2番目（32兆円）</td><td>阪神</td></tr>
+<tr><td class="l"><b>印刷業</b>がある</td><td>京浜</td></tr>
+<tr><td class="l">総出荷額がいちばん小さい（約9兆円）・食料品が多い</td><td>北九州</td></tr>
+<tr><td class="l"><b>化学</b>が40％・機械が少ない</td><td>京葉</td></tr>
+<tr><td class="l"><b>紙・パルプ</b>がある</td><td>東海</td></tr>
+<tr><td class="l"><b>プラスチック製品</b>がある・機械42％</td><td>関東内陸</td></tr>
+<tr><td class="l">化学20％・金属18％で機械が少なめ</td><td>瀬戸内</td></tr></table>
+</section>
+
+</main>
+<script>
+var red=false;
+function toggleRed(){red=!red;document.body.classList.toggle('red',red);
+ var b=document.getElementById('rb');b.classList.toggle('on',red);b.textContent=red?'赤シート OFF':'赤シート ON';
+ if(!red)document.querySelectorAll('.k.open').forEach(function(e){e.classList.remove('open')});}
+document.addEventListener('click',function(e){var t=e.target.closest('.k');if(t&&red)t.classList.toggle('open');});
+</script>
+</body>
+</html>
