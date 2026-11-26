@@ -24,6 +24,7 @@ import { isNearFull, moonAge, moonName } from '../lib/sky';
 import { LUNA, mk as mkLetter } from '../lib/letters';
 import { CASES, DETECTIVE_REWARDS, DETECTIVE_TITLE } from '../lib/detective';
 import { HARVEST_GOAL, HARVEST_REWARDS, HARVEST_TITLE, OFFER_PER_DAY, QUIZ_PER_DAY } from '../lib/harvest';
+import { KOJO_GOAL, KOJO_REWARDS, KOJO_TITLE, QUIZ_PER_DAY as KOJO_QUIZ, WORK_PER_DAY } from '../lib/kojo';
 import { seasonNow } from '../lib/items';
 import { allDone, STREAK_BONUS_EVERY } from '../lib/wishes';
 import { GIFT_PER_DAY, XMAS_GOAL, XMAS_REWARDS, XMAS_TITLE } from '../lib/xmas';
@@ -132,6 +133,14 @@ function withHarvest(s: SaveV1, r: { rewards: string[]; title: string | null }):
   };
 }
 
+export interface KojoGot { got: number; pts: number; rewards: string[]; title: string | null }
+/** ぶひんが before → after に なったときに もらえる おもちゃと しょうごう */
+function kojoGains(s: SaveV1, before: number, after: number): { rewards: string[]; title: string | null } {
+  const rewards = KOJO_REWARDS.filter((r) => before < r.at && after >= r.at && !s.owned.includes(r.item)).map((r) => r.item);
+  const title = before < KOJO_GOAL && after >= KOJO_GOAL && !s.titles.includes(KOJO_TITLE) ? KOJO_TITLE : null;
+  return { rewards, title };
+}
+
 export interface XmasGot { pts: number; rewards: string[]; title: string | null }
 
 /** クリスマスの かざりが before → after に なったときに もらえる ごほうびと しょうごう */
@@ -197,6 +206,10 @@ export interface GameApi {
   xmasGift(day: string, itemId: string): XmasGot | null;
   /** しゅうかくさい：はたけの ものを 1こ おそなえ（みのり +1）。できないときは null */
   harvestOffer(day: string, itemId: string): HarvestGot | null;
+  /** おもちゃこうじょう：まめクイズに こたえた。もう こたえた 問題なら null */
+  kojoAnswer(day: string, qid: string, correct: boolean, gain: number): KojoGot | null;
+  /** おもちゃこうじょう：きょうの しごと（単元クリアの 教科ぶん ぶひん。1日1かい） */
+  kojoWork(day: string, n: number): KojoGot | null;
   /** オルガンの れんしゅうで 1きょく ひけた。はじめての曲なら true、ぜんぶ そろったら title も */
   markSongPlayed(id: string): { first: boolean; title: string | null };
   /** けんびきょう：きょう あと何回 ずかんに のせられるか */
@@ -679,6 +692,36 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       });
       sfx(r.rewards.length || r.title ? 'reveal' : correct ? 'clue' : 'ng');
       return { got, pts: h0.pts + got, ...r };
+    },
+
+    kojoAnswer: (day, qid, correct, gain) => {
+      const cur = saveRef.current;
+      const k0 = cur.kojo.day === day ? cur.kojo : { ...cur.kojo, day, quiz: {}, worked: 0 };
+      if (qid in k0.quiz || Object.keys(k0.quiz).length >= KOJO_QUIZ) return null;
+      const got = correct ? gain : 0;
+      const r = kojoGains(cur, k0.pts, k0.pts + got);
+      setSave((s) => {
+        const k = s.kojo.day === day ? s.kojo : { ...s.kojo, day, quiz: {}, worked: 0 };
+        if (qid in k.quiz) return s;
+        return withHarvest({ ...s, kojo: { ...k, pts: k.pts + got, quiz: { ...k.quiz, [qid]: correct } } }, r);
+      });
+      sfx(r.rewards.length || r.title ? 'reveal' : correct ? 'clue' : 'ng');
+      return { got, pts: k0.pts + got, ...r };
+    },
+
+    kojoWork: (day, n) => {
+      const cur = saveRef.current;
+      const k0 = cur.kojo.day === day ? cur.kojo : { ...cur.kojo, day, quiz: {}, worked: 0 };
+      const got = Math.min(WORK_PER_DAY, Math.max(0, n | 0));
+      if (k0.worked > 0 || got < 1) return null;
+      const r = kojoGains(cur, k0.pts, k0.pts + got);
+      setSave((s) => {
+        const k = s.kojo.day === day ? s.kojo : { ...s.kojo, day, quiz: {}, worked: 0 };
+        if (k.worked > 0) return s;
+        return withHarvest({ ...s, kojo: { ...k, pts: k.pts + got, worked: got } }, r);
+      });
+      sfx(r.rewards.length || r.title ? 'reveal' : 'gift');
+      return { got, pts: k0.pts + got, ...r };
     },
 
     harvestOffer: (day, itemId) => {

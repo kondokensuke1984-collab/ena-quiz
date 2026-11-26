@@ -52,6 +52,8 @@ import { xmasActive, xmasDay, xmasPhase, XMAS_GOAL } from '../lib/xmas';
 import { WishModal } from '../components/WishModal';
 import { allDone as allWishesDone } from '../lib/wishes';
 import { HarvestModal } from '../components/HarvestModal';
+import { KojoModal } from '../components/KojoModal';
+import { kojoActive, KOJO_GOAL, studiedOnDay as kojoStudied } from '../lib/kojo';
 import { harvestActive, HARVEST_GOAL, studiedOnDay } from '../lib/harvest';
 import { MoonViewModal } from '../components/MoonViewModal';
 import { YakiimoModal } from '../components/YakiimoModal';
@@ -173,7 +175,7 @@ function todayKey(): string {
 }
 
 type ModalKind =
-  | 'feed' | 'roster' | 'stamp' | 'mail' | 'fish' | 'farm' | 'stars' | 'detective' | 'harvest' | 'moonView'
+  | 'feed' | 'roster' | 'stamp' | 'mail' | 'fish' | 'farm' | 'stars' | 'detective' | 'harvest' | 'kojo' | 'moonView'
   | 'imo' | 'arbor' | 'spaceGo' | 'spaceDex' | 'library' | 'desk' | 'organ' | 'micro' | 'transfer' | 'board' | 'opening' | 'iken' | 'forestry' | 'zukei' | 'tane' | 'suisan' | 'suisanVoyage' | 'dex' | 'wish' | 'xmas' | 'xtree' | 'snowhut';
 
 /** むきと あしだけ かわる しゅじんこう（島の 画面ぜんぶを かきなおさない） */
@@ -248,6 +250,8 @@ export function IslandScreen() {
   // しゅうかくさい：きょう クイズ5もん やったのに まめクイズが まだ
   const xmasNew = xmasActive() && studiedOnDay() && !(save.xmas.day === xmasDay() && save.xmas.hung);
   const harvestNew = harvestActive() && studiedOnDay() && save.harvest.day !== dateKey(eventToday());
+  // おもちゃこうじょう：きょう クイズ5もん やったのに まめクイズが まだ
+  const kojoNew = kojoActive() && kojoStudied() && save.kojo.day !== dateKey(eventToday());
   // 夜空の 星を うごかす（1分ごと）
   const [skyMin, setSkyMin] = useState(0);
   useEffect(() => {
@@ -444,6 +448,7 @@ export function IslandScreen() {
       birthday: isBirthday(),
       birthdayGift: isBirthdayOf(cur.player) ? BIRTHDAY_GIFT : undefined,
       harvest: harvestActive(),
+      kojo: kojoActive(),
       detectiveOpen: openCases,
       moshiOpen: moshis.map((m) => ({ key: m.test.key, name: m.test.name, diff: m.diff, extra: !!m.test.extra, rewards: moshiRewards(m.test).map((r) => r.reward) })),
       currentMonth: snap.currentMonth,
@@ -1665,6 +1670,21 @@ export function IslandScreen() {
         </button>
       )}
 
+      {/* ── イベント：サンタの おもちゃこうじょう ── */}
+      {kojoActive() && (
+        <button
+          className="mb-2.5 flex w-full items-center gap-2 rounded-2xl bg-gradient-to-r from-[#166534] to-[#b91c1c] px-3 py-2 text-left shadow active:scale-[0.98] lg:landscape:col-start-2"
+          onClick={() => { sfx('gift'); setModal('kojo'); }}
+        >
+          <span className={`text-xl ${kojoNew ? 'dt-new' : ''}`}>🎅</span>
+          <span className="min-w-0 flex-1 truncate text-[13.5px] font-black text-white">
+            <span className="mr-1.5 text-[10.5px] text-yellow-200">イベント</span>おもちゃこうじょう
+          </span>
+          <span className="text-[12px] font-black text-amber-50">⚙️{Math.min(save.kojo.pts, KOJO_GOAL)}/{KOJO_GOAL}</span>
+          {kojoNew && <span className="rounded-full bg-rose-500 px-2 py-0.5 text-[10px] font-black text-white">NEW</span>}
+        </button>
+      )}
+
       {/* ── イベント：あきの しゅうかくさい ── */}
       {harvestActive() && (
         <button
@@ -2079,6 +2099,7 @@ export function IslandScreen() {
       {modal === 'snowhut' && <SnowHutModal friends={imoCustomers} onClose={() => setModal(null)} />}
       {modal === 'wish' && <WishModal onClose={() => setModal(null)} />}
       {modal === 'harvest' && <HarvestModal onClose={() => setModal(null)} />}
+      {modal === 'kojo' && <KojoModal onClose={() => setModal(null)} />}
       {modal === 'moonView' && <MoonViewModal onClose={() => setModal(null)} />}
       {modal === 'imo' && <YakiimoModal customers={imoCustomers} onClose={() => setModal(null)} />}
       {modal === 'forestry' && <ForestryModal onClose={() => setModal(null)} />}

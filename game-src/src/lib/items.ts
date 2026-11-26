@@ -232,6 +232,10 @@ export const ITEMS: Item[] = [
   { id: 'fn_inamura', kind: 'furniture', name: 'いなむら',           emoji: '🌾', price: 0, desc: 'みのりを 10こ あつめた ごほうび',  once: true, reward: true },
   { id: 'fn_mikoshi', kind: 'furniture', name: 'しゅうかくの おみこし', emoji: '🏮', price: 0, desc: 'みのりを 20こ あつめた ごほうび',  once: true, reward: true },
   { id: 'fn_yagura',  kind: 'furniture', name: 'おまつりの やぐら',   emoji: '🥁', price: 0, desc: 'みのりを 30こ あつめた ごほうび',  once: true, reward: true },
+  // ── サンタの おもちゃこうじょうの ごほうび ──
+  { id: 'fn_toybox',     kind: 'furniture', name: 'おもちゃばこ',         emoji: '🧸', price: 0, desc: 'ぶひんを 10こ あつめた ごほうび', once: true, reward: true },
+  { id: 'fn_toytrain',   kind: 'furniture', name: 'おもちゃの きしゃ',    emoji: '🚂', price: 0, desc: 'ぶひんを 20こ あつめた ごほうび', once: true, reward: true },
+  { id: 'fn_toyfactory', kind: 'furniture', name: 'サンタの こうじょう',  emoji: '🏭', price: 0, desc: 'ぶひんを 30こ あつめた ごほうび', once: true, reward: true },
   { id: 'ht_detective', kind: 'hat',       name: 'めいたんていの ぼうし', emoji: '🕵️', price: 0, desc: 'じけんを ぜんぶ かいけつした ごほうび', once: true, reward: true },
   // ── しょくぶつ ずかんの ごほうび ──
   { id: 'fn_planter',    kind: 'furniture', name: 'うえきばち だな', emoji: '🪴', price: 0, desc: 'しょくぶつを 5しゅるい しゅうかくした ごほうび',  once: true, reward: true, anywhere: true },

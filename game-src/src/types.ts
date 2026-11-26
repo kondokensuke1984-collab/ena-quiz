@@ -73,6 +73,7 @@ export interface LetterMarks {
   month?: string;                   // 最後に見た「しゅやくの 月」（YYYYMM）。かわったら ひっこしの手紙
   detective?: number[];             // 名探偵あんり：ひらいたと 手紙で しらせた じけん
   harvest?: string;                 // しゅうかくさい：はじまりの 手紙を 出した 年
+  kojo?: string;                    // おもちゃこうじょう：はじまりの 手紙を 出した 年
   moshi?: string[];                 // もしの しま：うかんだと 手紙で しらせた テスト（TEST_KEYS の key）
   news?: string[];                  // 1かいだけの おしらせ（NEWS の id）
 }
@@ -123,6 +124,7 @@ export interface SaveV1 {
   xmas: { pts: number; day: string; hung: boolean; gifted: number; wish?: string; wishAt?: number };  // クリスマス：ツリーの かざりの かず・その日 かざりつけした か・その日 サンタに わたした プレゼントの数
   wishes: { day: string; claimed: boolean; streak: number; last: string };  // 毎日の おねがいボード：きょうの ごほうびを もらった日・つづけた日数・さいごに もらった日
   novels: Record<string, { ep: number; pos: number; done: number[] }>;  // としょかんの よみもの：本ID → しおり（話・スクロール）・クイズまで おわった話
+  kojo: { pts: number; day: string; quiz: Record<string, boolean>; worked: number };  // おもちゃこうじょう：あつめた ぶひん・その日の まめクイズ・その日 しごとで もらった ぶひん
   harvest: { pts: number; day: string; quiz: Record<string, boolean>; offered: number };  // しゅうかくさい：あつめた みのり・その日の まめクイズ（問題ID→せいかい）・その日 おそなえした数  // なかまの おしゃべり：その日 はなした子（なかよし+1は 1日1回）・きょうの おねがい・かなえたか
 }
 

@@ -67,6 +67,7 @@ export function freshSave(now = Date.now()): SaveV1 {
     wishes: { day: '', claimed: false, streak: 0, last: '' },
     xmas: { pts: 0, day: '', hung: false, gifted: 0 },
     harvest: { pts: 0, day: '', quiz: {}, offered: 0 },
+    kojo: { pts: 0, day: '', quiz: {}, worked: 0 },
     novels: {},
   };
 }
@@ -131,6 +132,12 @@ export function loadSave(): SaveV1 {
       hint: obj(s.detective?.hint, {}),
     },
     novels: obj(s.novels, {}),
+    kojo: {
+      pts: typeof s.kojo?.pts === 'number' ? s.kojo.pts : 0,
+      day: typeof s.kojo?.day === 'string' ? s.kojo.day : '',
+      quiz: obj(s.kojo?.quiz, {}),
+      worked: typeof s.kojo?.worked === 'number' ? s.kojo.worked : 0,
+    },
     harvest: {
       pts: typeof s.harvest?.pts === 'number' ? s.harvest.pts : 0,
       day: typeof s.harvest?.day === 'string' ? s.harvest.day : '',

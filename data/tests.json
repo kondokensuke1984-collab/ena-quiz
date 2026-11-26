@@ -409,6 +409,85 @@
   },
   {
    "extra": true,
+   "key": "4ka1214moshi",
+   "name": "4科演習もし（理科・社会）",
+   "month": "202612",
+   "from": "2026-12-11",
+   "date": "2026-12-14",
+   "covers": [
+    "kumo1",
+    "kumo2",
+    "kogyo1",
+    "kogyo2"
+   ],
+   "levels": [
+    "kako"
+   ],
+   "perCat": 10,
+   "kakoMax": 2,
+   "balance": true,
+   "limitMin": 40,
+   "once": true,
+   "tiers": [
+    [
+     95,
+     1000
+    ],
+    [
+     90,
+     500
+    ],
+    [
+     80,
+     100
+    ]
+   ],
+   "icon": "🏆",
+   "bg": "linear-gradient(135deg,#16a34a,#dc2626)",
+   "note": "12/14の 4科演習の はんい・かこもん いり"
+  },
+  {
+   "extra": true,
+   "key": "gaku1218moshi",
+   "name": "学力判定もし（理科・社会）",
+   "month": "202612",
+   "from": "2026-12-15",
+   "date": "2026-12-18",
+   "covers": [
+    "kumo1",
+    "kumo2",
+    "kogyo1",
+    "kogyo2",
+    "kosan"
+   ],
+   "levels": [
+    "kako"
+   ],
+   "perCat": 10,
+   "kakoMax": 2,
+   "balance": true,
+   "limitMin": 40,
+   "once": true,
+   "tiers": [
+    [
+     95,
+     1000
+    ],
+    [
+     90,
+     500
+    ],
+    [
+     80,
+     100
+    ]
+   ],
+   "icon": "🎄",
+   "bg": "linear-gradient(135deg,#166534,#b91c1c)",
+   "note": "12/18の 学力判定の はんい・かこもん いり"
+  },
+  {
+   "extra": true,
    "key": "kifuyu10moshi",
    "name": "基礎コン冬もし",
    "month": "eikoh_202611",

@@ -32,6 +32,7 @@ export interface LetterInput {
   birthday?: boolean;       // おたんじょうびの 日
   birthdayGift?: string;    // おたんじょうびの 子に とどける 家具（その子のときだけ）
   harvest?: boolean;        // しゅうかくさいの きかん
+  kojo?: boolean;           // おもちゃこうじょうの きかん
   detectiveOpen?: number[]; // 名探偵あんり：いま ひらいている じけん
   moshiOpen?: { key: string; name: string; diff: number; extra?: boolean; rewards?: number[] }[]; // もしの しま：いま うかんでいる もし（近い順）
   currentMonth?: string;    // いまの しゅやくの 月（YYYYMM）
@@ -89,6 +90,7 @@ export function buildLetters(marks: LetterMarks, x: LetterInput): LetterResult {
     halloween: marks.halloween,
     birthday: marks.birthday,
     harvest: marks.harvest,
+    kojo: marks.kojo,
     month: marks.month,
     detective: marks.detective,
     moshi: marks.moshi,
@@ -223,6 +225,18 @@ ${names(olds)}と とった しゃしんを おくるよ。
 🌾30で しょうごう「しゅうかく めいじん」！ 11がつ23にちは 🌾が 2ばいだよ。
 ルナより`));
     next.harvest = year;
+  }
+
+  // おもちゃこうじょう：きかんに はじめて島を ひらいたとき（1年に1回）
+  if (x.kojo && next.kojo !== year) {
+    out.push(mk(LUNA.from, LUNA.fromName, '🎅 サンタの おもちゃこうじょうが ひらいたよ！',
+      `${to}12がつ24にちまで、サンタさんの おもちゃづくりを てつだってね。
+クイズを 5もん やった日は「まめクイズ」（雲と雨・工業・鉱産資源）で ぶひん⚙️を あつめよう。
+クイズで 単元を クリアした日は「こうじょうの しごと」で ⚙️が もっと ふえるよ。
+⚙️10で おもちゃばこ、20で きしゃ、30で しょうごう「おもちゃ しょくにん」！
+テストの まえの日（12がつ13にち・17にち）は ⚙️が 2ばいだよ。
+ルナより`));
+    next.kojo = year;
   }
 
   // 名探偵あんり：あたらしい じけんが ひらいたら（1じけん 1かい）

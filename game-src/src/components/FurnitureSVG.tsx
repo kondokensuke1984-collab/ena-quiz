@@ -225,6 +225,51 @@ const DRAWINGS: Record<string, Draw> = {
     </g>
   ),
 
+  // ── サンタの おもちゃこうじょうの ごほうび ──
+  fn_toybox: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="22" ry="5" fill="rgba(0,0,0,0.2)" />
+      <rect x="-20" y="-22" width="40" height="22" rx="2" fill="#dc2626" {...S} />
+      <rect x="-20" y="-22" width="40" height="5" fill="#16a34a" {...S} strokeWidth={1.2} />
+      <path d="M-4 -22 v22 M4 -22 v22" stroke="#fde047" strokeWidth="2" />
+      <circle cx="-8" cy="-30" r="6" fill="#b45309" {...S} strokeWidth={1.2} />
+      <circle cx="-12" cy="-35" r="2.4" fill="#b45309" {...S} strokeWidth={1} />
+      <circle cx="-4" cy="-35" r="2.4" fill="#b45309" {...S} strokeWidth={1} />
+      <circle cx="-10" cy="-31" r="0.9" fill="#111" /><circle cx="-6" cy="-31" r="0.9" fill="#111" />
+      <rect x="4" y="-36" width="10" height="14" rx="1" fill="#3b82f6" {...S} strokeWidth={1.2} transform="rotate(12 9 -29)" />
+      <circle cx="9" cy="-29" r="2" fill="#fde047" transform="rotate(12 9 -29)" />
+    </g>
+  ),
+  fn_toytrain: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="30" ry="5" fill="rgba(0,0,0,0.2)" />
+      <path d="M-30 0 h60" stroke="#78350f" strokeWidth="2" />
+      <rect x="-26" y="-18" width="22" height="13" rx="2" fill="#16a34a" {...S} />
+      <rect x="-2" y="-22" width="16" height="17" rx="2" fill="#dc2626" {...S} />
+      <rect x="2" y="-19" width="8" height="6" fill="#fef9c3" {...S} strokeWidth={1} />
+      <rect x="14" y="-14" width="12" height="9" rx="2" fill="#dc2626" {...S} />
+      <rect x="18" y="-24" width="5" height="10" fill="#1f2937" {...S} strokeWidth={1.2} />
+      <circle cx="21" cy="-30" r="3" fill="#e5e7eb" /><circle cx="25" cy="-35" r="2.4" fill="#f3f4f6" />
+      {[-21, -9, 3, 20].map((x) => <circle key={x} cx={x} cy="-4" r="4" fill="#1f2937" stroke="#fde047" strokeWidth="1.4" />)}
+      <path d="M-24 -18 l6 -6 l6 6" fill="#fde047" {...S} strokeWidth={1} />
+    </g>
+  ),
+  fn_toyfactory: () => (
+    <g>
+      <ellipse cx="0" cy="2" rx="32" ry="5" fill="rgba(0,0,0,0.2)" />
+      <path d="M-28 0 V-24 L-18 -32 V-24 L-8 -32 V-24 L2 -32 V-24 H28 V0 Z" fill="#b91c1c" {...S} />
+      <rect x="14" y="-48" width="8" height="24" fill="#57534e" {...S} />
+      <circle cx="18" cy="-54" r="4" fill="#f3f4f6" /><circle cx="23" cy="-60" r="3" fill="#f9fafb" />
+      <rect x="-22" y="-16" width="8" height="8" fill="#fde047" {...S} strokeWidth={1} />
+      <rect x="-8" y="-16" width="8" height="8" fill="#fde047" {...S} strokeWidth={1} />
+      <rect x="8" y="-14" width="10" height="14" fill="#166534" {...S} strokeWidth={1.2} />
+      <path d="M-28 -24 H28" stroke="#fef9c3" strokeWidth="2" strokeDasharray="3 2" />
+      <circle cx="0" cy="-40" r="6" fill="#94a3b8" stroke="#334155" strokeWidth="1.4" strokeDasharray="2.2 1.6" />
+      <circle cx="0" cy="-40" r="2" fill="#e2e8f0" />
+      <path d="M-26 -36 l3 -6 l3 6 l-6 -3.5 h6 z" fill="#fde047" />
+    </g>
+  ),
+
   // ── あきの しゅうかくさいの ごほうび ──
   fn_inamura: () => (
     <g>

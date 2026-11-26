@@ -82,7 +82,8 @@ export function anriMustActive(player: PlayerKey | null | undefined, now = new D
 
 /** 🔒 あんりの 島の入口（くわえる条件）：この月の 苦手・超苦手が あるなら、クイズの「苦手問題を復習」を ぜんぶ やって 8わり いじょう。
  *  できた日は クイズが ena_weak_gate_v1 に { day, month, pct } を書く（島は 読むだけ）。クイズの ANRI_WEAK_MONTH と おなじ月にする */
-export const ANRI_WEAK_MONTH = '202611';
+// 12/1 からは 12月の はんい（クイズ index.html の ANRI_WEAK_MONTH と そろえる）
+export const ANRI_WEAK_MONTH = (Date.now() >= new Date(2026, 11, 1).getTime()) ? '202612' : '202611';
 export const WEAK_PCT = 80;
 
 export interface WeakGate { locked: boolean; weak: number; wrong?: number; superWrong?: number; record?: string }
