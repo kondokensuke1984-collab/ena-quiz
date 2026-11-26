@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>鉱産資源 | 要点まとめ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>:root{--c:#57534e;--l:#e7e5e4}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Noto Sans JP',sans-serif;background:#f1f5f9;color:#1e293b;line-height:1.8;-webkit-text-size-adjust:100%}
+.hd{background:var(--c);color:#fff;position:sticky;top:0;z-index:30;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.hd .in{max-width:960px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.hd .t{display:flex;align-items:center;gap:10px}
+.num{font-family:'M PLUS Rounded 1c',sans-serif;background:#fff;color:var(--c);font-weight:800;font-size:22px;width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+h1{font-family:'M PLUS Rounded 1c',sans-serif;font-size:20px;margin:0;letter-spacing:.04em}
+.btns{display:flex;gap:8px;align-items:center}
+.btn{border:0;cursor:pointer;font:inherit;font-size:13px;font-weight:700;border-radius:999px;padding:7px 14px;text-decoration:none;color:#1e293b;background:#fde68a}
+.btn.back{background:rgba(255,255,255,.25);color:#fff}
+.btn.on{background:#ef4444;color:#fff}
+main{max-width:960px;margin:0 auto;padding:16px 16px 64px}
+.tag{display:inline-block;background:var(--l);color:var(--c);font-weight:700;font-size:13px;border-radius:999px;padding:3px 12px;margin:4px 0 12px}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:16px 18px;margin:0 0 16px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.card h2{font-family:'M PLUS Rounded 1c',sans-serif;font-size:18px;margin:0 0 8px;color:var(--c);display:flex;align-items:center;gap:8px}
+.card h2 .n{background:var(--c);color:#fff;font-size:13px;border-radius:8px;padding:1px 8px}
+.card h3{font-size:15px;margin:14px 0 4px;color:#334155}
+.card p{margin:6px 0}
+.card ul{margin:6px 0;padding-left:1.3em}
+.card li{margin:3px 0}
+.k{font-weight:700;color:#b91c1c}
+body.red .k{background:#ef4444;color:transparent;border-radius:4px;cursor:pointer;user-select:none;transition:.15s}
+body.red .k.open{background:#fef08a;color:#991b1b}
+rt{font-size:.55em;color:#64748b;font-weight:400}
+body.red .k:not(.open) rt{color:transparent}
+.note{background:var(--l);border-radius:10px;padding:8px 12px;font-size:14px;margin:8px 0}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:8px 0}
+th,td{border:1px solid #cbd5e1;padding:4px 8px;text-align:center}
+th{background:var(--l);color:#334155}
+td.l{text-align:left}
+.low{background:#fee2e2;font-weight:700}
+.high{background:#dcfce7;font-weight:700}
+.bars{margin:8px 0}
+.bar{display:flex;align-items:center;gap:8px;margin:4px 0;font-size:14px}
+.bar .lb{width:6.5em;flex:none;text-align:right}
+.bar .tr{flex:1;background:#f1f5f9;border-radius:6px;height:20px;position:relative;overflow:hidden}
+.bar .fi{height:100%;background:var(--c);border-radius:6px}
+.bar .v{width:5.2em;flex:none;font-weight:700}
+.cap{font-size:12px;color:#64748b;margin:2px 0 8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.mini{border:1px solid #e2e8f0;border-radius:12px;padding:10px 12px;background:#f8fafc}
+.mini h3{margin:0 0 4px}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch;margin:10px 0}
+.flow .st{flex:1;min-width:120px;background:var(--l);border:2px solid var(--c);border-radius:12px;padding:8px;text-align:center;font-size:13px}
+.flow .st b{display:block;font-size:16px;color:var(--c)}
+.flow .ar{align-self:center;color:var(--c);font-weight:800}
+@media print{.btns{display:none}body{background:#fff}}
+</style>
+</head>
+<body>
+<header class="hd"><div class="in">
+  <div class="t"><span class="num">12</span><h1>鉱産資源</h1></div>
+  <div class="btns"><button class="btn" id="rb" onclick="toggleRed()">赤シート ON</button><a class="btn back" href="/">もどる</a></div>
+</div></header>
+<main>
+<span class="tag">要点のまとめ｜鉱産資源の種類・輸入先・都市鉱山</span>
+<section class="card"><h2><span class="n">1</span>鉱産資源とは？</h2>
+<p>地下に埋蔵されていて、エネルギーや製品の原料など社会的に利用される鉱物や岩石を<b class="k">鉱産資源</b>といいます。かつて日本は資源の種類が豊富でしたが、掘りつくされたり、外国から質のよいものが安く輸入できるようになったりしたため、今は多くを<b class="k">輸入</b>にたよっています。</p>
+<table><tr><th>資源</th><th>輸入の割合（2021年）</th></tr>
+<tr><td>天然ガス</td><td>97.8％</td></tr><tr><td>原油</td><td>99.7％</td></tr><tr><td>石炭</td><td>99.6％</td></tr>
+<tr><td>鉄鉱石・銅・鉛・ボーキサイト</td><td>100％</td></tr><tr><td><b class="k">石灰石</b></td><td class="high">0％（国内で100％とれる）</td></tr></table>
+</section>
+<section class="card"><h2><span class="n">2</span>鉱産資源の種類</h2>
+<table><tr><th>資源</th><th>使い道・ポイント</th></tr>
+<tr><td><b class="k">石炭</b></td><td class="l">「<b class="k">黒いダイヤ</b>」。18世紀イギリスの<b class="k">産業革命</b>以来エネルギーの中心。1960年代の<b class="k">エネルギー革命</b>で石油に中心をうばわれたが、1973年の<b class="k">オイルショック（石油危機）</b>のあと再び使われた。今は<b class="k">二酸化炭素</b>を多く出すので使用をひかえる。<b class="k">火力発電</b>・鉄鋼の生産に使う。</td></tr>
+<tr><td><b class="k">石油</b></td><td class="l">掘り出したままの油が<b class="k">原油</b>。精製してガソリン・ナフサなどにする。多くが原油のまま<b class="k">タンカー</b>で運ばれる。</td></tr>
+<tr><td><b class="k">天然ガス</b></td><td class="l">燃やしても二酸化炭素をあまり出さない。<b class="k">−162℃</b>に冷やして液体にした<b class="k">液化天然ガス（LNG）</b>で輸入（体積は600分の1）。</td></tr>
+<tr><td><b class="k">鉄鉱石</b></td><td class="l">鉄鋼の原料。</td></tr>
+<tr><td><b class="k">ウラン</b></td><td class="l">プルトニウム・トリウムなどとともに<b class="k">原子力発電</b>の燃料。</td></tr>
+<tr><td><b class="k">ボーキサイト</b></td><td class="l"><b class="k">アルミニウム</b>の原料（多くの電力を使ってつくる）。</td></tr>
+<tr><td><b class="k">石灰石</b></td><td class="l"><b class="k">セメント</b>や鉄鋼の原料。<b class="k">100％自給</b>。</td></tr>
+<tr><td><b class="k">銅鉱</b></td><td class="l">銅線や硬貨の原料。</td></tr>
+<tr><td><b class="k">シェールガス・シェールオイル</b></td><td class="l"><b class="k">頁岩（シェール）</b>という岩石の層からとれる天然ガス・石油。おもに<b class="k">アメリカ</b>・<b class="k">カナダ</b>で採掘。</td></tr></table>
+</section>
+<section class="card"><h2><span class="n">3</span>おもな輸入先</h2>
+<table><tr><th>資源</th><th>1位</th><th>2位</th><th>3位</th></tr>
+<tr><td>石炭（2024年）</td><td><b class="k">オーストラリア</b> 65.3％</td><td>インドネシア 17.3％</td><td>アメリカ 7.4％</td></tr>
+<tr><td>原油（2024年）</td><td><b class="k">アラブ首長国連邦</b> 43.7％</td><td><b class="k">サウジアラビア</b> 40.0％</td><td>クウェート 6.8％</td></tr>
+<tr><td>液化天然ガス（2024年）</td><td><b class="k">オーストラリア</b> 38.2％</td><td>マレーシア 15.5％</td><td>アメリカ 9.6％</td></tr>
+<tr><td>鉄鉱石（2023年）</td><td><b class="k">オーストラリア</b> 56.1％</td><td><b class="k">ブラジル</b> 30.9％</td><td>カナダ 6.8％</td></tr>
+<tr><td>銅鉱（2023年）</td><td><b class="k">チリ</b> 36.1％</td><td>インドネシア 16.4％</td><td>オーストラリア 16.0％</td></tr></table>
+<p class="cap">2025/26年版「日本国勢図会」より。</p>
+<div class="note"><b>円グラフの見分け方</b>　中東（アラブ首長国連邦・サウジアラビア）が9割＝<b>原油</b>（単位がkL）。ブラジルが2位＝<b>鉄鉱石</b>。インドネシアが2位＝<b>石炭</b>。マレーシア・ロシアが入る＝<b>液化天然ガス</b>。チリが1位＝<b>銅鉱</b>。</div>
+</section>
+<section class="card"><h2><span class="n">4</span>都市鉱山</h2>
+<p>パソコンや携帯電話、ゲーム機には、金や銀・<b class="k">レアメタル</b>とよばれる貴重な金属が使われています。レアメタルは日本ではほとんどとれず、ほぼ輸入です。</p>
+<p>使い終わった製品から取り出せば、再び資源として使えます。都市全体に貴重な資源が眠っているようすを鉱山にたとえて<b class="k">都市鉱山</b>といいます。小型家電から取り出した金や銀は、2021年の<b class="k">東京オリンピック</b>のメダルにも使われました（みんなのメダルプロジェクト）。日本の都市鉱山の金は、世界の金の埋蔵量の約16％にあたります。</p>
+</section>
+
+</main>
+<script>
+var red=false;
+function toggleRed(){red=!red;document.body.classList.toggle('red',red);
+ var b=document.getElementById('rb');b.classList.toggle('on',red);b.textContent=red?'赤シート OFF':'赤シート ON';
+ if(!red)document.querySelectorAll('.k.open').forEach(function(e){e.classList.remove('open')});}
+document.addEventListener('click',function(e){var t=e.target.closest('.k');if(t&&red)t.classList.toggle('open');});
+</script>
+</body>
+</html>

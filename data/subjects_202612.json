@@ -138,5 +138,40 @@
 "category": "shakai",
 "month": "202612",
 "parent": "kogyo2"
+},
+"kosan": {
+"label": "鉱産資源",
+"icon": "⛏️",
+"tag": "tag-kosan",
+"category": "shakai",
+"month": "202612",
+"isGroup": true,
+"ref": "/kosan.html",
+"refLabel": "カラーページ（要点まとめ）",
+"refSub": "石炭・石油・天然ガス・鉄鉱石などと輸入先・都市鉱山"
+},
+"kosan_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-kosan",
+"category": "shakai",
+"month": "202612",
+"parent": "kosan"
+},
+"kosan_renshu": {
+"label": "練習問題",
+"icon": "✏️",
+"tag": "tag-kosan",
+"category": "shakai",
+"month": "202612",
+"parent": "kosan"
+},
+"kosan_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-kosan",
+"category": "shakai",
+"month": "202612",
+"parent": "kosan"
 }
 }
