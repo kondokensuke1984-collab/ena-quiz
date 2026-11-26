@@ -1,0 +1,37 @@
+{
+"kumo1": {
+"label": "雲と雨1",
+"icon": "☁️",
+"tag": "tag-kumo1",
+"category": "rika",
+"month": "202612",
+"isGroup": true,
+"ref": "/kumo1.html",
+"refLabel": "カラーページ（要点まとめ）",
+"refSub": "雲のでき方・湿度と乾湿計・雲の種類"
+},
+"kumo1_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-kumo1",
+"category": "rika",
+"month": "202612",
+"parent": "kumo1"
+},
+"kumo1_renshu": {
+"label": "練習問題",
+"icon": "✏️",
+"tag": "tag-kumo1",
+"category": "rika",
+"month": "202612",
+"parent": "kumo1"
+},
+"kumo1_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-kumo1",
+"category": "rika",
+"month": "202612",
+"parent": "kumo1"
+}
+}
