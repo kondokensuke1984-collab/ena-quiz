@@ -68,5 +68,40 @@
 "category": "rika",
 "month": "202612",
 "parent": "kumo2"
+},
+"kogyo1": {
+"label": "工業1",
+"icon": "🏭",
+"tag": "tag-kogyo1",
+"category": "shakai",
+"month": "202612",
+"isGroup": true,
+"ref": "/kogyo1.html",
+"refLabel": "カラーページ（要点まとめ）",
+"refSub": "重化学工業と軽工業・鉄鋼・自動車・半導体・石油化学コンビナート"
+},
+"kogyo1_kihon": {
+"label": "基本問題",
+"icon": "📝",
+"tag": "tag-kogyo1",
+"category": "shakai",
+"month": "202612",
+"parent": "kogyo1"
+},
+"kogyo1_renshu": {
+"label": "練習問題",
+"icon": "✏️",
+"tag": "tag-kogyo1",
+"category": "shakai",
+"month": "202612",
+"parent": "kogyo1"
+},
+"kogyo1_kakomon": {
+"label": "過去問演習",
+"icon": "📋",
+"tag": "tag-kogyo1",
+"category": "shakai",
+"month": "202612",
+"parent": "kogyo1"
 }
 }

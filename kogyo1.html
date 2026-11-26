@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>工業1 | 要点まとめ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>:root{--c:#c2410c;--l:#ffedd5}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Noto Sans JP',sans-serif;background:#f1f5f9;color:#1e293b;line-height:1.8;-webkit-text-size-adjust:100%}
+.hd{background:var(--c);color:#fff;position:sticky;top:0;z-index:30;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.hd .in{max-width:960px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.hd .t{display:flex;align-items:center;gap:10px}
+.num{font-family:'M PLUS Rounded 1c',sans-serif;background:#fff;color:var(--c);font-weight:800;font-size:22px;width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+h1{font-family:'M PLUS Rounded 1c',sans-serif;font-size:20px;margin:0;letter-spacing:.04em}
+.btns{display:flex;gap:8px;align-items:center}
+.btn{border:0;cursor:pointer;font:inherit;font-size:13px;font-weight:700;border-radius:999px;padding:7px 14px;text-decoration:none;color:#1e293b;background:#fde68a}
+.btn.back{background:rgba(255,255,255,.25);color:#fff}
+.btn.on{background:#ef4444;color:#fff}
+main{max-width:960px;margin:0 auto;padding:16px 16px 64px}
+.tag{display:inline-block;background:var(--l);color:var(--c);font-weight:700;font-size:13px;border-radius:999px;padding:3px 12px;margin:4px 0 12px}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:16px 18px;margin:0 0 16px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.card h2{font-family:'M PLUS Rounded 1c',sans-serif;font-size:18px;margin:0 0 8px;color:var(--c);display:flex;align-items:center;gap:8px}
+.card h2 .n{background:var(--c);color:#fff;font-size:13px;border-radius:8px;padding:1px 8px}
+.card h3{font-size:15px;margin:14px 0 4px;color:#334155}
+.card p{margin:6px 0}
+.card ul{margin:6px 0;padding-left:1.3em}
+.card li{margin:3px 0}
+.k{font-weight:700;color:#b91c1c}
+body.red .k{background:#ef4444;color:transparent;border-radius:4px;cursor:pointer;user-select:none;transition:.15s}
+body.red .k.open{background:#fef08a;color:#991b1b}
+rt{font-size:.55em;color:#64748b;font-weight:400}
+body.red .k:not(.open) rt{color:transparent}
+.note{background:var(--l);border-radius:10px;padding:8px 12px;font-size:14px;margin:8px 0}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:8px 0}
+th,td{border:1px solid #cbd5e1;padding:4px 8px;text-align:center}
+th{background:var(--l);color:#334155}
+td.l{text-align:left}
+.low{background:#fee2e2;font-weight:700}
+.high{background:#dcfce7;font-weight:700}
+.bars{margin:8px 0}
+.bar{display:flex;align-items:center;gap:8px;margin:4px 0;font-size:14px}
+.bar .lb{width:6.5em;flex:none;text-align:right}
+.bar .tr{flex:1;background:#f1f5f9;border-radius:6px;height:20px;position:relative;overflow:hidden}
+.bar .fi{height:100%;background:var(--c);border-radius:6px}
+.bar .v{width:5.2em;flex:none;font-weight:700}
+.cap{font-size:12px;color:#64748b;margin:2px 0 8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.mini{border:1px solid #e2e8f0;border-radius:12px;padding:10px 12px;background:#f8fafc}
+.mini h3{margin:0 0 4px}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch;margin:10px 0}
+.flow .st{flex:1;min-width:120px;background:var(--l);border:2px solid var(--c);border-radius:12px;padding:8px;text-align:center;font-size:13px}
+.flow .st b{display:block;font-size:16px;color:var(--c)}
+.flow .ar{align-self:center;color:var(--c);font-weight:800}
+@media print{.btns{display:none}body{background:#fff}}
+</style>
+</head>
+<body>
+<header class="hd"><div class="in">
+  <div class="t"><span class="num">10</span><h1>工業1</h1></div>
+  <div class="btns"><button class="btn" id="rb" onclick="toggleRed()">赤シート ON</button><a class="btn back" href="/">もどる</a></div>
+</div></header>
+<main>
+<span class="tag">要点のまとめ｜工業の種類・重化学工業・軽工業・工業出荷額の変化</span>
+<section class="card"><h2><span class="n">1</span>工業の種類</h2>
+<p>工業は、製品の重さや原料・目的によって分けられます。大きく分けると<b class="k">重化学工業</b>と<b class="k">軽工業</b>です。</p>
+<table><tr><th>大きな分け方</th><th>細かい分け方</th><th>おもな製品</th></tr>
+<tr><td rowspan="3"><b>重化学工業</b><br>大きな工場で大量に生産</td><td><b class="k">金属工業</b></td><td class="l">鉄鋼・アルミニウム・銅</td></tr>
+<tr><td><b class="k">機械工業</b></td><td class="l">自動車・船（輸送用機械）、テレビ・パソコン（情報通信機械）、カメラ・時計（精密機械）、半導体（電子部品）</td></tr>
+<tr><td><b class="k">化学工業</b></td><td class="l">プラスチック・医薬品・化学肥料</td></tr>
+<tr><td rowspan="4"><b>軽工業</b><br>おもに日用品</td><td><b class="k">食料品工業</b></td><td class="l">かんづめ・酒・みそ・しょう油・レトルト食品・冷凍食品</td></tr>
+<tr><td><b class="k">せんい工業</b></td><td class="l">糸・布・衣服</td></tr>
+<tr><td><b class="k">よう業</b></td><td class="l">ガラス・セメント・陶磁器（ファインセラミックス）</td></tr>
+<tr><td><b class="k">製紙・パルプ工業</b></td><td class="l">紙（古紙とパルプからつくる）</td></tr></table>
+</section>
+<section class="card"><h2><span class="n">2</span>金属工業</h2>
+<div class="grid"><div class="mini"><h3>鉄鋼業</h3><ul><li>おもな原料は<b class="k">鉄鉱石</b>。石炭からつくった<b class="k">コークス</b>や<b class="k">石灰石</b>も使う。</li><li>原料を船で輸入し、重い製品も船で運ぶので、製鉄所は<b class="k">海ぞい</b>にある（室蘭・鹿島・君津・千葉・京浜・名古屋・和歌山・加古川・倉敷・福山・八幡・大分など）。</li><li>世界の鉄鋼生産は<b class="k">中国</b>が圧倒的に多い。</li></ul></div>
+<div class="mini"><h3>アルミニウム工業</h3><ul><li><b class="k">ボーキサイト</b>を原料に、<b class="k">多くの電力</b>を使ってつくる。</li><li>日本はアルミニウムの多くを中国・オーストラリア・ロシア連邦などから輸入している。</li></ul></div></div>
+</section>
+<section class="card"><h2><span class="n">3</span>機械工業</h2>
+<div class="grid"><div class="mini"><h3>自動車</h3><ul><li>機械工業のなかで<b class="k">最も出荷額が高い</b>。日本は生産台数・輸出台数ともに世界有数。</li><li>多くの<b class="k">関連工場</b>でつくられた部品をもとに組み立てる。</li><li>愛知県の<b class="k">豊田市</b>は日本最大の自動車工業都市。</li></ul></div>
+<div class="mini"><h3>半導体</h3><ul><li>温度などの条件で電気を通したり通さなかったりする性質をもつ。</li><li>半導体を使った<b class="k">集積回路（IC）</b>はコンピューターなどの電子部品になる。</li><li>小型・軽量で<b class="k">価格が高い</b>ので、<b class="k">飛行機</b>や<b class="k">トラック</b>で遠くへ運んでも利益が出る。だから工場は<b class="k">空港（飛行場）や高速道路</b>の近くにつくられ、九州・東北など内陸にも広がる。</li></ul></div></div>
+</section>
+<section class="card"><h2><span class="n">4</span>化学工業（石油化学工業）</h2>
+<p>石油から取り出した<b class="k">ナフサ</b>を使って、さまざまな製品をつくります。</p>
+<p>石油の<b class="k">輸入</b>に便利な<b class="k">臨海部</b>には、石油精製工場を中心に各種の工場を<b class="k">パイプライン</b>で結んだ<b class="k">石油化学コンビナート</b>がつくられています（太平洋ベルトに集中：鹿島・市原・千葉・川崎・四日市・大阪・水島・岩国大竹・周南・大分など）。</p>
+</section>
+<section class="card"><h2><span class="n">5</span>軽工業</h2>
+<ul><li><b class="k">食料品工業</b>：農作物・畜産物・水産物を加工する。現在、軽工業のなかで<b class="k">最も出荷額が多い</b>。</li><li><b class="k">せんい工業</b>：第二次世界大戦前までは日本の工業出荷額で<b class="k">最も割合が高かった</b>。近年は<b class="k">中国</b>などから安い衣類の輸入が増えている。</li><li><b class="k">よう業</b>：出荷額1位は<b class="k">愛知</b>（9.7％）。ファインセラミックスは電子部品の材料になる。</li><li><b class="k">製紙・パルプ工業</b>：パルプは木のチップをとかしてせんい質を集めたもの。出荷額1位は<b class="k">静岡</b>（11.5％）、2位愛媛。</li></ul>
+<table><tr><th>製品（2021年）</th><th>1位</th><th>2位</th></tr>
+<tr><td>ちくわ・かまぼこ</td><td>兵庫</td><td>新潟</td></tr><tr><td>みそ</td><td>長野（約45％）</td><td>群馬</td></tr><tr><td>しょう油</td><td>兵庫</td><td>新潟</td></tr><tr><td>飲用牛乳など</td><td>北海道</td><td>神奈川</td></tr><tr><td>清酒</td><td>兵庫</td><td>京都</td></tr><tr><td>本格しょうちゅう</td><td>宮崎</td><td>鹿児島</td></tr></table>
+<p class="cap">2023年版「日本のすがた」より。</p>
+</section>
+<section class="card"><h2><span class="n">6</span>工業出荷額の割合の変化</h2>
+<table><tr><th>年</th><th>金属</th><th>機械</th><th>化学</th><th>食料品</th><th>せんい</th><th>その他</th></tr>
+<tr><td>1970</td><td>19.3</td><td>32.3</td><td>10.6</td><td>10.4</td><td>7.7</td><td>19.7</td></tr>
+<tr><td>1990</td><td>13.8</td><td>43.1</td><td>9.7</td><td>10.2</td><td>3.9</td><td>19.3</td></tr>
+<tr><td>2020</td><td>13.1</td><td class="high">45.0</td><td>13.1</td><td>12.9</td><td class="low">1.2</td><td>14.7</td></tr></table>
+<p class="cap">単位％。2023年版「日本のすがた」より。</p>
+<div class="note"><b>グラフの見分け方</b>　大きく<b>のびている</b>＝<b>機械</b>（今は約45％でいちばん）。大きく<b>減っている</b>＝<b>せんい</b>。少しずつ減っている＝金属。重化学工業（金属・機械・化学）で全体の<b>約7割</b>。</div>
+</section>
+
+</main>
+<script>
+var red=false;
+function toggleRed(){red=!red;document.body.classList.toggle('red',red);
+ var b=document.getElementById('rb');b.classList.toggle('on',red);b.textContent=red?'赤シート OFF':'赤シート ON';
+ if(!red)document.querySelectorAll('.k.open').forEach(function(e){e.classList.remove('open')});}
+document.addEventListener('click',function(e){var t=e.target.closest('.k');if(t&&red)t.classList.toggle('open');});
+</script>
+</body>
+</html>
