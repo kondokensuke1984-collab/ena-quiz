@@ -614,12 +614,13 @@ function forestShow(msg) {
       '<div id="fz-mapbox"></div>';
     root.querySelectorAll('.fz-pad button').forEach(b => {
       const d = b.dataset.d;
-      const on = e => { e.preventDefault(); forestHold(d, true); };
-      const off = e => { e.preventDefault(); forestHold(d, false); };
+      const on = e => { e.preventDefault(); forestPadPtr[e.pointerId] = d; forestHold(d, true); };
+      const off = e => { e.preventDefault(); delete forestPadPtr[e.pointerId]; forestHold(d, false); };
       b.addEventListener('pointerdown', on);
       b.addEventListener('pointerup', off);
       b.addEventListener('pointercancel', off);
       b.addEventListener('pointerleave', off);
+      b.addEventListener('lostpointercapture', off);
       b.addEventListener('contextmenu', e => e.preventDefault());
     });
   }
@@ -767,6 +768,19 @@ function leaveForest() {
 // ── あるく ──
 const FOREST_DIRS = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
 const forestHeld = [];        // おしている むき（あとから おした ほうが つよい）
+// 🖐 iPad で ゆびを はなしたのに「おしっぱなし」が のこると、ルナが かってに あるきつづけて ぬけられなくなる（2026-11-28 そらの しろ）。
+// どこで ゆびを はなしても・ほかの 画面に うつっても、おしている むきを けす
+const forestPadPtr = {};      // pointerId → むき
+function forestReleaseAll() { for (const k in forestPadPtr) delete forestPadPtr[k]; forestHeld.length = 0; forestLastBump = ''; }
+['pointerup', 'pointercancel'].forEach(n => document.addEventListener(n, e => {
+  const d = forestPadPtr[e.pointerId];
+  if (d) { delete forestPadPtr[e.pointerId]; forestHold(d, false); }
+  if (e.pointerType !== 'mouse' && !Object.keys(forestPadPtr).length) forestHeld.length = 0;
+}, true));
+document.addEventListener('touchend', e => { if (!e.touches.length) forestReleaseAll(); }, true);
+document.addEventListener('touchcancel', e => { if (!e.touches.length) forestReleaseAll(); }, true);
+window.addEventListener('blur', forestReleaseAll);
+document.addEventListener('visibilitychange', () => { if (document.hidden) forestReleaseAll(); });
 let forestMv = null;          // { fx, fy, tx, ty, t }
 let forestBusy = false;       // たたかいへ うつる まで うごかない
 let forestLastBump = '';
